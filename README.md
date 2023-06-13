@@ -1,2 +1,4 @@
 # LELEC210X
-LELEC2102-LELEC2103's main repository
+
+Repository containing teaching materials and code for the project course
+in Electrical Engineering (Master's at UCLouvain).
