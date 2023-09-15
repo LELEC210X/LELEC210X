@@ -34,6 +34,15 @@ However, we provide you with a VirtualBox image file on which all installation s
 For the installation and the configuration of the Virtual machine, please refer to the 
 "*Installation of the Virtual Machine with the project softwares*" provided on the Moodle of the course.
 
+Below, you can find the option selected during the installation
+of Ubuntu Desktop 20.04.5 LTS:
+
+- [x] keyboard layout set to English US;
+- [x] minimal installation;
+- [x] (user)name set to marconi;
+- [x] password set to faraday;
+- [x] automatically log in.
+
 ### Install via Windows Subsystem for Linux
 
 Windows Subsystem for Linux (WSL) is a Windows program that makes running a Linux image super simple!
@@ -100,6 +109,16 @@ The following commands **must** be entered inside a Linux terminal, unless speci
 Terminal windows can be launched via the Ubuntu Launchpad, or with
 <kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>T</kbd>.
 
+### Install Pip
+
+Sometimes, Python is not shipped with its package installer, pip.
+
+Please make sure pip is installed by running:
+
+```bash
+sudo apt-get install python3-pip
+```
+
 ### Installing Poetry
 
 Usually, installing Python packages to the global Python environment is a bad idea,
@@ -120,6 +139,12 @@ To avoid this issue, we use
 
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
+```
+
+Note that the previous command might require installing `curl`:
+
+```bash
+sudo apt-get install curl
 ```
 
 Poetry works in pair with `pyproject.toml` file, so that you can specify
