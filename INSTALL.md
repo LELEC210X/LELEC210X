@@ -100,6 +100,31 @@ The following commands **must** be entered inside a Linux terminal, unless speci
 Terminal windows can be launched via the Ubuntu Launchpad, or with
 <kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>T</kbd>.
 
+### Installing Poetry
+
+Usually, installing Python packages to the global Python environment is a bad idea,
+mainly because you can have conflicts with packages that require differention versions
+of some shared dependencies, and rapidly loose track of what packages are actually
+installed on your computer...
+
+A solution to this is to use
+[virtual environments (venvs)](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#installing-packages-using-pip-and-virtual-environments),
+one venv for each isolated project.
+
+However, venvs can rapidly become hard to maintain, especially because you need to activate
+some script
+before you can work with them, and it's also possible to have an arbitrary number of nested
+venvs, which makes it hard to know which environment is activated.
+To avoid this issue, we use
+[Poetry](https://python-poetry.org/):
+
+```bash
+curl -sSL https://install.python-poetry.org | python3 -
+```
+
+Poetry works in pair with `pyproject.toml` file, so that you can specify
+requirements for your project, and much more!
+
 ### Installing CMake and Make
 
 ```bash
