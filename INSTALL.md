@@ -256,7 +256,7 @@ On your computer, launch the *"Device Installer (Quartus Prime)"* from the start
 If you cannot find it, it should be located in your Quartus installation folder at 
 
 ```
-intelFPGA/18.1/quartus/common/devinfo/dev\_install"
+intelFPGA/18.1/quartus/common/devinfo/dev\_install
 ```
 
 The programm will ask you to select the folder in which the downloaded file is located,
