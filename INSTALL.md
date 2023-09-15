@@ -147,6 +147,24 @@ Note that the previous command might require installing `curl`:
 sudo apt-get install curl
 ```
 
+As probably displayed during the installation, you might need to add `~/.local/bin` to your `PATH`:
+
+```bash
+export PATH="~/.local/bin:$PATH" >> ~/.bashrc
+```
+
+Then, execute:
+
+```bash
+exec bash
+```
+
+to apply changes.
+
+> NOTE: using `>>` automatically appends to the file, so that you don't have anything
+> to do. If you prefer, you can edit the files from the terminal using programs
+> like `nano` or `vim`.
+
 Poetry works in pair with `pyproject.toml` file, so that you can specify
 requirements for your project, and much more!
 
@@ -204,10 +222,6 @@ the following lines should be added to the *.bashrc* file of your Ubuntu distrib
 export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0 >> ~/.bashrc
 export LIBGL_ALWAYS_INDIRECT=1 >> ~/.bashrc
 ```
-
-> NOTE: using `>>` automatically appends to the file, so that you don't have anything
-> to do. If you prefer, you can edit the files from the terminal using programs
-> like `nano` or `vim`.
 
 Restart the WSL and you should now be able to launch GNU Radio's GUI as follows:
 
@@ -359,8 +373,8 @@ chsh -s $(which zsh)
 sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-> Important: re-run the `export DISPLAY=...` and `export LIBGL_ALWAYS_INDIRECT=...` lines but
-> **changing** the output file to `>> ~/.zshrc`.
+> Important: re-run all the `export ...=...` commands but
+> **change** the output file to `>> ~/.zshrc`.
 
 Then, you can add plugins to your Zsh shell,
 [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md)
