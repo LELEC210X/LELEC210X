@@ -54,7 +54,7 @@ It will allow you to clone the git of the course on your windows system and **do
 e.g., programming the MCU, modify the telecom and classification parts,
 while **only using WSL to compile** the code and run the Linux applications, such as GNU Radio.
 
-In order to install the WSL and Ubuntu-20.04 on youe Windows system,
+In order to install the WSL and Ubuntu-20.04 on your Windows system,
 we will use the following [guide](https://learn.microsoft.com/en-us/windows/wsl/install) from Microsoft.
 Open a PowerShell or Windows Command Prompt in admnistritator mode and enter the following command:
 
@@ -292,6 +292,11 @@ usbipd wsl detach --busid <busid>
 
 If you want to simplify the connection of a device to WSL,
 [a graphical interface](https://gitlab.com/alelec/wsl-usb-gui/-/releases) exist and also provides an auto-attach function.
+
+###  (Only for Windows user) Install PothosSDR to flash the LimeSDR-Mini
+
+Flashing the LimeSDR-Mini, specially its FPGA, can be complicated using WSL. To avoid any issue due to the passthrough, it is recommended to install PothosSDR which support LimeSuite GUI and makes it easy to reprogram the LimeSDR. Go to the following [website](https://downloads.myriadrf.org/builds/PothosSDR/), download and run the latest installer. You should then be able to launch LimeSuite from the Windows start menu. Be careful that the LimeSDR should be attached to Windows and not Ubuntu when flashing this way.
+
 
 ### Installation of STM32CubeIDE
 
