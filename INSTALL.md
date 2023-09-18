@@ -43,6 +43,11 @@ of Ubuntu Desktop 20.04.5 LTS:
 - [x] password set to faraday;
 - [x] automatically log in.
 
+> Note: after first logging, the French Azerty layout was also added, and should be
+> the default one. To switch between the two layouts,
+> you can use <kbd>SHIFT</kbd>+<kbd>SUPER</kbd>+<kbd>SPACE</kbd>,
+> where <kbd>SUPER</kbd> is usually the Windows key.
+
 ### Install via Windows Subsystem for Linux
 
 Windows Subsystem for Linux (WSL) is a Windows program that makes running a Linux image super simple!
