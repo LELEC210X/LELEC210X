@@ -347,7 +347,16 @@ When possible, you should use your host OS to edit files, commit changes to git,
 ### With VirtualBox
 
 VirtualBox encapsulates a lot of features, such as sharing the clipboard,
-sharing folders, and so on. Please refer to the Moodle page and files.
+sharing folders, and so on.
+
+#### Sharing Files Between Host and Guest OSes
+
+When possible, you should avoid duplicating files between your host and the guest, i.e., the VM.
+To avoid this, we suggest to setup shared folders betweem the two. Please refer to either
+of the following guides:
+
++ [How to share folders between your Ubuntu Virtualbox and your host machine](https://net2.com/how-to-share-folders-between-your-ubuntu-virtualbox-and-your-host-machine/);
++ or [How to create a VirtualBox shared folder in Windows 11/10](https://www.thewindowsclub.com/how-to-create-a-virtualbox-shared-folder-in-windows).
 
 ### With WSL
 
