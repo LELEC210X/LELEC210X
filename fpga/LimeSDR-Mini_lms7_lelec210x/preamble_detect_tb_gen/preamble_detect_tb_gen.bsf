@@ -1,0 +1,97 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 0 0 272 200)
+	(text "preamble_detect_tb_gen" (rect 64 -1 163 11)(font "Arial" (font_size 10)))
+	(text "inst" (rect 8 184 20 196)(font "Arial" ))
+	(port
+		(pt 0 72)
+		(input)
+		(text "clock_clk" (rect 0 0 36 12)(font "Arial" (font_size 8)))
+		(text "clock_clk" (rect 4 61 58 72)(font "Arial" (font_size 8)))
+		(line (pt 0 72)(pt 96 72)(line_width 1))
+	)
+	(port
+		(pt 0 112)
+		(input)
+		(text "reset_reset" (rect 0 0 46 12)(font "Arial" (font_size 8)))
+		(text "reset_reset" (rect 4 101 70 112)(font "Arial" (font_size 8)))
+		(line (pt 0 112)(pt 96 112)(line_width 1))
+	)
+	(port
+		(pt 0 152)
+		(input)
+		(text "sink_data[23..0]" (rect 0 0 62 12)(font "Arial" (font_size 8)))
+		(text "sink_data[23..0]" (rect 4 141 100 152)(font "Arial" (font_size 8)))
+		(line (pt 0 152)(pt 96 152)(line_width 3))
+	)
+	(port
+		(pt 0 168)
+		(input)
+		(text "sink_valid" (rect 0 0 38 12)(font "Arial" (font_size 8)))
+		(text "sink_valid" (rect 4 157 64 168)(font "Arial" (font_size 8)))
+		(line (pt 0 168)(pt 96 168)(line_width 1))
+	)
+	(port
+		(pt 272 72)
+		(output)
+		(text "source_data[23..0]" (rect 0 0 74 12)(font "Arial" (font_size 8)))
+		(text "source_data[23..0]" (rect 178 61 286 72)(font "Arial" (font_size 8)))
+		(line (pt 272 72)(pt 160 72)(line_width 3))
+	)
+	(port
+		(pt 272 88)
+		(output)
+		(text "source_valid" (rect 0 0 50 12)(font "Arial" (font_size 8)))
+		(text "source_valid" (rect 207 77 279 88)(font "Arial" (font_size 8)))
+		(line (pt 272 88)(pt 160 88)(line_width 1))
+	)
+	(drawing
+		(text "clock" (rect 68 43 166 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "clk" (rect 101 67 220 144)(font "Arial" (color 0 0 0)))
+		(text "reset" (rect 67 83 164 179)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "reset" (rect 101 107 232 224)(font "Arial" (color 0 0 0)))
+		(text "sink" (rect 73 123 170 259)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "data" (rect 101 147 226 304)(font "Arial" (color 0 0 0)))
+		(text "valid" (rect 101 163 232 336)(font "Arial" (color 0 0 0)))
+		(text "source" (rect 161 43 358 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "data" (rect 139 67 302 144)(font "Arial" (color 0 0 0)))
+		(text "valid" (rect 137 83 304 176)(font "Arial" (color 0 0 0)))
+		(text " system " (rect 237 184 522 378)(font "Arial" ))
+		(line (pt 96 32)(pt 160 32)(line_width 1))
+		(line (pt 160 32)(pt 160 184)(line_width 1))
+		(line (pt 96 184)(pt 160 184)(line_width 1))
+		(line (pt 96 32)(pt 96 184)(line_width 1))
+		(line (pt 97 52)(pt 97 76)(line_width 1))
+		(line (pt 98 52)(pt 98 76)(line_width 1))
+		(line (pt 97 92)(pt 97 116)(line_width 1))
+		(line (pt 98 92)(pt 98 116)(line_width 1))
+		(line (pt 97 132)(pt 97 172)(line_width 1))
+		(line (pt 98 132)(pt 98 172)(line_width 1))
+		(line (pt 159 52)(pt 159 92)(line_width 1))
+		(line (pt 158 52)(pt 158 92)(line_width 1))
+		(line (pt 0 0)(pt 272 0)(line_width 1))
+		(line (pt 272 0)(pt 272 200)(line_width 1))
+		(line (pt 0 200)(pt 272 200)(line_width 1))
+		(line (pt 0 0)(pt 0 200)(line_width 1))
+	)
+)
