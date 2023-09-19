@@ -6,3 +6,21 @@ __pycache__/
 leaderboard/instance/database.db
 
 leaderboard/package.json
+
+*.aux
+
+*.fdb_latexmk
+
+*.fls
+
+*.log
+
+*.out
+
+*.pdf
+
+tex/pdfs.zip
+
+_minted-*/
+
+*.toc
