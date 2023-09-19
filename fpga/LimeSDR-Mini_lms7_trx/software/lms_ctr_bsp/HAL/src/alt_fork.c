@@ -53,5 +53,3 @@ int ALT_FORK (void)
   ALT_ERRNO = ENOSYS;
   return -1;
 }
-
-

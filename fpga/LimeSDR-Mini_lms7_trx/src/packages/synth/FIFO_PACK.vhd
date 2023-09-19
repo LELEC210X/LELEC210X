@@ -75,5 +75,3 @@ package body FIFO_PACK is
       end if;
    end FIFO_WORDS_TO_Nbits;
 end FIFO_PACK;
-
-

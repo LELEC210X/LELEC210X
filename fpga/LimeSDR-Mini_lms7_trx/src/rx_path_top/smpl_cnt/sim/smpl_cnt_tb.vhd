@@ -88,8 +88,3 @@ smpl_cnt_dut0 : entity work.smpl_cnt
         );
 
 	end tb_behave;
-
-
-
-
-

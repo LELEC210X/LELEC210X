@@ -152,8 +152,3 @@ begin
    );
 
    end tb_behave;
-
-
-
-
-

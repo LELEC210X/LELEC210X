@@ -189,6 +189,3 @@ pulse_gen_inst3 : entity work.pulse_gen
 
 
 end tb_behave;
-
-
-

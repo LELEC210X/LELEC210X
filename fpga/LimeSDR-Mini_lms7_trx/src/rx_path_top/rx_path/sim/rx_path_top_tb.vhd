@@ -163,8 +163,3 @@ end process;
 
 
 	end tb_behave;
-
-
-
-
-

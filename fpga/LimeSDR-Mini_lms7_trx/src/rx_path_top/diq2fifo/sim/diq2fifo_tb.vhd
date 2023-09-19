@@ -114,10 +114,3 @@ inst1_diq2fifo : entity work.diq2fifo
 
 
 	end tb_behave;
-
-
-
-
-
-
-

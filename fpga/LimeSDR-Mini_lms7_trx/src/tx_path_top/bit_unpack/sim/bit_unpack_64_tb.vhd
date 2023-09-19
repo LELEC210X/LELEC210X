@@ -279,8 +279,3 @@ end process;
 data_wrreq<=dut1_pulse_out;
 
 	end tb_behave;
-
-
-
-
-

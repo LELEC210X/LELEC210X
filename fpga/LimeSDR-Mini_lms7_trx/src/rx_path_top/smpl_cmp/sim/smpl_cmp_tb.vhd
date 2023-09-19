@@ -173,8 +173,3 @@ smpl_cmp_dut2 : entity work.smpl_cmp
         );
 
 	end tb_behave;
-
-
-
-
-

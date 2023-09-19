@@ -38,4 +38,3 @@ set_false_path	 	-from [get_clocks LMS_MCLK2_VIRT] \
 
 
 set_false_path		-from [get_pins -compatibility_mode *pll_top*|*clkctrl_inst7*|outclk]
-

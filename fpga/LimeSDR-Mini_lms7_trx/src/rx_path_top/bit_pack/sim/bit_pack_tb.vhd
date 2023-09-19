@@ -180,8 +180,3 @@ port map (
 data_wrreq<=dut1_pulse_out;
 
 end tb_behave;
-
-
-
-
-

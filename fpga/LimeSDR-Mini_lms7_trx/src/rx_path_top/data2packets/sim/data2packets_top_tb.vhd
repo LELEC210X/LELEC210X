@@ -168,8 +168,3 @@ fifo_inst_inst2 : entity work.fifo_inst
         );
 
 	end tb_behave;
-
-
-
-
-

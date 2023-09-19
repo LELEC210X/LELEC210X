@@ -68,8 +68,3 @@ txiqmux_inst0 : entity work.txiqmux
 
 
 	end tb_behave;
-
-
-
-
-

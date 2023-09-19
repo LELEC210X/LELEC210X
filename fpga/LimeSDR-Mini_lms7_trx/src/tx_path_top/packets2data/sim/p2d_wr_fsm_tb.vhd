@@ -171,8 +171,3 @@ begin
    end generate gen;
 
 	end tb_behave;
-
-
-
-
-
