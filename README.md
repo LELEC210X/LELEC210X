@@ -24,6 +24,9 @@ Subdirectories are organized as follows:
   poster of the teaching team and code used during the contest.
 - [`fpga`](fpga/):
   hands-on related to the FPGA part and Quartus project for the LimeSDR Mini.
+- [`leaderboard/`](leaderboard/):
+  code to run the leaderboard web-server, useful for locally testing your
+  setup before the contest.
 - [`mcu/`](mcu/):
   hands-on related to the MCU part and STM32CubeIDE project for the Nucleo board.
 - [`scripts/`](scripts/): general purpose routines.
