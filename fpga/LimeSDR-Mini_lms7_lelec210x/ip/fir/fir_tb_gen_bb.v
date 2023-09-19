@@ -7,7 +7,7 @@ module fir_tb_gen (
 	fir_compiler_ii_0_avalon_streaming_source_data,
 	fir_compiler_ii_0_avalon_streaming_source_valid,
 	fir_compiler_ii_0_avalon_streaming_source_error,
-	reset_reset_n);	
+	reset_reset_n);
 
 	input		clk_clk;
 	input	[23:0]	fir_compiler_ii_0_avalon_streaming_sink_data;

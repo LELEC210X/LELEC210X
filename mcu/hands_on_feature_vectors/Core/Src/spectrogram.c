@@ -140,4 +140,3 @@ void Spectrogram_Compute(q15_t *samples, q15_t *melvec)
 
 	arm_mat_mult_fast_q15(&hz2mel_inst, &fftmag_inst, &melvec_inst, buf_tmp);
 }
-

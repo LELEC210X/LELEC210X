@@ -4,18 +4,18 @@ from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from secrets import token_bytes
-from typing import Dict, List, Optional, Any, Callable, Generator
+from typing import Any, Callable, Dict, Generator, List, Optional
 
 from pydantic import (
     BaseModel,
     Extra,
     Field,
-    errors,
     PositiveFloat,
     PositiveInt,
     PrivateAttr,
     conint,
     constr,
+    errors,
     root_validator,
     validator,
 )
@@ -174,7 +174,7 @@ class RoundsConfig(BaseModel):
         score = int(100 * (score / len(correct)))
 
         self.__security_round_submissions[key] = SecurityGuess(
-                score=score, traces=traces, time=time.strftime("%H:%M:%S")
+            score=score, traces=traces, time=time.strftime("%H:%M:%S")
         )
 
     def get_security_round_submission(self, key: str) -> Optional[SecurityGuess]:

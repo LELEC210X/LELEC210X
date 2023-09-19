@@ -6,4 +6,3 @@
 		.source_data  (<connected-to-source_data>),  // source.data
 		.source_valid (<connected-to-source_valid>)  //       .valid
 	);
-

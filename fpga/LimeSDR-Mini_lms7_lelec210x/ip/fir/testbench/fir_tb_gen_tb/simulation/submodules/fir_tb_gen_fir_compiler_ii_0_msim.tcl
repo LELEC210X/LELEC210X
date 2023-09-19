@@ -129,7 +129,7 @@ foreach {lib} $libs {
 
 	set file_list [glob ${top_entity}_rtl*.vhd]
 	foreach cur_file $file_list {
-		vcom -work work $cur_file 
+		vcom -work work $cur_file
 	}
 
     vcom -work work ${top_entity}_ast.vhd

@@ -40,7 +40,7 @@
  *
  * ALT_WAIT is mapped onto the wait() system call in alt_syscall.h
  */
- 
+
 int ALT_WAIT (int *status)
 {
   *status = 0;
@@ -49,4 +49,3 @@ int ALT_WAIT (int *status)
 
   return -1;
 }
-

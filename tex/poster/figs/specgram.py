@@ -1,15 +1,21 @@
+import os
+import sys
+
 import matplotlib.pyplot as plt
 import numpy as np
 
-import sys, os
-os.chdir(os.path.dirname(__file__)) # go to current file directory
-def updir(d, n):
-  for _ in range(n):
-    d = os.path.dirname(d)
-  return d
-sys.path.append(updir(os.getcwd(), 3)) # add utils dir
+os.chdir(os.path.dirname(__file__))  # go to current file directory
 
-from classification.dataset import gen_allpath, specgram, AudioUtil
+
+def updir(d, n):
+    for _ in range(n):
+        d = os.path.dirname(d)
+    return d
+
+
+sys.path.append(updir(os.getcwd(), 3))  # add utils dir
+
+from classification.dataset import AudioUtil, gen_allpath, specgram
 
 classnames, allpath_mat = gen_allpath(
     folder=r"C:\Users\leblanco.OASIS\Documents\IngeCivilPHD\Teaching\LELEC2103\Dataset_ESC-50"

@@ -7,7 +7,7 @@
   *                - Set the initial SP
   *                - Set the initial PC == Reset_Handler,
   *                - Set the vector table entries with the exceptions ISR address,
-  *                - Configure the clock system  
+  *                - Configure the clock system
   *                - Branches to main in the C library (which eventually
   *                  calls main()).
   *            After Reset the Cortex-M4 processor is in Thread mode,
@@ -100,7 +100,7 @@ LoopFillZerobss:
 
 LoopForever:
     b LoopForever
-    
+
 .size	Reset_Handler, .-Reset_Handler
 
 /**
@@ -235,7 +235,7 @@ g_pfnVectors:
 	.word	CAN2_RX0_IRQHandler
 	.word	CAN2_RX1_IRQHandler
 	.word	CAN2_SCE_IRQHandler
-	.word	DMA2D_IRQHandler  
+	.word	DMA2D_IRQHandler
 
 
 /*******************************************************************************
@@ -457,92 +457,92 @@ g_pfnVectors:
 	.thumb_set DMA2_Channel5_IRQHandler,Default_Handler
 
 	.weak	DFSDM1_FLT0_IRQHandler
-	.thumb_set DFSDM1_FLT0_IRQHandler,Default_Handler	
-	
+	.thumb_set DFSDM1_FLT0_IRQHandler,Default_Handler
+
 	.weak	DFSDM1_FLT1_IRQHandler
-	.thumb_set DFSDM1_FLT1_IRQHandler,Default_Handler	
-	
+	.thumb_set DFSDM1_FLT1_IRQHandler,Default_Handler
+
 	.weak	DFSDM1_FLT2_IRQHandler
-	.thumb_set DFSDM1_FLT2_IRQHandler,Default_Handler	
-	
+	.thumb_set DFSDM1_FLT2_IRQHandler,Default_Handler
+
 	.weak	COMP_IRQHandler
 	.thumb_set COMP_IRQHandler,Default_Handler
-	
+
 	.weak	LPTIM1_IRQHandler
 	.thumb_set LPTIM1_IRQHandler,Default_Handler
-	
+
 	.weak	LPTIM2_IRQHandler
-	.thumb_set LPTIM2_IRQHandler,Default_Handler	
-	
+	.thumb_set LPTIM2_IRQHandler,Default_Handler
+
 	.weak	OTG_FS_IRQHandler
-	.thumb_set OTG_FS_IRQHandler,Default_Handler	
-	
+	.thumb_set OTG_FS_IRQHandler,Default_Handler
+
 	.weak	DMA2_Channel6_IRQHandler
-	.thumb_set DMA2_Channel6_IRQHandler,Default_Handler	
-	
+	.thumb_set DMA2_Channel6_IRQHandler,Default_Handler
+
 	.weak	DMA2_Channel7_IRQHandler
-	.thumb_set DMA2_Channel7_IRQHandler,Default_Handler	
-	
+	.thumb_set DMA2_Channel7_IRQHandler,Default_Handler
+
 	.weak	LPUART1_IRQHandler
-	.thumb_set LPUART1_IRQHandler,Default_Handler	
-	
+	.thumb_set LPUART1_IRQHandler,Default_Handler
+
 	.weak	QUADSPI_IRQHandler
-	.thumb_set QUADSPI_IRQHandler,Default_Handler	
-	
+	.thumb_set QUADSPI_IRQHandler,Default_Handler
+
 	.weak	I2C3_EV_IRQHandler
-	.thumb_set I2C3_EV_IRQHandler,Default_Handler	
-	
+	.thumb_set I2C3_EV_IRQHandler,Default_Handler
+
 	.weak	I2C3_ER_IRQHandler
-	.thumb_set I2C3_ER_IRQHandler,Default_Handler	
-	
+	.thumb_set I2C3_ER_IRQHandler,Default_Handler
+
 	.weak	SAI1_IRQHandler
 	.thumb_set SAI1_IRQHandler,Default_Handler
-	
+
 	.weak	SAI2_IRQHandler
 	.thumb_set SAI2_IRQHandler,Default_Handler
-	
+
 	.weak	SWPMI1_IRQHandler
 	.thumb_set SWPMI1_IRQHandler,Default_Handler
-	
+
 	.weak	TSC_IRQHandler
 	.thumb_set TSC_IRQHandler,Default_Handler
-	
+
 	.weak	LCD_IRQHandler
 	.thumb_set LCD_IRQHandler,Default_Handler
-  
+
 	.weak	AES_IRQHandler
-	.thumb_set AES_IRQHandler,Default_Handler  
-	
+	.thumb_set AES_IRQHandler,Default_Handler
+
 	.weak	HASH_RNG_IRQHandler
 	.thumb_set HASH_RNG_IRQHandler,Default_Handler
-	
+
 	.weak	FPU_IRQHandler
 	.thumb_set FPU_IRQHandler,Default_Handler
-	
+
 	.weak	CRS_IRQHandler
-	.thumb_set CRS_IRQHandler,Default_Handler	
-	
+	.thumb_set CRS_IRQHandler,Default_Handler
+
 	.weak	I2C4_EV_IRQHandler
 	.thumb_set I2C4_EV_IRQHandler,Default_Handler
-	
+
 	.weak	I2C4_ER_IRQHandler
 	.thumb_set I2C4_ER_IRQHandler,Default_Handler
-	
+
 	.weak	DCMI_IRQHandler
 	.thumb_set DCMI_IRQHandler,Default_Handler
-	
+
 	.weak	CAN2_TX_IRQHandler
 	.thumb_set CAN2_TX_IRQHandler,Default_Handler
-	
+
 	.weak	CAN2_RX0_IRQHandler
 	.thumb_set CAN2_RX0_IRQHandler,Default_Handler
-	
+
 	.weak	CAN2_RX1_IRQHandler
 	.thumb_set CAN2_RX1_IRQHandler,Default_Handler
-	
+
 	.weak	CAN2_SCE_IRQHandler
-	.thumb_set CAN2_SCE_IRQHandler,Default_Handler 
-	
+	.thumb_set CAN2_SCE_IRQHandler,Default_Handler
+
 	.weak	DMA2D_IRQHandler
-	.thumb_set DMA2D_IRQHandler,Default_Handler    
+	.thumb_set DMA2D_IRQHandler,Default_Handler
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

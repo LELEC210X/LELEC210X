@@ -10,7 +10,7 @@ Under the download section, go in the \textit{"Individual Files"} and download t
 The programm will ask you to select the folder in which the downloaded file is located, it will then automatically detect the MAX 10 device support file. You can proceed to the installation.
 
 \section{Installing the LimeSuite components}
-   
+
 The Lime Suite GUI tool is needed to flash your FPGA. This program is already preinstalled on the virtual machine we provided you. Quartus is installed on your host system, meaning that you have to transfer the compiled design from your host system to the virtual machine when you want to flash the FPGA with a new design. You can do so via a USB flash drive, via Internet, by using a shared folder between your host and guest system, or by installing LimeSuite on your host system. As the latter can be tricky, we recommend you to use a shared folder to transfer the compiled file from Quartus to the VM.
 
 \subsection{(Recommended) Shared folder between host system and VM}
@@ -59,5 +59,3 @@ You might have USB3.0 drivers installed on your computer. However, the USB exten
 
 \subsubsection{LimeSuite on Virtual Machine}
 As for now, LimeSuite on the VM seems to prefer flashing via an USB2.0 interface. If the programming does not work in your current configuration, look in the USB tab of the VM settings. There, select USB 2.0 or lower, as we have encountered issues with USB 3.0.
-
-

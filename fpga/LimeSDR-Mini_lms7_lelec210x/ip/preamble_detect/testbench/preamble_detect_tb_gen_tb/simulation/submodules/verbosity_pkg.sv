@@ -1,13 +1,13 @@
 // (C) 2001-2018 Intel Corporation. All rights reserved.
-// Your use of Intel Corporation's design tools, logic functions and other 
-// software and tools, and its AMPP partner logic functions, and any output 
-// files from any of the foregoing (including device programming or simulation 
-// files), and any associated documentation or information are expressly subject 
-// to the terms and conditions of the Intel Program License Subscription 
-// Agreement, Intel FPGA IP License Agreement, or other applicable 
-// license agreement, including, without limitation, that your use is for the 
-// sole purpose of programming logic devices manufactured by Intel and sold by 
-// Intel or its authorized distributors.  Please refer to the applicable 
+// Your use of Intel Corporation's design tools, logic functions and other
+// software and tools, and its AMPP partner logic functions, and any output
+// files from any of the foregoing (including device programming or simulation
+// files), and any associated documentation or information are expressly subject
+// to the terms and conditions of the Intel Program License Subscription
+// Agreement, Intel FPGA IP License Agreement, or other applicable
+// license agreement, including, without limitation, that your use is for the
+// sole purpose of programming logic devices manufactured by Intel and sold by
+// Intel or its authorized distributors.  Please refer to the applicable
 // agreement for further details.
 
 
@@ -23,10 +23,10 @@
 // =head1 COPYRIGHT
 // Copyright (c) 2008 Altera Corporation. All Rights Reserved.
 // The information contained in this file is the property of Altera
-// Corporation. Except as specifically authorized in writing by Altera 
-// Corporation, the holder of this file shall keep all information 
-// contained herein confidential and shall protect same in whole or in part 
-// from disclosure and dissemination to all third parties. Use of this 
+// Corporation. Except as specifically authorized in writing by Altera
+// Corporation, the holder of this file shall keep all information
+// contained herein confidential and shall protect same in whole or in part
+// from disclosure and dissemination to all third parties. Use of this
 // program confirms your agreement with the terms of this license.
 //-----------------------------------------------------------------------------
 // =head1 DESCRIPTION
@@ -62,11 +62,11 @@ package verbosity_pkg;
 
 	timeunit 1ps;
 	timeprecision 1ps;
-   
-   typedef enum int {VERBOSITY_NONE, 
-		     VERBOSITY_FAILURE, 
-		     VERBOSITY_ERROR, 
-		     VERBOSITY_WARNING, 
+
+   typedef enum int {VERBOSITY_NONE,
+		     VERBOSITY_FAILURE,
+		     VERBOSITY_ERROR,
+		     VERBOSITY_WARNING,
 		     VERBOSITY_INFO,
 		     VERBOSITY_DEBUG} Verbosity_t;
 
@@ -94,25 +94,25 @@ package verbosity_pkg;
    );
       // Sets the global verbosity setting.
 
-      string       verbosity_str;               
+      string       verbosity_str;
       verbosity = v;
 
       case(verbosity)
-	VERBOSITY_NONE: verbosity_str = "VERBOSITY_";	   
+	VERBOSITY_NONE: verbosity_str = "VERBOSITY_";
 	VERBOSITY_FAILURE: verbosity_str = "VERBOSITY_FAILURE";
 	VERBOSITY_ERROR: verbosity_str = "VERBOSITY_ERROR";
         VERBOSITY_WARNING: verbosity_str = "VERBOSITY_WARNING";
     	VERBOSITY_INFO: verbosity_str = "VERBOSITY_INFO";
-    	VERBOSITY_DEBUG: verbosity_str = "VERBOSITY_DEBUG";	   
+    	VERBOSITY_DEBUG: verbosity_str = "VERBOSITY_DEBUG";
 	default: verbosity_str = "UNKNOWN";
-      endcase 
+      endcase
       $sformat(message, "%m: Setting Verbosity level=%0d (%s)",
                verbosity, verbosity_str);
-      print(VERBOSITY_NONE, message);	 	       
+      print(VERBOSITY_NONE, message);
    endfunction
 
    function automatic void print( // public
-      Verbosity_t level, 
+      Verbosity_t level,
       string message
    );
       // Print a message to the console if the verbosity argument
@@ -121,15 +121,15 @@ package verbosity_pkg;
 
       if (level <= verbosity) begin
 	 case(level)
-	   VERBOSITY_NONE: level_str = "";	   
+	   VERBOSITY_NONE: level_str = "";
 	   VERBOSITY_FAILURE: level_str = "FAILURE:";
 	   VERBOSITY_ERROR: level_str = "ERROR:";
            VERBOSITY_WARNING: level_str = "WARNING:";
     	   VERBOSITY_INFO: level_str = "INFO:";
-    	   VERBOSITY_DEBUG: level_str = "DEBUG:";	   
+    	   VERBOSITY_DEBUG: level_str = "DEBUG:";
 	   default: level_str = "UNKNOWN:";
-	 endcase 
-	 
+	 endcase
+
 	 $display("%t: %s %s",$time, level_str, message);
 	 if (dump) begin
 	    $fdisplay(dump_file, "%t: %s %s",$time, level_str, message);
@@ -143,51 +143,51 @@ package verbosity_pkg;
       // Prints a divider line to the console to make a block of related text
       // easier to identify and read.
       string message;
-      $sformat(message, 
+      $sformat(message,
 	       "------------------------------------------------------------");
       print(level, message);
    endfunction
-   
+
    function automatic void open_dump_file ( // public
       string dump_file_name = "avalon_bfm_sim.log"
    );
       // Opens a dump file which collects console messages.
-	
+
       if (dump) begin
 	 $sformat(message, "%m: Dump file already open - ignoring open.");
-	 print(VERBOSITY_ERROR, message);	 
+	 print(VERBOSITY_ERROR, message);
       end else begin
 	 dump_file = $fopen(dump_file_name, "w");
 	 $fdisplay(dump_file, "testing dump file");
 	 $sformat(message, "%m: Opening dump file: %s", dump_file_name);
 	 print(VERBOSITY_INFO, message);
-	 dump = 1;	 
+	 dump = 1;
       end
    endfunction
- 
+
    function automatic void close_dump_file();  // public
-      // Close the console message dump file.      
+      // Close the console message dump file.
       if (!dump) begin
 	 $sformat(message, "%m: No open dump file - ignoring close.");
-	 print(VERBOSITY_ERROR, message);	 	 
+	 print(VERBOSITY_ERROR, message);
       end else begin
 	 dump = 0;
 	 $fclose(dump_file);
 	 $sformat(message, "%m: Closing dump file");
-	 print(VERBOSITY_INFO, message);	 
-      end	 
+	 print(VERBOSITY_INFO, message);
+      end
    endfunction
 
    function automatic void abort_simulation();
       string message;
-      $sformat(message, "%m: Abort the simulation due to fatal error incident.");      
+      $sformat(message, "%m: Abort the simulation due to fatal error incident.");
       print(VERBOSITY_FAILURE, message);
       $stop;
    endfunction
-   
+
 endpackage
-   
+
 // =cut
 
-`endif   
-   
+`endif
+

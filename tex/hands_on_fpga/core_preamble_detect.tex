@@ -16,24 +16,24 @@ In Figure \ref{fig:pd_schematic} below you can find a schematic of the different
 \begin{enumerate}
     \item \textbf{Complex to magnitude: } The IQ samples are processed by a \textit{complex to magnitude} block which outputs the magnitude of the complex IQ vector.
     To do so, we calculate the square of the magnitude as $I^2+Q^2$. As square-root function are difficult to implement in hardware logic, the result is initially kept squared in the rest of the pipeline. This does not pose any problem as long as the bus width and the threshold is adapted.
-    
+
     \item \textbf{Running sum: } The estimated complex magnitude is then averaged over multiple samples by a configurable \textit{moving average filter}. It is implemented by forwarding input samples in a \textit{delay line} of configurable length.
 
     \begin{align}
             y[n] = \sum_{k=0}^{N-1}\left|x[n-k]\right|
     \end{align}
-        
+
     At each clock cycle an accumulator adds and substracts the first and last magnitudes stored in the delay line to its content. This structure is more efficient than the general FIR because we know each tap is equal to one, we therefore only need two adders.
-        
+
     \begin{align}
             y[n+1] = y[n] + \left|x[n]\right| - \left|x[n-N+1]\right|
     \end{align}
-        
-    To implement a configurable length delay line, we use \textit{SystemVerilog arrays}. Because SystemVerilog forbids to use arrays as module ports, we are forced to pack the array into a bus and unpack the bus back into an array to index it. These concepts should be familiar to you when using \texttt{numpy.flatten} or \texttt{numpy.reshape}. 
-    
+
+    To implement a configurable length delay line, we use \textit{SystemVerilog arrays}. Because SystemVerilog forbids to use arrays as module ports, we are forced to pack the array into a bus and unpack the bus back into an array to index it. These concepts should be familiar to you when using \texttt{numpy.flatten} or \texttt{numpy.reshape}.
+
     \item \textbf{Counter :} The averaged value is compared with a configurable threshold and can trigger the start of a counter. This start/stop counter is used to count the samples to let through when the threshold has been reached by the moving average. A \texttt{launch} signal starts the counter, it stops only after reaching its maximum value. During the sequence a \texttt{running} signal indicates the state of the counter.
-    
-    \item \textbf{Debugging multiplexer: }At last a multiplexer is needed if we want to disable entirely the preamble detector, for debugging purposes. 
+
+    \item \textbf{Debugging multiplexer: }At last a multiplexer is needed if we want to disable entirely the preamble detector, for debugging purposes.
 
 \end{enumerate}
 
@@ -52,7 +52,7 @@ Try to understand the SystemVerilog implementation of those blocks with respect 
 
 \subsection{Timing analysis of the initial preamble detector}
 
-As you have seen in course, an important aspect of digital design is to ensure that your design meet both the resource and timing requirements. Indeed, long combinatorial logic path can lead to setup or hold constraints violations. The design we provided to you has already been compiled and the timing analysis has already been performed. You can check the compilation report using the shortcut highlighted in Figure \ref{fig:compilation_report_button}. If it is not available, you must perform a full compilation of the design. Be careful when launching a compilation in Quartus, a window may ask you to update the project revision. Answer NO. 
+As you have seen in course, an important aspect of digital design is to ensure that your design meet both the resource and timing requirements. Indeed, long combinatorial logic path can lead to setup or hold constraints violations. The design we provided to you has already been compiled and the timing analysis has already been performed. You can check the compilation report using the shortcut highlighted in Figure \ref{fig:compilation_report_button}. If it is not available, you must perform a full compilation of the design. Be careful when launching a compilation in Quartus, a window may ask you to update the project revision. Answer NO.
 
 \begin{figure}[!h]
     \centering
@@ -85,9 +85,9 @@ Two mechanisms were used in the provided design that affected negatively the tim
     \label{fig:quartus_platform_designer}
 \end{figure}
 
-Second, we prevented \textbf{register retiming} which allows the synthesis tool to balance the combinatorial logic across registers when it does not affect the system behaviour. This helps on meeting the timing requirements by offloading parts of long combinatorial path. To enable this setting, go in \textit{"Assignments/Settings/Compiler Settings"} on Quartus and uncheck the \textit{"Prevent register retiming"} box. 
+Second, we prevented \textbf{register retiming} which allows the synthesis tool to balance the combinatorial logic across registers when it does not affect the system behaviour. This helps on meeting the timing requirements by offloading parts of long combinatorial path. To enable this setting, go in \textit{"Assignments/Settings/Compiler Settings"} on Quartus and uncheck the \textit{"Prevent register retiming"} box.
 
-Now relaunch a compilation and analyze the results. Again, if a window asks you to update the project revision, answer NO.  Has the resource usage changed? Is there still a timing constraint violation? Can you still link the most critical path to the HDL design? 
+Now relaunch a compilation and analyze the results. Again, if a window asks you to update the project revision, answer NO.  Has the resource usage changed? Is there still a timing constraint violation? Can you still link the most critical path to the HDL design?
 
 
 \subsection{From Euclidean norm to Absolute-value norm}
@@ -126,6 +126,4 @@ The SystemVerilog testbench has already been generated for you. To execute it, o
     Unlike the testbench for the FIR filter that required to regenerate the internal files when updating the taps, this testbench do not need to be adjusted. In order to change the SystemVerilog parameters of the preamble detector, you need to directly adjust them in the file \texttt{LimeSDR-Mini\_}\\\texttt{lms7\_lelec210x/ip/preamble\_detect/testbench/mentor/preamble\_detect\_tb\_gen\_tb/}\\\texttt{simulation/submodules/preamble\_detect\_tb\_gen.v}.
 \end{bclogo}
 
-Now that you have a functional design for the preamble detector with the Absolute-value norm, we can perform a synthesis of the complete design. Do not forget to propagate your change by regenerating the HDL via the Platform Designer. Observe the resource usage and the timing report, is there still a timing constraint violation? 
-
-
+Now that you have a functional design for the preamble detector with the Absolute-value norm, we can perform a synthesis of the complete design. Do not forget to propagate your change by regenerating the HDL via the Platform Designer. Observe the resource usage and the timing report, is there still a timing constraint violation?

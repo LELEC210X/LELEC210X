@@ -1629,7 +1629,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="funcResult">
    <type>java.lang.String</type>
-   <value><![CDATA[-interp=1 -decim=1 -incycles=1 -len=31 -bankcount=1 -nsym -nband=1 -chans=2 -family="MAX 10" 
+   <value><![CDATA[-interp=1 -decim=1 -incycles=1 -len=31 -bankcount=1 -nsym -nband=1 -chans=2 -family="MAX 10"
 |{}|2|2|1|1|25|18|16|7|noCode|LUTS: 1768 DSPs: 0 RAM Bits: 0|]]></value>
    <derived>true</derived>
    <enabled>true</enabled>
