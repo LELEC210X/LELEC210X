@@ -36,4 +36,3 @@
 __asm__( "\n\t.globl alt_irq_entry" );
 
 __asm__( "\n\t.globl alt_irq_handler" );
-

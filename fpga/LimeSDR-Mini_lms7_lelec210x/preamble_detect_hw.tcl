@@ -3,21 +3,21 @@
 # DO NOT MODIFY
 
 
-# 
+#
 # preamble_detect "preamble_detect" v1.0
 #  2021.11.04.16:40:49
-# 
-# 
+#
+#
 
-# 
+#
 # request TCL package from ACDS 16.1
-# 
+#
 package require -exact qsys 16.1
 
 
-# 
+#
 # module preamble_detect
-# 
+#
 set_module_property DESCRIPTION ""
 set_module_property NAME preamble_detect
 set_module_property VERSION 1.0
@@ -33,9 +33,9 @@ set_module_property ALLOW_GREYBOX_GENERATION false
 set_module_property REPORT_HIERARCHY false
 
 
-# 
+#
 # file sets
-# 
+#
 add_fileset QUARTUS_SYNTH QUARTUS_SYNTH "" ""
 set_fileset_property QUARTUS_SYNTH TOP_LEVEL preamble_detect
 set_fileset_property QUARTUS_SYNTH ENABLE_RELATIVE_INCLUDE_PATHS false
@@ -49,9 +49,9 @@ set_fileset_property SIM_VERILOG ENABLE_FILE_OVERWRITE_MODE true
 add_fileset_file preamble_detect.sv SYSTEM_VERILOG PATH ip/preamble_detect/preamble_detect.sv
 
 
-# 
+#
 # parameters
-# 
+#
 add_parameter DATA_WIDTH INTEGER 12
 set_parameter_property DATA_WIDTH DEFAULT_VALUE 12
 set_parameter_property DATA_WIDTH DISPLAY_NAME DATA_WIDTH
@@ -75,14 +75,14 @@ set_parameter_property PASSTHROUGH_LEN_WIDTH ALLOWED_RANGES -2147483648:21474836
 set_parameter_property PASSTHROUGH_LEN_WIDTH HDL_PARAMETER true
 
 
-# 
+#
 # display items
-# 
+#
 
 
-# 
+#
 # connection point clock_sink
-# 
+#
 add_interface clock_sink clock end
 set_interface_property clock_sink clockRate 0
 set_interface_property clock_sink ENABLED true
@@ -94,9 +94,9 @@ set_interface_property clock_sink SVD_ADDRESS_GROUP ""
 add_interface_port clock_sink clock_sink_clk clk Input 1
 
 
-# 
+#
 # connection point reset_sink
-# 
+#
 add_interface reset_sink reset end
 set_interface_property reset_sink associatedClock clock_sink
 set_interface_property reset_sink synchronousEdges DEASSERT
@@ -109,9 +109,9 @@ set_interface_property reset_sink SVD_ADDRESS_GROUP ""
 add_interface_port reset_sink reset_sink_reset reset Input 1
 
 
-# 
+#
 # connection point avalon_streaming_sink
-# 
+#
 add_interface avalon_streaming_sink avalon_streaming end
 set_interface_property avalon_streaming_sink associatedClock clock_sink
 set_interface_property avalon_streaming_sink associatedReset reset_sink
@@ -130,9 +130,9 @@ add_interface_port avalon_streaming_sink avalon_streaming_sink_data data Input 2
 add_interface_port avalon_streaming_sink avalon_streaming_sink_valid valid Input 1
 
 
-# 
+#
 # connection point avalon_streaming_source
-# 
+#
 add_interface avalon_streaming_source avalon_streaming start
 set_interface_property avalon_streaming_source associatedClock clock_sink
 set_interface_property avalon_streaming_source associatedReset reset_sink
@@ -151,9 +151,9 @@ add_interface_port avalon_streaming_source avalon_streaming_source_data data Out
 add_interface_port avalon_streaming_source avalon_streaming_source_valid valid Output 1
 
 
-# 
+#
 # connection point cfg
-# 
+#
 add_interface cfg conduit end
 set_interface_property cfg associatedClock clock_sink
 set_interface_property cfg associatedReset reset_sink
@@ -169,4 +169,3 @@ add_interface_port cfg cfg_PASSTHROUGH_LEN cfg_PASSTHROUGH_LEN Input PASSTHROUGH
 add_interface_port cfg cfg_THRESHOLD cfg_THRESHOLD Input 32
 add_interface_port cfg debug_sum debug_sum Output 32
 add_interface_port cfg debug_count debug_count Output 32
-

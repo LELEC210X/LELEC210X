@@ -6,17 +6,17 @@ All commands are assumed to be run inside a terminal / command prompt.
 
 **Table of Contents:**
 
-+ [Prerequesites](#prerequisites)
-   + [Virtual Box](#install-on-virtualbox)
-   + [Windows Subsystem for Linux](#install-via-windows-subsystem-for-linux)
-   + [Ubuntu](#install-ubuntu-on-your-computer)
-+ [Common Installation Steps](#common-installation-steps)
-+ [Tips for a Better Environment](#tips-for-a-better-environment)
+- [Prerequesites](#prerequisites)
+  - [Virtual Box](#install-on-virtualbox)
+  - [Windows Subsystem for Linux](#install-via-windows-subsystem-for-linux)
+  - [Ubuntu](#install-ubuntu-on-your-computer)
+- [Common Installation Steps](#common-installation-steps)
+- [Tips for a Better Environment](#tips-for-a-better-environment)
 
 ## Prerequisites
 
 This tutorial assumes your are working under Ubuntu-20.04, and have Python3.8 installed.
-Using a different Ubuntu or Python version *might* work, but we cannot guarantee that
+Using a different Ubuntu or Python version _might_ work, but we cannot guarantee that
 everything will work out-of-the-box, and you may need to adapt some commands.
 
 By default, Python3.8 is automatically bundled with Ubuntu-20.04.
@@ -31,8 +31,8 @@ this solution has a **significant overhead** in terms of processing capability a
 Indeed, you will work in desktop entirely contained in a window which might be impractical.
 However, we provide you with a VirtualBox image file on which all installation steps are already performed for you.
 
-For the installation and the configuration of the Virtual machine, please refer to the 
-"*Installation of the Virtual Machine with the project softwares*" provided on the Moodle of the course.
+For the installation and the configuration of the Virtual machine, please refer to the
+"_Installation of the Virtual Machine with the project softwares_" provided on the Moodle of the course.
 
 Below, you can find the option selected during the installation
 of Ubuntu Desktop 20.04.5 LTS:
@@ -75,7 +75,7 @@ you can check the distribution installed and the version of WSL:
 wsl −l -v
 ```
 
-If necessary, you can change the version of WSL using: 
+If necessary, you can change the version of WSL using:
 
 ```bat
 wsl --set-version Ubuntu−20.04 2
@@ -91,7 +91,7 @@ wsl --setdefault Ubuntu−20.04
 You should now be able to launch and terminate a WSL session of Ubuntu-20.04 using:
 
 ```bat
-wsl 
+wsl
 wsl -t Ubuntu−20.04
 ```
 
@@ -100,7 +100,7 @@ If you encounter any issue, please refer to the official website provided at the
 ### Install Ubuntu on your computer
 
 On most computers (macOS, Windows, and Linux), you can install another OS
-using a *dual boot*. The internet is full of tutorial on how to install
+using a _dual boot_. The internet is full of tutorial on how to install
 Ubuntu in dual boot. Please make sure to install the correct version.
 
 This is going to be, by far, the most performant solution, but will also require
@@ -191,7 +191,7 @@ sudo apt-get install gnuradio xterm python3-gi gobject-introspection gir1.2-gtk-
 ```
 
 You should now be able to open GNU Radio with its GUI with the following command.
-*If you use Windows with WSL, please refer first to the next section*
+_If you use Windows with WSL, please refer first to the next section_
 
 ```bash
 gnuradio-companion
@@ -213,7 +213,7 @@ directly on your host.
 
 There exist several servers and we propose here to install [Xming](https://sourceforge.net/projects/xming/) with all default settings.
 We here follow this [guide](https://wiki.gnuradio.org/index.php/WindowsInstall#WSL_|_Ubuntu) from GNU Radio wiki.
-With Xming installed, you can then launch *XLaunch* from the Start Menu and click next until the "Specify parameter settings" screen.
+With Xming installed, you can then launch _XLaunch_ from the Start Menu and click next until the "Specify parameter settings" screen.
 Check "No Access Control" then click next, then finish. In WSL, enter the following command:
 
 ```bash
@@ -221,7 +221,7 @@ sudo apt install libgtk-3-dev
 ```
 
 Finally, to forward the display on the proper port,
-the following lines should be added to the *.bashrc* file of your Ubuntu distribution:
+the following lines should be added to the _.bashrc_ file of your Ubuntu distribution:
 
 ```bash
 export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0 >> ~/.bashrc
@@ -245,11 +245,11 @@ export LIBGL_ALWAYS_INDIRECT=1 >> ~/.bashrc
 
 We can now install the different components required to use the LimeSDR with GNURadio.
 We follow the information provided [here](https://wiki.myriadrf.org/Lime_Suite)
-by the company who sells the LimeSDR, *Myriad-RF*.
+by the company who sells the LimeSDR, _Myriad-RF_.
 
 #### Installing LimeSuite
 
-We start by installing *LimeSuite*, i.e.,
+We start by installing _LimeSuite_, i.e.,
 a collection of softwares supporting several hardware platforms including the LimeSDR.
 
 ```bash
@@ -261,7 +261,7 @@ sudo apt-get install soapysdr-tools soapysdr-module-lms7
 
 #### Installing Gr-LimeSDR
 
-Finally, we need to install *Gr-LimeSDR* which is a low cost, open source software defined radio (SDR) platform.
+Finally, we need to install _Gr-LimeSDR_ which is a low cost, open source software defined radio (SDR) platform.
 To do so, we use the following command,
 taken from the [official website](https://wiki.myriadrf.org/Gr-limesdr_Plugin_for_GNURadio).
 
@@ -276,7 +276,7 @@ sudo apt-get install gr-limesdr
 You can launch GNU Radio companion. On the right part of the window, at the end of the list,
 LimeSDR components should now appear.
 
-###  (Only for WSL) Connect the LimeSDR to the WSL via USB pass-through
+### (Only for WSL) Connect the LimeSDR to the WSL via USB pass-through
 
 The LimeSDR will be connected to your computer but should be interfaced with your Ubuntu and not Windows. To do so, we will need to create a passthrough using [USBIPD-WIN](https://learn.microsoft.com/en-us/windows/wsl/connect-usb) supported by Microsoft. Go to this [git project](https://github.com/dorssel/usbipd-win/releases) and download the `.msi` file of the latest version and install it.
 On Ubuntu, you will need to run the two following commands:
@@ -298,25 +298,24 @@ usbipd wsl detach --busid <busid>
 If you want to simplify the connection of a device to WSL,
 [a graphical interface](https://gitlab.com/alelec/wsl-usb-gui/-/releases) exist and also provides an auto-attach function.
 
-###  (Only for Windows user) Install PothosSDR to flash the LimeSDR-Mini
+### (Only for Windows user) Install PothosSDR to flash the LimeSDR-Mini
 
 Flashing the LimeSDR-Mini, specially its FPGA, can be complicated using WSL. To avoid any issue due to the passthrough, it is recommended to install PothosSDR which support LimeSuite GUI and makes it easy to reprogram the LimeSDR. Go to the following [website](https://downloads.myriadrf.org/builds/PothosSDR/), download and run the latest installer. You should then be able to launch LimeSuite from the Windows start menu. Be careful that the LimeSDR should be attached to Windows and not Ubuntu when flashing this way.
 
-
 ### Installation of STM32CubeIDE
 
-In order to program and configure the MCU, we will use the *STM32CubeIDE* software from ST.
+In order to program and configure the MCU, we will use the _STM32CubeIDE_ software from ST.
 To download the installer, go to the following [website](https://www.st.com/en/development-tools/stm32cubeide.html)
 and select the latest version of the installer for your **host operating system**.
 You might be asked to create an account. You can then proceed to the download and installation.
 
 ### Installation of Quartus
 
-Most of you probably follow the course LELEC2531 for which you have installed *Quartus Prime Lite 18.1*.
+Most of you probably follow the course LELEC2531 for which you have installed _Quartus Prime Lite 18.1_.
 If you have already it installed, you can skip the next paragraph.
 
 To install Quartus, follow this link: [Quartus Website](https://www.intel.com/content/www/us/en/products/details/fpga/development-tools/quartus-prime/resource.html).
-Then, click on the *Quartus Prime Lite* version for your OS,
+Then, click on the _Quartus Prime Lite_ version for your OS,
 select the 18.1 version and follow the download and install instructions.
 
 Once Quartus is installed,
@@ -325,9 +324,9 @@ You can download the package
 [here](https://www.intel.com/content/www/us/en/products/details/fpga/development-tools/quartus-prime/resource.html)
 by first clicking on your Quartus installation, most probably the Prime Lite.
 Then, select the Quartus version installed on your computer.
-Under the download section, go in the *"Individual Files"* and download the *"Intel® MAX® 10 Device Support"*.
-On your computer, launch the *"Device Installer (Quartus Prime)"* from the start menu.
-If you cannot find it, it should be located in your Quartus installation folder at 
+Under the download section, go in the _"Individual Files"_ and download the _"Intel® MAX® 10 Device Support"_.
+On your computer, launch the _"Device Installer (Quartus Prime)"_ from the start menu.
+If you cannot find it, it should be located in your Quartus installation folder at
 
 ```
 intelFPGA/18.1/quartus/common/devinfo/dev\_install
@@ -341,7 +340,7 @@ it will then automatically detect the MAX 10 device support file. You can procee
 By default, we **did not install** git and any specific code editor **on purpose**.
 When possible, you should use your host OS to edit files, commit changes to git, and so on.
 
-> Example: if you have installed the program via WSL, *Windows* is your host OS. You should only use
+> Example: if you have installed the program via WSL, _Windows_ is your host OS. You should only use
 > WSL to compile programs, and open softwares (like GNU Radio) that could not be installed on the host.
 
 ### With VirtualBox
@@ -355,8 +354,8 @@ When possible, you should avoid duplicating files between your host and the gues
 To avoid this, we suggest to setup shared folders betweem the two. Please refer to either
 of the following guides:
 
-+ [How to share folders between your Ubuntu Virtualbox and your host machine](https://net2.com/how-to-share-folders-between-your-ubuntu-virtualbox-and-your-host-machine/);
-+ or [How to create a VirtualBox shared folder in Windows 11/10](https://www.thewindowsclub.com/how-to-create-a-virtualbox-shared-folder-in-windows).
+- [How to share folders between your Ubuntu Virtualbox and your host machine](https://net2.com/how-to-share-folders-between-your-ubuntu-virtualbox-and-your-host-machine/);
+- or [How to create a VirtualBox shared folder in Windows 11/10](https://www.thewindowsclub.com/how-to-create-a-virtualbox-shared-folder-in-windows).
 
 ### With WSL
 
@@ -401,7 +400,7 @@ being a game changer to avoid retyping the same commands again and again.
 
 #### NeoVim for Editing Code Like a Pro
 
-Maybe you find people editing directly in the terminal *super stylées*?
+Maybe you find people editing directly in the terminal _super stylées_?
 Well you can also become such a person by installing [NeoVim](https://neovim.io/),
 the code editor for real programmers:
 

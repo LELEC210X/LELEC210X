@@ -12,4 +12,3 @@
 		.preamble_detect_debug_count         (<connected-to-preamble_detect_debug_count>),         //                .debug_count
 		.reset_reset_n                       (<connected-to-reset_reset_n>)                        //           reset.reset_n
 	);
-

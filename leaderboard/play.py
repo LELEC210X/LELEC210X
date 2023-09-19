@@ -7,7 +7,6 @@ from threading import Thread
 
 import click
 import requests
-
 from pydub import AudioSegment
 from pydub.generators import WhiteNoise
 from pydub.playback import play
@@ -15,6 +14,7 @@ from pydub.playback import play
 
 def info(*args, **kwargs):
     print(f"{datetime.now()} [INFO] -", *args, **kwargs)
+
 
 CATEGORIES = [
     "birds",
@@ -30,7 +30,8 @@ SOUND_FILES = {
 
 if os.path.exists("test_soundfiles") and os.path.isdir("test_soundfiles"):
     TEST_SOUND_FILES = {
-        category: glob.glob(f"test_soundfiles/{category}_*.wav") for category in CATEGORIES
+        category: glob.glob(f"test_soundfiles/{category}_*.wav")
+        for category in CATEGORIES
     }
 else:
     info("Could not find 'test_soundfiles' directory, defaulting to 'soundfiles'")
@@ -140,7 +141,11 @@ def main(url, key, random_key):
         sound = AudioSegment.from_file(sound_file, format="wav").normalize()
 
         if with_noise:
-            sound = sound.overlay(WhiteNoise().to_audio_segment(duration=len(sound), volume=-40.0 + 2.0 * current_lap))
+            sound = sound.overlay(
+                WhiteNoise().to_audio_segment(
+                    duration=len(sound), volume=-40.0 + 2.0 * current_lap
+                )
+            )
 
         time.sleep(time_before_playing - max(0, time.time() - start))
 

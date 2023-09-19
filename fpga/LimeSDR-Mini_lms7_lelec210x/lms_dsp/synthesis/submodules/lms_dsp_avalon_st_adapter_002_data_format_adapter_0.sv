@@ -1,29 +1,29 @@
 // (C) 2001-2018 Intel Corporation. All rights reserved.
-// Your use of Intel Corporation's design tools, logic functions and other 
-// software and tools, and its AMPP partner logic functions, and any output 
-// files from any of the foregoing (including device programming or simulation 
-// files), and any associated documentation or information are expressly subject 
-// to the terms and conditions of the Intel Program License Subscription 
-// Agreement, Intel FPGA IP License Agreement, or other applicable 
-// license agreement, including, without limitation, that your use is for the 
-// sole purpose of programming logic devices manufactured by Intel and sold by 
-// Intel or its authorized distributors.  Please refer to the applicable 
+// Your use of Intel Corporation's design tools, logic functions and other
+// software and tools, and its AMPP partner logic functions, and any output
+// files from any of the foregoing (including device programming or simulation
+// files), and any associated documentation or information are expressly subject
+// to the terms and conditions of the Intel Program License Subscription
+// Agreement, Intel FPGA IP License Agreement, or other applicable
+// license agreement, including, without limitation, that your use is for the
+// sole purpose of programming logic devices manufactured by Intel and sold by
+// Intel or its authorized distributors.  Please refer to the applicable
 // agreement for further details.
 
 
 // (C) 2001-2013 Altera Corporation. All rights reserved.
-// Your use of Altera Corporation's design tools, logic functions and other 
-// software and tools, and its AMPP partner logic functions, and any output 
-// files any of the foregoing (including device programming or simulation 
-// files), and any associated documentation or information are expressly subject 
-// to the terms and conditions of the Altera Program License Subscription 
-// Agreement, Altera MegaCore Function License Agreement, or other applicable 
-// license agreement, including, without limitation, that your use is for the 
-// sole purpose of programming logic devices manufactured by Altera and sold by 
-// Altera or its authorized distributors.  Please refer to the applicable 
+// Your use of Altera Corporation's design tools, logic functions and other
+// software and tools, and its AMPP partner logic functions, and any output
+// files any of the foregoing (including device programming or simulation
+// files), and any associated documentation or information are expressly subject
+// to the terms and conditions of the Altera Program License Subscription
+// Agreement, Altera MegaCore Function License Agreement, or other applicable
+// license agreement, including, without limitation, that your use is for the
+// sole purpose of programming logic devices manufactured by Altera and sold by
+// Altera or its authorized distributors.  Please refer to the applicable
 // agreement for further details.
 
- 
+
 // $Id: //acds/rel/13.1/ip/.../avalon-st_data_format_adapter.sv.terp#1 $
 // $Revision: #1 $
 // $Date: 2013/09/21 $
@@ -42,7 +42,7 @@
 //   usePackets:         false
 //   hasInEmpty:         false
 //   inEmptyWidth:       0
-//   hasOutEmpty:        false 
+//   hasOutEmpty:        false
 //   outEmptyWidth:      0
 //   inDataWidth:        24
 //   outDataWidth:       48
@@ -61,7 +61,7 @@
 
 // ------------------------------------------
 
- 
+
 module lms_dsp_avalon_st_adapter_002_data_format_adapter_0 (
  // Interface: in
  output reg         in_ready,
@@ -89,15 +89,15 @@ module lms_dsp_avalon_st_adapter_002_data_format_adapter_0 (
    reg  [2-1:0]   state;
    reg  [2-1:0]   new_state;
    reg  [2-1:0]   state_d1;
-    
+
    reg            in_ready_d1;
-   reg            mem_readaddr; 
+   reg            mem_readaddr;
    reg            mem_readaddr_d1;
    reg            a_ready;
    reg            a_valid;
    reg            a_channel;
-   reg [12-1:0]    a_data0; 
-   reg [12-1:0]    a_data1; 
+   reg [12-1:0]    a_data0;
+   reg [12-1:0]    a_data1;
    reg            a_startofpacket;
    reg            a_endofpacket;
    reg            a_empty;
@@ -106,11 +106,11 @@ module lms_dsp_avalon_st_adapter_002_data_format_adapter_0 (
    reg            b_valid;
    reg            b_channel;
    reg  [48-1:0]   b_data;
-   reg            b_startofpacket; 
-   wire           b_startofpacket_wire; 
-   reg            b_endofpacket; 
-   reg            b_empty;   
-   reg            b_error; 
+   reg            b_startofpacket;
+   wire           b_startofpacket_wire;
+   reg            b_endofpacket;
+   reg            b_empty;
+   reg            b_error;
    reg            mem_write0;
    reg  [12-1:0]   mem_writedata0;
    wire [12-1:0]   mem_readdata0;
@@ -128,10 +128,10 @@ module lms_dsp_avalon_st_adapter_002_data_format_adapter_0 (
    reg  [12-1:0]   mem2[0:0];
    reg            sop_mem_writeenable;
    reg            sop_mem_writedata;
-   wire           mem_waitrequest_sop; 
+   wire           mem_waitrequest_sop;
 
    wire           state_waitrequest;
-   reg            state_waitrequest_d1; 
+   reg            state_waitrequest_d1;
 
    reg            in_channel = 0;
    reg            out_channel;
@@ -145,14 +145,14 @@ module lms_dsp_avalon_st_adapter_002_data_format_adapter_0 (
    reg  [4-1:0] out_empty;
 
    reg in_error = 0;
-   reg out_error; 
+   reg out_error;
 
    wire           error_from_mem;
    reg            error_mem_writedata;
    reg          error_mem_writeenable;
 
    reg  [2-1:0]   state_register;
-   reg            sop_register; 
+   reg            sop_register;
    reg            error_register;
    reg  [12-1:0]   data0_register;
    reg  [12-1:0]   data1_register;
@@ -169,7 +169,7 @@ module lms_dsp_avalon_st_adapter_002_data_format_adapter_0 (
          a_data1   <= 0;
          a_startofpacket <= 0;
          a_endofpacket   <= 0;
-         a_empty <= 0; 
+         a_empty <= 0;
          a_error <= 0;
       end else begin
          if (in_ready) begin
@@ -180,17 +180,17 @@ module lms_dsp_avalon_st_adapter_002_data_format_adapter_0 (
             a_data1 <= in_data[11:0];
             a_startofpacket <= in_startofpacket;
             a_endofpacket   <= in_endofpacket;
-            a_empty         <= 0; 
+            a_empty         <= 0;
             if (in_endofpacket)
                a_empty <= in_empty;
          end
-      end 
+      end
    end
 
-   always @* begin 
+   always @* begin
       state_read_addr = in_channel;
    end
-   
+
 
    // ---------------------------------------------------------------------
    //| State & Memory Keepers
@@ -208,7 +208,7 @@ module lms_dsp_avalon_st_adapter_002_data_format_adapter_0 (
          state_waitrequest_d1 <= state_waitrequest;
       end
    end
-   
+
    always @(posedge clk or negedge reset_n) begin
       if (!reset_n) begin
          state_register <= 0;
@@ -231,20 +231,20 @@ module lms_dsp_avalon_st_adapter_002_data_format_adapter_0 (
             data2_register <= mem_writedata2;
          end
       end
-   
+
       assign state_from_memory = state_register;
       assign b_startofpacket_wire = sop_register;
       assign mem_readdata0 = data0_register;
       assign mem_readdata1 = data1_register;
       assign mem_readdata2 = data2_register;
       assign error_from_mem = error_register;
-   
+
    // ---------------------------------------------------------------------
    //| State Machine
    // ---------------------------------------------------------------------
    always @* begin
 
-      
+
    b_ready = (out_ready || ~out_valid);
 
    a_ready   = 0;
@@ -252,16 +252,16 @@ module lms_dsp_avalon_st_adapter_002_data_format_adapter_0 (
    b_valid   = 0;
    b_channel = a_channel;
    b_error   = a_error;
-      
+
    state = state_from_memory;
    if (~in_ready_d1)
       state = state_d1;
-         
+
    error_mem_writedata = error_from_mem | a_error;
    if (state == 0)
       error_mem_writedata = a_error;
    b_error = error_mem_writedata;
-      
+
    new_state           = state;
    mem_write0          = 0;
    mem_writedata0      = a_data0;
@@ -272,12 +272,12 @@ module lms_dsp_avalon_st_adapter_002_data_format_adapter_0 (
    sop_mem_writeenable = 0;
 
    b_endofpacket = a_endofpacket;
-      
+
    b_startofpacket = 0;
-      
+
    b_empty = 0;
-       
-   case (state) 
+
+   case (state)
             0 : begin
             mem_writedata0 = a_data0;
             mem_writedata1 = a_data1;
@@ -295,7 +295,7 @@ module lms_dsp_avalon_st_adapter_002_data_format_adapter_0 (
             b_data[11:0] = a_data1;
             if (out_ready || ~out_valid) begin
                a_ready = 1;
-               if (a_valid) 
+               if (a_valid)
                begin
                   new_state = state+1'b1;
                   b_valid = 1;
@@ -319,7 +319,7 @@ module lms_dsp_avalon_st_adapter_002_data_format_adapter_0 (
             b_data[11:0] = a_data1;
             if (out_ready || ~out_valid) begin
                a_ready = 1;
-               if (a_valid) 
+               if (a_valid)
                begin
                   new_state = 0;
                   b_valid = 1;
@@ -331,11 +331,11 @@ module lms_dsp_avalon_st_adapter_002_data_format_adapter_0 (
 
       in_ready = (a_ready || ~a_valid);
 
-      mem_readaddr = in_channel; 
+      mem_readaddr = in_channel;
       if (~in_ready)
          mem_readaddr = mem_readaddr_d1;
 
-      
+
       sop_mem_writedata = 0;
       if (a_valid)
          sop_mem_writedata = a_startofpacket;
@@ -361,19 +361,16 @@ module lms_dsp_avalon_st_adapter_002_data_format_adapter_0 (
          if (out_ready || ~out_valid) begin
             out_valid         <= b_valid;
             out_data          <= b_data;
-            out_channel       <= b_channel; 
+            out_channel       <= b_channel;
             out_startofpacket <= b_startofpacket;
             out_endofpacket   <= b_endofpacket;
             out_empty         <= b_empty;
             out_error         <= b_error;
          end
-      end 
+      end
    end
-   
+
 
 
 
 endmodule
-
-   
-

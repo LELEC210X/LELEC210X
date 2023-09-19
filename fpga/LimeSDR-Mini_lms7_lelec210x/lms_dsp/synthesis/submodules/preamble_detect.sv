@@ -4,7 +4,7 @@
 // created in component editor.  It ties off all outputs to ground and
 // ignores all inputs.  It needs to be edited to make it do something
 // useful.
-// 
+//
 // This file will not be automatically regenerated.  You should check it in
 // to your version control system if you want to keep it.
 
@@ -21,7 +21,7 @@
 // Feedthrough module /!\ Datapath length
 
 ////////////////////
-//  USER CODE : 
+//  USER CODE :
 //////////////////// begin
 (* multstyle = "logic" *) module cmplx2mag #(
 //////////////////// end
@@ -35,29 +35,29 @@
 		output wire [DATA_WIDTH_OUT-1:0] mag  // uint
 	);
 
-	
+
 	reg  [DATA_WIDTH_OUT-1:0] mag_reg;
 	wire [DATA_WIDTH_OUT-1:0] norm;
-	
+
 	////////////////////
 	//  USER CODE :
 	//////////////////// begin
 
 	wire [(2*DATA_WIDTH_IN -1):0] multi, multq;
-	
+
 	assign multi = i * i;
    assign multq = q * q;
-	
+
 	assign norm   = multi + multq;
-	
+
 	//////////////////// end
-	
+
 	always @(posedge clock) begin
 		if (reset) begin
 			mag_reg <= 'b0;
 		end
 		else begin
-			mag_reg <= norm ; 
+			mag_reg <= norm ;
 		end
 	end
 
@@ -113,7 +113,7 @@ module running_sum #(
 	localparam MAX_FILTER_LEN = 2**FILTER_LEN_WIDTH;
 
 	reg  [(DATA_WIDTH_OUT-1):0] sum_reg;
-	
+
 	wire [(MAX_FILTER_LEN*DATA_WIDTH_IN-1):0] in_delayed_packed;
 	wire [(DATA_WIDTH_IN-1):0] in_delayed_unpacked [0:(MAX_FILTER_LEN-1)];
 	wire [(DATA_WIDTH_IN-1):0] in_delayed;
@@ -169,7 +169,7 @@ module counter #(
 				count_reg   <= count_reg + 'b1;
 				running_reg <= 'b1;
 			end
-			// else 
+			// else
 			else begin
 				count_reg   <= launch; // Do not skip a cycle if launch is high at the end of the count
 				running_reg <= launch;
@@ -203,15 +203,15 @@ module preamble_detect #(
 	// ************************************************************
 	// *                 LOCALPARAM BUS WIDTHS                    *
 	// ************************************************************
-	
+
 	////////////////////
 	//  USER CODE :
 	//////////////////// begin
 	localparam ACC_MAG_WIDTH = 2*DATA_WIDTH + 1;
 	//////////////////// end
-	
+
 	localparam ACC_SUM_WIDTH = $clog2((2**ACC_MAG_WIDTH) * (2**FILTER_LEN_WIDTH));
-	
+
 	// ************************************************************
 	// *                      CONTROLPATH                         *
 	// ************************************************************
@@ -238,7 +238,7 @@ module preamble_detect #(
 			.in        ({cfg_enable_reg_t0,valid_reg_t0,data_reg_t0}),
 			.out_packed(pipelined_signals_packed)
 	);
-	
+
 	`UNPACK_ARRAY(pipelined_signals,(2*DATA_WIDTH+2),PIPELINE_LEN,pipelined_signals,pipelined_signals_packed)
 	assign {cfg_enable_reg_t1,valid_reg_t1,data_reg_t1} = pipelined_signals[0];
 	assign {cfg_enable_reg_t2,valid_reg_t2,data_reg_t2} = pipelined_signals[1];

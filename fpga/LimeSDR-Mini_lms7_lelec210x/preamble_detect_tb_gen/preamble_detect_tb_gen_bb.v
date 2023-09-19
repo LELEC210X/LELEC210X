@@ -5,7 +5,7 @@ module preamble_detect_tb_gen (
 	sink_data,
 	sink_valid,
 	source_data,
-	source_valid);	
+	source_valid);
 
 	input		clock_clk;
 	input		reset_reset;

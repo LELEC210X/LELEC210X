@@ -30,4 +30,3 @@
 			preamble_detect_debug_count         => CONNECTED_TO_preamble_detect_debug_count,         --                .debug_count
 			reset_reset_n                       => CONNECTED_TO_reset_reset_n                        --           reset.reset_n
 		);
-

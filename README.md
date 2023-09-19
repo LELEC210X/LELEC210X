@@ -1,4 +1,4 @@
-> **IMPORTANT:** the README (and repository) is currently "work in progress",
+> **IMPORTANT:** this README (and repository) is currently "work in progress",
 > so some information might not be up to date, or some files might still need
 > to be pushed to this repository.
 
@@ -14,7 +14,7 @@ The current directory, which we will refer to as **root**, contains instructions
 4. and how to build the whole project.
 
 > **NOTE**: part 3 will only be useful once you have read and worked through all
-  the intermediate hands-on sessions.
+> the intermediate hands-on sessions.
 
 Subdirectories are organized as follows:
 
@@ -46,15 +46,15 @@ you **must** be able to provide a **git diff** view of your most recent changes.
 
 ### 1.1 I am new to Git
 
-You have never used Git? Or your skills are limited to *pushing* and *pulling*
+You have never used Git? Or your skills are limited to _pushing_ and _pulling_
 commits? Then it's worth consedering to follow a few tutorials!
 
 The Internet is full of guides about Git, but we can recommend the following tutorial:
 
-+ [What is Git?](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F);
-+ [How to use Git and GitHub introduction (video)](https://www.youtube.com/watch?v=HkdAHXoRtos&ab_channel=Fireship);
-+ [Git, Github, and GitHub desktop for beginners (video)](https://www.youtube.com/watch?v=8Dd7KRpKeaE&ab_channel=CoderCoder);
-+ or [GitHub's Hello World](https://docs.github.com/en/get-started/quickstart/hello-world).
+- [What is Git?](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F);
+- [How to use Git and GitHub introduction (video)](https://www.youtube.com/watch?v=HkdAHXoRtos&ab_channel=Fireship);
+- [Git, Github, and GitHub desktop for beginners (video)](https://www.youtube.com/watch?v=8Dd7KRpKeaE&ab_channel=CoderCoder);
+- or [GitHub's Hello World](https://docs.github.com/en/get-started/quickstart/hello-world).
 
 ### 1.2 Hosting your code
 
@@ -70,11 +70,11 @@ Advanced Git users may prefer to use it via the terminal (i.e., command-line),
 but people may prefer to use a more classical application.
 There are plenty of them, and here are a few we recommend:
 
-+ [Git's Visual Studio Code extension](https://code.visualstudio.com/docs/sourcecontrol/overview),
+- [Git's Visual Studio Code extension](https://code.visualstudio.com/docs/sourcecontrol/overview),
   which offers everything you need inside the Visual Studio Code editor;
-+ [GitHub Desktop](https://desktop.github.com/),
+- [GitHub Desktop](https://desktop.github.com/),
   a very simple but good Git application;
-+ and [GitKraken](https://www.gitkraken.com/),
+- and [GitKraken](https://www.gitkraken.com/),
   a Git tool for advanced usage,
   with
   [pro-version for free for students](https://www.gitkraken.com/github-student-developer-pack).
@@ -93,7 +93,7 @@ VB is a free tool that a allows to run the same set of software, thanks to
 **virtualization**, regardless of your computer.
 
 > **NOTE**: Quartus is not part of the software installed,
-  and we assume you have it installed it from a previous class.
+> and we assume you have it installed it from a previous class.
 
 ### 2.1 Dealing with a slow VB
 
@@ -101,11 +101,11 @@ Despite being very useful, VB has the disavantage that it can be **quite slow**.
 To cope with this issue, there exist multiple solutions (from easiest for hardest):
 
 1. Increase the resources allocated to VB (in `Settings->System`): either the
-  memory or the number of CPUs;
-2. *Debian-only* Manually install the software listed on the install page;
-3. *Windows-only* Install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
-  and refer to 2;
-4. *Windows-or-macOS-only* Install Ubuntu in dual-boot and refer to 2.
+   memory or the number of CPUs;
+2. _Debian-only_ Manually install the software listed on the install page;
+3. _Windows-only_ Install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
+   and refer to 2;
+4. _Windows-or-macOS-only_ Install Ubuntu in dual-boot and refer to 2.
 
 Note that the last two steps require the most disk memory, but will most
 probably produce that fastest experience in the end.

@@ -1,13 +1,13 @@
 -- (C) 2001-2018 Intel Corporation. All rights reserved.
--- Your use of Intel Corporation's design tools, logic functions and other 
--- software and tools, and its AMPP partner logic functions, and any output 
--- files from any of the foregoing (including device programming or simulation 
--- files), and any associated documentation or information are expressly subject 
--- to the terms and conditions of the Intel Program License Subscription 
--- Agreement, Intel FPGA IP License Agreement, or other applicable 
--- license agreement, including, without limitation, that your use is for the 
--- sole purpose of programming logic devices manufactured by Intel and sold by 
--- Intel or its authorized distributors.  Please refer to the applicable 
+-- Your use of Intel Corporation's design tools, logic functions and other
+-- software and tools, and its AMPP partner logic functions, and any output
+-- files from any of the foregoing (including device programming or simulation
+-- files), and any associated documentation or information are expressly subject
+-- to the terms and conditions of the Intel Program License Subscription
+-- Agreement, Intel FPGA IP License Agreement, or other applicable
+-- license agreement, including, without limitation, that your use is for the
+-- sole purpose of programming logic devices manufactured by Intel and sold by
+-- Intel or its authorized distributors.  Please refer to the applicable
 -- agreement for further details.
 
 
@@ -95,7 +95,7 @@ architecture rtl of fir_tb_gen_fir_compiler_ii_0_tb is
 
     function to_hex (value : in signed) return string is
         constant ne     : integer        := (value'length+3)/4;
-        constant NUS    : string(2 downto 1) := (others => ' ');  
+        constant NUS    : string(2 downto 1) := (others => ' ');
         variable pad    : std_logic_vector(0 to (ne*4 - value'length) - 1);
         variable ivalue : std_logic_vector(0 to ne*4 - 1);
         variable result : string(1 to ne);
@@ -107,7 +107,7 @@ architecture rtl of fir_tb_gen_fir_compiler_ii_0_tb is
             if value (value'left) = 'Z' then
                 pad := (others => 'Z');
             else
-                pad := (others => value(value'high));             
+                pad := (others => value(value'high));
             end if;
             ivalue := pad & std_logic_vector (value);
             for i in 0 to ne-1 loop
@@ -135,7 +135,7 @@ architecture rtl of fir_tb_gen_fir_compiler_ii_0_tb is
             end loop;
             return result;
         end if;
-    end function to_hex;  
+    end function to_hex;
 
 begin
 
@@ -179,9 +179,9 @@ source_model : process(clk) is
     variable indata  : line;
     variable read_data_completed: integer;
     variable q, j, j_temp       : integer := 0 ;
-    variable realInChansCount   : integer ;       
+    variable realInChansCount   : integer ;
     variable totalInChansCount  : integer ;
-    variable idle_cyles         : integer := 0 ;    
+    variable idle_cyles         : integer := 0 ;
 
     type In_2D is array (PHYSCHANIN_c-1 downto 0, CHANSPERPHYIN_c-1 downto 0) of integer;
     variable arrayIn : In_2D;
@@ -200,25 +200,25 @@ if rising_edge(clk) then
         eof            <= '0';
 
         realInChansCount := NUM_OF_CHANNELS_c * INVERSE_TDM_FACTOR_c;
-        totalInChansCount := TOTAL_INCHANS_ALLOWED;        
+        totalInChansCount := TOTAL_INCHANS_ALLOWED;
 
     else
         if (sink_completed='0' or eof='0') then
             eof <= '0';
             if( valid_cycles = '1' and ast_sink_ready = '1') then
-                if not endfile(in_file) then 
+                if not endfile(in_file) then
                     if (push_counter=0) then
-                        q := 0;      
+                        q := 0;
                         for k in 0 to PHYSCHANIN_c-1 loop
                             -- Super-Sample Rate
                             if (k /= 0) then
                                 j := j + INVERSE_TDM_FACTOR_c;
                                 if (j > PHYSCHANIN_c - 1) then
                                     j_temp := j_temp + 1;
-                                    j := j_temp; 
+                                    j := j_temp;
                                 end if;
                             else
-                                j := k;  
+                                j := k;
                             end if;
 
                             for i in 0 to CHANSPERPHYIN_c-1 loop
@@ -233,7 +233,7 @@ if rising_edge(clk) then
                                         read(indata, bank_in);
                                         arrayBank(j,i) := bank_in;
                                     end if;
-                                    ast_sink_valid <= '1' after tclk/4;         
+                                    ast_sink_valid <= '1' after tclk/4;
 
                                     --Debug
                                     --write(my_line, string'(" j = "));
@@ -241,8 +241,8 @@ if rising_edge(clk) then
                                     --write(my_line, string'(" i = "));
                                     --write(my_line, i);
                                     --write(my_line, string'(" Array content = "));
-                                    --write(my_line, arrayIn(j,i));               
-                                    --writeline(output, my_line);        
+                                    --write(my_line, arrayIn(j,i));
+                                    --writeline(output, my_line);
                                 end if;
                             end loop;
 
@@ -260,7 +260,7 @@ if rising_edge(clk) then
                 eof <='1';
             end if;
 
-            -- Reorder the input format 
+            -- Reorder the input format
             -- Expected input format by FIR Compiler II
             -- ..., <C2>, <C1>, <C0>, -->
             -- ..., <C5>, <C4>, <C3>, -->
@@ -271,21 +271,21 @@ if rising_edge(clk) then
                 for p in 0 to PHYSCHANIN_c-1 loop
                     --Debug
                     --write(my_line, string'(" Push input = "));
-                    --write(my_line,arrayIn(p,q));               
-                    --writeline(output, my_line);              -- write to display                 
+                    --write(my_line,arrayIn(p,q));
+                    --writeline(output, my_line);              -- write to display
                     ast_sink_data(p*(INWIDTH_c+BANKINWIDTH_c)+INWIDTH_c-1 downto (INWIDTH_c+BANKINWIDTH_c)*p) <= std_logic_vector(to_signed(arrayIn(p,q), INWIDTH_c)) after tclk/4;
                     if (BANKINWIDTH_c > 0) then
                         ast_sink_data(p*(INWIDTH_c+BANKINWIDTH_c)+(INWIDTH_c+BANKINWIDTH_c)-1 downto (INWIDTH_c+BANKINWIDTH_c)*p+INWIDTH_c) <= std_logic_vector(to_signed(arrayBank(p,q), BANKINWIDTH_c)) after tclk/4;
                     end if;
-                end loop;        
+                end loop;
                 if ( q < CHANSPERPHYIN_c ) then
                     q := q + 1;
-                else           
+                else
                     q := 0;
-                end if;                                    
+                end if;
                 if ( push_counter < CHANSPERPHYIN_c-1 ) then
                     push_counter <= push_counter + 1;
-                else           
+                else
                     push_counter <= 0;
                     read_data_completed := 0;
                     sink_completed <= '1';
@@ -293,9 +293,9 @@ if rising_edge(clk) then
                     --start invalid cycles if needed
                     if ( idle_cyles < INVALID_CYCLES_c ) then
                         valid_cycles <= '0' ;
-                    end if;                          
+                    end if;
 
-                end if;       
+                end if;
 
             end if;
 
@@ -306,10 +306,10 @@ if rising_edge(clk) then
                     ast_sink_valid <= '0' after tclk/4;
                     idle_cyles := idle_cyles + 1;
                     if ( idle_cyles = INVALID_CYCLES_c ) then
-                        valid_cycles <= '1' ;            
+                        valid_cycles <= '1' ;
                         idle_cyles := 0;
                     end if;
-                end if;        
+                end if;
                 ast_sink_data  <= ast_sink_data after tclk/4;
             end if;
             else
@@ -328,7 +328,7 @@ end process source_model;
 sink_model : process(clk) is
     file ro_file   : text open write_mode is FIR_OUTPUT_FILE_c;
     variable rdata : line;
-    variable y,z,z_temp         : integer :=0;    
+    variable y,z,z_temp         : integer :=0;
     variable realOutChansCount  : natural := NUM_OF_CHANNELS_c * INVERSE_TDM_FACTOR_c;
     variable totalOutChansCount : natural := TOTAL_OUTCHANS_ALLOWED;
 
@@ -397,7 +397,7 @@ end process sink_model;
 
 -------------------------------------------------------------------------------
 -- clock generator
--------------------------------------------------------------------------------      
+-------------------------------------------------------------------------------
 clkgen : process
 begin  -- process clkgen
     if eof = '1' and sink_completed = '1' and ast_source_valid = '0' and time_lapse >= time_lapse_max then
@@ -409,7 +409,7 @@ begin  -- process clkgen
         clk <= '0';
         assert FALSE
         report "ERROR: Reached time_lapse_max without activity, probably simulation is stuck!" severity Error;
-        wait;      
+        wait;
     else
         clk <= '0';
         wait for tclk/2;
@@ -432,7 +432,7 @@ begin
     end if;
 end process monitor_toggling_activity;
 
-    
+
 
 
 -------------------------------------------------------------------------------
@@ -467,5 +467,3 @@ end process reset_design_gen;
 
 
 end architecture rtl;
-
-

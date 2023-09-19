@@ -2,7 +2,6 @@ import secrets
 from pathlib import Path
 
 import click
-
 from backend.models import DEFAULT_CONFIG_PATH, Config, GroupConfig
 
 

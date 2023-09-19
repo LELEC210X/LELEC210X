@@ -36,7 +36,7 @@ set_global_assignment -name EDA_DESIGN_INSTANCE_NAME DUT -section_id tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME work.fir_tb_gen_fir_compiler_ii_0_tb -section_id tb
 set_global_assignment -name EDA_TEST_BENCH_GATE_LEVEL_NETLIST_LIBRARY work -section_id tb
 
-# Add Testbench files 
+# Add Testbench files
 foreach i $testbench_files {
   set_global_assignment -name EDA_TEST_BENCH_FILE $i -section_id tb -library work
 }

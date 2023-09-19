@@ -11,7 +11,7 @@ module lms_dsp (
 	preamble_detect_cfg_THRESHOLD,
 	preamble_detect_debug_sum,
 	preamble_detect_debug_count,
-	reset_reset_n);	
+	reset_reset_n);
 
 	input		clk_clk;
 	input	[47:0]	fifo_in_wdata;
