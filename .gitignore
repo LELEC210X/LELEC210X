@@ -1,0 +1,8 @@
+
+leaderboard/.config.json
+
+__pycache__/
+
+leaderboard/instance/database.db
+
+leaderboard/package.json
