@@ -1,4 +1,4 @@
-> **IMPORTANT:** the README (and repository) is currently "work in progress",
+> **IMPORTANT:** this README (and repository) is currently "work in progress",
 > so some information might not be up to date, or some files might still need
 > to be pushed to this repository.
 
