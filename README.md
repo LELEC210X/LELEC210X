@@ -30,7 +30,7 @@ Subdirectories are organized as follows:
 - [`mcu/`](mcu/):
   hands-on related to the MCU part and STM32CubeIDE project for the Nucleo board.
 - [`scripts/`](scripts/): general purpose routines.
-- [`telecom/`](telecom/): hands related to the telecom part,
+- [`telecom/`](telecom/): hands-on related to the telecom part,
   simulation framework and GNU Radio modules.
 - [`tex/`](tex/): LaTeX projects for this courses.
   PDFs are provided on [Moodle](https://moodle.uclouvain.be/course/view.php?id=4829),
