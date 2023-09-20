@@ -24,8 +24,7 @@ jobs:
 
       - name: Install Pygments
         run: |
-          sudo apt install python3-setuptools
-          sudo easy_install Pygments
+          pip install Pygments
 
       - name: Compile LaTeX documents
         uses: xu-cheng/texlive-action/full@v1
