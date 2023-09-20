@@ -19,7 +19,8 @@ leaderboard/node_modules/
 *.log
 *.out
 *.pdf
-!figures/*.pdf
+!tex/**/figures/*.pdf
+!tex/**/figs/*.pdf
 *.toc
 tex/pdfs.zip
 _minted-*/
