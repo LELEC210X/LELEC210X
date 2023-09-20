@@ -1,8 +1,8 @@
 pdf:
-	latexmk main.tex -jobname=tutorial_fir
+	latexmk main.tex -pdf -jobname=tutorial_fir
 
 clean:
-	latexmk -CA main.tex -jobname=tutorial_fir
+	latexmk -CA main.tex -pdf -jobname=tutorial_fir
 
 check:
-	-chktex main.tex
+	-chktex main.tex -pdf

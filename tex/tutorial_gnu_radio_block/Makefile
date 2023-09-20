@@ -1,8 +1,8 @@
 pdf:
-	latexmk main.tex -jobname=tutorial_gnuradioblock
+	latexmk main.tex -pdf -jobname=tutorial_gnuradioblock
 
 clean:
-	latexmk -CA main.tex -jobname=tutorial_gnuradioblock
+	latexmk -CA main.tex -pdf -jobname=tutorial_gnuradioblock
 
 check:
-	-chktex main.tex
+	-chktex main.tex -pdf

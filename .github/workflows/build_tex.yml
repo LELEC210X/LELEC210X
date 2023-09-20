@@ -2,11 +2,11 @@ name: Build LaTeX documents
 on:
   push:
     paths:
-      - tex/**
+      - 'tex/**'
 
   pull_request:
     paths:
-      - tex/**
+      - 'tex/**'
 
   workflow_dispatch:
 

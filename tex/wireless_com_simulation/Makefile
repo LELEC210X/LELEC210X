@@ -1,8 +1,8 @@
 pdf:
-	latexmk main.tex -shell-escape -jobname=wireless_simulations
+	latexmk main.tex -pdf -shell-escape -jobname=wireless_simulations
 
 clean:
-	latexmk -CA main.tex -jobname=wireless_simulations
+	latexmk -CA main.tex -pdf -jobname=wireless_simulations
 
 check:
-	-chktex main.tex
+	-chktex main.tex -pdf

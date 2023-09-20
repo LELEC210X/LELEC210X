@@ -1,8 +1,8 @@
 pdf:
-	latexmk main.tex -jobname=characterization
+	latexmk main.tex -pdf -jobname=characterization
 
 clean:
-	latexmk -CA main.tex -jobname=characterization
+	latexmk -CA main.tex -pdf -jobname=characterization
 
 check:
-	-chktex main.tex
+	-chktex main.tex -pdf

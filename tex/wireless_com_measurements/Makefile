@@ -1,7 +1,7 @@
 pdf:
-	latexmk main.tex -shell-escape -jobname=wireless_measurements
+	latexmk main.tex -pdf -shell-escape -jobname=wireless_measurements
 clean:
-	latexmk -CA main.tex -jobname=wireless_measurements
+	latexmk -CA main.tex -pdf -jobname=wireless_measurements
 
 check:
-	-chktex main.tex
+	-chktex main.tex -pdf

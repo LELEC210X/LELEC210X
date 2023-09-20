@@ -1,8 +1,8 @@
 pdf:
-	latexmk main.tex -jobname=kit_content
+	latexmk main.tex -pdf -jobname=kit_content
 
 clean:
-	latexmk -CA main.tex -jobname=kit_content
+	latexmk -CA main.tex -pdf -jobname=kit_content
 
 check:
-	-chktex main.tex
+	-chktex main.tex -pdf

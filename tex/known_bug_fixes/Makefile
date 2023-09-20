@@ -1,8 +1,8 @@
 pdf:
-	latexmk main.tex -jobname=known_bugs_fixes
+	latexmk main.tex -pdf -jobname=known_bugs_fixes
 
 clean:
-	latexmk -CA main.tex -jobname=known_bugs_fixes
+	latexmk -CA main.tex -pdf -jobname=known_bugs_fixes
 
 check:
-	-chktex main.tex
+	-chktex main.tex -pdf
