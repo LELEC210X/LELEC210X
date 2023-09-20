@@ -2,10 +2,12 @@ name: Build LaTeX documents
 on:
   push:
     paths:
+      - '.github/workflows/build_tex.yml'
       - 'tex/**'
 
   pull_request:
     paths:
+      - '.github/workflows/build_tex.yml'
       - 'tex/**'
 
   workflow_dispatch:
@@ -36,5 +38,5 @@ jobs:
       - name: Archive exercise files
         uses: actions/upload-artifact@v3
         with:
-          name: exercise-files
+          name: tex-documents
           path: tex/**/*.pdf
