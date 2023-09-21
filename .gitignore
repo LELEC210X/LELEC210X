@@ -2,6 +2,8 @@
 
 __pycache__/
 .mypy_cache/
+.ipynb_checkpoints
+*-checkpoint.ipynb/
 
 # Leaderboard
 
@@ -38,3 +40,5 @@ mcu/Debug/
 mcu/Release/
 mcu/.settings/
 mcu/*.launch
+
+poetry.lock

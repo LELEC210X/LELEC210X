@@ -2,27 +2,29 @@
 
 This folder contains everything you need to run a local version of the leadeboard.
 
-> **NOTE**: if you are a student and your are reading this online, you are most probably just interested in reading **Submitting a guess** (see below).
+> **NOTE**: if you are a student and your are reading this online,
+> you are most probably just interested in reading **Submitting a guess**
+> (see below).
 
 ## Installation
 
-This project uses [`Poetry`](https://python-poetry.org/docs/) to install dependencies and command-line tools. For this, you need to run:
+This project uses [`Poetry`](https://python-poetry.org/docs/) to install
+dependencies and command-line tools. For this, you need to run:
 
 ```bash
 poetry install
-poetry shell
 ```
 
 the first time you use this server, you must create a config file:
 
 ```bash
-flask config init
+poetry run flask config init
 ```
 
 and populate it when some group(s):
 
 ```bash
-flask config generate-key "Teaching Assistants"
+poetry run flask config generate-key "Teaching Assistants"
 ```
 
 The key will be useful to send your guesses to the server.
@@ -30,22 +32,26 @@ The key will be useful to send your guesses to the server.
 Then, the server must be launched with:
 
 ```bash
-python app.py
+poetry run python app.py
 ```
 
 For other commands, see:
 
 ```bash
-flask --help
+poetry run flask --help
 ```
 
 > **WARNING:** using `flask run` will not work properly, do not use it.
 
 ## Usage
 
-Once the server is launched, the configuration file cannot be modified, so make sure to update it before.
+Once the server is launched, the configuration file cannot be modified,
+so make sure to update it before.
 
-To submit a guess, you need to do a HTTP request. There exists many HTTP methods, but this project only uses `POST` (posting a value), `PATCH` (editing), `GET` (getting), and `DELETE` (deleting).
+To submit a guess, you need to do a HTTP request.
+There exists many HTTP methods,
+but this project only uses `POST` (posting a value), `PATCH` (editing),
+`GET` (getting), and `DELETE` (deleting).
 
 The simplest way to do so is to use the `requests` library, see the example below.
 
@@ -54,7 +60,7 @@ The simplest way to do so is to use the `requests` library, see the example belo
 ### (Optional) If you run your own server
 
 ```bash
-> flask config generate-key "Teaching Assistants"
+> poetry run flask config generate-key "Teaching Assistants"
 Group Teaching Assistants now has key: aqH27o66E8xz-IotBk11ZZo1ix7Vbs5H2pTXlSra
 ```
 
@@ -77,9 +83,15 @@ import json
 response_as_dict = json.loads(response.text)
 ```
 
-Many more requests are possible! Please go to the [API docs](https://perceval.elen.ucl.ac.be/lelec2103/leaderboard/doc/) for more details.
+Many more requests are possible!
+Please go to the
+[API docs](https://perceval.elen.ucl.ac.be/lelec2103/leaderboard/doc/)
+for more details.
 
-> **NOTE**: `http:localhost:5000` is the default hostname (and port) that is used if you run the server on your computer. For the contest, please use `hostname = "https://perceval.elen.ucl.ac.be/lelec2103"`.
+> **NOTE**: `http:localhost:5000` is the default hostname (and port)
+> that is used if you run the server on your computer.
+> For the contest, please use
+> `hostname = "https://perceval.elen.ucl.ac.be/lelec2103"`.
 
 ## Deploying on perceval
 
