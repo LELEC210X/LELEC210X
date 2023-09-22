@@ -2,12 +2,13 @@ import os
 
 import eventlet
 import markdown
-from leaderboard.backend.models import DEFAULT_CONFIG_PATH, Config
 from cli.config import config
 from flask import Flask
 from flask.cli import load_dotenv
 from flask_apscheduler import APScheduler
 from flask_socketio import SocketIO
+
+from leaderboard.backend.models import DEFAULT_CONFIG_PATH, Config
 from leaderboard.routes.index import index
 from leaderboard.routes.leaderboard import leaderboard, limiter
 
