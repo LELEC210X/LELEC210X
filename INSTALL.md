@@ -69,7 +69,7 @@ it to version 2!
 Open a PowerShell or Windows Command Prompt in admnistritator mode and enter the following command:
 
 ```bat
-wsl --install -d Ubuntu−20.04
+wsl --install -d Ubuntu-20.04
 ```
 
 This will install WSL with the required distribution of Linux.
