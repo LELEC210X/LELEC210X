@@ -13,15 +13,13 @@ leaderboard/node_modules/
 
 # TeX
 
-*.aux
-*.fdb_latexmk
-*.fls
-*.log
-*.out
-*.pdf
-!tex/**/figures/*.pdf
-!tex/**/figs/*.pdf
-*.toc
+tex/*/*.aux
+tex/*/*.fdb_latexmk
+tex/*/*.fls
+tex/*/*.log
+tex/*/*.out
+tex/*/*.pdf
+tex/**.toc
 tex/pdfs.zip
 _minted-*/
 
