@@ -61,10 +61,15 @@ while **only using WSL to compile** the code and run the Linux applications, suc
 
 In order to install the WSL and Ubuntu-20.04 on your Windows system,
 we will use the following [guide](https://learn.microsoft.com/en-us/windows/wsl/install) from Microsoft.
+
+If you have WSL 1 installed (`wsl --version`), please
+[upgrade](https://dev.to/adityakanekar/upgrading-from-wsl1-to-wsl2-1fl9)
+it to version 2!
+
 Open a PowerShell or Windows Command Prompt in admnistritator mode and enter the following command:
 
 ```bat
-wsl −−install −d Ubuntu−20.04
+wsl --install -d Ubuntu−20.04
 ```
 
 This will install WSL with the required distribution of Linux.
@@ -72,13 +77,13 @@ As we want to use the second version of WSL, named WSL2,
 you can check the distribution installed and the version of WSL:
 
 ```bat
-wsl −l -v
+wsl -l -v
 ```
 
 If necessary, you can change the version of WSL using:
 
 ```bat
-wsl --set-version Ubuntu−20.04 2
+wsl --set-version Ubuntu-20.04 2
 ```
 
 We advise you to setup the default version of WSL and the default distribution as follow:
