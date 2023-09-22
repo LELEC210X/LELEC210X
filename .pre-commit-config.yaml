@@ -8,8 +8,8 @@ repos:
   - id: check-toml
   - id: check-yaml
   - id: end-of-file-fixer
-  - id: mixed-line-ending
   - id: pretty-format-json
+    exclude: .+\.ipynb$
   - id: requirements-txt-fixer
   - id: trailing-whitespace
 - repo: https://github.com/pycqa/isort
