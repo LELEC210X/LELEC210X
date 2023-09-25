@@ -94,7 +94,6 @@ def plot_specgram(
 
 
 if __name__ == "__main__":
-
     print("uart-reader launched...\n")
 
     input_stream = reader()

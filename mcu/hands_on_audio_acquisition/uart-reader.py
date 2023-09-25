@@ -47,7 +47,6 @@ def generate_audio(buf, file_name):
 
 
 if __name__ == "__main__":
-
     print("uart-reader launched...\n")
 
     plt.figure(figsize=(10, 5))

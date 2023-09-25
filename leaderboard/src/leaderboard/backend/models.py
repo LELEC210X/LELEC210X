@@ -493,7 +493,6 @@ class Config(BaseModel):
             raise IndexError(f"key `{key}` not found")
 
     def get_leaderboard_status(self) -> LeaderboardStatus:
-
         current_correct_guess = self.rounds_config.get_current_correct_guess()
         current_with_noise = self.rounds_config.get_current_round_config().with_noise
         current_round = self.rounds_config.get_current_round()

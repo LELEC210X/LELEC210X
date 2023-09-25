@@ -105,7 +105,6 @@ class Submit(Resource):
             penalized = not rounds_config.accepts_submissions()
 
             if not rounds_config.is_paused():
-
                 rounds_config.add_submission(
                     Submission(
                         round=current_round,
