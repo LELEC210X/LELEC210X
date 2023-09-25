@@ -11,7 +11,7 @@ try:
         "fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/mentor/taps_float.txt",
         sep=",",
     )
-except (FileNotFoundError):
+except FileNotFoundError:
     print("\nTaps are not generated, run taps_gen.py first!\n")
     exit()
 
