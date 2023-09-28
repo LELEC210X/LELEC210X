@@ -1,31 +1,32 @@
-\section{Setting up the VM}
-To program and debug an MCU, we use an Integrated Development Environbment (IDE). For the Nucleo MCU board, we use the STM32Cube IDE, which is preinstalled on the VM we provided you. You simply have to open it. However, when plugging in your Nucleo MCU board, it is connected to your host system. In the next steps, we will show you how to perform an USB passthrough such that the Nucleo MCU board will connect to your virtual machine. This step will need to be done everytime you plug in your board \footnote{Our explanations assume you have a Windows host OS, if your host OS is Linux, some additional steps have to be done. Please follow the separate tutorial on Moodle or at \url{https://www.linuxbabe.com/virtualbox/access-usb-from-virtualbox-guest-os}}.\\
-
-Launch your VM. After the boot, you can plug in your Nucleo MCU board, it will show up in the host OS. Then, in Virtual Box, under Devices $\rightarrow$ USB, select \textbf{STMicroelectronics STM32 STLink} as in \autoref{fig:usb_passthrough}.
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.6]{figures/usb_passthrough.png}
-    \caption{Nucleo VM configuration}
-    \label{fig:usb_passthrough}
-\end{figure}
-Now, the Nucleo should be connected to your VM. \\
+%%%% Not required normally, since they have CubeIDe installed on their host system
+%\section{Setting up the VM}
+%To program and debug an MCU, we use an Integrated Development Environbment (IDE). For the Nucleo MCU board, we use the STM32Cube IDE, which is preinstalled on the VM we provided you. You simply have to open it. However, when plugging in your Nucleo MCU board, it is connected to your host system. In the next steps, we will show you how to perform an USB passthrough such that the Nucleo MCU board will connect to your virtual machine. This step will need to be done everytime you plug in your board \footnote{Our explanations assume you have a Windows host OS, if your host OS is Linux, some additional steps have to be done. Please follow the separate tutorial on Moodle or at \url{https://www.linuxbabe.com/virtualbox/access-usb-from-virtualbox-guest-os}}.\\
 %
-\textbf{If you do not see the toolbar}, go back to Virtual Box,
-right click on your virtual OS, go to \emph{User Interface} and ensure the boxes are checked, as shown in Figure~\ref{fig:toolbar}. It can happen that you don't see it because of the \emph{Monitor settings}. In this case, press "\emph{Host Key}"+"\emph{F}" ("\emph{Host Key}" is "\emph{Right control}" in Windows 10) once or twice and the toolbar should appear. \\
-If it still does not work, a last possibility is to press "\emph{Right Control}" + "\emph{Home}" on the virtual OS. It will pop up as a contextual menu through which you will be able to reactivate the display of the menu.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width = 0.65\linewidth]{figures/toolbar.JPG}
-    \caption{Viewing the toolbar.}
-    \label{fig:toolbar}
-\end{figure}
+%Launch your VM. After the boot, you can plug in your Nucleo MCU board, it will show up in the host OS. Then, in Virtual Box, under Devices $\rightarrow$ USB, select \textbf{STMicroelectronics STM32 STLink} as in \autoref{fig:usb_passthrough}.
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[scale=0.6]{figures/usb_passthrough.png}
+%    \caption{Nucleo VM configuration}
+%    \label{fig:usb_passthrough}
+%\end{figure}
+%Now, the Nucleo should be connected to your VM. \\
+%%
+%\textbf{If you do not see the toolbar}, go back to Virtual Box,
+%right click on your virtual OS, go to \emph{User Interface} and ensure the boxes are checked, as shown in Figure~\ref{fig:toolbar}. It can happen that you don't see it because of the \emph{Monitor settings}. In this case, press "\emph{Host Key}"+"\emph{F}" ("\emph{Host Key}" is "\emph{Right control}" in Windows 10) once or twice and the toolbar should appear. \\
+%If it still does not work, a last possibility is to press "\emph{Right Control}" + "\emph{Home}" on the virtual OS. It will pop up as a contextual menu through which you will be able to reactivate the display of the menu.
 %
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width = 0.65\linewidth]{figures/toolbar.JPG}
+%    \caption{Viewing the toolbar.}
+%    \label{fig:toolbar}
+%\end{figure}
+%%
 \section{Practical part}
 
 \subsection{Starting from the baseline version}
 
-As mentioned in the introduction, you will not start from scratch. We provide you with a  baseline version of the code you need for this Hands-On. Therefore, you need to download the project from Moodle and open STM32CubeIDE. At the first launch of the IDE, it will prompt you to choose a workspace, you can either keep the default one or choose an alternative folder. In order to open the project in the IDE, click on \textbf{File} $\rightarrow$ \textbf{Open Projects from File System}. Then in the new window, click on \textbf{Directory} to choose the folder where you extracted the downloaded project files. Make sure that a project appears in the box below, select it if not selected. It should look as in \autoref{fig:import_ide}. Click on \textbf{Finish}. On your left, browse your source files, your main function will be in \textbf{Core} $\rightarrow$ \textbf{Src} $\rightarrow$ \texttt{\textbf{main.c}}, if you open it, your IDE should look like \autoref{fig:cube_ide}. Now, in order to compile the binaries for the MCU, you need to first download the firmware package of the MCU. To do so, open the \texttt{H2.ioc} file, which purpose will be detailed later. Now click on \textbf{Project} $\rightarrow$ \textbf{Generate code}. Wait for the download to be finished.
+As mentioned in the introduction, you will not start from scratch. We provide you with a  baseline version of the code you need for this Hands-On. To ensure you have the latest version of the code, perform a \texttt{git pull} on the GitHub project repository and then open STM32CubeIDE. At the first launch of the IDE, it will prompt you to choose a workspace, you can either keep the default one or choose an alternative folder. In order to open the project in the IDE, click on \textbf{File} $\rightarrow$ \textbf{Open Projects from File System}. Then in the new window, click on \textbf{Directory} to choose the  \path{mcu\hands_on\mcu} folder . Make sure that a project appears in the box below, select it if not selected. It should look as in \autoref{fig:import_ide}. Click on \textbf{Finish}. On your left, browse your source files, your main function will be in \textbf{Core} $\rightarrow$ \textbf{Src} $\rightarrow$ \texttt{\textbf{main.c}}, if you open it, your IDE should look like \autoref{fig:cube_ide}. Now, in order to compile the binaries for the MCU, you need to first download the firmware package of the MCU. To do so, open the \texttt{H2.ioc} file, which purpose will be detailed later. Now click on \textbf{Project} $\rightarrow$ \textbf{Generate code}. Wait for the download to be finished.
 
 \begin{figure}[h]
     \centering
@@ -46,9 +47,13 @@ You can now flash the MCU (i.e. program its Flash memory) with the baseline vers
 The ST-Link is a programmer and debugger. It provides the connection between your computer and the MCU on the board. It can be connected to your MCU with a connection called JTAG. In the case of the Nucleo MCU board, a dedicated ST-Link is soldered onto the board and is always connected to the MCU. It serves also as a USB to UART adapter.
 \end{bclogo}
 
-In order to read the messages that are sent from the MCU through the UART interface, you can open a terminal and write \texttt{screen /dev/ttyACM0 115200}\footnote{If it doesn't work, type \texttt{ls /dev | grep ttyACM}. If it gives you a result then use that instead of \texttt{ACM0}. Otherwise, the Nucleo MCU board is not connected to your computer or the USB passthrough for the VM is not properly configured.}, then press enter. Note that 115200 is the baudrate parameter. Now, you can see the messages coming from the UART. Press the black reset button to reset the MCU so that it sends "Hello World!" again. If you want to quit screen, you can use \textbf{Ctrl+a} to enter in command mode, then either type \textbf{$\backslash$}, \textbf{d} (to detach the screen) or \textbf{:quit}.
+In order to read the messages that are sent from the MCU through the UART interface, you can open a terminal and launch the python script \texttt{basic-uart-reader.py}. It should display the available communication ports. Plug and unplug your Nucleo while launching the script to identify its corresponding port. You can now relaunch the script while specifying the port, i.e., \texttt{python3 basic-uart-reader.py -p PORTNAME}. You should be able to see the messages coming from the UART. Press the black reset button to reset the MCU so that it sends "Hello World!" again. 
+
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Serial communication baudrate }
-The baudrate of a serial connection represents number of bits per second that are sent over the connection. This parameter must be identical between the transmitter (here the MCU) and the receiver (here the ST-link programmer on the Nucleo board that forwards the messages to your computer through USB). \end{bclogo}
+If you inspect \texttt{basic-uart-reader.py}, you will see that a parameter baudrate is specified when opening the communication. The baudrate of a serial connection represents number of bits per second that are sent over the connection. This parameter must be identical between the transmitter (here the MCU) and the receiver (here the ST-link programmer on the Nucleo board that forwards the messages to your computer through USB). \end{bclogo}
+
+%write \texttt{screen /dev/ttyACM0 115200}\footnote{If it doesn't work, type \texttt{ls /dev | grep ttyACM}. If it gives you a result then use that instead of \texttt{ACM0}. Otherwise, the Nucleo MCU board is not connected to your computer or the USB passthrough for the VM is not properly configured.}, then press enter. Note that 115200 is the baudrate parameter
+%If you want to quit screen, you can use \textbf{Ctrl+a} to enter in command mode, then either type \textbf{$\backslash$}, \textbf{d} (to detach the screen) or \textbf{:quit}.
 
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Redirecting \texttt{stdout} to UART}
