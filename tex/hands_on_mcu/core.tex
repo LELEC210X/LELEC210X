@@ -26,31 +26,33 @@
 
 \subsection{Starting from the baseline version}
 
-As mentioned in the introduction, you will not start from scratch. We provide you with a  baseline version of the code you need for this Hands-On. To ensure you have the latest version of the code, perform a \texttt{git pull} on the GitHub project repository and then open STM32CubeIDE. At the first launch of the IDE, it will prompt you to choose a workspace, you can either keep the default one or choose an alternative folder. In order to open the project in the IDE, click on \textbf{File} $\rightarrow$ \textbf{Open Projects from File System}. Then in the new window, click on \textbf{Directory} to choose the  \path{mcu\hands_on\mcu} folder . Make sure that a project appears in the box below, select it if not selected. It should look as in \autoref{fig:import_ide}. Click on \textbf{Finish}. On your left, browse your source files, your main function will be in \textbf{Core} $\rightarrow$ \textbf{Src} $\rightarrow$ \texttt{\textbf{main.c}}, if you open it, your IDE should look like \autoref{fig:cube_ide}. \\
+As mentioned in the introduction, you will not start from scratch. We provide you with a  baseline version of the code you need for this Hands-On. To ensure you have the latest version of the code, perform a \texttt{git pull} on the GitHub project repository and then open STM32CubeIDE. At the first launch of the IDE, it will prompt you to choose a workspace, you can either keep the default one or choose an alternative folder. In order to open the project in the IDE, click on \textbf{File} $\rightarrow$ \textbf{Open Projects from File System}. Then in the new window, click on \textbf{Directory} to choose the \path{mcu\hands_on\mcu} folder . Make sure that a project appears in the box below, select it if not selected. It should look as in \autoref{fig:import_ide}. Click on \textbf{Finish}. On your left, browse your source files, your main function will be in \textbf{Core} $\rightarrow$ \textbf{Src} $\rightarrow$ \texttt{\textbf{main.c}}, if you open it, your IDE should look like \autoref{fig:cube_ide}. \\
 
 
-Now, in order to compile the binaries for the MCU, you need to first download the software and firmware packages of the MCU. To do so, open the \texttt{hands\_on\_mcu.ioc} file, which purpose will be detailed later. If you cannot open the \texttt{ioc} file due to an older version of STM32Cube, please follow the guidelines to perform the software updates. Now, in the first tab \textit{"Pinout  Configuration"}, click just below on \textit{"Software Packs"} and \textit{"Manage Software Packs}. In the \textit{"STM32Cube MCU Packages"} tab, search for \textit{STM32L4}, check the latest package (normally 1.18.0), and perform the installation. Finally, click on the main window on \textbf{Project} $\rightarrow$ \textbf{Generate code}. Wait for the download to be finished.
+Now, in order to compile the binaries for the MCU, you need to first download the software and firmware packages of the MCU. At one point of the following procedure, CubeIDE might ask you to identify with an ST account, either log in or register if not done yet. On top of the STM32CubeIDE window, click on \textbf{Help}$\rightarrow$ \textbf{Manage Embedded Software Packages}. In the \textit{"STM32Cube MCU Packages"} tab, search for \textit{"STM32L4"}, check the latest package (normally 1.18.0) and perform the installation.  Now, open the \texttt{hands\_on\_mcu.ioc} file, which purpose will be detailed later. If you cannot open the \texttt{ioc} file due to an older version of STM32Cube, please follow the displayed guidelines to perform the software updates. Finally, on the main window click on \textbf{Project} $\rightarrow$ \textbf{Generate code}. Wait for the download to be finished.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.4]{figures/import_ide.png}
+    \includegraphics[scale=0.55]{figures/import_ide.png}
     \caption{IDE open project from file system window}
     \label{fig:import_ide}
 \end{figure}
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.35]{figures/ide.png}
+    \includegraphics[scale=0.4]{figures/ide.png}
     \caption{STM32Cube IDE}
     \label{fig:cube_ide}
 \end{figure}
 
-You can now flash the MCU (i.e. program its Flash memory) with the baseline version of the code by using the USB cable. This is the first step that makes sure everything is working as expected. To do so, click on the button surrounded by the red circle in \autoref{fig:cube_ide}. The first time you launch a project, the IDE will prompt you the launch configuration. If you followed the tutorial correctly, the default options should fit your needs and you can directly click on \textbf{OK}. Consequently, the baseline version of the code should now be flashed on your MCU and it should be running properly: \textit{check that a green LED is blinking when you hold the blue button on the Nucleo MCU board}.
+You can now flash the MCU (i.e. program its Flash memory) with the baseline version of the code by using the USB cable. This is the first step that makes sure everything is working as expected. To do so, click on the button surrounded by the red circle in \autoref{fig:cube_ide}. The first time you launch a project, the IDE will prompt you the launch configuration. If you followed the tutorial correctly, the default options should fit your needs and you can directly click on \textbf{OK}. An error might appear on your screen, with another message specifying that an ST-Link firmware upgrade is required. If it is the case, click on \textbf{Yes}, perform the upgrade and try to reflash the MCU. The baseline version of the code should now be flashed on your MCU and it should be running properly: \textit{check that a blue LED is blinking when you hold the blue button on the Nucleo MCU board}.
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{ST-Link programmer}
 The ST-Link is a programmer and debugger. It provides the connection between your computer and the MCU on the board. It can be connected to your MCU with a connection called JTAG. In the case of the Nucleo MCU board, a dedicated ST-Link is soldered onto the board and is always connected to the MCU. It serves also as a USB to UART adapter.
 \end{bclogo}
 
-In order to read the messages that are sent from the MCU through the UART interface, you can open a terminal and launch the python script \texttt{basic-uart-reader.py}. It should display the available communication ports. Plug and unplug your Nucleo while launching the script to identify its corresponding port. You can now relaunch the script while specifying the port, i.e., \texttt{python3 basic-uart-reader.py -p PORTNAME}. You should be able to see the messages coming from the UART. Press the black reset button to reset the MCU so that it sends "Hello World!" again. 
+In order to read the messages that are sent from the MCU through the UART interface, you can open a terminal and launch the python script \texttt{basic-uart-reader.py}. It should display the available communication ports. 
+Plug and unplug your Nucleo while launching the script to identify its corresponding port. You can now relaunch the script while specifying the port, e.g., \texttt{python3 basic-uart-reader.py -p PORTNAME}. 
+You should be able to see the messages coming from the UART. Press the black reset button to reset the MCU so that it sends "Hello World!" again. 
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Serial communication baudrate }
 If you inspect \texttt{basic-uart-reader.py}, you will see that a parameter baudrate is specified when opening the communication. The baudrate of a serial connection represents number of bits per second that are sent over the connection. This parameter must be identical between the transmitter (here the MCU) and the receiver (here the ST-link programmer on the Nucleo board that forwards the messages to your computer through USB). \end{bclogo}
@@ -106,7 +108,7 @@ You will now switch your software to an interrupt-based implementation. As seen 
 An interrupt originates from an interrupt request (IRQ) which can originate from outside the MCU (typically an event on a GPIO pin), from an MCU peripheral (e.g. a timer) or from the software (by writing to a specific register). The IRQ is handled by the interrupt controller (a hardware component of the MCU), which then runs the interrupt handler, also named interrupt service routine (ISR), or callback (this is the name used by the ST HAL).
 \end{bclogo}
 
-To do so, we first need to set the GPIO pin linked to the button in interrupt mode. The IDE provides an easy way to this, in your source files, open the file \textbf{\texttt{H2a.ioc}}. It is a configuration file for all the parameters of the MCU, peripherals, clock tree and project. If it is not your case by default, open the \textbf{Pinout \& Configuration} tab. On the left of the screen, you see all the available peripherals on the MCU. You can click on a peripheral to open a panel where you can set its parameters. In the main panel, you see the different pins of the MCU and their modes. Here, you can click on each pin and set its functionality.
+To do so, we first need to set the GPIO pin linked to the button in interrupt mode. The IDE provides an easy way to this, in your source files, open the file \textbf{\texttt{hands\_on\_mcu.ioc}}. It is a configuration file for all the parameters of the MCU, peripherals, clock tree and project. If it is not your case by default, open the \textbf{Pinout \& Configuration} tab. On the left of the screen, you see all the available peripherals on the MCU. You can click on a peripheral to open a panel where you can set its parameters. In the main panel, you see the different pins of the MCU and their modes. Here, you can click on each pin and set its functionality.
 
 Find the pin PC13 connected to the blue button. You can observe that it is set as GPIO input. To be able to trigger interrupts, we need to use the GPIO EXTernal Interrupt mode: \texttt{GPIO\_EXTI}. Select it when clicking on the pin as illustrated in \autoref{fig:gpio_exti_select}. Note that the name of the pin changed. Change it back to B1 by right-clicking on the pin. Now, we need to set up the parameters of Nested Vector Interrupt Controller (NVIC) such that it processes the signal sent by the GPIO pin. To do so, click on NVIC under System Core in the left panel. You will see a panel appear as in \autoref{fig:nvic_params}. Here you can select which interrupts you want to enable or not. Some of the interrupts cannot be disabled. You need to activate here the EXTI line. That's all we need to do in the parameters. You can save the \texttt{.ioc} file, the IDE will prompt you to regenerate the code based on your modifications, answer yes (remember: that is the reason why you need to write your custom code in the USER CODE areas!).
 
@@ -155,22 +157,22 @@ The two common solutions are to delegate the long processing to the \texttt{main
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.4]{figures/nvic_exti_select.png}
+    \includegraphics[scale=0.35]{figures/nvic_exti_select.png}
     \caption{NVIC parameter selection}
     \label{fig:nvic_params}
 \end{figure}
 
 
 \subsection{Using a TIMER to blink a LED}
-Now that you have a code that uses interrupts to detect a press on the button, you will use a more advanced way to blink the LED. Imagine your MCU has to blink its LED at a very specific frequency and must at the same time, perform heavy calculations. In such cases, the blinking might be altered due to the computation time of the other task of the MCU. This can be avoided by using a peripheral of the MCU to move the task of blinking from the MCU to this peripheral called \textbf{timer}.
+Now that you have a code that uses interrupts to detect a press on the button, you will use a more advanced way to blink the LED. Imagine your MCU has to blink its LED at a very specific frequency and must at the same time, perform heavy calculations. In such cases, the blinking might be altered due to the computation time of the other tasks of the MCU. This can be avoided by using a peripheral of the MCU to move the task of blinking from the MCU to this peripheral called \textbf{timer}.
 
 Timers are simple circuits that increment a register by 1 at each clock cycle and perform additional actions when certain conditions are met. Such actions can be reading or writing to a GPIO pin, triggering interrupts and more. A typical condition for a timer is \textbf{comparing} the value of the counter to an other (fixed) value, and triggering an action whenever the two values are equal.
 
 We will now show you how to setup the timer. A timer has multiple channels that can each perform a condition-action pair. Each channel can be linked to at most one of the few GPIO pins that it is connected to. On the device you have for the project, there are several timers available. For determining which timer channels are linked to which GPIO pins, you can take a look at the datasheet of the MCU. In our case, the blue LED is connected to PB7, which can be connected the channel 2 of timer 4. To do so, open the \texttt{.ioc} file and the \textbf{Pinout \& configuration} tab and look for pin PB7. When clicking on it, choose \textbf{TIM4\_CH2} as in \autoref{fig:tim_pc7}.
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.4]{figures/timer_pc7.png}
-    \caption{Possible uses for pin PC7}
+    \includegraphics[scale=0.5]{figures/timer_pb7.png}
+    \caption{Possible uses for pin PB7}
     \label{fig:tim_pc7}
 \end{figure}
 Still in the \texttt{.ioc} file, we will now enable the timer \textbf{TIM4}. Click on the name of this peripheral in the leftmost column of the \texttt{.ioc} window, in the submenu \textbf{Timers}. You should see all the parameters of TIM4 in a new panel. In the \textbf{mode} panel, you should set the clock source to \textbf{Internal clock} and channel 2 to \textbf{Output compare CH2}, the rest should remain disabled. In the configuration panel, you should set the \textbf{Prescaler, Counter Mode, Counter Period and Mode} as in \autoref{fig:tim_settings}.
