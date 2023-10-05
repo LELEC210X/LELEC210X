@@ -6,16 +6,27 @@ All commands are assumed to be run inside a terminal / command prompt.
 
 **Table of Contents:**
 
+- [Organisation of the project for different OS](#orga-os)
 - [Prerequesites](#prerequisites)
   - [Virtual Box](#install-on-virtualbox)
   - [Windows Subsystem for Linux](#install-via-windows-subsystem-for-linux)
   - [Ubuntu](#install-ubuntu-on-your-computer)
-- [Common Installation Steps](#common-installation-steps)
+- [Installation Steps](#installation-steps)
 - [Tips for a Better Environment](#tips-for-a-better-environment)
 
-## Prerequisites
+## Organisation of the project for different OS
 
-This tutorial assumes your are working under Ubuntu-20.04, and have Python3.8 installed.
+In this project, will you have to use different software and tools.
+- Python : employed for various tasks, e.g., classification, modeling.
+- STM32CubeIDE : used to program the microcontroller
+- GNURadio : used to acquire data from the LimeSDR-mini and peform signal processing, here the demodulation.
+
+If possible, every software tool used should be installed and used, on your host system, i.e., your every-day OS. Moreover, the Git associated with the project should be cloned on your host system. Python and STM32CubeIDE are supported on every common OS, but GNU Radio is only properly supported on Linux distributions. Moreover, the libraries for the LimeSDR are maintained on Ubuntu-20.04 and not above. We therefore ask you to have Ubuntu-20.04 installed on your computer, using one of the methods presented in the following section.
+
+
+## Installation of Ubuntu-20.04 to enable GNURadio
+
+As explained above, to run this project entirely, you will need an Ubuntu-20.04 installation with Python3.8 installed.
 Using a different Ubuntu or Python version _might_ work, but we cannot guarantee that
 everything will work out-of-the-box, and you may need to adapt some commands.
 
@@ -112,14 +123,17 @@ This is going to be, by far, the most performant solution, but will also require
 much more disk space. This solution is recommended for people that might
 want to use Linux later-on, and have at least 60 Go of free memory.
 
-## Common Installation Steps
+## Installation steps
 
-The following commands **must** be entered inside a Linux terminal, unless specified otherwise.
+https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/
 
-Terminal windows can be launched via the Ubuntu Launchpad, or with
+The following steps will either need to be performed on your host system, or on the Ubuntu system on which GNURadio is installed (either a VM, WSL, or your host if it is Ubuntu-20.04). 
+The subsection titles will therefore include an annotation **Host**, if the steps must be performed on your host system (Windows, MacOS, or Linux), or **Ubuntu**, if they refer to your Ubuntu-20.04 installation.  If your host system is Ubuntu-20.04, perform them in both cases.Additionnally, some steps might be only required for some specific OSs, in which case it will be specified.
+
+Quick tips : Ubuntu terminal windows can be launched via the Ubuntu Launchpad, or with
 <kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>T</kbd>.
 
-### Install Pip
+### Ubuntu : Install Pip
 
 Sometimes, Python is not shipped with its package installer, pip.
 
@@ -129,7 +143,7 @@ Please make sure pip is installed by running:
 sudo apt-get install python3-pip
 ```
 
-### Installing Poetry
+### Host AND Ubuntu : Installing Poetry
 
 Usually, installing Python packages to the global Python environment is a bad idea,
 mainly because you can have conflicts with packages that require differention versions
@@ -144,9 +158,10 @@ However, venvs can rapidly become hard to maintain, especially because you need 
 some script
 before you can work with them, and it's also possible to have an arbitrary number of nested
 venvs, which makes it hard to know which environment is activated.
-To avoid this issue, we use
-[Poetry](https://python-poetry.org/):
+To avoid this issue, we use 
+[Poetry](https://python-poetry.org/), which can be installed with the commands below, depending if you are on Mac/Linux or Windows. Poetry works in pair with `pyproject.toml` file, so that you can specify requirements for your project, and much more!
 
+#### Linux/MAC
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
 ```
@@ -175,16 +190,22 @@ to apply changes.
 > to do. If you prefer, you can edit the files from the terminal using programs
 > like `nano` or `vim`.
 
-Poetry works in pair with `pyproject.toml` file, so that you can specify
-requirements for your project, and much more!
+#### Windows
+In the Powershell:
+```bash
+(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
+```
+Do not close the terminal, it will probably ask you to add the poetry installation path to your PATH environment variable. To do so, follow [this guide](https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/).
 
-### Installing CMake and Make
+
+
+### Ubuntu : Installing CMake and Make
 
 ```bash
 sudo apt-get install cmake
 ```
 
-### Installing GNU Radio
+### Ubuntu : Installing GNU Radio
 
 For the LimeSDR to work, we need to install GNU Radio **3.8** and no any version higher.
 To do so:
@@ -208,7 +229,7 @@ To kill GNU Radio, either press the exit button, or press <kbd>CTRL</kbd>+<kbd>C
 > of some command. E.g., `gnuradio-companion &`. To later terminate the process,
 > you can use the `pkill` command. E.g., `pkill gnuradio-compagnion`.
 
-### (Only for WSL) Setup of graphical display for WSL
+### (Only for WSL users) Setup of graphical display for WSL
 
 By default, Ubuntu uses X for displaying graphical content, but
 Windows uses a different protocol. Therefore, to allow displaying
@@ -246,13 +267,13 @@ export DISPLAY=:0.0 >> ~/.bashrc
 export LIBGL_ALWAYS_INDIRECT=1 >> ~/.bashrc
 ```
 
-### Installing the different LimeSDR components
+### Ubuntu : Installing the different LimeSDR components
 
 We can now install the different components required to use the LimeSDR with GNURadio.
 We follow the information provided [here](https://wiki.myriadrf.org/Lime_Suite)
 by the company who sells the LimeSDR, _Myriad-RF_.
 
-#### Installing LimeSuite
+#### Ubuntu : Installing LimeSuite
 
 We start by installing _LimeSuite_, i.e.,
 a collection of softwares supporting several hardware platforms including the LimeSDR.
@@ -264,7 +285,7 @@ sudo apt-get install limesuite liblimesuite-dev limesuite-udev limesuite-images
 sudo apt-get install soapysdr-tools soapysdr-module-lms7
 ```
 
-#### Installing Gr-LimeSDR
+#### Ubuntu : Installing Gr-LimeSDR
 
 Finally, we need to install _Gr-LimeSDR_ which is a low cost, open source software defined radio (SDR) platform.
 To do so, we use the following command,
@@ -276,12 +297,12 @@ sudo apt-get update
 sudo apt-get install gr-limesdr
 ```
 
-#### Testing the installation of LimeSDR
+#### Ubuntu : Testing the installation of LimeSDR
 
 You can launch GNU Radio companion. On the right part of the window, at the end of the list,
 LimeSDR components should now appear.
 
-### (Only for WSL) Connect the LimeSDR to the WSL via USB pass-through
+### (Only for WSL users) Connect the LimeSDR to the WSL via USB pass-through
 
 The LimeSDR will be connected to your computer but should be interfaced with your Ubuntu and not Windows. To do so, we will need to create a passthrough using [USBIPD-WIN](https://learn.microsoft.com/en-us/windows/wsl/connect-usb) supported by Microsoft. Go to this [git project](https://github.com/dorssel/usbipd-win/releases) and download the `.msi` file of the latest version and install it.
 On Ubuntu, you will need to run the two following commands:
@@ -303,18 +324,26 @@ usbipd wsl detach --busid <busid>
 If you want to simplify the connection of a device to WSL,
 [a graphical interface](https://gitlab.com/alelec/wsl-usb-gui/-/releases) exist and also provides an auto-attach function.
 
-### (Only for Windows user) Install PothosSDR to flash the LimeSDR-Mini
+### (Only for Windows users) Install PothosSDR to flash the LimeSDR-Mini
 
 Flashing the LimeSDR-Mini, specially its FPGA, can be complicated using WSL. To avoid any issue due to the passthrough, it is recommended to install PothosSDR which support LimeSuite GUI and makes it easy to reprogram the LimeSDR. Go to the following [website](https://downloads.myriadrf.org/builds/PothosSDR/), download and run the latest installer. You should then be able to launch LimeSuite from the Windows start menu. Be careful that the LimeSDR should be attached to Windows and not Ubuntu when flashing this way.
 
-### Installation of STM32CubeIDE
+### Host : Installation of STM32CubeIDE
 
 In order to program and configure the MCU, we will use the _STM32CubeIDE_ software from ST.
 To download the installer, go to the following [website](https://www.st.com/en/development-tools/stm32cubeide.html)
 and select the latest version of the installer for your **host operating system**.
 You might be asked to create an account. You can then proceed to the download and installation.
 
-### Installation of Quartus
+### Ubuntu : STM32Cube IDE additional package
+
+If Ubuntu-20.04 is your host system and thus STM32CubeIDE is installed on it, you might need to install a package in order to flash the MCU. To do so :
+
+```bash
+sudo apt-get install libncurses5
+```
+
+### Host : Installation of Quartus
 
 Most of you probably follow the course LELEC2531 for which you have installed _Quartus Prime Lite 18.1_.
 If you have already it installed, you can skip the next paragraph.
