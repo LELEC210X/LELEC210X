@@ -99,7 +99,7 @@ void print_buffer(uint16_t *buffer) {
 In the second block of code, have you noticed the \texttt{"SND:HEX:"} prefix ? This is important to make sure it is written exactly that way. It is indeed used in the Python script as a parsing prefix.
 \end{bclogo}
 
-\noindent To make sure it is working properly, you can now save, compile and flash your code on the MCU. Open a terminal window (\texttt{screen /dev/ttyACM0 115200}) and check out that it is behaving as expected !
+\noindent To make sure it is working properly, you can now save, compile and flash your code on the MCU. Run the \texttt{uart-reader.py} script and check out that it is behaving as expected !
 
 \subsection*{On the computer side: Python script to post-process your data}
 
@@ -116,17 +116,17 @@ We need you to update two packages needed to get the script working. This must b
 \end{bclogo}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{Handling data in the UART interface}
-Did you understood how the script manage to handle new data coming from UART, even if it is popping at an unexpected time ? How does the script handle data which does not start with the \texttt{"SND:HEX:"} prefix ? \\
+Did you understand how the script manages to handle new data coming from UART, even if it is popping at an unexpected time ? How does the script handle data which does not start with the \texttt{"SND:HEX:"} prefix ? \\
 
 \noindent How are "packets" of data separated?
 \end{bclogo}
 
-\noindent When you have understood the script and updated the packages as explained here above, you can create a new folder called \texttt{audio\_files} in the same directory. It is now time to run it in the terminal by using the command \texttt{python3 uart-reader.py}. It will run until you press on \texttt{Ctrl+C}. Each time new data is coming from the UART, you should see a Figure plotting the data that has been received and an audio file should be generated in the \texttt{audio\_files} folder. The file format (\texttt{.ogg}) is the same as the one of the database you discovered during the first week. If everything worked as expected, you should see your sine wave and even be able to listen to the corresponding audio file. You can listen to this file by using VLC, available on the VM.
+\noindent When you have understood the script and updated the packages as explained here above, you can create a new folder called \texttt{audio\_files} in the same directory. It is now time to run it in the terminal by using the command \texttt{python3 uart-reader.py}. It will run until you press on \texttt{Ctrl+C}. Each time new data is coming from the UART, you should see a Figure plotting the data that has been received and an audio file should be generated in the \texttt{audio\_files} folder. The file format (\texttt{.ogg}) is the same as the one of the database you discovered during the first week. If everything worked as expected, you should see your sine wave and even be able to listen to the corresponding audio file.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Implementing a double buffering approach in your system}
-What happens if we want to sample audio continuously? We will have to tweak a bit our peripherals but it's not complicated. In order to sample continuously, we need two buffers, one that we use for sampling, and an other one for processing the data. When we finish sampling into one buffer, we process it and continue sampling into the other one. This technique is called double buffering and is illustrated in \autoref{fig:double_buff}. In the STM platform, we won't exactly have two buffers but one big buffer cut in halves. The DMA actually triggers interrupts not only when the transfer is finished but also when the half of the transfer is complete. The callback for the half complete transfer is \texttt{void HAL\_ADC\_ConvHalfCpltCallback} and it works exactly the same way as the transfer complete callback.\\
+What happens if we want to sample audio continuously? We will have to tweak a bit our peripherals but it's not complicated. In order to sample continuously, we need two buffers, one that we use for sampling, and an other one for processing the data. When we finish sampling into one buffer, we process it and continue sampling into the other one. This technique is called double buffering and is illustrated in \autoref{fig:double_buff}. In the STM platform, we won't exactly have two buffers but one big buffer cut in halves. The DMA actually triggers interrupts not only when the transfer is finished but also when half the transfer is complete. The callback for the half complete transfer is \texttt{void HAL\_ADC\_ConvHalfCpltCallback} and it works exactly the same way as the transfer complete callback.\\
 
 \begin{figure}[h]
     \centering
