@@ -18,7 +18,7 @@ Our microphone/mini-jack input is connected to pin \textbf{PA0}. Open the \textt
     \label{fig:adc_clock_tree}
 \end{figure}
 
-For a basic usage of the ADC, that's all there is to it. We advise you to take a look at the manuals available on Moodle to understand the purpose of all the parameters of the ADC. You can now save and regenerate code \\
+For a basic usage of the ADC, that's all there is to it. We advise you to take a look at the manuals available on Moodle to understand the purpose of all the parameters of the ADC. You can now save and regenerate the code.\\
 
 \noindent To be able to read a value of the ADC, you need to use the following three functions :
 \begin{enumerate}
@@ -99,7 +99,7 @@ void print_buffer(uint16_t *buffer) {
 In the second block of code, have you noticed the \texttt{"SND:HEX:"} prefix ? This is important to make sure it is written exactly that way. It is indeed used in the Python script as a parsing prefix.
 \end{bclogo}
 
-\noindent To make sure it is working properly, you can now save, compile and flash your code on the MCU. Run the \texttt{uart-reader.py} script and check out that it is behaving as expected !
+\noindent To make sure it is working properly, you can now save, compile and flash your code on the MCU. Run the \texttt{basic-uart-reader.py} script and check out that it is behaving as expected !
 
 \subsection*{On the computer side: Python script to post-process your data}
 
