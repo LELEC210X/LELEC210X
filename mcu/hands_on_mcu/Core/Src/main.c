@@ -20,11 +20,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "usart.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
+#include "stdbool.h"
 #include "retarget.h"
 /* USER CODE END Includes */
 
@@ -56,7 +58,20 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+bool LED = false;
+	void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+			  printf("Here\r\n");
+			  if (GPIO_Pin == B1_Pin) {
+					  if (!LED){
+						  HAL_TIM_OC_Start(&htim4, TIM_CHANNEL_2);
+						  LED = true;
+					  }
+					  else{
+						  HAL_TIM_OC_Stop(&htim4, TIM_CHANNEL_2);
+						  LED = false;
+					  }
+		  	  	  }
+		  	  }
 /* USER CODE END 0 */
 
 /**
@@ -88,6 +103,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_LPUART1_UART_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   RetargetInit(&hlpuart1);
   printf("Hello world!\r\n");
@@ -98,12 +114,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  if (HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == 1) {
-		  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
-		  HAL_Delay(500);
-		  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-		  HAL_Delay(500);
-	  }
+	       __WFI();
+//		  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+//		  HAL_Delay(500);
+//		  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+//	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
