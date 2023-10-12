@@ -66,7 +66,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 			uint32_t adc_intermediaire = HAL_ADC_GetValue(&hadc1);
 			printf("%ld\n", adc_intermediaire);
 			HAL_ADC_Stop(&hadc1);
-	}
+	  }
+  } 
+}
 /* USER CODE END 0 */
 
 /**
