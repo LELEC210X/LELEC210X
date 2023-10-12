@@ -59,19 +59,14 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 bool LED = false;
-	void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-			  printf("Here\r\n");
-			  if (GPIO_Pin == B1_Pin) {
-					  if (!LED){
-						  HAL_TIM_OC_Start(&htim4, TIM_CHANNEL_2);
-						  LED = true;
-					  }
-					  else{
-						  HAL_TIM_OC_Stop(&htim4, TIM_CHANNEL_2);
-						  LED = false;
-					  }
-		  	  	  }
-		  	  }
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+  if (GPIO_Pin == B1_Pin) {
+    HAL_ADC_Start(&hadc1);
+		if (HAL_ADC_PollForConversion(&hadc1,0xFFFF) != -1){
+			uint32_t adc_intermediaire = HAL_ADC_GetValue(&hadc1);
+			printf("%ld\n", adc_intermediaire);
+			HAL_ADC_Stop(&hadc1);
+	}
 /* USER CODE END 0 */
 
 /**
