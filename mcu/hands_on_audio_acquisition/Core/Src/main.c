@@ -19,7 +19,10 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
+#include "dma.h"
 #include "usart.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -66,8 +69,32 @@ uint32_t get_signal_power(uint16_t *buffer, size_t len);
 /* USER CODE BEGIN 0 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == B1_Pin) {
-		state = 1-state;
+		printf("beginning of acquisition\n");
+//		HAL_ADC_Start(&hadc1);
+//		if (HAL_ADC_PollForConversion(&hadc1,0xFFFF) != -1){
+//			uint32_t adc_intermediaire = HAL_ADC_GetValue(&hadc1);
+//			printf("%ld\n", adc_intermediaire);
+//			HAL_ADC_Stop(&hadc1);
+//		}
+		if (HAL_TIM_Base_Start(&htim3) != HAL_OK){
+			Error_Handler();
+		}
+		if (HAL_ADC_Start_DMA(&hadc1, (uint32_t *)ADCBuffer, ADC_BUF_SIZE) != HAL_OK){
+			Error_Handler();
+		}
+		printf("end\n");
 	}
+}
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc){
+	printf("The transfer has been successful\n");
+	if (HAL_TIM_Base_Stop(&htim3) != HAL_OK){
+				Error_Handler();
+			}
+	if (HAL_ADC_Stop_DMA(&hadc1) != HAL_OK){
+			Error_Handler();
+		}
+	print_buffer((uint16_t *)ADCBuffer);
 }
 
 void hex_encode(char* s, const uint8_t* buf, size_t len) {
@@ -110,7 +137,6 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -122,7 +148,10 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_LPUART1_UART_Init();
+  MX_ADC1_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   RetargetInit(&hlpuart1);
   printf("Hello world!\r\n");
@@ -135,10 +164,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
-	HAL_Delay(500);
-	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-	HAL_Delay(500);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -205,6 +230,8 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
+	  printf("ERROR");
+	  HAL_Delay(1000);
   }
   /* USER CODE END Error_Handler_Debug */
 }
