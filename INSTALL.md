@@ -176,7 +176,7 @@ sudo apt-get install curl
 As probably displayed during the installation, you might need to add `~/.local/bin` to your `PATH`:
 
 ```bash
-export PATH="~/.local/bin:$PATH" >> ~/.bashrc
+echo "export PATH='~/.local/bin:$PATH'" >> ~/.bashrc
 ```
 
 Then, execute:
@@ -252,8 +252,8 @@ Finally, to forward the display on the proper port,
 the following lines should be added to the _.bashrc_ file of your Ubuntu distribution:
 
 ```bash
-export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0 >> ~/.bashrc
-export LIBGL_ALWAYS_INDIRECT=1 >> ~/.bashrc
+echo "export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0" >> ~/.bashrc
+echo "export LIBGL_ALWAYS_INDIRECT=1" >> ~/.bashrc
 ```
 
 Restart the WSL and you should now be able to launch GNU Radio's GUI as follows:
@@ -265,8 +265,8 @@ gnuradio-companion
 If this does not work, you might need to change the two exports above to:
 
 ```bash
-export DISPLAY=:0.0 >> ~/.bashrc
-export LIBGL_ALWAYS_INDIRECT=1 >> ~/.bashrc
+echo "export DISPLAY=:0.0" >> ~/.bashrc
+echo "export LIBGL_ALWAYS_INDIRECT=1" >> ~/.bashrc
 ```
 
 ### Ubuntu : Installing the different LimeSDR components
