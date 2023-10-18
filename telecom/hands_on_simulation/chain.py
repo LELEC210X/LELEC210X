@@ -23,6 +23,7 @@ class Chain:
     payload_len = 50  # Number of bits per packet
 
     ## Simulation parameters
+    n_packets = 200 # Number of sent packets
 
     n_packets = 200  # Number of sent packets
 
@@ -87,6 +88,7 @@ class Chain:
         """
         raise NotImplementedError
 
+    bypass_cfo_estimation = True 
 
     bypass_cfo_estimation = True 
 
