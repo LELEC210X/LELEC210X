@@ -24,6 +24,7 @@ The use of $g(t)$ shifted by some symbol periods in the summation enables to rep
 \paragraph{Packet structure} In practice, for the LELEC2102-3 project, the bit sequence is not sent continuously. Instead, they are grouped in several packets, each of them having the structure presented in \autoref{tab:packet_struc}. This packet structure comes from the specifications of the radio (RF transceiver) used in the project (S2-LP device from STMicroelectronics, see \href{https://www.st.com/resource/en/datasheet/s2-lp.pdf}{\textcolor{blue}{[S2-LP datasheet]}}).
 \begin{table}[H]
 \centering
+\caption{Packet structure.}
 \begin{tabular}{|c|c|c|c|}
 \hline
 \rowcolor[HTML]{C0C0C0}
@@ -31,7 +32,6 @@ Preamble   & Sync word  & Payload       &  CRC             \\ \hline
 4 bytes    & 4 bytes    & 0:65535 bytes & 1 byte           \\
 \py{0xAAAAAAAA} & \py{0x3E2A54B7} & ...           & Based on payload \\ \hline
 \end{tabular}
-\caption{Packet structure.}
 \label{tab:packet_struc}
 \end{table}
 The different parts of the packets are motivated by their respective roles:
