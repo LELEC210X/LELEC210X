@@ -50,9 +50,9 @@ You can now flash the MCU (i.e. program its Flash memory) with the baseline vers
 The ST-Link is a programmer and debugger. It provides the connection between your computer and the MCU on the board. It can be connected to your MCU with a connection called JTAG. In the case of the Nucleo MCU board, a dedicated ST-Link is soldered onto the board and is always connected to the MCU. It serves also as a USB to UART adapter.
 \end{bclogo}
 
-In order to read the messages that are sent from the MCU through the UART interface, you can open a terminal and launch the python script \texttt{basic-uart-reader.py}. It should display the available communication ports. 
-Plug and unplug your Nucleo while launching the script to identify its corresponding port. You can now relaunch the script while specifying the port, e.g., \texttt{python3 basic-uart-reader.py -p PORTNAME}. 
-You should be able to see the messages coming from the UART. Press the black reset button to reset the MCU so that it sends "Hello World!" again. 
+In order to read the messages that are sent from the MCU through the UART interface, you can open a terminal and launch the python script \texttt{basic-uart-reader.py}. It should display the available communication ports.
+Plug and unplug your Nucleo while launching the script to identify its corresponding port. You can now relaunch the script while specifying the port, e.g., \texttt{python3 basic-uart-reader.py -p PORTNAME}.
+You should be able to see the messages coming from the UART. Press the black reset button to reset the MCU so that it sends "Hello World!" again.
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Serial communication baudrate }
 If you inspect \texttt{basic-uart-reader.py}, you will see that a parameter baudrate is specified when opening the communication. The baudrate of a serial connection represents number of bits per second that are sent over the connection. This parameter must be identical between the transmitter (here the MCU) and the receiver (here the ST-link programmer on the Nucleo board that forwards the messages to your computer through USB). \end{bclogo}

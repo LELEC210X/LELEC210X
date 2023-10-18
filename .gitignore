@@ -40,3 +40,7 @@ mcu/.settings/
 mcu/*.launch
 
 poetry.lock
+
+*.toc
+
+telecom/hands_on_simulation/test.csv

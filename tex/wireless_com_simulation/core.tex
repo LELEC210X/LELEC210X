@@ -83,13 +83,12 @@ Finally, the packet parser is responsible for determining the beginning of the p
 \subsection{Simulation framework}
 The provided simulation framework contains four files:
 \begin{itemize}
-    \item \textbf{sim.py}: this is the body of the simulation framework. It modulates the sent packets, applies the channel and uses the synchronization and demodulation functions implemented in \textbf{basic\_chain.py}. It provides several performance metrics as outputs. Normally, you should not modify anything in this file, except the plots at the end if you want to customize them. You can also add an automatic save of the simulation data to post-process it later on. Nevertheless, you are highly encouraged to skim through the file and the comments to understand the different steps involved.
-    \item \textbf{chain.py}: this is the mother class containing most of the modulation parameters and the prototypes of the modulation, demodulation and synchronization functions. You can change the modulation parameters in this file if you want to study their effects but you will implement the functions in \textbf{basic\_chain.py}.
-    \item \textbf{basic\_chain.py}: it inherits from \textbf{chain.py} and completes the demodulation and synchronization functions. As you can see, you have to implement the demodulation and CFO estimation algorithms.
+    \item \textbf{sim.py}: this is the body of the simulation framework. It modulates the sent packets, applies the channel and uses the synchronization and demodulation functions implemented by \texttt{Chain} subclasses. It provides several performance metrics as outputs. Normally, you should not modify anything in this file, except the plots at the end if you want to customize them and the simulated chain at the very bottom. You can also add an automatic save of the simulation data to post-process it later on. Nevertheless, you are highly encouraged to skim through the file and the comments to understand the different steps involved.
+    \item \textbf{chain.py}: this contains the \texttt{Chain} with most of the modulation parameters and the prototypes of the modulation, demodulation and synchronization functions. You can change the modulation parameters in this file if you want to study their effects but you will implement the functions in subclasses, e.g., \texttt{BasicChain}.
     \item \textbf{test.py}: the purpose of this file is to help you to implement the demodulation and CFO estimation functions. Indeed, it contains a simplified version of the communication chain, useful for debugging your implementation.
 \end{itemize}
 
-In order to launch the simulation, you only have to execute the \textbf{basic\_chain.py} file as it includes and calls the two other files. Try to run the simulation. You should observe a bit error rate (BER) of 0.5 since the demodulation is not implemented.
+In order to launch the simulation, you only have to execute the \textbf{sim.py} file as it includes and calls the two other files. Try to run the simulation. You should observe a bit error rate (BER) of 0.5 since the demodulation is not implemented.
 
 In the next sections, we will investigate step by step the different blocks of the simulation framework.
 
@@ -107,17 +106,17 @@ Assuming a symbol mapping such as the bit $0$ (resp. bit $1$) corresponds to the
 
 \begin{listing}[H]
     \begin{python}
-    def modulate(self, bits: np.ndarray, R: np.ndarray) -> np.ndarray:
+    def modulate(self, bits: np.ndarray) -> np.ndarray:
         """
         Continuous-Phase FSK modulation.
 
         :param bits: bit vector of size N
-        :param R: TX oversampling factor
         :return: modulated bit sequence of size N * R
         """
         fd = self.freq_dev  # Frequency deviation, Delta_f
         B = self.bit_rate  # B=1/T
         h = 2 * fd / B  # Modulation index
+        R = self.osr_tx  # Oversampling factor
 
         x = np.zeros(len(bits) * R, dtype=np.complex64)
         ph = 2 * np.pi * fd * (np.arange(R) / R) / B  # Phase of reference waveform
@@ -126,10 +125,6 @@ Assuming a symbol mapping such as the bit $0$ (resp. bit $1$) corresponds to the
             len(bits) + 1
         )  # To store all phase shifts between symbols
         phase_shifts[0] = 0  # Initial phase
-
-        mask = bits.astype(bool)
-
-        phase_shifts[mask] = np.cumsum(np.arange(mask.sum()))
 
         for i, b in enumerate(bits):
             x[i * R : (i + 1) * R] = np.exp(1j * phase_shifts[i]) * np.exp(
@@ -189,7 +184,7 @@ Therefore, the decision variables $r_1$ and $r_0$ for the symbol $I[k]$ are appr
 \end{small}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Implementation of demodulation}
-Complete the \py{demodulate()} function in the file \textbf{basic\_chain.py} based on the development presented above (non-coherent detection) and the comments. Test your implementation using \textbf{test.py} and make sure the demodulated bits are the same as the sent ones (since there is no added noise).
+Complete the \py{demodulate()} function in the file \textbf{chain.py} based on the development presented above (non-coherent detection) and the comments. Test your implementation using \textbf{test.py} and make sure the demodulated bits are the same as the sent ones (since there is no added noise).
 \end{bclogo}
 
 \subsection{BER-SNR curve}
@@ -238,7 +233,7 @@ because the exponential is just introducing a phase shift of the noise and thus 
 this explains the SNR shift (in dB) that you can find in the simulation framework. Intuitively, it comes from the fact that $R_{\text{RX}}$ samples are aggregated together in the decision variable and add up coherently, whereas the $R_{\text{RX}}$ noise samples does not add coherently.
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of BER-SNR curve}
-You now have all the necessary explanations to understand the generation of BER-SNR curves by the simulation framework and compare them with the theory. In \textbf{basic\_chain.py}, make sure all the booleans bypassing the synchronization are set to \py{True}. Then, run the file and observe the generated BER-SNR curves. Do they stick to the theoretical curves?
+You now have all the necessary explanations to understand the generation of BER-SNR curves by the simulation framework and compare them with the theory. In \textbf{chain.py}, make sure all the booleans bypassing the synchronization are set to \py{True}. Then, run the file and observe the generated BER-SNR curves. Do they stick to the theoretical curves?
 
 Normally, your curve should have a trend similar to the theoretical curve, hinting that your demodulate function works properly. However, you can expect some differences but do not investigate them now. This will be part of the characterization report as well as of future improvements in the communication part of the project.
 
@@ -268,13 +263,18 @@ with $\lambda$ the energy threshold, and its position is then returned by the fu
 
 \begin{listing}[H]
 \begin{python}
+from typing import Optional
+
 import numpy as np
 
-def preamble_detect(self, y):
+def preamble_detect(self, y: np.array) -> Optional[int]:
     """
-    Detect a preamble computing the received energy (average on a window)
+    Detects the preamlbe in a given received signal.
+  
+    :param y: The received signal, (n * R,).
+    :return: The index where the preamble starts,
+        or None if not found.
     """
-
     L = 4*self.osr_rx
     y_abs = np.abs(y)
 
@@ -286,7 +286,7 @@ def preamble_detect(self, y):
     return None
 
 \end{python}
-\caption{Python code for preamble detection (from \textbf{basic\_chain.py}).}
+\caption{Python code for preamble detection (from \textbf{chain.py}).}
 \label{fig:code_preb}
 \end{listing}
 
@@ -297,7 +297,7 @@ def preamble_detect(self, y):
 \end{itemize}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of preamble detection}
-Set the bypassing boolean of the preamble detection to \py{False} in \textbf{basic\_chain.py}. Launch the simulation and observe the preamble detection metrics automatically displayed.
+Set the bypassing boolean of the preamble detection to \py{False} in \textbf{chain.py}. Launch the simulation and observe the preamble detection metrics automatically displayed.
 \end{bclogo}
 
 \subsection{Frequency offset estimation}
@@ -347,11 +347,11 @@ From the estimation of the frequency offset, the frequency offset correction is 
 
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Implementation of Moose algorithm}
-Implement the Moose algorithm in the \py{cfo_estimation()} function in \textbf{basic\_chain.py}. The preamble has already been detected, such that the first samples of the input vector $y$ contains repeating sequence of modulated "$10$". Use blocks of 4 bits ($N=4$) and return $\widehat{\Delta f_c}$.
+Implement the Moose algorithm in the \py{cfo_estimation()} function in \textbf{chain.py}. The preamble has already been detected, such that the first samples of the input vector $y$ contains repeating sequence of modulated "$10$". Use blocks of 4 bits ($N=4$) and return $\widehat{\Delta f_c}$.
 
-To test your implementation, first use \textbf{test.py} and make sure the estimated CFO corresponds to the applied one. You can then use the \textbf{basic\_chain.py} file, setting the CFO bypass boolean to \py{False}. Look at the RMSE, does it decrease with larger SNR?
+To test your implementation, first use \textbf{test.py} and make sure the estimated CFO corresponds to the applied one. You can then use the \textbf{chain.py} file, setting the CFO bypass boolean to \py{False}. Look at the RMSE, does it decrease with larger SNR?
 
-By default, the CFOs applied in the simulation are random, in the range specified in \textbf{chain.py}. You can also decide to apply a constant frequency offset by giving a non-zero value to \py{cfo_val} in \textbf{chain.py} and removing \py{cfo_val = np.nan} in \textbf{basic\_chain.py}.
+By default, the CFOs applied in the simulation are random, in the range specified in \textbf{chain.py}. You can also decide to apply a constant frequency offset by giving a non-zero value to \py{cfo_val} in \textbf{chain.py} and removing \py{cfo_val = np.nan} in \textbf{chain.py}.
 \end{bclogo}
 
 
@@ -371,7 +371,7 @@ closest to $\tau_d$ is selected. This is illustrated in \autoref{fig:timing_ex} 
 
 It is possible to estimate the symbol timing by determining the instants where one observes a change in the derivative of the phase. This corresponds to a change in the sent waveform, that can happen only every multiple of the oversampling factor $R_{\text{RX}}$. As an example, \autoref{fig:phase_funct} gives the phase function and its derivatives corresponding to the sent bit sequence "$0010110$" with an oversampling factor $R_{\text{RX}}=32$. As expected, we identify peaks in the second derivative of the phase corresponding to the transition between symbols $1$ and $-1$ (and vice-versa).
 
-With a delay $\tau_d$, all these peaks are not located in multiple of the symbol period but instead in $\tau_d+m T$ with $m\in \mathbb{Z}$. Then $\tau_d$ can be estimated using the function \py{sto_estimation()} in \textbf{basic\_chain.py}, as given in \autoref{fig:code_symb}.
+With a delay $\tau_d$, all these peaks are not located in multiple of the symbol period but instead in $\tau_d+m T$ with $m\in \mathbb{Z}$. Then $\tau_d$ can be estimated using the function \py{sto_estimation()} in \textbf{chain.py}, as given in \autoref{fig:code_symb}.
 
 \begin{figure}[H]
     \centering
@@ -411,7 +411,7 @@ def sto_estimation(self, y):
     return np.mod(save_i+1, R)
 
 \end{python}
-\caption{Python code for symbol timing estimation (from \textbf{basic\_chain.py}).}
+\caption{Python code for symbol timing estimation (from \textbf{chain.py}).}
 \label{fig:code_symb}
 \end{listing}
 
@@ -442,8 +442,8 @@ where $\hat{d}$ comes from the symbol timing estimation and $\hat{k}$ comes from
 
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of frame and symbol timing estimations}
-Set the bypassing boolean of the symbol timing estimation to \py{False} in \textbf{basic\_chain.py}. Launch the simulation and observe the symbol timing RMSE automatically displayed. Does it decrease with increasing SNRs?
+Set the bypassing boolean of the symbol timing estimation to \py{False} in \textbf{chain.py}. Launch the simulation and observe the symbol timing RMSE automatically displayed. Does it decrease with increasing SNRs?
 
-By default, the delays applied in the simulation are random, in the range specified by \py{sto_range} in \textbf{chain.py}. You can also decide to apply a constant timing offset by giving a non-zero value to \py{sto_val} in \textbf{chain.py} and removing \py{sto_val = np.nan} in \textbf{basic\_chain.py}.
+By default, the delays applied in the simulation are random, in the range specified by \py{sto_range} in \textbf{chain.py}. You can also decide to apply a constant timing offset by giving a non-zero value to \py{sto_val} in \textbf{chain.py} and removing \py{sto_val = np.nan} in \textbf{chain.py}.
 
 \end{bclogo}

@@ -17,12 +17,12 @@ All commands are assumed to be run inside a terminal / command prompt.
 ## Organisation of the project for different OS
 
 In this project, will you have to use different software and tools.
+
 - Python : employed for various tasks, e.g., classification, modeling.
 - STM32CubeIDE : used to program the microcontroller
 - GNURadio : used to acquire data from the LimeSDR-mini and peform signal processing, here the demodulation.
 
 If possible, every software tool used should be installed and used, on your host system, i.e., your every-day OS. Moreover, the Git associated with the project should be cloned on your host system. Python and STM32CubeIDE are supported on every common OS, but GNU Radio is only properly supported on Linux distributions. Moreover, the libraries for the LimeSDR are maintained on Ubuntu-20.04 and not above. We therefore ask you to have Ubuntu-20.04 installed on your computer, using one of the methods presented in the following section.
-
 
 ## Installation of Ubuntu-20.04 to enable GNURadio
 
@@ -127,8 +127,8 @@ want to use Linux later-on, and have at least 60 Go of free memory.
 
 https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/
 
-The following steps will either need to be performed on your host system, or on the Ubuntu system on which GNURadio is installed (either a VM, WSL, or your host if it is Ubuntu-20.04). 
-The subsection titles will therefore include an annotation **Host**, if the steps must be performed on your host system (Windows, MacOS, or Linux), or **Ubuntu**, if they refer to your Ubuntu-20.04 installation.  If your host system is Ubuntu-20.04, perform them in both cases.Additionnally, some steps might be only required for some specific OSs, in which case it will be specified.
+The following steps will either need to be performed on your host system, or on the Ubuntu system on which GNURadio is installed (either a VM, WSL, or your host if it is Ubuntu-20.04).
+The subsection titles will therefore include an annotation **Host**, if the steps must be performed on your host system (Windows, MacOS, or Linux), or **Ubuntu**, if they refer to your Ubuntu-20.04 installation. If your host system is Ubuntu-20.04, perform them in both cases.Additionnally, some steps might be only required for some specific OSs, in which case it will be specified.
 
 Quick tips : Ubuntu terminal windows can be launched via the Ubuntu Launchpad, or with
 <kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>T</kbd>.
@@ -158,10 +158,11 @@ However, venvs can rapidly become hard to maintain, especially because you need 
 some script
 before you can work with them, and it's also possible to have an arbitrary number of nested
 venvs, which makes it hard to know which environment is activated.
-To avoid this issue, we use 
+To avoid this issue, we use
 [Poetry](https://python-poetry.org/), which can be installed with the commands below, depending if you are on Mac/Linux or Windows. Poetry works in pair with `pyproject.toml` file, so that you can specify requirements for your project, and much more!
 
 #### Linux/MAC
+
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
 ```
@@ -191,13 +192,14 @@ to apply changes.
 > like `nano` or `vim`.
 
 #### Windows
+
 In the Powershell:
+
 ```bash
 (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
 ```
+
 Do not close the terminal, it will probably ask you to add the poetry installation path to your PATH environment variable. To do so, follow [this guide](https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/).
-
-
 
 ### Ubuntu : Installing CMake and Make
 
