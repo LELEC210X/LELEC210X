@@ -145,9 +145,6 @@ class BasicChain(Chain):
         """
         Estimates CFO using Moose algorithm, on first samples of preamble.
         """
-        self.osr_rx  # Receiver oversampling factor
-        self.bit_rate  # B=1/T
-
         # TO DO: extract 2 blocks of size N*R at the start of y
 
         # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
@@ -184,10 +181,8 @@ class BasicChain(Chain):
         """
         Non-coherent demodulator.
         """
-        self.freq_dev  # Frequency deviation, Delta_f
-        self.bit_rate  # B=1/T
         R = self.osr_rx  # Receiver oversampling factor
-        nb_syms = int(len(y) / R)  # Number of CPFSK symbols in y
+        nb_syms = len(y) // R  # Number of CPFSK symbols in y
 
         # Group symbols together, in a matrix. Each row contains the R samples over one symbol period
         y = np.resize(y, (nb_syms, R))
@@ -199,8 +194,6 @@ class BasicChain(Chain):
 
         # TO DO: performs the decision based on r0 and r1
 
-        bits_hat = np.zeros(nb_syms)  # Default value, all bits=0. TO CHANGE!
+        bits_hat = np.zeros(nb_syms, dtype=int)  # Default value, all bits=0. TO CHANGE!
 
-        # Return
-        bits_hat = bits_hat.astype(int)
         return bits_hat
