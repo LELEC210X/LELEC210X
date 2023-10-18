@@ -37,10 +37,10 @@ print(bits_hat)
 cfo_val = 1000
 
 x_pr = chain.modulate(
-    chain.preamble, chain.osr_tx
+    chain.preamble
 )  # modulated signal containing preamble
 x_sync = chain.modulate(
-    chain.sync_word, chain.osr_tx
+    chain.sync_word
 )  # modulated signal containing sync_word
 x = np.concatenate((x_pr, x_sync, x_pay))
 
