@@ -23,7 +23,7 @@ class Chain:
     payload_len = 50  # Number of bits per packet
 
     ## Simulation parameters
-    n_packets = 100  # Number of sent packets
+    n_packets = 200 # Number of sent packets
 
     ## Channel parameters
     sto_val = 0
@@ -74,7 +74,7 @@ class Chain:
         return x
 
     ## Rx methods
-    bypass_preamble_detect = False
+    bypass_preamble_detect = True
 
     def preamble_detect(self, y: np.array) -> Optional[int]:
         """
@@ -86,7 +86,7 @@ class Chain:
         """
         raise NotImplementedError
 
-    bypass_cfo_estimation = False
+    bypass_cfo_estimation = True 
 
     def cfo_estimation(self, y: np.array) -> float:
         """
@@ -97,7 +97,7 @@ class Chain:
         """
         raise NotImplementedError
 
-    bypass_sto_estimation = False
+    bypass_sto_estimation = True
 
     def sto_estimation(self, y: np.array) -> float:
         """
