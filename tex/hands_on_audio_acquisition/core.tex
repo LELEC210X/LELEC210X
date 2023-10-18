@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Starting from the H2b baseline code}
-We provide you again with a baseline project that you can download from the git link posted on Moodle. The baseline code is almost the same as the H2a baseline code, except the interrupt line for the button that has been activated and a few functions for formatting the prints. Import and open the project as explained in the previous Hands-On and flash it on your MCU. The LED1 should be blinking. We will build onto this project.
+We provide you again with a baseline project already present inthe \texttt{mcu} folder of the git. Do not forget to syncrhonize your git before starting the Hands-On. The baseline code is almost the same as the H2a baseline code, except the interrupt line for the button that has been activated and a few functions for formatting the prints. Import and open the project as explained in the previous Hands-On and flash it on your MCU. The LED2 should be blinking. We will build onto this project.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -18,17 +18,17 @@ Our microphone/mini-jack input is connected to pin \textbf{PA0}. Open the \textt
     \label{fig:adc_clock_tree}
 \end{figure}
 
-For a basic usage of the ADC, that's all there is to it. We advise you to take a look at the manuals available on Moodle to understand the purpose of all the parameters of the ADC. You can now save and regenerate code \\
+For a basic usage of the ADC, that's all there is to it. We advise you to take a look at the manuals available on Moodle to understand the purpose of all the parameters of the ADC. You can now save and regenerate the code.\\
 
 \noindent To be able to read a value of the ADC, you need to use the following three functions :
 \begin{enumerate}
     \item \texttt{HAL\_ADC\_Start(\&hadc1)} to prepare the ADC.
-    \item \texttt{HAL\_ADC\_PollForConversion(\&hadc1,0xFFFF)} triggers the ADC conversion and stores the value in the register of the ADC. The second argument of the function corresponds to the timeout in seconds for the conversion. This function returns a \texttt{HAL\_OK} value is the conversion went well or a \texttt{HAL\_ERROR} in case of error.
+    \item \texttt{HAL\_ADC\_PollForConversion(\&hadc1,0xFFFF)} triggers the ADC conversion and stores the value in the register of the ADC. The second argument of the function corresponds to the timeout in seconds for the conversion. This function returns a \texttt{HAL\_OK} value if the conversion went well or a \texttt{HAL\_ERROR} in case of error.
     \item \texttt{HAL\_ADC\_GetValue(\&hadc1)} retrieves the value from the ADC and returns it. It is good practice to call this function inside an \texttt{if} condition, only when the previous function returned no errors. The returned type is an \texttt{uint32\_t} unsigned int.
     \item \texttt{HAL\_ADC\_Stop(\&hadc1)} to stop the acquisition.
  \end{enumerate}
 
-\noindent Write a program where you return the sample once the value of the \textbf{PA0} pin every time we press the user button. It will be hard to test your code with sound: we therefore recommend to use your ADALM2000 to generate a DC signal. Connect it to \textbf{pin 2} of the \textbf{SEL\_SOUND} header (you will need to remove the jumper: do not lose it!). Note: a simpler, while functional setup to test your code could be to connect the \textbf{pin 2} of the \textbf{SEL\_SOUND} header to either VDD or GND, which avoids the need to use the ADALM2000 (but restrains you to only two values). \\
+\noindent Write a program where you return the sample once the value of the \textbf{PA0} pin every time we press the user button. It will be hard to test your code with sound: we therefore recommend to use your ADALM2000 to generate a DC signal. Connect it to \textbf{pin 2} of the \textbf{SEL\_SOUND} header (you will need to remove the jumper: do not lose it!). Note: a simpler, while functional setup to test your code could be to connect the \textbf{pin 2} of the \textbf{SEL\_SOUND} header to either VDD or GND, which avoids the need to use the ADALM2000 (but restrains you to only two values). We provide you again with a python script to read the data coming from the MCU to your computer. To do so, run the \texttt{basic-uart-reader.py} script.\\
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcattention]{Absolute maximum ratings}
 The MCU is a sensitive device, it is not designed to handle any kind of voltage on its pins. Take a look at Section 6.2 of the MCU datasheet, you can find here that the maximum voltage on a pin cannot be higher than 4 volts. The ADALM2000 can go beyond that, pay attention to never go above this value, it is recommended to stay below \textbf{VDD}: 3.3V.
 \end{bclogo}
@@ -99,34 +99,28 @@ void print_buffer(uint16_t *buffer) {
 In the second block of code, have you noticed the \texttt{"SND:HEX:"} prefix ? This is important to make sure it is written exactly that way. It is indeed used in the Python script as a parsing prefix.
 \end{bclogo}
 
-\noindent To make sure it is working properly, you can now save, compile and flash your code on the MCU. Open a terminal window (\texttt{screen /dev/ttyACM0 115200}) and check out that it is behaving as expected !
+\noindent To make sure it is working properly, you can now save, compile and flash your code on the MCU. Run the \texttt{basic-uart-reader.py} script and check out that it is behaving as expected !
 
 \subsection*{On the computer side: Python script to post-process your data}
 
-Then, you need to handle the data coming from the UART interface in a controlled way. This is the purpose of the \texttt{uart-reader.py} that we provided you. Before running the script in the terminal, we expect you to dive into it to avoid the "black box effect" which prevents a good understanding of what is going on.
+Then, you need to handle the data coming from the UART interface in a controlled way and with more details than the basic python script. This is the purpose of the \texttt{uart-reader.py} that we provided you. Before running the script in the terminal, we expect you to dive into it to avoid the "black box effect" which prevents a good understanding of what is going on.
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcattention]{Python packages update (MANDATORY)}
-We need you to update two packages needed to get the script working. This must be done only once. Afterwards, the right packages will stay there. Please open a terminal window and enter these commands (in that specific order) :
-
-\begin{itemize}
-    \item sudo pip uninstall serial
-    \item sudo pip install pyserial soundfile
-\end{itemize}
-
+To get the script working, we need you to make some operations beforehand. This must be done only once to ensure you have the proper packages. Afterwards, the right ones will stay there. First uninstall both the \texttt{serial} and \texttt{pyserial} packages. Then, reinstall only \texttt{pyserial} and also the \texttt{soundfile} package. This must be done in this order.
 \end{bclogo}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{Handling data in the UART interface}
-Did you understood how the script manage to handle new data coming from UART, even if it is popping at an unexpected time ? How does the script handle data which does not start with the \texttt{"SND:HEX:"} prefix ? \\
+Did you understand how the script manages to handle new data coming from UART, even if it is popping at an unexpected time ? How does the script handle data which does not start with the \texttt{"SND:HEX:"} prefix ? \\
 
 \noindent How are "packets" of data separated?
 \end{bclogo}
 
-\noindent When you have understood the script and updated the packages as explained here above, you can create a new folder called \texttt{audio\_files} in the same directory. It is now time to run it in the terminal by using the command \texttt{python3 uart-reader.py}. It will run until you press on \texttt{Ctrl+C}. Each time new data is coming from the UART, you should see a Figure plotting the data that has been received and an audio file should be generated in the \texttt{audio\_files} folder. The file format (\texttt{.ogg}) is the same as the one of the database you discovered during the first week. If everything worked as expected, you should see your sine wave and even be able to listen to the corresponding audio file. You can listen to this file by using VLC, available on the VM.
+\noindent When you have understood the script and updated the packages as explained here above, you can create a new folder called \texttt{audio\_files} in the same directory. It is now time to run it in the terminal by using the command \texttt{python3 uart-reader.py}. It will run until you press on \texttt{Ctrl+C}. Each time new data is coming from the UART, you should see a Figure plotting the data that has been received and an audio file should be generated in the \texttt{audio\_files} folder. The file format (\texttt{.ogg}) is the same as the one of the database you discovered during the first week. If everything worked as expected, you should see your sine wave and even be able to listen to the corresponding audio file.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Implementing a double buffering approach in your system}
-What happens if we want to sample audio continuously? We will have to tweak a bit our peripherals but it's not complicated. In order to sample continuously, we need two buffers, one that we use for sampling, and an other one for processing the data. When we finish sampling into one buffer, we process it and continue sampling into the other one. This technique is called double buffering and is illustrated in \autoref{fig:double_buff}. In the STM platform, we won't exactly have two buffers but one big buffer cut in halves. The DMA actually triggers interrupts not only when the transfer is finished but also when the half of the transfer is complete. The callback for the half complete transfer is \texttt{void HAL\_ADC\_ConvHalfCpltCallback} and it works exactly the same way as the transfer complete callback.\\
+What happens if we want to sample audio continuously? We will have to tweak a bit our peripherals but it's not complicated. In order to sample continuously, we need two buffers, one that we use for sampling, and an other one for processing the data. When we finish sampling into one buffer, we process it and continue sampling into the other one. This technique is called double buffering and is illustrated in \autoref{fig:double_buff}. In the STM platform, we won't exactly have two buffers but one big buffer cut in halves. The DMA actually triggers interrupts not only when the transfer is finished but also when half the transfer is complete. The callback for the half complete transfer is \texttt{void HAL\_ADC\_ConvHalfCpltCallback} and it works exactly the same way as the transfer complete callback.\\
 
 \begin{figure}[h]
     \centering
@@ -145,7 +139,7 @@ What happens if we want to sample audio continuously? We will have to tweak a bi
 
 \noindent In the C code, when you call the \texttt{HAL\_ADC\_Start\_DMA} function, make sure to adjust the sampling size by doubling it. The \texttt{ADCBuffer} array is already sized for double buffering. You can also access easily the first or second buffer thanks to the ADCData1 and ADCData2 pointers.\\
 
-\noindent With this, the double buffering technique is ready. We expect you to program the following functionality : When you press on the button, the ADC starts in a double buffering mode, for each half buffer, calculate the power contained in the digitized signal and print its value to the UART stream, if it exceeds a threshold value of 50\footnote{This value was choosen using the mini-jack cable, you might need to update this value if you use the microphone based on the ambient noise.}, you sample one more buffer, stop the sampling and send the data through the same way as before. Use the script detailled in the previous section to save your audio files. You can adjust the buffer size easily on the MCU with the \textbf{ADB\_BUF\_SIZE} constant which corresponds to the number of samples. You can safely go up to 30000 samples($\approx$3 seconds). Finally, don't worry, the UART transfer might take several seconds to process. \\
+\noindent With this, the double buffering technique is ready. We expect you to program the following functionality : When you press on the button, the ADC starts in a double buffering mode, for each half buffer, calculate the power contained in the digitized signal and print its value to the UART stream, if it exceeds a threshold value of 50\footnote{This value was choosen using the mini-jack cable, you might need to update this value if you use the microphone based on the ambient noise.}, you sample one more buffer, stop the sampling and send the data through the same way as before. Use the script detailled in the previous section to save your audio files. You can adjust the buffer size easily on the MCU with the \textbf{ADC\_BUF\_SIZE} constant which corresponds to the number of samples. You can safely go up to 30000 samples($\approx$3 seconds). Finally, don't worry, the UART transfer might take several seconds to process. \\
 
 \noindent The function to calculate the signal power is the following : \texttt{get\_signal\_power(uint16\_t *buffer, size\_t len)}.
 
