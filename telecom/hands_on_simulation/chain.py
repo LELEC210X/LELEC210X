@@ -110,6 +110,7 @@ class Chain:
         """
         raise NotImplementedError
 
+
     def demodulate(self, y: np.array) -> np.array:
         """
         Demodulates the received signal.
@@ -117,7 +118,26 @@ class Chain:
         :param y: The received signal, (N * R,).
         :return: The signal, after demodulation.
         """
-        raise NotImplementedError
+        B = self.bit_rate  # B=1/T
+        fd = self.freq_dev  # Frequency deviation, Delta_f
+        R = self.osr_tx() # oversampling factor
+        r0 = np.zeros(len(y)/R)
+        r1 = np.zeros(len(y)/R)
+
+        for i in range(len(y)):
+            for j in range(R):
+                r0[i] += y[i * R + j] * np.exp( 1j * 2 * np.pi * fd * (j / (B * R)))
+                r1[i] += y[i * R + j] * np.exp(-1j * 2 * np.pi * fd * (j / (B * R)))
+        r0 /= R
+        r1 /= R
+
+        result = np.ones(len(y)/R)
+
+        for i in range(len(result)):
+            if np.absolute(r0) > np.absolute(r1):
+                result[i] = -1
+
+        return result
 
 
 class BasicChain(Chain):
