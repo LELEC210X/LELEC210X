@@ -146,12 +146,23 @@ class BasicChain(Chain):
         Estimates CFO using Moose algorithm, on first samples of preamble.
         """
         # TO DO: extract 2 blocks of size N*R at the start of y
-
         # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
+        
+        N = 4 # voir notice
+        R = self.osr_rx
+        Nt = N*R
+        T = 1/self.bit_rate
+        
+        blocks = y[0: 2*Nt]
+        denom = 2*np.pi*Nt*T/R
+        alpha = complex(0,0)
+        
+        for l in range(Nt):
+            alpha += y[Nt+l]* y[l].conjugate()
 
-        cfo_est = 0  # Default value, to change
+        cfo_est = np.angle(alpha) / denom
 
-        return cfo_est
+        return int(cfo_est)
 
     bypass_sto_estimation = True
 
