@@ -30,14 +30,14 @@ jobs:
 
     - name: Install local package
       run: |
-        poetry install
+        pip install .
 
     - name: Compile LaTeX documents
       uses: xu-cheng/texlive-action/full@v1
       with:
         run: |
           cd tex/
-          poetry run make pdf
+          make pdf
 
     - name: Archive exercise files
       uses: actions/upload-artifact@v3
