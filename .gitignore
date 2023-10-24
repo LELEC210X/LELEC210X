@@ -4,7 +4,6 @@ __pycache__/
 .mypy_cache/
 .ipynb_checkpoints
 *-checkpoint.ipynb/
-poetry.lock
 
 # Leaderboard
 
