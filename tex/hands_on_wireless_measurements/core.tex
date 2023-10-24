@@ -25,7 +25,7 @@ The module is now installed.
 GNU Radio may either be used directly using Python scripts or through a GUI software named GNU Radio Companion. It is much more convenient to use the latter to design and experiment receiver chains.
 Start the GNU Radio Companion (\textit{"Programming -> GNU Radio Companion"}) and open the application \texttt{gr-fsk/apps/decode\_capture.grc}.
 This application reads a prerecorded capture from a file
-and demodulates it using the FSK receiver architecture that has been explained in the hands-on H4a. The operations carried out by the different blocks are exactly identical to those of the simulation framework we provided you.
+and demodulates it using the FSK receiver architecture that has been explained in the simulation hands-on. The operations carried out by the different blocks are exactly identical to those of the simulation framework we provided you.
 
 \texttt{.grc} files are designs which can be graphically edited in the companion, but they cannot directly be executed.
 Instead, the companion generates Python scripts based on the \texttt{.grc} design. To generate the corresponding script, press the second button starting from the left (i.e., the one with a box and an arrow) shown in Fig.~\ref{fig:buttons}.
@@ -49,7 +49,7 @@ you should observe that 5 packets are detected with a CFO of \SI{0}{\hertz} and 
 
 \subsection{Modifying the \texttt{gr-fsk} module}
 
-To correctly demodulate the capture, you now need to plug in the demodulator and CFO estimator from the hands-on H4a into the \texttt{gr-fsk} module.
+To correctly demodulate the capture, you now need to plug in the demodulator and CFO estimator from the previous hands-on into the \texttt{gr-fsk} module.
 The \texttt{gr-fsk} blocks are written in Python and are all located in the folder \texttt{gr-fsk/python}.
 Open the file \texttt{gr-fsk/python/demodulation.py}, which implements the \textit{Demodulation} block. For all \texttt{gr-fsk} blocks, the teaching team wrote the boilerplate code that
 handles the buffers inside GNU Radio. On the contrary, the operations that are specific to the signal processing (e.g., demodulation, estimating the CFO or STO, ...) have been outsourced
@@ -63,7 +63,7 @@ The companion however does not directly read the Python files to understand how 
 YAML file, read by the companion, which includes all the information required by the tool: types of the input and output signals, parameters,
 callback functions, ... Open the file \texttt{gr-fsk/grc/fsk\_demodulation.block.yml} and browse it also.
 
-Once you went over the Python and YAML files, put the demodulation function you wrote for the hands-on H4a in the external \texttt{demodulate} function. Repeat the same procedure for the CFO estimation in the function
+Once you went over the Python and YAML files, put the demodulation function you wrote for the previous hands-on in the external \texttt{demodulate} function. Repeat the same procedure for the CFO estimation in the function
 \texttt{cfo\_estimation} of \texttt{gr-fsk/python/synchronization.py}. Then, before running the GNU Radio application again, you need to re-do an installation to propagate your changes:
 \begin{bash}
     cd build/
@@ -192,7 +192,7 @@ When receiving a packet, the receiver estimates its signal-to-noise ratio (SNR),
 \end{equation}
 with $P$ being the power of the received signal and $\sigma^2$ is the variance of the additive white gaussian noise (AWGN).
 Estimating the SNR is required to experimentally evaluate the performance of the receiver.
-The theoretical explanation of the estimation of both random variables has been provided in the appendix of hands-on H4a.
+The theoretical explanation of the estimation of both random variables has been provided in the appendix of the previous hands-on.
 In short, the power of the received signal is dynamically estimated using the preamble of the packet.
 On the contrary, the power of the noise is a fixed value which has to be estimated before the application is launched.
 

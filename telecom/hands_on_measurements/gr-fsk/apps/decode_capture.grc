@@ -278,7 +278,7 @@ blocks:
     samp_rate: samp_rate
     type: fir_filter_ccf
     width: data_rate*1
-    win: window.WIN_HAMMING
+    win: firdes.WIN_HAMMING
   states:
     bus_sink: false
     bus_source: false
