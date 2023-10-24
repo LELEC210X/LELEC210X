@@ -61,7 +61,7 @@ The gateware can be built with the free version of the Altera Quartus tools.
 | 0x001e  | 0x0003             | 16   |                                                                         |
 | 0x001f  | 0xD090             | 16   |                                                                         |
 
-## Callstack when writing to Registers (GNURadio --> LimeSuite --> Nios)
+## Callstack when writing to Registers (GNU Radio --> LimeSuite --> Nios)
 
 ### Write to LMS7002 Registers
 

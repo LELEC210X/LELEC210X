@@ -36,12 +36,8 @@ print(bits_hat)
 ### CFO correction
 cfo_val = 1000
 
-x_pr = chain.modulate(
-    chain.preamble
-)  # modulated signal containing preamble
-x_sync = chain.modulate(
-    chain.sync_word
-)  # modulated signal containing sync_word
+x_pr = chain.modulate(chain.preamble)  # modulated signal containing preamble
+x_sync = chain.modulate(chain.sync_word)  # modulated signal containing sync_word
 x = np.concatenate((x_pr, x_sync, x_pay))
 
 y, delay = add_delay(chain, x, 0)  # application of ideal channel

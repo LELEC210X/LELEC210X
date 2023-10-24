@@ -4,6 +4,7 @@ __pycache__/
 .mypy_cache/
 .ipynb_checkpoints
 *-checkpoint.ipynb/
+poetry.lock
 
 # Leaderboard
 
@@ -21,9 +22,10 @@ tex/*/*.fls
 tex/*/*.log
 tex/*/*.out
 tex/*/*.pdf
-tex/**.toc
+tex/*/*.toc
 tex/pdfs.zip
 _minted-*/
+tex/hands_on_wireless_simulation/modulate.py
 
 # FPGA
 
@@ -39,8 +41,7 @@ mcu/Release/
 mcu/.settings/
 mcu/*.launch
 
-poetry.lock
-
-*.toc
+# Telecom
 
 telecom/hands_on_simulation/test.csv
+telecom/hands_on_measurements/gr-fsk/build/

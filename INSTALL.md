@@ -6,33 +6,51 @@ All commands are assumed to be run inside a terminal / command prompt.
 
 **Table of Contents:**
 
-- [Organisation of the project for different OS](#orga-os)
-- [Prerequesites](#prerequisites)
+- [Tools Used for This Project](#tools-used-for-this-project)
+- [Prerequisites](#prerequisites)
   - [Virtual Box](#install-on-virtualbox)
   - [Windows Subsystem for Linux](#install-via-windows-subsystem-for-linux)
   - [Ubuntu](#install-ubuntu-on-your-computer)
 - [Installation Steps](#installation-steps)
 - [Tips for a Better Environment](#tips-for-a-better-environment)
 
-## Organisation of the project for different OS
+## Tools Used for This Project
 
 In this project, will you have to use different software and tools.
 
-- Python : employed for various tasks, e.g., classification, modeling.
-- STM32CubeIDE : used to program the microcontroller
-- GNURadio : used to acquire data from the LimeSDR-mini and peform signal processing, here the demodulation.
+- **Python**: employed for various tasks, e.g., classification, modeling;
+- **STM32CubeIDE**: used to program the microcontroller;
+- and **GNU Radio**: used to acquire data from the LimeSDR-mini
+  and perform signal processing, e.g., the demodulation.
 
-If possible, every software tool used should be installed and used, on your host system, i.e., your every-day OS. Moreover, the Git associated with the project should be cloned on your host system. Python and STM32CubeIDE are supported on every common OS, but GNU Radio is only properly supported on Linux distributions. Moreover, the libraries for the LimeSDR are maintained on Ubuntu-20.04 and not above. We therefore ask you to have Ubuntu-20.04 installed on your computer, using one of the methods presented in the following section.
+If possible, every software tool used should be installed and used,
+on your host system, i.e., your every-day OS. Moreover,
+the Git associated with the project should be cloned on your host system.
+Python and STM32CubeIDE are supported on every common OS,
+but GNU Radio is only properly supported on Linux distributions.
+Additionnally, the libraries for the LimeSDR are maintained on Ubuntu-20.04
+and not above.
+We therefore ask you to have Ubuntu-20.04 installed on your computer,
+using one of the methods presented in the following sections.
 
-## Installation of Ubuntu-20.04 to enable GNURadio
+## Prerequisites
 
-As explained above, to run this project entirely, you will need an Ubuntu-20.04 installation with Python3.8 installed.
-Using a different Ubuntu or Python version _might_ work, but we cannot guarantee that
-everything will work out-of-the-box, and you may need to adapt some commands.
+As explained above, to run this project entirely,
+you will need an Ubuntu-20.04 installation with Python3.8 installed.
+Using a different Ubuntu or Python version _might_ work,
+but **we cannot guarantee** that
+everything will work out-of-the-box, and **you may need**
+to adapt some commands[^1].
 
 By default, Python3.8 is automatically bundled with Ubuntu-20.04.
 
-If you do not have Ubuntu-20.04 at your disposal, please follow one of next sub-sections.
+If you do not have Ubuntu-20.04 at your disposal,
+please follow one of next sub-sections.
+
+[^1]:
+    The reason is that the default versions for packages installed on
+    Ubuntu-20.04 are, most likely, not the same if installed on, e.g.,
+    Ubuntu-22.04.
 
 ### Install on VirtualBox
 
@@ -127,7 +145,7 @@ want to use Linux later-on, and have at least 60 Go of free memory.
 
 https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/
 
-The following steps will either need to be performed on your host system, or on the Ubuntu system on which GNURadio is installed (either a VM, WSL, or your host if it is Ubuntu-20.04).
+The following steps will either need to be performed on your host system, or on the Ubuntu system on which GNU Radio is installed (either a VM, WSL, or your host if it is Ubuntu-20.04).
 The subsection titles will therefore include an annotation **Host**, if the steps must be performed on your host system (Windows, MacOS, or Linux), or **Ubuntu**, if they refer to your Ubuntu-20.04 installation. If your host system is Ubuntu-20.04, perform them in both cases.Additionnally, some steps might be only required for some specific OSs, in which case it will be specified.
 
 Quick tips : Ubuntu terminal windows can be launched via the Ubuntu Launchpad, or with
@@ -271,7 +289,7 @@ echo "export LIBGL_ALWAYS_INDIRECT=1" >> ~/.bashrc
 
 ### Ubuntu : Installing the different LimeSDR components
 
-We can now install the different components required to use the LimeSDR with GNURadio.
+We can now install the different components required to use the LimeSDR with GNU Radio.
 We follow the information provided [here](https://wiki.myriadrf.org/Lime_Suite)
 by the company who sells the LimeSDR, _Myriad-RF_.
 
@@ -291,7 +309,7 @@ sudo apt-get install soapysdr-tools soapysdr-module-lms7
 
 Finally, we need to install _Gr-LimeSDR_ which is a low cost, open source software defined radio (SDR) platform.
 To do so, we use the following command,
-taken from the [official website](https://wiki.myriadrf.org/Gr-limesdr_Plugin_for_GNURadio).
+taken from the [official website](https://wiki.myriadrf.org/Gr-limesdr_Plugin_for_GNU Radio).
 
 ```bash
 sudo add-apt-repository ppa:myriadrf/gnuradio

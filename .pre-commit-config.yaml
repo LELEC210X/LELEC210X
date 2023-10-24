@@ -60,3 +60,4 @@ repos:
   hooks:
   - id: markdown-link-check
     args: [-q]
+exclude: .*\.(c|h|mxproject|s)

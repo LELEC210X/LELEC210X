@@ -34,3 +34,13 @@ xleftmargin=21pt,
 \newcommand\py[1]{\mintinline{python}{#1}}
 
 \newcommand\la[1]{\mintinline{latex}{#1}}
+
+\newcommand\inputpython[1]{\inputminted[
+frame=lines,
+framesep=2mm,
+linenos,
+% fontfamily=courier,
+fontsize=\small,
+xleftmargin=21pt,
+autogobble=true,
+]{python}{#1}}
