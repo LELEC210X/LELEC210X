@@ -30,7 +30,8 @@ jobs:
 
     - name: Install local package
       run: |
-        pip install .
+        poetry config virtualenvs.create false
+        poetry install
 
     - name: Compile LaTeX documents
       uses: xu-cheng/texlive-action/full@v1
