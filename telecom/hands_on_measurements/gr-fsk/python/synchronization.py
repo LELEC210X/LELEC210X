@@ -34,7 +34,21 @@ def sto_estimation(y, B, R, Fdev):
     """
     Estimate symbol timing (fractional) based on phase shifts
     """
-    raise NotImplementedError
+    phase_function = np.unwrap(np.angle(y))
+    phase_derivative_sign = phase_function[1:] - phase_function[:-1]
+    sign_derivative = np.abs(phase_derivative_sign[1:] - phase_derivative_sign[:-1])
+
+    sum_der_saved = -np.inf
+    save_i = 0
+
+    for i in range(0, R):
+        sum_der = np.sum(sign_derivative[i::R])
+
+        if sum_der > sum_der_saved:
+            sum_der_saved = sum_der
+            save_i = i
+
+    return np.mod(save_i + 1, R)
 
 
 class synchronization(gr.basic_block):
