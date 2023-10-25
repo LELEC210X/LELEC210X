@@ -205,7 +205,7 @@ exec bash
 
 to apply changes.
 
-> NOTE: using `>>` automatically appends to the file, so that you don't have anything
+> Note: using `>>` automatically appends to the file, so that you don't have anything
 > to do. If you prefer, you can edit the files from the terminal using programs
 > like `nano` or `vim`.
 
@@ -287,13 +287,13 @@ echo "export DISPLAY=:0.0" >> ~/.bashrc
 echo "export LIBGL_ALWAYS_INDIRECT=1" >> ~/.bashrc
 ```
 
-### Ubuntu : Installing the different LimeSDR components
+### Ubuntu - Installing the different LimeSDR components
 
 We can now install the different components required to use the LimeSDR with GNU Radio.
 We follow the information provided [here](https://wiki.myriadrf.org/Lime_Suite)
 by the company who sells the LimeSDR, _Myriad-RF_.
 
-#### Ubuntu : Installing LimeSuite
+#### Ubuntu - Installing LimeSuite
 
 We start by installing _LimeSuite_, i.e.,
 a collection of softwares supporting several hardware platforms including the LimeSDR.
@@ -305,11 +305,11 @@ sudo apt-get install limesuite liblimesuite-dev limesuite-udev limesuite-images
 sudo apt-get install soapysdr-tools soapysdr-module-lms7
 ```
 
-#### Ubuntu : Installing Gr-LimeSDR
+#### Ubuntu - Installing Gr-LimeSDR
 
 Finally, we need to install _Gr-LimeSDR_ which is a low cost, open source software defined radio (SDR) platform.
 To do so, we use the following command,
-taken from the [official website](https://wiki.myriadrf.org/Gr-limesdr_Plugin_for_GNU Radio).
+taken from the [official website](https://wiki.myriadrf.org/Gr-limesdr_Plugin_for_GNURadio).
 
 ```bash
 sudo add-apt-repository ppa:myriadrf/gnuradio
@@ -317,7 +317,7 @@ sudo apt-get update
 sudo apt-get install gr-limesdr
 ```
 
-#### Ubuntu : Testing the installation of LimeSDR
+#### Ubuntu - Testing the installation of LimeSDR
 
 You can launch GNU Radio companion. On the right part of the window, at the end of the list,
 LimeSDR components should now appear.
@@ -341,18 +341,24 @@ usbipd wsl attach --busid <busid>
 usbipd wsl detach --busid <busid>
 ```
 
+> Note: if you have `error: Access denied; this operation requires administrator privileges`, you should
+> run the same commands but in a administrator terminal. Do forget that `wsl` must be running in a separate
+> Windows shell.
+>
+> Also, the command may tell you to update WSL. If so, please do with `wsl --update`.
+
 ### (Only for Windows users) Install PothosSDR to flash the LimeSDR-Mini
 
 Flashing the LimeSDR-Mini, specially its FPGA, can be complicated using WSL. To avoid any issue due to the passthrough, it is recommended to install PothosSDR which support LimeSuite GUI and makes it easy to reprogram the LimeSDR. Go to the following [website](https://downloads.myriadrf.org/builds/PothosSDR/), download and run the latest installer. You should then be able to launch LimeSuite from the Windows start menu. Be careful that the LimeSDR should be attached to Windows and not Ubuntu when flashing this way.
 
-### Host : Installation of STM32CubeIDE
+### Host - Installation of STM32CubeIDE
 
 In order to program and configure the MCU, we will use the _STM32CubeIDE_ software from ST.
 To download the installer, go to the following [website](https://www.st.com/en/development-tools/stm32cubeide.html)
 and select the latest version of the installer for your **host operating system**.
 You might be asked to create an account. You can then proceed to the download and installation.
 
-### Ubuntu : STM32Cube IDE additional package
+### Ubuntu - STM32Cube IDE additional package
 
 If Ubuntu-20.04 is your host system and thus STM32CubeIDE is installed on it, you might need to install a package in order to flash the MCU. To do so :
 
@@ -360,7 +366,7 @@ If Ubuntu-20.04 is your host system and thus STM32CubeIDE is installed on it, yo
 sudo apt-get install libncurses5
 ```
 
-### Host : Installation of Quartus
+### Host - Installation of Quartus
 
 Most of you probably follow the course LELEC2531 for which you have installed _Quartus Prime Lite 18.1_.
 If you have already it installed, you can skip the next paragraph.
