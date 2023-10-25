@@ -10,10 +10,7 @@ to be re-generated each time.
 Usage:
     python extract_code.py "file.py::path:to:function"
 """
-import importlib.util
-import inspect
-import random
-import string
+import ast
 import sys
 import textwrap
 from pathlib import Path
@@ -29,25 +26,17 @@ if __name__ == "__main__":
         path = Path(node_id)
         parts = []
 
-    name = basename = path.resolve(strict=True).stem
+    code = path.read_text()
 
-    while name in sys.modules:  # To avoid name clash with already imported modules
-        name = (
-            basename
-            + "_"
-            + "".join(random.choice(string.ascii_letters) for i in range(8))
-        )
+    if parts:
+        tree = ast.parse(code)
+        
+        for part in parts:
+            try:
+                tree = next(node for node in tree.body if getattr(node, "name", None) == part)
+            except StopIteration as e:
+                raise ValueError(f"Could not find {part} in {node_id}") from e
 
-    spec = importlib.util.spec_from_file_location(name, path)
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[name] = module
-    spec.loader.exec_module(module)
+        code = ast.get_source_segment(code, tree, padded=True)
 
-    obj = module
-
-    for part in parts:
-        obj = getattr(obj, part)
-
-    lines, _ = inspect.getsourcelines(obj)
-
-    print(textwrap.dedent("".join(lines)), end="")
+    print(textwrap.dedent(code), end="")
