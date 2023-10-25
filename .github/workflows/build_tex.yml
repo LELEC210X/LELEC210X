@@ -31,7 +31,7 @@ jobs:
     - name: Install local package
       run: |
         poetry install
-        poetry shell
+        source $(poetry env info --path)/bin/activate
 
     - name: Compile LaTeX documents
       uses: xu-cheng/texlive-action/full@v1
