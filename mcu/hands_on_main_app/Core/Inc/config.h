@@ -25,7 +25,7 @@
 
 // Spectrogram parameters
 #define SAMPLES_PER_MELVEC 512
-#define MELVEC_LENGTH 20
+#define MELVEC_LENGTH 16
 #define N_MELVECS 10*2
 
 // Enable performance measurements
