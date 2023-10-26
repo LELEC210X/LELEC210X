@@ -119,6 +119,10 @@ Open this file and try to understand the different parameters.
 Afterwards, compile the software and flash the Nucleo board. Open a serial console to \texttt{/dev/ttyACM0} and press the button B1 to start
 transmitting packets.
 
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{MCU build error}
+    If you encounter an error when building the MCU software project, this is probably because you need to update the project settings. To do so, please open the \texttt{ioc} and click \textit{Yes} when prompted to migrate the project to the new version. After, \textbf{do not forget} to re-generate. Finally, you should be able to compile the project. Some errors about \texttt{\_getpid} and \texttt{\_kill} may be left, but you can safely ignore them.
+\end{bclogo}
+
 \subsection{Running the GNU Radio application}
 
 The teaching team prepared a GNU Radio application ready to receive packets from the S2LP radio.
