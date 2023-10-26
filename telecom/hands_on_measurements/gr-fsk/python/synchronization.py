@@ -27,7 +27,7 @@ def cfo_estimation(y, B, R, Fdev):
     """
     Estimate CFO using Moose algorithm, on first samples of preamble
     """
-    raise NotImplementedError
+    return 0.0  # TODO
 
 
 def sto_estimation(y, B, R, Fdev):

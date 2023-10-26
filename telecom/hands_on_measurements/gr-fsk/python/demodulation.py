@@ -27,7 +27,9 @@ def demodulate(y, B, R, Fdev):
     """
     Non-coherent demodulator.
     """
-    raise NotImplementedError
+    nb_syms = int(len(y) / R)
+    bits_hat = np.zeros(nb_syms, dtype=int)
+    return bits_hat  # TODO
 
 
 class demodulation(gr.basic_block):
