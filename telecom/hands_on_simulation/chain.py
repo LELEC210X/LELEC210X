@@ -157,10 +157,10 @@ class BasicChain(Chain):
         N = 4 # voir notice
         R = self.osr_rx
         Nt = N*R
-        T = 1/self.bit_rate
+        B = self.bit_rate
         
         blocks = y[0: 2*Nt]
-        denom = 2*np.pi*Nt*T/R
+        denom = 2*np.pi*Nt/(R*B)
         alpha = complex(0,0)
         
         for l in range(Nt):
