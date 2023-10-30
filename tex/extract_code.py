@@ -30,10 +30,12 @@ if __name__ == "__main__":
 
     if parts:
         tree = ast.parse(code)
-        
+
         for part in parts:
             try:
-                tree = next(node for node in tree.body if getattr(node, "name", None) == part)
+                tree = next(
+                    node for node in tree.body if getattr(node, "name", None) == part
+                )
             except StopIteration as e:
                 raise ValueError(f"Could not find {part} in {node_id}") from e
 
