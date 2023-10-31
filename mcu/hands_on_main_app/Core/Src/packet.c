@@ -2,12 +2,18 @@
  * packet.c
  */
 
+<<<<<<< refs/remotes/upstream/main
+=======
+#include <string.h>
+
+>>>>>>> Revert "enlever le chain de argu"
 #include "aes_ref.h"
 #include "config.h"
 #include "packet.h"
 #include "main.h"
 #include "utils.h"
 
+<<<<<<< refs/remotes/upstream/main
 const uint8_t AES_Key[16]  = {
                             0x00,0x00,0x00,0x00,
 							0x00,0x00,0x00,0x00,
@@ -63,5 +69,13 @@ int make_packet(uint8_t *packet, size_t payload_len, uint8_t sender_id, uint32_t
 	// tag_cbc_mac function, calculating the tag, is not implemented.
     tag_cbc_mac(packet + payload_len + PACKET_HEADER_LENGTH, packet, payload_len + PACKET_HEADER_LENGTH);
 
+=======
+// Assumes payload is already in place in the packet
+int make_packet(uint8_t *packet, size_t payload_len, uint8_t sender_id, uint32_t serial) {
+    memset(packet, 0, PACKET_HEADER_LENGTH);
+    memset(packet + payload_len + PACKET_HEADER_LENGTH, 0, PACKET_TAG_LENGTH);
+
+    size_t packet_len = payload_len + PACKET_HEADER_LENGTH + PACKET_TAG_LENGTH;
+>>>>>>> Revert "enlever le chain de argu"
     return packet_len;
 }

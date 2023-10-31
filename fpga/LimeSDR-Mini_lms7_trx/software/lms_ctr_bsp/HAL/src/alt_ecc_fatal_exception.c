@@ -38,23 +38,37 @@
  * when a likely fatal ECC error exception occurs.
  */
 
+<<<<<<< refs/remotes/upstream/main
 /* 
+=======
+/*
+>>>>>>> Revert "enlever le chain de argu"
  * Global variable containing address to jump to when likely fatal
  * ECC error exception occurs.
  */
 alt_u32 alt_exception_ecc_fatal_handler = 0x0;
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * Pull in the exception entry assembly code. This will not be linked in 
  * unless this object is linked into the executable (i.e. only if 
+=======
+ * Pull in the exception entry assembly code. This will not be linked in
+ * unless this object is linked into the executable (i.e. only if
+>>>>>>> Revert "enlever le chain de argu"
  * alt_ecc_fatal_exception_register() is called).
  */
 __asm__( "\n\t.globl alt_exception" );
 
 /*
  * alt_ecc_fatal_exception_register() is called to register a handler to
+<<<<<<< refs/remotes/upstream/main
  * service likely fatal ECC error exceptions. 
  * 
+=======
+ * service likely fatal ECC error exceptions.
+ *
+>>>>>>> Revert "enlever le chain de argu"
  * Passing null (0x0) in the handler argument will disable a previously-
  * registered handler.
  *
@@ -62,12 +76,20 @@ __asm__( "\n\t.globl alt_exception" );
  * occurs on a likely fatal ECC exception and the exception processing
  * code might trigger an infinite exception loop.
  */
+<<<<<<< refs/remotes/upstream/main
 void 
+=======
+void
+>>>>>>> Revert "enlever le chain de argu"
 alt_ecc_fatal_exception_register(alt_u32 handler)
 {
     alt_exception_ecc_fatal_handler = handler;
 
+<<<<<<< refs/remotes/upstream/main
     /* 
+=======
+    /*
+>>>>>>> Revert "enlever le chain de argu"
      * Flush this from the cache. Required because the exception handler uses ldwio
      * to read this value to avoid trigger another data cache ECC error exception.
      */

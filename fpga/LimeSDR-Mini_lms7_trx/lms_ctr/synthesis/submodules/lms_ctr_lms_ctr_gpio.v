@@ -14,9 +14,15 @@
 `timescale 1ns / 1ps
 // synthesis translate_on
 
+<<<<<<< refs/remotes/upstream/main
 // turn off superfluous verilog processor warnings 
 // altera message_level Level1 
 // altera message_off 10034 10035 10036 10037 10230 10240 10030 
+=======
+// turn off superfluous verilog processor warnings
+// altera message_level Level1
+// altera message_off 10034 10035 10036 10037 10230 10240 10030
+>>>>>>> Revert "enlever le chain de argu"
 
 module lms_ctr_lms_ctr_gpio (
                               // inputs:
@@ -67,4 +73,7 @@ wire             wr_strobe;
   assign out_port = data_out;
 
 endmodule
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

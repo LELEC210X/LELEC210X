@@ -26,7 +26,11 @@ module lms_ctr (
 	lms_ctr_gpio_external_connection_export,
 	switch_external_connection_export,
 	uart_external_connection_rxd,
+<<<<<<< refs/remotes/upstream/main
 	uart_external_connection_txd);	
+=======
+	uart_external_connection_txd);
+>>>>>>> Revert "enlever le chain de argu"
 
 	input		clk_clk;
 	input		dac_spi_ext_MISO;

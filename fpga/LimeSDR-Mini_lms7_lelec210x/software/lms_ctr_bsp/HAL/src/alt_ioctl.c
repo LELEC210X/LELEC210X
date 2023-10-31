@@ -39,15 +39,24 @@
 #include "os/alt_syscall.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * The ioctl() system call is provided so that application code can manipulate 
  * the i/o capabilities of a device in device specific ways. This is identical
  * to the standard posix ioctl() function.
  *
  * In general this implementation simply vectors ioctl requests to the 
+=======
+ * The ioctl() system call is provided so that application code can manipulate
+ * the i/o capabilities of a device in device specific ways. This is identical
+ * to the standard posix ioctl() function.
+ *
+ * In general this implementation simply vectors ioctl requests to the
+>>>>>>> Revert "enlever le chain de argu"
  * apropriate drivers ioctl function (as registered in the drivers alt_dev
  * structure).
  *
  * However in the case of devices (as oposed to filesystem), the TIOCEXCL and
+<<<<<<< refs/remotes/upstream/main
  * TIOCNXCL requests are handled without reference to the driver. These 
  * requests are used to lock/release a device for exclusive access.
  *
@@ -57,6 +66,17 @@
  * ALT_IOCTL is mapped onto the ioctl() system call in alt_syscall.h 
  */
  
+=======
+ * TIOCNXCL requests are handled without reference to the driver. These
+ * requests are used to lock/release a device for exclusive access.
+ *
+ * Handling these requests centrally eases the task of device driver
+ * development.
+ *
+ * ALT_IOCTL is mapped onto the ioctl() system call in alt_syscall.h
+ */
+
+>>>>>>> Revert "enlever le chain de argu"
 #ifdef ALT_USE_DIRECT_DRIVERS
 
 #include "system.h"
@@ -115,7 +135,11 @@ int ALT_IOCTL (int file, int req, void* arg)
    */
 
   fd = (file < 0) ? NULL : &alt_fd_list[file];
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   if (fd)
   {
 
@@ -143,7 +167,11 @@ int ALT_IOCTL (int file, int req, void* arg)
      * request, otherwise set the return code to indicate that the request
      * could not be processed.
      */
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     if (fd->dev->ioctl)
     {
       rc = fd->dev->ioctl(fd, req, arg);
@@ -153,7 +181,11 @@ int ALT_IOCTL (int file, int req, void* arg)
       rc = -ENOTTY;
     }
   }
+<<<<<<< refs/remotes/upstream/main
   else  
+=======
+  else
+>>>>>>> Revert "enlever le chain de argu"
   {
     rc = -EBADFD;
   }

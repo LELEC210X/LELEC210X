@@ -1,15 +1,27 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	data2packets.vhd
 -- DESCRIPTION:	Forms packets with provided header.
 -- DATE:	Jan 27, 2016
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 
 -- ----------------------------------------------------------------------------
 -- Notes:
 -- pct_size MIN 6words
+<<<<<<< refs/remotes/upstream/main
 -- pct_data words in packet = pct_size - 2 
+=======
+-- pct_data words in packet = pct_size - 2
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 
 library ieee;
@@ -39,7 +51,11 @@ entity data2packets is
 
       pct_wrreq         : out std_logic;
       pct_q             : out std_logic_vector(63 downto 0)
+<<<<<<< refs/remotes/upstream/main
       
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
         );
 end data2packets;
 
@@ -48,9 +64,15 @@ end data2packets;
 -- ----------------------------------------------------------------------------
 architecture arch of data2packets is
 --declare signals,  components here
+<<<<<<< refs/remotes/upstream/main
 signal reg_0      : std_logic_vector (63 downto 0); 
 signal reg_1      : std_logic_vector (63 downto 0); 
 signal reg_2      : std_logic_vector (63 downto 0); 
+=======
+signal reg_0      : std_logic_vector (63 downto 0);
+signal reg_1      : std_logic_vector (63 downto 0);
+signal reg_2      : std_logic_vector (63 downto 0);
+>>>>>>> Revert "enlever le chain de argu"
 
 signal reg_0_ld   : std_logic;
 signal reg_1_ld   : std_logic;
@@ -72,7 +94,11 @@ signal pct_data_wr_cnt_clr : std_logic;
 signal pct_end_cnt         : unsigned(7 downto 0);
 
 signal pct_wrreq_int       : std_logic;
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 
@@ -81,7 +107,11 @@ pct_data_wr_cnt_clr <= '1' when current_state = s1 else '0';
 
 -- ----------------------------------------------------------------------------
 -- Max packet write value
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------  
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 pct_data_wr_cnt_max_proc : process(reset_n, clk)
    begin
       if reset_n='0' then
@@ -93,7 +123,11 @@ pct_data_wr_cnt_max_proc : process(reset_n, clk)
 
 -- ----------------------------------------------------------------------------
 -- Delay packet write signal counter
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------     
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 pct_end_cnt_proc : process(reset_n, clk)
    begin
       if reset_n='0' then
@@ -106,10 +140,17 @@ pct_end_cnt_proc : process(reset_n, clk)
          end if;
       end if;
    end process;
+<<<<<<< refs/remotes/upstream/main
  
 -- ----------------------------------------------------------------------------
 -- Write packet counter
 -- ----------------------------------------------------------------------------  
+=======
+
+-- ----------------------------------------------------------------------------
+-- Write packet counter
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 pct_data_wr_cnt_proc : process(reset_n, clk)
    begin
       if reset_n='0' then
@@ -117,13 +158,20 @@ pct_data_wr_cnt_proc : process(reset_n, clk)
       elsif (clk'event and clk = '1') then
          if pct_data_wr_cnt_clr = '1' then
             pct_data_wr_cnt <= (others=>'0');
+<<<<<<< refs/remotes/upstream/main
          elsif pct_data_wr_cnt_en = '1' then 
             pct_data_wr_cnt <= pct_data_wr_cnt + 1;
          else 
+=======
+         elsif pct_data_wr_cnt_en = '1' then
+            pct_data_wr_cnt <= pct_data_wr_cnt + 1;
+         else
+>>>>>>> Revert "enlever le chain de argu"
             pct_data_wr_cnt <= pct_data_wr_cnt;
          end if;
       end if;
    end process;
+<<<<<<< refs/remotes/upstream/main
    
   
    reg_ld <= '1' when current_state = idle AND pct_data_wrreq='1' else '0';
@@ -132,6 +180,16 @@ pct_data_wr_cnt_proc : process(reset_n, clk)
 -- ----------------------------------------------------------------------------
 -- Register stage 0
 -- ----------------------------------------------------------------------------   
+=======
+
+
+   reg_ld <= '1' when current_state = idle AND pct_data_wrreq='1' else '0';
+   reg_en <= '1' when current_state = S2 OR pct_data_wrreq='1' else '0';
+
+-- ----------------------------------------------------------------------------
+-- Register stage 0
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
    reg_0_ld <= reg_ld;
    reg_0_en <= reg_en;
 
@@ -140,15 +198,24 @@ pct_data_wr_cnt_proc : process(reset_n, clk)
       if reset_n='0' then
          reg_0 <= (others=>'0');
       elsif (clk'event and clk = '1') then
+<<<<<<< refs/remotes/upstream/main
          if reg_0_ld = '1' then 
             reg_0 <= pct_hdr_0;
          elsif reg_0_en ='1' then 
             reg_0 <= reg_1;
          else 
+=======
+         if reg_0_ld = '1' then
+            reg_0 <= pct_hdr_0;
+         elsif reg_0_en ='1' then
+            reg_0 <= reg_1;
+         else
+>>>>>>> Revert "enlever le chain de argu"
             reg_0 <= reg_0;
          end if;
       end if;
    end process;
+<<<<<<< refs/remotes/upstream/main
    
 -- ----------------------------------------------------------------------------
 -- Register stage 1
@@ -157,20 +224,39 @@ pct_data_wr_cnt_proc : process(reset_n, clk)
 reg_1_ld <= reg_ld;
 reg_1_en <= reg_en;
    
+=======
+
+-- ----------------------------------------------------------------------------
+-- Register stage 1
+-- ----------------------------------------------------------------------------
+
+reg_1_ld <= reg_ld;
+reg_1_en <= reg_en;
+
+>>>>>>> Revert "enlever le chain de argu"
  reg_stage_1 :  process(reset_n, clk)
    begin
       if reset_n='0' then
          reg_1 <= (others=>'0');
       elsif (clk'event and clk = '1') then
+<<<<<<< refs/remotes/upstream/main
          if reg_1_ld = '1' then 
             reg_1 <= pct_hdr_1;
          elsif reg_1_en ='1' then 
             reg_1 <= reg_2;
          else 
+=======
+         if reg_1_ld = '1' then
+            reg_1 <= pct_hdr_1;
+         elsif reg_1_en ='1' then
+            reg_1 <= reg_2;
+         else
+>>>>>>> Revert "enlever le chain de argu"
             reg_1 <= reg_1;
          end if;
       end if;
    end process;
+<<<<<<< refs/remotes/upstream/main
    
 -- ----------------------------------------------------------------------------
 -- Register stage 2
@@ -179,30 +265,58 @@ reg_1_en <= reg_en;
 reg_2_ld <= pct_data_wrreq;
 reg_2_en <= '0';
    
+=======
+
+-- ----------------------------------------------------------------------------
+-- Register stage 2
+-- ----------------------------------------------------------------------------
+
+reg_2_ld <= pct_data_wrreq;
+reg_2_en <= '0';
+
+>>>>>>> Revert "enlever le chain de argu"
  reg_stage_2 :  process(reset_n, clk)
    begin
       if reset_n='0' then
          reg_2 <= (others=>'0');
       elsif (clk'event and clk = '1') then
+<<<<<<< refs/remotes/upstream/main
          if reg_2_ld = '1' then 
             reg_2 <= pct_data;
          elsif reg_2_en ='1' then 
             reg_2 <= reg_2;
          else 
+=======
+         if reg_2_ld = '1' then
+            reg_2 <= pct_data;
+         elsif reg_2_en ='1' then
+            reg_2 <= reg_2;
+         else
+>>>>>>> Revert "enlever le chain de argu"
             reg_2 <= reg_2;
          end if;
       end if;
    end process;
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 --state machine
 -- ----------------------------------------------------------------------------
 fsm_f : process(clk, reset_n)begin
 	if(reset_n = '0')then
 		current_state <= idle;
+<<<<<<< refs/remotes/upstream/main
 	elsif(clk'event and clk = '1')then 
 		current_state <= next_state;
 	end if;	
+=======
+	elsif(clk'event and clk = '1')then
+		current_state <= next_state;
+	end if;
+>>>>>>> Revert "enlever le chain de argu"
 end process;
 
 -- ----------------------------------------------------------------------------
@@ -211,6 +325,7 @@ end process;
 fsm : process(current_state, pct_data_wrreq, pct_data_wr_cnt, pct_data_wr_cnt_max, pct_end_cnt) begin
 	next_state <= current_state;
 	case current_state is
+<<<<<<< refs/remotes/upstream/main
 	  
 		when idle => -- state
          if pct_data_wrreq = '1' then 
@@ -241,6 +356,38 @@ fsm : process(current_state, pct_data_wrreq, pct_data_wr_cnt, pct_data_wr_cnt_ma
          end if;
             
 		when others => 
+=======
+
+		when idle => -- state
+         if pct_data_wrreq = '1' then
+            next_state <= s0;
+         else
+            next_state <= idle;
+         end if;
+
+      when s0 => -- state
+         if pct_data_wr_cnt = pct_data_wr_cnt_max AND pct_data_wrreq = '1' then
+            next_state <= s1;
+         else
+            next_state <= s0;
+         end if;
+
+      when s1 => -- state
+         if pct_data_wrreq = '1' then
+            next_state <= s2;
+         else
+            next_state <= s1;
+         end if;
+
+      when s2 => -- state
+         if pct_end_cnt = "00" then
+            next_state <= idle;
+         else
+            next_state <= s2;
+         end if;
+
+		when others =>
+>>>>>>> Revert "enlever le chain de argu"
 			next_state <= idle;
 	end case;
 end process;
@@ -248,6 +395,7 @@ end process;
  pct_wrreq_int_proc : process(clk, reset_n)begin
 	if(reset_n = '0')then
 		pct_wrreq_int <= '0';
+<<<<<<< refs/remotes/upstream/main
 	elsif(clk'event and clk = '1')then 
 		if pct_data_wrreq = '1' OR current_state = s2 then 
          pct_wrreq_int <= '1';
@@ -255,6 +403,15 @@ end process;
          pct_wrreq_int <= '0';
       end if;
 	end if;	
+=======
+	elsif(clk'event and clk = '1')then
+		if pct_data_wrreq = '1' OR current_state = s2 then
+         pct_wrreq_int <= '1';
+      else
+         pct_wrreq_int <= '0';
+      end if;
+	end if;
+>>>>>>> Revert "enlever le chain de argu"
 end process;
 
 -- ----------------------------------------------------------------------------
@@ -265,16 +422,24 @@ process (current_state, pct_data_wrreq)
 		case current_state is
 			when idle =>
             pct_state <= "00";
+<<<<<<< refs/remotes/upstream/main
             
 			when s0=>
             pct_state <= "01";
             
+=======
+
+			when s0=>
+            pct_state <= "01";
+
+>>>>>>> Revert "enlever le chain de argu"
 			when s1=>
 				if pct_data_wrreq = '1' then
                pct_state <= "10";
 				else
                pct_state <= "01";
 				end if;
+<<<<<<< refs/remotes/upstream/main
             
 			when s2=>
             pct_state <= "11";
@@ -294,3 +459,19 @@ end arch;
 
 
 
+=======
+
+			when s2=>
+            pct_state <= "11";
+
+         when others=>
+            pct_state <= "11";
+
+		end case;
+	end process;
+
+pct_wrreq   <= pct_wrreq_int;
+pct_q       <= reg_0;
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

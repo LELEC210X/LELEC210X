@@ -137,7 +137,11 @@ typedef enum CyU3PErrorCode_t
     CY_U3P_ERROR_CARD_UNHEALTHY,		/**< Card RD/WR Threshold error crossed */
     CY_U3P_ERROR_MEDIA_FAILURE,			/**< Card not responding to read/write transactions */
 
+<<<<<<< refs/remotes/upstream/main
     CY_U3P_ERROR_NO_REENUM_REQUIRED = 0xFE, /**< FX3 booter supports the NoReEnumeration feature that enables to have 
+=======
+    CY_U3P_ERROR_NO_REENUM_REQUIRED = 0xFE, /**< FX3 booter supports the NoReEnumeration feature that enables to have
+>>>>>>> Revert "enlever le chain de argu"
                                                  a single USB enumeration across the FX3 booter and the final
                                                  application. This error code is returned by CyU3PUsbStart ()
                                                  to indicate that the NoReEnumeration is successful and the
@@ -152,4 +156,7 @@ typedef enum CyU3PErrorCode_t
 #endif /* _INCLUDED_CYU3ERROR_H_ */
 
 /*[]*/
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

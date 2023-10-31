@@ -1,5 +1,9 @@
 ## ================================================================================
+<<<<<<< refs/remotes/upstream/main
 ## Legal Notice: Copyright (C) 1991-2023 Altera Corporation. All rights reserved.
+=======
+## Legal Notice: Copyright (C) 1991-2021 Altera Corporation. All rights reserved.
+>>>>>>> Revert "enlever le chain de argu"
 ## Any megafunction design, and related net list (encrypted or decrypted),
 ## support information, device programming or simulation file, and any other
 ## associated documentation or information provided by Altera or a partner
@@ -129,7 +133,11 @@ foreach {lib} $libs {
 
 	set file_list [glob ${top_entity}_rtl*.vhd]
 	foreach cur_file $file_list {
+<<<<<<< refs/remotes/upstream/main
 		vcom -work work $cur_file 
+=======
+		vcom -work work $cur_file
+>>>>>>> Revert "enlever le chain de argu"
 	}
 
     vcom -work work ${top_entity}_ast.vhd

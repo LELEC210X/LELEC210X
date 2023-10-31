@@ -27,6 +27,7 @@ def demodulate(y, B, R, Fdev):
     """
     Non-coherent demodulator.
     """
+<<<<<<< HEAD
     r0 = np.zeros(len(y)//R,dtype=np.complex64)
     r1 = np.zeros(len(y)//R,dtype=np.complex64)
 
@@ -44,6 +45,12 @@ def demodulate(y, B, R, Fdev):
             result[i] = 0
 
     return result
+=======
+    nb_syms = int(len(y) / R)
+    bits_hat = np.zeros(nb_syms, dtype=int)
+    return bits_hat  # TODO
+
+>>>>>>> parent of 1c43eec (enlever le chain de argu)
 
 class demodulation(gr.basic_block):
     """

@@ -32,7 +32,11 @@
 ******************************************************************************/
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * The ALT_DEVUG_ASSERT macro can be used to generate a debugger break 
+=======
+ * The ALT_DEVUG_ASSERT macro can be used to generate a debugger break
+>>>>>>> Revert "enlever le chain de argu"
  * from within software. The break is generated if "condition" evaluates to
  * false.
  */

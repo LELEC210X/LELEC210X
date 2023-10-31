@@ -35,13 +35,22 @@
 #include "os/alt_syscall.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * _rename() is used by newlib to rename an existing file. This is unsupported 
  * in the HAL environment. However a "do-nothing" implementation is still 
+=======
+ * _rename() is used by newlib to rename an existing file. This is unsupported
+ * in the HAL environment. However a "do-nothing" implementation is still
+>>>>>>> Revert "enlever le chain de argu"
  * provied for newlib compatability.
  *
  * ALT_RENAME is mapped onto the _rename() system call in alt_syscall.h
  */
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 int ALT_RENAME (char *existing, char *new)
 {
   /* Generate a link time warning, should this function ever be called. */

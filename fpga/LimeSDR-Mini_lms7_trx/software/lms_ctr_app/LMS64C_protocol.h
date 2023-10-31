@@ -1,11 +1,19 @@
 /**
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE:	LMS64C_protocol.h
 -- DESCRIPTION:	LMS64C - fixed lenght (64 bytes) lenght control protocol incuding 8 bytes header
 -- DATE:	2016.04.04
 -- AUTHOR(s):	Lime Microsystems
 -- REVISION: v0r26
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 
 */
 
@@ -13,6 +21,7 @@
 #define _LMS64C_PROTOCOL_H_
 
 enum eLMS_DEV {
+<<<<<<< refs/remotes/upstream/main
 	LMS_DEV_UNKNOWN, 
 	LMS_DEV_EVB6,
 	LMS_DEV_DIGIGREEN, 
@@ -21,6 +30,16 @@ enum eLMS_DEV {
 	LMS_DEV_ZIPPER, //MyRiad bridge to FMC, HSMC bridge
 	LMS_DEV_SOCKETBOARD, 
 	LMS_DEV_EVB7V2, 
+=======
+	LMS_DEV_UNKNOWN,
+	LMS_DEV_EVB6,
+	LMS_DEV_DIGIGREEN,
+	LMS_DEV_DIGIRED, //2x USB3, LMS6002,
+	LMS_DEV_EVB7,
+	LMS_DEV_ZIPPER, //MyRiad bridge to FMC, HSMC bridge
+	LMS_DEV_SOCKETBOARD,
+	LMS_DEV_EVB7V2,
+>>>>>>> Revert "enlever le chain de argu"
 	LMS_DEV_STREAM, //Altera Cyclone IV, USB3, 2x 128 MB RAM, RFDIO, FMC
 	LMS_DEV_NOVENA, //Freescale iMX6 CPU
 	LMS_DEV_DATASPARK, //Altera Cyclone V, 2x 256 MB RAM, 2x FMC (HPC, LPC), USB3
@@ -32,7 +51,11 @@ enum eLMS_DEV {
 	LMS_DEV_QSPARK, //2x LMS
 	LMS_DEV_ULIMESDR,
 	LMS_DEV_USTREAM, //with expansion booards (uMyriad)
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 	};
 
 enum eEXP_BOARD {
@@ -53,7 +76,11 @@ enum eEXP_BOARD {
 
 //commands
 #define CMD_GET_INFO		0x00 //Returns some info about board and firmware
+<<<<<<< refs/remotes/upstream/main
 #define CMD_WR_INFO			0x01 
+=======
+#define CMD_WR_INFO			0x01
+>>>>>>> Revert "enlever le chain de argu"
 
 //i2c peripherals control
 #define CMD_SI5356_WR	 	0x11
@@ -85,8 +112,13 @@ enum eEXP_BOARD {
 
 #define CMD_GPIO_DIR_WR		0x4F //Set GPIOs direction
 #define CMD_GPIO_DIR_RD		0x50 //Reads GPIOs direction
+<<<<<<< refs/remotes/upstream/main
 #define CMD_GPIO_WR			0x51 //Controls board’s GPIOs	
 #define CMD_GPIO_RD			0x52 //Reads board’s GPIOs states 
+=======
+#define CMD_GPIO_WR			0x51 //Controls board’s GPIOs
+#define CMD_GPIO_RD			0x52 //Reads board’s GPIOs states
+>>>>>>> Revert "enlever le chain de argu"
 #define CMD_ALTERA_FPGA_GW_WR		0x53
 #define CMD_ALTERA_FPGA_GW_RD		0x54
 

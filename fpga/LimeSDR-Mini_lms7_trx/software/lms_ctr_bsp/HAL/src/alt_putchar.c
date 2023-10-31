@@ -46,7 +46,11 @@
  * Uses the ALT_DRIVER_WRITE() macro to call directly to driver if available.
  * Otherwise, uses newlib provided putchar() routine.
  */
+<<<<<<< refs/remotes/upstream/main
 int 
+=======
+int
+>>>>>>> Revert "enlever le chain de argu"
 alt_putchar(int c)
 {
 #ifdef ALT_SEMIHOSTING

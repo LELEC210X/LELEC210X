@@ -32,15 +32,24 @@ options:
     state: enabled
 
 blocks:
+<<<<<<< refs/remotes/upstream/main
 - name: K_threshold
   id: variable
   parameters:
     comment: ''
     value: '1'
+=======
+- name: carrier_freq
+  id: variable
+  parameters:
+    comment: ''
+    value: 868e6
+>>>>>>> Revert "enlever le chain de argu"
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [556, 66]
     rotation: 0
     state: true
@@ -49,10 +58,7 @@ blocks:
   parameters:
     comment: ''
     value: 868e6
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
+=======
     coordinate: [223, 174]
     rotation: 0
     state: enabled
@@ -61,11 +67,39 @@ blocks:
   parameters:
     comment: ''
     value: 50e3
+>>>>>>> Revert "enlever le chain de argu"
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
+    coordinate: [223, 174]
+    rotation: 0
+    state: enabled
+- name: data_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: 50e3
+=======
     coordinate: [226, 103]
+    rotation: 0
+    state: true
+- name: detect_threshold_fpga
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+>>>>>>> Revert "enlever le chain de argu"
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+<<<<<<< refs/remotes/upstream/main
+    coordinate: [226, 103]
+=======
+    coordinate: [556, 66]
+>>>>>>> Revert "enlever le chain de argu"
     rotation: 0
     state: true
 - name: rx_gain
@@ -131,8 +165,14 @@ blocks:
     dacVal: '180'
     digital_bandw_ch0: samp_rate
     digital_bandw_ch1: samp_rate
+<<<<<<< refs/remotes/upstream/main
     dspcfg_PASSTHROUGH_LEN: '1000'
     dspcfg_THRESHOLD: K_threshold
+=======
+    dspcfg_FILTER_LEN: '32'
+    dspcfg_PASSTHROUGH_LEN: '1000'
+    dspcfg_THRESHOLD: detect_threshold_fpga
+>>>>>>> Revert "enlever le chain de argu"
     dspcfg_preamble_en: '0'
     filename: ''
     gain_dB_ch0: rx_gain

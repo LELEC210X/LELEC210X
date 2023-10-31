@@ -22,4 +22,7 @@
 			fir_compiler_ii_0_avalon_streaming_source_error => CONNECTED_TO_fir_compiler_ii_0_avalon_streaming_source_error, --                                          .error
 			reset_reset_n                                   => CONNECTED_TO_reset_reset_n                                    --                                     reset.reset_n
 		);
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

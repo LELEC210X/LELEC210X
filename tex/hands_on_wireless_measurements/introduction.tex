@@ -1,0 +1,9 @@
+\section*{Introduction}
+
+In this hands-on, you will learn how to demodulate wireless transmissions using a software-defined radio (SDR).
+In the final application, the S2LP radio of the MCU transmits to a gateway that embeds an FSK receiver.
+This receiver runs in GNU Radio and uses the LimeSDR Mini, a SDR board, to recover the
+baseband samples of the transmitted packet. The received samples are demodulated using the open source SDR \href{https://wiki.gnuradio.org/index.php/Main_Page}{GNU Radio software}.
+To this end, the teaching team developed a full GNU Radio implementation\footnote{At the exception of the demodulation and CFO estimation functions that you wrote previously.}
+of a FSK receiver compatible with the S2LP radio used in the project.
+The main objective of this hands-on is to experimentally receive packets from the S2LP radio and to demodulate them in GNU Radio.

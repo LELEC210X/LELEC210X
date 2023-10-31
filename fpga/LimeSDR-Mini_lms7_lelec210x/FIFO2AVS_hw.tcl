@@ -3,6 +3,7 @@
 # DO NOT MODIFY
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # FIFO2AVS "FIFO2AVS" v1.0
 #  2021.06.23.14:46:07
@@ -18,6 +19,23 @@ package require -exact qsys 16.1
 # 
 # module FIFO2AVS
 # 
+=======
+#
+# FIFO2AVS "FIFO2AVS" v1.0
+#  2021.06.23.14:46:07
+#
+#
+
+#
+# request TCL package from ACDS 16.1
+#
+package require -exact qsys 16.1
+
+
+#
+# module FIFO2AVS
+#
+>>>>>>> Revert "enlever le chain de argu"
 set_module_property DESCRIPTION ""
 set_module_property NAME FIFO2AVS
 set_module_property VERSION 1.0
@@ -33,9 +51,15 @@ set_module_property ALLOW_GREYBOX_GENERATION false
 set_module_property REPORT_HIERARCHY false
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # file sets
 # 
+=======
+#
+# file sets
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_fileset QUARTUS_SYNTH QUARTUS_SYNTH "" ""
 set_fileset_property QUARTUS_SYNTH TOP_LEVEL fifo2avs
 set_fileset_property QUARTUS_SYNTH ENABLE_RELATIVE_INCLUDE_PATHS false
@@ -55,9 +79,15 @@ set_fileset_property SIM_VHDL ENABLE_FILE_OVERWRITE_MODE true
 add_fileset_file fifo2avs.v VERILOG PATH ip/fifo2avs/fifo2avs.v
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # parameters
 # 
+=======
+#
+# parameters
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_parameter datawidth INTEGER 48 ""
 set_parameter_property datawidth DEFAULT_VALUE 48
 set_parameter_property datawidth DISPLAY_NAME datawidth
@@ -68,6 +98,7 @@ set_parameter_property datawidth DESCRIPTION ""
 set_parameter_property datawidth HDL_PARAMETER true
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # display items
 # 
@@ -76,6 +107,16 @@ set_parameter_property datawidth HDL_PARAMETER true
 # 
 # connection point avalon_streaming_source
 # 
+=======
+#
+# display items
+#
+
+
+#
+# connection point avalon_streaming_source
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface avalon_streaming_source avalon_streaming start
 set_interface_property avalon_streaming_source associatedClock clock_sink
 set_interface_property avalon_streaming_source associatedReset reset_sink
@@ -94,9 +135,15 @@ add_interface_port avalon_streaming_source avalon_streaming_source_data data Out
 add_interface_port avalon_streaming_source avalon_streaming_source_valid valid Output 1
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # connection point clock_sink
 # 
+=======
+#
+# connection point clock_sink
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface clock_sink clock end
 set_interface_property clock_sink clockRate 0
 set_interface_property clock_sink ENABLED true
@@ -108,9 +155,15 @@ set_interface_property clock_sink SVD_ADDRESS_GROUP ""
 add_interface_port clock_sink clock_sink_clk clk Input 1
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # connection point reset_sink
 # 
+=======
+#
+# connection point reset_sink
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface reset_sink reset end
 set_interface_property reset_sink associatedClock clock_sink
 set_interface_property reset_sink synchronousEdges DEASSERT
@@ -123,9 +176,15 @@ set_interface_property reset_sink SVD_ADDRESS_GROUP ""
 add_interface_port reset_sink reset_sink_reset reset Input 1
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # connection point conduit_in
 # 
+=======
+#
+# connection point conduit_in
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface conduit_in conduit end
 set_interface_property conduit_in associatedClock clock_sink
 set_interface_property conduit_in associatedReset reset_sink
@@ -137,4 +196,7 @@ set_interface_property conduit_in SVD_ADDRESS_GROUP ""
 
 add_interface_port conduit_in fifo_wdata wdata Input datawidth
 add_interface_port conduit_in fifo_wrreq wrreq Input 1
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

@@ -33,8 +33,13 @@
 #include "system.h"
 #include "alt_types.h"
 
+<<<<<<< refs/remotes/upstream/main
 /* 
  * Instructions that might mean something special to a simulator. 
+=======
+/*
+ * Instructions that might mean something special to a simulator.
+>>>>>>> Revert "enlever le chain de argu"
  * These have no special effect on real hardware (they are just nops).
  */
 #define ALT_SIM_FAIL() \

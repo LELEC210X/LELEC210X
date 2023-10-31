@@ -1,3 +1,4 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
 -- FILE:    diq2fifo.vhd
 -- DESCRIPTION:   Writes DIQ data to FIFO, FIFO word size = 4  DIQ samples 
@@ -5,6 +6,15 @@
 -- AUTHOR(s): Lime Microsystems
 -- REVISIONS:
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+-- FILE:    diq2fifo.vhd
+-- DESCRIPTION:   Writes DIQ data to FIFO, FIFO word size = 4  DIQ samples
+-- DATE: Jan 13, 2016
+-- AUTHOR(s): Lime Microsystems
+-- REVISIONS:
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -13,7 +23,11 @@ use ieee.numeric_std.all;
 -- Entity declaration
 -- ----------------------------------------------------------------------------
 entity diq2fifo is
+<<<<<<< refs/remotes/upstream/main
    generic( 
+=======
+   generic(
+>>>>>>> Revert "enlever le chain de argu"
       dev_family           : string := "Cyclone IV E";
       iq_width             : integer := 12;
       invert_input_clocks  : string := "ON"
@@ -27,12 +41,21 @@ entity diq2fifo is
       trxiqpulse     : in std_logic; -- trxiqpulse on: 1; trxiqpulse off: 0
       ddr_en         : in std_logic; -- DDR: 1; SDR: 0
       mimo_en        : in std_logic; -- SISO: 1; MIMO: 0
+<<<<<<< refs/remotes/upstream/main
       ch_en          : in std_logic_vector(1 downto 0); --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B. 
       fidm           : in std_logic; -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
       --Rx interface data 
       DIQ            : in std_logic_vector(iq_width-1 downto 0);
       fsync          : in std_logic;
       --fifo ports 
+=======
+      ch_en          : in std_logic_vector(1 downto 0); --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B.
+      fidm           : in std_logic; -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
+      --Rx interface data
+      DIQ            : in std_logic_vector(iq_width-1 downto 0);
+      fsync          : in std_logic;
+      --fifo ports
+>>>>>>> Revert "enlever le chain de argu"
       fifo_wfull     : in std_logic;
       fifo_wrreq     : out std_logic;
       fifo_wdata     : out std_logic_vector(iq_width*4-1 downto 0);
@@ -52,13 +75,20 @@ end diq2fifo;
 -- ----------------------------------------------------------------------------
 architecture arch of diq2fifo is
 --declare signals,  components here
+<<<<<<< refs/remotes/upstream/main
 signal inst0_diq_out_h  : std_logic_vector (iq_width downto 0); 
 signal inst0_diq_out_l  : std_logic_vector (iq_width downto 0);
 signal inst0_reset_n    : std_logic; 
+=======
+signal inst0_diq_out_h  : std_logic_vector (iq_width downto 0);
+signal inst0_diq_out_l  : std_logic_vector (iq_width downto 0);
+signal inst0_reset_n    : std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 
 signal inst2_data_h     : std_logic_vector (iq_width downto 0);
 signal inst2_data_l     : std_logic_vector (iq_width downto 0);
 
+<<<<<<< refs/remotes/upstream/main
 signal inst3_reset_n    : std_logic; 
 
 signal mux0_diq_h       : std_logic_vector (iq_width downto 0); 
@@ -69,18 +99,35 @@ signal mux0_diq_l_reg   : std_logic_vector (iq_width downto 0);
 
 signal smpl_cnt_en_reg  : std_logic;
   
+=======
+signal inst3_reset_n    : std_logic;
+
+signal mux0_diq_h       : std_logic_vector (iq_width downto 0);
+signal mux0_diq_l       : std_logic_vector (iq_width downto 0);
+
+signal mux0_diq_h_reg   : std_logic_vector (iq_width downto 0);
+signal mux0_diq_l_reg   : std_logic_vector (iq_width downto 0);
+
+signal smpl_cnt_en_reg  : std_logic;
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 inst0_reset_n <= reset_n when smpl_cmp_start = '0' else '1';
 
 inst0_lms7002_ddin : entity work.lms7002_ddin
+<<<<<<< refs/remotes/upstream/main
    generic map( 
+=======
+   generic map(
+>>>>>>> Revert "enlever le chain de argu"
       dev_family           => dev_family,
       iq_width             => iq_width,
       invert_input_clocks  => invert_input_clocks
    )
    port map (
       clk         => clk,
+<<<<<<< refs/remotes/upstream/main
       reset_n     => inst0_reset_n, 
       rxiq        => DIQ, 
       rxiqsel     => fsync, 
@@ -96,14 +143,37 @@ inst0_lms7002_ddin : entity work.lms7002_ddin
          if mimo_en = '0' AND ddr_en = '1' then 
             smpl_cnt_en_reg <= '1';
          else 
+=======
+      reset_n     => inst0_reset_n,
+      rxiq        => DIQ,
+      rxiqsel     => fsync,
+      data_out_h  => inst0_diq_out_h,
+      data_out_l  => inst0_diq_out_l
+        );
+
+   process(clk, inst0_reset_n)
+   begin
+      if inst0_reset_n = '0' then
+         smpl_cnt_en_reg <= '0';
+      elsif rising_edge(clk) then
+         if mimo_en = '0' AND ddr_en = '1' then
+            smpl_cnt_en_reg <= '1';
+         else
+>>>>>>> Revert "enlever le chain de argu"
             smpl_cnt_en_reg <= not smpl_cnt_en_reg;
          end if;
       end if;
    end process;
 
+<<<<<<< refs/remotes/upstream/main
         
 inst1_rxiq : entity work.rxiq
    generic map( 
+=======
+
+inst1_rxiq : entity work.rxiq
+   generic map(
+>>>>>>> Revert "enlever le chain de argu"
       dev_family           => dev_family,
       iq_width             => iq_width
    )
@@ -113,7 +183,11 @@ inst1_rxiq : entity work.rxiq
       trxiqpulse  => trxiqpulse,
       ddr_en      => ddr_en,
       mimo_en     => mimo_en,
+<<<<<<< refs/remotes/upstream/main
       ch_en       => ch_en, 
+=======
+      ch_en       => ch_en,
+>>>>>>> Revert "enlever le chain de argu"
       fidm        => fidm,
       DIQ_h       => mux0_diq_h_reg,
       DIQ_l       => mux0_diq_l_reg,
@@ -121,14 +195,22 @@ inst1_rxiq : entity work.rxiq
       fifo_wrreq  => fifo_wrreq,
       fifo_wdata  => fifo_wdata
         );
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 int2_test_data_dd : entity work.test_data_dd
 port map(
 
    clk            => clk,
    reset_n        => reset_n,
    fr_start       => fidm,
+<<<<<<< refs/remotes/upstream/main
    mimo_en        => mimo_en,  
+=======
+   mimo_en        => mimo_en,
+>>>>>>> Revert "enlever le chain de argu"
    data_h         => inst2_data_h,
    data_l         => inst2_data_l
 
@@ -136,12 +218,21 @@ port map(
 
 
 mux0_diq_h <= inst0_diq_out_h when test_ptrn_en = '0' else inst2_data_h;
+<<<<<<< refs/remotes/upstream/main
 mux0_diq_l <= inst0_diq_out_l when test_ptrn_en = '0' else inst2_data_l;	
 
 
 process(clk, reset_n)
 begin 
    if reset_n = '0' then 
+=======
+mux0_diq_l <= inst0_diq_out_l when test_ptrn_en = '0' else inst2_data_l;
+
+
+process(clk, reset_n)
+begin
+   if reset_n = '0' then
+>>>>>>> Revert "enlever le chain de argu"
       mux0_diq_h_reg <= (others=>'0');
       mux0_diq_l_reg <= (others=>'0');
    elsif (clk'event AND clk='1') then
@@ -181,6 +272,7 @@ inst3_smpl_cmp : entity work.smpl_cmp
       diq_h       => inst0_diq_out_h,
       diq_l       => inst0_diq_out_l
       );
+<<<<<<< refs/remotes/upstream/main
       
       
 -- ----------------------------------------------------------------------------
@@ -195,3 +287,14 @@ end arch;
 
 
 
+=======
+
+
+-- ----------------------------------------------------------------------------
+-- Output ports
+-- ----------------------------------------------------------------------------
+
+   smpl_cnt_en <= smpl_cnt_en_reg;
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

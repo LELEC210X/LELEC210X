@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	phase_shift.vhd
 -- DESCRIPTION:	describe
 -- DATE:	Feb 13, 2014
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -17,7 +25,11 @@ entity phase_shift is
 				);
 
   port (
+<<<<<<< refs/remotes/upstream/main
         --input ports 
+=======
+        --input ports
+>>>>>>> Revert "enlever le chain de argu"
         clk       : in std_logic;
         reset_n   : in std_logic;
 		  clk_in		: in std_logic;
@@ -25,8 +37,13 @@ entity phase_shift is
 		  reg_sel	: in std_logic_vector(7 downto 0);
 		  clk_out	: out std_logic
 
+<<<<<<< refs/remotes/upstream/main
         --output ports 
         
+=======
+        --output ports
+
+>>>>>>> Revert "enlever le chain de argu"
         );
 end phase_shift;
 
@@ -41,31 +58,52 @@ signal reg_sel_int : std_logic_vector(7 downto 0);
 
 component simple_reg is
   port (
+<<<<<<< refs/remotes/upstream/main
         --input ports 
+=======
+        --input ports
+>>>>>>> Revert "enlever le chain de argu"
 			clk      : in std_logic;
 			reset_n  : in std_logic;
 			d 			: in std_logic;
 			q			: out std_logic
+<<<<<<< refs/remotes/upstream/main
         
         );
 end component; 
 
   
+=======
+
+        );
+end component;
+
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 gen_reg :
 	for i in 0 to reg_chain_size-1 generate
+<<<<<<< refs/remotes/upstream/main
 			first : if i=0 generate  
 				reg0 : simple_reg port map
 					(clk, 
 					reset_n, 
 					clk_in, 
+=======
+			first : if i=0 generate
+				reg0 : simple_reg port map
+					(clk,
+					reset_n,
+					clk_in,
+>>>>>>> Revert "enlever le chain de argu"
 					reg_chain(i)
 					);
 			end generate first;
 
 			other : if i>0 generate
 		 		regx : simple_reg port map
+<<<<<<< refs/remotes/upstream/main
 					(clk, 
 					reset_n, 
 					reg_chain(i-1), 
@@ -73,6 +111,15 @@ gen_reg :
 					);
 			end generate other;
 				
+=======
+					(clk,
+					reset_n,
+					reg_chain(i-1),
+					reg_chain(i)
+					);
+			end generate other;
+
+>>>>>>> Revert "enlever le chain de argu"
 end generate gen_reg;
 
 
@@ -87,13 +134,19 @@ end generate gen_reg;
 --			reg_chain_d1<=reg_chain_d0;
 -- 	    end if;
 --    end process;
+<<<<<<< refs/remotes/upstream/main
 	 
 	 
+=======
+
+
+>>>>>>> Revert "enlever le chain de argu"
 	  process(reset_n, clk)
     begin
       if reset_n='0' then
 			reg_sel_int<=(others=>'0');
  	    elsif (clk'event and clk = '1') then
+<<<<<<< refs/remotes/upstream/main
 			if load_reg = '1' then 
 				reg_sel_int<=reg_sel;
 			else 
@@ -113,3 +166,21 @@ end arch;
 
 
 
+=======
+			if load_reg = '1' then
+				reg_sel_int<=reg_sel;
+			else
+				reg_sel_int<=reg_sel_int;
+			end if;
+ 	    end if;
+    end process;
+
+
+
+
+
+--clk_out<=reg_chain_d1(to_integer(unsigned(reg_sel_int)));
+clk_out<=reg_chain(to_integer(unsigned(reg_sel_int)));
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

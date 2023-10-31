@@ -1,6 +1,10 @@
 options:
   parameters:
     author: UCLouvain
+<<<<<<< HEAD
+=======
+    catch_exceptions: 'True'
+>>>>>>> parent of 1c43eec (enlever le chain de argu)
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
@@ -147,7 +151,11 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
+<<<<<<< HEAD
     file: /mnt/c/Users/audre/OneDrive - UCL/Documents/UCL/Master_1/Q1/Projet_part_1/LELEC210X_groupeC/telecom/hands_on_measurements/gr-fsk/misc/fsk_capture.mat
+=======
+    file: misc/fsk_capture.mat
+>>>>>>> parent of 1c43eec (enlever le chain de argu)
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -293,6 +301,10 @@ blocks:
     alias: ''
     comment: ''
     hwm: '-1'
+<<<<<<< HEAD
+=======
+    key: ''
+>>>>>>> parent of 1c43eec (enlever le chain de argu)
     pass_tags: 'False'
     timeout: '100'
     type: byte

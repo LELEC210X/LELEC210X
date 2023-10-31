@@ -42,15 +42,26 @@
  * that this is distinct from the strict Posix version of times(), which should
  * return the time since: 0 hours, 0 minutes, 0 seconds, January 1, 1970, GMT.
  *
+<<<<<<< refs/remotes/upstream/main
  * The input structure is filled in with time accounting information. This 
+=======
+ * The input structure is filled in with time accounting information. This
+>>>>>>> Revert "enlever le chain de argu"
  * implementation attributes all cpu time to the system.
  *
  * ALT_TIMES is mapped onto the times() system call in alt_syscall.h
  */
+<<<<<<< refs/remotes/upstream/main
  
 clock_t ALT_TIMES (struct tms *buf)
 {
   clock_t ticks = alt_nticks(); 
+=======
+
+clock_t ALT_TIMES (struct tms *buf)
+{
+  clock_t ticks = alt_nticks();
+>>>>>>> Revert "enlever le chain de argu"
 
   /* If there is no system clock present, generate an error */
 

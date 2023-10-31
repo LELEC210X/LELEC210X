@@ -74,4 +74,7 @@
 
 
 #endif /* __ALT_LICENSE_REMINDER_UCOSII_H__ */
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

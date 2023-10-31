@@ -35,7 +35,11 @@
 
 /*
  * This interrupt handler only works with an internal interrupt controller
+<<<<<<< refs/remotes/upstream/main
  * (IIC). Processors with an external interrupt controller (EIC) use an 
+=======
+ * (IIC). Processors with an external interrupt controller (EIC) use an
+>>>>>>> Revert "enlever le chain de argu"
  * implementation provided by an EIC driver.
  */
 #ifndef ALT_CPU_EIC_PRESENT
@@ -47,7 +51,11 @@
 
 /*
  * A table describing each interrupt handler. The index into the array is the
+<<<<<<< refs/remotes/upstream/main
  * interrupt id associated with the handler. 
+=======
+ * interrupt id associated with the handler.
+>>>>>>> Revert "enlever le chain de argu"
  *
  * When an interrupt occurs, the associated handler is called with
  * the argument stored in the context member.
@@ -63,16 +71,27 @@ struct ALT_IRQ_HANDLER
 } alt_irq[ALT_NIRQ];
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_irq_handler() is called by the interrupt exception handler in order to 
  * process any outstanding interrupts. 
  *
  * It is defined here since it is linked in using weak linkage. 
+=======
+ * alt_irq_handler() is called by the interrupt exception handler in order to
+ * process any outstanding interrupts.
+ *
+ * It is defined here since it is linked in using weak linkage.
+>>>>>>> Revert "enlever le chain de argu"
  * This means that if there is never a call to alt_irq_register() (above) then
  * this function will not get linked in to the executable. This is acceptable
  * since if no handler is ever registered, then an interrupt can never occur.
  *
  * If Nios II interrupt vector custom instruction exists, use it to accelerate
+<<<<<<< refs/remotes/upstream/main
  * the dispatch of interrupt handlers.  The Nios II interrupt vector custom 
+=======
+ * the dispatch of interrupt handlers.  The Nios II interrupt vector custom
+>>>>>>> Revert "enlever le chain de argu"
  * instruction is present if the macro ALT_CI_INTERRUPT_VECTOR defined.
  */
 
@@ -87,23 +106,39 @@ void alt_irq_handler (void)
   alt_u32 mask;
   alt_u32 i;
 #endif /* ALT_CI_INTERRUPT_VECTOR */
+<<<<<<< refs/remotes/upstream/main
   
   /*
    * Notify the operating system that we are at interrupt level.
    */ 
   
+=======
+
+  /*
+   * Notify the operating system that we are at interrupt level.
+   */
+
+>>>>>>> Revert "enlever le chain de argu"
   ALT_OS_INT_ENTER();
 
 #ifdef ALT_CI_INTERRUPT_VECTOR
   /*
+<<<<<<< refs/remotes/upstream/main
    * Call the interrupt vector custom instruction using the 
+=======
+   * Call the interrupt vector custom instruction using the
+>>>>>>> Revert "enlever le chain de argu"
    * ALT_CI_INTERRUPT_VECTOR macro.
    * It returns the offset into the vector table of the lowest-valued pending
    * interrupt (corresponds to highest priority) or a negative value if none.
    * The custom instruction assumes that each table entry is eight bytes.
    */
   while ((offset = ALT_CI_INTERRUPT_VECTOR) >= 0) {
+<<<<<<< refs/remotes/upstream/main
     struct ALT_IRQ_HANDLER* handler_entry = 
+=======
+    struct ALT_IRQ_HANDLER* handler_entry =
+>>>>>>> Revert "enlever le chain de argu"
       (struct ALT_IRQ_HANDLER*)(alt_irq_base + offset);
 #ifdef ALT_ENHANCED_INTERRUPT_API_PRESENT
     handler_entry->handler(handler_entry->context);
@@ -112,12 +147,21 @@ void alt_irq_handler (void)
 #endif
   }
 #else /* ALT_CI_INTERRUPT_VECTOR */
+<<<<<<< refs/remotes/upstream/main
   /* 
    * Obtain from the interrupt controller a bit list of pending interrupts,
    * and then process the highest priority interrupt. This process loops, 
    * loading the active interrupt list on each pass until alt_irq_pending() 
    * return zero.
    * 
+=======
+  /*
+   * Obtain from the interrupt controller a bit list of pending interrupts,
+   * and then process the highest priority interrupt. This process loops,
+   * loading the active interrupt list on each pass until alt_irq_pending()
+   * return zero.
+   *
+>>>>>>> Revert "enlever le chain de argu"
    * The maximum interrupt latency for the highest priority interrupt is
    * reduced by finding out which interrupts are pending as late as possible.
    * Consider the case where the high priority interupt is asserted during
@@ -133,7 +177,11 @@ void alt_irq_handler (void)
     mask = 1;
 
     /*
+<<<<<<< refs/remotes/upstream/main
      * Test each bit in turn looking for an active interrupt. Once one is 
+=======
+     * Test each bit in turn looking for an active interrupt. Once one is
+>>>>>>> Revert "enlever le chain de argu"
      * found, the interrupt handler asigned by a call to alt_irq_register() is
      * called to clear the interrupt condition.
      */
@@ -141,11 +189,19 @@ void alt_irq_handler (void)
     do
     {
       if (active & mask)
+<<<<<<< refs/remotes/upstream/main
       { 
 #ifdef ALT_ENHANCED_INTERRUPT_API_PRESENT
         alt_irq[i].handler(alt_irq[i].context); 
 #else
         alt_irq[i].handler(alt_irq[i].context, i); 
+=======
+      {
+#ifdef ALT_ENHANCED_INTERRUPT_API_PRESENT
+        alt_irq[i].handler(alt_irq[i].context);
+#else
+        alt_irq[i].handler(alt_irq[i].context, i);
+>>>>>>> Revert "enlever le chain de argu"
 #endif
         break;
       }
@@ -155,13 +211,21 @@ void alt_irq_handler (void)
     } while (1);
 
     active = alt_irq_pending ();
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   } while (active);
 #endif /* ALT_CI_INTERRUPT_VECTOR */
 
   /*
    * Notify the operating system that interrupt processing is complete.
+<<<<<<< refs/remotes/upstream/main
    */ 
+=======
+   */
+>>>>>>> Revert "enlever le chain de argu"
 
   ALT_OS_INT_EXIT();
 }

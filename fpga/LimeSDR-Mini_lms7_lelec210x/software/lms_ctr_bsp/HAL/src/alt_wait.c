@@ -40,7 +40,11 @@
  *
  * ALT_WAIT is mapped onto the wait() system call in alt_syscall.h
  */
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 int ALT_WAIT (int *status)
 {
   *status = 0;
@@ -49,4 +53,7 @@ int ALT_WAIT (int *status)
 
   return -1;
 }
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

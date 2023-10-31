@@ -27,6 +27,7 @@ def cfo_estimation(y, B, R, Fdev):
     """
     Estimate CFO using Moose algorithm, on first samples of preamble
     """
+<<<<<<< HEAD
     # TO DO: extract 2 blocks of size N*R at the start of y
     # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
     
@@ -44,6 +45,10 @@ def cfo_estimation(y, B, R, Fdev):
     cfo_est = np.angle(alpha) / denom
 
     return int(cfo_est)
+=======
+    return 0.0  # TODO
+
+>>>>>>> parent of 1c43eec (enlever le chain de argu)
 
 def sto_estimation(y, B, R, Fdev):
     """

@@ -45,7 +45,11 @@ extern "C"
 #endif /* __cplusplus */
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * The function alt_set_args() is provided in order to define the input 
+=======
+ * The function alt_set_args() is provided in order to define the input
+>>>>>>> Revert "enlever le chain de argu"
  * arguments to main(). If this function is not called before main() then the
  * argument list passed to main() will be empty.
  *
@@ -67,5 +71,9 @@ static inline void alt_set_args (int argc, char** argv, char** envp)
 #ifdef __cplusplus
 }
 #endif
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 #endif /* __ALT_SET_ARGS_H__ */

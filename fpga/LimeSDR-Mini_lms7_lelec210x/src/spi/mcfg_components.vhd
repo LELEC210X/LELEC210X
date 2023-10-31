@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE:	mcfg_components.vhd
 -- DESCRIPTION:	This package contains all component declarations.
 -- DATE:	Dec 31, 2013
 -- AUTHOR(s):	Lime Microsystems
 -- REVISION
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 
 library	ieee;
 use ieee.std_logic_1164.all;
@@ -20,7 +28,11 @@ package mcfg_components is
 
 -- ----------------------------------------------------------------------------
 component mcfg32w_fsm
+<<<<<<< refs/remotes/upstream/main
 	port (		  
+=======
+	port (
+>>>>>>> Revert "enlever le chain de argu"
 		address: in std_logic_vector(9 downto 0);	-- Hardware address
 		inst_reg: in std_logic_vector(15 downto 0);	-- Instruction register (read only here)
 		sclk: in std_logic;				-- Serial clock
@@ -79,7 +91,11 @@ end component;
 
 -- ----------------------------------------------------------------------------
 component mcfg64w_fsm
+<<<<<<< refs/remotes/upstream/main
 	port (		  
+=======
+	port (
+>>>>>>> Revert "enlever le chain de argu"
 		address: in std_logic_vector(8 downto 0);	-- Hardware address
 		inst_reg: in std_logic_vector(15 downto 0);	-- Instruction register (read only here)
 		sclk: in std_logic;				-- Serial clock
@@ -163,12 +179,17 @@ component mcfg
 		-- Will be hard wired at the top level
 		maddress: in std_logic_vector(9 downto 0);
 		mimo_en: in std_logic;	-- MIMO enable, from TOP SPI
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Serial port IOs
 		sdin: in std_logic; 	-- Data in
 		sclk: in std_logic; 	-- Data clock
 		sen: in std_logic;	-- Enable signal (active low)
 		sdout: out std_logic; 	-- Data out
+<<<<<<< refs/remotes/upstream/main
 	
 		-- Signals coming from the pins or top level serial interface
 		hreset: in std_logic; 	-- Hard reset signal, resets everything
@@ -176,6 +197,15 @@ component mcfg
 		
 		oen: out std_logic;
 		
+=======
+
+		-- Signals coming from the pins or top level serial interface
+		hreset: in std_logic; 	-- Hard reset signal, resets everything
+		txen: in std_logic;	-- Power down all modules when txen=0
+
+		oen: out std_logic;
+
+>>>>>>> Revert "enlever le chain de argu"
 		en		: buffer std_logic;
 		NCOF	: buffer std_logic_vector (31 downto 0);
 		stateo: out std_logic_vector(5 downto 0);
@@ -187,7 +217,11 @@ component mcfg
     fsinc_polarity: out std_logic;     -- 1: frame start, when 1; 0: frame start, when 0.
     interleave_mode: out std_logic;    -- 0: IQ; 1: QI.
     clk_pol: out std_logic;            -- 0: positive; 1: negative.
+<<<<<<< refs/remotes/upstream/main
 		ovr: out std_logic_vector(2 downto 0);	--HBI interpolation ratio 
+=======
+		ovr: out std_logic_vector(2 downto 0);	--HBI interpolation ratio
+>>>>>>> Revert "enlever le chain de argu"
 		gfir1l: out std_logic_vector(2 downto 0);		--Length of GPFIR1
 		gfir1n: out std_logic_vector(7 downto 0);		--Clock division ratio of GPFIR1
 		gfir2l: out std_logic_vector(2 downto 0);		--Length of GPFIR2
@@ -214,24 +248,42 @@ component ncocfg
 		-- Will be hard wired at the top level
 		maddress: in std_logic_vector(8 downto 0);
 		mimo_en: in std_logic;	-- MIMO enable, from TOP SPI
+<<<<<<< refs/remotes/upstream/main
 		
 		-- Clock for shadow register
 		clk: in std_logic;
 	
+=======
+
+		-- Clock for shadow register
+		clk: in std_logic;
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Serial port IOs
 		sdin: in std_logic; 	-- Data in
 		sclk: in std_logic; 	-- Data clock
 		sen: in std_logic;	-- Enable signal (active low)
 		sdout: out std_logic; 	-- Data out
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Signals coming from the pins or top level serial interface
 		lreset: in std_logic; 	-- Logic reset signal, resets logic cells only
 		mreset: in std_logic; 	-- Memory reset signal, resets configuration memory only
 		oen: out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
 		pho: out std_logic_vector(15 downto 0);
 		fcw: out std_logic_vector(31 downto 0);
 		
+=======
+
+		pho: out std_logic_vector(15 downto 0);
+		fcw: out std_logic_vector(31 downto 0);
+
+>>>>>>> Revert "enlever le chain de argu"
 		dthbit: out std_logic_vector(3 downto 0)
 	);
 end component;
@@ -278,7 +330,11 @@ component topcfg
 		-- Address and location of this module
 		-- These signals will be hard wired at the top level
 		maddress: in std_logic_vector(3 downto 0);
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Serial port A IOs
 		sdin: in std_logic; 	-- Data in
 		sclk: in std_logic; 	-- Data clock
@@ -286,6 +342,7 @@ component topcfg
 		sdout: out std_logic; 	-- Data out
 		oen: out std_logic;			-- Enable for data out
 		sddir: out std_logic;	-- SDIO  direction control
+<<<<<<< refs/remotes/upstream/main
 	
 		-- Signals coming from the pins or top level serial interface
 		hreset: in std_logic; 	-- Hard reset signal, resets everything
@@ -297,12 +354,29 @@ component topcfg
 		mimo1en: in std_logic;
 		--mimo2en: in std_logic;
 		
+=======
+
+		-- Signals coming from the pins or top level serial interface
+		hreset: in std_logic; 	-- Hard reset signal, resets everything
+		clk: in std_logic;	-- Master clock (40MHz), drives shadow register
+
+		--=== Control lines ===--
+
+		-- MIMO channel select
+		mimo1en: in std_logic;
+		--mimo2en: in std_logic;
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Soft enables
 		--stxen1: in std_logic;
 		--stxen2: in std_logic;
 		--srxen1: in std_logic;
 		--srxen2: in std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 
 		-- AFE control lines
 		ISEL_DAC_AFE				: out std_logic_vector(2 downto 0);
@@ -314,7 +388,11 @@ component topcfg
 		PD_RX_AFE2					: out std_logic;
 		PD_TX_AFE1					: out std_logic;
 		PD_TX_AFE2					: out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- BIAS control lines
 		RESRV_BIAS			: out std_logic_vector(10 downto 0);
 		MUX_BIAS_OUT		: out std_logic_vector(1 downto 0);
@@ -324,7 +402,11 @@ component topcfg
 		PD_PTRP_BIAS		: out std_logic;
 		PD_PT_BIAS			: out std_logic;
 		PD_BIAS_MASTER	: out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- XBUF control lines
 		SLFB_XBUF_RX			: out std_logic;
 		SLFB_XBUF_TX			: out std_logic;
@@ -335,16 +417,28 @@ component topcfg
 		PD_XBUF_RX				: out std_logic;
 		PD_XBUF_TX				: out std_logic;
 
+<<<<<<< refs/remotes/upstream/main
 		-- CLKGEN control lines		
 		RESRV_CGN						: out std_logic_vector(3 downto 1);
 		
+=======
+		-- CLKGEN control lines
+		RESRV_CGN						: out std_logic_vector(3 downto 1);
+
+>>>>>>> Revert "enlever le chain de argu"
 		VCO_CMPHO_CGEN:	in std_logic;
 		VCO_CMPLO_CGEN:	in std_logic;
 		COARSEPLL_COMPO_CGEN:	in std_logic;
 		COARSE_STEPDONE_CGEN:	in std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
 		REV_CLKDAC_CGEN			: out std_logic;
 		REV_CLKADC_CGEN			: out std_logic; 
+=======
+
+		REV_CLKDAC_CGEN			: out std_logic;
+		REV_CLKADC_CGEN			: out std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 
 		CP2_CLKGEN					: out std_logic_vector(3 downto 0);
 		CP3_CLKGEN					: out std_logic_vector(3 downto 0);
@@ -381,8 +475,13 @@ component topcfg
 		PD_SDM_CGEN					: out std_logic;
 		PD_VCO_CGEN					: out std_logic;
 		PD_VCO_COMP_CGEN		: out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
 		-- LDO control lines	
+=======
+
+		-- LDO control lines
+>>>>>>> Revert "enlever le chain de argu"
 		RDIV_AFE			: out std_logic_vector(7 downto 0);
 		RDIV_SPIBUF: out std_logic_vector(7 downto 0);
 
@@ -475,7 +574,11 @@ component topcfg
 		BYP_LDO_VCOGN         : out std_logic;
 		BYP_LDO_VCOSXR        : out std_logic;
 		BYP_LDO_VCOSXT        : out std_logic;
+<<<<<<< refs/remotes/upstream/main
                       
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		EN_LOADIMP_LDO_AFE    : out std_logic;
 		EN_LOADIMP_LDO_CPGN   : out std_logic;
 		EN_LOADIMP_LDO_CPSXR  : out std_logic;
@@ -529,7 +632,11 @@ component topcfg
 		EN_LDO_TBB      : out std_logic;
 		EN_LDO_TIA12    : out std_logic;
 		EN_LDO_TIA14    : out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		BYP_LDO_DIGIp1				:	out std_logic;
 		pd_LDO_DIGIp1					:	out std_logic;
 		EN_LOADIMP_LDO_DIGIp1	:	out std_logic;
@@ -544,7 +651,11 @@ component topcfg
 		EN_LOADIMP_LDO_SPIBUF :	out std_logic;
 		BYP_LDO_SPIBUF  :	out std_logic;
 		SPDUP_LDO_SPIBUF  :	out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- BIST
 		bsigt		: in std_logic_vector(22 downto 0);	-- SXT BIST signature
 		bsigr		: in std_logic_vector(22 downto 0);	-- SXR BIST signature
@@ -566,12 +677,20 @@ component topcfg
     cdsn_rxblml   : out std_logic;
     cdsn_mclk2    : out std_logic;
     cdsn_mclk1    : out std_logic;
+<<<<<<< refs/remotes/upstream/main
 	 
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     cds_txatsp    :	out std_logic_vector(3 downto 0);
     cds_txbtsp    :	out std_logic_vector(3 downto 0);
     cds_rxatsp    :	out std_logic_vector(3 downto 0);
     cds_rxbtsp    :	out std_logic_vector(3 downto 0);
+<<<<<<< refs/remotes/upstream/main
 	 
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     cds_txalml    :	out std_logic_vector(3 downto 0);
     cds_txblml    :	out std_logic_vector(3 downto 0);
     cds_rxalml    :	out std_logic_vector(3 downto 0);
@@ -579,7 +698,11 @@ component topcfg
 
     cds_mclk2    :	out std_logic_vector(3 downto 0);
     cds_mclk1    :	out std_logic_vector(3 downto 0);
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 	EN_SDM_TSTO_SXR, EN_SDM_TSTO_SXT:	out std_logic;
 
 		-- SPARE
@@ -597,13 +720,18 @@ component atrxcfg
 		-- Address and location of this module
 		-- These signals will be hard wired at the top level
 		maddress: in std_logic_vector(3 downto 0);
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Serial port A IOs
 		sdin: in std_logic; 	-- Data in
 		sclk: in std_logic; 	-- Data clock
 		sen: in std_logic;	-- Enable signal (active low)
 		sdout: out std_logic; 	-- Data out
 		oen: out std_logic;			-- Enable for data out
+<<<<<<< refs/remotes/upstream/main
 	
 		-- Signals coming from the pins or top level serial interface
 		hreset: in std_logic; 	-- Hard reset signal, resets everything
@@ -622,6 +750,26 @@ component atrxcfg
 		srxen: in std_logic;
 		
 	
+=======
+
+		-- Signals coming from the pins or top level serial interface
+		hreset: in std_logic; 	-- Hard reset signal, resets everything
+		clk: in std_logic;	-- Master clock (40MHz), drives shadow register
+
+		--=== Control lines ===--
+
+		-- MIMO channel select
+		--msid: in std_logic;				-- MIMO/SISO identification. From PAD.
+		mimo_en: in std_logic; 	--
+		bnaid: in std_logic; 		-- A/B ID: 1: B, 0: A
+
+
+		-- Soft enables
+		stxen: in std_logic;
+		srxen: in std_logic;
+
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- TRF control lines
 		CDC_I_TRF, CDC_Q_TRF:	out std_logic_vector(3 downto 0);
 		--
@@ -718,7 +866,11 @@ component atrxcfg
 		--
 		CDC_I_RFE:	out std_logic_vector(3 downto 0);
 		CDC_Q_RFE:	out std_logic_vector(3 downto 0);
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		PD_LNA_RFE: 	out std_logic;
 		PD_RLOOPB_1_RFE		: out std_logic;
 		PD_RLOOPB_2_RFE		: out std_logic;
@@ -727,7 +879,11 @@ component atrxcfg
 		PD_RSSI_RFE				: out std_logic;
 		PD_TIA_RFE				: out std_logic;
 
+<<<<<<< refs/remotes/upstream/main
 		-- RBB control lines 
+=======
+		-- RBB control lines
+>>>>>>> Revert "enlever le chain de argu"
 		RESRV_RBB	: out std_logic_vector(6 downto 0);
 		--
 		INPUT_CTL_PGA_RBB	: out std_logic_vector(2 downto 0);
@@ -754,15 +910,26 @@ component atrxcfg
 		PD_LPFH_RBB			: out std_logic;
 		PD_LPFL_RBB			: out std_logic;
 		PD_PGA_RBB			: out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
 		-- SX control lines 
 		RESRV_SX	: out std_logic_vector(4 downto 0);
 		
+=======
+
+		-- SX control lines
+		RESRV_SX	: out std_logic_vector(4 downto 0);
+
+>>>>>>> Revert "enlever le chain de argu"
 		VCO_CMPHO_SX:	in std_logic;
 		VCO_CMPLO_SX:	in std_logic;
 		COARSEPLL_COMPO_SX:	in std_logic;
 		COARSE_STEPDONE_SX:	in std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		--
 		CP2_PLL_SX	: out std_logic_vector(3 downto 0);
 		CP3_PLL_SX	: out std_logic_vector(3 downto 0);
@@ -805,7 +972,11 @@ component atrxcfg
 		PD_FDIV_SX					: out std_logic;
 		PD_SDM_SX						: out std_logic;
 		PD_VCO_COMP_SX			: out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		PD_VCO_SX						: out std_logic		
+=======
+		PD_VCO_SX						: out std_logic
+>>>>>>> Revert "enlever le chain de argu"
 
 	);
 end component;
@@ -817,7 +988,11 @@ component lmlcfg
 		-- Will be hard wired at the top level
 		maddress: in std_logic_vector(9 downto 0);
 		mimo_en: in std_logic;	-- MIMO enable, from TOP SPI
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Serial port IOs
 		sdin: in std_logic; 	-- Data in
 		sclk: in std_logic; 	-- Data clock
@@ -827,7 +1002,11 @@ component lmlcfg
 		sdio_InO: out std_logic;	-- SDIO direction control
 		smdin: in std_logic_vector (9 downto 0);	--Inputs from other SPI modules
 
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Signals coming from the pins or top level serial interface
 		hreset: in std_logic; 	-- Logic reset signal, resets logic cells only
 		txen: in std_logic;	-- Power down all TX modules when txen=0
@@ -837,7 +1016,11 @@ component lmlcfg
 		ver: in std_logic_vector(4 downto 0);
 		rev: in std_logic_vector(4 downto 0);
 		mask: in std_logic_vector(5 downto 0);
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Clock Multiplexers
 		rxwrclk_sel: out std_logic_vector(1 downto 0);
 		rxrdclk_sel: out std_logic_vector(1 downto 0);
@@ -845,6 +1028,7 @@ component lmlcfg
 		txrdclk_sel: out std_logic_vector(1 downto 0);
 		txmux_sel: out std_logic_vector(1 downto 0);
 		rxmux_sel: out std_logic_vector(1 downto 0);
+<<<<<<< refs/remotes/upstream/main
 		
 		-- LML Module Enable
 		mod_en: out std_logic;
@@ -852,6 +1036,15 @@ component lmlcfg
 		
 		-- LimeLight Control lines
 		-- Port1		
+=======
+
+		-- LML Module Enable
+		mod_en: out std_logic;
+
+
+		-- LimeLight Control lines
+		-- Port1
+>>>>>>> Revert "enlever le chain de argu"
 		lml1_aip: out std_logic_vector(1 downto 0); -- AI sample position, for RX part
 		lml1_aqp: out std_logic_vector(1 downto 0); -- AQ sample position, for RX part
 		lml1_bip: out std_logic_vector(1 downto 0); -- BI sample position, for RX part
@@ -861,7 +1054,11 @@ component lmlcfg
 		lml1_s1s: out std_logic_vector(1 downto 0); -- Sample #1 source (00:ai, 01:aq, 10:bi, 11:bq), for TX part
 		lml1_s2s: out std_logic_vector(1 downto 0); -- Sample #2 source (00:ai, 01:aq, 10:bi, 11:bq), for TX part
 		lml1_s3s: out std_logic_vector(1 downto 0); -- Sample #3 source (00:ai, 01:aq, 10:bi, 11:bq), for TX part
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		lml1_tx_pre: out std_logic_vector(7 downto 0);  -- Wait for clock # before BB2RF burst
 		lml1_tx_pst: out std_logic_vector(7 downto 0);  -- Wait for clock # after BB2RF burst
 		lml1_rx_pre: out std_logic_vector(7 downto 0);  -- Wait for clock # before RF2BB burst
@@ -869,7 +1066,11 @@ component lmlcfg
 
     lml1_mode: out std_logic; -- JESD207: 1; TRXIQ: 0
 		lml1_txnrxiq: out std_logic;		-- TXIQ/RXIQ mode selection, when mode = '0': '1' - TXIQ, '0' - RXIQ
+<<<<<<< refs/remotes/upstream/main
     lml1_fidm: out std_logic; -- WHEN mode = 0 (TRXIQ): External Frame ID mode. 
+=======
+    lml1_fidm: out std_logic; -- WHEN mode = 0 (TRXIQ): External Frame ID mode.
+>>>>>>> Revert "enlever le chain de argu"
 
 		-- Port2
 		lml2_aip: out std_logic_vector(1 downto 0); -- AI sample position, for RX part
@@ -889,8 +1090,13 @@ component lmlcfg
 
     lml2_mode: out std_logic; -- JESD207: 1; TRXIQ: 0
 		lml2_txnrxiq: out std_logic;		-- TXIQ/RXIQ mode selection, when mode = '0': '1' - TXIQ, '0' - RXIQ
+<<<<<<< refs/remotes/upstream/main
     lml2_fidm: out std_logic; -- WHEN mode = 0 (TRXIQ): External Frame ID mode. 
 		
+=======
+    lml2_fidm: out std_logic; -- WHEN mode = 0 (TRXIQ): External Frame ID mode.
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Direction control of ports
 		enabledirctr1	: out std_logic;
 		enabledir1		: out std_logic;
@@ -900,7 +1106,11 @@ component lmlcfg
 		diqdir1				: out std_logic;
 		diqdirctr2		: out std_logic;
 		diqdir2				: out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Dividers for MCLK signals, internal signals
 		fclk1inv: out std_logic;
 		fclk2inv: out std_logic;
@@ -910,10 +1120,17 @@ component lmlcfg
 		txdiven: out std_logic;
 		mclk1src: out std_logic_vector(1 downto 0);
 		mclk2src: out std_logic_vector(1 downto 0);
+<<<<<<< refs/remotes/upstream/main
 		rxclkdivider: out std_logic_vector(7 downto 0);  -- 
 		txclkdivider: out std_logic_vector(7 downto 0);  -- 
 		
 		-- Control lines for pads 
+=======
+		rxclkdivider: out std_logic_vector(7 downto 0);  --
+		txclkdivider: out std_logic_vector(7 downto 0);  --
+
+		-- Control lines for pads
+>>>>>>> Revert "enlever le chain de argu"
 		sen_pe 	: out std_logic;
 		sclk_pe : out std_logic;
 		sdo_pe 	: out std_logic;
@@ -925,7 +1142,11 @@ component lmlcfg
 		sda_pe	: out std_logic;
 		rxclk_pe: out std_logic;
 		txclk_pe: out std_logic;
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		mclk1_pe				: out std_logic;
 		fclk1_pe				: out std_logic;
 		txnrx1_pe				: out std_logic;
@@ -938,7 +1159,11 @@ component lmlcfg
 		iq_sel_en_2_pe	: out std_logic;
 		diq2_pe				: out std_logic;
 		diq2_ds				: out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		mimo_en_A		: out std_logic;
 		mimo_en_B		: out std_logic;
 		txen_A			: out std_logic;
@@ -955,7 +1180,11 @@ component lmlcfg
 		lrst_tx_A		: out std_logic;
 		mrst_tx_B		: out std_logic;
 		lrst_tx_B		: out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		mimo_nen		: in std_logic	-- From PAD. 0: MIMO; 1: SISO.
 
 	);
@@ -968,7 +1197,11 @@ component achipcfg
 		-- These signals will be hard wired at the top level
 		maddress_top:	in std_logic_vector(3 downto 0);
 		maddress_atrx:	in std_logic_vector(3 downto 0);
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Serial port A IOs
 		sdin:	in std_logic; 	-- Data in
 		sclk:	in std_logic; 	-- Data clock
@@ -977,11 +1210,16 @@ component achipcfg
 		--oen:	out std_logic;			-- Enable for data out
 		--spim_sdout:	in std_logic_vector (13 downto 0);	--Inputs from other SPI modules connected
 		--sddir:	out std_logic;	-- SDIO direction control
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Signals coming from the pins or top level serial interface
 		hreset:	in std_logic; 	-- Hard reset signal, resets everything
 		clk:	in std_logic;	-- Master clock (40MHz), drives shadow register
 		bclk:	in std_logic;	-- BIST clock
+<<<<<<< refs/remotes/upstream/main
 		
 		--=== Control lines ===--
 		
@@ -989,12 +1227,25 @@ component achipcfg
 		mimo1en:	in std_logic;
 		mimo2en:	in std_logic;
 		
+=======
+
+		--=== Control lines ===--
+
+		-- MIMO channel select
+		mimo1en:	in std_logic;
+		mimo2en:	in std_logic;
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Soft enables
 		stxen1:	in std_logic;
 		stxen2:	in std_logic;
 		srxen1:	in std_logic;
 		srxen2:	in std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		--============================= FROM TOP CONFIGURATION =============================--
 		-- AFE control lines
 		ISEL_DAC_AFE:	out std_logic_vector(2 downto 0);
@@ -1006,7 +1257,11 @@ component achipcfg
 		PD_RX_AFE2:		out std_logic;
 		PD_TX_AFE1:		out std_logic;
 		PD_TX_AFE2:		out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- BIAS control lines
 		RESRV_BIAS:	out std_logic_vector(10 downto 0);
 		MUX_BIAS_OUT:	out std_logic_vector(1 downto 0);
@@ -1016,7 +1271,11 @@ component achipcfg
 		PD_PTRP_BIAS:	out std_logic;
 		PD_PT_BIAS:	out std_logic;
 		PD_BIAS_MASTER:	out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- XBUF control lines
 		SLFB_XBUF_RX:	out std_logic;
 		SLFB_XBUF_TX:	out std_logic;
@@ -1027,15 +1286,26 @@ component achipcfg
 		PD_XBUF_RX:		out std_logic;
 		PD_XBUF_TX:		out std_logic;
 
+<<<<<<< refs/remotes/upstream/main
 		-- CLKGEN control lines	
 		SDM_TSTO_CGEN:		in std_logic_vector(13 downto 0);		
 		RESRV_CGN:			out std_logic_vector(3 downto 1);
 		
+=======
+		-- CLKGEN control lines
+		SDM_TSTO_CGEN:		in std_logic_vector(13 downto 0);
+		RESRV_CGN:			out std_logic_vector(3 downto 1);
+
+>>>>>>> Revert "enlever le chain de argu"
 		VCO_CMPHO_CGEN:		in std_logic;
 		VCO_CMPLO_CGEN:		in std_logic;
 		COARSEPLL_COMPO_CGEN:	in std_logic;
 		COARSE_STEPDONE_CGEN:	in std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		REV_CLKDAC_CGEN:	out std_logic;
 		REV_CLKADC_CGEN:	out std_logic;
 
@@ -1074,8 +1344,13 @@ component achipcfg
 		PD_SDM_CGEN:	out std_logic;
 		PD_VCO_CGEN:	out std_logic;
 		PD_VCO_COMP_CGEN:	out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
 		-- LDO control lines	
+=======
+
+		-- LDO control lines
+>>>>>>> Revert "enlever le chain de argu"
 		RDIV_AFE:		out std_logic_vector(7 downto 0);
 		RDIV_SPIBUF:	out std_logic_vector(7 downto 0);
 
@@ -1168,7 +1443,11 @@ component achipcfg
 		BYP_LDO_VCOGN:	out std_logic;
 		BYP_LDO_VCOSXR:	out std_logic;
 		BYP_LDO_VCOSXT:	out std_logic;
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		EN_LOADIMP_LDO_AFE:	out std_logic;
 		EN_LOADIMP_LDO_CPGN:	out std_logic;
 		EN_LOADIMP_LDO_CPSXR:	out std_logic;
@@ -1222,7 +1501,11 @@ component achipcfg
 		EN_LDO_TBB:	out std_logic;
 		EN_LDO_TIA12:	out std_logic;
 		EN_LDO_TIA14:	out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		BYP_LDO_DIGIp1:	out std_logic;
 		pd_LDO_DIGIp1:	out std_logic;
 		EN_LOADIMP_LDO_DIGIp1:	out std_logic;
@@ -1237,7 +1520,11 @@ component achipcfg
 		EN_LOADIMP_LDO_SPIBUF :	out std_logic;
 		BYP_LDO_SPIBUF:	out std_logic;
 		SPDUP_LDO_SPIBUF:	out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Clock delay buffer related
 		cdsn_txatsp:	out std_logic;
 		cdsn_txbtsp:	out std_logic;
@@ -1249,12 +1536,20 @@ component achipcfg
 		cdsn_rxblml:	out std_logic;
 		cdsn_mclk2:	out std_logic;
 		cdsn_mclk1:	out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		 
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		cds_txatsp:	out std_logic_vector(3 downto 0);
 		cds_txbtsp:	out std_logic_vector(3 downto 0);
 		cds_rxatsp:	out std_logic_vector(3 downto 0);
 		cds_rxbtsp:	out std_logic_vector(3 downto 0);
+<<<<<<< refs/remotes/upstream/main
 		 
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		cds_txalml:	out std_logic_vector(3 downto 0);
 		cds_txblml:	out std_logic_vector(3 downto 0);
 		cds_rxalml:	out std_logic_vector(3 downto 0);
@@ -1268,7 +1563,11 @@ component achipcfg
 		spare1:	out std_logic_vector(15 downto 0);
 		spare2:	out std_logic_vector(15 downto 0);
 		spare3:	out std_logic_vector(15 downto 0);
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		--============================= FROM ATRX CONFIGURATION, CNANNEL 1 =============================--
 		-- TRF control lines
 		CDC_I_TRF_1:		out std_logic_vector(3 downto 0);
@@ -1331,10 +1630,17 @@ component achipcfg
 		PD_TBB_1:			out std_logic;
 
 		-- RFE control lines
+<<<<<<< refs/remotes/upstream/main
 		
 		PD_LNA_RFE_1:		out std_logic;
 		SEL_PATH_RFE_1:		out std_logic_vector(1 downto 0);
 		
+=======
+
+		PD_LNA_RFE_1:		out std_logic;
+		SEL_PATH_RFE_1:		out std_logic_vector(1 downto 0);
+
+>>>>>>> Revert "enlever le chain de argu"
 		--
 		RCOMP_TIA_RFE_1:	out std_logic_vector(3 downto 0);
 		RFB_TIA_RFE_1:	out std_logic_vector(4 downto 0);
@@ -1374,7 +1680,11 @@ component achipcfg
 		PD_RSSI_RFE_1:	out std_logic;
 		PD_TIA_RFE_1:	out std_logic;
 
+<<<<<<< refs/remotes/upstream/main
 		-- RBB control lines 
+=======
+		-- RBB control lines
+>>>>>>> Revert "enlever le chain de argu"
 		RESRV_RBB_1:		out std_logic_vector(6 downto 0);
 		--
 		INPUT_CTL_PGA_RBB_1:	out std_logic_vector(2 downto 0);
@@ -1401,12 +1711,21 @@ component achipcfg
 		PD_LPFH_RBB_1:	out std_logic;
 		PD_LPFL_RBB_1:	out std_logic;
 		PD_PGA_RBB_1:	out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
 		-- SX control lines 
 		RESRVE_SXR:		out std_logic_vector(4 downto 0);
 
 		-- aditional, instead resrv
 		PD_FBDIV_SXR:	out std_logic; 
+=======
+
+		-- SX control lines
+		RESRVE_SXR:		out std_logic_vector(4 downto 0);
+
+		-- aditional, instead resrv
+		PD_FBDIV_SXR:	out std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 		PD_FBDIV_SXT:	out std_logic;
 		CDC_I_RFE_1:	out std_logic_vector(3 downto 0);
 		CDC_Q_RFE_1:	out std_logic_vector(3 downto 0);
@@ -1418,7 +1737,11 @@ component achipcfg
 		VCO_CMPLO_SXR:	in std_logic;
 		COARSEPLL_COMPO_SXR:	in std_logic;
 		COARSE_STEPDONE_SXR:	in std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		SDM_TSTO_SXR:	in std_logic_vector(13 downto 0);
 
 		--
@@ -1463,7 +1786,11 @@ component achipcfg
 		PD_SDM_SXR:		out std_logic;
 		PD_VCO_COMP_SXR:	out std_logic;
 		PD_VCO_SXR:		out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		--============================= FROM ATRX CONFIGURATION, CNANNEL 2 =============================--
 		-- TRF control lines
 		CDC_I_TRF_2:	out std_logic_vector(3 downto 0);
@@ -1527,12 +1854,21 @@ component achipcfg
 		PD_TBB_2:		out std_logic;
 
 		-- RFE control lines
+<<<<<<< refs/remotes/upstream/main
 		
 		PD_LNA_RFE_2:		out std_logic;
 		SEL_PATH_RFE_2:		out std_logic_vector(1 downto 0);
 		
 		--
 		
+=======
+
+		PD_LNA_RFE_2:		out std_logic;
+		SEL_PATH_RFE_2:		out std_logic_vector(1 downto 0);
+
+		--
+
+>>>>>>> Revert "enlever le chain de argu"
 		RCOMP_TIA_RFE_2:	out std_logic_vector(3 downto 0);
 		RFB_TIA_RFE_2:	out std_logic_vector(4 downto 0);
 		--
@@ -1571,7 +1907,11 @@ component achipcfg
 		PD_RSSI_RFE_2:	out std_logic;
 		PD_TIA_RFE_2:	out std_logic;
 
+<<<<<<< refs/remotes/upstream/main
 		-- RBB control lines 
+=======
+		-- RBB control lines
+>>>>>>> Revert "enlever le chain de argu"
 		RESRV_RBB_2:	out std_logic_vector(6 downto 0);
 		--
 		INPUT_CTL_PGA_RBB_2:	out std_logic_vector(2 downto 0);
@@ -1598,18 +1938,31 @@ component achipcfg
 		PD_LPFH_RBB_2:	out std_logic;
 		PD_LPFL_RBB_2:	out std_logic;
 		PD_PGA_RBB_2:	out std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
 		-- SX control lines 
 		RESRV_SXT:		out std_logic;
 		
+=======
+
+		-- SX control lines
+		RESRV_SXT:		out std_logic;
+
+>>>>>>> Revert "enlever le chain de argu"
 		--
 		VCO_CMPHO_SXT:	in std_logic;
 		VCO_CMPLO_SXT:	in std_logic;
 		COARSEPLL_COMPO_SXT:	in std_logic;
 		COARSE_STEPDONE_SXT:	in std_logic;
+<<<<<<< refs/remotes/upstream/main
 		
 		SDM_TSTO_SXT:	in std_logic_vector(13 downto 0);
 		
+=======
+
+		SDM_TSTO_SXT:	in std_logic_vector(13 downto 0);
+
+>>>>>>> Revert "enlever le chain de argu"
 		--
 		CP2_PLL_SXT:	out std_logic_vector(3 downto 0);
 		CP3_PLL_SXT:	out std_logic_vector(3 downto 0);
@@ -1659,7 +2012,11 @@ end component;
 -- ----------------------------------------------------------------------------
 component acbufl
 	port (
+<<<<<<< refs/remotes/upstream/main
 	------------------------------------------	
+=======
+	------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 	-- connects to spi modulle
 
 	-- AFE control lines
@@ -1683,9 +2040,15 @@ component acbufl
 	EN_OUT2_XBUF_TX_i:	in std_logic;
 	PD_XBUF_TX_i:	in std_logic;
 
+<<<<<<< refs/remotes/upstream/main
 	-- CLKGEN control lines	
 		
 	-- LDO control lines	
+=======
+	-- CLKGEN control lines
+
+	-- LDO control lines
+>>>>>>> Revert "enlever le chain de argu"
 	RDIV_CPGN_i:	in std_logic_vector(7 downto 0);
 	RDIV_CPSXT_i:	in std_logic_vector(7 downto 0);
 	RDIV_DIG_i:	in std_logic_vector(7 downto 0);
@@ -1853,7 +2216,11 @@ component acbufl
 	PD_RSSI_RFE_1_i:	in std_logic;
 	PD_TIA_RFE_1_i:	in std_logic;
 
+<<<<<<< refs/remotes/upstream/main
 	-- RBB control lines 
+=======
+	-- RBB control lines
+>>>>>>> Revert "enlever le chain de argu"
 	RESRV_RBB_1_i:	in std_logic_vector(6 downto 0);
 	--
 	INPUT_CTL_PGA_RBB_1_i:	in std_logic_vector(2 downto 0);
@@ -1880,8 +2247,13 @@ component acbufl
 	PD_LPFH_RBB_1_i:	in std_logic;
 	PD_LPFL_RBB_1_i:	in std_logic;
 	PD_PGA_RBB_1_i:	in std_logic;
+<<<<<<< refs/remotes/upstream/main
 	
 	-- SX control lines 
+=======
+
+	-- SX control lines
+>>>>>>> Revert "enlever le chain de argu"
 	RESRVE_SXR_i:	in std_logic_vector(4 downto 0);
 
 	--
@@ -2034,7 +2406,11 @@ component acbufl
 	PD_RSSI_RFE_2_i:	in std_logic;
 	PD_TIA_RFE_2_i:	in std_logic;
 
+<<<<<<< refs/remotes/upstream/main
 	-- RBB control lines 
+=======
+	-- RBB control lines
+>>>>>>> Revert "enlever le chain de argu"
 	RESRV_RBB_2_i:	in std_logic_vector(6 downto 0);
 	--
 	INPUT_CTL_PGA_RBB_2_i:	in std_logic_vector(2 downto 0);
@@ -2062,7 +2438,11 @@ component acbufl
 	PD_LPFL_RBB_2_i:	in std_logic;
 	PD_PGA_RBB_2_i:	in std_logic;
 
+<<<<<<< refs/remotes/upstream/main
 	-- SX control lines 
+=======
+	-- SX control lines
+>>>>>>> Revert "enlever le chain de argu"
 	RESRV_SXT_i:	in std_logic;
 	VCO_CMPHO_SXT_o:	out std_logic;
 	VCO_CMPLO_SXT_o:	out std_logic;
@@ -2112,9 +2492,15 @@ component acbufl
 	PD_SDM_SXT_i:	in std_logic;
 	PD_VCO_COMP_SXT_i:	in std_logic;
 	PD_VCO_SXT_i:	in std_logic;
+<<<<<<< refs/remotes/upstream/main
 	
 	-- aditional, instead resrv
 	PD_FBDIV_SXR_i:	in std_logic; 
+=======
+
+	-- aditional, instead resrv
+	PD_FBDIV_SXR_i:	in std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 	PD_FBDIV_SXT_i:	in std_logic;
 
 	CDC_I_RFE_1_i:	in std_logic_vector(3 downto 0);
@@ -2127,11 +2513,19 @@ component acbufl
 
 	CDC_I_TRF_2_i:	in std_logic_vector(3 downto 0);
 	CDC_Q_TRF_2_i:	in std_logic_vector(3 downto 0);
+<<<<<<< refs/remotes/upstream/main
 	
 	
 	------------------------------------------
 	-- connects to other modulles
 	
+=======
+
+
+	------------------------------------------
+	-- connects to other modulles
+
+>>>>>>> Revert "enlever le chain de argu"
 	-- AFE control lines
 	MUX_AFE_1:	out std_logic_vector(1 downto 0);
 	MUX_AFE_2:	out std_logic_vector(1 downto 0);
@@ -2153,9 +2547,15 @@ component acbufl
 	EN_OUT2_XBUF_TX:	out std_logic;
 	PD_XBUF_TX:	out std_logic;
 
+<<<<<<< refs/remotes/upstream/main
 	-- CLKGEN control lines	
 		
 	-- LDO control lines	
+=======
+	-- CLKGEN control lines
+
+	-- LDO control lines
+>>>>>>> Revert "enlever le chain de argu"
 	RDIV_CPGN:	out std_logic_vector(7 downto 0);
 	RDIV_CPSXT:	out std_logic_vector(7 downto 0);
 	RDIV_DIG :	out std_logic_vector(7 downto 0);
@@ -2323,7 +2723,11 @@ component acbufl
 	PD_RSSI_RFE_1:	out std_logic;
 	PD_TIA_RFE_1:	out std_logic;
 
+<<<<<<< refs/remotes/upstream/main
 	-- RBB control lines 
+=======
+	-- RBB control lines
+>>>>>>> Revert "enlever le chain de argu"
 	RESRV_RBB_1:	out std_logic_vector(6 downto 0);
 	--
 	INPUT_CTL_PGA_RBB_1:	out std_logic_vector(2 downto 0);
@@ -2351,7 +2755,11 @@ component acbufl
 	PD_LPFL_RBB_1:	out std_logic;
 	PD_PGA_RBB_1:	out std_logic;
 
+<<<<<<< refs/remotes/upstream/main
 	-- SX control lines 
+=======
+	-- SX control lines
+>>>>>>> Revert "enlever le chain de argu"
 	RESRVE_SXR:	out std_logic_vector(4 downto 0);
 
 	--
@@ -2504,7 +2912,11 @@ component acbufl
 	PD_RSSI_RFE_2:	out std_logic;
 	PD_TIA_RFE_2:	out std_logic;
 
+<<<<<<< refs/remotes/upstream/main
 	-- RBB control lines 
+=======
+	-- RBB control lines
+>>>>>>> Revert "enlever le chain de argu"
 	RESRV_RBB_2:	out std_logic_vector(6 downto 0);
 	--
 	INPUT_CTL_PGA_RBB_2:	out std_logic_vector(2 downto 0);
@@ -2532,7 +2944,11 @@ component acbufl
 	PD_LPFL_RBB_2:	out std_logic;
 	PD_PGA_RBB_2:	out std_logic;
 
+<<<<<<< refs/remotes/upstream/main
 	-- SX control lines 
+=======
+	-- SX control lines
+>>>>>>> Revert "enlever le chain de argu"
 	RESRV_SXT:	out std_logic;
 	VCO_CMPHO_SXT:		in std_logic;
 	VCO_CMPLO_SXT:		in std_logic;
@@ -2582,9 +2998,15 @@ component acbufl
 	PD_SDM_SXT:	out std_logic;
 	PD_VCO_COMP_SXT:	out std_logic;
 	PD_VCO_SXT:	out std_logic;
+<<<<<<< refs/remotes/upstream/main
 	
 	-- aditional, instead resrv
 	PD_FBDIV_SXR:	out std_logic; 
+=======
+
+	-- aditional, instead resrv
+	PD_FBDIV_SXR:	out std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 	PD_FBDIV_SXT:	out std_logic;
 
 	CDC_I_RFE_1:	out std_logic_vector(3 downto 0);
@@ -2604,9 +3026,15 @@ end component;
 -- ----------------------------------------------------------------------------
 component acbufr
 	port (
+<<<<<<< refs/remotes/upstream/main
 	------------------------------------------	
 	-- connects to spi modulle
 	
+=======
+	------------------------------------------
+	-- connects to spi modulle
+
+>>>>>>> Revert "enlever le chain de argu"
 	BYP_LDO_AFE_i:	in std_logic;
 	BYP_LDO_CPSXR_i:	in std_logic;
 	BYP_LDO_DIGSXR_i:	in std_logic;
@@ -2697,7 +3125,11 @@ component acbufr
 	REV_CLKADC_CGEN_i:	in std_logic;
 	REV_CLKDAC_CGEN_i:	in std_logic;
 	REV_SDMCLK_CGEN_i:	in std_logic;
+<<<<<<< refs/remotes/upstream/main
 	SDM_TSTO_CGEN_o:	out std_logic_vector(13 downto 0);	
+=======
+	SDM_TSTO_CGEN_o:	out std_logic_vector(13 downto 0);
+>>>>>>> Revert "enlever le chain de argu"
 	SEL_PATH_RFE_1_i:	in std_logic_vector(1 downto 0);
 	SEL_PATH_RFE_2_i:	in std_logic_vector(1 downto 0);
 	SEL_SDMCLK_CGEN_i:	in std_logic;
@@ -2719,7 +3151,11 @@ component acbufr
 	TST_CLKGEN_i:	in std_logic_vector(2 downto 0);
 	VCO_CMPHO_CGEN_o:	out  std_logic;
 	VCO_CMPLO_CGEN_o:	out  std_logic;
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 	BYP_LDO_DIGIp1_i:	in std_logic;
 	pd_LDO_DIGIp1_i:	in std_logic;
 	EN_LOADIMP_LDO_DIGIp1_i:	in std_logic;
@@ -2730,14 +3166,22 @@ component acbufr
 	EN_LOADIMP_LDO_DIGIp2_i:	in std_logic;
 	RDIV_DIGIp2_i:	in std_logic_vector(7 downto 0);
 	SPDUP_LDO_DIGIp2_i:	in std_logic;
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 	SDM_TSTO_SXT_o:	out std_logic_vector(13 downto 0);
 	BYP_LDO_SPIBUF_i:	in std_logic;
 	PD_LDO_SPIBUF_i:	in std_logic;
 	EN_LOADIMP_LDO_SPIBUF_i:	in std_logic;
 	RDIV_SPIBUF_i:	in std_logic_vector(7 downto 0);
 	SPDUP_LDO_SPIBUF_i:	in std_logic;
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 	cdsn_txatsp_i   : in std_logic;
 	cdsn_txbtsp_i   : in std_logic;
 	cdsn_rxatsp_i   : in std_logic;
@@ -2766,7 +3210,11 @@ component acbufr
 
 	------------------------------------------
 	-- connects to external modulles
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 	BYP_LDO_AFE:	out std_logic;
 	BYP_LDO_CPSXR:	out std_logic;
 	BYP_LDO_DIGSXR:	out std_logic;
@@ -2857,7 +3305,11 @@ component acbufr
 	REV_CLKADC_CGEN: out std_logic;
 	REV_CLKDAC_CGEN: out std_logic;
 	REV_SDMCLK_CGEN:	out std_logic;
+<<<<<<< refs/remotes/upstream/main
 	SDM_TSTO_CGEN:	in std_logic_vector(13 downto 0);	
+=======
+	SDM_TSTO_CGEN:	in std_logic_vector(13 downto 0);
+>>>>>>> Revert "enlever le chain de argu"
 	SEL_PATH_RFE_1    : out std_logic_vector(1 downto 0);
 	SEL_PATH_RFE_2    : out std_logic_vector(1 downto 0);
 	SEL_SDMCLK_CGEN:	out std_logic;
@@ -2879,7 +3331,11 @@ component acbufr
 	TST_CLKGEN:	out std_logic_vector(2 downto 0);
 	VCO_CMPHO_CGEN:		in std_logic;
 	VCO_CMPLO_CGEN:		in std_logic;
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 	BYP_LDO_DIGIp1:	out std_logic;
 	pd_LDO_DIGIp1:	out std_logic;
 	EN_LOADIMP_LDO_DIGIp1:	out std_logic;
@@ -2890,14 +3346,22 @@ component acbufr
 	EN_LOADIMP_LDO_DIGIp2:	out std_logic;
 	RDIV_DIGIp2:	out std_logic_vector(7 downto 0);
 	SPDUP_LDO_DIGIp2:	out std_logic;
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 	SDM_TSTO_SXT:	in std_logic_vector(13 downto 0);
 	BYP_LDO_SPIBUF:	out std_logic;
 	PD_LDO_SPIBUF:	out std_logic;
 	EN_LOADIMP_LDO_SPIBUF:	out std_logic;
 	RDIV_SPIBUF:	out std_logic_vector(7 downto 0);
 	SPDUP_LDO_SPIBUF:	out std_logic;
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 	cdsn_txatsp   : out std_logic;
 	cdsn_txbtsp   : out std_logic;
 	cdsn_rxatsp   : out std_logic;
@@ -2929,27 +3393,46 @@ end component;
 
 
 -- ----------------------------------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
 component txtspcfg 
+=======
+component txtspcfg
+>>>>>>> Revert "enlever le chain de argu"
 	port (
 		-- Address and location of this module
 		-- Will be hard wired at the top level
 		maddress: in std_logic_vector(9 downto 0);
 		mimo_en: in std_logic;	-- MIMO enable, from TOP SPI
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Serial port IOs
 		sdin: in std_logic; 	-- Data in
 		sclk: in std_logic; 	-- Data clock
 		sen: in std_logic;	-- Enable signal (active low)
 		sdout: out std_logic; 	-- Data out
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Signals coming from the pins or top level serial interface
 		lreset: in std_logic; 	-- Logic reset signal, resets logic cells only
 		mreset: in std_logic; 	-- Memory reset signal, resets configuration memory only
 		txen: in std_logic;	-- Power down all modules when txen=0
+<<<<<<< refs/remotes/upstream/main
 		
 		oen: out std_logic;
 		
 		-- Control lines		
+=======
+
+		oen: out std_logic;
+
+		-- Control lines
+>>>>>>> Revert "enlever le chain de argu"
 		en		: out std_logic;
 		stateo: out std_logic_vector(5 downto 0);
 		gcorri: out std_logic_vector(10 downto 0);
@@ -2957,7 +3440,11 @@ component txtspcfg
 		iqcorr: out std_logic_vector(11 downto 0);
 		dccorri: out std_logic_vector(7 downto 0);
 		dccorrq: out std_logic_vector(7 downto 0);
+<<<<<<< refs/remotes/upstream/main
 		ovr: out std_logic_vector(2 downto 0);	--HBI interpolation ratio 
+=======
+		ovr: out std_logic_vector(2 downto 0);	--HBI interpolation ratio
+>>>>>>> Revert "enlever le chain de argu"
 		gfir1l: out std_logic_vector(2 downto 0);		--Length of GPFIR1
 		gfir1n: out std_logic_vector(7 downto 0);		--Clock division ratio of GPFIR1
 		gfir2l: out std_logic_vector(2 downto 0);		--Length of GPFIR2
@@ -2976,12 +3463,20 @@ component txtspcfg
 		cmix_sc: out std_logic;
 		cmix_byp: out std_logic;
 		cmix_gain: out std_logic_vector(1 downto 0);
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		bstart: out std_logic;			-- BIST start flag
 		bstate: in std_logic;				-- BIST state flag
 		bsigi: in std_logic_vector(22 downto 0);	-- BIST signature, channel I
 		bsigq: in std_logic_vector(22 downto 0); 	-- BIST signature, channel Q
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 
 		tsgfcw		:out std_logic_vector(8 downto 7);
 		tsgdcldq	: out std_logic;
@@ -2995,27 +3490,45 @@ component txtspcfg
 end component;
 
 -- ----------------------------------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
 component rxtspcfg 
+=======
+component rxtspcfg
+>>>>>>> Revert "enlever le chain de argu"
 	port (
 		-- Address and location of this module
 		-- These signals will be hard wired at the top level
 		maddress: in std_logic_vector(9 downto 0);
 		mimo_en: in std_logic;	-- MIMO enable, from TOP SPI
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Serial port A IOs
 		sdin: in std_logic; 	-- Data in
 		sclk: in std_logic; 	-- Data clock
 		sen: in std_logic;	-- Enable signal (active low)
 		sdout: out std_logic; 	-- Data out
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		-- Signals coming from the pins or top level serial interface
 		lreset: in std_logic; 	-- Logic reset signal, resets logic cells only
 		mreset: in std_logic; 	-- Memory reset signal, resets configuration memory only
 		rxen: in std_logic;	-- Power down all modules when rxen=0
 		capd: in std_logic_vector(31 downto 0);	-- Captured data
+<<<<<<< refs/remotes/upstream/main
 		
 		oen: out std_logic;
 		
+=======
+
+		oen: out std_logic;
+
+>>>>>>> Revert "enlever le chain de argu"
 		en		: buffer std_logic;
 		stateo: out std_logic_vector(5 downto 0);
 
@@ -3049,7 +3562,11 @@ component rxtspcfg
 		bstart: out std_logic;			-- BIST start flag
 		capture: out std_logic;
 		capsel: out std_logic_vector(1 downto 0);
+<<<<<<< refs/remotes/upstream/main
 		
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		tsgfcw		: out std_logic_vector(8 downto 7);
 		tsgdcldq	: out std_logic;
 		tsgdcldi	: out std_logic;
@@ -3060,7 +3577,12 @@ component rxtspcfg
 
 	);
 end component;
+<<<<<<< refs/remotes/upstream/main
 	
 end mcfg_components;
 
 
+=======
+
+end mcfg_components;
+>>>>>>> Revert "enlever le chain de argu"

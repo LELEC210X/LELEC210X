@@ -113,5 +113,9 @@ extern void* alt_remap_cached (volatile void* ptr, alt_u32 len);
 #ifdef __cplusplus
 }
 #endif
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 #endif /* __ALT_CACHE_H__ */

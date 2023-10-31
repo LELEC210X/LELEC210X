@@ -30,7 +30,11 @@
 
         /*
          * This is the trap exception handler for Nios2.
+<<<<<<< refs/remotes/upstream/main
          */ 
+=======
+         */
+>>>>>>> Revert "enlever le chain de argu"
 
         /*
          * Provide a label which can be used to pull this file in.
@@ -91,5 +95,8 @@ alt_exception_trap:
 
         .section .exceptions.exit.label
 .Lexception_exit:
+<<<<<<< refs/remotes/upstream/main
 
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

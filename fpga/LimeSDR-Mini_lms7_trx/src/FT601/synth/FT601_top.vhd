@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	FT601_top.vhd
 -- DESCRIPTION:	top module for FT601
 -- DATE:	May 13, 2016
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -17,11 +25,16 @@ entity FT601_top is
 	generic(
          FT_data_width        : integer := 32;
          FT_be_width          : integer := 4;
+<<<<<<< refs/remotes/upstream/main
 			EP02_rdusedw_width	: integer := 11; 
+=======
+			EP02_rdusedw_width	: integer := 11;
+>>>>>>> Revert "enlever le chain de argu"
 			EP02_rwidth				: integer := 8;
 			EP82_wrusedw_width	: integer := 11;
 			EP82_wwidth				: integer := 8;
 			EP82_wsize  			: integer := 64;  --packet size in bytes, has to be multiple of 4 bytes
+<<<<<<< refs/remotes/upstream/main
          EP03_rdusedw_width	: integer := 11;    
 			EP03_rwidth				: integer := 32;
          EP83_wrusedw_width	: integer := 12;
@@ -30,6 +43,16 @@ entity FT601_top is
 	);
 	port (
 			--input ports 
+=======
+         EP03_rdusedw_width	: integer := 11;
+			EP03_rwidth				: integer := 32;
+         EP83_wrusedw_width	: integer := 12;
+			EP83_wwidth				: integer := 64;
+			EP83_wsize  			: integer := 2048 --packet size in bytes, has to be multiple of 4 bytes
+	);
+	port (
+			--input ports
+>>>>>>> Revert "enlever le chain de argu"
 			clk         	: in std_logic;			--FTDI CLK
 			reset_n   		: in std_logic;
 			--FTDI external ports
@@ -38,7 +61,11 @@ entity FT601_top is
 			FT_data			: inout std_logic_vector(FT_data_width-1 downto 0);
 			FT_be				: inout std_logic_vector(FT_be_width-1 downto 0);
 			FT_txe_n			: in std_logic;
+<<<<<<< refs/remotes/upstream/main
 		   --controll endpoint fifo PC->FPGA 
+=======
+		   --controll endpoint fifo PC->FPGA
+>>>>>>> Revert "enlever le chain de argu"
 			EP02_rdclk		: in std_logic;
 			EP02_rd			: in std_logic;
 			EP02_rdata		: out std_logic_vector(EP02_rwidth-1 downto 0);
@@ -63,7 +90,11 @@ entity FT601_top is
 			EP83_wdata		: in std_logic_vector(EP83_wwidth-1 downto 0);
 			EP83_wfull		: out std_logic;
 			EP83_wrusedw	: out std_logic_vector(EP83_wrusedw_width-1 downto 0)
+<<<<<<< refs/remotes/upstream/main
         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
         );
 end FT601_top;
 
@@ -73,9 +104,15 @@ end FT601_top;
 architecture arch of FT601_top is
 --declare signals,  components here
 
+<<<<<<< refs/remotes/upstream/main
 --EP02 fifo signals 
 signal EP02_wrempty			: std_logic;
 signal EP02_wr					: std_logic; 
+=======
+--EP02 fifo signals
+signal EP02_wrempty			: std_logic;
+signal EP02_wr					: std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 signal EP02_wdata				: std_logic_vector(FT_data_width-1 downto 0);
 --EP82 fifo signals
 signal EP82_fifo_rdusedw	: std_logic_vector(FIFORD_SIZE(EP82_wwidth, FT_data_width, EP82_wrusedw_width)-1 downto 0);
@@ -83,8 +120,13 @@ signal EP82_fifo_q			: std_logic_vector(FT_data_width-1 downto 0);
 signal EP82_fifo_rdreq		: std_logic;
 
 --EP03 fifo signals
+<<<<<<< refs/remotes/upstream/main
 signal EP03_sclrn          : std_logic; 
 signal EP03_wrempty			: std_logic; 
+=======
+signal EP03_sclrn          : std_logic;
+signal EP03_wrempty			: std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 signal EP03_wr					: std_logic;
 signal EP03_wdata				: std_logic_vector(FT_data_width-1 downto 0);
 signal EP03_rdy            : std_logic;
@@ -96,7 +138,11 @@ signal EP83_fifo_q			: std_logic_vector(FT_data_width-1 downto 0);
 signal EP83_fifo_rdreq		: std_logic;
 
 --arbiter signals
+<<<<<<< refs/remotes/upstream/main
 signal arb_en 					: std_logic; 
+=======
+signal arb_en 					: std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 signal arb_rd_wr				: std_logic;
 signal arb_nth_ch				: std_logic_vector(3 downto 0);
 
@@ -114,11 +160,19 @@ attribute noprune of EP03_wr_cnt : signal is true;
 component fifo_inst is
   generic(dev_family	     : string  := "MAX 10";
           wrwidth         : integer := 64;
+<<<<<<< refs/remotes/upstream/main
           wrusedw_witdth  : integer := 9; --12=2048 words 
           rdwidth         : integer := 32;
           rdusedw_width   : integer := 10;
           show_ahead      : string  := "OFF"
   );  
+=======
+          wrusedw_witdth  : integer := 9; --12=2048 words
+          rdwidth         : integer := 32;
+          rdusedw_width   : integer := 10;
+          show_ahead      : string  := "OFF"
+  );
+>>>>>>> Revert "enlever le chain de argu"
 
   port (
 
@@ -133,8 +187,13 @@ component fifo_inst is
       rdreq         : in std_logic;
       q             : out std_logic_vector(rdwidth-1 downto 0);
       rdempty       : out std_logic;
+<<<<<<< refs/remotes/upstream/main
       rdusedw       : out std_logic_vector(rdusedw_width-1 downto 0)     
         
+=======
+      rdusedw       : out std_logic_vector(rdusedw_width-1 downto 0)
+
+>>>>>>> Revert "enlever le chain de argu"
         );
 end component;
 
@@ -148,7 +207,11 @@ component FT601_arb is
 			EP83_wsize       	: integer := 2048 --packet size in bytes, has to be multiple of 4 bytes
 	);
   port (
+<<<<<<< refs/remotes/upstream/main
 			--input ports 
+=======
+			--input ports
+>>>>>>> Revert "enlever le chain de argu"
 			clk       			: in std_logic;
 			reset_n   			: in std_logic;
 			enable       		: in std_logic;
@@ -163,7 +226,11 @@ component FT601_arb is
 			--stream EP PC->FPGA
 			EP03_fifo_data		: out std_logic_vector(FT_data_width-1 downto 0);
 			EP03_fifo_wr		: out std_logic;
+<<<<<<< refs/remotes/upstream/main
 			EP03_fifo_wrempty	: in std_logic;		
+=======
+			EP03_fifo_wrempty	: in std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 			--stream EP FPGA->PC
 			EP83_fifo_data		: in std_logic_vector(FT_data_width-1 downto 0);
 			EP83_fifo_rd 		: out std_logic;
@@ -177,6 +244,7 @@ component FT601_arb is
          fsm_rddata        : in std_logic_vector(FT_data_width-1 downto 0);
          fsm_wrdata_req    : in std_logic;
          fsm_wrdata        : out std_logic_vector(FT_data_width-1 downto 0);
+<<<<<<< refs/remotes/upstream/main
 			
 			ep_status			: in std_logic_vector(7 downto 0)
         
@@ -184,6 +252,15 @@ component FT601_arb is
 end component;
 
 --FT601 fsm component 
+=======
+
+			ep_status			: in std_logic_vector(7 downto 0)
+
+        );
+end component;
+
+--FT601 fsm component
+>>>>>>> Revert "enlever le chain de argu"
 component FT601 is
     generic(
          FT_data_width     : integer := 32;
@@ -200,8 +277,13 @@ component FT601 is
 			ch_n     	   : in std_logic_vector(3 downto 0);
          RD_data_valid  : out std_logic;
 			RD_data        : out  std_logic_vector(FT_data_width-1 downto 0);
+<<<<<<< refs/remotes/upstream/main
          WR_data_req    : out std_logic;     
 			WR_data        : in std_logic_vector(FT_data_width-1 downto 0); -- should be 2 cycle latency after WR_data_req   
+=======
+         WR_data_req    : out std_logic;
+			WR_data        : in std_logic_vector(FT_data_width-1 downto 0); -- should be 2 cycle latency after WR_data_req
+>>>>>>> Revert "enlever le chain de argu"
 			wr_n			   : out std_logic;
 			rxf_n			   : in std_logic;
 			data			   : inout std_logic_vector(FT_data_width-1 downto 0);
@@ -209,12 +291,21 @@ component FT601 is
 			txe_n			   : in std_logic
         );
 end component;
+<<<<<<< refs/remotes/upstream/main
   
 begin
 
    sync_reg0 : entity work.sync_reg 
    port map(clk, EP03_aclrn, '1', EP03_sclrn);
    
+=======
+
+begin
+
+   sync_reg0 : entity work.sync_reg
+   port map(clk, EP03_aclrn, '1', EP03_sclrn);
+
+>>>>>>> Revert "enlever le chain de argu"
 
 
 
@@ -222,6 +313,7 @@ begin
 -- ----------------------------------------------------------------------------
 -- FTDI endpoint fifos
 -- ----------------------------------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
 -- controll PC->FPGA 
 EP02_fifo : fifo_inst		
 generic map(
@@ -234,6 +326,20 @@ generic map(
 )
 port map(
       reset_n       	=> reset_n, 
+=======
+-- controll PC->FPGA
+EP02_fifo : fifo_inst
+generic map(
+		dev_family		=> "MAX 10",
+		wrwidth			=> FT_data_width,          --32 bits ftdi side,
+		wrusedw_witdth	=> FIFOWR_SIZE(FT_data_width, EP02_rwidth, EP02_rdusedw_width),
+		rdwidth			=> EP02_rwidth,
+		rdusedw_width	=> EP02_rdusedw_width,
+		show_ahead     => "OFF"
+)
+port map(
+      reset_n       	=> reset_n,
+>>>>>>> Revert "enlever le chain de argu"
       wrclk         	=> clk,
       wrreq         	=> EP02_wr,
       data          	=> EP02_wdata,
@@ -244,21 +350,38 @@ port map(
       rdreq         	=> EP02_rd,
       q             	=> EP02_rdata,
       rdempty       	=> EP02_rempty,
+<<<<<<< refs/remotes/upstream/main
       rdusedw       	=> open             
         );
 
 -- controll FPGA->PC
 EP82_fifo : fifo_inst		
+=======
+      rdusedw       	=> open
+        );
+
+-- controll FPGA->PC
+EP82_fifo : fifo_inst
+>>>>>>> Revert "enlever le chain de argu"
 generic map(
 		dev_family		=> "MAX 10",
 		wrwidth			=> EP82_wwidth,
 		wrusedw_witdth	=> EP82_wrusedw_width, 	--12=2048 words (2048kB)
+<<<<<<< refs/remotes/upstream/main
 		rdwidth			=> FT_data_width,       --32 bits ftdi side, 
 		rdusedw_width	=> FIFORD_SIZE(EP82_wwidth, FT_data_width, EP82_wrusedw_width),--EP82_wrusedw_width,				
 		show_ahead		=> "ON"
 )
 port map(
       reset_n       	=> EP82_aclrn, 
+=======
+		rdwidth			=> FT_data_width,       --32 bits ftdi side,
+		rdusedw_width	=> FIFORD_SIZE(EP82_wwidth, FT_data_width, EP82_wrusedw_width),--EP82_wrusedw_width,
+		show_ahead		=> "ON"
+)
+port map(
+      reset_n       	=> EP82_aclrn,
+>>>>>>> Revert "enlever le chain de argu"
       wrclk				=> EP82_wclk,
       wrreq				=> EP82_wr,
       data          	=> EP82_wdata,
@@ -269,6 +392,7 @@ port map(
       rdreq         	=> EP82_fifo_rdreq,
       q             	=> EP82_fifo_q,
       rdempty       	=> open,
+<<<<<<< refs/remotes/upstream/main
       rdusedw       	=> EP82_fifo_rdusedw           
         );
 
@@ -284,6 +408,23 @@ port map(
    )
    port map(
       reset_n  => EP03_sclrn, 
+=======
+      rdusedw       	=> EP82_fifo_rdusedw
+        );
+
+--stream PC->FPGA
+   EP03_fifo : fifo_inst
+   generic map(
+      dev_family     => "MAX 10",
+      wrwidth        => FT_data_width,      --32 bits ftdi side,
+      wrusedw_witdth => FIFOWR_SIZE(FT_data_width, EP03_rwidth, EP03_rdusedw_width),      --10=512 words (2048kB)
+      rdwidth        => EP03_rwidth,
+      rdusedw_width  => EP03_rdusedw_width,
+      show_ahead     => "OFF"
+   )
+   port map(
+      reset_n  => EP03_sclrn,
+>>>>>>> Revert "enlever le chain de argu"
       wrclk    => clk,
       wrreq    => EP03_wr,
       data     => EP03_wdata,
@@ -294,6 +435,7 @@ port map(
       rdreq    => EP03_rd,
       q        => EP03_rdata,
       rdempty  => EP03_rempty,
+<<<<<<< refs/remotes/upstream/main
       rdusedw  => EP03_rusedw             
    );
 
@@ -306,11 +448,29 @@ port map(
 --      rdusedw_width  => EP03_rdusedw_width,   
 --      show_ahead     => "OFF",
 --      TRNSF_SIZE     => 512, 
+=======
+      rdusedw  => EP03_rusedw
+   );
+
+--   EP03_fifo : entity work.two_fifo_inst
+--   generic map(
+--      dev_family     => "MAX 10",
+--      wrwidth        => FT_data_width, --32 bits ftdi side,
+--      wrusedw_witdth => 10,            --10=512 words (2048kB), FTDI configuration requires accept 2048kB buffer
+--      rdwidth        => EP03_rwidth,
+--      rdusedw_width  => EP03_rdusedw_width,
+--      show_ahead     => "OFF",
+--      TRNSF_SIZE     => 512,
+>>>>>>> Revert "enlever le chain de argu"
 --      TRNSF_N        => 8
 --   )
 --   port map(
 --      reset_0_n   => EP03_sclrn,
+<<<<<<< refs/remotes/upstream/main
 --      reset_1_n   => EP03_sclrn_1,  
+=======
+--      reset_1_n   => EP03_sclrn_1,
+>>>>>>> Revert "enlever le chain de argu"
 --      wrclk       => clk,
 --      wrreq       => EP03_wr,
 --      data        => EP03_wdata,
@@ -321,6 +481,7 @@ port map(
 --      rdreq       => EP03_rd,
 --      q           => EP03_rdata,
 --      rdempty     => EP03_rempty,
+<<<<<<< refs/remotes/upstream/main
 --      rdusedw     => EP03_rusedw             
 --   );	
    
@@ -332,23 +493,51 @@ port map(
          if EP03_wr = '1' then 
             EP03_wr_cnt <= EP03_wr_cnt+1;
          else 
+=======
+--      rdusedw     => EP03_rusedw
+--   );
+
+   proc_name : process(clk, reset_n)
+   begin
+      if reset_n = '0' then
+         EP03_wr_cnt <= (others=>'0');
+      elsif (clk'event AND clk='1') then
+         if EP03_wr = '1' then
+            EP03_wr_cnt <= EP03_wr_cnt+1;
+         else
+>>>>>>> Revert "enlever le chain de argu"
             EP03_wr_cnt <= (others=>'0');
          end if;
       end if;
    end process;
+<<<<<<< refs/remotes/upstream/main
 	
 -- stream FPGA->PC
 EP83_fifo : fifo_inst		
+=======
+
+-- stream FPGA->PC
+EP83_fifo : fifo_inst
+>>>>>>> Revert "enlever le chain de argu"
 generic map(
 		dev_family		=> "MAX 10",
 		wrwidth			=> EP83_wwidth,
 		wrusedw_witdth	=> EP83_wrusedw_width,  --12=2024 words x EP83_wwidth (16384KB)
+<<<<<<< refs/remotes/upstream/main
 		rdwidth			=> FT_data_width,		   --32 bits ftdi side, 
 		rdusedw_width	=> FIFORD_SIZE(EP83_wwidth, FT_data_width, EP83_wrusedw_width),				
 		show_ahead		=> "ON"
 )
 port map(
       reset_n       	=> EP83_aclrn, 
+=======
+		rdwidth			=> FT_data_width,		   --32 bits ftdi side,
+		rdusedw_width	=> FIFORD_SIZE(EP83_wwidth, FT_data_width, EP83_wrusedw_width),
+		show_ahead		=> "ON"
+)
+port map(
+      reset_n       	=> EP83_aclrn,
+>>>>>>> Revert "enlever le chain de argu"
       wrclk				=> EP83_wclk,
       wrreq				=> EP83_wr,
       data          	=> EP83_wdata,
@@ -359,25 +548,45 @@ port map(
       rdreq         	=> EP83_fifo_rdreq,
       q             	=> EP83_fifo_q,
       rdempty       	=> open,
+<<<<<<< refs/remotes/upstream/main
       rdusedw       	=> EP83_fifo_rdusedw           
+=======
+      rdusedw       	=> EP83_fifo_rdusedw
+>>>>>>> Revert "enlever le chain de argu"
 		);
 
    process(clk, reset_n)
    begin
+<<<<<<< refs/remotes/upstream/main
       if reset_n = '0' then 
          EP03_rdy <= '0';
       elsif (clk'event AND clk='1') then 
          if EP03_wrempty = '0' then 
             EP03_rdy <= '0';
          else 
+=======
+      if reset_n = '0' then
+         EP03_rdy <= '0';
+      elsif (clk'event AND clk='1') then
+         if EP03_wrempty = '0' then
+            EP03_rdy <= '0';
+         else
+>>>>>>> Revert "enlever le chain de argu"
             EP03_rdy <= '1';
          end if;
       end if;
    end process;
+<<<<<<< refs/remotes/upstream/main
       
 -- ----------------------------------------------------------------------------
 -- FTDI arbiter
 -- ----------------------------------------------------------------------------		
+=======
+
+-- ----------------------------------------------------------------------------
+-- FTDI arbiter
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 	ftdi_arbiter : FT601_arb
 	generic map(
          FT_data_width     => FT_data_width,
@@ -387,11 +596,19 @@ port map(
 			EP83_wsize       	=> EP83_wsize
 	)
   port map(
+<<<<<<< refs/remotes/upstream/main
 			clk       			=> clk, 
 			reset_n   			=> reset_n,
 			enable       		=> '1',
 			EP02_fifo_data		=> EP02_wdata, 
 			EP02_fifo_wr		=> EP02_wr, 
+=======
+			clk       			=> clk,
+			reset_n   			=> reset_n,
+			enable       		=> '1',
+			EP02_fifo_data		=> EP02_wdata,
+			EP02_fifo_wr		=> EP02_wr,
+>>>>>>> Revert "enlever le chain de argu"
 			EP02_fifo_wrempty	=> EP02_wrempty,
 			EP82_fifo_data		=> EP82_fifo_q,
 			EP82_fifo_rd 		=> EP82_fifo_rdreq,
@@ -400,6 +617,7 @@ port map(
 			EP03_fifo_wr		=> EP03_wr,
 			EP03_fifo_wrempty	=> EP03_rdy,
 			EP83_fifo_data		=> EP83_fifo_q,
+<<<<<<< refs/remotes/upstream/main
 			EP83_fifo_rd 		=> EP83_fifo_rdreq,	
 			EP83_fifo_rdusedw	=> EP83_fifo_rdusedw,
 
@@ -407,10 +625,20 @@ port map(
 			fsm_rdwr				=> arb_rd_wr,
 			fsm_ch				=> arb_nth_ch, 		 
 			fsm_rdy				=> fsm_rdy, 
+=======
+			EP83_fifo_rd 		=> EP83_fifo_rdreq,
+			EP83_fifo_rdusedw	=> EP83_fifo_rdusedw,
+
+			fsm_epgo				=> arb_en,
+			fsm_rdwr				=> arb_rd_wr,
+			fsm_ch				=> arb_nth_ch,
+			fsm_rdy				=> fsm_rdy,
+>>>>>>> Revert "enlever le chain de argu"
 			fsm_rddata_valid	=> fsm_rd_data_valid,
 			fsm_rddata			=> fsm_rd_data,
          fsm_wrdata_req    => fsm_wr_data_req,
 			fsm_wrdata			=> fsm_wr_data,
+<<<<<<< refs/remotes/upstream/main
 			ep_status			=> FT_data(15 downto 8)       
 			);
 		  
@@ -423,6 +651,20 @@ generic map(
          FT_be_width    => FT_be_width,  
 			EP82_wsize	   => EP82_wsize,
 			EP83_wsize	   => EP83_wsize 
+=======
+			ep_status			=> FT_data(15 downto 8)
+			);
+
+-- ----------------------------------------------------------------------------
+-- FTDI fsm
+-- ----------------------------------------------------------------------------
+ft_fsm : FT601
+generic map(
+         FT_data_width  => FT_data_width,
+         FT_be_width    => FT_be_width,
+			EP82_wsize	   => EP82_wsize,
+			EP83_wsize	   => EP83_wsize
+>>>>>>> Revert "enlever le chain de argu"
 			)
   port map (
 			clk			   => clk,
@@ -431,16 +673,24 @@ generic map(
 			ready			   => fsm_rdy,
 			rd_wr    	   => arb_rd_wr,
 			ch_n     	   => arb_nth_ch,
+<<<<<<< refs/remotes/upstream/main
 			RD_data_valid	=> fsm_rd_data_valid, 
 			RD_data   	   => fsm_rd_data,
          WR_data_req    => fsm_wr_data_req,
 			WR_data  	   => fsm_wr_data,  
+=======
+			RD_data_valid	=> fsm_rd_data_valid,
+			RD_data   	   => fsm_rd_data,
+         WR_data_req    => fsm_wr_data_req,
+			WR_data  	   => fsm_wr_data,
+>>>>>>> Revert "enlever le chain de argu"
 			wr_n			   => FT_wr_n,
 			rxf_n			   => FT_rxf_n,
 			data			   => FT_data,
 			be				   => FT_be,
 			txe_n			   => FT_txe_n
 			);
+<<<<<<< refs/remotes/upstream/main
 		  
   
 end arch;
@@ -449,3 +699,8 @@ end arch;
 
 
 
+=======
+
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

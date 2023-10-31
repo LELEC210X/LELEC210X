@@ -39,9 +39,15 @@
 
 /*
  * kill() is used by newlib in order to send signals to processes. Since there
+<<<<<<< refs/remotes/upstream/main
  * is only a single process in the HAL, the only valid values for pid are 
  * either the current process id, or the broadcast values, i.e. pid must be
  * less than or equal to zero. 
+=======
+ * is only a single process in the HAL, the only valid values for pid are
+ * either the current process id, or the broadcast values, i.e. pid must be
+ * less than or equal to zero.
+>>>>>>> Revert "enlever le chain de argu"
  *
  * ALT_KILL is mapped onto the kill() system call in alt_syscall.h
  */
@@ -80,9 +86,15 @@ int ALT_KILL (int pid, int sig)
     case SIGXCPU:
     case SIGXFSZ:
 
+<<<<<<< refs/remotes/upstream/main
       /* 
        * The Posix standard defines the default behaviour for all these signals 
        * as being eqivalent to a call to _exit(). No mechanism is provided to 
+=======
+      /*
+       * The Posix standard defines the default behaviour for all these signals
+       * as being eqivalent to a call to _exit(). No mechanism is provided to
+>>>>>>> Revert "enlever le chain de argu"
        * change this behaviour.
        */
 
@@ -90,8 +102,13 @@ int ALT_KILL (int pid, int sig)
     case SIGCHLD:
     case SIGURG:
 
+<<<<<<< refs/remotes/upstream/main
       /* 
        * The Posix standard defines these signals to be ignored by default. No 
+=======
+      /*
+       * The Posix standard defines these signals to be ignored by default. No
+>>>>>>> Revert "enlever le chain de argu"
        * mechanism is provided to change this behaviour.
        */
 

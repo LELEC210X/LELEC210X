@@ -35,7 +35,11 @@
  *
  * This code is pulled in from a .globl in alt_ecc_fatal_exception.c.
  * This scheme is used so that if a handler is never registered, then this
+<<<<<<< refs/remotes/upstream/main
  * code will not appear in the generated executable, thereby improving 
+=======
+ * code will not appear in the generated executable, thereby improving
+>>>>>>> Revert "enlever le chain de argu"
  * code footprint.
  *
  * This code is located in its own section that the linker script
@@ -54,11 +58,19 @@
          * This might be handling an unrecoverable ECC error exception
          * in the register file and/or data cache.
          * Must avoid reading registers or performing load/store instructions
+<<<<<<< refs/remotes/upstream/main
          * before this is determined because they could trigger another 
          * unrecoverable ECC error exception and create an infinite loop.
          *
          * The EXCEPTION register is always present when ECC is present.
          * Bit 31 of this register indicates that there was an unrecoverable 
+=======
+         * before this is determined because they could trigger another
+         * unrecoverable ECC error exception and create an infinite loop.
+         *
+         * The EXCEPTION register is always present when ECC is present.
+         * Bit 31 of this register indicates that there was an unrecoverable
+>>>>>>> Revert "enlever le chain de argu"
          * ECC error exception in the register file and/or data cache.
          * Test this (using blt to check sign bit) to determine if this is
          * what we are dealing with.  Otherwise, just do normal processing.
@@ -78,15 +90,26 @@
          * Using a ldwio is safe because it completely bypasses the data cache.
          */
         movhi et, %hi(alt_exception_ecc_fatal_handler)
+<<<<<<< refs/remotes/upstream/main
         ori   et, et, %lo(alt_exception_ecc_fatal_handler) 
         ldwio et, 0(et)
  
         /* 
+=======
+        ori   et, et, %lo(alt_exception_ecc_fatal_handler)
+        ldwio et, 0(et)
+
+        /*
+>>>>>>> Revert "enlever le chain de argu"
          * If ECC fatal handler pointer is not 0, assume a handler
          * has been provided by the application.
          */
         beq et, r0, alt_exception_not_ecc_fatal
+<<<<<<< refs/remotes/upstream/main
         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
         /*
          * The et register contains the address of the ECC fatal handler.
          * Jump to this address to invoke the handler.

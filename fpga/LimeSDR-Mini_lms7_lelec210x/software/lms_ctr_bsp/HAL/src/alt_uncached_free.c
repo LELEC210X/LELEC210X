@@ -36,7 +36,11 @@
  * Free a block of uncached memory.
  */
 
+<<<<<<< refs/remotes/upstream/main
 void 
+=======
+void
+>>>>>>> Revert "enlever le chain de argu"
 alt_uncached_free(volatile void* ptr)
 {
 #if ALT_CPU_DCACHE_SIZE > 0

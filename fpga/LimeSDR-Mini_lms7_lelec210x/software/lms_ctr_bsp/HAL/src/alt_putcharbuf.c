@@ -44,17 +44,29 @@ static char buf[ALT_PUTBUF_SIZE] ={0};
 // index into the buffer
 static unsigned int fill_index;
 
+<<<<<<< refs/remotes/upstream/main
 /* 
  * ALT putcharbuf funtion
  * Used only for semihosting. 
+=======
+/*
+ * ALT putcharbuf funtion
+ * Used only for semihosting.
+>>>>>>> Revert "enlever le chain de argu"
  * Not thread safe!
  * This fucntion buffers up chars to be printed until either alt_putbufflush()
  * is called or the buffer is full.
  * It is called by alt_printf when semihosting is turned on
  * Its purpose is to minimize the number of Break 1 issuesd by the semihosting
+<<<<<<< refs/remotes/upstream/main
  * libraries. 
  */
 int 
+=======
+ * libraries.
+ */
+int
+>>>>>>> Revert "enlever le chain de argu"
 alt_putcharbuf(int c)
 {
     buf[fill_index++] = (char)(c & 0xff);
@@ -64,12 +76,20 @@ alt_putcharbuf(int c)
 }
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * ALT putbufflush 
+=======
+ * ALT putbufflush
+>>>>>>> Revert "enlever le chain de argu"
  * used only for smehosting
  * Not thread safe!
  * Dumps all the chars in the buffer to STDOUT
  */
+<<<<<<< refs/remotes/upstream/main
 int 
+=======
+int
+>>>>>>> Revert "enlever le chain de argu"
 alt_putbufflush()
 {
     int results;

@@ -7,7 +7,11 @@
    description=""
    tags=""
    categories="System" />
+<<<<<<< refs/remotes/upstream/main
  <parameter name="bonusData"><![CDATA[bonusData 
+=======
+ <parameter name="bonusData"><![CDATA[bonusData
+>>>>>>> Revert "enlever le chain de argu"
 {
    element Av_FIFO_Int_0
    {

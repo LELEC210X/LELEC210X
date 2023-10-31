@@ -42,8 +42,13 @@
 #include "alt_types.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * This header provides the internal defenitions required by the public 
  * interface alt_alarm.h. These variables and structures are not guaranteed to 
+=======
+ * This header provides the internal defenitions required by the public
+ * interface alt_alarm.h. These variables and structures are not guaranteed to
+>>>>>>> Revert "enlever le chain de argu"
  * exist in future implementations of the HAL.
  */
 
@@ -61,10 +66,17 @@ struct alt_alarm_s
 {
   alt_llist llist;       /* linked list */
   alt_u32 time;          /* time in system ticks of the callback */
+<<<<<<< refs/remotes/upstream/main
   alt_u32 (*callback) (void* context); /* callback function. The return 
                           * value is the period for the next callback; where 
                           * zero indicates that the alarm should be removed 
                           * from the list. 
+=======
+  alt_u32 (*callback) (void* context); /* callback function. The return
+                          * value is the period for the next callback; where
+                          * zero indicates that the alarm should be removed
+                          * from the list.
+>>>>>>> Revert "enlever le chain de argu"
                           */
   alt_u8 rollover;       /* set when desired alarm time + current time causes
                             overflow, to prevent premature alarm */
@@ -72,18 +84,31 @@ struct alt_alarm_s
 };
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * "_alt_tick_rate" is a global variable used to store the system clock rate 
  * in ticks per second. This is initialised to zero, which coresponds to there
  * being no system clock available. 
  *
  * It is then set to it's final value by the system clock driver through a call
  * to alt_sysclk_init(). 
+=======
+ * "_alt_tick_rate" is a global variable used to store the system clock rate
+ * in ticks per second. This is initialised to zero, which coresponds to there
+ * being no system clock available.
+ *
+ * It is then set to it's final value by the system clock driver through a call
+ * to alt_sysclk_init().
+>>>>>>> Revert "enlever le chain de argu"
  */
 
 extern alt_u32 _alt_tick_rate;
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * "_alt_nticks" is a global variable which records the elapsed number of 
+=======
+ * "_alt_nticks" is a global variable which records the elapsed number of
+>>>>>>> Revert "enlever le chain de argu"
  * system clock ticks since the last call to settimeofday() or since reset if
  * settimeofday() has not been called.
  */

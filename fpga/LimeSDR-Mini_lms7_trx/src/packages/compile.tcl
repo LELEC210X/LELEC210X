@@ -1,4 +1,8 @@
+<<<<<<< refs/remotes/upstream/main
 # ----------------------------------------------------------------------------	
+=======
+# ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 # FILE: 	compile.tcl
 # DESCRIPTION:	General compile script for ModelSim - Altera
 # DATE:	Jan 19, 2017
@@ -6,7 +10,11 @@
 # REVISIONS: 1.0
 # ----------------------------------------------------------------------------
 
+<<<<<<< refs/remotes/upstream/main
 #This line is useful when Notepad++ text editor is used instead of default 
+=======
+#This line is useful when Notepad++ text editor is used instead of default
+>>>>>>> Revert "enlever le chain de argu"
 #ModelSim text editor
 #Set in ModelSim console (Needs to be done once)
 #set PrefSource(altEditor) external_editor
@@ -17,7 +25,11 @@ proc external_editor {filename linenumber} { exec Notepad++.exe -n$linenumber $f
 
 
 puts {
+<<<<<<< refs/remotes/upstream/main
  ----------------------------------------------------------------------------	
+=======
+ ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
  FILE: 	compile.tcl
  DESCRIPTION:	General compile script for ModelSim - Altera
  DATE:	Jan 19, 2017
@@ -35,7 +47,11 @@ set library_file_list {
                            source_library {
                                             synth/FIFO_PACK.vhd
                                             sim/FIFO_PACK_tb.vhd
+<<<<<<< refs/remotes/upstream/main
                                             
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                            }
 }
 
@@ -85,7 +101,10 @@ puts {
  rr = Recompile everything
   q = Quit without confirmation
 }
+<<<<<<< refs/remotes/upstream/main
 
 
 
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

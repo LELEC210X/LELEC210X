@@ -1,3 +1,4 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
 -- FILE: 	tx_path_top_tb.vhd
 -- DESCRIPTION:	
@@ -5,6 +6,15 @@
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+-- FILE: 	tx_path_top_tb.vhd
+-- DESCRIPTION:
+-- DATE:	Feb 13, 2014
+-- AUTHOR(s):	Lime Microsystems
+-- REVISIONS:
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -26,6 +36,7 @@ architecture tb_behave of tx_path_top_tb is
    -- TB parameters
    constant C_DEV_FAMILY         : string := "Cyclone IV E";
    constant clk0_period          : time := 16 ns;     -- RX clk,
+<<<<<<< refs/remotes/upstream/main
    constant clk1_period          : time := 10 ns;     -- Transfer clk, 100MHz, 400MBs 
    constant clk2_period          : time := 16 ns;     -- TX clk, 
    --signals   
@@ -44,13 +55,39 @@ architecture tb_behave of tx_path_top_tb is
    constant C_SMPL_NR_START      : integer := 3400;
    
    signal sample_width     : std_logic_vector(1 downto 0) := "10"; 
+=======
+   constant clk1_period          : time := 10 ns;     -- Transfer clk, 100MHz, 400MBs
+   constant clk2_period          : time := 16 ns;     -- TX clk,
+   --signals
+   signal clk0,clk1,clk2         : std_logic;
+   signal reset_n                : std_logic;
+
+
+   -- Data packet parameters
+   constant C_STREAM_PCT_SIZE    : integer := 4096;   -- Stream packet size in bytes
+   constant C_STREAM_PCT_HDR_SIZE: integer := 16;
+   -- File reading
+   constant C_FILE_RDATA_WIDTH   : integer := 64;     -- File data format
+   signal file_rdreq             : std_logic;
+   signal file_rdata             : std_logic_vector(C_FILE_RDATA_WIDTH-1 downto 0);
+
+   constant C_SMPL_NR_START      : integer := 3400;
+
+   signal sample_width     : std_logic_vector(1 downto 0) := "10";
+>>>>>>> Revert "enlever le chain de argu"
    signal mode             : std_logic:='0'; -- JESD207: 1; TRXIQ: 0
    signal trxiqpulse       : std_logic:='0'; -- trxiqpulse on: 1; trxiqpulse off: 0
    signal ddr_en           : std_logic:='1'; -- DDR: 1; SDR: 0
    signal mimo_en          : std_logic:='1'; -- MIMO: 1; SISO: 0
+<<<<<<< refs/remotes/upstream/main
    signal ch_en            : std_logic_vector(1 downto 0):="01"; --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B. 
    signal fidm             : std_logic:='0'; -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
    signal inst1_pct_sync_mode    : std_logic := '0'; --0 - timestamp, 1 - external pulse 
+=======
+   signal ch_en            : std_logic_vector(1 downto 0):="01"; --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B.
+   signal fidm             : std_logic:='0'; -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
+   signal inst1_pct_sync_mode    : std_logic := '0'; --0 - timestamp, 1 - external pulse
+>>>>>>> Revert "enlever le chain de argu"
    signal inst1_pct_sync_size    : std_logic_vector(15 downto 0) := x"03FC"; -- valid in external pulse mode only
    signal txant_cyc_before_en    : std_logic_vector(15 downto 0) := x"0001";
    signal txant_cyc_after_en     : std_logic_vector(15 downto 0) := x"0001";
@@ -64,7 +101,11 @@ architecture tb_behave of tx_path_top_tb is
    signal inst0_rdempty             : std_logic;
    signal inst0_rdusedw             : std_logic_vector(C_INST0_RDUSEDW_WIDTH-1 downto 0);
    signal inst0_q                   : std_logic_vector(C_INST0_RDWIDTH-1 downto 0);
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
    --inst1
    signal rx_sample_nr        : std_logic_vector(63 downto 0);
    signal rx_sample_nr_en     : std_logic;
@@ -72,6 +113,7 @@ architecture tb_behave of tx_path_top_tb is
    signal inst1_in_pct_rdy    : std_logic;
    signal inst1_in_pct_rdreq  : std_logic;
    signal inst1_in_pct_reset_n_req  : std_logic;
+<<<<<<< refs/remotes/upstream/main
    
    --inst2
    signal inst2_pct_sync_pulse   : std_logic;
@@ -83,6 +125,19 @@ architecture tb_behave of tx_path_top_tb is
    
 begin 
   
+=======
+
+   --inst2
+   signal inst2_pct_sync_pulse   : std_logic;
+   signal inst2_wait_cycles      : std_logic_vector(31 downto 0) := x"0000186A";
+
+   signal rd_pct              : std_logic;
+   signal rd_pct_cnt          : unsigned(31 downto 0);
+   signal pct_data            : std_logic_vector(63 downto 0);
+
+begin
+
+>>>>>>> Revert "enlever le chain de argu"
       clock0: process is
    begin
       clk0 <= '0'; wait for clk0_period/2;
@@ -94,22 +149,35 @@ begin
       clk1 <= '0'; wait for clk1_period/2;
       clk1 <= '1'; wait for clk1_period/2;
    end process clock;
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
      clock2: process is
    begin
       clk2 <= '0'; wait for clk2_period/2;
       clk2 <= '1'; wait for clk2_period/2;
    end process clock2;
+<<<<<<< refs/remotes/upstream/main
    
       res: process is
    begin
       reset_n <= '0'; wait for 20 ns;
       --report "reset_n released" severity failure ;     
+=======
+
+      res: process is
+   begin
+      reset_n <= '0'; wait for 20 ns;
+      --report "reset_n released" severity failure ;
+>>>>>>> Revert "enlever le chain de argu"
       reset_n <= '1'; wait;
    end process res;
 
 -- ----------------------------------------------------------------------------
 -- RX sample Nr. generation
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------    
 process(clk0, reset_n)
 begin
@@ -121,20 +189,45 @@ begin
       if rx_sample_nr_en = '1' then 
          rx_sample_nr <= std_logic_vector(unsigned(rx_sample_nr)+1);
       else 
+=======
+-- ----------------------------------------------------------------------------
+process(clk0, reset_n)
+begin
+   if reset_n = '0' then
+      rx_sample_nr_en <= '0';
+      rx_sample_nr <= std_logic_vector(to_unsigned(C_SMPL_NR_START,64));
+   elsif (clk0'event AND clk0='1') then
+      rx_sample_nr_en <= not rx_sample_nr_en;
+      if rx_sample_nr_en = '1' then
+         rx_sample_nr <= std_logic_vector(unsigned(rx_sample_nr)+1);
+      else
+>>>>>>> Revert "enlever le chain de argu"
          rx_sample_nr <= rx_sample_nr;
       end if;
    end if;
 end process;
+<<<<<<< refs/remotes/upstream/main
   
 -- ----------------------------------------------------------------------------
 -- TEST data generation. 
+=======
+
+-- ----------------------------------------------------------------------------
+-- TEST data generation.
+>>>>>>> Revert "enlever le chain de argu"
 -- Test data is read from external file and written to FIFO. Simulating data
 -- coming from PC or ect.
 -- ----------------------------------------------------------------------------
 
+<<<<<<< refs/remotes/upstream/main
    -- File read request generation. Data is read from file in full packets when 
    -- FIFO is empty.
    file_rdreq_proc : process 
+=======
+   -- File read request generation. Data is read from file in full packets when
+   -- FIFO is empty.
+   file_rdreq_proc : process
+>>>>>>> Revert "enlever le chain de argu"
    begin
       file_rdreq <= '0';
       wait until rising_edge(clk1) AND reset_n = '1';
@@ -152,6 +245,7 @@ end process;
       --select one of the three files depending on sample width
       FILE in_file      : TEXT OPEN READ_MODE IS "sim/out_pct_6_12b";
       --FILE in_file      : TEXT OPEN READ_MODE IS "sim/out_pct_6_14b";
+<<<<<<< refs/remotes/upstream/main
       --FILE in_file      : TEXT OPEN READ_MODE IS "sim/out_pct_6_16b";   
       VARIABLE in_line  : LINE;
       VARIABLE data     : std_logic_vector(63 downto 0);
@@ -176,6 +270,32 @@ end process;
       if reset_n = '0' then 
          inst0_fifo_wrreq <= '0';
       elsif (clk1'event AND clk1='1') then 
+=======
+      --FILE in_file      : TEXT OPEN READ_MODE IS "sim/out_pct_6_16b";
+      VARIABLE in_line  : LINE;
+      VARIABLE data     : std_logic_vector(63 downto 0);
+   begin
+      if reset_n = '0' then
+         file_rdata <= (others=>'0');
+      elsif (clk1'event AND clk1='1') then
+         if file_rdreq = '1' then
+            READLINE(in_file, in_line);
+            HREAD(in_line, data);
+            file_rdata <= data;
+         else
+            file_rdata <= file_rdata;
+         end if;
+
+      end if;
+   end process;
+
+   -- FIFO write request signal
+   fifo_wr_proc : process(clk1, reset_n)
+   begin
+      if reset_n = '0' then
+         inst0_fifo_wrreq <= '0';
+      elsif (clk1'event AND clk1='1') then
+>>>>>>> Revert "enlever le chain de argu"
          inst0_fifo_wrreq <= file_rdreq;
       end if;
    end process;
@@ -191,9 +311,15 @@ end process;
       rdwidth         => C_INST0_RDWIDTH,
       rdusedw_width   => C_INST0_RDUSEDW_WIDTH,
       show_ahead      => "OFF"
+<<<<<<< refs/remotes/upstream/main
    ) 
    port map(
       --input ports 
+=======
+   )
+   port map(
+      --input ports
+>>>>>>> Revert "enlever le chain de argu"
       reset_n       => inst1_in_pct_reset_n_req,
       wrclk         => clk1,
       wrreq         => inst0_fifo_wrreq,
@@ -205,6 +331,7 @@ end process;
       rdreq         => inst1_in_pct_rdreq,
       q             => inst0_q,
       rdempty       => inst0_rdempty,
+<<<<<<< refs/remotes/upstream/main
       rdusedw       => inst0_rdusedw          
    );
    
@@ -221,12 +348,34 @@ end process;
          end if;
       end if;
    end process;    
+=======
+      rdusedw       => inst0_rdusedw
+   );
+
+   -- inst1_in_pct_rdy is asserted when full packet is placed to FIFO
+   process(clk2, reset_n)
+   begin
+      if reset_n = '0' then
+         inst1_in_pct_rdy <= '0';
+      elsif (clk2'event AND clk2='1') then
+         if unsigned(inst0_rdusedw) < (C_STREAM_PCT_SIZE*8)/C_INST0_RDWIDTH then
+            inst1_in_pct_rdy <= '0';
+         else
+            inst1_in_pct_rdy <= '1';
+         end if;
+      end if;
+   end process;
+>>>>>>> Revert "enlever le chain de argu"
 
 -- ----------------------------------------------------------------------------
 -- tx_path_top module instance
 -- ----------------------------------------------------------------------------
    tx_path_top_inst1 : entity work.tx_path_top
+<<<<<<< refs/remotes/upstream/main
    generic map( 
+=======
+   generic map(
+>>>>>>> Revert "enlever le chain de argu"
       dev_family           => "Cyclone IV E",
       iq_width             => 12,
       TX_IN_PCT_SIZE       => C_STREAM_PCT_SIZE,
@@ -252,11 +401,19 @@ end process;
       pct_sync_size        => inst1_pct_sync_size,
       pct_loss_flg         => open,
       pct_loss_flg_clr     => '0',
+<<<<<<< refs/remotes/upstream/main
       
       txant_cyc_before_en  => txant_cyc_before_en,
       txant_cyc_after_en   => txant_cyc_after_en,
       txant_en             => open,
       
+=======
+
+      txant_cyc_before_en  => txant_cyc_before_en,
+      txant_cyc_after_en   => txant_cyc_after_en,
+      txant_en             => open,
+
+>>>>>>> Revert "enlever le chain de argu"
 
       mode                 => mode,
       trxiqpulse           => trxiqpulse,
@@ -268,13 +425,21 @@ end process;
 
       DIQ                  => open,
       fsync                => open,
+<<<<<<< refs/remotes/upstream/main
       
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
       in_pct_reset_n_req   => inst1_in_pct_reset_n_req,
       in_pct_rdreq         => inst1_in_pct_rdreq,
       in_pct_data          => inst0_q,
       in_pct_rdy           => inst1_in_pct_rdy
    );
+<<<<<<< refs/remotes/upstream/main
         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 pulse_gen_inst2 : entity work.pulse_gen
    port map(
       clk         => clk2,
@@ -283,6 +448,7 @@ pulse_gen_inst2 : entity work.pulse_gen
       pulse       => inst2_pct_sync_pulse
    );
 
+<<<<<<< refs/remotes/upstream/main
  
 	end tb_behave;
   
@@ -290,3 +456,7 @@ pulse_gen_inst2 : entity work.pulse_gen
 
 
   
+=======
+
+	end tb_behave;
+>>>>>>> Revert "enlever le chain de argu"

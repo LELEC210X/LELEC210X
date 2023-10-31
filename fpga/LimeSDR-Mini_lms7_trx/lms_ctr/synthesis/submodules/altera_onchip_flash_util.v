@@ -1,4 +1,5 @@
 // (C) 2001-2018 Intel Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 // Your use of Intel Corporation's design tools, logic functions and other 
 // software and tools, and its AMPP partner logic functions, and any output 
 // files from any of the foregoing (including device programming or simulation 
@@ -8,6 +9,17 @@
 // license agreement, including, without limitation, that your use is for the 
 // sole purpose of programming logic devices manufactured by Intel and sold by 
 // Intel or its authorized distributors.  Please refer to the applicable 
+=======
+// Your use of Intel Corporation's design tools, logic functions and other
+// software and tools, and its AMPP partner logic functions, and any output
+// files from any of the foregoing (including device programming or simulation
+// files), and any associated documentation or information are expressly subject
+// to the terms and conditions of the Intel Program License Subscription
+// Agreement, Intel FPGA IP License Agreement, or other applicable
+// license agreement, including, without limitation, that your use is for the
+// sole purpose of programming logic devices manufactured by Intel and sold by
+// Intel or its authorized distributors.  Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 // agreement for further details.
 
 
@@ -16,6 +28,7 @@
 //  ALTERA_ONCHIP_FLASH_UTIL
 //
 //  Copyright (C) 1991-2013 Altera Corporation
+<<<<<<< refs/remotes/upstream/main
 //  Your use of Altera Corporation's design tools, logic functions 
 //  and other software and tools, and its AMPP partner logic 
 //  functions, and any output files from any of the foregoing 
@@ -27,6 +40,19 @@
 //  without limitation, that your use is for the sole purpose of 
 //  programming logic devices manufactured by Altera and sold by 
 //  Altera or its authorized distributors.  Please refer to the 
+=======
+//  Your use of Altera Corporation's design tools, logic functions
+//  and other software and tools, and its AMPP partner logic
+//  functions, and any output files from any of the foregoing
+//  (including device programming or simulation files), and any
+//  associated documentation or information are expressly subject
+//  to the terms and conditions of the Altera Program License
+//  Subscription Agreement, Altera MegaCore Function License
+//  Agreement, or other applicable license agreement, including,
+//  without limitation, that your use is for the sole purpose of
+//  programming logic devices manufactured by Altera and sold by
+//  Altera or its authorized distributors.  Please refer to the
+>>>>>>> Revert "enlever le chain de argu"
 //  applicable agreement for further details.
 //
 ////////////////////////////////////////////////////////////////////
@@ -46,7 +72,11 @@ module altera_onchip_flash_address_range_check (
 
     input [FLASH_ADDR_WIDTH-1:0] address;
     output is_addr_within_valid_range;
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     assign is_addr_within_valid_range = (address >= MIN_VALID_ADDR) && (address <= MAX_VALID_ADDR);
 
 endmodule
@@ -81,13 +111,21 @@ module altera_onchip_flash_address_write_protection_check (
     wire is_sector2_addr;
     wire is_sector3_addr;
     wire is_sector4_addr;
+<<<<<<< refs/remotes/upstream/main
     wire is_sector5_addr;    
+=======
+    wire is_sector5_addr;
+>>>>>>> Revert "enlever le chain de argu"
     wire is_sector1_writable;
     wire is_sector2_writable;
     wire is_sector3_writable;
     wire is_sector4_writable;
     wire is_sector5_writable;
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     assign is_sector1_addr = (use_sector_addr) ? (address == 1) : ((address >= SECTOR1_START_ADDR) && (address <= SECTOR1_END_ADDR));
     assign is_sector2_addr = (use_sector_addr) ? (address == 2) : ((address >= SECTOR2_START_ADDR) && (address <= SECTOR2_END_ADDR));
     assign is_sector3_addr = (use_sector_addr) ? (address == 3) : ((address >= SECTOR3_START_ADDR) && (address <= SECTOR3_END_ADDR));
@@ -209,10 +247,17 @@ module altera_onchip_flash_convert_address (
     input [FLASH_ADDR_WIDTH-1:0] address;
     output [FLASH_ADDR_WIDTH-1:0] flash_addr;
 
+<<<<<<< refs/remotes/upstream/main
     assign flash_addr = (address <= ADDR_RANGE1_END_ADDR[FLASH_ADDR_WIDTH-1:0]) ? (address + ADDR_RANGE1_OFFSET[FLASH_ADDR_WIDTH-1:0]) : 
                         (address <= ADDR_RANGE2_END_ADDR[FLASH_ADDR_WIDTH-1:0]) ? (address + ADDR_RANGE2_OFFSET[FLASH_ADDR_WIDTH-1:0]) :
                         (address + ADDR_RANGE3_OFFSET[FLASH_ADDR_WIDTH-1:0]);
     
+=======
+    assign flash_addr = (address <= ADDR_RANGE1_END_ADDR[FLASH_ADDR_WIDTH-1:0]) ? (address + ADDR_RANGE1_OFFSET[FLASH_ADDR_WIDTH-1:0]) :
+                        (address <= ADDR_RANGE2_END_ADDR[FLASH_ADDR_WIDTH-1:0]) ? (address + ADDR_RANGE2_OFFSET[FLASH_ADDR_WIDTH-1:0]) :
+                        (address + ADDR_RANGE3_OFFSET[FLASH_ADDR_WIDTH-1:0]);
+
+>>>>>>> Revert "enlever le chain de argu"
 endmodule
 
 
@@ -230,7 +275,11 @@ module altera_onchip_flash_convert_sector (
     input [2:0] sector;
     output [2:0] flash_sector;
 
+<<<<<<< refs/remotes/upstream/main
     assign flash_sector = 
+=======
+    assign flash_sector =
+>>>>>>> Revert "enlever le chain de argu"
         (sector == 1) ? SECTOR1_MAP[2:0] :
         (sector == 2) ? SECTOR2_MAP[2:0] :
         (sector == 3) ? SECTOR3_MAP[2:0] :
@@ -249,15 +298,25 @@ module altera_onchip_flash_counter (
     input clock;
     input reset;
     output [4:0] count;
+<<<<<<< refs/remotes/upstream/main
     
     reg [4:0] count_reg;
     
+=======
+
+    reg [4:0] count_reg;
+
+>>>>>>> Revert "enlever le chain de argu"
     assign count = count_reg;
 
     initial begin
         count_reg = 0;
     end
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     always @ (posedge reset or posedge clock) begin
         if (reset) begin
             count_reg <= 0;

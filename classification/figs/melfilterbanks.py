@@ -8,10 +8,20 @@
 
 """
 
+<<<<<<< refs/remotes/upstream/main
+=======
+import os
+
+>>>>>>> Revert "enlever le chain de argu"
 import librosa
 import matplotlib.pyplot as plt
 import numpy as np
 
+<<<<<<< refs/remotes/upstream/main
+=======
+os.chdir(os.path.dirname(__file__))  # go to current file directory
+
+>>>>>>> Revert "enlever le chain de argu"
 Nft = 512
 fs = 11025  # Hz
 n_mels = 20
@@ -27,5 +37,9 @@ colors = plt.cm.jet(np.linspace(0, 1, mel.shape[0]))
 for line in range(mel.shape[0]):
     ax.plot(mel[line, :], color=colors[line])
 plt.title("Mel filterbanks")
+<<<<<<< refs/remotes/upstream/main
 plt.savefig("mel_filterbanks.svg")
+=======
+plt.savefig("images/mel_filterbanks.svg")
+>>>>>>> Revert "enlever le chain de argu"
 plt.show()

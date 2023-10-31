@@ -48,6 +48,7 @@ int alt_dev_llist_insert (alt_dev_llist* dev, alt_llist* list)
     ALT_ERRNO = EINVAL;
     return -EINVAL;
   }
+<<<<<<< refs/remotes/upstream/main
   
   /*
    * register the device.
@@ -56,4 +57,14 @@ int alt_dev_llist_insert (alt_dev_llist* dev, alt_llist* list)
   alt_llist_insert(list, &dev->llist);
 
   return 0;  
+=======
+
+  /*
+   * register the device.
+   */
+
+  alt_llist_insert(list, &dev->llist);
+
+  return 0;
+>>>>>>> Revert "enlever le chain de argu"
 }

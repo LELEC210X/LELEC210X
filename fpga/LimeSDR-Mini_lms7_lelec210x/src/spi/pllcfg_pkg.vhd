@@ -17,8 +17,13 @@ use ieee.numeric_std.all;
 -- Package declaration
 -- ----------------------------------------------------------------------------
 package pllcfg_pkg is
+<<<<<<< refs/remotes/upstream/main
    
    -- Outputs from the 
+=======
+
+   -- Outputs from the
+>>>>>>> Revert "enlever le chain de argu"
    type t_FROM_PLLCFG is record
       -- PLL Configuratioin Related
       phcfg_start       : std_logic; --
@@ -29,19 +34,31 @@ package pllcfg_pkg is
       pll_ind           : std_logic_vector(4 downto 0); --
       phcfg_mode        : std_logic;
       phcfg_tst         : std_logic;
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
       cnt_phase         : std_logic_vector(15 downto 0); --
       --pllcfg_bs       : out std_logic_vector(3 downto 0); -- (for Cyclone V)
       chp_curr          : std_logic_vector(2 downto 0); --
       pllcfg_vcodiv     : std_logic; --
       pllcfg_lf_res     : std_logic_vector(4 downto 0); -- (for Cyclone IV)
       pllcfg_lf_cap     : std_logic_vector(1 downto 0); -- (for cyclone IV)
+<<<<<<< refs/remotes/upstream/main
          
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
       m_odddiv          : std_logic; --
       m_byp             : std_logic; --
       n_odddiv          : std_logic; --
       n_byp             : std_logic; --
+<<<<<<< refs/remotes/upstream/main
       
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
       c0_odddiv         : std_logic; --
       c0_byp            : std_logic; --
       c1_odddiv         : std_logic; --
@@ -62,6 +79,7 @@ package pllcfg_pkg is
       --c8_byp          : std_logic; --
       --c9_odddiv       : std_logic; --
       --c9_byp          : std_logic; --
+<<<<<<< refs/remotes/upstream/main
       n_cnt             : std_logic_vector(15 downto 0); -- 
       m_cnt             : std_logic_vector(15 downto 0); -- 
       --m_frac          : std_logic_vector(31 downto 0); -- 
@@ -74,11 +92,29 @@ package pllcfg_pkg is
       --c6_cnt          : std_logic_vector(15 downto 0); -- 
       --c7_cnt          : std_logic_vector(15 downto 0); -- 
       --c8_cnt          : std_logic_vector(15 downto 0); -- 
+=======
+      n_cnt             : std_logic_vector(15 downto 0); --
+      m_cnt             : std_logic_vector(15 downto 0); --
+      --m_frac          : std_logic_vector(31 downto 0); --
+      c0_cnt            : std_logic_vector(15 downto 0); --
+      c1_cnt            : std_logic_vector(15 downto 0); --
+      c2_cnt            : std_logic_vector(15 downto 0); --
+      c3_cnt            : std_logic_vector(15 downto 0); --
+      c4_cnt            : std_logic_vector(15 downto 0); --
+      --c5_cnt          : std_logic_vector(15 downto 0); --
+      --c6_cnt          : std_logic_vector(15 downto 0); --
+      --c7_cnt          : std_logic_vector(15 downto 0); --
+      --c8_cnt          : std_logic_vector(15 downto 0); --
+>>>>>>> Revert "enlever le chain de argu"
       --c9_cnt          : std_logic_vector(15 downto 0) --
       auto_phcfg_smpls  : std_logic_vector(15 downto 0);
       auto_phcfg_step   : std_logic_vector(15 downto 0);
    end record t_FROM_PLLCFG;
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
    -- Inputs to the .
    type t_TO_PLLCFG is record
       -- Status Inputs
@@ -89,7 +125,14 @@ package pllcfg_pkg is
       -- PLL Lock flags
       pll_lock       : std_logic_vector(15 downto 0);
    end record t_TO_PLLCFG;
+<<<<<<< refs/remotes/upstream/main
    
 
       
 end package pllcfg_pkg;
+=======
+
+
+
+end package pllcfg_pkg;
+>>>>>>> Revert "enlever le chain de argu"

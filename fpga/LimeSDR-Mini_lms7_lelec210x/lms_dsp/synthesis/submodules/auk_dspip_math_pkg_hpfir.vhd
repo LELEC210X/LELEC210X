@@ -1,4 +1,5 @@
 -- (C) 2001-2018 Intel Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 -- Your use of Intel Corporation's design tools, logic functions and other 
 -- software and tools, and its AMPP partner logic functions, and any output 
 -- files from any of the foregoing (including device programming or simulation 
@@ -8,10 +9,22 @@
 -- license agreement, including, without limitation, that your use is for the 
 -- sole purpose of programming logic devices manufactured by Intel and sold by 
 -- Intel or its authorized distributors.  Please refer to the applicable 
+=======
+-- Your use of Intel Corporation's design tools, logic functions and other
+-- software and tools, and its AMPP partner logic functions, and any output
+-- files from any of the foregoing (including device programming or simulation
+-- files), and any associated documentation or information are expressly subject
+-- to the terms and conditions of the Intel Program License Subscription
+-- Agreement, Intel FPGA IP License Agreement, or other applicable
+-- license agreement, including, without limitation, that your use is for the
+-- sole purpose of programming logic devices manufactured by Intel and sold by
+-- Intel or its authorized distributors.  Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 -- agreement for further details.
 
 
 -- (C) 2001-2009 Altera Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 -- Your use of Altera Corporation's design tools, logic functions and other 
 -- software and tools, and its AMPP partner logic functions, and any output 
 -- files any of the foregoing (including device programming or simulation 
@@ -21,6 +34,17 @@
 -- license agreement, including, without limitation, that your use is for the 
 -- sole purpose of programming logic devices manufactured by Altera and sold by 
 -- Altera or its authorized distributors.  Please refer to the applicable 
+=======
+-- Your use of Altera Corporation's design tools, logic functions and other
+-- software and tools, and its AMPP partner logic functions, and any output
+-- files any of the foregoing (including device programming or simulation
+-- files), and any associated documentation or information are expressly subject
+-- to the terms and conditions of the Altera Program License Subscription
+-- Agreement, Altera MegaCore Function License Agreement, or other applicable
+-- license agreement, including, without limitation, that your use is for the
+-- sole purpose of programming logic devices manufactured by Altera and sold by
+-- Altera or its authorized distributors.  Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 -- agreement for further details.
 
 
@@ -36,10 +60,17 @@
 --
 -- Project      :  <project name>
 --
+<<<<<<< refs/remotes/upstream/main
 -- Description : 
 --
 -- Common functions for DSP_IP cores. 
 -- 
+=======
+-- Description :
+--
+-- Common functions for DSP_IP cores.
+--
+>>>>>>> Revert "enlever le chain de argu"
 --
 -- ALTERA Confidential and Proprietary
 -- Copyright 2006 (c) Altera Corporation
@@ -98,11 +129,19 @@ PACKAGE auk_dspip_math_pkg_hpfir IS
   -----------------------------------------------------------------------------
   -- Logical functions
   -----------------------------------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
   -- Result of and'ing all of the bits of the vector. 
   function and_reduce(arg : std_logic_vector) return std_logic;
   function and_reduce(arg : unsigned) return std_logic;
 
   -- Result of or'ing all of the bits of the vector. 
+=======
+  -- Result of and'ing all of the bits of the vector.
+  function and_reduce(arg : std_logic_vector) return std_logic;
+  function and_reduce(arg : unsigned) return std_logic;
+
+  -- Result of or'ing all of the bits of the vector.
+>>>>>>> Revert "enlever le chain de argu"
   function or_reduce(arg : std_logic_vector) return std_logic;
   function or_reduce(arg : unsigned) return std_logic;
 
@@ -125,7 +164,11 @@ PACKAGE auk_dspip_math_pkg_hpfir IS
   function halve_ceil(arg:natural) return natural;
 
   function div_ceil(a:natural;b:natural) return natural;
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 END PACKAGE auk_dspip_math_pkg_hpfir;
 
 package body auk_dspip_math_pkg_hpfir is

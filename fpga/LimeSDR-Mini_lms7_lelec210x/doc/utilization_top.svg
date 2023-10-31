@@ -191,4 +191,8 @@
  <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="353px" font-weight="400"><tspan class="TextPosition" x="13612" y="5869"><tspan fill="rgb(0,0,0)" stroke="none">nios_cpu</tspan></tspan></tspan></text>
  <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="353px" font-weight="400"><tspan class="TextPosition" x="13612" y="6373"><tspan fill="rgb(0,0,0)" stroke="none">FT601_top</tspan></tspan></tspan></text>
  <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="353px" font-weight="400"><tspan class="TextPosition" x="13612" y="6877"><tspan fill="rgb(0,0,0)" stroke="none">lms7_trx_top</tspan></tspan></tspan></text>
+<<<<<<< refs/remotes/upstream/main
 </svg>
+=======
+</svg>
+>>>>>>> Revert "enlever le chain de argu"

@@ -49,9 +49,15 @@
  */
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * "alt_fs_list" is the head of a linked list of registered filesystems. It is 
  * initialised as an empty list. New entries can be added using the 
  * alt_fs_reg() function.  
+=======
+ * "alt_fs_list" is the head of a linked list of registered filesystems. It is
+ * initialised as an empty list. New entries can be added using the
+ * alt_fs_reg() function.
+>>>>>>> Revert "enlever le chain de argu"
  */
 
 ALT_LLIST_HEAD(alt_fs_list);
@@ -80,9 +86,15 @@ static int alt_dev_null_write (alt_fd* fd, const char* ptr, int len)
 
 /*
  * "alt_dev_null" is used to allow output to be redirected to nowhere. It is
+<<<<<<< refs/remotes/upstream/main
  * the only device registered before the call to alt_sys_init(). At startup 
  * stin, stdout & stderr are all directed towards this device so that library 
  * calls like printf() will be safe but inefectual.  
+=======
+ * the only device registered before the call to alt_sys_init(). At startup
+ * stin, stdout & stderr are all directed towards this device so that library
+ * calls like printf() will be safe but inefectual.
+>>>>>>> Revert "enlever le chain de argu"
  */
 
 alt_dev alt_dev_null = {
@@ -95,22 +107,36 @@ alt_dev alt_dev_null = {
    NULL,               /* close */
    NULL,               /* write */
    alt_dev_null_write, /* write */
+<<<<<<< refs/remotes/upstream/main
    NULL,               /* lseek */   
    NULL,               /* fstat */ 
+=======
+   NULL,               /* lseek */
+   NULL,               /* fstat */
+>>>>>>> Revert "enlever le chain de argu"
    NULL                /* ioctl */
  };
 
 /*
  * "alt_fd_list_lock" is a semaphore used to control access to the file
  * descriptor list. This is used to ensure that access to the list is thread
+<<<<<<< refs/remotes/upstream/main
  * safe.  
+=======
+ * safe.
+>>>>>>> Revert "enlever le chain de argu"
  */
 
 ALT_SEM(alt_fd_list_lock)
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * "alt_max_fd" is used to make access to the file descriptor list more 
  * efficent. It is set to be the value of the highest allocated file 
+=======
+ * "alt_max_fd" is used to make access to the file descriptor list more
+ * efficent. It is set to be the value of the highest allocated file
+>>>>>>> Revert "enlever le chain de argu"
  * descriptor. This saves having to search the entire pool of unallocated
  * file descriptors when looking for a match.
  */
@@ -120,6 +146,7 @@ alt_32 alt_max_fd = -1;
 /*
  * "alt_fd_list" is the file descriptor pool. The first three entries in the
  * array are configured as standard in, standard out, and standard error. These
+<<<<<<< refs/remotes/upstream/main
  * are all initialised so that accesses are directed to the alt_dev_null 
  * device. The remaining file descriptors are initialised as unallocated.
  *
@@ -129,6 +156,17 @@ alt_32 alt_max_fd = -1;
  */
 
 alt_fd alt_fd_list[ALT_MAX_FD] = 
+=======
+ * are all initialised so that accesses are directed to the alt_dev_null
+ * device. The remaining file descriptors are initialised as unallocated.
+ *
+ * The maximum number of file descriptors within the system is specified by the
+ * user defined macro "ALT_MAX_FD". This is defined in "system.h", which is
+ * auto-genereated using the projects PTF and STF files.
+ */
+
+alt_fd alt_fd_list[ALT_MAX_FD] =
+>>>>>>> Revert "enlever le chain de argu"
   {
     {
       &alt_dev_null, /* standard in */

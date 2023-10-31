@@ -40,10 +40,17 @@
 ******************************************************************************/
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * This header provides "do-nothing" macro definitions for operating system 
  * hooks within the HAL. The O/S component can override these to provide it's 
  * own implementation.
  */ 
+=======
+ * This header provides "do-nothing" macro definitions for operating system
+ * hooks within the HAL. The O/S component can override these to provide it's
+ * own implementation.
+ */
+>>>>>>> Revert "enlever le chain de argu"
 
 #define ALT_OS_TIME_TICK() while(0)
 #define ALT_OS_INIT()      while(0)

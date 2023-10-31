@@ -13,8 +13,13 @@ proc update_version_number { input_file output_file } {
 	while {-1 != [gets $input line] } {
 		if { [regexp {^\s*constant COMPILE_REV : INTEGER := ([[:digit:]]+);\s*$} \ $line match version_number] } {
 			set decimal_value $version_number
+<<<<<<< refs/remotes/upstream/main
 			incr decimal_value		
 			# Substitute the new version number in for the old one 
+=======
+			incr decimal_value
+			# Substitute the new version number in for the old one
+>>>>>>> Revert "enlever le chain de argu"
 			regsub $version_number $line $decimal_value line
 			post_message "File src/revision/revision.vhd updated with Current Compile Revision: $decimal_value"
 		} elseif { [regexp {^\s*constant COMPILE_YEAR_STAMP : INTEGER := ([[:digit:]]+);\s*$} \ $line match version_number] } {
@@ -29,6 +34,7 @@ proc update_version_number { input_file output_file } {
 		} elseif { [regexp {^\s*constant COMPILE_HOUR_STAMP : INTEGER := ([[:digit:]]+);\s*$} \ $line match version_number] } {
 			set decimal_value [clock format [clock seconds] -format {%H}]
 			regsub $version_number $line $decimal_value line
+<<<<<<< refs/remotes/upstream/main
 		} 
 		
 		# Write out the line to the new file 
@@ -36,6 +42,15 @@ proc update_version_number { input_file output_file } {
 	}
 	close $input 
 	close $output 
+=======
+		}
+
+		# Write out the line to the new file
+		puts $output $line
+	}
+	close $input
+	close $output
+>>>>>>> Revert "enlever le chain de argu"
 }
 
 

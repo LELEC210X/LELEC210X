@@ -41,13 +41,22 @@
 
 /*
  * The fstat() system call is used to obtain information about the capabilities
+<<<<<<< refs/remotes/upstream/main
  * of an open file descriptor. By default file descriptors are marked as 
  * being character devices. If a device or file system wishes to advertise 
+=======
+ * of an open file descriptor. By default file descriptors are marked as
+ * being character devices. If a device or file system wishes to advertise
+>>>>>>> Revert "enlever le chain de argu"
  * alternative capabilities then they can register an fstat() function within
  * their associated alt_dev structure. This will be called to fill in the
  * entries in the imput "st" structure.
  *
+<<<<<<< refs/remotes/upstream/main
  * This function is provided for compatability with newlib. 
+=======
+ * This function is provided for compatability with newlib.
+>>>>>>> Revert "enlever le chain de argu"
  *
  * ALT_FSTAT is mapped onto the fstat() system call in alt_syscall.h
  */
@@ -57,7 +66,11 @@
 #include "system.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * Provide minimal version that just describes all file descriptors 
+=======
+ * Provide minimal version that just describes all file descriptors
+>>>>>>> Revert "enlever le chain de argu"
  * as character devices for provided stdio devices.
  */
 int ALT_FSTAT (int file, struct stat *st)
@@ -97,7 +110,11 @@ int ALT_FSTAT (int file, struct stat *st)
    */
 
   fd = (file < 0) ? NULL : &alt_fd_list[file];
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   if (fd)
   {
     /* Call the drivers fstat() function to fill out the "st" structure. */
@@ -107,11 +124,19 @@ int ALT_FSTAT (int file, struct stat *st)
       return fd->dev->fstat(fd, st);
     }
 
+<<<<<<< refs/remotes/upstream/main
     /* 
      * If no function is provided, mark the fd as belonging to a character 
      * device.
      */
  
+=======
+    /*
+     * If no function is provided, mark the fd as belonging to a character
+     * device.
+     */
+
+>>>>>>> Revert "enlever le chain de argu"
     else
     {
       st->st_mode = _IFCHR;

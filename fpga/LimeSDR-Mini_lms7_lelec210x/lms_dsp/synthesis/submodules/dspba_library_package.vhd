@@ -21,7 +21,11 @@ package dspba_library_package is
             width : natural := 8;
             depth : natural := 1;
             reset_high : std_logic := '1';
+<<<<<<< refs/remotes/upstream/main
             reset_kind : string := "ASYNC" 
+=======
+            reset_kind : string := "ASYNC"
+>>>>>>> Revert "enlever le chain de argu"
         );
         port (
             clk   : in  std_logic;

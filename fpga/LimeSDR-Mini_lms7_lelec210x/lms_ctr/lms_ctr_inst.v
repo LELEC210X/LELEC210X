@@ -27,4 +27,7 @@
 		.uart_external_connection_rxd            (<connected-to-uart_external_connection_rxd>),            //         uart_external_connection.rxd
 		.uart_external_connection_txd            (<connected-to-uart_external_connection_txd>)             //                                 .txd
 	);
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

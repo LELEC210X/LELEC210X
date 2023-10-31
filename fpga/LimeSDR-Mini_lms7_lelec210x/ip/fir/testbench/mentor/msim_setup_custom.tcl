@@ -1,5 +1,6 @@
 
 # (C) 2001-2021 Altera Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 # Your use of Altera Corporation's design tools, logic functions and 
 # other software and tools, and its AMPP partner logic functions, and 
 # any output files any of the foregoing (including device programming 
@@ -10,6 +11,18 @@
 # without limitation, that your use is for the sole purpose of 
 # programming logic devices manufactured by Altera and sold by Altera 
 # or its authorized distributors. Please refer to the applicable 
+=======
+# Your use of Altera Corporation's design tools, logic functions and
+# other software and tools, and its AMPP partner logic functions, and
+# any output files any of the foregoing (including device programming
+# or simulation files), and any associated documentation or information
+# are expressly subject to the terms and conditions of the Altera
+# Program License Subscription Agreement, Altera MegaCore Function
+# License Agreement, or other applicable license agreement, including,
+# without limitation, that your use is for the sole purpose of
+# programming logic devices manufactured by Altera and sold by Altera
+# or its authorized distributors. Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 # agreement for further details.
 
 # ----------------------------------------
@@ -18,16 +31,28 @@
 # This script provides commands to simulate the following IP detected in
 # your Quartus project:
 #     fir_tb_gen_tb
+<<<<<<< refs/remotes/upstream/main
 # 
 # Altera recommends that you source this Quartus-generated IP simulation
 # script from your own customized top-level script, and avoid editing this
 # generated script.
 # 
+=======
+#
+# Altera recommends that you source this Quartus-generated IP simulation
+# script from your own customized top-level script, and avoid editing this
+# generated script.
+#
+>>>>>>> Revert "enlever le chain de argu"
 # To write a top-level script that compiles Altera simulation libraries and
 # the Quartus-generated IP in your project, along with your design and
 # testbench files, copy the text from the TOP-LEVEL TEMPLATE section below
 # into a new file, e.g. named "mentor.do", and modify the text as directed.
+<<<<<<< refs/remotes/upstream/main
 # 
+=======
+#
+>>>>>>> Revert "enlever le chain de argu"
 # ----------------------------------------
 # # TOP-LEVEL TEMPLATE - BEGIN
 # #
@@ -80,16 +105,26 @@
 # #
 # # TOP-LEVEL TEMPLATE - END
 # ----------------------------------------
+<<<<<<< refs/remotes/upstream/main
 # 
+=======
+#
+>>>>>>> Revert "enlever le chain de argu"
 # IP SIMULATION SCRIPT
 # ----------------------------------------
 # If fir_tb_gen_tb is one of several IP cores in your
 # Quartus project, you can generate a simulation script
 # suitable for inclusion in your top-level simulation
 # script by running the following command line:
+<<<<<<< refs/remotes/upstream/main
 # 
 # ip-setup-simulation --quartus-project=<quartus project>
 # 
+=======
+#
+# ip-setup-simulation --quartus-project=<quartus project>
+#
+>>>>>>> Revert "enlever le chain de argu"
 # ip-setup-simulation will discover the Altera IP
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
@@ -98,6 +133,7 @@
 
 # ----------------------------------------
 # Initialize variables
+<<<<<<< refs/remotes/upstream/main
 if ![info exists SYSTEM_INSTANCE_NAME] { 
   set SYSTEM_INSTANCE_NAME ""
 } elseif { ![ string match "" $SYSTEM_INSTANCE_NAME ] } { 
@@ -126,6 +162,36 @@ if ![info exists USER_DEFINED_VERILOG_COMPILE_OPTIONS] {
   set USER_DEFINED_VERILOG_COMPILE_OPTIONS ""
 }
 if ![info exists USER_DEFINED_ELAB_OPTIONS] { 
+=======
+if ![info exists SYSTEM_INSTANCE_NAME] {
+  set SYSTEM_INSTANCE_NAME ""
+} elseif { ![ string match "" $SYSTEM_INSTANCE_NAME ] } {
+  set SYSTEM_INSTANCE_NAME "/$SYSTEM_INSTANCE_NAME"
+}
+
+if ![info exists TOP_LEVEL_NAME] {
+  set TOP_LEVEL_NAME "top_tb"
+}
+
+if ![info exists QSYS_SIMDIR] {
+  set QSYS_SIMDIR "./../"
+}
+
+if ![info exists QUARTUS_INSTALL_DIR] {
+  set QUARTUS_INSTALL_DIR "C:/intelfpga/18.1/quartus/"
+}
+
+if ![info exists USER_DEFINED_COMPILE_OPTIONS] {
+  set USER_DEFINED_COMPILE_OPTIONS ""
+}
+if ![info exists USER_DEFINED_VHDL_COMPILE_OPTIONS] {
+  set USER_DEFINED_VHDL_COMPILE_OPTIONS ""
+}
+if ![info exists USER_DEFINED_VERILOG_COMPILE_OPTIONS] {
+  set USER_DEFINED_VERILOG_COMPILE_OPTIONS ""
+}
+if ![info exists USER_DEFINED_ELAB_OPTIONS] {
+>>>>>>> Revert "enlever le chain de argu"
   set USER_DEFINED_ELAB_OPTIONS ""
 }
 
@@ -146,11 +212,16 @@ alias file_copy {
 # ----------------------------------------
 # Create compilation libraries
 proc ensure_lib { lib } { if ![file isdirectory $lib] { vlib $lib } }
+<<<<<<< refs/remotes/upstream/main
 ensure_lib          ./libraries/     
+=======
+ensure_lib          ./libraries/
+>>>>>>> Revert "enlever le chain de argu"
 ensure_lib          ./libraries/work/
 vmap       work     ./libraries/work/
 vmap       work_lib ./libraries/work/
 if ![ string match "*ModelSim ALTERA*" [ vsim -version ] ] {
+<<<<<<< refs/remotes/upstream/main
   ensure_lib                  ./libraries/altera_ver/      
   vmap       altera_ver       ./libraries/altera_ver/      
   ensure_lib                  ./libraries/lpm_ver/         
@@ -196,12 +267,60 @@ ensure_lib                                                               ./libra
 vmap       test_program_inst                                             ./libraries/test_program_inst/    
 ensure_lib                                                               ./libraries/fir_tb_gen_tb_inst/           
 vmap       fir_tb_gen_tb_inst                                            ./libraries/fir_tb_gen_tb_inst/    
+=======
+  ensure_lib                  ./libraries/altera_ver/
+  vmap       altera_ver       ./libraries/altera_ver/
+  ensure_lib                  ./libraries/lpm_ver/
+  vmap       lpm_ver          ./libraries/lpm_ver/
+  ensure_lib                  ./libraries/sgate_ver/
+  vmap       sgate_ver        ./libraries/sgate_ver/
+  ensure_lib                  ./libraries/altera_mf_ver/
+  vmap       altera_mf_ver    ./libraries/altera_mf_ver/
+  ensure_lib                  ./libraries/altera_lnsim_ver/
+  vmap       altera_lnsim_ver ./libraries/altera_lnsim_ver/
+  ensure_lib                  ./libraries/fiftyfivenm_ver/
+  vmap       fiftyfivenm_ver  ./libraries/fiftyfivenm_ver/
+  ensure_lib                  ./libraries/altera/
+  vmap       altera           ./libraries/altera/
+  ensure_lib                  ./libraries/lpm/
+  vmap       lpm              ./libraries/lpm/
+  ensure_lib                  ./libraries/sgate/
+  vmap       sgate            ./libraries/sgate/
+  ensure_lib                  ./libraries/altera_mf/
+  vmap       altera_mf        ./libraries/altera_mf/
+  ensure_lib                  ./libraries/altera_lnsim/
+  vmap       altera_lnsim     ./libraries/altera_lnsim/
+  ensure_lib                  ./libraries/fiftyfivenm/
+  vmap       fiftyfivenm      ./libraries/fiftyfivenm/
+}
+ensure_lib                                                               ./libraries/altera_common_sv_packages/
+vmap       altera_common_sv_packages                                     ./libraries/altera_common_sv_packages/
+ensure_lib                                                               ./libraries/rst_controller/
+vmap       rst_controller                                                ./libraries/rst_controller/
+ensure_lib                                                               ./libraries/fir_compiler_ii_0/
+vmap       fir_compiler_ii_0                                             ./libraries/fir_compiler_ii_0/
+ensure_lib                                                               ./libraries/fir_tb_gen_inst_reset_bfm/
+vmap       fir_tb_gen_inst_reset_bfm                                     ./libraries/fir_tb_gen_inst_reset_bfm/
+ensure_lib                                                               ./libraries/fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm/
+vmap       fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm ./libraries/fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm/
+ensure_lib                                                               ./libraries/fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm/
+vmap       fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm   ./libraries/fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm/
+ensure_lib                                                               ./libraries/fir_tb_gen_inst_clk_bfm/
+vmap       fir_tb_gen_inst_clk_bfm                                       ./libraries/fir_tb_gen_inst_clk_bfm/
+ensure_lib                                                               ./libraries/fir_tb_gen_inst/
+vmap       fir_tb_gen_inst                                               ./libraries/fir_tb_gen_inst/
+ensure_lib                                                               ./libraries/test_program_inst/
+vmap       test_program_inst                                             ./libraries/test_program_inst/
+ensure_lib                                                               ./libraries/fir_tb_gen_tb_inst/
+vmap       fir_tb_gen_tb_inst                                            ./libraries/fir_tb_gen_tb_inst/
+>>>>>>> Revert "enlever le chain de argu"
 
 # ----------------------------------------
 # Compile device library files
 alias dev_com {
   echo "\[exec\] dev_com"
   if ![ string match "*ModelSim ALTERA*" [ vsim -version ] ] {
+<<<<<<< refs/remotes/upstream/main
     eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_primitives.v"               -work altera_ver      
     eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/220model.v"                        -work lpm_ver         
     eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/sgate.v"                           -work sgate_ver       
@@ -226,6 +345,32 @@ alias dev_com {
     eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/mentor/fiftyfivenm_atoms_ncrypt.v" -work fiftyfivenm     
     eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/fiftyfivenm_atoms.vhd"             -work fiftyfivenm     
     eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/fiftyfivenm_components.vhd"        -work fiftyfivenm     
+=======
+    eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_primitives.v"               -work altera_ver
+    eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/220model.v"                        -work lpm_ver
+    eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/sgate.v"                           -work sgate_ver
+    eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_mf.v"                       -work altera_mf_ver
+    eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_lnsim.sv"                   -work altera_lnsim_ver
+    eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/fiftyfivenm_atoms.v"               -work fiftyfivenm_ver
+    eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/mentor/fiftyfivenm_atoms_ncrypt.v" -work fiftyfivenm_ver
+    eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_syn_attributes.vhd"         -work altera
+    eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_standard_functions.vhd"     -work altera
+    eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/alt_dspbuilder_package.vhd"        -work altera
+    eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_europa_support_lib.vhd"     -work altera
+    eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_primitives_components.vhd"  -work altera
+    eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_primitives.vhd"             -work altera
+    eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/220pack.vhd"                       -work lpm
+    eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/220model.vhd"                      -work lpm
+    eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/sgate_pack.vhd"                    -work sgate
+    eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/sgate.vhd"                         -work sgate
+    eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_mf_components.vhd"          -work altera_mf
+    eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_mf.vhd"                     -work altera_mf
+    eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QUARTUS_INSTALL_DIR/eda/sim_lib/mentor/altera_lnsim_for_vhdl.sv"   -work altera_lnsim
+    eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_lnsim_components.vhd"       -work altera_lnsim
+    eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/mentor/fiftyfivenm_atoms_ncrypt.v" -work fiftyfivenm
+    eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/fiftyfivenm_atoms.vhd"             -work fiftyfivenm
+    eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QUARTUS_INSTALL_DIR/eda/sim_lib/fiftyfivenm_components.vhd"        -work fiftyfivenm
+>>>>>>> Revert "enlever le chain de argu"
   }
 }
 
@@ -233,6 +378,7 @@ alias dev_com {
 # Compile the design files in correct order
 alias com {
   echo "\[exec\] com"
+<<<<<<< refs/remotes/upstream/main
   eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/verbosity_pkg.sv"                                                             -work altera_common_sv_packages                                    
   eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv"                                                      -work altera_common_sv_packages                                    
   eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/altera_reset_controller.v"                                                    -work rst_controller                                               
@@ -258,6 +404,33 @@ alias com {
   eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/fir_tb_gen_tb.v"                                                                         -work fir_tb_gen_tb_inst
   eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/test_program.sv"                                                                         -work test_program_inst     
   eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/top_tb.sv"                                                              
+=======
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/verbosity_pkg.sv"                                                             -work altera_common_sv_packages
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv"                                                      -work altera_common_sv_packages
+  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/altera_reset_controller.v"                                                    -work rst_controller
+  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/altera_reset_synchronizer.v"                                                  -work rst_controller
+  eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/dspba_library_package.vhd"                                                    -work fir_compiler_ii_0
+  eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/dspba_library.vhd"                                                            -work fir_compiler_ii_0
+  eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/auk_dspip_math_pkg_hpfir.vhd"                                                 -work fir_compiler_ii_0
+  eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/auk_dspip_lib_pkg_hpfir.vhd"                                                  -work fir_compiler_ii_0
+  eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/auk_dspip_avalon_streaming_controller_hpfir.vhd"                              -work fir_compiler_ii_0
+  eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/auk_dspip_avalon_streaming_sink_hpfir.vhd"                                    -work fir_compiler_ii_0
+  eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/auk_dspip_avalon_streaming_source_hpfir.vhd"                                  -work fir_compiler_ii_0
+  eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/auk_dspip_roundsat_hpfir.vhd"                                                 -work fir_compiler_ii_0
+  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/altera_avalon_sc_fifo.v"                                                      -work fir_compiler_ii_0
+  eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/fir_tb_gen_fir_compiler_ii_0_rtl_core.vhd"                                    -work fir_compiler_ii_0
+  eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/fir_tb_gen_fir_compiler_ii_0_ast.vhd"                                         -work fir_compiler_ii_0
+  eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/fir_tb_gen_fir_compiler_ii_0.vhd"                                             -work fir_compiler_ii_0
+  eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS        "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/fir_tb_gen_fir_compiler_ii_0_tb.vhd"                                          -work fir_compiler_ii_0
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/altera_avalon_reset_source.sv"                   -L altera_common_sv_packages -work fir_tb_gen_inst_reset_bfm
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/altera_avalon_st_sink_bfm.sv"                    -L altera_common_sv_packages -work fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/altera_avalon_st_source_bfm.sv"                  -L altera_common_sv_packages -work fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/altera_avalon_clock_source.sv"                   -L altera_common_sv_packages -work fir_tb_gen_inst_clk_bfm
+  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/submodules/fir_tb_gen.v"                                                                 -work fir_tb_gen_inst
+  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/fir_tb_gen_tb.v"                                                                         -work fir_tb_gen_tb_inst
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/test_program.sv"                                                                         -work test_program_inst
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/fir_tb_gen_tb/simulation/top_tb.sv"
+>>>>>>> Revert "enlever le chain de argu"
 }
 
 # ----------------------------------------
@@ -309,7 +482,11 @@ alias h {
   echo
   echo "ld_debug                                          -- Compile all the design files and elaborate the top level design with -novopt"
   echo
+<<<<<<< refs/remotes/upstream/main
   echo 
+=======
+  echo
+>>>>>>> Revert "enlever le chain de argu"
   echo
   echo "List Of Variables"
   echo

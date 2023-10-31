@@ -58,5 +58,9 @@ extern void alt_sys_init (void);
 #ifdef __cplusplus
 }
 #endif
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 #endif /* __ALT_SYS_INIT_H__ */

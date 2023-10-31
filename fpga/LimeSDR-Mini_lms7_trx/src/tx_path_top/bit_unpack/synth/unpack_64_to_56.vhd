@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	unpack_64_to_56.vhd
 -- DESCRIPTION:	unpacks bits from 64b words to 14 bit samples
 -- DATE:	March 30, 2017
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -14,14 +22,22 @@ use ieee.numeric_std.all;
 -- ----------------------------------------------------------------------------
 entity unpack_64_to_56 is
   port (
+<<<<<<< refs/remotes/upstream/main
       --input ports 
+=======
+      --input ports
+>>>>>>> Revert "enlever le chain de argu"
       clk       		: in std_logic;
       reset_n   		: in std_logic;
 		data_in_wrreq	: in std_logic;
 		data64_in		: in std_logic_vector(63 downto 0);
 		data56_out		: out std_logic_vector(127 downto 0);
 		data_out_valid	: out std_logic
+<<<<<<< refs/remotes/upstream/main
        
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
         );
 end unpack_64_to_56;
 
@@ -63,7 +79,11 @@ signal data_out_valid_reg  	: std_logic;
 signal data_out_valid_pipe 	: std_logic;
 
 
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 -- ----------------------------------------------------------------------------
@@ -74,10 +94,17 @@ begin
       if reset_n='0' then
          data64_in_reg_0<=(others=>'0');
       elsif (clk'event and clk = '1') then
+<<<<<<< refs/remotes/upstream/main
          if data_in_wrreq = '1' then 
             data64_in_reg_0<=data64_in;
             data64_in_reg_1<=data64_in_reg_0;
          else 
+=======
+         if data_in_wrreq = '1' then
+            data64_in_reg_0<=data64_in;
+            data64_in_reg_1<=data64_in_reg_0;
+         else
+>>>>>>> Revert "enlever le chain de argu"
             data64_in_reg_0<=data64_in_reg_0;
             data64_in_reg_1<=data64_in_reg_1;
          end if;
@@ -88,6 +115,7 @@ begin
 -- ----------------------------------------------------------------------------
 -- Write counter
 -- ----------------------------------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
 process(clk, reset_n) is 
 	begin 
 		if reset_n='0' then 
@@ -97,6 +125,17 @@ process(clk, reset_n) is
 				if wr_cnt < 6 then 
 					wr_cnt<=wr_cnt+1;
 				else 
+=======
+process(clk, reset_n) is
+	begin
+		if reset_n='0' then
+			wr_cnt<=(others=>'0');
+		elsif (clk'event and clk='1') then
+			if  data_in_wrreq='1' then
+				if wr_cnt < 6 then
+					wr_cnt<=wr_cnt+1;
+				else
+>>>>>>> Revert "enlever le chain de argu"
 					wr_cnt<=(others=>'0');
 				end if;
 			else
@@ -117,23 +156,39 @@ end process;
 			word128_0<=(others=>'0');
          word128_0_valid<='0';
       elsif (clk'event and clk = '1') then
+<<<<<<< refs/remotes/upstream/main
 			if wr_cnt=1 and data_in_wrreq='1' then 
             word128_0<= data64_in(47 downto 34) & "00" &
                         data64_in(33 downto 20) & "00" &
                         data64_in(19 downto 6) & "00" & 
                         data64_in(5 downto 0) & data64_in_reg_0(63 downto 56) & "00" &                        
+=======
+			if wr_cnt=1 and data_in_wrreq='1' then
+            word128_0<= data64_in(47 downto 34) & "00" &
+                        data64_in(33 downto 20) & "00" &
+                        data64_in(19 downto 6) & "00" &
+                        data64_in(5 downto 0) & data64_in_reg_0(63 downto 56) & "00" &
+>>>>>>> Revert "enlever le chain de argu"
                         data64_in_reg_0(55 downto 42) & "00" &
                         data64_in_reg_0(41 downto 28) & "00" &
                         data64_in_reg_0(27 downto 14) & "00" &
                         data64_in_reg_0(13 downto 0) & "00";
             word128_0_valid<='1';
+<<<<<<< refs/remotes/upstream/main
 			else 
+=======
+			else
+>>>>>>> Revert "enlever le chain de argu"
 				word128_0<=word128_0;
             word128_0_valid<='0';
 			end if;
  	    end if;
     end process;
+<<<<<<< refs/remotes/upstream/main
 	 
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 --2 stage
 
   process(reset_n, clk)
@@ -142,7 +197,11 @@ end process;
 			word128_1<=(others=>'0');
          word128_1_valid<='0';
       elsif (clk'event and clk = '1') then
+<<<<<<< refs/remotes/upstream/main
 			if wr_cnt=3 and data_in_wrreq='1' then        
+=======
+			if wr_cnt=3 and data_in_wrreq='1' then
+>>>>>>> Revert "enlever le chain de argu"
 				word128_1<= data64_in(31 downto 18) & "00" &
                         data64_in(17 downto 4) & "00" &
                         data64_in(3 downto 0) & data64_in_reg_0(63 downto 54) & "00" &
@@ -152,7 +211,11 @@ end process;
                         data64_in_reg_0(11 downto 0) & data64_in_reg_1(63 downto 62) & "00" &
                         data64_in_reg_1(61 downto 48) & "00";
             word128_1_valid<='1';
+<<<<<<< refs/remotes/upstream/main
 			else 
+=======
+			else
+>>>>>>> Revert "enlever le chain de argu"
 				word128_1<=word128_1;
             word128_1_valid<='0';
 			end if;
@@ -174,16 +237,27 @@ end process;
                         data64_in_reg_0(37 downto 24) & "00" &
                         data64_in_reg_0(23 downto 10) & "00" &
                         data64_in_reg_0(9 downto 0) & data64_in_reg_1(63 downto 60) & "00" &
+<<<<<<< refs/remotes/upstream/main
                         data64_in_reg_1(59 downto 46) & "00" & 
                         data64_in_reg_1(45 downto 32) & "00";
             word128_2_valid<='1';
 			else 
+=======
+                        data64_in_reg_1(59 downto 46) & "00" &
+                        data64_in_reg_1(45 downto 32) & "00";
+            word128_2_valid<='1';
+			else
+>>>>>>> Revert "enlever le chain de argu"
 				word128_2<=word128_2;
             word128_2_valid<='0';
 			end if;
  	    end if;
     end process;
+<<<<<<< refs/remotes/upstream/main
 	 
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 --4 stage
 
   process(reset_n, clk)
@@ -198,11 +272,19 @@ end process;
                         data64_in(35 downto 22) & "00" &
                         data64_in(21 downto 8) & "00" &
                         data64_in(7 downto 0) & data64_in_reg_0(63 downto 58) & "00" &
+<<<<<<< refs/remotes/upstream/main
                         data64_in_reg_0(57 downto 44) & "00" & 
                         data64_in_reg_0(43 downto 30) & "00" & 
                         data64_in_reg_0(29 downto 16) & "00";
             word128_3_valid<='1';
 			else 
+=======
+                        data64_in_reg_0(57 downto 44) & "00" &
+                        data64_in_reg_0(43 downto 30) & "00" &
+                        data64_in_reg_0(29 downto 16) & "00";
+            word128_3_valid<='1';
+			else
+>>>>>>> Revert "enlever le chain de argu"
 				word128_3<=word128_3;
             word128_3_valid<='0';
 			end if;
@@ -210,7 +292,11 @@ end process;
     end process;
 
 
+<<<<<<< refs/remotes/upstream/main
 	 
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 
 -- ----------------------------------------------------------------------------
 -- 32b word output
@@ -221,7 +307,11 @@ mux_stage0_3_2	<=word128_2 when word128_2_valid='1' else word128_3;
 
 -- ----------------------------------------------------------------------------
 -- Registers for MUX stage 0
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	 
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
   process(reset_n, clk)
     begin
       if reset_n='0' then
@@ -231,7 +321,11 @@ mux_stage0_3_2	<=word128_2 when word128_2_valid='1' else word128_3;
       elsif (clk'event and clk = '1') then
 			mux_stage0_1_0_reg <= mux_stage0_1_0;
 			mux_stage0_3_2_reg <= mux_stage0_3_2;
+<<<<<<< refs/remotes/upstream/main
          mux_stage1_3_0_sel <= (word128_0_valid OR word128_1_valid);     
+=======
+         mux_stage1_3_0_sel <= (word128_0_valid OR word128_1_valid);
+>>>>>>> Revert "enlever le chain de argu"
  	    end if;
     end process;
 
@@ -242,7 +336,11 @@ mux_stage1_3_0	<=mux_stage0_1_0_reg when mux_stage1_3_0_sel='1' else mux_stage0_
 
 -- ----------------------------------------------------------------------------
 -- Registers for MUX stage 1
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	 
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
   process(reset_n, clk)
     begin
       if reset_n='0' then
@@ -263,18 +361,31 @@ mux_stage1_3_0	<=mux_stage0_1_0_reg when mux_stage1_3_0_sel='1' else mux_stage0_
          data_out_valid_pipe<='0';
       elsif (clk'event and clk = '1') then
 			data_out_valid_reg<=word128_0_valid OR word128_1_valid OR word128_2_valid OR word128_3_valid;
+<<<<<<< refs/remotes/upstream/main
          data_out_valid_pipe<=data_out_valid_reg; 
  	    end if;
     end process;
     
+=======
+         data_out_valid_pipe<=data_out_valid_reg;
+ 	    end if;
+    end process;
+
+>>>>>>> Revert "enlever le chain de argu"
     data56_out		   <= mux_stage1_3_0_reg;
     data_out_valid   <= data_out_valid_pipe;
 
 
 
+<<<<<<< refs/remotes/upstream/main
  
 
 end arch;   
 
 
 
+=======
+
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

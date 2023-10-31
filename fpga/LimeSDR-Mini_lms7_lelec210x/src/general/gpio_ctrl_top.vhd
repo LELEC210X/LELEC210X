@@ -37,13 +37,22 @@ end gpio_ctrl_top;
 -- ----------------------------------------------------------------------------
 architecture arch of gpio_ctrl_top is
 --declare signals,  components here
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 
 --Generate components for all bus bits
+<<<<<<< refs/remotes/upstream/main
 gpio_ctrl_gen : for i in 0 to bus_width-1 generate 
    gpio_ctrl_bitx	: entity work.gpio_ctrl 
+=======
+gpio_ctrl_gen : for i in 0 to bus_width-1 generate
+   gpio_ctrl_bitx	: entity work.gpio_ctrl
+>>>>>>> Revert "enlever le chain de argu"
       port map (
       gpio        => gpio(i),
       gpio_in     => gpio_in(i),
@@ -55,6 +64,7 @@ gpio_ctrl_gen : for i in 0 to bus_width-1 generate
       );
 end generate gpio_ctrl_gen;
 
+<<<<<<< refs/remotes/upstream/main
   
 end arch;
 
@@ -62,3 +72,7 @@ end arch;
 
 
 
+=======
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

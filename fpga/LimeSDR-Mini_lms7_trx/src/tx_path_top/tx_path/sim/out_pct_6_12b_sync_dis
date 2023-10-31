@@ -8702,6 +8702,7 @@ FE7FD7FC7FB7FA7F
 0000000000000000
 0000000000000000
 0000000000000000
+<<<<<<< refs/remotes/upstream/main
 
 
 
@@ -15481,3 +15482,5 @@ FE7FD7FC7FB7FA7F
 
 
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

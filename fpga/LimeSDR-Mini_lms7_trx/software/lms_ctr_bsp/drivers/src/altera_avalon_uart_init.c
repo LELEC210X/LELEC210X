@@ -45,9 +45,15 @@
 /* ----------------------------------------------------------- */
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * altera_avalon_uart_init() is called by the auto-generated function 
  * alt_sys_init() in order to initialize a particular instance of this device.
  * It is responsible for configuring the device and associated software 
+=======
+ * altera_avalon_uart_init() is called by the auto-generated function
+ * alt_sys_init() in order to initialize a particular instance of this device.
+ * It is responsible for configuring the device and associated software
+>>>>>>> Revert "enlever le chain de argu"
  * constructs.
  */
 
@@ -55,26 +61,44 @@
 static void altera_avalon_uart_irq(void* context);
 #else
 static void altera_avalon_uart_irq(void* context, alt_u32 id);
+<<<<<<< refs/remotes/upstream/main
 #endif 
+=======
+#endif
+>>>>>>> Revert "enlever le chain de argu"
 
 static void altera_avalon_uart_rxirq(altera_avalon_uart_state* sp,
   alt_u32 status);
 static void altera_avalon_uart_txirq(altera_avalon_uart_state* sp,
   alt_u32 status);
 
+<<<<<<< refs/remotes/upstream/main
 void 
 altera_avalon_uart_init(altera_avalon_uart_state* sp, 
+=======
+void
+altera_avalon_uart_init(altera_avalon_uart_state* sp,
+>>>>>>> Revert "enlever le chain de argu"
   alt_u32 irq_controller_id,  alt_u32 irq)
 {
   void* base = sp->base;
   int error;
 
+<<<<<<< refs/remotes/upstream/main
   /* 
    * Initialise the read and write flags and the semaphores used to 
    * protect access to the circular buffers when running in a multi-threaded
    * environment.
    */
   error = ALT_FLAG_CREATE (&sp->events, 0)    || 
+=======
+  /*
+   * Initialise the read and write flags and the semaphores used to
+   * protect access to the circular buffers when running in a multi-threaded
+   * environment.
+   */
+  error = ALT_FLAG_CREATE (&sp->events, 0)    ||
+>>>>>>> Revert "enlever le chain de argu"
           ALT_SEM_CREATE (&sp->read_lock, 1)  ||
           ALT_SEM_CREATE (&sp->write_lock, 1);
 
@@ -85,6 +109,7 @@ altera_avalon_uart_init(altera_avalon_uart_state* sp,
                 ALTERA_AVALON_UART_CONTROL_RRDY_MSK |
                 ALTERA_AVALON_UART_CONTROL_DCTS_MSK;
 
+<<<<<<< refs/remotes/upstream/main
     IOWR_ALTERA_AVALON_UART_CONTROL(base, sp->ctrl); 
   
     /* register the interrupt handler */
@@ -94,13 +119,30 @@ altera_avalon_uart_init(altera_avalon_uart_state* sp,
 #else
     alt_irq_register (irq, sp, altera_avalon_uart_irq);
 #endif  
+=======
+    IOWR_ALTERA_AVALON_UART_CONTROL(base, sp->ctrl);
+
+    /* register the interrupt handler */
+#ifdef ALT_ENHANCED_INTERRUPT_API_PRESENT
+    alt_ic_isr_register(irq_controller_id, irq, altera_avalon_uart_irq, sp,
+      0x0);
+#else
+    alt_irq_register (irq, sp, altera_avalon_uart_irq);
+#endif
+>>>>>>> Revert "enlever le chain de argu"
   }
 }
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * altera_avalon_uart_irq() is the interrupt handler registered at 
  * configuration time for processing UART interrupts. It vectors 
  * interrupt requests to either altera_avalon_uart_rxirq() (for incoming 
+=======
+ * altera_avalon_uart_irq() is the interrupt handler registered at
+ * configuration time for processing UART interrupts. It vectors
+ * interrupt requests to either altera_avalon_uart_rxirq() (for incoming
+>>>>>>> Revert "enlever le chain de argu"
  * data), or altera_avalon_uart_txirq() (for outgoing data).
  */
 #ifdef ALT_ENHANCED_INTERRUPT_API_PRESENT
@@ -126,7 +168,11 @@ static void altera_avalon_uart_irq(void* context, alt_u32 id)
 
   /* Dummy read to ensure IRQ is negated before ISR returns */
   IORD_ALTERA_AVALON_UART_STATUS(base);
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   /* process a read irq */
   if (status & ALTERA_AVALON_UART_STATUS_RRDY_MSK)
   {
@@ -134,16 +180,25 @@ static void altera_avalon_uart_irq(void* context, alt_u32 id)
   }
 
   /* process a write irq */
+<<<<<<< refs/remotes/upstream/main
   if (status & (ALTERA_AVALON_UART_STATUS_TRDY_MSK | 
+=======
+  if (status & (ALTERA_AVALON_UART_STATUS_TRDY_MSK |
+>>>>>>> Revert "enlever le chain de argu"
                   ALTERA_AVALON_UART_STATUS_DCTS_MSK))
   {
     altera_avalon_uart_txirq(sp, status);
   }
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 
 }
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * altera_avalon_uart_rxirq() is called by altera_avalon_uart_irq() to 
  * process a receive interrupt. It transfers the incoming character into 
  * the receive circular buffer, and sets the apropriate flags to indicate 
@@ -157,6 +212,21 @@ altera_avalon_uart_rxirq(altera_avalon_uart_state* sp, alt_u32 status)
   /* If there was an error, discard the data */
 
   if (status & (ALTERA_AVALON_UART_STATUS_PE_MSK | 
+=======
+ * altera_avalon_uart_rxirq() is called by altera_avalon_uart_irq() to
+ * process a receive interrupt. It transfers the incoming character into
+ * the receive circular buffer, and sets the apropriate flags to indicate
+ * that there is data ready to be processed.
+ */
+static void
+altera_avalon_uart_rxirq(altera_avalon_uart_state* sp, alt_u32 status)
+{
+  alt_u32 next;
+
+  /* If there was an error, discard the data */
+
+  if (status & (ALTERA_AVALON_UART_STATUS_PE_MSK |
+>>>>>>> Revert "enlever le chain de argu"
                   ALTERA_AVALON_UART_STATUS_FE_MSK))
   {
     return;
@@ -193,6 +263,7 @@ altera_avalon_uart_rxirq(altera_avalon_uart_state* sp, alt_u32 status)
   if (next == sp->rx_start)
   {
     sp->ctrl &= ~ALTERA_AVALON_UART_CONTROL_RRDY_MSK;
+<<<<<<< refs/remotes/upstream/main
     IOWR_ALTERA_AVALON_UART_CONTROL(sp->base, sp->ctrl); 
   }   
 }
@@ -204,20 +275,41 @@ altera_avalon_uart_rxirq(altera_avalon_uart_state* sp, alt_u32 status)
  * there is data ready to be processed.
  */
 static void 
+=======
+    IOWR_ALTERA_AVALON_UART_CONTROL(sp->base, sp->ctrl);
+  }
+}
+
+/*
+ * altera_avalon_uart_txirq() is called by altera_avalon_uart_irq() to
+ * process a transmit interrupt. It transfers data from the transmit
+ * buffer to the device, and sets the apropriate flags to indicate that
+ * there is data ready to be processed.
+ */
+static void
+>>>>>>> Revert "enlever le chain de argu"
 altera_avalon_uart_txirq(altera_avalon_uart_state* sp, alt_u32 status)
 {
   /* Transfer data if there is some ready to be transfered */
 
   if (sp->tx_start != sp->tx_end)
   {
+<<<<<<< refs/remotes/upstream/main
     /* 
+=======
+    /*
+>>>>>>> Revert "enlever le chain de argu"
      * If the device is using flow control (i.e. RTS/CTS), then the
      * transmitter is required to throttle if CTS is high.
      */
 
     if (!(sp->flags & ALT_AVALON_UART_FC) ||
       (status & ALTERA_AVALON_UART_STATUS_CTS_MSK))
+<<<<<<< refs/remotes/upstream/main
     { 
+=======
+    {
+>>>>>>> Revert "enlever le chain de argu"
 
       /*
        * In a multi-threaded environment, set the write event flag to indicate
@@ -226,8 +318,13 @@ altera_avalon_uart_txirq(altera_avalon_uart_state* sp, alt_u32 status)
        */
 
       if (sp->tx_start == ((sp->tx_end + 1) & ALT_AVALON_UART_BUF_MSK))
+<<<<<<< refs/remotes/upstream/main
       { 
         ALT_FLAG_POST (sp->events, 
+=======
+      {
+        ALT_FLAG_POST (sp->events,
+>>>>>>> Revert "enlever le chain de argu"
                        ALT_UART_WRITE_RDY,
                        OS_FLAG_SET);
       }
@@ -239,9 +336,15 @@ altera_avalon_uart_txirq(altera_avalon_uart_state* sp, alt_u32 status)
       sp->tx_start = (++sp->tx_start) & ALT_AVALON_UART_BUF_MSK;
 
       /*
+<<<<<<< refs/remotes/upstream/main
        * In case the tranmit interrupt had previously been disabled by 
        * detecting a low value on CTS, it is reenabled here.
        */ 
+=======
+       * In case the tranmit interrupt had previously been disabled by
+       * detecting a low value on CTS, it is reenabled here.
+       */
+>>>>>>> Revert "enlever le chain de argu"
 
       sp->ctrl |= ALTERA_AVALON_UART_CONTROL_TRDY_MSK;
     }
@@ -249,17 +352,30 @@ altera_avalon_uart_txirq(altera_avalon_uart_state* sp, alt_u32 status)
     {
       /*
        * CTS is low and we are using flow control, so disable the transmit
+<<<<<<< refs/remotes/upstream/main
        * interrupt while we wait for CTS to go high again. This will be 
        * detected using the DCTS interrupt.
        *
        * There is a race condition here. "status" may indicate that 
        * CTS is low, but it actually went high before DCTS was cleared on 
+=======
+       * interrupt while we wait for CTS to go high again. This will be
+       * detected using the DCTS interrupt.
+       *
+       * There is a race condition here. "status" may indicate that
+       * CTS is low, but it actually went high before DCTS was cleared on
+>>>>>>> Revert "enlever le chain de argu"
        * the last write to the status register. To avoid this resulting in
        * deadlock, it's necessary to re-check the status register here
        * before throttling.
        */
+<<<<<<< refs/remotes/upstream/main
  
       status = IORD_ALTERA_AVALON_UART_STATUS(sp->base); 
+=======
+
+      status = IORD_ALTERA_AVALON_UART_STATUS(sp->base);
+>>>>>>> Revert "enlever le chain de argu"
 
       if (!(status & ALTERA_AVALON_UART_STATUS_CTS_MSK))
       {
@@ -285,6 +401,7 @@ altera_avalon_uart_txirq(altera_avalon_uart_state* sp, alt_u32 status)
 /*
  * The close() routine is implemented to drain the UART transmit buffer
  * when not in "small" mode. This routine will wait for transimt data to be
+<<<<<<< refs/remotes/upstream/main
  * emptied unless the driver flags have been set to non-blocking mode. 
  * This routine should be called indirectly (i.e. though the C library 
  * close() routine) so that the file descriptor associated with the relevant 
@@ -298,11 +415,30 @@ altera_avalon_uart_txirq(altera_avalon_uart_state* sp, alt_u32 status)
 int altera_avalon_uart_close(altera_avalon_uart_state* sp, int flags)
 {
   /* 
+=======
+ * emptied unless the driver flags have been set to non-blocking mode.
+ * This routine should be called indirectly (i.e. though the C library
+ * close() routine) so that the file descriptor associated with the relevant
+ * stream (i.e. stdout) can be closed as well. This routine does not manage
+ * file descriptors.
+ *
+ * The close routine is not implemented for the small driver; instead it will
+ * map to null. This is because the small driver simply waits while characters
+ * are transmitted; there is no interrupt-serviced buffer to empty
+ */
+int altera_avalon_uart_close(altera_avalon_uart_state* sp, int flags)
+{
+  /*
+>>>>>>> Revert "enlever le chain de argu"
    * Wait for all transmit data to be emptied by the UART ISR.
    */
   while (sp->tx_start != sp->tx_end) {
     if (flags & O_NONBLOCK) {
+<<<<<<< refs/remotes/upstream/main
       return -EWOULDBLOCK; 
+=======
+      return -EWOULDBLOCK;
+>>>>>>> Revert "enlever le chain de argu"
     }
   }
 

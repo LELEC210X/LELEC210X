@@ -50,11 +50,19 @@ extern "C"
 #endif /* __cplusplus */
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * This header contains the application side interface for accessing DMA 
  * resources. See alt_dma_dev.h for the dma device driver interface.
  *
  * The interface model treats a DMA transaction as being composed of two 
  * halves (read and write). 
+=======
+ * This header contains the application side interface for accessing DMA
+ * resources. See alt_dma_dev.h for the dma device driver interface.
+ *
+ * The interface model treats a DMA transaction as being composed of two
+ * halves (read and write).
+>>>>>>> Revert "enlever le chain de argu"
  *
  * The application can supply data for transmit using an "alt_dma_txchan"
  * descriptor. Alternatively an "alt_dma_rxchan" descriptor can be used to
@@ -66,13 +74,21 @@ extern "C"
  * a DMA transmit device. The name is the name of the associated physical
  * device (e.g. "/dev/dma_0").
  *
+<<<<<<< refs/remotes/upstream/main
  * The return value will be NULL on failure, and non-NULL otherwise. 
+=======
+ * The return value will be NULL on failure, and non-NULL otherwise.
+>>>>>>> Revert "enlever le chain de argu"
  */
 
 extern alt_dma_txchan alt_dma_txchan_open (const char* name);
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_dma_txchan_close() is provided so that an application can notify the 
+=======
+ * alt_dma_txchan_close() is provided so that an application can notify the
+>>>>>>> Revert "enlever le chain de argu"
  * system that it has finished with a given DMA transmit channel. This is only
  * provided for completness.
  */
@@ -96,6 +112,7 @@ static ALT_INLINE int alt_dma_txchan_close (alt_dma_txchan dma)
  * zero otherwise.
  */
 
+<<<<<<< refs/remotes/upstream/main
 static ALT_INLINE int alt_dma_txchan_send (alt_dma_txchan dma, 
              const void* from, 
              alt_u32 length,
@@ -106,14 +123,33 @@ static ALT_INLINE int alt_dma_txchan_send (alt_dma_txchan dma,
         from, 
         length,
         done, 
+=======
+static ALT_INLINE int alt_dma_txchan_send (alt_dma_txchan dma,
+             const void* from,
+             alt_u32 length,
+             alt_txchan_done* done,
+             void* handle)
+{
+  return dma ? dma->dma_send (dma,
+        from,
+        length,
+        done,
+>>>>>>> Revert "enlever le chain de argu"
         handle) : -ENODEV;
 }
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_dma_txchan_space() returns the number of tranmit requests that can be 
  * posted to the specified DMA transmit channel.
  *
  * A negative value indicates that the value could not be determined. 
+=======
+ * alt_dma_txchan_space() returns the number of tranmit requests that can be
+ * posted to the specified DMA transmit channel.
+ *
+ * A negative value indicates that the value could not be determined.
+>>>>>>> Revert "enlever le chain de argu"
  */
 
 static ALT_INLINE int alt_dma_txchan_space (alt_dma_txchan dma)
@@ -122,17 +158,29 @@ static ALT_INLINE int alt_dma_txchan_space (alt_dma_txchan dma)
 }
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_dma_txchan_ioctl() can be used to perform device specific I/O 
+=======
+ * alt_dma_txchan_ioctl() can be used to perform device specific I/O
+>>>>>>> Revert "enlever le chain de argu"
  * operations on the indicated DMA transmit channel. For example some drivers
  * support options to control the width of the transfer operations. See
  * alt_dma_dev.h for the list of generic requests.
  *
  * A negative return value indicates failure, otherwise the interpretation
+<<<<<<< refs/remotes/upstream/main
  * of the return value is request specific.  
  */
 
 static ALT_INLINE int alt_dma_txchan_ioctl (alt_dma_txchan dma, 
               int            req, 
+=======
+ * of the return value is request specific.
+ */
+
+static ALT_INLINE int alt_dma_txchan_ioctl (alt_dma_txchan dma,
+              int            req,
+>>>>>>> Revert "enlever le chain de argu"
               void*          arg)
 {
   return dma ? dma->ioctl (dma, req, arg) : -ENODEV;
@@ -143,13 +191,21 @@ static ALT_INLINE int alt_dma_txchan_ioctl (alt_dma_txchan dma,
  * a DMA receive channel. The name is the name of the associated physical
  * device (e.g. "/dev/dma_0").
  *
+<<<<<<< refs/remotes/upstream/main
  * The return value will be NULL on failure, and non-NULL otherwise. 
+=======
+ * The return value will be NULL on failure, and non-NULL otherwise.
+>>>>>>> Revert "enlever le chain de argu"
  */
 
 extern alt_dma_rxchan alt_dma_rxchan_open (const char* dev);
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_dma_rxchan_close() is provided so that an application can notify the 
+=======
+ * alt_dma_rxchan_close() is provided so that an application can notify the
+>>>>>>> Revert "enlever le chain de argu"
  * system that it has finished with a given DMA receive channel. This is only
  * provided for completness.
  */
@@ -165,13 +221,22 @@ static ALT_INLINE int alt_dma_rxchan_close (alt_dma_rxchan dma)
 
 /*
  * alt_dma_rxchan_prepare() posts a receive request to a DMA receive channel.
+<<<<<<< refs/remotes/upstream/main
  * 
+=======
+ *
+>>>>>>> Revert "enlever le chain de argu"
  * The input arguments are:
  *
  * dma: the channel to use.
  * data: a pointer to the location that data is to be received to.
+<<<<<<< refs/remotes/upstream/main
  * len: the maximum length of the data to receive. 
  * done: callback function that will be called once the data has been 
+=======
+ * len: the maximum length of the data to receive.
+ * done: callback function that will be called once the data has been
+>>>>>>> Revert "enlever le chain de argu"
  *       received.
  * handle: opaque value passed to "done".
  *
@@ -179,27 +244,46 @@ static ALT_INLINE int alt_dma_rxchan_close (alt_dma_rxchan dma)
  * zero otherwise.
  */
 
+<<<<<<< refs/remotes/upstream/main
 static ALT_INLINE int alt_dma_rxchan_prepare (alt_dma_rxchan   dma, 
                                               void*            data,
                                               alt_u32          len,
                                               alt_rxchan_done* done,  
+=======
+static ALT_INLINE int alt_dma_rxchan_prepare (alt_dma_rxchan   dma,
+                                              void*            data,
+                                              alt_u32          len,
+                                              alt_rxchan_done* done,
+>>>>>>> Revert "enlever le chain de argu"
                                               void*            handle)
 {
   return dma ? dma->prepare (dma, data, len, done, handle) : -ENODEV;
 }
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_dma_rxchan_ioctl() can be used to perform device specific I/O 
+=======
+ * alt_dma_rxchan_ioctl() can be used to perform device specific I/O
+>>>>>>> Revert "enlever le chain de argu"
  * operations on the indicated DMA receive channel. For example some drivers
  * support options to control the width of the transfer operations. See
  * alt_dma_dev.h for the list of generic requests.
  *
  * A negative return value indicates failure, otherwise the interpretation
+<<<<<<< refs/remotes/upstream/main
  * of the return value is request specific.  
  */
 
 static ALT_INLINE int alt_dma_rxchan_ioctl (alt_dma_rxchan dma, 
               int            req, 
+=======
+ * of the return value is request specific.
+ */
+
+static ALT_INLINE int alt_dma_rxchan_ioctl (alt_dma_rxchan dma,
+              int            req,
+>>>>>>> Revert "enlever le chain de argu"
               void*          arg)
 {
   return dma ? dma->ioctl (dma, req, arg) : -ENODEV;

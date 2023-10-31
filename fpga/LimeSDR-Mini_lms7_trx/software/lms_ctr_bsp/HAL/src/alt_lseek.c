@@ -42,11 +42,19 @@
 off_t ALT_LSEEK (int file, off_t ptr, int dir)
 {
   /* Generate a link time warning, should this function ever be called. */
+<<<<<<< refs/remotes/upstream/main
   
   ALT_STUB_WARNING(lseek);
   
   /* Indicate an error */
   
+=======
+
+  ALT_STUB_WARNING(lseek);
+
+  /* Indicate an error */
+
+>>>>>>> Revert "enlever le chain de argu"
   ALT_ERRNO = ENOSYS;
   return -1;
 }
@@ -54,7 +62,11 @@ off_t ALT_LSEEK (int file, off_t ptr, int dir)
 #else /* !ALT_USE_DIRECT_DRIVERS */
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * lseek() can be called to move the read/write pointer associated with the 
+=======
+ * lseek() can be called to move the read/write pointer associated with the
+>>>>>>> Revert "enlever le chain de argu"
  * file descriptor "file". This function simply vectors the call to the lseek()
  * function provided by the driver associated with the file descriptor.
  *
@@ -70,7 +82,11 @@ off_t ALT_LSEEK (int file, off_t ptr, int dir)
 off_t ALT_LSEEK (int file, off_t ptr, int dir)
 {
   alt_fd* fd;
+<<<<<<< refs/remotes/upstream/main
   off_t   rc = 0; 
+=======
+  off_t   rc = 0;
+>>>>>>> Revert "enlever le chain de argu"
 
   /*
    * A common error case is that when the file descriptor was created, the call
@@ -79,14 +95,23 @@ off_t ALT_LSEEK (int file, off_t ptr, int dir)
    */
 
   fd = (file < 0) ? NULL : &alt_fd_list[file];
+<<<<<<< refs/remotes/upstream/main
   
   if (fd) 
+=======
+
+  if (fd)
+>>>>>>> Revert "enlever le chain de argu"
   {
     /*
      * If the device driver provides an implementation of the lseek() function,
      * then call that to process the request.
      */
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     if (fd->dev->lseek)
     {
       rc = fd->dev->lseek(fd, ptr, dir);
@@ -100,7 +125,11 @@ off_t ALT_LSEEK (int file, off_t ptr, int dir)
       rc = -ENOTSUP;
     }
   }
+<<<<<<< refs/remotes/upstream/main
   else  
+=======
+  else
+>>>>>>> Revert "enlever le chain de argu"
   {
     rc = -EBADFD;
   }

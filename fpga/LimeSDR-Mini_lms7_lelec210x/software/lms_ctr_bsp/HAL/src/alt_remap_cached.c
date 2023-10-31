@@ -37,7 +37,11 @@
  * Return a pointer that should be used to access the cached memory.
  */
 
+<<<<<<< refs/remotes/upstream/main
 void* 
+=======
+void*
+>>>>>>> Revert "enlever le chain de argu"
 alt_remap_cached(volatile void* ptr, alt_u32 len)
 {
 #if ALT_CPU_DCACHE_SIZE > 0

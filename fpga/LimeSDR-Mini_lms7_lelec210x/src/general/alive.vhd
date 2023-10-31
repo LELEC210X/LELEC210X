@@ -40,8 +40,15 @@ begin
          cnt <= cnt + 1;
       end if;
    end process cntp;
+<<<<<<< refs/remotes/upstream/main
    
    beat <= cnt(24);
 
 end alive_arch;
 
+=======
+
+   beat <= cnt(24);
+
+end alive_arch;
+>>>>>>> Revert "enlever le chain de argu"

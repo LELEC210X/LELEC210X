@@ -3,6 +3,7 @@
 # DO NOT MODIFY
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # i2c_opencores "I2C Master (opencores.org)" v13.0
 #  2013.07.01.09:13:20
@@ -18,6 +19,23 @@ package require -exact qsys 13.0
 # 
 # module i2c_opencores
 # 
+=======
+#
+# i2c_opencores "I2C Master (opencores.org)" v13.0
+#  2013.07.01.09:13:20
+# I2C Master Peripheral from opencores.org
+#
+
+#
+# request TCL package from ACDS 13.0
+#
+package require -exact qsys 13.0
+
+
+#
+# module i2c_opencores
+#
+>>>>>>> Revert "enlever le chain de argu"
 set_module_property DESCRIPTION "I2C Master Peripheral from opencores.org"
 set_module_property NAME i2c_opencores
 set_module_property VERSION 13.0
@@ -33,9 +51,15 @@ set_module_property REPORT_TO_TALKBACK false
 set_module_property ALLOW_GREYBOX_GENERATION false
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # file sets
 # 
+=======
+#
+# file sets
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_fileset quartus_synth QUARTUS_SYNTH "" "Quartus Synthesis"
 set_fileset_property quartus_synth TOP_LEVEL i2c_opencores
 set_fileset_property quartus_synth ENABLE_RELATIVE_INCLUDE_PATHS false
@@ -56,6 +80,7 @@ add_fileset_file i2c_master_bit_ctrl.v VERILOG PATH i2c_master_bit_ctrl.v
 add_fileset_file timescale.v VERILOG PATH timescale.v
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # parameters
 # 
@@ -69,6 +94,21 @@ add_fileset_file timescale.v VERILOG PATH timescale.v
 # 
 # connection point clock
 # 
+=======
+#
+# parameters
+#
+
+
+#
+# display items
+#
+
+
+#
+# connection point clock
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface clock clock end
 set_interface_property clock clockRate 0
 set_interface_property clock ENABLED true
@@ -79,9 +119,15 @@ set_interface_property clock SVD_ADDRESS_GROUP ""
 add_interface_port clock wb_clk_i clk Input 1
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # connection point clock_reset
 # 
+=======
+#
+# connection point clock_reset
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface clock_reset reset end
 set_interface_property clock_reset associatedClock clock
 set_interface_property clock_reset synchronousEdges DEASSERT
@@ -93,9 +139,15 @@ set_interface_property clock_reset SVD_ADDRESS_GROUP ""
 add_interface_port clock_reset wb_rst_i reset Input 1
 
 
+<<<<<<< refs/remotes/upstream/main
   # 
   # connection point export_scl
   # 
+=======
+  #
+  # connection point export_scl
+  #
+>>>>>>> Revert "enlever le chain de argu"
   add_interface export_scl conduit end
   set_interface_property export_scl associatedClock ""
   set_interface_property export_scl associatedReset ""
@@ -105,9 +157,15 @@ add_interface_port clock_reset wb_rst_i reset Input 1
   set_interface_property export_scl CMSIS_SVD_VARIABLES ""
   set_interface_property export_scl SVD_ADDRESS_GROUP ""
   add_interface_port export_scl scl_pad_io export Bidir 1
+<<<<<<< refs/remotes/upstream/main
   # 
   # connection point export_sda
   # 
+=======
+  #
+  # connection point export_sda
+  #
+>>>>>>> Revert "enlever le chain de argu"
   add_interface export_sda conduit end
   set_interface_property export_sda associatedClock ""
   set_interface_property export_sda associatedReset ""
@@ -119,9 +177,15 @@ add_interface_port clock_reset wb_rst_i reset Input 1
   add_interface_port export_sda sda_pad_io export Bidir 1
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # connection point avalon_slave_0
 # 
+=======
+#
+# connection point avalon_slave_0
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface avalon_slave_0 avalon end
 set_interface_property avalon_slave_0 addressAlignment NATIVE
 set_interface_property avalon_slave_0 addressUnits WORDS
@@ -156,9 +220,15 @@ set_interface_assignment avalon_slave_0 embeddedsw.configuration.isNonVolatileSt
 set_interface_assignment avalon_slave_0 embeddedsw.configuration.isPrintableDevice 0
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # connection point interrupt_sender
 # 
+=======
+#
+# connection point interrupt_sender
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface interrupt_sender interrupt end
 set_interface_property interrupt_sender associatedAddressablePoint avalon_slave_0
 set_interface_property interrupt_sender associatedClock clock
@@ -169,4 +239,7 @@ set_interface_property interrupt_sender PORT_NAME_MAP ""
 set_interface_property interrupt_sender SVD_ADDRESS_GROUP ""
 
 add_interface_port interrupt_sender wb_inta_o irq Output 1
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

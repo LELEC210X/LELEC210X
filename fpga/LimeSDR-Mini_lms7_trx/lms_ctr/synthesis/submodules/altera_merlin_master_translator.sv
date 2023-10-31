@@ -1,4 +1,5 @@
 // (C) 2001-2018 Intel Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 // Your use of Intel Corporation's design tools, logic functions and other 
 // software and tools, and its AMPP partner logic functions, and any output 
 // files from any of the foregoing (including device programming or simulation 
@@ -8,6 +9,17 @@
 // license agreement, including, without limitation, that your use is for the 
 // sole purpose of programming logic devices manufactured by Intel and sold by 
 // Intel or its authorized distributors.  Please refer to the applicable 
+=======
+// Your use of Intel Corporation's design tools, logic functions and other
+// software and tools, and its AMPP partner logic functions, and any output
+// files from any of the foregoing (including device programming or simulation
+// files), and any associated documentation or information are expressly subject
+// to the terms and conditions of the Intel Program License Subscription
+// Agreement, Intel FPGA IP License Agreement, or other applicable
+// license agreement, including, without limitation, that your use is for the
+// sole purpose of programming logic devices manufactured by Intel and sold by
+// Intel or its authorized distributors.  Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 // agreement for further details.
 
 
@@ -19,11 +31,19 @@
 // --------------------------------------
 // Merlin Master Translator
 //
+<<<<<<< refs/remotes/upstream/main
 // Converts an Avalon-MM master interface into an 
 // Avalon-MM "universal" master interface.
 //
 // The universal interface is defined as the superset of ports
 // and parameters that can represent any legal Avalon 
+=======
+// Converts an Avalon-MM master interface into an
+// Avalon-MM "universal" master interface.
+//
+// The universal interface is defined as the superset of ports
+// and parameters that can represent any legal Avalon
+>>>>>>> Revert "enlever le chain de argu"
 // interface.
 // --------------------------------------
 
@@ -39,7 +59,11 @@ module altera_merlin_master_translator #(
 
       UAV_ADDRESS_W               = 38,
       UAV_BURSTCOUNT_W            = 10,
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
       // optional ports
       USE_BURSTCOUNT              = 1,
       USE_BEGINBURSTTRANSFER      = 0,
@@ -51,7 +75,11 @@ module altera_merlin_master_translator #(
       USE_WAITREQUEST             = 1,
       USE_WRITERESPONSE           = 0,
       USE_READRESPONSE            = 0,
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
       AV_REGISTERINCOMINGSIGNALS  = 0,
       AV_SYMBOLS_PER_WORD         = 4,
       AV_ADDRESS_SYMBOLS          = 0,
@@ -237,7 +265,11 @@ module altera_merlin_master_translator #(
    end
 
    // -------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
    // This is where we perform the per-transfer address and burstcount 
+=======
+   // This is where we perform the per-transfer address and burstcount
+>>>>>>> Revert "enlever le chain de argu"
    // calculations that are required by downstream modules.
    // -------------------------------------------------
    reg [UAV_ADDRESS_W -1 : 0] address_register;
@@ -375,7 +407,11 @@ module altera_merlin_master_translator #(
    end
 
    // -------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
    // Determine the output read and write signals from 
+=======
+   // Determine the output read and write signals from
+>>>>>>> Revert "enlever le chain de argu"
    // the read/write/chipselect input signals.
    // -------------------------------------------------
    always_comb begin
@@ -388,7 +424,11 @@ module altera_merlin_master_translator #(
          if (USE_READ) begin
             uav_read_pre = av_read;
          end
+<<<<<<< refs/remotes/upstream/main
      
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
          if (USE_WRITE) begin
             uav_write_pre = av_write;
          end
@@ -518,7 +558,11 @@ module altera_merlin_master_translator #(
          av_byteenable_r            <= av_byteenable;
          av_burstcount_r            <= av_burstcount;
          av_writedata_r             <= av_writedata;
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
          if (
             av_waitrequest_r && // When waitrequest is asserted
             (
@@ -545,9 +589,15 @@ module altera_merlin_master_translator #(
             $display("av_debugaccess            %x --> %x", av_debugaccess_r           , av_debugaccess           );
          end
       end
+<<<<<<< refs/remotes/upstream/main
    
    // end check_1
    
+=======
+
+   // end check_1
+
+>>>>>>> Revert "enlever le chain de argu"
    end
 
   // synthesis translate_on

@@ -33,6 +33,7 @@
 #include "os/alt_syscall.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * The getpid() system call is used by newlib to obtain the current process 
  * id. Since there is only ever a single process in the HAL environment,
  * this just returns a constant. 
@@ -40,8 +41,20 @@
  * ALT_GETPID is mapped onto the getpid() system call in alt_syscall.h
  */
  
+=======
+ * The getpid() system call is used by newlib to obtain the current process
+ * id. Since there is only ever a single process in the HAL environment,
+ * this just returns a constant.
+ *
+ * ALT_GETPID is mapped onto the getpid() system call in alt_syscall.h
+ */
+
+>>>>>>> Revert "enlever le chain de argu"
 int ALT_GETPID (void)
 {
   return 0;
 }
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

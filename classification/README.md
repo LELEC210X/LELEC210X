@@ -1,5 +1,11 @@
 # Classification
 
+<<<<<<< HEAD
+=======
+
+SALUT C EST SARA HIHI
+
+>>>>>>> parent of 1c43eec (enlever le chain de argu)
 Files related to the classification part.
 
 ## Installation

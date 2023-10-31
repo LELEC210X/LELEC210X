@@ -33,9 +33,15 @@
 #include <reent.h>
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * These are the empty malloc lock/unlock stubs required by newlib. These are 
  * used to make newlib's malloc() function thread safe. The default HAL 
  * configuration is single threaded, so there is nothing to do here. Note that 
+=======
+ * These are the empty malloc lock/unlock stubs required by newlib. These are
+ * used to make newlib's malloc() function thread safe. The default HAL
+ * configuration is single threaded, so there is nothing to do here. Note that
+>>>>>>> Revert "enlever le chain de argu"
  * this requires that malloc is never called by an interrupt service routine.
  */
 

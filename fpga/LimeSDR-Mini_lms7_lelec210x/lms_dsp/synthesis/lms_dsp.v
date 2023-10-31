@@ -4,6 +4,7 @@
 
 `timescale 1 ps / 1 ps
 module lms_dsp (
+<<<<<<< refs/remotes/upstream/main
 		input  wire        clk_clk,                 //      clk.clk
 		input  wire [47:0] fifo_in_wdata,           //  fifo_in.wdata
 		input  wire        fifo_in_wrreq,           //         .wrreq
@@ -34,16 +35,56 @@ module lms_dsp (
 	wire         avalon_st_adapter_002_out_0_valid;                         // avalon_st_adapter_002:out_0_valid -> packet_presence_detection_0:avalon_streaming_sink_valid
 	wire  [23:0] avalon_st_adapter_002_out_0_data;                          // avalon_st_adapter_002:out_0_data -> packet_presence_detection_0:avalon_streaming_sink_data
 	wire         rst_controller_reset_out_reset;                            // rst_controller:reset_out -> [AVS2FIFO_0:reset_sink_reset, FIFO2AVS_0:reset_sink_reset, avalon_st_adapter:in_rst_0_reset, avalon_st_adapter_001:in_rst_0_reset, avalon_st_adapter_002:in_rst_0_reset, fir_compiler_ii_0:reset_n, packet_presence_detection_0:reset_sink_reset]
+=======
+		input  wire        clk_clk,                             //             clk.clk
+		input  wire [47:0] fifo_in_wdata,                       //         fifo_in.wdata
+		input  wire        fifo_in_wrreq,                       //                .wrreq
+		output wire [47:0] fifo_out_wrdata,                     //        fifo_out.wrdata
+		output wire        fifo_out_wrreq,                      //                .wrreq
+		input  wire        preamble_detect_cfg_enable,          // preamble_detect.cfg_enable
+		input  wire [5:0]  preamble_detect_cfg_FILTER_LEN,      //                .cfg_FILTER_LEN
+		input  wire [15:0] preamble_detect_cfg_PASSTHROUGH_LEN, //                .cfg_PASSTHROUGH_LEN
+		input  wire [31:0] preamble_detect_cfg_THRESHOLD,       //                .cfg_THRESHOLD
+		output wire [31:0] preamble_detect_debug_sum,           //                .debug_sum
+		output wire [31:0] preamble_detect_debug_count,         //                .debug_count
+		input  wire        reset_reset_n                        //           reset.reset_n
+	);
+
+	wire         fifo2avs_0_avalon_streaming_source_valid;        // FIFO2AVS_0:avalon_streaming_source_valid -> avalon_st_adapter:in_0_valid
+	wire  [47:0] fifo2avs_0_avalon_streaming_source_data;         // FIFO2AVS_0:avalon_streaming_source_data -> avalon_st_adapter:in_0_data
+	wire         avalon_st_adapter_out_0_valid;                   // avalon_st_adapter:out_0_valid -> fir_compiler_ii_0:ast_sink_valid
+	wire  [23:0] avalon_st_adapter_out_0_data;                    // avalon_st_adapter:out_0_data -> fir_compiler_ii_0:ast_sink_data
+	wire   [1:0] avalon_st_adapter_out_0_error;                   // avalon_st_adapter:out_0_error -> fir_compiler_ii_0:ast_sink_error
+	wire         fir_compiler_ii_0_avalon_streaming_source_valid; // fir_compiler_ii_0:ast_source_valid -> avalon_st_adapter_001:in_0_valid
+	wire  [23:0] fir_compiler_ii_0_avalon_streaming_source_data;  // fir_compiler_ii_0:ast_source_data -> avalon_st_adapter_001:in_0_data
+	wire   [1:0] fir_compiler_ii_0_avalon_streaming_source_error; // fir_compiler_ii_0:ast_source_error -> avalon_st_adapter_001:in_0_error
+	wire         avalon_st_adapter_001_out_0_valid;               // avalon_st_adapter_001:out_0_valid -> preamble_detect_0:avalon_streaming_sink_valid
+	wire  [23:0] avalon_st_adapter_001_out_0_data;                // avalon_st_adapter_001:out_0_data -> preamble_detect_0:avalon_streaming_sink_data
+	wire         preamble_detect_0_avalon_streaming_source_valid; // preamble_detect_0:avalon_streaming_source_valid -> avalon_st_adapter_002:in_0_valid
+	wire  [23:0] preamble_detect_0_avalon_streaming_source_data;  // preamble_detect_0:avalon_streaming_source_data -> avalon_st_adapter_002:in_0_data
+	wire         avalon_st_adapter_002_out_0_valid;               // avalon_st_adapter_002:out_0_valid -> AVS2FIFO_0:avalon_streaming_sink_valid
+	wire  [47:0] avalon_st_adapter_002_out_0_data;                // avalon_st_adapter_002:out_0_data -> AVS2FIFO_0:avalon_streaming_sink_data
+	wire         rst_controller_reset_out_reset;                  // rst_controller:reset_out -> [AVS2FIFO_0:reset_sink_reset, FIFO2AVS_0:reset_sink_reset, avalon_st_adapter:in_rst_0_reset, avalon_st_adapter_001:in_rst_0_reset, avalon_st_adapter_002:in_rst_0_reset, fir_compiler_ii_0:reset_n, preamble_detect_0:reset_sink_reset]
+>>>>>>> Revert "enlever le chain de argu"
 
 	avs2fifo #(
 		.datawidth (48)
 	) avs2fifo_0 (
+<<<<<<< refs/remotes/upstream/main
 		.clock_sink_clk              (clk_clk),                        //            clock_sink.clk
 		.reset_sink_reset            (rst_controller_reset_out_reset), //            reset_sink.reset
 		.avalon_streaming_sink_data  (avalon_st_adapter_out_0_data),   // avalon_streaming_sink.data
 		.avalon_streaming_sink_valid (avalon_st_adapter_out_0_valid),  //                      .valid
 		.fifo_wrdata                 (fifo_out_wrdata),                //           conduit_end.wrdata
 		.fifo_wrreq                  (fifo_out_wrreq)                  //                      .wrreq
+=======
+		.clock_sink_clk              (clk_clk),                           //            clock_sink.clk
+		.reset_sink_reset            (rst_controller_reset_out_reset),    //            reset_sink.reset
+		.avalon_streaming_sink_data  (avalon_st_adapter_002_out_0_data),  // avalon_streaming_sink.data
+		.avalon_streaming_sink_valid (avalon_st_adapter_002_out_0_valid), //                      .valid
+		.fifo_wrdata                 (fifo_out_wrdata),                   //           conduit_end.wrdata
+		.fifo_wrreq                  (fifo_out_wrreq)                     //                      .wrreq
+>>>>>>> Revert "enlever le chain de argu"
 	);
 
 	fifo2avs #(
@@ -60,14 +101,21 @@ module lms_dsp (
 	lms_dsp_fir_compiler_ii_0 fir_compiler_ii_0 (
 		.clk              (clk_clk),                                         //                     clk.clk
 		.reset_n          (~rst_controller_reset_out_reset),                 //                     rst.reset_n
+<<<<<<< refs/remotes/upstream/main
 		.ast_sink_data    (avalon_st_adapter_001_out_0_data),                //   avalon_streaming_sink.data
 		.ast_sink_valid   (avalon_st_adapter_001_out_0_valid),               //                        .valid
 		.ast_sink_error   (avalon_st_adapter_001_out_0_error),               //                        .error
+=======
+		.ast_sink_data    (avalon_st_adapter_out_0_data),                    //   avalon_streaming_sink.data
+		.ast_sink_valid   (avalon_st_adapter_out_0_valid),                   //                        .valid
+		.ast_sink_error   (avalon_st_adapter_out_0_error),                   //                        .error
+>>>>>>> Revert "enlever le chain de argu"
 		.ast_source_data  (fir_compiler_ii_0_avalon_streaming_source_data),  // avalon_streaming_source.data
 		.ast_source_valid (fir_compiler_ii_0_avalon_streaming_source_valid), //                        .valid
 		.ast_source_error (fir_compiler_ii_0_avalon_streaming_source_error)  //                        .error
 	);
 
+<<<<<<< refs/remotes/upstream/main
 	packet_presence_detection #(
 		.DATA_WIDTH            (12),
 		.PASSTHROUGH_LEN_WIDTH (16)
@@ -85,52 +133,102 @@ module lms_dsp (
 		.avalon_streaming_source_valid (packet_presence_detection_0_avalon_streaming_source_valid), //                        .valid
 		.clock_sink_clk                (clk_clk),                                                   //              clock_sink.clk
 		.reset_sink_reset              (rst_controller_reset_out_reset)                             //              reset_sink.reset
+=======
+	preamble_detect #(
+		.DATA_WIDTH            (12),
+		.FILTER_LEN_WIDTH      (6),
+		.PASSTHROUGH_LEN_WIDTH (16)
+	) preamble_detect_0 (
+		.clock_sink_clk                (clk_clk),                                         //              clock_sink.clk
+		.reset_sink_reset              (rst_controller_reset_out_reset),                  //              reset_sink.reset
+		.avalon_streaming_sink_data    (avalon_st_adapter_001_out_0_data),                //   avalon_streaming_sink.data
+		.avalon_streaming_sink_valid   (avalon_st_adapter_001_out_0_valid),               //                        .valid
+		.avalon_streaming_source_data  (preamble_detect_0_avalon_streaming_source_data),  // avalon_streaming_source.data
+		.avalon_streaming_source_valid (preamble_detect_0_avalon_streaming_source_valid), //                        .valid
+		.cfg_enable                    (preamble_detect_cfg_enable),                      //                     cfg.cfg_enable
+		.cfg_FILTER_LEN                (preamble_detect_cfg_FILTER_LEN),                  //                        .cfg_FILTER_LEN
+		.cfg_PASSTHROUGH_LEN           (preamble_detect_cfg_PASSTHROUGH_LEN),             //                        .cfg_PASSTHROUGH_LEN
+		.cfg_THRESHOLD                 (preamble_detect_cfg_THRESHOLD),                   //                        .cfg_THRESHOLD
+		.debug_sum                     (preamble_detect_debug_sum),                       //                        .debug_sum
+		.debug_count                   (preamble_detect_debug_count)                      //                        .debug_count
+>>>>>>> Revert "enlever le chain de argu"
 	);
 
 	lms_dsp_avalon_st_adapter #(
 		.inBitsPerSymbol (12),
 		.inUsePackets    (0),
+<<<<<<< refs/remotes/upstream/main
 		.inDataWidth     (24),
+=======
+		.inDataWidth     (48),
+>>>>>>> Revert "enlever le chain de argu"
 		.inChannelWidth  (0),
 		.inErrorWidth    (0),
 		.inUseEmptyPort  (0),
 		.inUseValid      (1),
 		.inUseReady      (0),
 		.inReadyLatency  (0),
+<<<<<<< refs/remotes/upstream/main
 		.outDataWidth    (48),
 		.outChannelWidth (0),
 		.outErrorWidth   (0),
+=======
+		.outDataWidth    (24),
+		.outChannelWidth (0),
+		.outErrorWidth   (2),
+>>>>>>> Revert "enlever le chain de argu"
 		.outUseEmptyPort (0),
 		.outUseValid     (1),
 		.outUseReady     (0),
 		.outReadyLatency (0)
 	) avalon_st_adapter (
+<<<<<<< refs/remotes/upstream/main
 		.in_clk_0_clk   (clk_clk),                                                   // in_clk_0.clk
 		.in_rst_0_reset (rst_controller_reset_out_reset),                            // in_rst_0.reset
 		.in_0_data      (packet_presence_detection_0_avalon_streaming_source_data),  //     in_0.data
 		.in_0_valid     (packet_presence_detection_0_avalon_streaming_source_valid), //         .valid
 		.out_0_data     (avalon_st_adapter_out_0_data),                              //    out_0.data
 		.out_0_valid    (avalon_st_adapter_out_0_valid)                              //         .valid
+=======
+		.in_clk_0_clk   (clk_clk),                                  // in_clk_0.clk
+		.in_rst_0_reset (rst_controller_reset_out_reset),           // in_rst_0.reset
+		.in_0_data      (fifo2avs_0_avalon_streaming_source_data),  //     in_0.data
+		.in_0_valid     (fifo2avs_0_avalon_streaming_source_valid), //         .valid
+		.out_0_data     (avalon_st_adapter_out_0_data),             //    out_0.data
+		.out_0_valid    (avalon_st_adapter_out_0_valid),            //         .valid
+		.out_0_error    (avalon_st_adapter_out_0_error)             //         .error
+>>>>>>> Revert "enlever le chain de argu"
 	);
 
 	lms_dsp_avalon_st_adapter_001 #(
 		.inBitsPerSymbol (12),
 		.inUsePackets    (0),
+<<<<<<< refs/remotes/upstream/main
 		.inDataWidth     (48),
 		.inChannelWidth  (0),
 		.inErrorWidth    (0),
+=======
+		.inDataWidth     (24),
+		.inChannelWidth  (0),
+		.inErrorWidth    (2),
+>>>>>>> Revert "enlever le chain de argu"
 		.inUseEmptyPort  (0),
 		.inUseValid      (1),
 		.inUseReady      (0),
 		.inReadyLatency  (0),
 		.outDataWidth    (24),
 		.outChannelWidth (0),
+<<<<<<< refs/remotes/upstream/main
 		.outErrorWidth   (2),
+=======
+		.outErrorWidth   (0),
+>>>>>>> Revert "enlever le chain de argu"
 		.outUseEmptyPort (0),
 		.outUseValid     (1),
 		.outUseReady     (0),
 		.outReadyLatency (0)
 	) avalon_st_adapter_001 (
+<<<<<<< refs/remotes/upstream/main
 		.in_clk_0_clk   (clk_clk),                                  // in_clk_0.clk
 		.in_rst_0_reset (rst_controller_reset_out_reset),           // in_rst_0.reset
 		.in_0_data      (fifo2avs_0_avalon_streaming_source_data),  //     in_0.data
@@ -138,6 +236,15 @@ module lms_dsp (
 		.out_0_data     (avalon_st_adapter_001_out_0_data),         //    out_0.data
 		.out_0_valid    (avalon_st_adapter_001_out_0_valid),        //         .valid
 		.out_0_error    (avalon_st_adapter_001_out_0_error)         //         .error
+=======
+		.in_clk_0_clk   (clk_clk),                                         // in_clk_0.clk
+		.in_rst_0_reset (rst_controller_reset_out_reset),                  // in_rst_0.reset
+		.in_0_data      (fir_compiler_ii_0_avalon_streaming_source_data),  //     in_0.data
+		.in_0_valid     (fir_compiler_ii_0_avalon_streaming_source_valid), //         .valid
+		.in_0_error     (fir_compiler_ii_0_avalon_streaming_source_error), //         .error
+		.out_0_data     (avalon_st_adapter_001_out_0_data),                //    out_0.data
+		.out_0_valid    (avalon_st_adapter_001_out_0_valid)                //         .valid
+>>>>>>> Revert "enlever le chain de argu"
 	);
 
 	lms_dsp_avalon_st_adapter_002 #(
@@ -145,12 +252,20 @@ module lms_dsp (
 		.inUsePackets    (0),
 		.inDataWidth     (24),
 		.inChannelWidth  (0),
+<<<<<<< refs/remotes/upstream/main
 		.inErrorWidth    (2),
+=======
+		.inErrorWidth    (0),
+>>>>>>> Revert "enlever le chain de argu"
 		.inUseEmptyPort  (0),
 		.inUseValid      (1),
 		.inUseReady      (0),
 		.inReadyLatency  (0),
+<<<<<<< refs/remotes/upstream/main
 		.outDataWidth    (24),
+=======
+		.outDataWidth    (48),
+>>>>>>> Revert "enlever le chain de argu"
 		.outChannelWidth (0),
 		.outErrorWidth   (0),
 		.outUseEmptyPort (0),
@@ -160,9 +275,14 @@ module lms_dsp (
 	) avalon_st_adapter_002 (
 		.in_clk_0_clk   (clk_clk),                                         // in_clk_0.clk
 		.in_rst_0_reset (rst_controller_reset_out_reset),                  // in_rst_0.reset
+<<<<<<< refs/remotes/upstream/main
 		.in_0_data      (fir_compiler_ii_0_avalon_streaming_source_data),  //     in_0.data
 		.in_0_valid     (fir_compiler_ii_0_avalon_streaming_source_valid), //         .valid
 		.in_0_error     (fir_compiler_ii_0_avalon_streaming_source_error), //         .error
+=======
+		.in_0_data      (preamble_detect_0_avalon_streaming_source_data),  //     in_0.data
+		.in_0_valid     (preamble_detect_0_avalon_streaming_source_valid), //         .valid
+>>>>>>> Revert "enlever le chain de argu"
 		.out_0_data     (avalon_st_adapter_002_out_0_data),                //    out_0.data
 		.out_0_valid    (avalon_st_adapter_002_out_0_valid)                //         .valid
 	);

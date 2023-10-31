@@ -34,10 +34,17 @@
 #include "priv/alt_file.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_release_fd() is called to free an allocated file descriptor. This is 
  * done by setting the device pointer in the file descriptor structure to zero.
  * 
  * File descriptors correcponding to standard in, standard out and standard 
+=======
+ * alt_release_fd() is called to free an allocated file descriptor. This is
+ * done by setting the device pointer in the file descriptor structure to zero.
+ *
+ * File descriptors correcponding to standard in, standard out and standard
+>>>>>>> Revert "enlever le chain de argu"
  * error cannont be released backed to the pool. They are always reserved.
  */
 
@@ -49,6 +56,9 @@ void alt_release_fd (int fd)
     alt_fd_list[fd].dev      = 0;
   }
 }
+<<<<<<< refs/remotes/upstream/main
 
 
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

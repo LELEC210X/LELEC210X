@@ -40,12 +40,21 @@
 /*
  * The stat() function is similar to the fstat() function in that it is used to
  * obtain status information about a file. Instead of using an open file
+<<<<<<< refs/remotes/upstream/main
  * descriptor (like fstat()), stat() takes the name of a file as an input 
  * argument. 
  *
  * ALT_STAT is mapped onto the stat() system call in alt_syscall.h
  */
  
+=======
+ * descriptor (like fstat()), stat() takes the name of a file as an input
+ * argument.
+ *
+ * ALT_STAT is mapped onto the stat() system call in alt_syscall.h
+ */
+
+>>>>>>> Revert "enlever le chain de argu"
 int ALT_STAT (const char *file, struct stat *st)
 {
   int fd;

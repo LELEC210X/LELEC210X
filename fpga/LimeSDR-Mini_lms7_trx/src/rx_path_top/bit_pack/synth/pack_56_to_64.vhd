@@ -14,7 +14,11 @@ use ieee.numeric_std.all;
 -- ----------------------------------------------------------------------------
 entity pack_56_to_64 is
    port (
+<<<<<<< refs/remotes/upstream/main
    --input ports 
+=======
+   --input ports
+>>>>>>> Revert "enlever le chain de argu"
       clk            : in std_logic;
       reset_n        : in std_logic;
       data_in_wrreq  : in std_logic;
@@ -37,7 +41,11 @@ signal word64_3               : std_logic_vector(63 downto 0);
 signal word64_4               : std_logic_vector(63 downto 0);
 signal word64_5               : std_logic_vector(63 downto 0);
 signal word64_6               : std_logic_vector(63 downto 0);
+<<<<<<< refs/remotes/upstream/main
       
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 signal word64_0_valid         : std_logic;
 signal word64_1_valid         : std_logic;
 signal word64_2_valid         : std_logic;
@@ -93,7 +101,11 @@ signal data_out_valid_reg     : std_logic;
 signal data_out_valid_pipe    : std_logic_vector(1 downto 0);
 
 
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 -- ----------------------------------------------------------------------------
@@ -104,9 +116,15 @@ begin
    if reset_n = '0' then
       data56_in_reg <= (others=>'0');
    elsif (clk'event and clk = '1') then
+<<<<<<< refs/remotes/upstream/main
       if data_in_wrreq = '1' then 
          data56_in_reg <= data56_in;
       else 
+=======
+      if data_in_wrreq = '1' then
+         data56_in_reg <= data56_in;
+      else
+>>>>>>> Revert "enlever le chain de argu"
          data56_in_reg <= data56_in_reg;
       end if;
    end if;
@@ -116,6 +134,7 @@ end process;
 -- ----------------------------------------------------------------------------
 -- Write counter
 -- ----------------------------------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
 process(clk, reset_n) is 
 begin 
    if reset_n = '0' then 
@@ -125,6 +144,17 @@ begin
          if wr_cnt < 7 then 
             wr_cnt <= wr_cnt+1;
          else 
+=======
+process(clk, reset_n) is
+begin
+   if reset_n = '0' then
+      wr_cnt <= (others=>'0');
+   elsif (clk'event and clk = '1') then
+      if  data_in_wrreq = '1' then
+         if wr_cnt < 7 then
+            wr_cnt <= wr_cnt+1;
+         else
+>>>>>>> Revert "enlever le chain de argu"
             wr_cnt <= (others=>'0');
          end if;
       else
@@ -144,17 +174,29 @@ begin
       word64_0 <= (others=>'0');
       word64_0_valid <= '0';
    elsif (clk'event and clk = '1') then
+<<<<<<< refs/remotes/upstream/main
       if wr_cnt = 1 and data_in_wrreq = '1' then 
          --word64_0<=data56_in(55 downto 48) & data56_in_reg;
          word64_0 <= data56_in(7 downto 0) & data56_in_reg;
          word64_0_valid <= '1';
       else 
+=======
+      if wr_cnt = 1 and data_in_wrreq = '1' then
+         --word64_0<=data56_in(55 downto 48) & data56_in_reg;
+         word64_0 <= data56_in(7 downto 0) & data56_in_reg;
+         word64_0_valid <= '1';
+      else
+>>>>>>> Revert "enlever le chain de argu"
          word64_0 <= word64_0;
          word64_0_valid <= '0';
       end if;
    end if;
 end process;
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 --2 stage
 
 process(reset_n, clk)
@@ -167,7 +209,11 @@ begin
          --word64_1<=data56_in(55 downto 40) & data56_in_reg(47 downto 0);
          word64_1 <= data56_in(15 downto 0) & data56_in_reg(55 downto 8);
          word64_1_valid <= '1';
+<<<<<<< refs/remotes/upstream/main
       else 
+=======
+      else
+>>>>>>> Revert "enlever le chain de argu"
          word64_1 <= word64_1;
          word64_1_valid <= '0';
       end if;
@@ -186,13 +232,21 @@ begin
          --word64_2<=data56_in(55 downto 32) & data56_in_reg(39 downto 0);
          word64_2 <=  data56_in(23 downto 0) & data56_in_reg(55 downto 16);
          word64_2_valid <='1';
+<<<<<<< refs/remotes/upstream/main
       else 
+=======
+      else
+>>>>>>> Revert "enlever le chain de argu"
          word64_2 <= word64_2;
          word64_2_valid <= '0';
       end if;
    end if;
 end process;
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 --4 stage
 
 process(reset_n, clk)
@@ -205,7 +259,11 @@ begin
          --word64_3<=data56_in(55 downto 24) & data56_in_reg(31 downto 0);
          word64_3 <= data56_in(31 downto 0) & data56_in_reg(55 downto 24);
          word64_3_valid <= '1';
+<<<<<<< refs/remotes/upstream/main
       else 
+=======
+      else
+>>>>>>> Revert "enlever le chain de argu"
          word64_3 <= word64_3;
          word64_3_valid <= '0';
       end if;
@@ -222,16 +280,26 @@ begin
    elsif (clk'event and clk = '1') then
       if wr_cnt = 5 and data_in_wrreq = '1' then
          --word64_4<=data56_in(55 downto 16) & data56_in_reg(23 downto 0);
+<<<<<<< refs/remotes/upstream/main
          word64_4 <=  data56_in(39 downto 0) & data56_in_reg(55 downto 32); 
          word64_4_valid <='1';
       else 
+=======
+         word64_4 <=  data56_in(39 downto 0) & data56_in_reg(55 downto 32);
+         word64_4_valid <='1';
+      else
+>>>>>>> Revert "enlever le chain de argu"
          word64_4 <= word64_4;
          word64_4_valid <= '0';
       end if;
    end if;
 end process;
 
+<<<<<<< refs/remotes/upstream/main
 --6 stage 
+=======
+--6 stage
+>>>>>>> Revert "enlever le chain de argu"
 
 process(reset_n, clk)
 begin
@@ -239,18 +307,30 @@ begin
       word64_5 <= (others=>'0');
       word64_5_valid<='0';
    elsif (clk'event and clk = '1') then
+<<<<<<< refs/remotes/upstream/main
       if wr_cnt = 6 and data_in_wrreq = '1' then 
          --word64_5<=data56_in(55 downto 8) & data56_in_reg(15 downto 0);
          word64_5 <=  data56_in(47 downto 0) & data56_in_reg(55 downto 40);
          word64_5_valid <= '1';
       else 
+=======
+      if wr_cnt = 6 and data_in_wrreq = '1' then
+         --word64_5<=data56_in(55 downto 8) & data56_in_reg(15 downto 0);
+         word64_5 <=  data56_in(47 downto 0) & data56_in_reg(55 downto 40);
+         word64_5_valid <= '1';
+      else
+>>>>>>> Revert "enlever le chain de argu"
          word64_5 <= word64_5;
          word64_5_valid <= '0';
       end if;
    end if;
 end process;
 
+<<<<<<< refs/remotes/upstream/main
 --7 stage 
+=======
+--7 stage
+>>>>>>> Revert "enlever le chain de argu"
 
 process(reset_n, clk)
 begin
@@ -262,16 +342,27 @@ begin
          --word64_6<=data56_in(55 downto 0) & data56_in_reg(7 downto 0);
          word64_6 <=  data56_in(55 downto 0) & data56_in_reg(55 downto 48);
          word64_6_valid <= '1';
+<<<<<<< refs/remotes/upstream/main
       else 
+=======
+      else
+>>>>>>> Revert "enlever le chain de argu"
          word64_6 <= word64_6;
          word64_6_valid <= '0';
       end if;
    end if;
 end process;
+<<<<<<< refs/remotes/upstream/main
     
 -- ----------------------------------------------------------------------------
 -- Shift registers for word_valid signals 
 -- ---------------------------------------------------------------------------- 
+=======
+
+-- ----------------------------------------------------------------------------
+-- Shift registers for word_valid signals
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 process(reset_n, clk)
 begin
    if reset_n = '0' then
@@ -291,9 +382,15 @@ begin
       word64_5_valid_pipe <= word64_5_valid_pipe(1 downto 0) & word64_5_valid;
       word64_6_valid_pipe <= word64_6_valid_pipe(1 downto 0) & word64_6_valid;
    end if;
+<<<<<<< refs/remotes/upstream/main
 end process;   
 
  
+=======
+end process;
+
+
+>>>>>>> Revert "enlever le chain de argu"
 
 -- ----------------------------------------------------------------------------
 -- 32b word output
@@ -305,7 +402,11 @@ mux_stage0_4_3 <= word64_3 when word64_3_valid = '1' else word64_4;
 mux_stage0_6_5 <= word64_5 when word64_5_valid = '1' else word64_6;
 -- ----------------------------------------------------------------------------
 -- Registers for MUX stage 0
+<<<<<<< refs/remotes/upstream/main
 -- ---------------------------------------------------------------------------- 
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 process(reset_n, clk)
 begin
    if reset_n = '0' then
@@ -322,8 +423,13 @@ begin
       mux_stage0_4_3_reg   <= mux_stage0_4_3;
       mux_stage0_6_5_reg   <= mux_stage0_6_5;
       mux_stage1_2_0_sel   <= (word64_1_valid OR word64_2_valid);
+<<<<<<< refs/remotes/upstream/main
       mux_stage1_6_3_sel_0 <= (word64_3_valid OR word64_4_valid);  
       mux_stage1_6_3_sel_1 <= (word64_5_valid OR word64_6_valid);     
+=======
+      mux_stage1_6_3_sel_0 <= (word64_3_valid OR word64_4_valid);
+      mux_stage1_6_3_sel_1 <= (word64_5_valid OR word64_6_valid);
+>>>>>>> Revert "enlever le chain de argu"
    end if;
 end process;
 
@@ -335,7 +441,11 @@ mux_stage1_6_3 <= mux_stage0_4_3_reg when mux_stage1_6_3_sel_1 = '0' else mux_st
 
 -- ----------------------------------------------------------------------------
 -- Registers for MUX stage 1
+<<<<<<< refs/remotes/upstream/main
 -- ---------------------------------------------------------------------------- 
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 process(reset_n, clk)
 begin
    if reset_n = '0' then
@@ -345,7 +455,11 @@ begin
    elsif (clk'event and clk = '1') then
       mux_stage1_2_0_reg <= mux_stage1_2_0;
       mux_stage1_6_3_reg <= mux_stage1_6_3;
+<<<<<<< refs/remotes/upstream/main
       mux_stage2_6_0_sel <= (mux_stage1_6_3_sel_0 OR mux_stage1_6_3_sel_1); 
+=======
+      mux_stage2_6_0_sel <= (mux_stage1_6_3_sel_0 OR mux_stage1_6_3_sel_1);
+>>>>>>> Revert "enlever le chain de argu"
    end if;
 end process;
 
@@ -371,6 +485,7 @@ begin
       data_out_valid_pipe  <=(others=>'0');
    elsif (clk'event and clk = '1') then
       data_out_valid_reg   <= word64_0_valid OR word64_1_valid OR word64_2_valid OR word64_3_valid OR word64_4_valid OR word64_5_valid OR word64_6_valid;
+<<<<<<< refs/remotes/upstream/main
       data_out_valid_pipe  <= data_out_valid_pipe(0) & data_out_valid_reg; 
    end if;
 end process;
@@ -384,3 +499,15 @@ end arch;
 
 
 
+=======
+      data_out_valid_pipe  <= data_out_valid_pipe(0) & data_out_valid_reg;
+   end if;
+end process;
+
+data64_out     <= mux_stage2_6_0_reg;
+data_out_valid <= data_out_valid_pipe(1);
+
+
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

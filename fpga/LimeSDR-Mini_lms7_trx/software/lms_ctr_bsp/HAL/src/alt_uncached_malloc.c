@@ -38,7 +38,11 @@
  * Return pointer to the block of memory or NULL if can't allocate it.
  */
 
+<<<<<<< refs/remotes/upstream/main
 volatile void* 
+=======
+volatile void*
+>>>>>>> Revert "enlever le chain de argu"
 alt_uncached_malloc(size_t size)
 {
 #if ALT_CPU_DCACHE_SIZE > 0
@@ -47,13 +51,21 @@ alt_uncached_malloc(size_t size)
   void* ptr;
 
   /* Round up size to an integer number of data cache lines. Required to guarantee that
+<<<<<<< refs/remotes/upstream/main
    * cacheable and non-cacheable data won't be mixed on the same cache line. */ 
+=======
+   * cacheable and non-cacheable data won't be mixed on the same cache line. */
+>>>>>>> Revert "enlever le chain de argu"
   const size_t num_lines = (size + ALT_CPU_DCACHE_LINE_SIZE - 1) / ALT_CPU_DCACHE_LINE_SIZE;
   const size_t aligned_size = num_lines * ALT_CPU_DCACHE_LINE_SIZE;
 
   /* Use memalign() Newlib routine to allocate starting on a data cache aligned address.
    * Required to guarantee that cacheable and non-cacheable data won't be mixed on the
+<<<<<<< refs/remotes/upstream/main
    * same cache line. */ 
+=======
+   * same cache line. */
+>>>>>>> Revert "enlever le chain de argu"
   ptr = memalign(ALT_CPU_DCACHE_LINE_SIZE, aligned_size);
 
   if (ptr == NULL) {

@@ -19,7 +19,11 @@ entity fir_tb_gen_fir_compiler_ii_0_ast is
         PHYSCHANOUT         : integer := 2;
         CHANSPERPHYIN       : natural := 1;
         CHANSPERPHYOUT      : natural := 1;
+<<<<<<< refs/remotes/upstream/main
         OUTPUTFIFODEPTH     : integer := 16;
+=======
+        OUTPUTFIFODEPTH     : integer := 8;
+>>>>>>> Revert "enlever le chain de argu"
         USE_PACKETS         : integer := 0;
         MODE_WIDTH         : integer := 0;
         ENABLE_BACKPRESSURE : boolean := false;
@@ -35,7 +39,11 @@ entity fir_tb_gen_fir_compiler_ii_0_ast is
     ast_source_data    : out std_logic_vector(COMPLEX_CONST*(OUT_WIDTH_UNTRIMMED - REM_LSB_BIT_g - REM_MSB_BIT_g) * PHYSCHANOUT - 1  downto 0);
     ast_sink_data      : in std_logic_vector( COMPLEX_CONST*(INWIDTH + BANKINWIDTH) * PHYSCHANIN  + MODE_WIDTH - 1 downto 0);
     ast_sink_valid     : in  std_logic;
+<<<<<<< refs/remotes/upstream/main
     ast_source_valid   : out std_logic;    
+=======
+    ast_source_valid   : out std_logic;
+>>>>>>> Revert "enlever le chain de argu"
     ast_source_ready   : in  std_logic;
     ast_source_eop     : out std_logic;
     ast_source_sop     : out std_logic;
@@ -53,17 +61,29 @@ end fir_tb_gen_fir_compiler_ii_0_ast;
 -- altera message_off 10036
 
 architecture struct of fir_tb_gen_fir_compiler_ii_0_ast is
+<<<<<<< refs/remotes/upstream/main
   
   constant OUTWIDTH          : integer   := OUT_WIDTH_UNTRIMMED - REM_LSB_BIT_g - REM_MSB_BIT_g;
 
   signal channel_out         : std_logic_vector(LOG2_CHANSPERPHYOUT - 1 downto 0);
   
+=======
+
+  constant OUTWIDTH          : integer   := OUT_WIDTH_UNTRIMMED - REM_LSB_BIT_g - REM_MSB_BIT_g;
+
+  signal channel_out         : std_logic_vector(LOG2_CHANSPERPHYOUT - 1 downto 0);
+
+>>>>>>> Revert "enlever le chain de argu"
   signal core_channel_out    : std_logic_vector(2 -1 downto 0);
   signal at_source_channel   : std_logic_vector(2 -1 downto 0);
   signal sink_packet_error   : std_logic_vector(1 downto 0);
   signal data_in             : std_logic_vector((COMPLEX_CONST*INWIDTH + BANKINWIDTH) * PHYSCHANIN  + MODE_WIDTH - 1 downto 0);
   signal data_valid          : std_logic_vector(0 downto 0);
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   signal data_out            : std_logic_vector(COMPLEX_CONST*OUTWIDTH * PHYSCHANOUT -1 downto 0);
   signal reset_fir           : std_logic;
   signal sink_ready_ctrl     : std_logic;
@@ -74,7 +94,11 @@ architecture struct of fir_tb_gen_fir_compiler_ii_0_ast is
   signal valid               : std_logic;
   signal core_valid          : std_logic;
   signal enable_in           : std_logic_vector(0 downto 0);
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   signal outp_out            : std_logic_vector(COMPLEX_CONST*OUTWIDTH * PHYSCHANOUT - 1 downto 0);
   signal outp_blk_valid      : std_logic_vector(PHYSCHANOUT - 1 downto 0);
 
@@ -84,7 +108,11 @@ architecture struct of fir_tb_gen_fir_compiler_ii_0_ast is
 
   signal core_out_channel_0  : std_logic_vector(7 downto 0);
 
+<<<<<<< refs/remotes/upstream/main
      
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
   sink : auk_dspip_avalon_streaming_sink_hpfir
     generic map (
@@ -105,7 +133,11 @@ begin
       at_sink_sop     => ast_sink_sop,
       at_sink_eop     => ast_sink_eop,
       at_sink_error   => ast_sink_error);
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   source : auk_dspip_avalon_streaming_source_hpfir
     generic map (
       WIDTH_g           => COMPLEX_CONST*OUTWIDTH * PHYSCHANOUT,
@@ -132,8 +164,13 @@ begin
       at_source_sop     => ast_source_sop,
       at_source_eop     => ast_source_eop,
       at_source_error   => ast_source_error);
+<<<<<<< refs/remotes/upstream/main
    
    
+=======
+
+
+>>>>>>> Revert "enlever le chain de argu"
   intf_ctrl : auk_dspip_avalon_streaming_controller_hpfir
     port map (
       clk                 => clk,
@@ -148,8 +185,13 @@ begin
       stall               => stall);
 
 
+<<<<<<< refs/remotes/upstream/main
   
   multi_data_out: for m in PHYSCHANOUT-1 downto 0 generate  
+=======
+
+  multi_data_out: for m in PHYSCHANOUT-1 downto 0 generate
+>>>>>>> Revert "enlever le chain de argu"
     data_out(((m*OUTWIDTH)+OUTWIDTH-1) downto (m*OUTWIDTH)) <= outp_out(((m*OUTWIDTH)+OUTWIDTH-1) downto (m*OUTWIDTH));
   end generate multi_data_out;
 
@@ -164,12 +206,21 @@ begin
       end if;
     end process out_lsb_p;
   end generate channel_pipe_lsb;
+<<<<<<< refs/remotes/upstream/main
   
   channel_wire_lsb: if REM_LSB_TYPE_g = "trunc" or REM_LSB_BIT_g = 0 generate
   begin
     core_out_channel_0 <= core_out_channel;
   end generate channel_wire_lsb;  
   
+=======
+
+  channel_wire_lsb: if REM_LSB_TYPE_g = "trunc" or REM_LSB_BIT_g = 0 generate
+  begin
+    core_out_channel_0 <= core_out_channel;
+  end generate channel_wire_lsb;
+
+>>>>>>> Revert "enlever le chain de argu"
   channel_pipe_msb: if REM_MSB_TYPE_g = "sat" and REM_MSB_BIT_g > 0 generate
   begin
     out_p : process (clk, reset_n)
@@ -213,7 +264,11 @@ end component fir_tb_gen_fir_compiler_ii_0_rtl_core;
     signal core_out_core            : std_logic_vector(OUT_WIDTH_UNTRIMMED * PHYSCHANOUT - 1 downto 0);
     signal core_out_valid_core      : std_logic_vector(0 downto 0);
     signal core_out_channel_core    : std_logic_vector(7 downto 0);
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 
 
   begin
@@ -234,6 +289,7 @@ end component fir_tb_gen_fir_compiler_ii_0_rtl_core;
 
 
 
+<<<<<<< refs/remotes/upstream/main
     core_channel_out <= core_channel_out_core;              
     data_in_core <= data_in;               
     data_valid_core <= data_valid;                
@@ -244,6 +300,18 @@ end component fir_tb_gen_fir_compiler_ii_0_rtl_core;
 
 
   gen_outp_blk : for i in PHYSCHANOUT-1 downto 0 generate  
+=======
+    core_channel_out <= core_channel_out_core;
+    data_in_core <= data_in;
+    data_valid_core <= data_valid;
+    core_out <= core_out_core;
+    core_out_valid(0) <= core_out_valid_core(0);
+    core_out_channel <= core_out_channel_core;
+
+
+
+  gen_outp_blk : for i in PHYSCHANOUT-1 downto 0 generate
+>>>>>>> Revert "enlever le chain de argu"
   begin
     outp_blk : auk_dspip_roundsat_hpfir
       generic map (
@@ -267,6 +335,7 @@ end component fir_tb_gen_fir_compiler_ii_0_rtl_core;
 
 
   valid <= outp_blk_valid(0);
+<<<<<<< refs/remotes/upstream/main
   
   enable_in(0) <= not stall;
 
@@ -275,3 +344,9 @@ end struct;
 
 
 
+=======
+
+  enable_in(0) <= not stall;
+
+end struct;
+>>>>>>> Revert "enlever le chain de argu"

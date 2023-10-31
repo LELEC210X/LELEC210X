@@ -1,3 +1,4 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
 -- FILE: 	smpl_cmp_tb.vhd
 -- DESCRIPTION:	
@@ -5,6 +6,15 @@
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+-- FILE: 	smpl_cmp_tb.vhd
+-- DESCRIPTION:
+-- DATE:	Feb 13, 2014
+-- AUTHOR(s):	Lime Microsystems
+-- REVISIONS:
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -22,6 +32,7 @@ end smpl_cmp_tb;
 architecture tb_behave of smpl_cmp_tb is
    constant clk0_period    : time := 10 ns;
    constant clk0_phshift   : time := 0 ns;
+<<<<<<< refs/remotes/upstream/main
    
    constant clk1_period    : time := 10 ns;
    constant clk1_phshift   : time := 2.5 ns;
@@ -30,6 +41,16 @@ architecture tb_behave of smpl_cmp_tb is
 	signal clk0,clk1		   : std_logic;
 	signal reset_n          : std_logic; 
    
+=======
+
+   constant clk1_period    : time := 10 ns;
+   constant clk1_phshift   : time := 2.5 ns;
+
+   --signals
+	signal clk0,clk1		   : std_logic;
+	signal reset_n          : std_logic;
+
+>>>>>>> Revert "enlever le chain de argu"
 
    signal iq_width            : integer := 12;
    signal mode                : std_logic := '0'; -- JESD207: 1; TRXIQ: 0
@@ -38,6 +59,7 @@ architecture tb_behave of smpl_cmp_tb is
 	signal mimo_en             : std_logic := '1'; -- SISO: 1; MIMO: 0
 	signal fidm                : std_logic := '0'; -- 0 - frame start low, 1 - frame start high
    signal ch_en               : std_logic_vector(1 downto 0) := "11"; --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B.
+<<<<<<< refs/remotes/upstream/main
                            
    
    
@@ -45,6 +67,15 @@ architecture tb_behave of smpl_cmp_tb is
    signal inst0_DIQ        : std_logic_vector(11 downto 0);
    signal inst0_fsync      : std_logic;
    
+=======
+
+
+
+   --dut0
+   signal inst0_DIQ        : std_logic_vector(11 downto 0);
+   signal inst0_fsync      : std_logic;
+
+>>>>>>> Revert "enlever le chain de argu"
    --dut1
    signal dut1_diq_out_h   : std_logic_vector(12 downto 0);
    signal dut1_diq_out_l   : std_logic_vector(12 downto 0);
@@ -61,8 +92,13 @@ architecture tb_behave of smpl_cmp_tb is
    signal dut2_diq_l        : std_logic_vector(12 downto 0);
 
 
+<<<<<<< refs/remotes/upstream/main
 begin 
   
+=======
+begin
+
+>>>>>>> Revert "enlever le chain de argu"
       clock0: process is
 	begin
       clk0 <= '0'; wait for clk0_phshift;
@@ -80,20 +116,30 @@ begin
          clk1 <= '1'; wait for clk1_period/2;
       end loop;
 	end process clock;
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		res: process is
 	begin
 		reset_n <= '0'; wait for 20 ns;
 		reset_n <= '1'; wait;
 	end process res;
+<<<<<<< refs/remotes/upstream/main
    
    
+=======
+
+
+>>>>>>> Revert "enlever le chain de argu"
    process is
 	begin
 		dut2_cmp_start <= '0'; wait for 40 ns;
       wait until rising_edge(clk1);
 		dut2_cmp_start <= '1'; wait until  dut2_cmp_done = '1';
 	end process;
+<<<<<<< refs/remotes/upstream/main
    
    
  process(clk0, reset_n)
@@ -106,33 +152,65 @@ begin
    end process;
    
    LMS7002_DIQ2_dut0 : entity work.LMS7002_DIQ2_sim 
+=======
+
+
+ process(clk0, reset_n)
+   begin
+      if reset_n = '0' then
+
+      elsif (clk0'event AND clk0='1') then
+
+      end if;
+   end process;
+
+   LMS7002_DIQ2_dut0 : entity work.LMS7002_DIQ2_sim
+>>>>>>> Revert "enlever le chain de argu"
 generic map (
 	file_name => "sim/adc_data",
 	data_width => 12
 )
 port map(
 	clk       	=> clk0,
+<<<<<<< refs/remotes/upstream/main
 	reset_n   	=> reset_n, 
 	mode			=> mode,
 	trxiqpulse	=> trxiqpulse,
 	ddr_en 		=> ddr_en, 
 	mimo_en		=> mimo_en,
 	fidm			=> fidm, 
+=======
+	reset_n   	=> reset_n,
+	mode			=> mode,
+	trxiqpulse	=> trxiqpulse,
+	ddr_en 		=> ddr_en,
+	mimo_en		=> mimo_en,
+	fidm			=> fidm,
+>>>>>>> Revert "enlever le chain de argu"
 
 	-- Data to BB
 	DIQ 			=> inst0_DIQ,
 	fsync			=> inst0_fsync
+<<<<<<< refs/remotes/upstream/main
 	
     );
     
     lms7002_ddin_dut1 : entity work.lms7002_ddin
 	generic map( 
+=======
+
+    );
+
+    lms7002_ddin_dut1 : entity work.lms7002_ddin
+	generic map(
+>>>>>>> Revert "enlever le chain de argu"
       dev_family				=> "Cyclone IV E",
       iq_width					=> iq_width,
       invert_input_clocks	=> "ON"
 	)
 	port map (
       clk       	=> clk1,
+<<<<<<< refs/remotes/upstream/main
       reset_n   	=> reset_n, 
 		rxiq		 	=> inst0_DIQ, 
 		rxiqsel	 	=> inst0_fsync, 
@@ -142,6 +220,17 @@ port map(
    
 	
   
+=======
+      reset_n   	=> reset_n,
+		rxiq		 	=> inst0_DIQ,
+		rxiqsel	 	=> inst0_fsync,
+		data_out_h	=> dut1_diq_out_h,
+		data_out_l	=> dut1_diq_out_l
+        );
+
+
+
+>>>>>>> Revert "enlever le chain de argu"
 smpl_cmp_dut2 : entity work.smpl_cmp
    generic map(
       smpl_width   =>  12
@@ -169,6 +258,7 @@ smpl_cmp_dut2 : entity work.smpl_cmp
       cmp_error_cnt  => open,
       --DIQ bus
       diq_h          => dut1_diq_out_h,
+<<<<<<< refs/remotes/upstream/main
       diq_l          => dut1_diq_out_l          
         );
 	
@@ -178,3 +268,9 @@ smpl_cmp_dut2 : entity work.smpl_cmp
 
 
   
+=======
+      diq_l          => dut1_diq_out_l
+        );
+
+	end tb_behave;
+>>>>>>> Revert "enlever le chain de argu"

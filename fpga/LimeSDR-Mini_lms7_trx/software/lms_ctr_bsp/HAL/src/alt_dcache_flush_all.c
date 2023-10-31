@@ -32,7 +32,11 @@
 #include "system.h"
 
 #include "alt_types.h"
+<<<<<<< refs/remotes/upstream/main
 #include "sys/alt_cache.h" 
+=======
+#include "sys/alt_cache.h"
+>>>>>>> Revert "enlever le chain de argu"
 
 /*
  * alt_dcache_flush_all() is called to flush the entire data cache.
@@ -42,9 +46,15 @@ void alt_dcache_flush_all (void)
 {
 #if NIOS2_DCACHE_SIZE > 0
   char* i;
+<<<<<<< refs/remotes/upstream/main
   
   for (i = (char*) 0; i < (char*) NIOS2_DCACHE_SIZE; i+= NIOS2_DCACHE_LINE_SIZE)
   { 
+=======
+
+  for (i = (char*) 0; i < (char*) NIOS2_DCACHE_SIZE; i+= NIOS2_DCACHE_LINE_SIZE)
+  {
+>>>>>>> Revert "enlever le chain de argu"
     __asm__ volatile ("flushd (%0)" :: "r" (i));
   }
 #endif /* NIOS2_DCACHE_SIZE > 0 */

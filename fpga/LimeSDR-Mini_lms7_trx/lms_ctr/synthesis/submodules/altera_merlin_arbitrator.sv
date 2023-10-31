@@ -1,4 +1,5 @@
 // (C) 2001-2018 Intel Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 // Your use of Intel Corporation's design tools, logic functions and other 
 // software and tools, and its AMPP partner logic functions, and any output 
 // files from any of the foregoing (including device programming or simulation 
@@ -8,10 +9,22 @@
 // license agreement, including, without limitation, that your use is for the 
 // sole purpose of programming logic devices manufactured by Intel and sold by 
 // Intel or its authorized distributors.  Please refer to the applicable 
+=======
+// Your use of Intel Corporation's design tools, logic functions and other
+// software and tools, and its AMPP partner logic functions, and any output
+// files from any of the foregoing (including device programming or simulation
+// files), and any associated documentation or information are expressly subject
+// to the terms and conditions of the Intel Program License Subscription
+// Agreement, Intel FPGA IP License Agreement, or other applicable
+// license agreement, including, without limitation, that your use is for the
+// sole purpose of programming logic devices manufactured by Intel and sold by
+// Intel or its authorized distributors.  Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 // agreement for further details.
 
 
 // (C) 2001-2010 Altera Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 // Your use of Altera Corporation's design tools, logic functions and other 
 // software and tools, and its AMPP partner logic functions, and any output 
 // files any of the foregoing (including device programming or simulation 
@@ -21,6 +34,17 @@
 // license agreement, including, without limitation, that your use is for the 
 // sole purpose of programming logic devices manufactured by Altera and sold by 
 // Altera or its authorized distributors.  Please refer to the applicable 
+=======
+// Your use of Altera Corporation's design tools, logic functions and other
+// software and tools, and its AMPP partner logic functions, and any output
+// files any of the foregoing (including device programming or simulation
+// files), and any associated documentation or information are expressly subject
+// to the terms and conditions of the Altera Program License Subscription
+// Agreement, Altera MegaCore Function License Agreement, or other applicable
+// license agreement, including, without limitation, that your use is for the
+// sole purpose of programming logic devices manufactured by Altera and sold by
+// Altera or its authorized distributors.  Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 // agreement for further details.
 
 
@@ -37,7 +61,11 @@ Q: how do you find the least-significant set-bit in an n-bit binary number, X?
 A: M = X & (~X + 1)
 
 Example: X = 101000100
+<<<<<<< refs/remotes/upstream/main
  101000100 & 
+=======
+ 101000100 &
+>>>>>>> Revert "enlever le chain de argu"
  010111011 + 1 =
 
  101000100 &
@@ -66,17 +94,30 @@ request                 = 001001
 ~request + top_priority = 000110
 next_grant              = 000000 <- no one is granted!
 
+<<<<<<< refs/remotes/upstream/main
 There was no "set bit at a bit index no lower than bit-index 4", so 
+=======
+There was no "set bit at a bit index no lower than bit-index 4", so
+>>>>>>> Revert "enlever le chain de argu"
 the result was 0.
 
 We need to propagate the carry out from (~request + top_priority) to the LSB, so
 that the sum becomes 000111, and next_grant is 000001.  This operation could be
+<<<<<<< refs/remotes/upstream/main
 called a "circular add". 
 
 A bit of experimentation on the circular add reveals a significant amount of 
 delay in exiting and re-entering the carry chain - this will vary with device
 family.  Quartus also reports a combinational loop warning.  Finally, 
 Modelsim 6.3g has trouble with the expression, evaluating it to 'X'.  But 
+=======
+called a "circular add".
+
+A bit of experimentation on the circular add reveals a significant amount of
+delay in exiting and re-entering the carry chain - this will vary with device
+family.  Quartus also reports a combinational loop warning.  Finally,
+Modelsim 6.3g has trouble with the expression, evaluating it to 'X'.  But
+>>>>>>> Revert "enlever le chain de argu"
 Modelsim _doesn't_ report a combinational loop!)
 
 An alternate solution: concatenate the request vector with itself, and OR
@@ -96,7 +137,11 @@ In the implementation, the last-granted value must be maintained as
 a non-zero value - best probably simply not to update it when no requests
 occur.
 
+<<<<<<< refs/remotes/upstream/main
 ----------------------------------------------------------------------- */ 
+=======
+----------------------------------------------------------------------- */
+>>>>>>> Revert "enlever le chain de argu"
 
 `timescale 1 ns / 1 ns
 
@@ -115,12 +160,20 @@ module altera_merlin_arbitrator
 (
     input clk,
     input reset,
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     // --------------------------------------
     // Requests
     // --------------------------------------
     input [NUM_REQUESTERS-1:0]  request,
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     // --------------------------------------
     // Grants
     // --------------------------------------
@@ -160,7 +213,11 @@ module altera_merlin_arbitrator
     altera_merlin_arb_adder
     #(
         .WIDTH (2 * NUM_REQUESTERS)
+<<<<<<< refs/remotes/upstream/main
     ) 
+=======
+    )
+>>>>>>> Revert "enlever le chain de argu"
     adder
     (
         .a ({ ~request, ~request }),
@@ -168,7 +225,11 @@ module altera_merlin_arbitrator
         .sum (result)
     );
 
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     generate if (SCHEME == "no-arb") begin
 
         // --------------------------------------
@@ -214,7 +275,11 @@ module altera_merlin_arbitrator
                         top_priority_reg <= { top_priority_reg[NUM_REQUESTERS-2:0], top_priority_reg[NUM_REQUESTERS-1] };
                 end
                 else if (save_top_priority) begin
+<<<<<<< refs/remotes/upstream/main
                     top_priority_reg <= grant; 
+=======
+                    top_priority_reg <= grant;
+>>>>>>> Revert "enlever le chain de argu"
                 end
             end
         end
@@ -240,7 +305,11 @@ module altera_merlin_arb_adder
     // ----------------------------------------------
     // Benchmarks indicate that for small widths, the full
     // adder has higher fmax because synthesis can merge
+<<<<<<< refs/remotes/upstream/main
     // it with the mux, allowing partial decisions to be 
+=======
+    // it with the mux, allowing partial decisions to be
+>>>>>>> Revert "enlever le chain de argu"
     // made early.
     //
     // The magic number is 4 requesters, which means an

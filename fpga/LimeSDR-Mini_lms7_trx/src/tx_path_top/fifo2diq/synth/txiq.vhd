@@ -1,3 +1,4 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
 -- FILE: 	txiq.vhd
 -- DESCRIPTION:	TXIQ modes: 
@@ -5,6 +6,15 @@
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+-- FILE: 	txiq.vhd
+-- DESCRIPTION:	TXIQ modes:
+-- DATE:	Jan 20, 2017
+-- AUTHOR(s):	Lime Microsystems
+-- REVISIONS:
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -13,7 +23,11 @@ use ieee.numeric_std.all;
 -- Entity declaration
 -- ----------------------------------------------------------------------------
 entity txiq is
+<<<<<<< refs/remotes/upstream/main
    generic( 
+=======
+   generic(
+>>>>>>> Revert "enlever le chain de argu"
       dev_family	: string := "Cyclone IV E";
       iq_width		: integer := 12
    );
@@ -25,18 +39,31 @@ entity txiq is
       trxiqpulse	: in std_logic; -- trxiqpulse on: 1; trxiqpulse off: 0
 		ddr_en 		: in std_logic; -- DDR: 1; SDR: 0
 		mimo_en		: in std_logic; -- SISO: 1; MIMO: 0
+<<<<<<< refs/remotes/upstream/main
 		ch_en			: in std_logic_vector(1 downto 0); --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B.  
 		fidm			: in std_logic; -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
       --Tx interface data 
       DIQ_h		 	: out std_logic_vector(iq_width downto 0);
 		DIQ_l	 	   : out std_logic_vector(iq_width downto 0);
       --fifo ports 
+=======
+		ch_en			: in std_logic_vector(1 downto 0); --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B.
+		fidm			: in std_logic; -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
+      --Tx interface data
+      DIQ_h		 	: out std_logic_vector(iq_width downto 0);
+		DIQ_l	 	   : out std_logic_vector(iq_width downto 0);
+      --fifo ports
+>>>>>>> Revert "enlever le chain de argu"
       fifo_rdempty: in std_logic;
       fifo_rdreq  : out std_logic;
       fifo_q      : in std_logic_vector(iq_width*4-1 downto 0);
       --TX activity indication
       txant_en    : out std_logic
+<<<<<<< refs/remotes/upstream/main
       
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
         );
 end txiq;
 
@@ -99,7 +126,11 @@ signal zero_valid          : std_logic;
 
 type state_type is (idle, rd_samples, zero_samples, wait_rd_cycles);
 signal current_state, next_state : state_type;
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 -- ----------------------------------------------------------------------------
 -- DIQ samples from fifo
@@ -114,6 +145,7 @@ diq_smpl_0 <= fifo_q(1*iq_width-1 downto 0*iq_width);
 -- "00" - MIMO DDR both channels enabled, SISO DDR, TXIQ_PULSE
 -- "01" - MIMO DDR, TXIQ_PULSE first channel enabled
 -- "10" - MIMO DDR, TXIQ_PULSE second channel enabled
+<<<<<<< refs/remotes/upstream/main
 -- "11" - SISO SDR 
 -- ----------------------------------------------------------------------------
  int_mode <= "00" when (mimo_en='0' AND ddr_en='1') OR ((mimo_en='1' OR trxiqpulse ='1') AND ch_en="11") else 
@@ -141,11 +173,41 @@ int_fsync_H <= (not mux_fsync_H(3) & not mux_fsync_H(2) & not mux_fsync_H(1) & n
 --Muxes for diq  H positions
 -- ----------------------------------------------------------------------------            
 --mux_posx_H      : |3            |2          | 1         |0           
+=======
+-- "11" - SISO SDR
+-- ----------------------------------------------------------------------------
+ int_mode <= "00" when (mimo_en='0' AND ddr_en='1') OR ((mimo_en='1' OR trxiqpulse ='1') AND ch_en="11") else
+             "01" when ((mimo_en='1' OR trxiqpulse ='1') AND ch_en="01") else
+             "10" when ((mimo_en='1' OR trxiqpulse ='1') AND ch_en="10") else
+             "11";
+
+-- ----------------------------------------------------------------------------
+--Muxes for fsync signal
+-- ----------------------------------------------------------------------------
+mux_fsync_H <= "1111" when  (mimo_en ='0' AND ddr_en ='1' AND trxiqpulse='0') else
+               "0101";
+
+mux_fsync_L <= "0000" when  (mimo_en ='0' AND ddr_en = '1') OR trxiqpulse='1'  else
+               "0101";
+
+int_fsync_L <= (not mux_fsync_L(3) & not mux_fsync_L(2) & not mux_fsync_L(1) & not mux_fsync_L(0)) when fidm = '0' else
+               mux_fsync_L;
+
+int_fsync_H <= (not mux_fsync_H(3) & not mux_fsync_H(2) & not mux_fsync_H(1) & not mux_fsync_H(0)) when fidm = '0' else
+               mux_fsync_H;
+
+
+-- ----------------------------------------------------------------------------
+--Muxes for diq  H positions
+-- ----------------------------------------------------------------------------
+--mux_posx_H      : |3            |2          | 1         |0
+>>>>>>> Revert "enlever le chain de argu"
 --int_mode = "00" : |0            |0          |diq_smpl_2 |diq_smpl_0
 --int_mode = "01" : |0            |diq_smpl_2 |0          |diq_smpl_0
 --int_mode = "10" : |diq_smpl_2   |0          |diq_smpl_0 |0
 --int_mode = "11" : |diq_smpl_3   |diq_smpl_2 |diq_smpl_1 |diq_smpl_0
 
+<<<<<<< refs/remotes/upstream/main
 mux_pos0_H <=  (others=>'0') when int_mode = "10" else 
                diq_smpl_0;
                   
@@ -164,10 +226,31 @@ mux_pos3_H <=  (others=>'0')  when int_mode(1) = '0' else
 -- Muxes for diq  L positions
 -- ----------------------------------------------------------------------------
 --mux_posx_L      : |3            |2          | 1         |0           
+=======
+mux_pos0_H <=  (others=>'0') when int_mode = "10" else
+               diq_smpl_0;
+
+mux_pos1_H <=  diq_smpl_2     when int_mode = "00" else
+               (others=>'0')  when int_mode = "01" else
+               diq_smpl_0     when int_mode = "10" else
+               diq_smpl_1;
+
+mux_pos2_H <=  (others=>'0')  when int_mode(0) = '0' else
+               diq_smpl_2;
+
+mux_pos3_H <=  (others=>'0')  when int_mode(1) = '0' else
+               diq_smpl_2     when int_mode = "10" else
+               diq_smpl_3;
+-- ----------------------------------------------------------------------------
+-- Muxes for diq  L positions
+-- ----------------------------------------------------------------------------
+--mux_posx_L      : |3            |2          | 1         |0
+>>>>>>> Revert "enlever le chain de argu"
 --int_mode = "00" : |0            |0          |diq_smpl_3 |diq_smpl_1
 --int_mode = "01" : |0            |diq_smpl_3 |0          |diq_smpl_1
 --int_mode = "10" : |diq_smpl_3   |0          |diq_smpl_1 |0
 --int_mode = "11" : |diq_smpl_3   |diq_smpl_2 |diq_smpl_1 |diq_smpl_0
+<<<<<<< refs/remotes/upstream/main
  
 mux_pos0_L <=  diq_smpl_0     when int_mode = "11" else 
                (others=>'0')  when int_mode = "10" else 
@@ -193,6 +276,33 @@ rd_wait_cnt_max <=   "0000" when int_mode = "00" else
 rd_wait_cnt_proc: process(clk, reset_n) 
 begin 
    if reset_n ='0' then 
+=======
+
+mux_pos0_L <=  diq_smpl_0     when int_mode = "11" else
+               (others=>'0')  when int_mode = "10" else
+               diq_smpl_1;
+
+mux_pos1_L <=  diq_smpl_3     when int_mode = "00" else
+               (others=>'0')  when int_mode = "01" else
+               diq_smpl_1;
+
+mux_pos2_L <=  (others=>'0')  when int_mode(0) = '0' else
+               diq_smpl_3     when int_mode = "01" else
+               diq_smpl_2;
+
+mux_pos3_L <=  (others=>'0')  when int_mode(1) = '0' else
+               diq_smpl_3;
+
+
+
+rd_wait_cnt_max <=   "0000" when int_mode = "00" else
+                     "0010" when int_mode = "11" else
+                     "0010" ;
+
+rd_wait_cnt_proc: process(clk, reset_n)
+begin
+   if reset_n ='0' then
+>>>>>>> Revert "enlever le chain de argu"
       rd_wait_cnt <= (others=>'0');
       rd_wait_cnt_max_reg <= (others=>'0');
    elsif (clk'event AND clk='1') then
@@ -204,14 +314,22 @@ begin
       end if;
    end if;
 end process;
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 --state machine to control when to read from FIFO
 -- ----------------------------------------------------------------------------
 fsm_f : process(clk, reset_n)begin
    if(reset_n = '0')then
       current_state <= idle;
+<<<<<<< refs/remotes/upstream/main
    elsif(clk'event and clk = '1')then 
+=======
+   elsif(clk'event and clk = '1')then
+>>>>>>> Revert "enlever le chain de argu"
       current_state <= next_state;
    end if;
 end process;
@@ -222,6 +340,7 @@ end process;
 fsm : process(current_state, fifo_rdempty, rd_wait_cnt, rd_wait_cnt_max_reg, en) begin
    next_state <= current_state;
    case current_state is
+<<<<<<< refs/remotes/upstream/main
    
       when idle => --idle state
          if en = '1' then
@@ -254,6 +373,40 @@ fsm : process(current_state, fifo_rdempty, rd_wait_cnt, rd_wait_cnt_max_reg, en)
          next_state <= wait_rd_cycles;
                   
       when others => 
+=======
+
+      when idle => --idle state
+         if en = '1' then
+            if fifo_rdempty = '0' then
+               next_state <= rd_samples;
+            else
+               next_state <= zero_samples;
+            end if;
+         else
+            next_state <= idle;
+         end if;
+
+      when rd_samples =>
+         next_state <= wait_rd_cycles;
+
+      when wait_rd_cycles =>
+         if rd_wait_cnt = rd_wait_cnt_max_reg then
+            if fifo_rdempty = '0' AND en = '1' then
+               next_state <= rd_samples;
+            elsif fifo_rdempty = '1' AND en = '1' then
+               next_state <= zero_samples;
+            else
+               next_state <= idle;
+            end if;
+         else
+            next_state <= wait_rd_cycles;
+         end if;
+
+      when zero_samples =>
+         next_state <= wait_rd_cycles;
+
+      when others =>
+>>>>>>> Revert "enlever le chain de argu"
          next_state<=idle;
    end case;
 end process;
@@ -263,9 +416,15 @@ end process;
 -- ----------------------------------------------------------------------------
 process(current_state)
 begin
+<<<<<<< refs/remotes/upstream/main
    if current_state = rd_samples then 
       int_fifo_rdreq <= '1';
    else 
+=======
+   if current_state = rd_samples then
+      int_fifo_rdreq <= '1';
+   else
+>>>>>>> Revert "enlever le chain de argu"
       int_fifo_rdreq <= '0';
    end if;
 end process;
@@ -283,14 +442,24 @@ process(clk, reset_n)
       zero_valid        <= '0';
    elsif (clk'event AND clk = '1') then
       int_fifo_q_valid <= int_fifo_rdreq;
+<<<<<<< refs/remotes/upstream/main
       if current_state = zero_samples then 
          zero_valid <= '1';
       else 
+=======
+      if current_state = zero_samples then
+         zero_valid <= '1';
+      else
+>>>>>>> Revert "enlever le chain de argu"
          zero_valid <= '0';
       end if;
    end if;
  end process;
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 -- TX activity indication
 -- ----------------------------------------------------------------------------
@@ -299,17 +468,30 @@ process(clk, reset_n)
    if reset_n = '0' then
       txant_en  <= '0';
    elsif (clk'event AND clk = '1') then
+<<<<<<< refs/remotes/upstream/main
       if current_state = idle then 
          txant_en <= '0';
       else 
+=======
+      if current_state = idle then
+         txant_en <= '0';
+      else
+>>>>>>> Revert "enlever le chain de argu"
          txant_en <= '1';
       end if;
    end if;
  end process;
+<<<<<<< refs/remotes/upstream/main
  
  
 -- ----------------------------------------------------------------------------
 -- Shift reg array with synchronous load 
+=======
+
+
+-- ----------------------------------------------------------------------------
+-- Shift reg array with synchronous load
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 diq_L_reg_x_proc : process(reset_n, clk)
    begin
@@ -319,27 +501,48 @@ diq_L_reg_x_proc : process(reset_n, clk)
          diq_L_reg_2 <= (others=>'0');
          diq_L_reg_3 <= (others=>'0');
       elsif (clk'event and clk = '1') then
+<<<<<<< refs/remotes/upstream/main
          if int_fifo_q_valid ='1' then 
+=======
+         if int_fifo_q_valid ='1' then
+>>>>>>> Revert "enlever le chain de argu"
             diq_L_reg_0 <= int_fsync_L(0) & mux_pos0_L;
             diq_L_reg_1 <= int_fsync_L(1) & mux_pos1_L;
             diq_L_reg_2 <= int_fsync_L(2) & mux_pos2_L;
             diq_L_reg_3 <= int_fsync_L(3) & mux_pos3_L;
+<<<<<<< refs/remotes/upstream/main
          elsif zero_valid = '1' then 
+=======
+         elsif zero_valid = '1' then
+>>>>>>> Revert "enlever le chain de argu"
             diq_L_reg_0 <= int_fsync_L(0) & (iq_width-1 downto 0  =>'0');
             diq_L_reg_1 <= int_fsync_L(1) & (iq_width-1 downto 0  =>'0');
             diq_L_reg_2 <= int_fsync_L(2) & (iq_width-1 downto 0  =>'0');
             diq_L_reg_3 <= int_fsync_L(3) & (iq_width-1 downto 0  =>'0');
+<<<<<<< refs/remotes/upstream/main
          else 
+=======
+         else
+>>>>>>> Revert "enlever le chain de argu"
             diq_L_reg_0 <= diq_L_reg_1;
             diq_L_reg_1 <= diq_L_reg_2;
             diq_L_reg_2 <= diq_L_reg_3;
             diq_L_reg_3 <= (others=>'0');
+<<<<<<< refs/remotes/upstream/main
          end if; 
       end if;
 end process;
      
 -- ----------------------------------------------------------------------------
 -- Shift reg array with synchronous load 
+=======
+         end if;
+      end if;
+end process;
+
+-- ----------------------------------------------------------------------------
+-- Shift reg array with synchronous load
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 diq_H_reg_x_proc : process(reset_n, clk)
    begin
@@ -349,7 +552,11 @@ diq_H_reg_x_proc : process(reset_n, clk)
          diq_H_reg_2 <= (others=>'0');
          diq_H_reg_3 <= (others=>'0');
       elsif (clk'event and clk = '1') then
+<<<<<<< refs/remotes/upstream/main
          if int_fifo_q_valid ='1' then 
+=======
+         if int_fifo_q_valid ='1' then
+>>>>>>> Revert "enlever le chain de argu"
             diq_H_reg_0 <= int_fsync_H(0) & mux_pos0_H;
             diq_H_reg_1 <= int_fsync_H(1) & mux_pos1_H;
             diq_H_reg_2 <= int_fsync_H(2) & mux_pos2_H;
@@ -358,12 +565,18 @@ diq_H_reg_x_proc : process(reset_n, clk)
             diq_H_reg_0 <= int_fsync_H(0) & (iq_width-1 downto 0  =>'0');
             diq_H_reg_1 <= int_fsync_H(1) & (iq_width-1 downto 0  =>'0');
             diq_H_reg_2 <= int_fsync_H(2) & (iq_width-1 downto 0  =>'0');
+<<<<<<< refs/remotes/upstream/main
             diq_H_reg_3 <= int_fsync_H(3) & (iq_width-1 downto 0  =>'0');           
          else 
+=======
+            diq_H_reg_3 <= int_fsync_H(3) & (iq_width-1 downto 0  =>'0');
+         else
+>>>>>>> Revert "enlever le chain de argu"
             diq_H_reg_0 <= diq_H_reg_1;
             diq_H_reg_1 <= diq_H_reg_2;
             diq_H_reg_2 <= diq_H_reg_3;
             diq_H_reg_3 <= (others=>'0');
+<<<<<<< refs/remotes/upstream/main
          end if; 
       end if;
 end process;
@@ -375,3 +588,14 @@ DIQ_h <= diq_H_reg_0;
 end arch;   
 
 
+=======
+         end if;
+      end if;
+end process;
+
+--To output ports
+DIQ_l <= diq_L_reg_0;
+DIQ_h <= diq_H_reg_0;
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

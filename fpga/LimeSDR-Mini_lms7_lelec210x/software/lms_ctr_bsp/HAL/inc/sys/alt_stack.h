@@ -63,7 +63,11 @@ static ALT_INLINE char * ALT_ALWAYS_INLINE alt_stack_limit (void)
   char * limit;
   NIOS2_READ_ET(limit);
 
+<<<<<<< refs/remotes/upstream/main
   return limit; 
+=======
+  return limit;
+>>>>>>> Revert "enlever le chain de argu"
 }
 
 /*
@@ -76,7 +80,11 @@ static ALT_INLINE char * ALT_ALWAYS_INLINE alt_stack_pointer (void)
   char * pointer;
   NIOS2_READ_SP(pointer);
 
+<<<<<<< refs/remotes/upstream/main
   return pointer; 
+=======
+  return pointer;
+>>>>>>> Revert "enlever le chain de argu"
 }
 
 
@@ -123,4 +131,7 @@ static ALT_INLINE void ALT_ALWAYS_INLINE alt_report_stack_overflow (void)
 #endif /* __cplusplus */
 
 #endif /* __ALT_STACK_H__ */
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

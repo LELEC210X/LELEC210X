@@ -64,7 +64,11 @@ entity rxtx_pll is
       pll_locked        : out std_logic;
       --Bypass control
       clk_ena           : in std_logic_vector(3 downto 0); --clock output enable
+<<<<<<< refs/remotes/upstream/main
       drct_clk_en       : in std_logic_vector(3 downto 0); --1- Direct clk, 0 - PLL clocks 
+=======
+      drct_clk_en       : in std_logic_vector(3 downto 0); --1- Direct clk, 0 - PLL clocks
+>>>>>>> Revert "enlever le chain de argu"
       --Reconfiguration ports
       rcnfg_clk         : in std_logic;
       rcnfig_areset     : in std_logic;
@@ -78,7 +82,11 @@ entity rxtx_pll is
       dynps_tst         : in std_logic;
       dynps_dir         : in std_logic;
       dynps_cnt_sel     : in std_logic_vector(2 downto 0);
+<<<<<<< refs/remotes/upstream/main
       -- max phase steps in auto mode, phase steps to shift in manual mode 
+=======
+      -- max phase steps in auto mode, phase steps to shift in manual mode
+>>>>>>> Revert "enlever le chain de argu"
       dynps_phase       : in std_logic_vector(9 downto 0);
       dynps_step_size   : in std_logic_vector(9 downto 0);
       dynps_busy        : out std_logic;
@@ -105,7 +113,11 @@ signal c0_global                 : std_logic;
 signal c1_global                 : std_logic;
 signal c2_global                 : std_logic;
 signal c3_global                 : std_logic;
+<<<<<<< refs/remotes/upstream/main
       
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 signal rcnfig_en_sync            : std_logic;
 signal rcnfig_data_sync          : std_logic_vector(143 downto 0);
 signal rcnfig_areset_sync        : std_logic;
@@ -120,11 +132,19 @@ signal rcnfig_en_sync_scanclk    : std_logic;
 signal dynps_mode_sync           : std_logic;
 signal dynps_tst_sync            : std_logic;
 
+<<<<<<< refs/remotes/upstream/main
 signal smpl_cmp_done_sync        : std_logic; 
 signal smpl_cmp_error_sync       : std_logic;
 
       
 --inst0     
+=======
+signal smpl_cmp_done_sync        : std_logic;
+signal smpl_cmp_error_sync       : std_logic;
+
+
+--inst0
+>>>>>>> Revert "enlever le chain de argu"
 signal inst0_wr_rom              : std_logic;
 signal inst0_reconfig            : std_logic;
 signal inst0_config_data         : std_logic;
@@ -145,7 +165,11 @@ signal inst2_ps_busy             : std_logic;
 signal inst2_ps_done             : std_logic;
 signal inst2_pll_reset_req       : std_logic;
 signal inst2_pll_phasecounterselect : std_logic_vector(2 downto 0);
+<<<<<<< refs/remotes/upstream/main
 signal inst2_pll_phaseupdown        : std_logic; 
+=======
+signal inst2_pll_phaseupdown        : std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 
 --inst3
 signal inst3_inclk               : std_logic_vector(1 downto 0);
@@ -276,12 +300,17 @@ PORT (
       locked               : OUT STD_LOGIC ;
       phasedone            : OUT STD_LOGIC ;
       scandataout          : OUT STD_LOGIC ;
+<<<<<<< refs/remotes/upstream/main
       scandone             : OUT STD_LOGIC 
+=======
+      scandone             : OUT STD_LOGIC
+>>>>>>> Revert "enlever le chain de argu"
 );
 END COMPONENT;
 
 
 begin
+<<<<<<< refs/remotes/upstream/main
    
 pll_areset_n   <= not pll_areset;
    
@@ -337,6 +366,63 @@ pll_areset_n   <= not pll_areset;
  generic map (10) 
  port map(inst1_pll_scanclk, pll_logic_reset_n, dynps_step_size, dynps_step_size_sync);
  
+=======
+
+pll_areset_n   <= not pll_areset;
+
+----------------------------------------------------------------------------
+-- Synchronization registers
+----------------------------------------------------------------------------
+ sync_reg0 : entity work.sync_reg
+ port map(rcnfg_clk, pll_logic_reset_n, rcnfig_en, rcnfig_en_sync);
+
+ sync_reg1 : entity work.sync_reg
+ port map(inst1_pll_scanclk, pll_logic_reset_n, dynps_en, dynps_en_sync);
+
+ sync_reg2 : entity work.sync_reg
+ port map(inst1_pll_scanclk, pll_logic_reset_n, dynps_dir, dynps_dir_sync);
+
+ sync_reg3 : entity work.sync_reg
+ port map(inst1_pll_scanclk, pll_logic_reset_n, rcnfig_en, rcnfig_en_sync_scanclk);
+
+ sync_reg4 : entity work.sync_reg
+ port map(inst1_pll_scanclk, pll_logic_reset_n, dynps_mode, dynps_mode_sync);
+
+ sync_reg5 : entity work.sync_reg
+ port map(inst1_pll_scanclk, pll_logic_reset_n, smpl_cmp_done, smpl_cmp_done_sync);
+
+ sync_reg6 : entity work.sync_reg
+ port map(inst1_pll_scanclk, pll_logic_reset_n, smpl_cmp_error, smpl_cmp_error_sync);
+
+ sync_reg7 : entity work.sync_reg
+ port map(inst1_pll_scanclk, pll_logic_reset_n, dynps_areset_n, dynps_areset_n_sync);
+
+ sync_reg8 : entity work.sync_reg
+ port map(rcnfg_clk, pll_logic_reset_n, rcnfig_areset, rcnfig_areset_sync);
+
+ sync_reg9 : entity work.sync_reg
+ port map(inst1_pll_scanclk, pll_logic_reset_n, dynps_tst, dynps_tst_sync);
+
+ sync_reg10 : entity work.sync_reg
+ port map(inst1_pll_scanclk, pll_logic_reset_n, inst3_locked, inst3_locked_scanclk);
+
+ bus_sync_reg0 : entity work.bus_sync_reg
+ generic map (144)
+ port map(rcnfg_clk, pll_logic_reset_n, rcnfig_data, rcnfig_data_sync);
+
+ bus_sync_reg1 : entity work.bus_sync_reg
+ generic map (3)
+ port map(inst1_pll_scanclk, pll_logic_reset_n, dynps_cnt_sel, dynps_cnt_sel_sync);
+
+ bus_sync_reg2 : entity work.bus_sync_reg
+ generic map (10)
+ port map(inst1_pll_scanclk, pll_logic_reset_n, dynps_phase, dynps_phase_sync);
+
+ bus_sync_reg3 : entity work.bus_sync_reg
+ generic map (10)
+ port map(inst1_pll_scanclk, pll_logic_reset_n, dynps_step_size, dynps_step_size_sync);
+
+>>>>>>> Revert "enlever le chain de argu"
 ----------------------------------------------------------------------------
 -- pll_reconfig_module controller instance
 ----------------------------------------------------------------------------
@@ -354,12 +440,20 @@ port map(
       reconfig    => inst0_reconfig,
       config_data => inst0_config_data
 );
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 ----------------------------------------------------------------------------
 -- pll_reconfig_module instance
 ----------------------------------------------------------------------------
 inst1_pll_areset_in <= pll_areset OR inst2_pll_reset_req;
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 pll_reconfig_module_inst1 : ENTITY work.pll_reconfig_module
    PORT MAP
 (
@@ -387,11 +481,19 @@ pll_reconfig_module_inst1 : ENTITY work.pll_reconfig_module
       rom_address_out      => inst1_rom_address_out,
       write_rom_ena        => inst1_write_rom_ena
 );
+<<<<<<< refs/remotes/upstream/main
       
 ----------------------------------------------------------------------------
 -- Dynamic phase shift controller instance
 ---------------------------------------------------------------------------- 
   
+=======
+
+----------------------------------------------------------------------------
+-- Dynamic phase shift controller instance
+----------------------------------------------------------------------------
+
+>>>>>>> Revert "enlever le chain de argu"
 pll_ps_top_inst2 : entity work.pll_ps_top
    port map(
 
@@ -410,9 +512,15 @@ pll_ps_top_inst2 : entity work.pll_ps_top
       ps_status               => inst2_ps_status,
       --pll ports
       pll_phasecounterselect  => inst2_pll_phasecounterselect,
+<<<<<<< refs/remotes/upstream/main
       pll_phaseupdown         => inst2_pll_phaseupdown, 
       pll_phasestep           => inst2_pll_phasestep,        
       pll_phasedone           => inst3_phasedone,      
+=======
+      pll_phaseupdown         => inst2_pll_phaseupdown,
+      pll_phasestep           => inst2_pll_phasestep,
+      pll_phasedone           => inst3_phasedone,
+>>>>>>> Revert "enlever le chain de argu"
       pll_locked              => inst3_locked_scanclk,
       pll_reconfig            => rcnfig_en_sync_scanclk,
       pll_reset_req           => inst2_pll_reset_req,
@@ -420,6 +528,7 @@ pll_ps_top_inst2 : entity work.pll_ps_top
       smpl_cmp_en             => smpl_cmp_en,
       smpl_cmp_done           => smpl_cmp_done_sync,
       smpl_cmp_error          => smpl_cmp_error_sync
+<<<<<<< refs/remotes/upstream/main
             
       ); 
        
@@ -427,13 +536,26 @@ pll_ps_top_inst2 : entity work.pll_ps_top
 ----------------------------------------------------------------------------
 -- PLL instance
 ----------------------------------------------------------------------------      
+=======
+
+      );
+
+   inst3_inclk <= '0' & inclk2;
+----------------------------------------------------------------------------
+-- PLL instance
+----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 altpll_inst3 : altpll
 GENERIC MAP (
       bandwidth_type             => bandwidth_type,
       clk0_divide_by             => clk0_divide_by,
       clk0_duty_cycle            => clk0_duty_cycle,
       clk0_multiply_by           => clk0_multiply_by,
+<<<<<<< refs/remotes/upstream/main
       clk0_phase_shift           => clk0_phase_shift,   
+=======
+      clk0_phase_shift           => clk0_phase_shift,
+>>>>>>> Revert "enlever le chain de argu"
       clk1_divide_by             => clk1_divide_by,
       clk1_duty_cycle            => clk1_duty_cycle,
       clk1_multiply_by           => clk1_multiply_by,
@@ -508,8 +630,13 @@ PORT MAP (
       scandataout          => inst3_scandataout,
       scandone             => inst3_scandone
 );
+<<<<<<< refs/remotes/upstream/main
    
    
+=======
+
+
+>>>>>>> Revert "enlever le chain de argu"
 pll_reconfig_status_inst4 : entity work.pll_reconfig_status
    port map(
       clk               => inst1_pll_scanclk,
@@ -520,6 +647,7 @@ pll_reconfig_status_inst4 : entity work.pll_reconfig_status
       ps_en             => dynps_en_sync,
       ps_status         => inst2_ps_status,
       rcfig_complete    => inst4_rcfig_complete
+<<<<<<< refs/remotes/upstream/main
       
       );   
 
@@ -531,6 +659,19 @@ for i in 0 to drct_c0_ndly-1 generate
    --first lcell instance
    first : if i = 0 generate 
    lcell0 : lcell 
+=======
+
+      );
+
+-- ----------------------------------------------------------------------------
+-- c0 direct output lcell delay chain
+-- ----------------------------------------------------------------------------
+c0_dly_instx_gen :
+for i in 0 to drct_c0_ndly-1 generate
+   --first lcell instance
+   first : if i = 0 generate
+   lcell0 : lcell
+>>>>>>> Revert "enlever le chain de argu"
       port map (
          a_in  => pll_inclk_global,
          a_out => drct_c0_dly_chain(i)
@@ -538,7 +679,11 @@ for i in 0 to drct_c0_ndly-1 generate
    end generate first;
    --rest of the lcell instance
    rest : if i > 0 generate
+<<<<<<< refs/remotes/upstream/main
    lcellx : lcell 
+=======
+   lcellx : lcell
+>>>>>>> Revert "enlever le chain de argu"
       port map (
          a_in  => drct_c0_dly_chain(i-1),
          a_out => drct_c0_dly_chain(i)
@@ -548,6 +693,7 @@ end generate c0_dly_instx_gen;
 
 
 -- ----------------------------------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
 -- c1 direct output lcell delay chain 
 -- ----------------------------------------------------------------------------   
 c1_dly_instx_gen : 
@@ -555,6 +701,15 @@ for i in 0 to drct_c1_ndly-1 generate
    --first lcell instance
    first : if i = 0 generate 
    lcell0 : lcell 
+=======
+-- c1 direct output lcell delay chain
+-- ----------------------------------------------------------------------------
+c1_dly_instx_gen :
+for i in 0 to drct_c1_ndly-1 generate
+   --first lcell instance
+   first : if i = 0 generate
+   lcell0 : lcell
+>>>>>>> Revert "enlever le chain de argu"
       port map (
          a_in  => pll_inclk_global,
          a_out => drct_c1_dly_chain(i)
@@ -562,7 +717,11 @@ for i in 0 to drct_c1_ndly-1 generate
    end generate first;
    --rest of the lcell instance
    rest : if i > 0 generate
+<<<<<<< refs/remotes/upstream/main
    lcellx : lcell 
+=======
+   lcellx : lcell
+>>>>>>> Revert "enlever le chain de argu"
       port map (
          a_in  => drct_c1_dly_chain(i-1),
          a_out => drct_c1_dly_chain(i)
@@ -572,6 +731,7 @@ end generate c1_dly_instx_gen;
 
 
 -- ----------------------------------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
 -- c2 direct output lcell delay chain 
 -- ----------------------------------------------------------------------------   
 c2_dly_instx_gen : 
@@ -579,6 +739,15 @@ for i in 0 to drct_c2_ndly-1 generate
    --first lcell instance
    first : if i = 0 generate 
    lcell0 : lcell 
+=======
+-- c2 direct output lcell delay chain
+-- ----------------------------------------------------------------------------
+c2_dly_instx_gen :
+for i in 0 to drct_c2_ndly-1 generate
+   --first lcell instance
+   first : if i = 0 generate
+   lcell0 : lcell
+>>>>>>> Revert "enlever le chain de argu"
       port map (
          a_in  => pll_inclk_global,
          a_out => drct_c2_dly_chain(i)
@@ -586,7 +755,11 @@ for i in 0 to drct_c2_ndly-1 generate
    end generate first;
    --rest of the lcell instance
    rest : if i > 0 generate
+<<<<<<< refs/remotes/upstream/main
    lcellx : lcell 
+=======
+   lcellx : lcell
+>>>>>>> Revert "enlever le chain de argu"
       port map (
          a_in  => drct_c2_dly_chain(i-1),
          a_out => drct_c2_dly_chain(i)
@@ -596,6 +769,7 @@ end generate c2_dly_instx_gen;
 
 
 -- ----------------------------------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
 -- c3 direct output lcell delay chain 
 -- ----------------------------------------------------------------------------   
 c3_dly_instx_gen : 
@@ -603,6 +777,15 @@ for i in 0 to drct_c3_ndly-1 generate
    --first lcell instance
    first : if i = 0 generate 
    lcell0 : lcell 
+=======
+-- c3 direct output lcell delay chain
+-- ----------------------------------------------------------------------------
+c3_dly_instx_gen :
+for i in 0 to drct_c3_ndly-1 generate
+   --first lcell instance
+   first : if i = 0 generate
+   lcell0 : lcell
+>>>>>>> Revert "enlever le chain de argu"
       port map (
          a_in  => pll_inclk_global,
          a_out => drct_c3_dly_chain(i)
@@ -610,7 +793,11 @@ for i in 0 to drct_c3_ndly-1 generate
    end generate first;
    --rest of the lcell instance
    rest : if i > 0 generate
+<<<<<<< refs/remotes/upstream/main
    lcellx : lcell 
+=======
+   lcellx : lcell
+>>>>>>> Revert "enlever le chain de argu"
       port map (
          a_in  => drct_c3_dly_chain(i-1),
          a_out => drct_c3_dly_chain(i)
@@ -621,6 +808,7 @@ end generate c3_dly_instx_gen;
 -- ----------------------------------------------------------------------------
 -- c0 clk MUX
 -- ----------------------------------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
 c0_mux <=   inst3_clk(0) when drct_clk_en(0)='0' else 
             drct_c0_dly_chain(drct_c0_ndly-1);
 				
@@ -642,6 +830,29 @@ c2_mux <=   inst3_clk(2) when drct_clk_en(2)='0' else
 c3_mux <=   inst3_clk(3) when drct_clk_en(3)='0' else 
             drct_c3_dly_chain(drct_c3_ndly-1);
    
+=======
+c0_mux <=   inst3_clk(0) when drct_clk_en(0)='0' else
+            drct_c0_dly_chain(drct_c0_ndly-1);
+
+-- ----------------------------------------------------------------------------
+-- c1 clk MUX
+-- ----------------------------------------------------------------------------
+c1_mux <=   inst3_clk(1) when drct_clk_en(1)='0' else
+            drct_c1_dly_chain(drct_c1_ndly-1);
+
+-- ----------------------------------------------------------------------------
+-- c2 clk MUX
+-- ----------------------------------------------------------------------------
+c2_mux <=   inst3_clk(2) when drct_clk_en(2)='0' else
+            drct_c2_dly_chain(drct_c2_ndly-1);
+
+-- ----------------------------------------------------------------------------
+-- c3 clk MUX
+-- ----------------------------------------------------------------------------
+c3_mux <=   inst3_clk(3) when drct_clk_en(3)='0' else
+            drct_c3_dly_chain(drct_c3_ndly-1);
+
+>>>>>>> Revert "enlever le chain de argu"
 
 locked_mux <=  pll_areset_n when (drct_clk_en(0)='1' OR drct_clk_en(1)='1') else
                inst3_locked;
@@ -656,17 +867,26 @@ inst5_c0_pol_l(0) <= inv_c0;
 ddrox1_inst6 : ddrox1
    port map (
       outclock => c0_global,
+<<<<<<< refs/remotes/upstream/main
       din      => inst5_c0_pol_l & inst5_c0_pol_h, 		
       pad_out  => inst5_dataout                 
    );
    
    
+=======
+      din      => inst5_c0_pol_l & inst5_c0_pol_h,
+      pad_out  => inst5_dataout
+   );
+
+
+>>>>>>> Revert "enlever le chain de argu"
 inst6_c2_pol_h(0) <= not inv_c2;
 inst6_c2_pol_l(0) <= inv_c2;
 
 ddrox1_inst7 : ddrox1
    port map (
       outclock => c2_global,
+<<<<<<< refs/remotes/upstream/main
       din      => inst6_c2_pol_l & inst6_c2_pol_h, 		
       pad_out  => inst6_dataout                 
    );
@@ -675,34 +895,60 @@ ddrox1_inst7 : ddrox1
 -- Clock control buffers 
 -- ----------------------------------------------------------------------------
 clkctrl_inst7 : clkctrl 
+=======
+      din      => inst6_c2_pol_l & inst6_c2_pol_h,
+      pad_out  => inst6_dataout
+   );
+
+-- ----------------------------------------------------------------------------
+-- Clock control buffers
+-- ----------------------------------------------------------------------------
+clkctrl_inst7 : clkctrl
+>>>>>>> Revert "enlever le chain de argu"
 port map(
    inclk    => inclk2,
    ena      => '1',
    outclk   => pll_inclk_global
 );
 
+<<<<<<< refs/remotes/upstream/main
 clkctrl_inst8 : clkctrl 
+=======
+clkctrl_inst8 : clkctrl
+>>>>>>> Revert "enlever le chain de argu"
 port map(
    inclk    => c0_mux,
    ena      => clk_ena(0),
    outclk   => c0_global
 );
 
+<<<<<<< refs/remotes/upstream/main
 clkctrl_inst9 : clkctrl 
+=======
+clkctrl_inst9 : clkctrl
+>>>>>>> Revert "enlever le chain de argu"
 port map(
    inclk    => c1_mux,
    ena      => clk_ena(1),
    outclk   => c1_global
 );
 
+<<<<<<< refs/remotes/upstream/main
 clkctrl_inst10 : clkctrl 
+=======
+clkctrl_inst10 : clkctrl
+>>>>>>> Revert "enlever le chain de argu"
 port map(
    inclk    => c2_mux,
    ena      => clk_ena(2),
    outclk   => c2_global
 );
 
+<<<<<<< refs/remotes/upstream/main
 clkctrl_inst11 : clkctrl 
+=======
+clkctrl_inst11 : clkctrl
+>>>>>>> Revert "enlever le chain de argu"
 port map(
    inclk    => c3_mux,
    ena      => clk_ena(3),
@@ -721,6 +967,7 @@ rcnfig_status  <= inst4_rcfig_complete;
 dynps_done     <= inst2_ps_done;
 dynps_status   <= inst2_ps_status;
 busy           <= inst1_busy OR inst2_ps_status;
+<<<<<<< refs/remotes/upstream/main
   
 end arch;   
 
@@ -728,3 +975,7 @@ end arch;
 
 
 
+=======
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

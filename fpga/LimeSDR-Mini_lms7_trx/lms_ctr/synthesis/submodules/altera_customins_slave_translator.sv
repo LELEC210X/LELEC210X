@@ -1,4 +1,5 @@
 // (C) 2001-2018 Intel Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 // Your use of Intel Corporation's design tools, logic functions and other 
 // software and tools, and its AMPP partner logic functions, and any output 
 // files from any of the foregoing (including device programming or simulation 
@@ -8,6 +9,17 @@
 // license agreement, including, without limitation, that your use is for the 
 // sole purpose of programming logic devices manufactured by Intel and sold by 
 // Intel or its authorized distributors.  Please refer to the applicable 
+=======
+// Your use of Intel Corporation's design tools, logic functions and other
+// software and tools, and its AMPP partner logic functions, and any output
+// files from any of the foregoing (including device programming or simulation
+// files), and any associated documentation or information are expressly subject
+// to the terms and conditions of the Intel Program License Subscription
+// Agreement, Intel FPGA IP License Agreement, or other applicable
+// license agreement, including, without limitation, that your use is for the
+// sole purpose of programming logic devices manufactured by Intel and sold by
+// Intel or its authorized distributors.  Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 // agreement for further details.
 
 
@@ -30,6 +42,7 @@ module altera_customins_slave_translator
     // --------------------------------------
     // Slave
     // --------------------------------------
+<<<<<<< refs/remotes/upstream/main
     input  wire [31:0] ci_slave_dataa,   
     input  wire [31:0] ci_slave_datab,   
     output wire [31:0] ci_slave_result,  
@@ -39,6 +52,17 @@ module altera_customins_slave_translator
     input  wire        ci_slave_writerc, 
     input  wire [4:0]  ci_slave_a,       
     input  wire [4:0]  ci_slave_b,       
+=======
+    input  wire [31:0] ci_slave_dataa,
+    input  wire [31:0] ci_slave_datab,
+    output wire [31:0] ci_slave_result,
+    input  wire [7:0]  ci_slave_n,
+    input  wire        ci_slave_readra,
+    input  wire        ci_slave_readrb,
+    input  wire        ci_slave_writerc,
+    input  wire [4:0]  ci_slave_a,
+    input  wire [4:0]  ci_slave_b,
+>>>>>>> Revert "enlever le chain de argu"
     input  wire [4:0]  ci_slave_c,
     input  wire [31:0] ci_slave_ipending,
     input  wire        ci_slave_estatus,
@@ -53,6 +77,7 @@ module altera_customins_slave_translator
     // --------------------------------------
     // Master
     // --------------------------------------
+<<<<<<< refs/remotes/upstream/main
     output wire [31:0] ci_master_dataa, 
     output wire [31:0] ci_master_datab, 
     input  wire [31:0] ci_master_result,
@@ -62,6 +87,17 @@ module altera_customins_slave_translator
     output wire        ci_master_writerc,
     output wire [4:0]  ci_master_a,      
     output wire [4:0]  ci_master_b,      
+=======
+    output wire [31:0] ci_master_dataa,
+    output wire [31:0] ci_master_datab,
+    input  wire [31:0] ci_master_result,
+    output wire [N_WIDTH-1:0]  ci_master_n,
+    output wire        ci_master_readra,
+    output wire        ci_master_readrb,
+    output wire        ci_master_writerc,
+    output wire [4:0]  ci_master_a,
+    output wire [4:0]  ci_master_b,
+>>>>>>> Revert "enlever le chain de argu"
     output wire [4:0]  ci_master_c,
     output wire [31:0] ci_master_ipending,
     output wire        ci_master_estatus,
@@ -72,7 +108,11 @@ module altera_customins_slave_translator
     output wire        ci_master_reset_req,
     output wire        ci_master_start,
     input  wire        ci_master_done
+<<<<<<< refs/remotes/upstream/main
        
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 );
     localparam COUNTER_WIDTH = $clog2(NUM_FIXED_CYCLES);
 
@@ -99,14 +139,22 @@ module altera_customins_slave_translator
     assign ci_master_reset_req = ci_slave_reset_req;
 
     // --------------------------------------
+<<<<<<< refs/remotes/upstream/main
     // Is there something we need to do if the master does not 
+=======
+    // Is there something we need to do if the master does not
+>>>>>>> Revert "enlever le chain de argu"
     // have start?
     // --------------------------------------
     assign ci_master_start  = ci_slave_start;
 
     // --------------------------------------
     // Create the done signal if the slave does not drive it.
+<<<<<<< refs/remotes/upstream/main
     // 
+=======
+    //
+>>>>>>> Revert "enlever le chain de argu"
     // For num_cycles = 2, this is just the registered start.
     // Anything larger and we use a down-counter.
     // --------------------------------------
@@ -124,7 +172,11 @@ module altera_customins_slave_translator
         if (ci_slave_reset) begin
             running <= 0;
             count   <= NUM_FIXED_CYCLES - 2;
+<<<<<<< refs/remotes/upstream/main
         end 
+=======
+        end
+>>>>>>> Revert "enlever le chain de argu"
         else if (ci_slave_clken) begin
             if (ci_slave_start)
                 running <= 1;

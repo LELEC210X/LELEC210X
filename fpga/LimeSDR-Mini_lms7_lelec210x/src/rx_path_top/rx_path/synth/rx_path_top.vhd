@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE:    rx_path_top.vhd
 -- DESCRIPTION:   describe file
 -- DATE: March 27, 2017
 -- AUTHOR(s):  Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -13,12 +21,21 @@ use ieee.numeric_std.all;
 -- Entity declaration
 -- ----------------------------------------------------------------------------
 entity rx_path_top is
+<<<<<<< refs/remotes/upstream/main
    generic( 
       dev_family           : string := "Cyclone IV E";
       iq_width             : integer := 12;
       invert_input_clocks  : string := "OFF";
       smpl_buff_rdusedw_w  : integer := 11; --bus width in bits 
       pct_buff_wrusedw_w   : integer := 12  --bus width in bits 
+=======
+   generic(
+      dev_family           : string := "Cyclone IV E";
+      iq_width             : integer := 12;
+      invert_input_clocks  : string := "OFF";
+      smpl_buff_rdusedw_w  : integer := 11; --bus width in bits
+      pct_buff_wrusedw_w   : integer := 12  --bus width in bits
+>>>>>>> Revert "enlever le chain de argu"
       );
    port (
       clk                  : in std_logic;
@@ -30,6 +47,7 @@ entity rx_path_top is
       trxiqpulse           : in std_logic; -- trxiqpulse on: 1; trxiqpulse off: 0
       ddr_en               : in std_logic; -- DDR: 1; SDR: 0
       mimo_en              : in std_logic; -- SISO: 1; MIMO: 0
+<<<<<<< refs/remotes/upstream/main
       ch_en                : in std_logic_vector(1 downto 0); --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B. 
       fidm                 : in std_logic; -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
 		--DSP settings
@@ -41,11 +59,27 @@ entity rx_path_top is
 		dspcfg_long_sum        : out std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_sum
       dspcfg_count           : out std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_count
       --Rx interface data 
+=======
+      ch_en                : in std_logic_vector(1 downto 0); --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B.
+      fidm                 : in std_logic; -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
+		--DSP settings
+		dspcfg_preamble_en     : in  std_logic  := 'X'; -- dspcfg_preamble_en
+		dspcfg_FILTER_LEN      : in  std_logic_vector(5 downto 0)  := (others => 'X'); -- dspcfg_FILTER_LEN
+      dspcfg_PASSTHROUGH_LEN : in  std_logic_vector(15 downto 0) := (others => 'X'); -- dspcfg_PASSTHROUGH_LEN
+      dspcfg_THRESHOLD       : in  std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_THRESHOLD
+      dspcfg_sum             : out std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_sum
+      dspcfg_count           : out std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_count
+      --Rx interface data
+>>>>>>> Revert "enlever le chain de argu"
       DIQ                  : in std_logic_vector(iq_width-1 downto 0);
       fsync                : in std_logic;
       --samples
       smpl_fifo_wrreq_out  : out std_logic;
+<<<<<<< refs/remotes/upstream/main
       --Packet fifo ports 
+=======
+      --Packet fifo ports
+>>>>>>> Revert "enlever le chain de argu"
       pct_fifo_wusedw      : in std_logic_vector(pct_buff_wrusedw_w-1 downto 0);
       pct_fifo_wrreq       : out std_logic;
       pct_fifo_wdata       : out std_logic_vector(63 downto 0);
@@ -59,7 +93,11 @@ entity rx_path_top is
       smpl_cmp_length      : in std_logic_vector(15 downto 0);
       smpl_cmp_done        : out std_logic;
       smpl_cmp_err         : out std_logic
+<<<<<<< refs/remotes/upstream/main
      
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
    );
 end rx_path_top;
 
@@ -73,26 +111,44 @@ architecture arch of rx_path_top is
 --sync registers
 signal test_ptrn_en_sync      : std_logic;
 signal reset_n_sync           : std_logic;
+<<<<<<< refs/remotes/upstream/main
 signal sample_width_sync      : std_logic_vector(1 downto 0); 
 signal mode_sync              : std_logic;
 signal trxiqpulse_sync        : std_logic; 
 signal ddr_en_sync            : std_logic; 
+=======
+signal sample_width_sync      : std_logic_vector(1 downto 0);
+signal mode_sync              : std_logic;
+signal trxiqpulse_sync        : std_logic;
+signal ddr_en_sync            : std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 signal mimo_en_sync           : std_logic;
 signal ch_en_sync             : std_logic_vector(1 downto 0);
 signal fidm_sync              : std_logic;
 signal clr_smpl_nr_sync       : std_logic;
 signal ld_smpl_nr_sync        : std_logic;
+<<<<<<< refs/remotes/upstream/main
 signal smpl_nr_in_sync        : std_logic_vector(63 downto 0);	
+=======
+signal smpl_nr_in_sync        : std_logic_vector(63 downto 0);
+>>>>>>> Revert "enlever le chain de argu"
 
 signal smpl_cmp_start_sync    : std_logic;
 signal smpl_cmp_length_sync   : std_logic_vector(15 downto 0);
 
 
 
+<<<<<<< refs/remotes/upstream/main
 --inst0 
 signal inst0_fifo_wrreq       : std_logic;
 signal inst0_fifo_wdata       : std_logic_vector(iq_width*4-1 downto 0);
 --inst11 
+=======
+--inst0
+signal inst0_fifo_wrreq       : std_logic;
+signal inst0_fifo_wdata       : std_logic_vector(iq_width*4-1 downto 0);
+--inst11
+>>>>>>> Revert "enlever le chain de argu"
 signal inst11_fifo_wrreq      : std_logic;
 signal inst11_fifo_wdata      : std_logic_vector(iq_width*4-1 downto 0);
 --inst1
@@ -117,6 +173,7 @@ signal tx_pct_loss_detect     : std_logic;
 
 component lms_dsp is
   port (
+<<<<<<< refs/remotes/upstream/main
 		clk_clk                 : in  std_logic                     := 'X';             -- clk
       ppd_cfg_enable          : in  std_logic                     := 'X';             -- dspcfg_enable
 		ppd_cfg_clear_rs        : in  std_logic                     := 'X';             -- dspcfg_clear_rs 
@@ -130,6 +187,20 @@ component lms_dsp is
 		fifo_out_wrdata         : out std_logic_vector(47 downto 0);                    -- wrdata
 		fifo_out_wrreq          : out std_logic;                                        -- wrreq
 		reset_reset_n           : in  std_logic                     := 'X'              -- reset_n
+=======
+		clk_clk                             : in  std_logic                     := 'X';             -- clk
+      preamble_detect_cfg_enable          : in  std_logic                     := 'X';             -- dspcfg_enable
+		preamble_detect_cfg_FILTER_LEN      : in  std_logic_vector(5 downto 0)  := (others => 'X'); -- dspcfg_FILTER_LEN
+      preamble_detect_cfg_PASSTHROUGH_LEN : in  std_logic_vector(15 downto 0) := (others => 'X'); -- dspcfg_PASSTHROUGH_LEN
+      preamble_detect_cfg_THRESHOLD       : in  std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_THRESHOLD
+      preamble_detect_debug_sum           : out std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_sum
+      preamble_detect_debug_count         : out std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_count
+		fifo_in_wdata                       : in  std_logic_vector(47 downto 0) := (others => 'X'); -- wdata
+		fifo_in_wrreq                       : in  std_logic                     := 'X';             -- wrreq
+		fifo_out_wrdata                     : out std_logic_vector(47 downto 0);                    -- wrdata
+		fifo_out_wrreq                      : out std_logic;                                        -- wrreq
+		reset_reset_n                       : in  std_logic                     := 'X'              -- reset_n
+>>>>>>> Revert "enlever le chain de argu"
   );
 end component lms_dsp;
 
@@ -137,6 +208,7 @@ end component lms_dsp;
 begin
 
 
+<<<<<<< refs/remotes/upstream/main
 sync_reg0 : entity work.sync_reg 
 port map(clk, '1', reset_n, reset_n_sync);
 
@@ -165,6 +237,36 @@ sync_reg10 : entity work.sync_reg
 port map(clk, '1', test_ptrn_en, test_ptrn_en_sync);
 
 sync_reg11 : entity work.sync_reg 
+=======
+sync_reg0 : entity work.sync_reg
+port map(clk, '1', reset_n, reset_n_sync);
+
+sync_reg3 : entity work.sync_reg
+port map(clk, '1', mode, mode_sync);
+
+sync_reg4 : entity work.sync_reg
+port map(clk, '1', trxiqpulse, trxiqpulse_sync);
+
+sync_reg5 : entity work.sync_reg
+port map(clk, '1', ddr_en, ddr_en_sync);
+
+sync_reg6 : entity work.sync_reg
+port map(clk, '1', mimo_en, mimo_en_sync);
+
+sync_reg7 : entity work.sync_reg
+port map(clk, '1', fidm, fidm_sync);
+
+sync_reg8 : entity work.sync_reg
+port map(clk, '1', clr_smpl_nr, clr_smpl_nr_sync);
+
+sync_reg9 : entity work.sync_reg
+port map(clk, '1', ld_smpl_nr, ld_smpl_nr_sync);
+
+sync_reg10 : entity work.sync_reg
+port map(clk, '1', test_ptrn_en, test_ptrn_en_sync);
+
+sync_reg11 : entity work.sync_reg
+>>>>>>> Revert "enlever le chain de argu"
 port map(clk, '1', smpl_cmp_start, smpl_cmp_start_sync);
 
 
@@ -192,7 +294,11 @@ port map(clk, '1', smpl_cmp_length, smpl_cmp_length_sync);
 -- diq2fifo instance
 -- ----------------------------------------------------------------------------
 diq2fifo_inst0 : entity work.diq2fifo
+<<<<<<< refs/remotes/upstream/main
    generic map( 
+=======
+   generic map(
+>>>>>>> Revert "enlever le chain de argu"
       dev_family           => dev_family,
       iq_width             => iq_width,
       invert_input_clocks  => invert_input_clocks
@@ -206,6 +312,7 @@ diq2fifo_inst0 : entity work.diq2fifo
       trxiqpulse        => trxiqpulse_sync, -- trxiqpulse on: 1; trxiqpulse off: 0
       ddr_en            => ddr_en_sync, -- DDR: 1; SDR: 0
       mimo_en           => mimo_en_sync, -- SISO: 1; MIMO: 0
+<<<<<<< refs/remotes/upstream/main
       ch_en             => ch_en_sync, --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B. 
       fidm              => fidm_sync, -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
       --Rx interface data 
@@ -215,15 +322,33 @@ diq2fifo_inst0 : entity work.diq2fifo
       fifo_wfull        => inst1_wrfull,
       fifo_wrreq        => inst11_fifo_wrreq,
       fifo_wdata        => inst11_fifo_wdata, 
+=======
+      ch_en             => ch_en_sync, --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B.
+      fidm              => fidm_sync, -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
+      --Rx interface data
+      DIQ               => DIQ,
+      fsync             => fsync,
+      --fifo ports
+      fifo_wfull        => inst1_wrfull,
+      fifo_wrreq        => inst11_fifo_wrreq,
+      fifo_wdata        => inst11_fifo_wdata,
+>>>>>>> Revert "enlever le chain de argu"
       smpl_cmp_start    => smpl_cmp_start_sync,
       smpl_cmp_length   => smpl_cmp_length_sync,
       smpl_cmp_done     => smpl_cmp_done,
       smpl_cmp_err      => smpl_cmp_err
         );
+<<<<<<< refs/remotes/upstream/main
         
         
 smpl_fifo_wrreq_out <= inst0_fifo_wrreq; 
         
+=======
+
+
+smpl_fifo_wrreq_out <= inst0_fifo_wrreq;
+
+>>>>>>> Revert "enlever le chain de argu"
 
 -- ----------------------------------------------------------------------------
 -- DSP Subsystem
@@ -231,6 +356,7 @@ smpl_fifo_wrreq_out <= inst0_fifo_wrreq;
 
 dspcfg_subsystem_inst11 : component lms_dsp
   port map (
+<<<<<<< refs/remotes/upstream/main
 		clk_clk                 => clk,                    --      clk.clk
 		ppd_cfg_enable          => dspcfg_preamble_en,     -- ppd.cfg_enable
 		ppd_cfg_clear_rs        => dspcfg_clear_rs,        -- ppd.cfg_clear_rs
@@ -244,23 +370,51 @@ dspcfg_subsystem_inst11 : component lms_dsp
 		fifo_out_wrdata         => inst0_fifo_wdata,       -- fifo_out.wrdata
 		fifo_out_wrreq          => inst0_fifo_wrreq,       --         .wrreq
 		reset_reset_n           => reset_n_sync            -- reset.reset_n
+=======
+		clk_clk                             => clk,                    --      clk.clk
+		preamble_detect_cfg_enable          => dspcfg_preamble_en,     -- preamble_detect.cfg_enable
+		preamble_detect_cfg_FILTER_LEN      => dspcfg_FILTER_LEN,      --                .cfg_FILTER_LEN
+      preamble_detect_cfg_PASSTHROUGH_LEN => dspcfg_PASSTHROUGH_LEN, --                .cfg_PASSTHROUGH_LEN
+      preamble_detect_cfg_THRESHOLD       => dspcfg_THRESHOLD,       --                .cfg_THRESHOLD
+      preamble_detect_debug_sum           => dspcfg_sum,       --                      .cfg_THRESHOLD
+      preamble_detect_debug_count         => dspcfg_count,       --                    .cfg_THRESHOLD
+		fifo_in_wdata                       => inst11_fifo_wdata,      --  fifo_in.wdata
+		fifo_in_wrreq                       => inst11_fifo_wrreq,      --         .wrreq
+		fifo_out_wrdata                     => inst0_fifo_wdata,       -- fifo_out.wrdata
+		fifo_out_wrreq                      => inst0_fifo_wrreq,       --         .wrreq
+		reset_reset_n                       => reset_n_sync            --    reset.reset_n
+>>>>>>> Revert "enlever le chain de argu"
   );
 
 -- ----------------------------------------------------------------------------
 -- FIFO for storing samples
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------       
 smpl_fifo_inst1 : entity work.fifo_inst
   generic map(
       dev_family      => dev_family, 
+=======
+-- ----------------------------------------------------------------------------
+smpl_fifo_inst1 : entity work.fifo_inst
+  generic map(
+      dev_family      => dev_family,
+>>>>>>> Revert "enlever le chain de argu"
       wrwidth         => (iq_width*4),
       wrusedw_witdth  => smpl_buff_rdusedw_w,
       rdwidth         => (iq_width*4),
       rdusedw_width   => smpl_buff_rdusedw_w,
       show_ahead      => "OFF"
+<<<<<<< refs/remotes/upstream/main
   ) 
 
   port map(
       --input ports 
+=======
+  )
+
+  port map(
+      --input ports
+>>>>>>> Revert "enlever le chain de argu"
       reset_n        => reset_n_sync,
       wrclk          => clk,
       wrreq          => inst0_fifo_wrreq,
@@ -272,6 +426,7 @@ smpl_fifo_inst1 : entity work.fifo_inst
       rdreq          => inst2_smpl_buff_rdreq,
       q              => inst1_q,
       rdempty        => open,
+<<<<<<< refs/remotes/upstream/main
       rdusedw        => inst1_rdusedw  
         );
  
@@ -283,10 +438,24 @@ inst2_smpl_buff_rddata <=  inst1_q(47 downto 36) & "0000" &
     
     
 --packet reserved bits  
+=======
+      rdusedw        => inst1_rdusedw
+        );
+
+--samples are placed to MSb LSb ar filled with zeros
+inst2_smpl_buff_rddata <=  inst1_q(47 downto 36) & "0000" &
+                           inst1_q(35 downto 24) & "0000" &
+                           inst1_q(23 downto 12) & "0000" &
+                           inst1_q(11 downto 0) & "0000";
+
+
+--packet reserved bits
+>>>>>>> Revert "enlever le chain de argu"
   inst2_pct_hdr_0(15 downto 0)   <="0000000000000" & pct_fifo_wusedw(pct_buff_wrusedw_w-1 downto pct_buff_wrusedw_w-3);
   inst2_pct_hdr_0(31 downto 16)  <=x"0201";
   inst2_pct_hdr_0(47 downto 32)  <=x"0403";
   inst2_pct_hdr_0(63 downto 48)  <=x"0605";
+<<<<<<< refs/remotes/upstream/main
         
         
 -- ----------------------------------------------------------------------------
@@ -296,6 +465,17 @@ data2packets_top_inst2 : entity work.data2packets_top
    generic map(
       smpl_buff_rdusedw_w => smpl_buff_rdusedw_w,  --bus width in bits 
       pct_buff_wrusedw_w  => pct_buff_wrusedw_w    --bus width in bits            
+=======
+
+
+-- ----------------------------------------------------------------------------
+-- Instance for packing samples to packets
+-- ----------------------------------------------------------------------------
+data2packets_top_inst2 : entity work.data2packets_top
+   generic map(
+      smpl_buff_rdusedw_w => smpl_buff_rdusedw_w,  --bus width in bits
+      pct_buff_wrusedw_w  => pct_buff_wrusedw_w    --bus width in bits
+>>>>>>> Revert "enlever le chain de argu"
    )
    port map(
       clk               => clk,
@@ -309,12 +489,21 @@ data2packets_top_inst2 : entity work.data2packets_top
       pct_hdr_cap       => pct_hdr_cap,
       smpl_buff_rdusedw => inst1_rdusedw,
       smpl_buff_rdreq   => inst2_smpl_buff_rdreq,
+<<<<<<< refs/remotes/upstream/main
       smpl_buff_rddata  => inst2_smpl_buff_rddata   
         );
         
 -- ----------------------------------------------------------------------------
 -- Instance for packing sample counter for packet forming
 -- ----------------------------------------------------------------------------        
+=======
+      smpl_buff_rddata  => inst2_smpl_buff_rddata
+        );
+
+-- ----------------------------------------------------------------------------
+-- Instance for packing sample counter for packet forming
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 smpl_cnt_inst3 : entity work.smpl_cnt
    generic map(
       cnt_width   => 64
@@ -332,6 +521,7 @@ smpl_cnt_inst3 : entity work.smpl_cnt
       sload       => ld_smpl_nr_sync,
       data        => smpl_nr_in_sync,
       cnt_en      => inst2_smpl_buff_rdreq,
+<<<<<<< refs/remotes/upstream/main
       q           => inst3_q        
         );
         
@@ -339,6 +529,15 @@ smpl_cnt_inst3 : entity work.smpl_cnt
 -- There is 6 clock cycle latency from smpl_fifo_inst1 to packet formation
 -- and smpl_cnt has to be delayed 6 cycles
 -- ----------------------------------------------------------------------------  
+=======
+      q           => inst3_q
+        );
+
+-- ----------------------------------------------------------------------------
+-- There is 6 clock cycle latency from smpl_fifo_inst1 to packet formation
+-- and smpl_cnt has to be delayed 6 cycles
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 
 delay_chain_inst5 : entity work.delay_chain
    generic map(
@@ -350,6 +549,7 @@ delay_chain_inst5 : entity work.delay_chain
       reset_n     => reset_n_sync,
       data_in     => inst3_q,
       data_out    => inst2_pct_hdr_1
+<<<<<<< refs/remotes/upstream/main
 );    
   
 end arch;   
@@ -358,3 +558,8 @@ end arch;
 
 
 
+=======
+);
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

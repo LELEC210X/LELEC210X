@@ -73,7 +73,11 @@ entity pll_top is
       -- pllcfg ports
       to_pllcfg            : out t_TO_PLLCFG;
       from_pllcfg          : in  t_FROM_PLLCFG
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
    );
 end pll_top;
 
@@ -114,12 +118,17 @@ signal pllcfg_done            : std_logic;
 
 
 begin
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 -- PLL instance
 -- ----------------------------------------------------------------------------
 rxtx_pll_inst0 : entity work.rxtx_pll
    generic map(
+<<<<<<< refs/remotes/upstream/main
       bandwidth_type          => BANDWIDTH_TYPE,         
       clk0_divide_by          => CLK0_DIVIDE_BY,         
       clk0_duty_cycle         => CLK0_DUTY_CYCLE,        
@@ -146,6 +155,34 @@ rxtx_pll_inst0 : entity work.rxtx_pll
       drct_c1_ndly            => DRCT_C1_NDLY,           
       drct_c2_ndly            => DRCT_C2_NDLY,           
       drct_c3_ndly            => DRCT_C3_NDLY           
+=======
+      bandwidth_type          => BANDWIDTH_TYPE,
+      clk0_divide_by          => CLK0_DIVIDE_BY,
+      clk0_duty_cycle         => CLK0_DUTY_CYCLE,
+      clk0_multiply_by        => CLK0_MULTIPLY_BY,
+      clk0_phase_shift        => CLK0_PHASE_SHIFT,
+      clk1_divide_by          => CLK1_DIVIDE_BY,
+      clk1_duty_cycle         => CLK1_DUTY_CYCLE,
+      clk1_multiply_by        => CLK1_MULTIPLY_BY,
+      clk1_phase_shift        => CLK1_PHASE_SHIFT,
+      clk2_divide_by          => CLK2_DIVIDE_BY,
+      clk2_duty_cycle         => CLK2_DUTY_CYCLE,
+      clk2_multiply_by        => CLK2_MULTIPLY_BY,
+      clk2_phase_shift        => CLK2_PHASE_SHIFT,
+      clk3_divide_by          => CLK3_DIVIDE_BY,
+      clk3_duty_cycle         => CLK3_DUTY_CYCLE,
+      clk3_multiply_by        => CLK3_MULTIPLY_BY,
+      clk3_phase_shift        => CLK3_PHASE_SHIFT,
+      compensate_clock        => COMPENSATE_CLOCK,
+      inclk0_input_frequency  => INCLK0_INPUT_FREQUENCY,
+      intended_device_family  => INTENDED_DEVICE_FAMILY,
+      operation_mode          => OPERATION_MODE,
+      scan_chain_mif_file     => SCAN_CHAIN_MIF_FILE,
+      drct_c0_ndly            => DRCT_C0_NDLY,
+      drct_c1_ndly            => DRCT_C1_NDLY,
+      drct_c2_ndly            => DRCT_C2_NDLY,
+      drct_c3_ndly            => DRCT_C3_NDLY
+>>>>>>> Revert "enlever le chain de argu"
    )
    port map(
       --PLL input
@@ -162,7 +199,11 @@ rxtx_pll_inst0 : entity work.rxtx_pll
       pll_locked        => inst0_pll_locked,
       --Bypass control
       clk_ena           => pll_clk_ena, --clock output enable
+<<<<<<< refs/remotes/upstream/main
       drct_clk_en       => pll_drct_clk_en, --1- Direct clk, 0 - PLL clocks 
+=======
+      drct_clk_en       => pll_drct_clk_en, --1- Direct clk, 0 - PLL clocks
+>>>>>>> Revert "enlever le chain de argu"
       --Reconfiguration ports
       rcnfg_clk         => pll_reconfig_clk,
       rcnfig_areset     => inst2_pllrst_start(0),
@@ -176,7 +217,11 @@ rxtx_pll_inst0 : entity work.rxtx_pll
       dynps_tst         => inst2_phcfg_tst,
       dynps_dir         => inst2_phcfg_updn,
       dynps_cnt_sel     => inst2_cnt_ind(2 downto 0),
+<<<<<<< refs/remotes/upstream/main
       -- max phase steps in auto mode, phase steps to shift in manual mode 
+=======
+      -- max phase steps in auto mode, phase steps to shift in manual mode
+>>>>>>> Revert "enlever le chain de argu"
       dynps_phase       => inst2_cnt_phase(9 downto 0),
       dynps_step_size   => inst2_auto_phcfg_step(9 downto 0),
       dynps_busy        => open,
@@ -189,6 +234,7 @@ rxtx_pll_inst0 : entity work.rxtx_pll
       --Overall configuration PLL status
       busy              => inst0_busy
    );
+<<<<<<< refs/remotes/upstream/main
    
    pllcfg_busy <= inst0_busy;
    pllcfg_done <= not pllcfg_busy;
@@ -213,6 +259,32 @@ rxtx_pll_inst0 : entity work.rxtx_pll
    inst2_auto_phcfg_err(0) <= inst0_dynps_status;
 
    pll_ctrl_inst2 : entity work.pll_ctrl 
+=======
+
+   pllcfg_busy <= inst0_busy;
+   pllcfg_done <= not pllcfg_busy;
+
+   -- ----------------------------------------------------------------------------
+-- pllcfg_top instance
+-- ----------------------------------------------------------------------------
+   process(pllcfg_busy)
+      begin
+         inst2_pllcfg_busy <= (others=>'0');
+         inst2_pllcfg_busy(0) <= pllcfg_busy;
+   end process;
+
+   process(pllcfg_done)
+      begin
+         inst2_pllcfg_done <= (others=>'1');
+         inst2_pllcfg_done(0) <= pllcfg_done;
+   end process;
+
+   inst2_pll_lock(0)       <= inst0_pll_locked;
+   inst2_auto_phcfg_done(0)<= inst0_dynps_done;
+   inst2_auto_phcfg_err(0) <= inst0_dynps_status;
+
+   pll_ctrl_inst2 : entity work.pll_ctrl
+>>>>>>> Revert "enlever le chain de argu"
    generic map(
       n_pll	=> N_PLL
    )
@@ -238,7 +310,11 @@ rxtx_pll_inst0 : entity work.rxtx_pll
       auto_phcfg_err    => inst2_auto_phcfg_err,
       auto_phcfg_smpls  => inst2_auto_phcfg_smpls,
       auto_phcfg_step   => inst2_auto_phcfg_step
+<<<<<<< refs/remotes/upstream/main
         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
       );
 -- ----------------------------------------------------------------------------
 -- Output ports
@@ -247,9 +323,13 @@ pll_locked         <= inst0_pll_locked;
 pll_smpl_cmp_en    <= inst0_smpl_cmp_en;
 pll_smpl_cmp_cnt   <= inst2_auto_phcfg_smpls;
 
+<<<<<<< refs/remotes/upstream/main
 end arch;   
 
 
 
 
 
+=======
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

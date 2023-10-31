@@ -1,6 +1,10 @@
 -- ----------------------------------------------------------------------------
 -- FILE:          one_pct_fifo.vhd
+<<<<<<< refs/remotes/upstream/main
 -- DESCRIPTION:   Reads from FIFO data and stores to other FIFO only one packet 
+=======
+-- DESCRIPTION:   Reads from FIFO data and stores to other FIFO only one packet
+>>>>>>> Revert "enlever le chain de argu"
 -- DATE:          10:51 AM Wednesday, January 16, 2019
 -- AUTHOR(s):     Lime Microsystems
 -- REVISIONS:
@@ -22,7 +26,11 @@ entity one_pct_fifo is
    generic(
       dev_family              : string := "Cyclone IV E";
       g_INFIFO_DATA_WIDTH     : integer := 32;
+<<<<<<< refs/remotes/upstream/main
       g_PCT_MAX_SIZE          : integer := 4096; -- Maximum packet size in bytes 
+=======
+      g_PCT_MAX_SIZE          : integer := 4096; -- Maximum packet size in bytes
+>>>>>>> Revert "enlever le chain de argu"
       g_PCT_HDR_SIZE          : integer := 16;   -- Packet header size in bytes
       g_PCTFIFO_RDATA_WIDTH   : integer := 128
    );
@@ -54,7 +62,11 @@ constant c_PCT_HDR_WORDS         : integer := g_PCT_HDR_SIZE*8/g_PCTFIFO_RDATA_W
 constant c_RD_RATIO              : integer := g_PCTFIFO_RDATA_WIDTH/8;
 
 -- inst0
+<<<<<<< refs/remotes/upstream/main
 signal inst0_pct_wrreq           : std_logic;          
+=======
+signal inst0_pct_wrreq           : std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 signal inst0_pct_data            : std_logic_vector(g_INFIFO_DATA_WIDTH-1 downto 0);
 signal inst0_pct_header          : std_logic_vector(g_PCT_HDR_SIZE*8-1 downto 0);
 signal inst0_pct_header_valid    : std_logic;
@@ -79,17 +91,30 @@ signal pct_header_valid          : std_logic;
 signal pct_words                 : unsigned(15 downto 0);
 signal pct_rdy_reg               : std_logic;
 
+<<<<<<< refs/remotes/upstream/main
   
 begin
 -- ----------------------------------------------------------------------------
 -- Reset logic
 -- ----------------------------------------------------------------------------  
    sync_reg0 : entity work.sync_reg 
+=======
+
+begin
+-- ----------------------------------------------------------------------------
+-- Reset logic
+-- ----------------------------------------------------------------------------
+   sync_reg0 : entity work.sync_reg
+>>>>>>> Revert "enlever le chain de argu"
    port map(clk, pct_aclr_n AND reset_n, '1', inst1_reset_n);
 
 -- ----------------------------------------------------------------------------
 -- Packet separate state machine
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------    
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
    inst0_pct_separate_fsm : entity work.pct_separate_fsm
    generic map(
       g_DATA_WIDTH   => g_INFIFO_DATA_WIDTH,
@@ -105,6 +130,7 @@ begin
       pct_wrreq         => inst0_pct_wrreq,
       pct_data          => inst0_pct_data,
       pct_wrempty       => inst1_wrempty,
+<<<<<<< refs/remotes/upstream/main
       pct_header        => inst0_pct_header,    
       pct_header_valid  => inst0_pct_header_valid
    );
@@ -119,6 +145,22 @@ begin
       wrusedw_witdth => c_INST1_WRUSEDW_WIDTH, 
       rdwidth        => g_PCTFIFO_RDATA_WIDTH,
       rdusedw_width  => c_INST1_RDUSEDW_WIDTH,   
+=======
+      pct_header        => inst0_pct_header,
+      pct_header_valid  => inst0_pct_header_valid
+   );
+
+-- ----------------------------------------------------------------------------
+-- FIFO for storing one packet
+-- ----------------------------------------------------------------------------
+   inst1_fifo_inst : entity work.fifo_inst
+   generic map(
+      dev_family     => dev_family,
+      wrwidth        => g_INFIFO_DATA_WIDTH,
+      wrusedw_witdth => c_INST1_WRUSEDW_WIDTH,
+      rdwidth        => g_PCTFIFO_RDATA_WIDTH,
+      rdusedw_width  => c_INST1_RDUSEDW_WIDTH,
+>>>>>>> Revert "enlever le chain de argu"
       show_ahead     => "OFF"
    )
    port map(
@@ -133,6 +175,7 @@ begin
       rdreq       => pct_data_rdreq,
       q           => pct_data,
       rdempty     => inst1_rdempty,
+<<<<<<< refs/remotes/upstream/main
       rdusedw     => inst1_rdusedw           
    );
    
@@ -153,10 +196,33 @@ begin
       end if;
    end process;
    
+=======
+      rdusedw     => inst1_rdusedw
+   );
+
+   process(pct_rdclk, reset_n)
+   begin
+      if reset_n = '0' then
+         inst1_rdempty_reg    <= '0';
+         inst1_rdempty_rising <= '0';
+      elsif (pct_rdclk'event AND pct_rdclk='1') then
+         inst1_rdempty_reg <= inst1_rdempty;
+
+         if inst1_rdempty = '1' AND inst1_rdempty_reg = '0' then
+            inst1_rdempty_rising <= '1';
+         else
+            inst1_rdempty_rising <= '0';
+         end if;
+
+      end if;
+   end process;
+
+>>>>>>> Revert "enlever le chain de argu"
 -- FIFO is used when clk and pct_rdclk are different clock domains
 -- ----------------------------------------------------------------------------
 -- FIFO for storing packet header
 -- ----------------------------------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
 --   inst2_fifo_inst : entity work.fifo_inst   
 --   generic map(
 --      dev_family     => dev_family,
@@ -164,6 +230,15 @@ begin
 --      wrusedw_witdth => 3, 
 --      rdwidth        => g_PCT_HDR_SIZE*8,
 --      rdusedw_width  => 3,   
+=======
+--   inst2_fifo_inst : entity work.fifo_inst
+--   generic map(
+--      dev_family     => dev_family,
+--      wrwidth        => g_PCT_HDR_SIZE*8,
+--      wrusedw_witdth => 3,
+--      rdwidth        => g_PCT_HDR_SIZE*8,
+--      rdusedw_width  => 3,
+>>>>>>> Revert "enlever le chain de argu"
 --      show_ahead     => "OFF"
 --   )
 --   port map(
@@ -178,6 +253,7 @@ begin
 --      rdreq       => inst2_rdreq,
 --      q           => inst2_q,
 --      rdempty     => inst2_rdempty,
+<<<<<<< refs/remotes/upstream/main
 --      rdusedw     => open           
 --   );
    
@@ -185,10 +261,20 @@ begin
 --
 ---- ----------------------------------------------------------------------------
 ---- Internal processes 
+=======
+--      rdusedw     => open
+--   );
+
+--   inst2_rdreq <= NOT inst2_rdempty;
+--
+---- ----------------------------------------------------------------------------
+---- Internal processes
+>>>>>>> Revert "enlever le chain de argu"
 ---- ----------------------------------------------------------------------------
 --   -- Packet header valid
 --   pct_hdr_valid_proc : process(pct_rdclk, reset_n)
 --   begin
+<<<<<<< refs/remotes/upstream/main
 --      if reset_n = '0' then 
 --         pct_header_valid <= '0';
 --      elsif (pct_rdclk'event AND pct_rdclk='1') then 
@@ -197,10 +283,21 @@ begin
 --   end process;
    
    
+=======
+--      if reset_n = '0' then
+--         pct_header_valid <= '0';
+--      elsif (pct_rdclk'event AND pct_rdclk='1') then
+--         pct_header_valid <= inst2_rdreq;
+--      end if;
+--   end process;
+
+
+>>>>>>> Revert "enlever le chain de argu"
    -- Comment folowing 2 lines if inst2_fifo_inst is used
    pct_header_valid  <= inst0_pct_header_valid;
    inst2_q           <= inst0_pct_header;
 
+<<<<<<< refs/remotes/upstream/main
    
    -- Capture packet size in bytes from packet header and convert to FIFO read words count
    pct_words_proc : process(pct_rdclk, reset_n)
@@ -210,10 +307,22 @@ begin
       elsif (pct_rdclk'event AND pct_rdclk='1') then
          
          if pct_data_rdreq = '1' OR inst1_rdempty_rising = '1' then 
+=======
+
+   -- Capture packet size in bytes from packet header and convert to FIFO read words count
+   pct_words_proc : process(pct_rdclk, reset_n)
+   begin
+      if reset_n = '0' then
+         pct_words  <= (others=>'1');
+      elsif (pct_rdclk'event AND pct_rdclk='1') then
+
+         if pct_data_rdreq = '1' OR inst1_rdempty_rising = '1' then
+>>>>>>> Revert "enlever le chain de argu"
             pct_words <= (others=>'1');
          elsif pct_header_valid = '1' then
             -- For compatibility: if there are no packet size inserted in packet header
             --                    then  pct_words = max number of packet words
+<<<<<<< refs/remotes/upstream/main
             if inst2_q(23 downto 8) = "0000000000000000" then 
                pct_words <= to_unsigned(c_MAX_PCT_WORDS,pct_words'length);
             else 
@@ -236,10 +345,35 @@ begin
       elsif (pct_rdclk'event AND pct_rdclk='1') then 
       
          if unsigned(inst1_rdusedw) = pct_words  then 
+=======
+            if inst2_q(23 downto 8) = "0000000000000000" then
+               pct_words <= to_unsigned(c_MAX_PCT_WORDS,pct_words'length);
+            else
+               pct_words <= unsigned(inst2_q(23 downto 8))/c_RD_RATIO + c_PCT_HDR_WORDS;
+            end if;
+         else
+            pct_words <= pct_words;
+         end if;
+
+      end if;
+   end process;
+
+-- ----------------------------------------------------------------------------
+-- Output registers
+-- ----------------------------------------------------------------------------
+   out_reg : process(pct_rdclk, reset_n)
+   begin
+      if reset_n = '0' then
+         pct_rdy_reg <= '0';
+      elsif (pct_rdclk'event AND pct_rdclk='1') then
+
+         if unsigned(inst1_rdusedw) = pct_words  then
+>>>>>>> Revert "enlever le chain de argu"
             pct_rdy_reg <= '1';
          else
             pct_rdy_reg <= '0';
          end if;
+<<<<<<< refs/remotes/upstream/main
          
       end if;
    end process;
@@ -254,3 +388,17 @@ begin
 end arch;   
 
 
+=======
+
+      end if;
+   end process;
+
+-- ----------------------------------------------------------------------------
+-- Output ports
+-- ----------------------------------------------------------------------------
+   pct_rdy           <= pct_rdy_reg;
+   pct_header        <= inst0_pct_header;
+   pct_data_rdempty  <= inst1_rdempty;
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

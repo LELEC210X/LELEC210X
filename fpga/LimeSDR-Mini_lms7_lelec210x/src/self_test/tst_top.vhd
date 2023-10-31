@@ -20,10 +20,17 @@ use work.tstcfg_pkg.all;
 -- ----------------------------------------------------------------------------
 entity tst_top is
    port (
+<<<<<<< refs/remotes/upstream/main
       --input ports 
       FX3_clk              : in std_logic;
       reset_n              : in std_logic;
       
+=======
+      --input ports
+      FX3_clk              : in std_logic;
+      reset_n              : in std_logic;
+
+>>>>>>> Revert "enlever le chain de argu"
       Si5351C_clk_0        : in std_logic;
       Si5351C_clk_1        : in std_logic;
       Si5351C_clk_2        : in std_logic;
@@ -33,8 +40,13 @@ entity tst_top is
       Si5351C_clk_7        : in std_logic;
       LMK_CLK              : in std_logic;
       ADF_MUXOUT           : in std_logic;
+<<<<<<< refs/remotes/upstream/main
       
       --DDR2 external memory signals	
+=======
+
+      --DDR2 external memory signals
+>>>>>>> Revert "enlever le chain de argu"
       -- mem_pllref_clk       : in std_logic;
       -- mem_odt              : out std_logic_vector (0 DOWNTO 0);
       -- mem_cs_n             : out std_logic_vector (0 DOWNTO 0);
@@ -49,7 +61,11 @@ entity tst_top is
       -- mem_clk_n            : inout std_logic_vector (0 DOWNTO 0);
       -- mem_dq               : inout std_logic_vector (15 DOWNTO 0);
       -- mem_dqs              : inout std_logic_vector (1 DOWNTO 0);
+<<<<<<< refs/remotes/upstream/main
       
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
       -- To configuration memory
       to_tstcfg            : out t_TO_TSTCFG;
       from_tstcfg          : in t_FROM_TSTCFG
@@ -61,9 +77,15 @@ end tst_top;
 -- ----------------------------------------------------------------------------
 architecture arch of tst_top is
 --declare signals,  components here
+<<<<<<< refs/remotes/upstream/main
 signal my_sig_name : std_logic_vector (7 downto 0); 
 
   
+=======
+signal my_sig_name : std_logic_vector (7 downto 0);
+
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 -- ----------------------------------------------------------------------------
@@ -71,13 +93,21 @@ begin
 -- ----------------------------------------------------------------------------
    clock_test_inst0 : entity work.clock_test
    port map(
+<<<<<<< refs/remotes/upstream/main
       --input ports 
+=======
+      --input ports
+>>>>>>> Revert "enlever le chain de argu"
       FX3_clk           => FX3_clk,
       reset_n           => reset_n,
       test_en           => from_tstcfg.TEST_EN(3 downto 0),
       test_frc_err      => from_tstcfg.TEST_FRC_ERR(3 downto 0),
       test_cmplt        => to_tstcfg.TEST_CMPLT(3 downto 0),
+<<<<<<< refs/remotes/upstream/main
       test_rez          => to_tstcfg.TEST_REZ(3 downto 0),      
+=======
+      test_rez          => to_tstcfg.TEST_REZ(3 downto 0),
+>>>>>>> Revert "enlever le chain de argu"
       Si5351C_clk_0     => Si5351C_clk_0,
       Si5351C_clk_1     => Si5351C_clk_1,
       Si5351C_clk_2     => Si5351C_clk_2,
@@ -86,7 +116,11 @@ begin
       Si5351C_clk_6     => Si5351C_clk_6,
       Si5351C_clk_7     => Si5351C_clk_7,
       LMK_CLK           => LMK_CLK,
+<<<<<<< refs/remotes/upstream/main
       ADF_MUXOUT        => ADF_MUXOUT,      
+=======
+      ADF_MUXOUT        => ADF_MUXOUT,
+>>>>>>> Revert "enlever le chain de argu"
       FX3_clk_cnt       => to_tstcfg.FX3_CLK_CNT,
       Si5351C_clk_0_cnt => to_tstcfg.Si5351C_CLK0_CNT,
       Si5351C_clk_1_cnt => to_tstcfg.Si5351C_CLK1_CNT,
@@ -98,10 +132,17 @@ begin
       LMK_CLK_cnt       => to_tstcfg.LMK_CLK_CNT,
       ADF_MUXOUT_cnt    => to_tstcfg.ADF_CNT
    );
+<<<<<<< refs/remotes/upstream/main
    
 -- ----------------------------------------------------------------------------
 -- DDR2 external memory test instance
 -- ----------------------------------------------------------------------------   
+=======
+
+-- ----------------------------------------------------------------------------
+-- DDR2 external memory test instance
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
    -- ddr2_tester_inst2 : entity work.ddr2_tester
    -- port map(
 		-- global_reset_n			=> from_tstcfg.test_en(5),
@@ -109,7 +150,11 @@ begin
 		-- soft_reset_n			=> from_tstcfg.test_en(5),
 		-- begin_test				=> '0', -- unused
 		-- insert_error			=> from_tstcfg.test_frc_err(5),
+<<<<<<< refs/remotes/upstream/main
       -- DDR2 external memory signals	
+=======
+      -- DDR2 external memory signals
+>>>>>>> Revert "enlever le chain de argu"
 		-- mem_odt					=> mem_odt,
 		-- mem_cs_n					=> mem_cs_n,
 		-- mem_cke					=> mem_cke,
@@ -122,7 +167,11 @@ begin
 		-- mem_clk					=> mem_clk,
 		-- mem_clk_n				=> mem_clk_n,
 		-- mem_dq					=> mem_dq,
+<<<<<<< refs/remotes/upstream/main
 		-- mem_dqs					=> mem_dqs,	
+=======
+		-- mem_dqs					=> mem_dqs,
+>>>>>>> Revert "enlever le chain de argu"
 		-- test results
 		-- pnf_per_bit         	=> open,
 		-- pnf_per_bit_persist 	=> to_tstcfg.DDR2_2_pnf_per_bit,
@@ -130,7 +179,12 @@ begin
 		-- fail                	=> to_tstcfg.DDR2_2_STATUS(2),
 		-- test_complete       	=> to_tstcfg.DDR2_2_STATUS(0)
    -- );
+<<<<<<< refs/remotes/upstream/main
   
 end arch;   
 
 
+=======
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

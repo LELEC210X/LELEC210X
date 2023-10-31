@@ -32,6 +32,7 @@ options:
     state: enabled
 
 blocks:
+<<<<<<< refs/remotes/upstream/main
 - name: K_threshold
   id: variable_qtgui_range
   parameters:
@@ -53,6 +54,8 @@ blocks:
     coordinate: [856, 12.0]
     rotation: 0
     state: enabled
+=======
+>>>>>>> Revert "enlever le chain de argu"
 - name: carrier_freq
   id: variable
   parameters:
@@ -74,7 +77,11 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [1264, 244.0]
+=======
+    coordinate: [682, 18]
+>>>>>>> Revert "enlever le chain de argu"
     rotation: 0
     state: true
 - name: data_rate
@@ -98,6 +105,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [576, 20.0]
     rotation: 0
     state: true
@@ -118,10 +126,30 @@ blocks:
   parameters:
     comment: ''
     value: data_rate/4
+=======
+    coordinate: [797, 22]
+    rotation: 0
+    state: true
+- name: detect_threshold_fpga
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: Qt.Horizontal
+    rangeType: int
+    start: '0'
+    step: '100'
+    stop: 2**16-1
+    value: '40000'
+    widget: counter_slider
+>>>>>>> Revert "enlever le chain de argu"
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [394, 15]
     rotation: 0
     state: true
@@ -130,10 +158,21 @@ blocks:
   parameters:
     comment: ''
     value: '8'
+=======
+    coordinate: [1111, 19]
+    rotation: 0
+    state: true
+- name: estimated_noise_power
+  id: variable
+  parameters:
+    comment: ''
+    value: '1.4e-07'
+>>>>>>> Revert "enlever le chain de argu"
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [500, 17]
     rotation: 0
     state: true
@@ -142,10 +181,21 @@ blocks:
   parameters:
     comment: ''
     value: '20'
+=======
+    coordinate: [784, 95]
+    rotation: 0
+    state: true
+- name: fdev
+  id: variable
+  parameters:
+    comment: ''
+    value: data_rate/4
+>>>>>>> Revert "enlever le chain de argu"
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [1160, 28.0]
     rotation: 0
     state: true
@@ -154,11 +204,25 @@ blocks:
   parameters:
     comment: ''
     value: '16'
+=======
+    coordinate: [394, 15]
+    rotation: 0
+    state: true
+- name: hdr_len
+  id: variable
+  parameters:
+    comment: ''
+    value: '8'
+>>>>>>> Revert "enlever le chain de argu"
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [1160, 92.0]
+=======
+    coordinate: [500, 17]
+>>>>>>> Revert "enlever le chain de argu"
     rotation: 0
     state: true
 - name: packet_len
@@ -170,19 +234,31 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [1352, 244.0]
+=======
+    coordinate: [582, 96]
+>>>>>>> Revert "enlever le chain de argu"
     rotation: 0
     state: true
 - name: payload_len
   id: variable
   parameters:
     comment: ''
+<<<<<<< refs/remotes/upstream/main
     value: spectrogram_len+24
+=======
+    value: '664'
+>>>>>>> Revert "enlever le chain de argu"
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [1160, 244.0]
+=======
+    coordinate: [580, 18]
+>>>>>>> Revert "enlever le chain de argu"
     rotation: 0
     state: true
 - name: rx_gain
@@ -203,7 +279,11 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [1032, 12.0]
+=======
+    coordinate: [984, 20]
+>>>>>>> Revert "enlever le chain de argu"
     rotation: 0
     state: true
 - name: samp_rate
@@ -218,6 +298,7 @@ blocks:
     coordinate: [202, 15]
     rotation: 0
     state: enabled
+<<<<<<< refs/remotes/upstream/main
 - name: spectrogram_len
   id: variable
   parameters:
@@ -230,6 +311,8 @@ blocks:
     coordinate: [1160, 156.0]
     rotation: 0
     state: true
+=======
+>>>>>>> Revert "enlever le chain de argu"
 - name: fsk_demodulation_0
   id: fsk_demodulation
   parameters:
@@ -247,6 +330,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [672, 284.0]
     rotation: 0
     state: enabled
@@ -262,10 +346,28 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     packet_len: packet_len
+=======
+    coordinate: [607, 347]
+    rotation: 0
+    state: enabled
+- name: fsk_packet_parser_0
+  id: fsk_packet_parser
+  parameters:
+    address: '[0,0,1,1,1,1,1,0,0,0,1,0,1,0,1,0,0,1,0,1,0,1,0,0,1,0,1,1,0,1,1,1]'
+    affinity: ''
+    alias: ''
+    comment: ''
+    crc_len: crc_len
+    hdr_len: hdr_len
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    payload_len: payload_len
+>>>>>>> Revert "enlever le chain de argu"
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [288, 156.0]
     rotation: 0
     state: true
@@ -281,11 +383,33 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     payload_len: payload_len
+=======
+    coordinate: [882, 355]
+    rotation: 0
+    state: enabled
+- name: fsk_preamble_detect_0
+  id: fsk_preamble_detect
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    drate: data_rate
+    fdev: fdev
+    fsamp: samp_rate
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packet_len: packet_len
+    threshold: '0.1'
+>>>>>>> Revert "enlever le chain de argu"
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [936, 292.0]
+=======
+    coordinate: [615, 192]
+>>>>>>> Revert "enlever le chain de argu"
     rotation: 0
     state: enabled
 - name: fsk_synchronization_0
@@ -306,7 +430,11 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [400, 276.0]
+=======
+    coordinate: [896, 184]
+>>>>>>> Revert "enlever le chain de argu"
     rotation: 0
     state: enabled
 - name: limesdr_fpga_source_0
@@ -325,9 +453,16 @@ blocks:
     dacVal: '180'
     digital_bandw_ch0: samp_rate
     digital_bandw_ch1: samp_rate
+<<<<<<< refs/remotes/upstream/main
     dspcfg_PASSTHROUGH_LEN: (packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate)+2000
     dspcfg_THRESHOLD: K_threshold
     dspcfg_preamble_en: '1'
+=======
+    dspcfg_FILTER_LEN: '32'
+    dspcfg_PASSTHROUGH_LEN: (packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate)+2000
+    dspcfg_THRESHOLD: detect_threshold_fpga
+    dspcfg_preamble_en: '0'
+>>>>>>> Revert "enlever le chain de argu"
     filename: ''
     gain_dB_ch0: rx_gain
     gain_dB_ch1: '1'
@@ -345,7 +480,11 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [16, 204.0]
+=======
+    coordinate: [28, 201]
+>>>>>>> Revert "enlever le chain de argu"
     rotation: 0
     state: true
 - name: qtgui_sink_x_0
@@ -374,7 +513,11 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [296, 428.0]
+=======
+    coordinate: [366, 466]
+>>>>>>> Revert "enlever le chain de argu"
     rotation: 0
     state: true
 - name: zeromq_pub_sink_0
@@ -393,16 +536,27 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
+<<<<<<< refs/remotes/upstream/main
     coordinate: [1048, 420.0]
+=======
+    coordinate: [1166, 355]
+>>>>>>> Revert "enlever le chain de argu"
     rotation: 0
     state: enabled
 
 connections:
 - [fsk_demodulation_0, '0', fsk_packet_parser_0, '0']
+<<<<<<< refs/remotes/upstream/main
 - [fsk_flag_detector_0, '0', fsk_synchronization_0, '0']
 - [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
 - [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
 - [limesdr_fpga_source_0, '0', fsk_flag_detector_0, '0']
+=======
+- [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
+- [fsk_preamble_detect_0, '0', fsk_synchronization_0, '0']
+- [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
+- [limesdr_fpga_source_0, '0', fsk_preamble_detect_0, '0']
+>>>>>>> Revert "enlever le chain de argu"
 - [limesdr_fpga_source_0, '0', qtgui_sink_x_0, '0']
 
 metadata:

@@ -3,6 +3,7 @@
 # DO NOT MODIFY
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # Av_FIFO_Int "Av_FIFO_Int" v1.0
 # ZT 2017.03.17.15:56:06
@@ -18,6 +19,23 @@ package require -exact qsys 15.1
 # 
 # module Av_FIFO_Int
 # 
+=======
+#
+# Av_FIFO_Int "Av_FIFO_Int" v1.0
+# ZT 2017.03.17.15:56:06
+# Avalon interface to onchip FIFO memory
+#
+
+#
+# request TCL package from ACDS 15.1
+#
+package require -exact qsys 15.1
+
+
+#
+# module Av_FIFO_Int
+#
+>>>>>>> Revert "enlever le chain de argu"
 set_module_property DESCRIPTION "Avalon interface to onchip FIFO memory"
 set_module_property NAME Av_FIFO_Int
 set_module_property VERSION 1.0
@@ -33,9 +51,15 @@ set_module_property ALLOW_GREYBOX_GENERATION false
 set_module_property REPORT_HIERARCHY false
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # file sets
 # 
+=======
+#
+# file sets
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_fileset QUARTUS_SYNTH QUARTUS_SYNTH "" ""
 set_fileset_property QUARTUS_SYNTH TOP_LEVEL avfifo
 set_fileset_property QUARTUS_SYNTH ENABLE_RELATIVE_INCLUDE_PATHS false
@@ -43,9 +67,15 @@ set_fileset_property QUARTUS_SYNTH ENABLE_FILE_OVERWRITE_MODE false
 add_fileset_file avfifo.vhd VHDL PATH ip/avfifo/avfifo.vhd TOP_LEVEL_FILE
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # parameters
 # 
+=======
+#
+# parameters
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_parameter width INTEGER 32
 set_parameter_property width DEFAULT_VALUE 32
 set_parameter_property width DISPLAY_NAME width
@@ -56,6 +86,7 @@ set_parameter_property width ALLOWED_RANGES -2147483648:2147483647
 set_parameter_property width HDL_PARAMETER true
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # display items
 # 
@@ -64,6 +95,16 @@ set_parameter_property width HDL_PARAMETER true
 # 
 # connection point clock
 # 
+=======
+#
+# display items
+#
+
+
+#
+# connection point clock
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface clock clock end
 set_interface_property clock clockRate 0
 set_interface_property clock ENABLED true
@@ -75,9 +116,15 @@ set_interface_property clock SVD_ADDRESS_GROUP ""
 add_interface_port clock clk clk Input 1
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # connection point avalon_slave_0
 # 
+=======
+#
+# connection point avalon_slave_0
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface avalon_slave_0 avalon end
 set_interface_property avalon_slave_0 addressUnits WORDS
 set_interface_property avalon_slave_0 associatedClock clock
@@ -113,9 +160,15 @@ set_interface_assignment avalon_slave_0 embeddedsw.configuration.isNonVolatileSt
 set_interface_assignment avalon_slave_0 embeddedsw.configuration.isPrintableDevice 0
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # connection point reset
 # 
+=======
+#
+# connection point reset
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface reset reset end
 set_interface_property reset associatedClock clock
 set_interface_property reset synchronousEdges DEASSERT
@@ -128,9 +181,15 @@ set_interface_property reset SVD_ADDRESS_GROUP ""
 add_interface_port reset rsi_nrst reset_n Input 1
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # connection point cnd_if_d
 # 
+=======
+#
+# connection point cnd_if_d
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface cnd_if_d conduit end
 set_interface_property cnd_if_d associatedClock clock
 set_interface_property cnd_if_d associatedReset reset
@@ -143,9 +202,15 @@ set_interface_property cnd_if_d SVD_ADDRESS_GROUP ""
 add_interface_port cnd_if_d coe_if_d export Input 32
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # connection point cnd_if_rd
 # 
+=======
+#
+# connection point cnd_if_rd
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface cnd_if_rd conduit end
 set_interface_property cnd_if_rd associatedClock clock
 set_interface_property cnd_if_rd associatedReset reset
@@ -158,9 +223,15 @@ set_interface_property cnd_if_rd SVD_ADDRESS_GROUP ""
 add_interface_port cnd_if_rd coe_if_rd export Output 1
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # connection point cnd_of_wrfull
 # 
+=======
+#
+# connection point cnd_of_wrfull
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface cnd_of_wrfull conduit end
 set_interface_property cnd_of_wrfull associatedClock clock
 set_interface_property cnd_of_wrfull associatedReset reset
@@ -173,9 +244,15 @@ set_interface_property cnd_of_wrfull SVD_ADDRESS_GROUP ""
 add_interface_port cnd_of_wrfull coe_of_wrfull export Input 1
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # connection point cnd_of_wr
 # 
+=======
+#
+# connection point cnd_of_wr
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface cnd_of_wr conduit end
 set_interface_property cnd_of_wr associatedClock clock
 set_interface_property cnd_of_wr associatedReset reset
@@ -188,9 +265,15 @@ set_interface_property cnd_of_wr SVD_ADDRESS_GROUP ""
 add_interface_port cnd_of_wr coe_of_wr export Output 1
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # connection point cnd_of_d
 # 
+=======
+#
+# connection point cnd_of_d
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface cnd_of_d conduit end
 set_interface_property cnd_of_d associatedClock clock
 set_interface_property cnd_of_d associatedReset reset
@@ -203,9 +286,15 @@ set_interface_property cnd_of_d SVD_ADDRESS_GROUP ""
 add_interface_port cnd_of_d coe_of_d export Output 32
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # connection point cnd_if_rdempty
 # 
+=======
+#
+# connection point cnd_if_rdempty
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface cnd_if_rdempty conduit end
 set_interface_property cnd_if_rdempty associatedClock clock
 set_interface_property cnd_if_rdempty associatedReset reset
@@ -218,9 +307,15 @@ set_interface_property cnd_if_rdempty SVD_ADDRESS_GROUP ""
 add_interface_port cnd_if_rdempty coe_if_rdempty export Input 1
 
 
+<<<<<<< refs/remotes/upstream/main
 # 
 # connection point cnd_fifo_rst
 # 
+=======
+#
+# connection point cnd_fifo_rst
+#
+>>>>>>> Revert "enlever le chain de argu"
 add_interface cnd_fifo_rst conduit end
 set_interface_property cnd_fifo_rst associatedClock clock
 set_interface_property cnd_fifo_rst associatedReset reset
@@ -231,4 +326,7 @@ set_interface_property cnd_fifo_rst CMSIS_SVD_VARIABLES ""
 set_interface_property cnd_fifo_rst SVD_ADDRESS_GROUP ""
 
 add_interface_port cnd_fifo_rst coe_fifo_rst export Output 1
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

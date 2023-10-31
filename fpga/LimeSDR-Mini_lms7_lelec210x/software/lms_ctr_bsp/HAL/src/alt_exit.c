@@ -38,6 +38,7 @@
 #include "alt_types.h"
 #include "sys/alt_log_printf.h"
 /*
+<<<<<<< refs/remotes/upstream/main
  * _exit() is called by exit() in order to terminate the current process. 
  * Typically this is called when main() completes. It should never return. 
  * Since there is nowhere to go once this process completes, this 
@@ -45,6 +46,15 @@
  *
  * Note that interrupts are not disabled so that execution outside of this
  * thread is allowed to continue. 
+=======
+ * _exit() is called by exit() in order to terminate the current process.
+ * Typically this is called when main() completes. It should never return.
+ * Since there is nowhere to go once this process completes, this
+ * implementation simply blocks forever.
+ *
+ * Note that interrupts are not disabled so that execution outside of this
+ * thread is allowed to continue.
+>>>>>>> Revert "enlever le chain de argu"
  *
  * ALT_EXIT is mapped onto the _exit() system call in alt_syscall.h
  */

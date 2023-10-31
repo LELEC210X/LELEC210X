@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	rxiq_siso_sdr.vhd
 -- DESCRIPTION:	rxiq samples in SISO sdr mode
 -- DATE:	Jan 13, 2016
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -20,6 +28,7 @@ entity rxiq_siso_sdr is
       clk         : in std_logic;
       reset_n     : in std_logic;
       fidm		   : in std_logic; -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
+<<<<<<< refs/remotes/upstream/main
       --Rx interface data 
       DIQ_h		 	: in std_logic_vector(iq_width downto 0);
 		DIQ_l	 	   : in std_logic_vector(iq_width downto 0);
@@ -27,6 +36,15 @@ entity rxiq_siso_sdr is
       fifo_wfull  : in std_logic;
       fifo_wrreq  : out std_logic;
       fifo_wdata  : out std_logic_vector(iq_width*4-1 downto 0)   
+=======
+      --Rx interface data
+      DIQ_h		 	: in std_logic_vector(iq_width downto 0);
+		DIQ_l	 	   : in std_logic_vector(iq_width downto 0);
+      --fifo ports
+      fifo_wfull  : in std_logic;
+      fifo_wrreq  : out std_logic;
+      fifo_wdata  : out std_logic_vector(iq_width*4-1 downto 0)
+>>>>>>> Revert "enlever le chain de argu"
         );
 end rxiq_siso_sdr;
 
@@ -52,7 +70,11 @@ signal diq_valid    	      : std_logic;
 signal fifo_data			   : std_logic_vector(iq_width*4-1 downto 0);
 signal fifo_data_valid	   : std_logic;
 
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 diq_valid<= (reg_l_0(iq_width) XOR DIQ_l(iq_width));
@@ -63,7 +85,11 @@ diq_valid<= (reg_l_0(iq_width) XOR DIQ_l(iq_width));
       if reset_n='0' then
          reg_l_0<=(others=>'0');
       elsif (clk'event and clk = '1') then
+<<<<<<< refs/remotes/upstream/main
          reg_l_0<=DIQ_l; 
+=======
+         reg_l_0<=DIQ_l;
+>>>>>>> Revert "enlever le chain de argu"
  	    end if;
     end process;
 -- ----------------------------------------------------------------------------
@@ -75,6 +101,7 @@ diq_pos0_cap_en <= not (diq_pos1_cap_en OR diq_pos2_cap_en);
     begin
       if reset_n='0' then
          diq_pos0_reg 		<= (others=>'0');
+<<<<<<< refs/remotes/upstream/main
 			diq_pos1_cap_en 	<= '0'; 
       elsif (clk'event and clk = '1') then
 			if DIQ_l(iq_width) = fidm AND diq_valid='1' AND diq_pos0_cap_en='1' then 
@@ -84,6 +111,17 @@ diq_pos0_cap_en <= not (diq_pos1_cap_en OR diq_pos2_cap_en);
 				diq_pos0_reg   	<= diq_pos0_reg;
 				diq_pos1_cap_en	<='0';
 			end if; 
+=======
+			diq_pos1_cap_en 	<= '0';
+      elsif (clk'event and clk = '1') then
+			if DIQ_l(iq_width) = fidm AND diq_valid='1' AND diq_pos0_cap_en='1' then
+         	diq_pos0_reg 		<= DIQ_l(iq_width-1 downto 0);
+				diq_pos1_cap_en	<= '1';
+			else
+				diq_pos0_reg   	<= diq_pos0_reg;
+				diq_pos1_cap_en	<='0';
+			end if;
+>>>>>>> Revert "enlever le chain de argu"
  	    end if;
     end process;
 
@@ -94,6 +132,7 @@ diq_pos0_cap_en <= not (diq_pos1_cap_en OR diq_pos2_cap_en);
     begin
       if reset_n='0' then
          diq_pos1_reg <= (others=>'0');
+<<<<<<< refs/remotes/upstream/main
 			diq_pos2_cap_en <= '0';  
       elsif (clk'event and clk = '1') then
 			if DIQ_l(iq_width) = NOT fidm AND diq_valid='1' AND diq_pos1_cap_en='1' then 
@@ -103,6 +142,17 @@ diq_pos0_cap_en <= not (diq_pos1_cap_en OR diq_pos2_cap_en);
 				diq_pos1_reg <= diq_pos1_reg;
 				diq_pos2_cap_en <= '0';
 			end if; 
+=======
+			diq_pos2_cap_en <= '0';
+      elsif (clk'event and clk = '1') then
+			if DIQ_l(iq_width) = NOT fidm AND diq_valid='1' AND diq_pos1_cap_en='1' then
+         	diq_pos1_reg <= DIQ_l(iq_width-1 downto 0);
+				diq_pos2_cap_en <= '1';
+			else
+				diq_pos1_reg <= diq_pos1_reg;
+				diq_pos2_cap_en <= '0';
+			end if;
+>>>>>>> Revert "enlever le chain de argu"
  	    end if;
     end process;
 
@@ -113,6 +163,7 @@ diq_pos0_cap_en <= not (diq_pos1_cap_en OR diq_pos2_cap_en);
     begin
       if reset_n='0' then
          diq_pos2_reg <= (others=>'0');
+<<<<<<< refs/remotes/upstream/main
 			diq_pos3_cap_en <= '0';  
       elsif (clk'event and clk = '1') then
 			if DIQ_l(iq_width) = fidm AND diq_valid='1' AND diq_pos2_cap_en='1' then 
@@ -122,6 +173,17 @@ diq_pos0_cap_en <= not (diq_pos1_cap_en OR diq_pos2_cap_en);
 				diq_pos2_reg <= diq_pos2_reg;
 				diq_pos3_cap_en <= '0';
 			end if; 
+=======
+			diq_pos3_cap_en <= '0';
+      elsif (clk'event and clk = '1') then
+			if DIQ_l(iq_width) = fidm AND diq_valid='1' AND diq_pos2_cap_en='1' then
+         	diq_pos2_reg <= DIQ_l(iq_width-1 downto 0);
+				diq_pos3_cap_en <= '1';
+			else
+				diq_pos2_reg <= diq_pos2_reg;
+				diq_pos3_cap_en <= '0';
+			end if;
+>>>>>>> Revert "enlever le chain de argu"
  	    end if;
     end process;
 
@@ -131,6 +193,7 @@ diq_pos0_cap_en <= not (diq_pos1_cap_en OR diq_pos2_cap_en);
 diq_pos3_reg_proc : process(reset_n, clk)
     begin
       if reset_n='0' then
+<<<<<<< refs/remotes/upstream/main
          diq_pos3_reg <= (others=>'0'); 
       elsif (clk'event and clk = '1') then
 			if DIQ_l(iq_width) = NOT fidm AND diq_valid='1' AND diq_pos3_cap_en='1' then 
@@ -145,11 +208,28 @@ diq_pos3_reg_proc : process(reset_n, clk)
 -- ----------------------------------------------------------------------------
 -- FIFO data and FIFO data valid signals
 -- ---------------------------------------------------------------------------- 
+=======
+         diq_pos3_reg <= (others=>'0');
+      elsif (clk'event and clk = '1') then
+			if DIQ_l(iq_width) = NOT fidm AND diq_valid='1' AND diq_pos3_cap_en='1' then
+         	diq_pos3_reg <= DIQ_l(iq_width-1 downto 0);
+			else
+				diq_pos3_reg <= diq_pos3_reg;
+			end if;
+ 	    end if;
+    end process;
+
+
+-- ----------------------------------------------------------------------------
+-- FIFO data and FIFO data valid signals
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 fifo_data <= diq_pos1_reg & diq_pos0_reg & diq_pos3_reg & diq_pos2_reg;
 
 fifo_data_valid_proc : process(reset_n, clk)
     begin
       if reset_n='0' then
+<<<<<<< refs/remotes/upstream/main
          fifo_data_valid<='0'; 
       elsif (clk'event and clk = '1') then
 			if diq_pos3_cap_en='1' then 
@@ -174,3 +254,22 @@ end arch;
 
 
 
+=======
+         fifo_data_valid<='0';
+      elsif (clk'event and clk = '1') then
+			if diq_pos3_cap_en='1' then
+         	fifo_data_valid <= '1';
+			else
+				fifo_data_valid <= '0';
+			end if;
+ 	    end if;
+    end process;
+
+
+--to external ports
+fifo_wdata <= fifo_data;
+fifo_wrreq <= fifo_data_valid AND NOT fifo_wfull;
+
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

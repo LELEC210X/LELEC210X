@@ -32,15 +32,26 @@
 ******************************************************************************/
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_irq.h is the Nios II specific implementation of the interrupt controller 
  * interface.
  *
  * Nios II includes optional support for an external interrupt controller. 
+=======
+ * alt_irq.h is the Nios II specific implementation of the interrupt controller
+ * interface.
+ *
+ * Nios II includes optional support for an external interrupt controller.
+>>>>>>> Revert "enlever le chain de argu"
  * When an external controller is present, the "Enhanced" interrupt API
  * must be used to manage individual interrupts. The enhanced API also
  * supports the processor's internal interrupt controller. Certain API
  * members are accessible from either the "legacy" or "enhanced" interrpt
+<<<<<<< refs/remotes/upstream/main
  * API. 
+=======
+ * API.
+>>>>>>> Revert "enlever le chain de argu"
  *
  * Regardless of which API is in use, this file should be included by
  * application code and device drivers that register ISRs or manage interrpts.
@@ -60,9 +71,15 @@ extern "C"
  * Macros used by alt_irq_enabled
  */
 #define ALT_IRQ_ENABLED  1
+<<<<<<< refs/remotes/upstream/main
 #define ALT_IRQ_DISABLED 0  
 
 /* 
+=======
+#define ALT_IRQ_DISABLED 0
+
+/*
+>>>>>>> Revert "enlever le chain de argu"
  * Number of available interrupts in internal interrupt controller.
  */
 #define ALT_NIRQ NIOS2_NIRQ
@@ -83,6 +100,7 @@ typedef void (*alt_isr_func)(void* isr_context, alt_u32 id);
  * The following protypes and routines are supported by both
  * the enhanced and legacy interrupt APIs
  */
+<<<<<<< refs/remotes/upstream/main
  
 /*
  * alt_irq_enabled can be called to determine if the processor's global
@@ -92,6 +110,17 @@ typedef void (*alt_isr_func)(void* isr_context, alt_u32 id);
  * Whether the internal or external interrupt controller is present, 
  * individual interrupts may still be disabled. Use the other API to query
  * a specific interrupt. 
+=======
+
+/*
+ * alt_irq_enabled can be called to determine if the processor's global
+ * interrupt enable is asserted. The return value is zero if interrupts
+ * are disabled, and non-zero otherwise.
+ *
+ * Whether the internal or external interrupt controller is present,
+ * individual interrupts may still be disabled. Use the other API to query
+ * a specific interrupt.
+>>>>>>> Revert "enlever le chain de argu"
  */
 static ALT_INLINE int ALT_ALWAYS_INLINE alt_irq_enabled (void)
 {
@@ -99,6 +128,7 @@ static ALT_INLINE int ALT_ALWAYS_INLINE alt_irq_enabled (void)
 
   NIOS2_READ_STATUS (status);
 
+<<<<<<< refs/remotes/upstream/main
   return status & NIOS2_STATUS_PIE_MSK; 
 }
 
@@ -111,6 +141,20 @@ static ALT_INLINE int ALT_ALWAYS_INLINE alt_irq_enabled (void)
  * state before this routine was called.
  */
 static ALT_INLINE alt_irq_context ALT_ALWAYS_INLINE 
+=======
+  return status & NIOS2_STATUS_PIE_MSK;
+}
+
+/*
+ * alt_irq_disable_all()
+ *
+ * This routine inhibits all interrupts by negating the status register PIE
+ * bit. It returns the previous contents of the CPU status register (IRQ
+ * context) which can be used to restore the status register PIE bit to its
+ * state before this routine was called.
+ */
+static ALT_INLINE alt_irq_context ALT_ALWAYS_INLINE
+>>>>>>> Revert "enlever le chain de argu"
        alt_irq_disable_all (void)
 {
   alt_irq_context context;
@@ -118,40 +162,71 @@ static ALT_INLINE alt_irq_context ALT_ALWAYS_INLINE
   NIOS2_READ_STATUS (context);
 
   NIOS2_WRITE_STATUS (context & ~NIOS2_STATUS_PIE_MSK);
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   return context;
 }
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_irq_enable_all() 
+=======
+ * alt_irq_enable_all()
+>>>>>>> Revert "enlever le chain de argu"
  *
  * Enable all interrupts that were previously disabled by alt_irq_disable_all()
  *
  * This routine accepts a context to restore the CPU status register PIE bit
  * to the state prior to a call to alt_irq_disable_all().
+<<<<<<< refs/remotes/upstream/main
  
  * In the case of nested calls to alt_irq_disable_all()/alt_irq_enable_all(), 
+=======
+
+ * In the case of nested calls to alt_irq_disable_all()/alt_irq_enable_all(),
+>>>>>>> Revert "enlever le chain de argu"
  * this means that alt_irq_enable_all() does not necessarily re-enable
  * interrupts.
  *
  * This routine will perform a read-modify-write sequence to restore only
+<<<<<<< refs/remotes/upstream/main
  * status.PIE if the processor is configured with options that add additional 
  * writeable status register bits. These include the MMU, MPU, the enhanced 
  * interrupt controller port, and shadow registers. Otherwise, as a performance
  * enhancement, status is overwritten with the prior context. 
  */
 static ALT_INLINE void ALT_ALWAYS_INLINE 
+=======
+ * status.PIE if the processor is configured with options that add additional
+ * writeable status register bits. These include the MMU, MPU, the enhanced
+ * interrupt controller port, and shadow registers. Otherwise, as a performance
+ * enhancement, status is overwritten with the prior context.
+ */
+static ALT_INLINE void ALT_ALWAYS_INLINE
+>>>>>>> Revert "enlever le chain de argu"
        alt_irq_enable_all (alt_irq_context context)
 {
 #if (NIOS2_NUM_OF_SHADOW_REG_SETS > 0) || (defined NIOS2_EIC_PRESENT) || \
     (defined NIOS2_MMU_PRESENT) || (defined NIOS2_MPU_PRESENT)
   alt_irq_context status;
+<<<<<<< refs/remotes/upstream/main
   
   NIOS2_READ_STATUS (status);
   
   status &= ~NIOS2_STATUS_PIE_MSK;
   status |= (context & NIOS2_STATUS_PIE_MSK);
   
+=======
+
+  NIOS2_READ_STATUS (status);
+
+  status &= ~NIOS2_STATUS_PIE_MSK;
+  status |= (context & NIOS2_STATUS_PIE_MSK);
+
+>>>>>>> Revert "enlever le chain de argu"
   NIOS2_WRITE_STATUS (status);
 #else
   NIOS2_WRITE_STATUS (context);
@@ -172,13 +247,21 @@ extern void alt_irq_init (const void* base);
 /*
  * alt_irq_cpu_enable_interrupts() enables the CPU to start taking interrupts.
  */
+<<<<<<< refs/remotes/upstream/main
 static ALT_INLINE void ALT_ALWAYS_INLINE 
+=======
+static ALT_INLINE void ALT_ALWAYS_INLINE
+>>>>>>> Revert "enlever le chain de argu"
        alt_irq_cpu_enable_interrupts (void)
 {
     NIOS2_WRITE_STATUS(NIOS2_STATUS_PIE_MSK
 #if defined(NIOS2_EIC_PRESENT) && (NIOS2_NUM_OF_SHADOW_REG_SETS > 0)
     | NIOS2_STATUS_RSIE_MSK
+<<<<<<< refs/remotes/upstream/main
 #endif      
+=======
+#endif
+>>>>>>> Revert "enlever le chain de argu"
       );
 }
 
@@ -189,7 +272,11 @@ static ALT_INLINE void ALT_ALWAYS_INLINE
 #ifdef ALT_ENHANCED_INTERRUPT_API_PRESENT
 /*
  * alt_ic_isr_register() can be used to register an interrupt handler. If the
+<<<<<<< refs/remotes/upstream/main
  * function is succesful, then the requested interrupt will be enabled upon 
+=======
+ * function is succesful, then the requested interrupt will be enabled upon
+>>>>>>> Revert "enlever le chain de argu"
  * return.
  */
 extern int alt_ic_isr_register(alt_u32 ic_id,
@@ -198,6 +285,7 @@ extern int alt_ic_isr_register(alt_u32 ic_id,
                         void *isr_context,
                         void *flags);
 
+<<<<<<< refs/remotes/upstream/main
 /* 
  * alt_ic_irq_enable() and alt_ic_irq_disable() enable/disable a specific 
  * interrupt by using IRQ port and interrupt controller instance.
@@ -212,11 +300,31 @@ int alt_ic_irq_disable(alt_u32 ic_id, alt_u32 irq);
 alt_u32 alt_ic_irq_enabled(alt_u32 ic_id, alt_u32 irq);
 
 #else 
+=======
+/*
+ * alt_ic_irq_enable() and alt_ic_irq_disable() enable/disable a specific
+ * interrupt by using IRQ port and interrupt controller instance.
+ */
+int alt_ic_irq_enable (alt_u32 ic_id, alt_u32 irq);
+int alt_ic_irq_disable(alt_u32 ic_id, alt_u32 irq);
+
+ /*
+ * alt_ic_irq_enabled() indicates whether a specific interrupt, as
+ * specified by IRQ port and interrupt controller instance is enabled.
+ */
+alt_u32 alt_ic_irq_enabled(alt_u32 ic_id, alt_u32 irq);
+
+#else
+>>>>>>> Revert "enlever le chain de argu"
 /*
  * Prototypes for the legacy interrupt API.
  */
 #include "priv/alt_legacy_irq.h"
+<<<<<<< refs/remotes/upstream/main
 #endif 
+=======
+#endif
+>>>>>>> Revert "enlever le chain de argu"
 
 
 /*
@@ -236,7 +344,11 @@ static ALT_INLINE alt_u32 ALT_ALWAYS_INLINE alt_irq_pending (void)
 
   return active;
 }
+<<<<<<< refs/remotes/upstream/main
 #endif 
+=======
+#endif
+>>>>>>> Revert "enlever le chain de argu"
 
 #ifdef __cplusplus
 }

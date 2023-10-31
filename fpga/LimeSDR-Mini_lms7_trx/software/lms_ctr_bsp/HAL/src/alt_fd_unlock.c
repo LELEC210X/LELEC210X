@@ -35,7 +35,11 @@
 #include "priv/alt_file.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_fd_unlock() is the inverse of alt_fd_lock(). It is called as a 
+=======
+ * alt_fd_unlock() is the inverse of alt_fd_lock(). It is called as a
+>>>>>>> Revert "enlever le chain de argu"
  * consequence of a TIOCNXCL ioctl request, e.g:
  *
  * ioctl (fd, TIOCNXCL, NULL);

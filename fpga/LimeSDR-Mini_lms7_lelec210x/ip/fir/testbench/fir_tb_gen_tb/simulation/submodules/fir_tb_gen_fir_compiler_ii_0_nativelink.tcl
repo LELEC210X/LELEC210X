@@ -1,5 +1,9 @@
 ## ================================================================================
+<<<<<<< refs/remotes/upstream/main
 ## Legal Notice: Copyright (C) 2023 Intel Corporation. All rights reserved.
+=======
+## Legal Notice: Copyright (C) 2021 Intel Corporation. All rights reserved.
+>>>>>>> Revert "enlever le chain de argu"
 ## Any megafunction design, and related net list (encrypted or decrypted),
 ## support information, device programming or simulation file, and any other
 ## associated documentation or information provided by Intel or a partner
@@ -36,7 +40,11 @@ set_global_assignment -name EDA_DESIGN_INSTANCE_NAME DUT -section_id tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME work.fir_tb_gen_fir_compiler_ii_0_tb -section_id tb
 set_global_assignment -name EDA_TEST_BENCH_GATE_LEVEL_NETLIST_LIBRARY work -section_id tb
 
+<<<<<<< refs/remotes/upstream/main
 # Add Testbench files 
+=======
+# Add Testbench files
+>>>>>>> Revert "enlever le chain de argu"
 foreach i $testbench_files {
   set_global_assignment -name EDA_TEST_BENCH_FILE $i -section_id tb -library work
 }

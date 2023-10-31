@@ -1,0 +1,29 @@
+\clearpage
+\section{Demo D2b: sound acquisition}
+
+The \textbf{demo D2b} will focus on sound acquisition. Now that you know how to program your MCU, how to acquire samples from an ADC at a given frequency and how to use the sound acquisition board to chose between the mini-jack input and the microphone, you should be able to record the new summer hit for 2024 (hum!). \\
+
+\noindent For the demo, we expect you to \textbf{trigger an assistant} when you are able to:
+
+\begin{enumerate}
+    \item Answer the questions in the \textit{question boxes} \bcquestion of this Hands-on; \\
+
+    \textbf{PART 1}
+    \item Press on the user button to start a recording of 3 seconds through the embedded microphone and say “Hello from group X”;
+    \item Transfer the samples through UART and capture it in Python (as provided with the \texttt{uart-reader.py} script);
+    \item Plot the waveform in Python and quickly explain why the signal is as expected;
+    \item Export an audio file and play it on your computer to prove that it works properly! \\
+
+    \textbf{PART 2}
+    \item Connect the ADALM2000 at the input of the ADC and generate a pure sine at 8 kHz.
+    \item Press on the user button to start a recording and when the acquisition is completed, transfer the samples through UART;
+    \item Plot both the waveform and the FFT in Python and comment.
+\end{enumerate}
+
+\vspace{0.3cm}
+\noindent All of this should be done "real-time" and as smooth as possible.
+
+    % \item Plot sound features (see Week 1) in \textbf{three} scenarios: source file, audio acquisition with the mini-jack connection, audio acquistion with the microphone. Repeat the process for \textbf{two} audio samples from different event classes (see the dataset provided in Week 1)
+    % \item Observe and discuss qualitatively the difference between features obtained in the three aforementioned scenarios.
+    % \item Perform a frequency analysis of four different tones: 50Hz, 500Hz, 5kHz and 10kHz. For each tone, generate a figure with the FFT of the signal in the three scenarios. Analyse the results you obtained.
+    % \item List the limitations introduced by the hardware available on the audio acquisition board (Hint: use the schematic and focus on the microphone circuitry vs the mini-jack circuitry).

@@ -32,7 +32,11 @@
 #include "system.h"
 
 #include "alt_types.h"
+<<<<<<< refs/remotes/upstream/main
 #include "sys/alt_cache.h" 
+=======
+#include "sys/alt_cache.h"
+>>>>>>> Revert "enlever le chain de argu"
 
 #define ALT_FLUSH_DATA_NO_WRITEBACK(i) \
   __asm__ volatile ("initda (%0)" :: "r" (i));
@@ -49,6 +53,7 @@
 void alt_dcache_flush_no_writeback (void* start, alt_u32 len)
 {
   char* i;
+<<<<<<< refs/remotes/upstream/main
   char* end = ((char*) start) + len; 
 
   for (i = start; i < end; i+= NIOS2_DCACHE_LINE_SIZE)
@@ -59,6 +64,18 @@ void alt_dcache_flush_no_writeback (void* start, alt_u32 len)
   /* 
    * For an unaligned flush request, we've got one more line left.
    * Note that this is dependent on NIOS2_DCACHE_LINE_SIZE to be a 
+=======
+  char* end = ((char*) start) + len;
+
+  for (i = start; i < end; i+= NIOS2_DCACHE_LINE_SIZE)
+  {
+    ALT_FLUSH_DATA_NO_WRITEBACK(i);
+  }
+
+  /*
+   * For an unaligned flush request, we've got one more line left.
+   * Note that this is dependent on NIOS2_DCACHE_LINE_SIZE to be a
+>>>>>>> Revert "enlever le chain de argu"
    * multiple of 2 (which it always is).
    */
 

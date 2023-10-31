@@ -1,0 +1,51 @@
+id: fsk_synchronization
+label: Synchronization
+category: "[FSK]"
+
+templates:
+  imports: import fsk
+  make: fsk.synchronization(${drate}, ${fdev}, ${fsamp}, ${hdr_len}, ${packet_len}, ${estimated_noise_power})
+
+#  Make one 'parameters' list entry for every parameter you want settable from the GUI.
+#     Keys include:
+#     * id (makes the value accessible as \$keyname, e.g. in the make entry)
+#     * label (label shown in the GUI)
+#     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
+parameters:
+  - id: drate
+    label: Data Rate
+    dtype: float
+  - id: fdev
+    label: Frequency Deviation
+    dtype: float
+  - id: fsamp
+    label: Sampling Frequency
+    dtype: float
+  - id: hdr_len
+    label: Header Length (bytes)
+    dtype: int
+  - id: packet_len
+    label: Packet Length (bytes)
+    dtype: int
+  - id: estimated_noise_power
+    label: Estimated Noise Power
+    dtype: float
+
+#  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
+#  Keys include:
+#      * label (an identifier for the GUI)
+#      * domain (optional - stream or message. Default is stream)
+#      * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
+#      * vlen (optional - data stream vector length. Default is 1)
+#      * optional (optional - set to 1 for optional inputs. Default is 0)
+inputs:
+  - label: Input
+    dtype: complex
+
+outputs:
+  - label: Output
+    dtype: complex
+
+#  'file_format' specifies the version of the GRC yml format used in the file
+#  and should usually not be changed.
+file_format: 1

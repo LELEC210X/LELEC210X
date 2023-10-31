@@ -1,4 +1,5 @@
 // (C) 2001-2018 Intel Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 // Your use of Intel Corporation's design tools, logic functions and other 
 // software and tools, and its AMPP partner logic functions, and any output 
 // files from any of the foregoing (including device programming or simulation 
@@ -8,10 +9,22 @@
 // license agreement, including, without limitation, that your use is for the 
 // sole purpose of programming logic devices manufactured by Intel and sold by 
 // Intel or its authorized distributors.  Please refer to the applicable 
+=======
+// Your use of Intel Corporation's design tools, logic functions and other
+// software and tools, and its AMPP partner logic functions, and any output
+// files from any of the foregoing (including device programming or simulation
+// files), and any associated documentation or information are expressly subject
+// to the terms and conditions of the Intel Program License Subscription
+// Agreement, Intel FPGA IP License Agreement, or other applicable
+// license agreement, including, without limitation, that your use is for the
+// sole purpose of programming logic devices manufactured by Intel and sold by
+// Intel or its authorized distributors.  Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 // agreement for further details.
 
 
 // (C) 2001-2012 Altera Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 // Your use of Altera Corporation's design tools, logic functions and other 
 // software and tools, and its AMPP partner logic functions, and any output 
 // files any of the foregoing (including device programming or simulation 
@@ -21,6 +34,17 @@
 // license agreement, including, without limitation, that your use is for the 
 // sole purpose of programming logic devices manufactured by Altera and sold by 
 // Altera or its authorized distributors.  Please refer to the applicable 
+=======
+// Your use of Altera Corporation's design tools, logic functions and other
+// software and tools, and its AMPP partner logic functions, and any output
+// files any of the foregoing (including device programming or simulation
+// files), and any associated documentation or information are expressly subject
+// to the terms and conditions of the Altera Program License Subscription
+// Agreement, Altera MegaCore Function License Agreement, or other applicable
+// license agreement, including, without limitation, that your use is for the
+// sole purpose of programming logic devices manufactured by Altera and sold by
+// Altera or its authorized distributors.  Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 // agreement for further details.
 
 
@@ -48,31 +72,51 @@ module altera_merlin_burst_uncompressor
 (
     input clk,
     input reset,
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     // sink ST signals
     input sink_startofpacket,
     input sink_endofpacket,
     input sink_valid,
     output sink_ready,
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     // sink ST "data"
     input [ADDR_W - 1: 0] sink_addr,
     input [BURSTWRAP_W - 1 : 0] sink_burstwrap,
     input [BYTE_CNT_W - 1 : 0] sink_byte_cnt,
     input sink_is_compressed,
     input [BURST_SIZE_W-1 : 0] sink_burstsize,
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     // source ST signals
     output source_startofpacket,
     output source_endofpacket,
     output source_valid,
     input source_ready,
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     // source ST "data"
     output [ADDR_W - 1: 0] source_addr,
     output [BURSTWRAP_W - 1 : 0] source_burstwrap,
     output [BYTE_CNT_W - 1 : 0] source_byte_cnt,
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     // Note: in the slave agent, the output should always be uncompressed.  In
     // other applications, it may be required to leave-compressed or not. How to
     // control?  Seems like a simple mux - pass-through if no uncompression is
@@ -103,14 +147,24 @@ function reg[63:0] bytes_in_transfer;
         default:bytes_in_transfer = 64'b0000000000000000000000000000000000000000000000000000000000000001;
     endcase
 
+<<<<<<< refs/remotes/upstream/main
 endfunction  
+=======
+endfunction
+>>>>>>> Revert "enlever le chain de argu"
 
    // num_symbols is PKT_SYMBOLS, appropriately sized.
    wire [31:0] int_num_symbols = PKT_SYMBOLS;
    wire [BYTE_CNT_W-1:0] num_symbols = int_num_symbols[BYTE_CNT_W-1:0];
+<<<<<<< refs/remotes/upstream/main
   
    // def: Burst Compression.  In a merlin network, a compressed burst is one 
    // which is transmitted in a single beat.  Example: read burst.  In 
+=======
+
+   // def: Burst Compression.  In a merlin network, a compressed burst is one
+   // which is transmitted in a single beat.  Example: read burst.  In
+>>>>>>> Revert "enlever le chain de argu"
    // constrast, an uncompressed burst (example: write burst) is transmitted in
    // one beat per writedata item.
    //
@@ -128,7 +182,11 @@ endfunction
    //     transition to busy state for 2nd and subsequent rdv pulses
    //     - a single-cycle burst (aka non-burst read) causes no transition to
    //     busy state.
+<<<<<<< refs/remotes/upstream/main
    //   b) response startofpacket/endofpacket logic.  The response FIFO item 
+=======
+   //   b) response startofpacket/endofpacket logic.  The response FIFO item
+>>>>>>> Revert "enlever le chain de argu"
    //   will have sop asserted, and may have eop asserted. (In the case of
    //   multiple read bursts transmit in the command fabric in a single packet,
    //   the eop assertion will come in a later FIFO item.)  To support packet
@@ -148,7 +206,11 @@ endfunction
    //   count of bytes to follow.  In the case of sub-bursts in a single packet,
    //   the byte_cnt field may decrement down to num_symbols, then back up to
    //   some value, multiple times in the packet.
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
    reg burst_uncompress_busy;
    reg [BYTE_CNT_W:0] burst_uncompress_byte_counter;
    wire [BYTE_CNT_W-1:0] burst_uncompress_byte_counter_lint;
@@ -163,7 +225,11 @@ endfunction
    assign source_byte_cnt =
      first_packet_beat ? sink_byte_cnt : burst_uncompress_byte_counter_lint;
    assign source_valid = sink_valid;
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
    // Last packet beat is set throughout receipt of an uncompressed read burst
    // from the response FIFO - this forces all the burst uncompression machinery
    // idle.
@@ -173,7 +239,11 @@ endfunction
        (sink_valid & (burst_uncompress_byte_counter_lint == num_symbols)) :
          sink_valid & (sink_byte_cnt == num_symbols)
      );
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
    always @(posedge clk or posedge reset) begin
      if (reset) begin
        burst_uncompress_busy <= '0;
@@ -189,7 +259,11 @@ endfunction
          end
          else begin
            if (burst_uncompress_busy) begin
+<<<<<<< refs/remotes/upstream/main
              burst_uncompress_byte_counter <= (burst_uncompress_byte_counter > 0) ? 
+=======
+             burst_uncompress_byte_counter <= (burst_uncompress_byte_counter > 0) ?
+>>>>>>> Revert "enlever le chain de argu"
                (burst_uncompress_byte_counter_lint - num_symbols) :
                (sink_byte_cnt - num_symbols);
            end
@@ -203,7 +277,11 @@ endfunction
        end
      end
    end
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
    reg [ADDR_W - 1 : 0 ] burst_uncompress_address_base;
    reg [ADDR_W - 1 : 0] burst_uncompress_address_offset;
 
@@ -214,11 +292,19 @@ endfunction
    localparam ADD_BURSTWRAP_W = (ADDR_W > BURSTWRAP_W) ? ADDR_W : BURSTWRAP_W;
    wire [ADD_BURSTWRAP_W-1:0] addr_width_burstwrap;
    // The input burstwrap value can be used as a mask against address values,
+<<<<<<< refs/remotes/upstream/main
    // but with one caveat: the address width may be (probably is) wider than 
    // the burstwrap width.  The spec says: extend the msb of the burstwrap 
    // value out over the entire address width (but only if the address width
    // actually is wider than the burstwrap width; otherwise it's a 0-width or
    // negative range and concatenation multiplier). 
+=======
+   // but with one caveat: the address width may be (probably is) wider than
+   // the burstwrap width.  The spec says: extend the msb of the burstwrap
+   // value out over the entire address width (but only if the address width
+   // actually is wider than the burstwrap width; otherwise it's a 0-width or
+   // negative range and concatenation multiplier).
+>>>>>>> Revert "enlever le chain de argu"
    generate
       if (ADDR_W > BURSTWRAP_W) begin : addr_sign_extend
          // Sign-extend, just wires:
@@ -270,27 +356,47 @@ endfunction
        end
      end
    end
+<<<<<<< refs/remotes/upstream/main
   
    // On the first packet beat, send the input address out unchanged, 
+=======
+
+   // On the first packet beat, send the input address out unchanged,
+>>>>>>> Revert "enlever le chain de argu"
    // while values are computed/registered for 2nd and subsequent beats.
    assign source_addr = first_packet_beat ? sink_addr :
        burst_uncompress_address_base | burst_uncompress_address_offset;
    assign source_burstwrap = sink_burstwrap;
    assign source_burstsize = sink_burstsize;
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
    //-------------------------------------------------------------------
    // A single (compressed) read burst will have sop/eop in the same beat.
    // A sequence of read sub-bursts emitted by a burst adapter in response to a
    // single read burst will have sop on the first sub-burst, eop on the last.
+<<<<<<< refs/remotes/upstream/main
    // Assert eop only upon (sink_endofpacket & last_packet_beat) to preserve 
+=======
+   // Assert eop only upon (sink_endofpacket & last_packet_beat) to preserve
+>>>>>>> Revert "enlever le chain de argu"
    // packet conservation.
    assign source_startofpacket = sink_startofpacket & ~burst_uncompress_busy;
    assign source_endofpacket   = sink_endofpacket & last_packet_beat;
    assign sink_ready = source_valid & source_ready & last_packet_beat;
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
    // This is correct for the slave agent usage, but won't always be true in the
    // width adapter.  To do: add an "please uncompress" input, and use it to
    // pass-through or modify, and set source_is_compressed accordingly.
    assign source_is_compressed = 1'b0;
 endmodule
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

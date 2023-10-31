@@ -54,6 +54,7 @@ extern struct timeval  alt_resettime;
 
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * settimeofday() can be called to calibrate the system clock, so that 
  * subsequent calls to gettimeofday() will return the elapsed "wall clock" 
  * time.
@@ -69,6 +70,23 @@ extern struct timeval  alt_resettime;
  * alt_syscall.h
  */
  
+=======
+ * settimeofday() can be called to calibrate the system clock, so that
+ * subsequent calls to gettimeofday() will return the elapsed "wall clock"
+ * time.
+ *
+ * This is done by updating the global structures "alt_resettime" and
+ * "alt_timezone" so that an immediate call to gettimeofday() would return
+ * the value specified by "t" and "tz".
+ *
+ * Warning: if this function is called concurrently with a call to
+ * gettimeofday(), the value returned by gettimeofday() will be unreliable.
+ *
+ * ALT_SETTIMEOFDAY is mapped onto the settimeofday() system call in
+ * alt_syscall.h
+ */
+
+>>>>>>> Revert "enlever le chain de argu"
 int ALT_SETTIMEOFDAY (const struct timeval  *t,
                       const struct timezone *tz)
 {
@@ -80,15 +98,26 @@ int ALT_SETTIMEOFDAY (const struct timeval  *t,
   if (tick_rate)
   {
     alt_resettime.tv_sec  = t->tv_sec - nticks/tick_rate;
+<<<<<<< refs/remotes/upstream/main
     alt_resettime.tv_usec = t->tv_usec - 
+=======
+    alt_resettime.tv_usec = t->tv_usec -
+>>>>>>> Revert "enlever le chain de argu"
       ((nticks*(ALT_US/tick_rate))%ALT_US);
 
     alt_timezone.tz_minuteswest = tz->tz_minuteswest;
     alt_timezone.tz_dsttime     = tz->tz_dsttime;
+<<<<<<< refs/remotes/upstream/main
     
     return 0;
   }
   
+=======
+
+    return 0;
+  }
+
+>>>>>>> Revert "enlever le chain de argu"
   /* There's no system clock available */
 
   ALT_ERRNO = ENOSYS;

@@ -33,7 +33,11 @@
 #include "alt_types.h"
 #include "sys/alt_irq.h"
 
+<<<<<<< refs/remotes/upstream/main
 extern int alt_iic_isr_register(alt_u32 ic_id, alt_u32 irq, alt_isr_func isr, 
+=======
+extern int alt_iic_isr_register(alt_u32 ic_id, alt_u32 irq, alt_isr_func isr,
+>>>>>>> Revert "enlever le chain de argu"
   void *isr_context, void *flags);
 
 #endif /* __ALT_IIC_ISR_REGISTER_H_ */

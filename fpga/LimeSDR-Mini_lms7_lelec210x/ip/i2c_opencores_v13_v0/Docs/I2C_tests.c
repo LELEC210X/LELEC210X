@@ -1,16 +1,28 @@
 /* these test were created to show how to use the opencores I2C along with a driver found in
+<<<<<<< refs/remotes/upstream/main
  * the I2C_opencores component to talk to various components. 
  * This test example uses a littel daughter board from microtronix
  * it has a I2c to parallel chip (PCA9554A) a EEPORM and real time clock. 
  * I chose not to impliment the real time clock. 
+=======
+ * the I2C_opencores component to talk to various components.
+ * This test example uses a littel daughter board from microtronix
+ * it has a I2c to parallel chip (PCA9554A) a EEPORM and real time clock.
+ * I chose not to impliment the real time clock.
+>>>>>>> Revert "enlever le chain de argu"
  * But you can see how the calls work
  * There are only 4 functions associalted with the I2C driver
  * I2C start  -  send start bit and address of the chip
  * I2C_read - read data
  * I2C_write. - write data
  * how and when each of these get used is based on the device you
+<<<<<<< refs/remotes/upstream/main
  * are talking to. 
  * See the driver code for details of each function. 
+=======
+ * are talking to.
+ * See the driver code for details of each function.
+>>>>>>> Revert "enlever le chain de argu"
  * */
 
 #include <stdio.h>
@@ -22,19 +34,33 @@ int main()
     int i;
     // testing the PCA9554A paralle interface
     // this writes a 5 to the leds and read the position of the dip switches.
+<<<<<<< refs/remotes/upstream/main
  printf(" tesing the PCA9554A interface the\n the LEDS should be at a 5 \n");  
  // address 0x38 
  // set the fequesncy that you want to run at 
+=======
+ printf(" tesing the PCA9554A interface the\n the LEDS should be at a 5 \n");
+ // address 0x38
+ // set the fequesncy that you want to run at
+>>>>>>> Revert "enlever le chain de argu"
  // most devices work at 100Khz  some faster
  I2C_init(I2CA_BASE,ALT_CPU_FREQ,100000);
  I2C_init(I2CA_BASE,ALT_CPU_FREQ,100000);
  // for the parallel io only the first 4 are output s
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
  // the PCA9554A   uses a command word right after the chip address word ( the start work)
  I2C_start(I2CA_BASE,0x38,0);// chip address in write mode
  I2C_write(I2CA_BASE,3,0);  // write to register 3 command
  I2C_write(I2CA_BASE,0xf0,1);  // set the bottom 4 bits to outputs for the LEDs set the stop
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
  // now right to the leds
   I2C_start(I2CA_BASE,0x38,0); // address the chip in write mode
  I2C_write(I2CA_BASE,1,0);  // set command to the pca9554 to be output register
@@ -46,13 +72,18 @@ int main()
 data =  I2C_write(I2CA_BASE,0,0);  // set command to read input register.
  I2C_start(I2CA_BASE,0x38,1); //send start again but this time in read mode
 data =  I2C_read(I2CA_BASE,1);  // read the input register and send stop
+<<<<<<< refs/remotes/upstream/main
 data = 0xff & (data >>4);   
+=======
+data = 0xff & (data >>4);
+>>>>>>> Revert "enlever le chain de argu"
 printf("dip switch 0x%x\n",data);
 
 printf("\nNow writing and reading from the EEPROM\n");
 //address 0x50-57
 I2C_start(I2CA_BASE,0x50,0); // chip address in write mode
 I2C_write(I2CA_BASE,0,0);  // write to starting address of 0
+<<<<<<< refs/remotes/upstream/main
 // now write the data 
 for (i=0;i<7;i++)           // can only write 8 bites at a time
 {   
@@ -60,10 +91,20 @@ for (i=0;i<7;i++)           // can only write 8 bites at a time
 }
  I2C_write(I2CA_BASE,i,1);  // write last one with last flag
  
+=======
+// now write the data
+for (i=0;i<7;i++)           // can only write 8 bites at a time
+{
+ I2C_write(I2CA_BASE,i,0);  // writ the data
+}
+ I2C_write(I2CA_BASE,i,1);  // write last one with last flag
+
+>>>>>>> Revert "enlever le chain de argu"
  while ( I2C_start(I2CA_BASE,0x50,0)); // make sure the write is done be fore continuing.
  // can ony burst 8 at a time.
 
 I2C_write(I2CA_BASE,8,0);  // write to starting address of 8
+<<<<<<< refs/remotes/upstream/main
 // now write the data 
 for (i=0;i<7;i++)   // write the next 8 bytes
 {
@@ -73,6 +114,17 @@ for (i=0;i<7;i++)   // write the next 8 bytes
  
  while ( I2C_start(I2CA_BASE,0x50,0)); // make sure the write is done be fore continuing.
  
+=======
+// now write the data
+for (i=0;i<7;i++)   // write the next 8 bytes
+{
+ I2C_write(I2CA_BASE,i+8,0);  //
+}
+ I2C_write(I2CA_BASE,i+8,1);  // write last one with last flag
+
+ while ( I2C_start(I2CA_BASE,0x50,0)); // make sure the write is done be fore continuing.
+
+>>>>>>> Revert "enlever le chain de argu"
  //now read the values
 // first set the command to 0
  I2C_start(I2CA_BASE,0x50,0); //set chip address and set to write/

@@ -35,17 +35,29 @@
 
 #define ALTERA_AVALON_SPI_RXDATA_REG                  0
 #define IOADDR_ALTERA_AVALON_SPI_RXDATA(base)         __IO_CALC_ADDRESS_NATIVE(base, ALTERA_AVALON_SPI_RXDATA_REG)
+<<<<<<< refs/remotes/upstream/main
 #define IORD_ALTERA_AVALON_SPI_RXDATA(base)           IORD(base, ALTERA_AVALON_SPI_RXDATA_REG) 
+=======
+#define IORD_ALTERA_AVALON_SPI_RXDATA(base)           IORD(base, ALTERA_AVALON_SPI_RXDATA_REG)
+>>>>>>> Revert "enlever le chain de argu"
 #define IOWR_ALTERA_AVALON_SPI_RXDATA(base, data)     IOWR(base, ALTERA_AVALON_SPI_RXDATA_REG, data)
 
 #define ALTERA_AVALON_SPI_TXDATA_REG                  1
 #define IOADDR_ALTERA_AVALON_SPI_TXDATA(base)         __IO_CALC_ADDRESS_NATIVE(base, ALTERA_AVALON_SPI_TXDATA_REG)
+<<<<<<< refs/remotes/upstream/main
 #define IORD_ALTERA_AVALON_SPI_TXDATA(base)           IORD(base, ALTERA_AVALON_SPI_TXDATA_REG) 
+=======
+#define IORD_ALTERA_AVALON_SPI_TXDATA(base)           IORD(base, ALTERA_AVALON_SPI_TXDATA_REG)
+>>>>>>> Revert "enlever le chain de argu"
 #define IOWR_ALTERA_AVALON_SPI_TXDATA(base, data)     IOWR(base, ALTERA_AVALON_SPI_TXDATA_REG, data)
 
 #define ALTERA_AVALON_SPI_STATUS_REG                  2
 #define IOADDR_ALTERA_AVALON_SPI_STATUS(base)         __IO_CALC_ADDRESS_NATIVE(base, ALTERA_AVALON_SPI_STATUS_REG)
+<<<<<<< refs/remotes/upstream/main
 #define IORD_ALTERA_AVALON_SPI_STATUS(base)           IORD(base, ALTERA_AVALON_SPI_STATUS_REG) 
+=======
+#define IORD_ALTERA_AVALON_SPI_STATUS(base)           IORD(base, ALTERA_AVALON_SPI_STATUS_REG)
+>>>>>>> Revert "enlever le chain de argu"
 #define IOWR_ALTERA_AVALON_SPI_STATUS(base, data)     IOWR(base, ALTERA_AVALON_SPI_STATUS_REG, data)
 
 #define ALTERA_AVALON_SPI_STATUS_ROE_MSK              (0x8)
@@ -63,7 +75,11 @@
 
 #define ALTERA_AVALON_SPI_CONTROL_REG                 3
 #define IOADDR_ALTERA_AVALON_SPI_CONTROL(base)        __IO_CALC_ADDRESS_NATIVE(base, ALTERA_AVALON_SPI_CONTROL_REG)
+<<<<<<< refs/remotes/upstream/main
 #define IORD_ALTERA_AVALON_SPI_CONTROL(base)          IORD(base, ALTERA_AVALON_SPI_CONTROL_REG) 
+=======
+#define IORD_ALTERA_AVALON_SPI_CONTROL(base)          IORD(base, ALTERA_AVALON_SPI_CONTROL_REG)
+>>>>>>> Revert "enlever le chain de argu"
 #define IOWR_ALTERA_AVALON_SPI_CONTROL(base, data)    IOWR(base, ALTERA_AVALON_SPI_CONTROL_REG, data)
 
 #define ALTERA_AVALON_SPI_CONTROL_IROE_MSK            (0x8)
@@ -81,7 +97,11 @@
 
 #define ALTERA_AVALON_SPI_SLAVE_SEL_REG               5
 #define IOADDR_ALTERA_AVALON_SPI_SLAVE_SEL(base)      __IO_CALC_ADDRESS_NATIVE(base, ALTERA_AVALON_SPI_SLAVE_SEL_REG)
+<<<<<<< refs/remotes/upstream/main
 #define IORD_ALTERA_AVALON_SPI_SLAVE_SEL(base)        IORD(base, ALTERA_AVALON_SPI_SLAVE_SEL_REG) 
+=======
+#define IORD_ALTERA_AVALON_SPI_SLAVE_SEL(base)        IORD(base, ALTERA_AVALON_SPI_SLAVE_SEL_REG)
+>>>>>>> Revert "enlever le chain de argu"
 #define IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(base, data)  IOWR(base, ALTERA_AVALON_SPI_SLAVE_SEL_REG, data)
 
 #endif /* __ALTERA_AVALON_SPI_REGS_H__ */

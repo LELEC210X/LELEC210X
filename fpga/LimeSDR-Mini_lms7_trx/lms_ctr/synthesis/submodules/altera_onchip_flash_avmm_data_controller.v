@@ -1,4 +1,5 @@
 // (C) 2001-2018 Intel Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 // Your use of Intel Corporation's design tools, logic functions and other 
 // software and tools, and its AMPP partner logic functions, and any output 
 // files from any of the foregoing (including device programming or simulation 
@@ -8,6 +9,17 @@
 // license agreement, including, without limitation, that your use is for the 
 // sole purpose of programming logic devices manufactured by Intel and sold by 
 // Intel or its authorized distributors.  Please refer to the applicable 
+=======
+// Your use of Intel Corporation's design tools, logic functions and other
+// software and tools, and its AMPP partner logic functions, and any output
+// files from any of the foregoing (including device programming or simulation
+// files), and any associated documentation or information are expressly subject
+// to the terms and conditions of the Intel Program License Subscription
+// Agreement, Intel FPGA IP License Agreement, or other applicable
+// license agreement, including, without limitation, that your use is for the
+// sole purpose of programming logic devices manufactured by Intel and sold by
+// Intel or its authorized distributors.  Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 // agreement for further details.
 
 
@@ -16,6 +28,7 @@
 //  ALTERA_ONCHIP_FLASH_AVMM_DATA_CONTROLLER (PARALLEL-to-PARALLEL MODE)
 //
 //  Copyright (C) 1991-2013 Altera Corporation
+<<<<<<< refs/remotes/upstream/main
 //  Your use of Altera Corporation's design tools, logic functions 
 //  and other software and tools, and its AMPP partner logic 
 //  functions, and any output files from any of the foregoing 
@@ -27,6 +40,19 @@
 //  without limitation, that your use is for the sole purpose of 
 //  programming logic devices manufactured by Altera and sold by 
 //  Altera or its authorized distributors.  Please refer to the 
+=======
+//  Your use of Altera Corporation's design tools, logic functions
+//  and other software and tools, and its AMPP partner logic
+//  functions, and any output files from any of the foregoing
+//  (including device programming or simulation files), and any
+//  associated documentation or information are expressly subject
+//  to the terms and conditions of the Altera Program License
+//  Subscription Agreement, Altera MegaCore Function License
+//  Agreement, or other applicable license agreement, including,
+//  without limitation, that your use is for the sole purpose of
+//  programming logic devices manufactured by Altera and sold by
+//  Altera or its authorized distributors.  Please refer to the
+>>>>>>> Revert "enlever le chain de argu"
 //  applicable agreement for further details.
 //
 ////////////////////////////////////////////////////////////////////
@@ -39,7 +65,11 @@ module altera_onchip_flash_avmm_data_controller (
     // To/From System
     clock,
     reset_n,
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     // To/From Flash IP interface
     flash_busy,
     flash_se_pass,
@@ -56,7 +86,11 @@ module altera_onchip_flash_avmm_data_controller (
     flash_nprogram,
     flash_nerase,
     flash_ardin,
+<<<<<<< refs/remotes/upstream/main
         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     // To/From Avalon_MM data slave interface
     avmm_read,
     avmm_write,
@@ -66,7 +100,11 @@ module altera_onchip_flash_avmm_data_controller (
     avmm_waitrequest,
     avmm_readdatavalid,
     avmm_readdata,
+<<<<<<< refs/remotes/upstream/main
         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     // To/From Avalon_MM csr slave interface
     csr_control,
     csr_status
@@ -153,7 +191,11 @@ module altera_onchip_flash_avmm_data_controller (
     // To/From System
     input clock;
     input reset_n;
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     // To/From Flash IP interface
     input flash_busy;
     input flash_se_pass;
@@ -170,7 +212,11 @@ module altera_onchip_flash_avmm_data_controller (
     output flash_nprogram;
     output flash_nerase;
     output [FLASH_ADDR_WIDTH-1:0] flash_ardin;
+<<<<<<< refs/remotes/upstream/main
         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     // To/From Avalon_MM data slave interface
     input avmm_read;
     input avmm_write;
@@ -180,7 +226,11 @@ module altera_onchip_flash_avmm_data_controller (
     output avmm_waitrequest;
     output avmm_readdatavalid;
     output reg [DATA_WIDTH-1:0] avmm_readdata;
+<<<<<<< refs/remotes/upstream/main
         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     // To/From Avalon_MM csr slave interface
     input [31:0] csr_control;
     output [9:0] csr_status;
@@ -297,7 +347,11 @@ module altera_onchip_flash_avmm_data_controller (
                     flash_addr_wire_neg_reg <= flash_page_addr;
                 end
             end
+<<<<<<< refs/remotes/upstream/main
             
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
         end
         else begin
             assign is_erase_busy = 1'b0;
@@ -315,8 +369,13 @@ module altera_onchip_flash_avmm_data_controller (
                 end
             end
         end
+<<<<<<< refs/remotes/upstream/main
     endgenerate    
     
+=======
+    endgenerate
+
+>>>>>>> Revert "enlever le chain de argu"
     assign csr_status = { SECTOR_READ_PROTECTION_MODE[4:0], csr_status_e_pass, csr_status_w_pass, csr_status_r_pass, csr_status_busy};
     assign csr_page_erase_addr = csr_control[19:0];
     assign csr_sector_erase_addr = csr_control[22:20];
@@ -327,7 +386,11 @@ module altera_onchip_flash_avmm_data_controller (
 
     assign cur_read_addr = avmm_addr;
     assign read_wait_w = (read_wait || read_wait_neg);
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     generate // generate combi based on read burst mode
         if (WRAPPING_BURST_MODE == 0) begin
             // incrementing read
@@ -348,7 +411,11 @@ module altera_onchip_flash_avmm_data_controller (
             assign avmm_waitrequest = ~reset_n || ((~is_write_busy && avmm_write) || write_wait_w || (~is_read_busy && avmm_read) || (avmm_read && read_wait_w));
         end
     endgenerate
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     assign flash_arshft = 1'b1;
     assign flash_drshft = flash_drshft_neg_reg;
     assign flash_arclk = (~enable_arclk_neg_reg || clock || enable_arclk_neg_pos_reg);
@@ -359,7 +426,11 @@ module altera_onchip_flash_avmm_data_controller (
     assign flash_se = flash_se_neg_reg;
     assign flash_ardin = flash_addr_wire_neg_reg;
 
+<<<<<<< refs/remotes/upstream/main
     assign avmm_readdatavalid = avmm_readdatavalid_reg;    
+=======
+    assign avmm_readdatavalid = avmm_readdatavalid_reg;
+>>>>>>> Revert "enlever le chain de argu"
     always @(posedge clock) begin
         if (~reset_n_w | ~csr_status_r_pass) begin
             avmm_readdata <= 32'hffffffff;
@@ -369,7 +440,11 @@ module altera_onchip_flash_avmm_data_controller (
          end
     end
 
+<<<<<<< refs/remotes/upstream/main
     // avoid async reset removal issue 
+=======
+    // avoid async reset removal issue
+>>>>>>> Revert "enlever le chain de argu"
     assign reset_n_w = reset_n_reg2;
 
     // initial register
@@ -411,7 +486,11 @@ module altera_onchip_flash_avmm_data_controller (
         flash_drdin_neg_reg = 0;
         write_count = 0;
         erase_count = 0;
+<<<<<<< refs/remotes/upstream/main
         read_ctrl_count = 0;        
+=======
+        read_ctrl_count = 0;
+>>>>>>> Revert "enlever le chain de argu"
         data_count = 0;
         write_timeout = 0;
         erase_timeout = 0;
@@ -428,9 +507,15 @@ module altera_onchip_flash_avmm_data_controller (
         is_sector4_writable_reg = 0;
         is_sector5_writable_reg = 0;
     end
+<<<<<<< refs/remotes/upstream/main
     
     // -------------------------------------------------------------------
     // Avoid async reset removal issue 
+=======
+
+    // -------------------------------------------------------------------
+    // Avoid async reset removal issue
+>>>>>>> Revert "enlever le chain de argu"
     // -------------------------------------------------------------------
     always @ (negedge reset_n or posedge clock) begin
         if (~reset_n) begin
@@ -452,7 +537,11 @@ module altera_onchip_flash_avmm_data_controller (
             enable_arclk_sync_reg <= flash_arclk_arshft_en_w;
         end
     end
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     // -------------------------------------------------------------------
     // Get rid of the race condition between different dynamic clock. Trigger clock enable in early half cycle.
     // -------------------------------------------------------------------
@@ -515,7 +604,11 @@ module altera_onchip_flash_avmm_data_controller (
 
             // -------------------------------------------------------------------
             // Minitor flash pass signal and update CSR busy status
+<<<<<<< refs/remotes/upstream/main
             // -------------------------------------------------------------------        
+=======
+            // -------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
             always @ (posedge clock) begin
                 if (~reset_n_w) begin
                     flash_se_pass_reg <= 0;
@@ -525,7 +618,11 @@ module altera_onchip_flash_avmm_data_controller (
                 else begin
                     flash_se_pass_reg <= flash_se_pass;
                     flash_sp_pass_reg <= flash_sp_pass;
+<<<<<<< refs/remotes/upstream/main
                     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                     if (is_erase_busy) begin
                         csr_status_busy <= STATUS_BUSY_ERASE;
                     end
@@ -563,7 +660,11 @@ module altera_onchip_flash_avmm_data_controller (
 
             altera_std_synchronizer #(
                 .depth (2)
+<<<<<<< refs/remotes/upstream/main
             ) stdsync_busy ( 
+=======
+            ) stdsync_busy (
+>>>>>>> Revert "enlever le chain de argu"
                 .clk(clock), // clock
                 .din(flash_busy_reg), // busy signal
                 .dout(flash_busy_sync), // busy signal which reg to clock
@@ -572,13 +673,21 @@ module altera_onchip_flash_avmm_data_controller (
 
             altera_std_synchronizer #(
                 .depth (2)
+<<<<<<< refs/remotes/upstream/main
             ) stdsync_busy_clear ( 
+=======
+            ) stdsync_busy_clear (
+>>>>>>> Revert "enlever le chain de argu"
                 .clk(clock), // clock
                 .din(flash_busy_clear_reg), // busy signal
                 .dout(flash_busy_clear_sync), // busy signal which reg to clock
                 .reset_n(reset_n) // active low reset
             );
+<<<<<<< refs/remotes/upstream/main
             
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
             // -------------------------------------------------------------------
             // Get rid of the race condition of shftreg signal (drdin), add half cycle delay to the data
             // -------------------------------------------------------------------
@@ -593,7 +702,11 @@ module altera_onchip_flash_avmm_data_controller (
 
             // -------------------------------------------------------------------
             // Avalon_MM data interface fsm - communicate between Avalon_MM and Flash IP (Write Operation)
+<<<<<<< refs/remotes/upstream/main
             // -------------------------------------------------------------------        
+=======
+            // -------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
             always @ (posedge clock) begin
                 if (~reset_n_w) begin
                     write_state <= WRITE_STATE_IDLE;
@@ -607,7 +720,11 @@ module altera_onchip_flash_avmm_data_controller (
                             write_timeout <= 1'b0;
                             write_busy_scan <= 1'b0;
                             enable_drclk_neg_pos_write_reg <= 0;
+<<<<<<< refs/remotes/upstream/main
                             
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                             // check command
                             if (avmm_write) begin
                                 if (~valid_csr_erase && ~is_erase_busy && ~is_read_busy) begin
@@ -616,7 +733,11 @@ module altera_onchip_flash_avmm_data_controller (
                                 end
                             end
                         end
+<<<<<<< refs/remotes/upstream/main
                         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                         WRITE_STATE_ADDR: begin
                             if (is_addr_writable && is_valid_write_burst_count) begin
                                 write_count <= DATA_WIDTH[5:0];
@@ -641,7 +762,11 @@ module altera_onchip_flash_avmm_data_controller (
                                 write_count <= FLASH_BUSY_TIMEOUT_CYCLE_MAX_INDEX[15:0];
                                 write_state <= WRITE_STATE_WAIT_BUSY;
                             end
+<<<<<<< refs/remotes/upstream/main
                         end                
+=======
+                        end
+>>>>>>> Revert "enlever le chain de argu"
 
                         WRITE_STATE_WAIT_BUSY: begin
                             if (flash_busy_sync) begin
@@ -658,7 +783,11 @@ module altera_onchip_flash_avmm_data_controller (
                                 end
                             end
                         end
+<<<<<<< refs/remotes/upstream/main
                         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                         WRITE_STATE_WAIT_DONE: begin
                             if (flash_busy_clear_sync) begin
                                 write_count <= FLASH_RESET_CYCLE_MAX_INDEX[15:0];
@@ -694,7 +823,11 @@ module altera_onchip_flash_avmm_data_controller (
                                 write_state <= WRITE_STATE_IDLE;
                             end
                         end
+<<<<<<< refs/remotes/upstream/main
                         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                         WRITE_STATE_ERROR: begin
                             csr_status_w_pass <= 1'b0;
                             if (write_count == 1) begin
@@ -707,6 +840,7 @@ module altera_onchip_flash_avmm_data_controller (
                                 write_state <= WRITE_STATE_IDLE;
                             end
                         end
+<<<<<<< refs/remotes/upstream/main
                         
                         default: begin
                             write_state <= WRITE_STATE_IDLE;
@@ -719,6 +853,20 @@ module altera_onchip_flash_avmm_data_controller (
             // -------------------------------------------------------------------
             // Avalon_MM data interface fsm - communicate between Avalon_MM and Flash IP (Erase Operation)
             // -------------------------------------------------------------------        
+=======
+
+                        default: begin
+                            write_state <= WRITE_STATE_IDLE;
+                        end
+
+                    endcase
+                end
+            end
+
+            // -------------------------------------------------------------------
+            // Avalon_MM data interface fsm - communicate between Avalon_MM and Flash IP (Erase Operation)
+            // -------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
             always @ (posedge clock) begin
                 if (~reset_n_w) begin
                     erase_state <= ERASE_STATE_IDLE;
@@ -731,7 +879,11 @@ module altera_onchip_flash_avmm_data_controller (
                             erase_count <= 0;
                             erase_timeout <= 1'b0;
                             erase_busy_scan <= 1'b0;
+<<<<<<< refs/remotes/upstream/main
                             
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                             // check command
                             if (valid_csr_erase && ~is_write_busy && ~is_read_busy) begin
                                 erase_state <= ERASE_STATE_ADDR;
@@ -749,7 +901,11 @@ module altera_onchip_flash_avmm_data_controller (
                                 erase_state <= ERASE_STATE_ERROR;
                             end
                         end
+<<<<<<< refs/remotes/upstream/main
                         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                         ERASE_STATE_WAIT_BUSY: begin
                             if (flash_busy_sync) begin
                                 erase_count <= FLASH_ERASE_TIMEOUT_CYCLE_MAX_INDEX[25:0];
@@ -808,22 +964,38 @@ module altera_onchip_flash_avmm_data_controller (
                                 erase_state <= ERASE_STATE_IDLE;
                             end
                         end
+<<<<<<< refs/remotes/upstream/main
                         
                         default: begin
                             erase_state <= ERASE_STATE_IDLE;
                         end
                         
+=======
+
+                        default: begin
+                            erase_state <= ERASE_STATE_IDLE;
+                        end
+
+>>>>>>> Revert "enlever le chain de argu"
                     endcase
                 end
             end
         end
     endgenerate
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     generate // generate always block for read operation based on read burst mode.
         if (WRAPPING_BURST_MODE == 0) begin
             // -------------------------------------------------------------------
             // Avalon_MM data interface fsm - communicate between Avalon_MM and Flash IP (Increamenting Burst Read Operation)
+<<<<<<< refs/remotes/upstream/main
             // -------------------------------------------------------------------        
+=======
+            // -------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
             always @ (posedge clock) begin
                 if (~reset_n_w) begin
                     read_state <= READ_STATE_IDLE;
@@ -842,7 +1014,11 @@ module altera_onchip_flash_avmm_data_controller (
                             enable_drclk_neg_pos_reg <= 0;
                             read_drclk_en <= 0;
                             flash_drshft_reg <= 1;
+<<<<<<< refs/remotes/upstream/main
                             
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                             // check command
                             if (avmm_read) begin
                                 if (~valid_csr_erase && ~is_erase_busy && ~is_write_busy) begin
@@ -861,7 +1037,11 @@ module altera_onchip_flash_avmm_data_controller (
                             else begin
                                 csr_status_r_pass <= 0;
                             end
+<<<<<<< refs/remotes/upstream/main
                         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                             read_wait <= 0;
                             read_state <= READ_STATE_PULSE_SE;
                         end
@@ -905,7 +1085,11 @@ module altera_onchip_flash_avmm_data_controller (
                             flash_drshft_reg <= 0;
                             read_state <= READ_STATE_FINAL;
                         end
+<<<<<<< refs/remotes/upstream/main
                         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                         READ_STATE_FINAL: begin
                             flash_drshft_reg <= 1;
                             avmm_readdata_ready <= 0;
@@ -930,15 +1114,26 @@ module altera_onchip_flash_avmm_data_controller (
                         default: begin
                             read_state <= READ_STATE_IDLE;
                         end
+<<<<<<< refs/remotes/upstream/main
                         
                     endcase
                 end
             end    
+=======
+
+                    endcase
+                end
+            end
+>>>>>>> Revert "enlever le chain de argu"
         end
         else begin
             // -------------------------------------------------------------------
             // Avalon_MM data interface fsm - communicate between Avalon_MM and Flash IP (Wrapping Burst Read Operation)
+<<<<<<< refs/remotes/upstream/main
             // -------------------------------------------------------------------        
+=======
+            // -------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
             always @ (posedge clock) begin
                 if (~reset_n_w) begin
                     read_state <= READ_STATE_IDLE;
@@ -956,14 +1151,22 @@ module altera_onchip_flash_avmm_data_controller (
                             flash_drshft_reg <= 1;
                             read_drclk_en <= 0;
                             avmm_burstcount_input_reg <= 0;
+<<<<<<< refs/remotes/upstream/main
                             
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                             // check command
                             if (avmm_read) begin
                                 if (~valid_csr_erase && ~is_erase_busy && ~is_write_busy) begin
                                     read_wait <= 1;
                                     read_state <= READ_STATE_ADDR;
                                     avmm_burstcount_input_reg <= avmm_burstcount;
+<<<<<<< refs/remotes/upstream/main
                                     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                                 end
                             end
                         end
@@ -976,7 +1179,11 @@ module altera_onchip_flash_avmm_data_controller (
                             else begin
                                 csr_status_r_pass <= 0;
                             end
+<<<<<<< refs/remotes/upstream/main
                         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                             read_state <= READ_STATE_PULSE_SE;
                             read_ctrl_count <= FLASH_READ_CYCLE_MAX_INDEX[2:0] + 3'd1;
                         end
@@ -984,10 +1191,17 @@ module altera_onchip_flash_avmm_data_controller (
                              read_wait <= 1;
               		     read_state <= READ_STATE_READ;
                         end
+<<<<<<< refs/remotes/upstream/main
                         
                         // wrapping read
                         READ_STATE_READ: begin
                             
+=======
+
+                        // wrapping read
+                        READ_STATE_READ: begin
+
+>>>>>>> Revert "enlever le chain de argu"
                             // read control signal
                             if (read_ctrl_count > 0) begin
                                 read_ctrl_count <= read_ctrl_count - 3'd1;
@@ -1010,7 +1224,11 @@ module altera_onchip_flash_avmm_data_controller (
                                     read_state <= READ_STATE_ADDR;
                                 end
                             end
+<<<<<<< refs/remotes/upstream/main
                             
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                             // read data signal
                             if (read_count > 0) begin
                                 read_count <= read_count - 3'd1;
@@ -1020,7 +1238,11 @@ module altera_onchip_flash_avmm_data_controller (
                                     read_count <= FLASH_SEQ_READ_DATA_COUNT[2:0] - 3'd1;
                                 end
                             end
+<<<<<<< refs/remotes/upstream/main
                             
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                             // back to idle if both control and read cycle are finished
                             if (read_ctrl_count == 0 && read_count == 0 && ~avmm_read) begin
                                 read_state <= READ_STATE_IDLE;
@@ -1028,13 +1250,21 @@ module altera_onchip_flash_avmm_data_controller (
                                 read_wait <= 0;
                                 enable_drclk_neg_pos_reg <= 1;
                             end
+<<<<<<< refs/remotes/upstream/main
                             
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                         end
 
                         default: begin
                             read_state <= READ_STATE_IDLE;
                         end
+<<<<<<< refs/remotes/upstream/main
                         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                     endcase
                 end
             end
@@ -1045,7 +1275,11 @@ module altera_onchip_flash_avmm_data_controller (
         if (WRAPPING_BURST_MODE == 0) begin
             // -------------------------------------------------------------------
             // Control readdatavalid signal - incrementing read
+<<<<<<< refs/remotes/upstream/main
             // -------------------------------------------------------------------        
+=======
+            // -------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
             always @ (posedge clock) begin
                 if (~reset_n_w) begin
                     avmm_read_valid_state <= READ_VALID_IDLE;
@@ -1093,7 +1327,11 @@ module altera_onchip_flash_avmm_data_controller (
                                 end
                             end
                         end
+<<<<<<< refs/remotes/upstream/main
                         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                         default: begin
                             avmm_read_valid_state <= READ_VALID_IDLE;
                             avmm_burstcount_reg <= 0;
@@ -1111,7 +1349,11 @@ module altera_onchip_flash_avmm_data_controller (
             //     Burst count
             //         1~2 - ZB8
             //         1~4 - all other devices
+<<<<<<< refs/remotes/upstream/main
             // -------------------------------------------------------------------        
+=======
+            // -------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
             always @ (posedge clock) begin
                 if (~reset_n_w) begin
                     avmm_read_valid_state <= READ_VALID_IDLE;
@@ -1130,7 +1372,11 @@ module altera_onchip_flash_avmm_data_controller (
                             avmm_readdatavalid_reg <= 1;
                             avmm_read_valid_state <= READ_VALID_READING;
                         end
+<<<<<<< refs/remotes/upstream/main
                         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                         READ_VALID_READING: begin
                             if (data_count > 0) begin
                                 data_count <= data_count - 3'd1;
@@ -1145,7 +1391,11 @@ module altera_onchip_flash_avmm_data_controller (
                                 end
                             end
                         end
+<<<<<<< refs/remotes/upstream/main
                         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                         default: begin
                             avmm_read_valid_state <= READ_VALID_IDLE;
                         end
@@ -1196,7 +1446,11 @@ module altera_onchip_flash_avmm_data_controller (
 
     generate // sector address convertsion is unnecessary in read only mode
         if (READ_AND_WRITE_MODE == 1) begin
+<<<<<<< refs/remotes/upstream/main
         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
             // pipe line addr legality check logic
             always @ (posedge clock) begin
                 if (~reset_n_w) begin
@@ -1235,7 +1489,11 @@ module altera_onchip_flash_avmm_data_controller (
                 .is_sector5_writable(is_sector5_writable_reg),
                 .is_addr_writable(is_addr_writable)
             );
+<<<<<<< refs/remotes/upstream/main
         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
             altera_onchip_flash_s_address_write_protection_check sector_address_write_protection_checker (
                 .address(cur_e_addr[2:0]),
                 .is_sector1_writable(is_sector1_writable_reg),
@@ -1245,7 +1503,11 @@ module altera_onchip_flash_avmm_data_controller (
                 .is_sector5_writable(is_sector5_writable_reg),
                 .is_addr_writable(is_sector_writable)
             );
+<<<<<<< refs/remotes/upstream/main
             
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
             altera_onchip_flash_convert_sector # (
                 .SECTOR1_MAP(SECTOR1_MAP),
                 .SECTOR2_MAP(SECTOR2_MAP),
@@ -1260,4 +1522,7 @@ module altera_onchip_flash_avmm_data_controller (
     endgenerate
 
 endmodule
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

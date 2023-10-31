@@ -39,18 +39,31 @@
 
 #include "alt_types.h"
 
+<<<<<<< refs/remotes/upstream/main
 /* 
  * alt_find_dev() is used by open() in order to locate a previously registered 
+=======
+/*
+ * alt_find_dev() is used by open() in order to locate a previously registered
+>>>>>>> Revert "enlever le chain de argu"
  * device with the name "name". The input argument "llist" is a pointer to the
  * head of the device list to search.
  *
  * The return value is a pointer to the matching device, or NULL if there is
+<<<<<<< refs/remotes/upstream/main
  * no match. 
+=======
+ * no match.
+>>>>>>> Revert "enlever le chain de argu"
  *
  * "name" must be an exact match for the devices registered name for a match to
  * be found.
  */
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 alt_dev* alt_find_dev(const char* name, alt_llist* llist)
 {
   alt_dev* next = (alt_dev*) llist->next;
@@ -61,12 +74,20 @@ alt_dev* alt_find_dev(const char* name, alt_llist* llist)
   /*
    * Check each list entry in turn, until a match is found, or we reach the
    * end of the list (i.e. next winds up pointing back to the list head).
+<<<<<<< refs/remotes/upstream/main
    */ 
+=======
+   */
+>>>>>>> Revert "enlever le chain de argu"
 
   while (next != (alt_dev*) llist)
   {
 
+<<<<<<< refs/remotes/upstream/main
     /* 
+=======
+    /*
+>>>>>>> Revert "enlever le chain de argu"
      * memcmp() is used here rather than strcmp() in order to reduce the size
      * of the executable.
      */
@@ -79,6 +100,7 @@ alt_dev* alt_find_dev(const char* name, alt_llist* llist)
     }
     next = (alt_dev*) next->llist.next;
   }
+<<<<<<< refs/remotes/upstream/main
   
   /* No match found */
   
@@ -86,3 +108,10 @@ alt_dev* alt_find_dev(const char* name, alt_llist* llist)
 }
 
 
+=======
+
+  /* No match found */
+
+  return NULL;
+}
+>>>>>>> Revert "enlever le chain de argu"

@@ -52,7 +52,11 @@
 
 #include "alt_types.h"
 
+<<<<<<< refs/remotes/upstream/main
 typedef struct alt_flash_dev alt_flash_dev; 
+=======
+typedef struct alt_flash_dev alt_flash_dev;
+>>>>>>> Revert "enlever le chain de argu"
 typedef alt_flash_dev alt_flash_fd;
 
 static ALT_INLINE int alt_flash_device_register( alt_flash_fd* fd)
@@ -62,6 +66,7 @@ static ALT_INLINE int alt_flash_device_register( alt_flash_fd* fd)
   return alt_dev_llist_insert ((alt_dev_llist*) fd, &alt_flash_dev_list);
 }
 
+<<<<<<< refs/remotes/upstream/main
 typedef alt_flash_dev* (*alt_flash_open)(alt_flash_dev* flash, 
                                          const char* name );
 typedef int (*alt_flash_close)(alt_flash_dev* flash_info);
@@ -78,6 +83,24 @@ typedef int (*alt_flash_erase_block)( alt_flash_dev* flash, int offset);
 typedef int (*alt_flash_read)(alt_flash_dev* flash, int offset, 
                               void* dest_addr, int length );
 typedef int (*alt_flash_lock)(alt_flash_dev* flash, alt_u32 sectors_to_lock);						  
+=======
+typedef alt_flash_dev* (*alt_flash_open)(alt_flash_dev* flash,
+                                         const char* name );
+typedef int (*alt_flash_close)(alt_flash_dev* flash_info);
+
+typedef int (*alt_flash_write)( alt_flash_dev* flash, int offset,
+                                const void* src_addr, int length );
+
+typedef int (*alt_flash_get_flash_info)( alt_flash_dev* flash, flash_region** info,
+                                          int* number_of_regions);
+typedef int (*alt_flash_write_block)( alt_flash_dev* flash, int block_offset,
+                                      int data_offset, const void* data,
+                                      int length);
+typedef int (*alt_flash_erase_block)( alt_flash_dev* flash, int offset);
+typedef int (*alt_flash_read)(alt_flash_dev* flash, int offset,
+                              void* dest_addr, int length );
+typedef int (*alt_flash_lock)(alt_flash_dev* flash, alt_u32 sectors_to_lock);
+>>>>>>> Revert "enlever le chain de argu"
 
 struct alt_flash_dev
 {
@@ -93,7 +116,11 @@ struct alt_flash_dev
   void*                     base_addr;
   int                       length;
   int                       number_of_regions;
+<<<<<<< refs/remotes/upstream/main
   flash_region              region_info[ALT_MAX_NUMBER_OF_FLASH_REGIONS]; 
+=======
+  flash_region              region_info[ALT_MAX_NUMBER_OF_FLASH_REGIONS];
+>>>>>>> Revert "enlever le chain de argu"
   alt_flash_lock            lock;
 };
 

@@ -1,12 +1,20 @@
 # ----------------------------------------------------------------------------
 # FILE: 	timing.sdc
+<<<<<<< refs/remotes/upstream/main
 # DESCRIPTION:	
+=======
+# DESCRIPTION:
+>>>>>>> Revert "enlever le chain de argu"
 # DATE:	June 2, 2017
 # AUTHOR(s):	Lime Microsystems
 # REVISIONS:
 # ----------------------------------------------------------------------------
 # NOTES:
+<<<<<<< refs/remotes/upstream/main
 # 
+=======
+#
+>>>>>>> Revert "enlever le chain de argu"
 # ----------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------
@@ -39,7 +47,11 @@ create_generated_clock 	-name FPGA_SPI_SCLK \
 								-source 	[get_ports {LMK_CLK}] \
 								-divide_by 4 \
 											[get_registers *nios_cpu*|*dac_spi*|SCLK_reg]
+<<<<<<< refs/remotes/upstream/main
                                  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 create_generated_clock 	-name FPGA_SPI_SCLK_FPGA \
 								-source 	[get_ports {LMK_CLK}] \
 								-divide_by 4 \
@@ -68,7 +80,11 @@ if {$::quartus(nameofexecutable) ne "quartus_sta"} {
 							-clock_fall \
 							-clock 	[get_clocks FPGA_SPI_SCLK_out] \
 										[get_ports {FPGA_SPI_MISO}]
+<<<<<<< refs/remotes/upstream/main
 							
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 	set_input_delay 	-min 16.2 \
 							-clock_fall \
 							-clock 	[get_clocks FPGA_SPI_SCLK_out] \
@@ -77,11 +93,19 @@ if {$::quartus(nameofexecutable) ne "quartus_sta"} {
 	set_input_delay 	-max 19.0 \
 							-clock_fall \
 							-clock 	[get_clocks FPGA_SPI_SCLK_out] \
+<<<<<<< refs/remotes/upstream/main
 										[get_ports {FPGA_SPI_MISO}] 
 	set_input_delay 	-min 16.2 \
 							-clock_fall \
 							-clock [get_clocks FPGA_SPI_SCLK_out] \
 							[get_ports {FPGA_SPI_MISO}] 
+=======
+										[get_ports {FPGA_SPI_MISO}]
+	set_input_delay 	-min 16.2 \
+							-clock_fall \
+							-clock [get_clocks FPGA_SPI_SCLK_out] \
+							[get_ports {FPGA_SPI_MISO}]
+>>>>>>> Revert "enlever le chain de argu"
 }
 
 
@@ -91,12 +115,21 @@ if {$::quartus(nameofexecutable) ne "quartus_sta"} {
 set_output_delay 	-max 15 \
 						-clock 	[get_clocks FPGA_SPI_SCLK_out] \
 									[get_ports {FPGA_SPI_MOSI FPGA_SPI_DAC_SS FPGA_SPI_LMS_SS}]
+<<<<<<< refs/remotes/upstream/main
 									
 set_output_delay 	-min -15 \
 						-clock 	[get_clocks FPGA_SPI_SCLK_out] \
 									[get_ports {FPGA_SPI_MOSI FPGA_SPI_DAC_SS FPGA_SPI_LMS_SS}]
 									
 									
+=======
+
+set_output_delay 	-min -15 \
+						-clock 	[get_clocks FPGA_SPI_SCLK_out] \
+									[get_ports {FPGA_SPI_MOSI FPGA_SPI_DAC_SS FPGA_SPI_LMS_SS}]
+
+
+>>>>>>> Revert "enlever le chain de argu"
 # ----------------------------------------------------------------------------
 # IO interface exceptions
 # ----------------------------------------------------------------------------
@@ -105,7 +138,11 @@ set_multicycle_path 	-setup \
 							-from [get_clocks {FPGA_SPI_SCLK_out}] \
 							-to 	[get_clocks {LMK_CLK}] \
 									2
+<<<<<<< refs/remotes/upstream/main
 							
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 set_multicycle_path 	-hold \
 							-end \
 							-from [get_clocks {FPGA_SPI_SCLK_out}] \
@@ -117,12 +154,17 @@ set_multicycle_path 	-setup \
 							-from [get_clocks LMK_CLK] \
 							-to 	[get_clocks FPGA_SPI_SCLK_out] \
 									2
+<<<<<<< refs/remotes/upstream/main
 									
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 set_multicycle_path 	-hold \
 							-start \
 							-from [get_clocks LMK_CLK] \
 							-to 	[get_clocks FPGA_SPI_SCLK_out] \
 									3
+<<<<<<< refs/remotes/upstream/main
 										
 # ----------------------------------------------------------------------------
 # NIOS constrains
@@ -131,12 +173,23 @@ set_multicycle_path 	-hold \
 create_clock 	-period 10MHz {altera_reserved_tck}
 # Cut all paths to and from tck
 set_clock_groups 	-asynchronous -group {altera_reserved_tck}											
+=======
+
+# ----------------------------------------------------------------------------
+# NIOS constrains
+# ----------------------------------------------------------------------------
+# JTAG Signal Constraints constrain the TCK port
+create_clock 	-period 10MHz {altera_reserved_tck}
+# Cut all paths to and from tck
+set_clock_groups 	-asynchronous -group {altera_reserved_tck}
+>>>>>>> Revert "enlever le chain de argu"
 # Constrain the TDI port
 set_input_delay -clock altera_reserved_tck -clock_fall .1 [get_ports altera_reserved_tdi]
 # Constrain the TMS port
 set_input_delay -clock altera_reserved_tck -clock_fall .1 [get_ports altera_reserved_tms]
 # Constrain the TDO port
 set_output_delay -clock altera_reserved_tck -clock_fall .1 [get_ports altera_reserved_tdo]
+<<<<<<< refs/remotes/upstream/main
 											
 # ----------------------------------------------------------------------------
 # Exceptions
@@ -144,6 +197,15 @@ set_output_delay -clock altera_reserved_tck -clock_fall .1 [get_ports altera_res
 #Force fitter to make interconnect delays between nets  
 set_net_delay 	-max 5.1 \
 					-from [get_pins -compatibility_mode *pll_top*|*lcell*|combout*] 
+=======
+
+# ----------------------------------------------------------------------------
+# Exceptions
+# ----------------------------------------------------------------------------
+#Force fitter to make interconnect delays between nets
+set_net_delay 	-max 5.1 \
+					-from [get_pins -compatibility_mode *pll_top*|*lcell*|combout*]
+>>>>>>> Revert "enlever le chain de argu"
 set_net_delay 	-min 4 \
 					-from [get_pins -compatibility_mode *pll_top*|*lcell*|combout*]
 

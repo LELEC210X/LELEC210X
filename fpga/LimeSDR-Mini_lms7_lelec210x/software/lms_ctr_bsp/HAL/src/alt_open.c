@@ -41,11 +41,19 @@
 int ALT_OPEN (const char* file, int flags, int mode)
 {
   /* Generate a link time warning, should this function ever be called. */
+<<<<<<< refs/remotes/upstream/main
   
   ALT_STUB_WARNING(open);
   
   /* Indicate an error */
   
+=======
+
+  ALT_STUB_WARNING(open);
+
+  /* Indicate an error */
+
+>>>>>>> Revert "enlever le chain de argu"
   ALT_ERRNO = ENOSYS;
   return -1;
 }
@@ -58,8 +66,13 @@ extern alt_llist alt_dev_list;
  * alt_file_locked() is used by open() to ensure that a device has not been
  * previously locked for exclusive access using ioctl(). This test is only
  * performed for devices. Filesystems are required to handle the ioctl() call
+<<<<<<< refs/remotes/upstream/main
  * themselves, and report the error from the filesystems open() function. 
  */ 
+=======
+ * themselves, and report the error from the filesystems open() function.
+ */
+>>>>>>> Revert "enlever le chain de argu"
 
 static int alt_file_locked (alt_fd* fd)
 {
@@ -85,9 +98,15 @@ static int alt_file_locked (alt_fd* fd)
       return -EACCES;
     }
   }
+<<<<<<< refs/remotes/upstream/main
   
   /* The device is not locked */
  
+=======
+
+  /* The device is not locked */
+
+>>>>>>> Revert "enlever le chain de argu"
   return 0;
 }
 
@@ -101,20 +120,34 @@ static int alt_file_locked (alt_fd* fd)
  *
  * ALT_OPEN is mapped onto the open() system call in alt_syscall.h
  */
+<<<<<<< refs/remotes/upstream/main
  
 int ALT_OPEN (const char* file, int flags, int mode)
 { 
+=======
+
+int ALT_OPEN (const char* file, int flags, int mode)
+{
+>>>>>>> Revert "enlever le chain de argu"
   alt_dev* dev;
   alt_fd*  fd;
   int index  = -1;
   int status = -ENODEV;
   int isafs = 0;
 
+<<<<<<< refs/remotes/upstream/main
   /* 
    * Check the device list, to see if a device with a matching name is 
    * registered.
    */
   
+=======
+  /*
+   * Check the device list, to see if a device with a matching name is
+   * registered.
+   */
+
+>>>>>>> Revert "enlever le chain de argu"
   if (!(dev = alt_find_dev (file, &alt_dev_list)))
   {
     /* No matching device, so try the filesystem list */
@@ -123,8 +156,13 @@ int ALT_OPEN (const char* file, int flags, int mode)
     isafs = 1;
   }
 
+<<<<<<< refs/remotes/upstream/main
   /* 
    * If a matching device or filesystem is found, allocate a file descriptor. 
+=======
+  /*
+   * If a matching device or filesystem is found, allocate a file descriptor.
+>>>>>>> Revert "enlever le chain de argu"
    */
 
   if (dev)
@@ -137,16 +175,28 @@ int ALT_OPEN (const char* file, int flags, int mode)
     {
       fd = &alt_fd_list[index];
       fd->fd_flags = (flags & ~ALT_FD_FLAGS_MASK);
+<<<<<<< refs/remotes/upstream/main
       
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
       /* If this is a device, ensure it isn't already locked */
 
       if (isafs || ((status = alt_file_locked (fd)) >= 0))
       {
+<<<<<<< refs/remotes/upstream/main
         /* 
          * If the device or filesystem provides an open() callback function,
          * call it now to perform any device/filesystem specific operations.
          */
     
+=======
+        /*
+         * If the device or filesystem provides an open() callback function,
+         * call it now to perform any device/filesystem specific operations.
+         */
+
+>>>>>>> Revert "enlever le chain de argu"
         status = (dev->open) ? dev->open(fd, file, flags, mode): 0;
       }
     }
@@ -156,6 +206,7 @@ int ALT_OPEN (const char* file, int flags, int mode)
     status = -ENODEV;
   }
 
+<<<<<<< refs/remotes/upstream/main
   /* Allocation failed, so clean up and return an error */ 
 
   if (status < 0)
@@ -165,6 +216,17 @@ int ALT_OPEN (const char* file, int flags, int mode)
     return -1;
   }
   
+=======
+  /* Allocation failed, so clean up and return an error */
+
+  if (status < 0)
+  {
+    alt_release_fd (index);
+    ALT_ERRNO = -status;
+    return -1;
+  }
+
+>>>>>>> Revert "enlever le chain de argu"
   /* return the reference upon success */
 
   return index;

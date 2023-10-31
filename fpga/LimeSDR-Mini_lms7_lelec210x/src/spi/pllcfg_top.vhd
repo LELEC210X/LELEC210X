@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	pllcfg_top.vhd
 -- DESCRIPTION:	pllcfg_top
 -- DATE:	Apr 05, 2016
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -16,26 +24,44 @@ entity pllcfg_top is
 	generic (n_pll	: integer :=2
 	);
   port (
+<<<<<<< refs/remotes/upstream/main
 			--input ports 
+=======
+			--input ports
+>>>>>>> Revert "enlever le chain de argu"
 		sdinA			: in std_logic; 	-- Data in
 		sclkA			: in std_logic; 	-- Data clock
 		senA			: in std_logic;	-- Enable signal (active low)
 		sdoutA		: out std_logic; 	-- Data out
+<<<<<<< refs/remotes/upstream/main
 		oenA			: out std_logic;  -- NC		
+=======
+		oenA			: out std_logic;  -- NC
+>>>>>>> Revert "enlever le chain de argu"
 			-- Serial port B IOs
 		sdinB			: in std_logic; 	-- Data in
 		sclkB			: in std_logic; 	-- Data clock
 		senB			: in std_logic;	-- Enable signal (active low)
 		sdoutB		: out std_logic; 	-- Data out
+<<<<<<< refs/remotes/upstream/main
 		oenB			: out std_logic;  -- NC		
+=======
+		oenB			: out std_logic;  -- NC
+>>>>>>> Revert "enlever le chain de argu"
 			-- Signals coming from the pins or top level serial interface
 		lreset		: in std_logic; 	-- Logic reset signal, resets logic cells only  (use only one reset)
 		mreset		: in std_logic; 	-- Memory reset signal, resets configuration memory only (use only one reset)
 			-- Status Inputs
 		pllcfg_busy	: in std_logic_vector(n_pll-1 downto 0);
+<<<<<<< refs/remotes/upstream/main
 		pllcfg_done	: in std_logic_vector(n_pll-1 downto 0);	
 			-- PLL Lock flags
 		pll_lock		: in std_logic_vector(n_pll-1 downto 0);	
+=======
+		pllcfg_done	: in std_logic_vector(n_pll-1 downto 0);
+			-- PLL Lock flags
+		pll_lock		: in std_logic_vector(n_pll-1 downto 0);
+>>>>>>> Revert "enlever le chain de argu"
 			-- PLL Configuratioin Related
       phcfg_mode  : out std_logic;
       phcfg_tst   : out std_logic;
@@ -50,7 +76,11 @@ entity pllcfg_top is
       auto_phcfg_err    : in std_logic_vector(n_pll-1 downto 0);
       auto_phcfg_smpls  : out std_logic_vector(15 downto 0);
       auto_phcfg_step   : out std_logic_vector(15 downto 0)
+<<<<<<< refs/remotes/upstream/main
         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
         );
 end pllcfg_top;
 
@@ -62,8 +92,13 @@ architecture arch of pllcfg_top is
 signal pll_ind			: std_logic_vector(4 downto 0);
 signal chp_curr 		: std_logic_vector(2 downto 0);
 signal pllcfg_vcodiv	:  std_logic;
+<<<<<<< refs/remotes/upstream/main
 signal pllcfg_lf_res	:  std_logic_vector(4 downto 0); 
 signal pllcfg_lf_cap	:  std_logic_vector(1 downto 0); 
+=======
+signal pllcfg_lf_res	:  std_logic_vector(4 downto 0);
+signal pllcfg_lf_cap	:  std_logic_vector(1 downto 0);
+>>>>>>> Revert "enlever le chain de argu"
 signal m_odddiv		:  std_logic; --
 signal m_byp			:  std_logic; --
 signal n_odddiv		:  std_logic; --
@@ -87,6 +122,7 @@ signal c4_byp			:  std_logic; --
 --signal c8_odddiv		:  std_logic; --
 --signal c8_byp			:  std_logic; --
 --signal c9_odddiv		:  std_logic; --
+<<<<<<< refs/remotes/upstream/main
 --signal c9_byp			:  std_logic; --	
 signal n_cnt			:  std_logic_vector(15 downto 0); -- 
 signal m_cnt			:  std_logic_vector(15 downto 0); -- 
@@ -101,6 +137,22 @@ signal c4_cnt			:  std_logic_vector(15 downto 0); --
 --signal c7_cnt			:  std_logic_vector(15 downto 0); -- 
 --signal c8_cnt			:  std_logic_vector(15 downto 0); -- 
 --signal c9_cnt			:  std_logic_vector(15 downto 0) -- 
+=======
+--signal c9_byp			:  std_logic; --
+signal n_cnt			:  std_logic_vector(15 downto 0); --
+signal m_cnt			:  std_logic_vector(15 downto 0); --
+signal m_frac			:  std_logic_vector(31 downto 0); --
+signal c0_cnt			:  std_logic_vector(15 downto 0); --
+signal c1_cnt			:  std_logic_vector(15 downto 0); --
+signal c2_cnt			:  std_logic_vector(15 downto 0); --
+signal c3_cnt			:  std_logic_vector(15 downto 0); --
+signal c4_cnt			:  std_logic_vector(15 downto 0); --
+--signal c5_cnt			:  std_logic_vector(15 downto 0); --
+--signal c6_cnt			:  std_logic_vector(15 downto 0); --
+--signal c7_cnt			:  std_logic_vector(15 downto 0); --
+--signal c8_cnt			:  std_logic_vector(15 downto 0); --
+--signal c9_cnt			:  std_logic_vector(15 downto 0) --
+>>>>>>> Revert "enlever le chain de argu"
 
 
 signal pllcfg_busy_bit	: std_logic;
@@ -127,7 +179,11 @@ signal pllrst_start_bit	: std_logic;
 
 signal pllcfg_data_rev	: std_logic_vector(143 downto 0);
 
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 pllcfg_busy_vect(n_pll-1 downto 0)<=pllcfg_busy;
@@ -208,6 +264,7 @@ port map (
 		cnt_ind			=> cnt_ind,
 		pll_ind			=> pll_ind,
       phcfg_mode     => phcfg_mode,
+<<<<<<< refs/remotes/upstream/main
       phcfg_tst      => phcfg_tst, 
 		cnt_phase 		=> cnt_phase,		
 --		pllcfg_bs		=> open, 
@@ -215,6 +272,15 @@ port map (
 		pllcfg_vcodiv	=> pllcfg_vcodiv,
 		pllcfg_lf_res	=> pllcfg_lf_res,
 		pllcfg_lf_cap	=> pllcfg_lf_cap,	
+=======
+      phcfg_tst      => phcfg_tst,
+		cnt_phase 		=> cnt_phase,
+--		pllcfg_bs		=> open,
+		chp_curr			=> chp_curr,
+		pllcfg_vcodiv	=> pllcfg_vcodiv,
+		pllcfg_lf_res	=> pllcfg_lf_res,
+		pllcfg_lf_cap	=> pllcfg_lf_cap,
+>>>>>>> Revert "enlever le chain de argu"
 		m_odddiv			=> m_odddiv,
 		m_byp				=> m_byp,
 		n_odddiv			=> n_odddiv,
@@ -238,7 +304,11 @@ port map (
 --		c8_odddiv		=> c8_odddiv,
 --		c8_byp			=> c8_byp,
 --		c9_odddiv		=> c9_odddiv,
+<<<<<<< refs/remotes/upstream/main
 --		c9_byp			=> c9_byp,	
+=======
+--		c9_byp			=> c9_byp,
+>>>>>>> Revert "enlever le chain de argu"
 		n_cnt				=> n_cnt,
 		m_cnt				=> m_cnt,
 --		m_frac			=> m_frac,
@@ -247,19 +317,29 @@ port map (
 		c2_cnt			=> c2_cnt,
 		c3_cnt			=> c3_cnt,
 		c4_cnt			=> c4_cnt,
+<<<<<<< refs/remotes/upstream/main
 --		c5_cnt			=> c5_cnt, 
 --		c6_cnt			=> c6_cnt, 
+=======
+--		c5_cnt			=> c5_cnt,
+--		c6_cnt			=> c6_cnt,
+>>>>>>> Revert "enlever le chain de argu"
 --		c7_cnt			=> c7_cnt,
 --		c8_cnt			=> c8_cnt,
 --		c9_cnt			=> c9_cnt,
       auto_phcfg_smpls  => auto_phcfg_smpls,
+<<<<<<< refs/remotes/upstream/main
       auto_phcfg_step   => auto_phcfg_step 
+=======
+      auto_phcfg_step   => auto_phcfg_step
+>>>>>>> Revert "enlever le chain de argu"
 );
 
 
 pllcfg_data_rev<=		  "00" & pllcfg_lf_cap & pllcfg_lf_res  & pllcfg_vcodiv  & "00000" & chp_curr &
 	                     n_byp 		& n_cnt (15  downto 8) & --N
                         n_odddiv 	& n_cnt (7 downto 0) &
+<<<<<<< refs/remotes/upstream/main
                         
                         m_byp 		& m_cnt (15  downto 8) & --M 
                         m_odddiv 	& m_cnt (7 downto 0) &
@@ -289,3 +369,30 @@ end arch;
 
 
 
+=======
+
+                        m_byp 		& m_cnt (15  downto 8) & --M
+                        m_odddiv 	& m_cnt (7 downto 0) &
+
+                        c0_byp 		& c0_cnt (15 downto 8) & --c0
+                      	c0_odddiv 	& c0_cnt (7  downto 0) &
+
+                      	c1_byp 		& c1_cnt (15 downto 8) & --c1
+                       	c1_odddiv 	& c1_cnt (7  downto 0) &
+
+                        c2_byp 		& c2_cnt (15 downto 8) & --c2
+                        c2_odddiv 	& c2_cnt (7  downto 0) &
+
+                        c3_byp 		& c3_cnt (15 downto 8) & --c3
+                        c3_odddiv 	& c3_cnt (7  downto 0) &
+
+                        c4_byp 		& c4_cnt (15 downto 8) & --c4
+                        c4_odddiv 	& c4_cnt (7  downto 0) ;
+
+
+for_lop : for i in 0 to 143 generate
+   pllcfg_data(i) <= pllcfg_data_rev(143-i);
+end generate;
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

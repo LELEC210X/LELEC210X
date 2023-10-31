@@ -1,3 +1,4 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
 -- FILE: 	packets2data_tb.vhd
 -- DESCRIPTION:	
@@ -5,6 +6,15 @@
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+-- FILE: 	packets2data_tb.vhd
+-- DESCRIPTION:
+-- DATE:	April 03, 2017
+-- AUTHOR(s):	Lime Microsystems
+-- REVISIONS:
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -21,13 +31,22 @@ end packets2data_top_tb;
 
 architecture tb_behave of packets2data_top_tb is
 constant clk0_period    : time := 10 ns;
+<<<<<<< refs/remotes/upstream/main
 constant clk1_period    : time := 10 ns; 
+=======
+constant clk1_period    : time := 10 ns;
+>>>>>>> Revert "enlever le chain de argu"
 
 constant smpl_nr_delay  : integer := 13;
    --signals
 signal clk0,clk1		   : std_logic;
+<<<<<<< refs/remotes/upstream/main
 signal reset_n          : std_logic; 
    
+=======
+signal reset_n          : std_logic;
+
+>>>>>>> Revert "enlever le chain de argu"
    --dut0 signals
 signal dut0_pct_size          : std_logic_vector(15 downto 0):=x"000A";
 signal dut0_sample_width      : std_logic_vector(1 downto 0) := "01"; ----"10"-12bit, "01"-14bit, "00"-16bit;
@@ -41,10 +60,17 @@ signal pct_cnt_reg            : std_logic_vector(31 downto 0);
 type my_array is array (0 to smpl_nr_delay) of std_logic_vector(63 downto 0);
 
 signal smpl_nr_array : my_array;
+<<<<<<< refs/remotes/upstream/main
   
 
 begin 
   
+=======
+
+
+begin
+
+>>>>>>> Revert "enlever le chain de argu"
       clock0: process is
 	begin
 		clk0 <= '0'; wait for clk0_period/2;
@@ -56,18 +82,28 @@ begin
 		clk1 <= '0'; wait for clk1_period/2;
 		clk1 <= '1'; wait for clk1_period/2;
 	end process clock;
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		res: process is
 	begin
 		reset_n <= '0'; wait for 20 ns;
 		reset_n <= '1'; wait;
 	end process res;
+<<<<<<< refs/remotes/upstream/main
    
    
+=======
+
+
+>>>>>>> Revert "enlever le chain de argu"
      process(reset_n, clk0)
     begin
       if reset_n='0' then
          pct_cnt <= (others=>'0');
+<<<<<<< refs/remotes/upstream/main
          dut0_in_pct_wrreq <= '1'; 
          pct_cnt_reg <= (others=>'0');
       elsif (clk0'event and clk0 = '1') then
@@ -80,11 +116,26 @@ begin
          if dut0_in_pct_wrreq = '1' then 
             pct_cnt <= pct_cnt + 1;
          else 
+=======
+         dut0_in_pct_wrreq <= '1';
+         pct_cnt_reg <= (others=>'0');
+      elsif (clk0'event and clk0 = '1') then
+            if dut0_in_pct_last='0' then
+               dut0_in_pct_wrreq <= '1';
+               --dut0_in_pct_wrreq <= NOT dut0_in_pct_wrreq;
+            else
+               dut0_in_pct_wrreq <= '0';
+            end if;
+         if dut0_in_pct_wrreq = '1' then
+            pct_cnt <= pct_cnt + 1;
+         else
+>>>>>>> Revert "enlever le chain de argu"
             pct_cnt <= pct_cnt;
          end if;
          pct_cnt_reg<= std_logic_vector(pct_cnt);
  	    end if;
     end process;
+<<<<<<< refs/remotes/upstream/main
     
   
    dut0_pct_data  <= std_logic_vector(pct_cnt);
@@ -103,12 +154,36 @@ begin
             if i = 0 then 
                smpl_nr_array(0) <= dut0_sample_nr;
             else 
+=======
+
+
+   dut0_pct_data  <= std_logic_vector(pct_cnt);
+
+   dut0_sample_nr <=pct_cnt_reg & std_logic_vector(pct_cnt);
+
+
+
+
+   proc_name : process(clk0, reset_n)
+   begin
+      if reset_n = '0' then
+         smpl_nr_array <= (others=>(others=>'0'));
+      elsif (clk0'event AND clk0='1') then
+         for i in 0 to smpl_nr_delay-1 loop
+            if i = 0 then
+               smpl_nr_array(0) <= dut0_sample_nr;
+            else
+>>>>>>> Revert "enlever le chain de argu"
                smpl_nr_array(i) <= smpl_nr_array(i-1);
             end if;
          end loop;
       end if;
    end process;
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   packets2data_top_dut0 : entity work.packets2data_top
    generic map (
       dev_family        => "Cyclone IV E",
@@ -120,6 +195,7 @@ begin
    port map(
 
       wclk              => clk0,
+<<<<<<< refs/remotes/upstream/main
       rclk              => clk1, 
       reset_n           => reset_n,
       pct_size          => dut0_pct_size,
@@ -128,10 +204,21 @@ begin
       pct_sync_dis      => '0',
       sample_nr         => smpl_nr_array(smpl_nr_delay-1),
       
+=======
+      rclk              => clk1,
+      reset_n           => reset_n,
+      pct_size          => dut0_pct_size,
+      sample_width      => dut0_sample_width,
+
+      pct_sync_dis      => '0',
+      sample_nr         => smpl_nr_array(smpl_nr_delay-1),
+
+>>>>>>> Revert "enlever le chain de argu"
       in_pct_wrreq      => dut0_in_pct_wrreq,
       in_pct_data       => dut0_pct_data,
       in_pct_last       => dut0_in_pct_last,
       in_pct_full       => open,
+<<<<<<< refs/remotes/upstream/main
       in_pct_buff_rdy   => open, 
       
       smpl_buff_rdempty => open,
@@ -146,3 +233,14 @@ begin
 
 
   
+=======
+      in_pct_buff_rdy   => open,
+
+      smpl_buff_rdempty => open,
+      smpl_buff_q       => open,
+      smpl_buff_rdreq   => '0'
+        );
+
+
+	end tb_behave;
+>>>>>>> Revert "enlever le chain de argu"

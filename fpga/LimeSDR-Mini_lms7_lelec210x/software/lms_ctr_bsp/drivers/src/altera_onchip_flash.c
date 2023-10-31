@@ -70,7 +70,11 @@ int alt_onchip_flash_read
     if ((offset >= flash->dev.length) || ((offset+length) > flash->dev.length)) {
         return -EFAULT;
     }
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     memcpy(dest_addr, (alt_u8*)flash->dev.base_addr+offset, length);
 
     if (NULL != flash->csr_base) {
@@ -499,7 +503,11 @@ int alt_onchip_flash_poll_for_status_to_go_idle
               ALTERA_ONCHIP_FLASH_STATUS_BUSY_MSK
         ) !=  ALTERA_ONCHIP_FLASH_STATUS_BUSY_IDLE
     ) {
+<<<<<<< refs/remotes/upstream/main
 	 
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 	alt_busy_sleep(1); /* delay 1us */
 
         /* If timeout value is zero, it will never timeout. */
@@ -587,4 +595,7 @@ int alt_onchip_flash_poll_for_status_write_passed
 
     return ret_code;
 }
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

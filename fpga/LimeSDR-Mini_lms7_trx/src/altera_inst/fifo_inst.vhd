@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	fifo_inst.vhd
 -- DESCRIPTION:	describe
 -- DATE:	Feb 13, 2014
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -17,6 +25,7 @@ USE altera_mf.all;
 entity fifo_inst is
   generic(dev_family	     : string  := "Cyclone IV E";
           wrwidth         : integer := 24;
+<<<<<<< refs/remotes/upstream/main
           wrusedw_witdth  : integer := 12; --12=2048 words 
           rdwidth         : integer := 48;
           rdusedw_width   : integer := 11;
@@ -25,6 +34,16 @@ entity fifo_inst is
 
   port (
       --input ports 
+=======
+          wrusedw_witdth  : integer := 12; --12=2048 words
+          rdwidth         : integer := 48;
+          rdusedw_width   : integer := 11;
+          show_ahead      : string  := "ON"
+  );
+
+  port (
+      --input ports
+>>>>>>> Revert "enlever le chain de argu"
       reset_n       : in std_logic;
       wrclk         : in std_logic;
       wrreq         : in std_logic;
@@ -36,12 +55,21 @@ entity fifo_inst is
       rdreq         : in std_logic;
       q             : out std_logic_vector(rdwidth-1 downto 0);
       rdempty       : out std_logic;
+<<<<<<< refs/remotes/upstream/main
       rdusedw       : out std_logic_vector(rdusedw_width-1 downto 0)     
 
 
 
       --output ports 
         
+=======
+      rdusedw       : out std_logic_vector(rdusedw_width-1 downto 0)
+
+
+
+      --output ports
+
+>>>>>>> Revert "enlever le chain de argu"
         );
 end fifo_inst;
 
@@ -81,12 +109,17 @@ signal aclr : std_logic;
 			wrreq	   : IN STD_LOGIC ;
 			q			: OUT STD_LOGIC_VECTOR(rdwidth-1 downto 0);
 			rdempty	: OUT STD_LOGIC ;
+<<<<<<< refs/remotes/upstream/main
 			rdusedw	: OUT STD_LOGIC_VECTOR (rdusedw_width-1 downto 0); 
+=======
+			rdusedw	: OUT STD_LOGIC_VECTOR (rdusedw_width-1 downto 0);
+>>>>>>> Revert "enlever le chain de argu"
 			wrempty	: out std_logic;
 			wrfull	: OUT STD_LOGIC;
 			wrusedw	: OUT STD_LOGIC_VECTOR (wrusedw_witdth-1 downto 0)
 	);
 	END COMPONENT;
+<<<<<<< refs/remotes/upstream/main
 	
 
   
@@ -95,6 +128,16 @@ begin
   aclr<= not reset_n;
   
   
+=======
+
+
+
+begin
+
+  aclr<= not reset_n;
+
+
+>>>>>>> Revert "enlever le chain de argu"
   	dcfifo_mixed_widths_component : dcfifo_mixed_widths
 	GENERIC MAP (
 		add_usedw_msb_bit       => "ON",
@@ -129,6 +172,7 @@ begin
 		wrusedw	=> wrusedw
 	);
 
+<<<<<<< refs/remotes/upstream/main
   
 end arch;   
 
@@ -136,3 +180,7 @@ end arch;
 
 
 
+=======
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

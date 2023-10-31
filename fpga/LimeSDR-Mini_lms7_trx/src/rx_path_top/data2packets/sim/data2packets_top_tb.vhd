@@ -1,3 +1,4 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
 -- FILE: 	data2packets_top_tb.vhd
 -- DESCRIPTION:	
@@ -5,6 +6,15 @@
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+-- FILE: 	data2packets_top_tb.vhd
+-- DESCRIPTION:
+-- DATE:	Feb 13, 2014
+-- AUTHOR(s):	Lime Microsystems
+-- REVISIONS:
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -21,6 +31,7 @@ end data2packets_top_tb;
 
 architecture tb_behave of data2packets_top_tb is
 constant clk0_period          : time := 10 ns;
+<<<<<<< refs/remotes/upstream/main
 constant clk1_period          : time := 10 ns; 
    --signals
 signal clk0,clk1		         : std_logic;
@@ -30,6 +41,17 @@ signal reset_n                : std_logic;
 signal dut0_sample_width      : std_logic_vector(1 downto 0) := "10"; --"10"-12bit, "01"-14bit, "00"-16bit;
 signal dut0_pct_hdr_0         : std_logic_vector(63 downto 0) := (others=>'1');
 signal dut0_pct_hdr_1         : std_logic_vector(63 downto 0);         
+=======
+constant clk1_period          : time := 10 ns;
+   --signals
+signal clk0,clk1		         : std_logic;
+signal reset_n                : std_logic;
+
+--dut0 signals
+signal dut0_sample_width      : std_logic_vector(1 downto 0) := "10"; --"10"-12bit, "01"-14bit, "00"-16bit;
+signal dut0_pct_hdr_0         : std_logic_vector(63 downto 0) := (others=>'1');
+signal dut0_pct_hdr_1         : std_logic_vector(63 downto 0);
+>>>>>>> Revert "enlever le chain de argu"
 signal dut0_pct_buff_wrreq    : std_logic;
 signal dut0_pct_buff_wrdata   : std_logic_vector(63 downto 0);
 signal dut0_smpl_buff_rdreq   : std_logic;
@@ -43,6 +65,7 @@ signal inst1_data             : std_logic_vector(47 downto 0);
 signal inst1_q                : std_logic_vector(47 downto 0);
 signal inst1_rdusedw          : std_logic_vector(10 downto 0);
 
+<<<<<<< refs/remotes/upstream/main
 --inst2 
 signal inst2_wrusedw          : std_logic_vector(11 downto 0);
 
@@ -50,6 +73,15 @@ signal inst2_wrusedw          : std_logic_vector(11 downto 0);
 
 begin 
   
+=======
+--inst2
+signal inst2_wrusedw          : std_logic_vector(11 downto 0);
+
+
+
+begin
+
+>>>>>>> Revert "enlever le chain de argu"
       clock0: process is
 	begin
 		clk0 <= '0'; wait for clk0_period/2;
@@ -61,12 +93,17 @@ begin
 		clk1 <= '0'; wait for clk1_period/2;
 		clk1 <= '1'; wait for clk1_period/2;
 	end process clock;
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		res: process is
 	begin
 		reset_n <= '0'; wait for 20 ns;
 		reset_n <= '1'; wait;
 	end process res;
+<<<<<<< refs/remotes/upstream/main
    
    
    
@@ -78,10 +115,24 @@ begin
          if dut0_smpl_buff_rdreq = '1' then 
             dut0_pct_hdr_1 <= std_logic_vector(unsigned(dut0_pct_hdr_1)+1);
          else 
+=======
+
+
+
+ process(clk0, reset_n)
+   begin
+      if reset_n = '0' then
+         dut0_pct_hdr_1 <= (others=>'0');
+      elsif (clk0'event AND clk0='1') then
+         if dut0_smpl_buff_rdreq = '1' then
+            dut0_pct_hdr_1 <= std_logic_vector(unsigned(dut0_pct_hdr_1)+1);
+         else
+>>>>>>> Revert "enlever le chain de argu"
             dut0_pct_hdr_1 <= dut0_pct_hdr_1;
          end if;
       end if;
    end process;
+<<<<<<< refs/remotes/upstream/main
    
    
 
@@ -92,6 +143,18 @@ begin
       pct_buff_wrusedw_w  => 12 --bus width in bits  
    )
    port map(              
+=======
+
+
+
+
+  dut0 : entity work.data2packets_top
+   generic map (
+      smpl_buff_rdusedw_w => 11, --bus width in bits
+      pct_buff_wrusedw_w  => 12 --bus width in bits
+   )
+   port map(
+>>>>>>> Revert "enlever le chain de argu"
       clk               => clk0,
       reset_n           => reset_n,
       sample_width      => dut0_sample_width,
@@ -104,6 +167,7 @@ begin
       smpl_buff_rdreq   => dut0_smpl_buff_rdreq,
       smpl_buff_rddata  => (others=>'0')
       );
+<<<<<<< refs/remotes/upstream/main
       
       
  proc_name : process(clk0, reset_n)
@@ -116,10 +180,25 @@ begin
  end process;
       
       
+=======
+
+
+ proc_name : process(clk0, reset_n)
+ begin
+    if reset_n = '0' then
+       inst1_wrreq <= '0';
+    elsif (clk0'event AND clk0='1') then
+       inst1_wrreq <= NOT inst1_wrreq;
+    end if;
+ end process;
+
+
+>>>>>>> Revert "enlever le chain de argu"
 fifo_inst_inst1 : entity work.fifo_inst
   generic map (
       dev_family	    => "Cyclone IV E",
       wrwidth         => 48,
+<<<<<<< refs/remotes/upstream/main
       wrusedw_witdth  => 11, --12=2048 words 
       rdwidth         => 48,
       rdusedw_width   => 11,
@@ -127,6 +206,15 @@ fifo_inst_inst1 : entity work.fifo_inst
   ) 
   port map(
       --input ports 
+=======
+      wrusedw_witdth  => 11, --12=2048 words
+      rdwidth         => 48,
+      rdusedw_width   => 11,
+      show_ahead      => "OFF"
+  )
+  port map(
+      --input ports
+>>>>>>> Revert "enlever le chain de argu"
       reset_n       => reset_n,
       wrclk         => clk0,
       wrreq         => inst1_wrreq,
@@ -140,12 +228,18 @@ fifo_inst_inst1 : entity work.fifo_inst
       rdempty       => open,
       rdusedw       => inst1_rdusedw
         );
+<<<<<<< refs/remotes/upstream/main
         
         
+=======
+
+
+>>>>>>> Revert "enlever le chain de argu"
 fifo_inst_inst2 : entity work.fifo_inst
   generic map (
       dev_family	    => "Cyclone IV E",
       wrwidth         => 64,
+<<<<<<< refs/remotes/upstream/main
       wrusedw_witdth  => 12, --12=2048 words 
       rdwidth         => 64,
       rdusedw_width   => 12,
@@ -153,6 +247,15 @@ fifo_inst_inst2 : entity work.fifo_inst
   ) 
   port map(
       --input ports 
+=======
+      wrusedw_witdth  => 12, --12=2048 words
+      rdwidth         => 64,
+      rdusedw_width   => 12,
+      show_ahead      => "OFF"
+  )
+  port map(
+      --input ports
+>>>>>>> Revert "enlever le chain de argu"
       reset_n       => reset_n,
       wrclk         => clk0,
       wrreq         => dut0_pct_buff_wrreq,
@@ -166,6 +269,7 @@ fifo_inst_inst2 : entity work.fifo_inst
       rdempty       => open,
       rdusedw       => open
         );
+<<<<<<< refs/remotes/upstream/main
 	
 	end tb_behave;
   
@@ -173,3 +277,7 @@ fifo_inst_inst2 : entity work.fifo_inst
 
 
   
+=======
+
+	end tb_behave;
+>>>>>>> Revert "enlever le chain de argu"

@@ -33,7 +33,10 @@ GR_PYTHON_INSTALL(
     FILES
     __init__.py
     preamble_detect.py
+<<<<<<< refs/remotes/upstream/main
     flag_detector.py
+=======
+>>>>>>> Revert "enlever le chain de argu"
     synchronization.py
     demodulation.py
     packet_parser.py

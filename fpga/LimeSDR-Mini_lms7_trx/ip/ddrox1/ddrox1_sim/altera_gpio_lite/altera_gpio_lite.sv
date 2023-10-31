@@ -1,4 +1,5 @@
 // (C) 2001-2016 Altera Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 // Your use of Altera Corporation's design tools, logic functions and other 
 // software and tools, and its AMPP partner logic functions, and any output 
 // files any of the foregoing (including device programming or simulation 
@@ -8,6 +9,17 @@
 // license agreement, including, without limitation, that your use is for the 
 // sole purpose of programming logic devices manufactured by Altera and sold by 
 // Altera or its authorized distributors.  Please refer to the applicable 
+=======
+// Your use of Altera Corporation's design tools, logic functions and other
+// software and tools, and its AMPP partner logic functions, and any output
+// files any of the foregoing (including device programming or simulation
+// files), and any associated documentation or information are expressly subject
+// to the terms and conditions of the Altera Program License Subscription
+// Agreement, Altera MegaCore Function License Agreement, or other applicable
+// license agreement, including, without limitation, that your use is for the
+// sole purpose of programming logic devices manufactured by Altera and sold by
+// Altera or its authorized distributors.  Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 // agreement for further details.
 
 
@@ -32,6 +44,7 @@ module altgpio_one_bit(
 	nsleep
 );
 
+<<<<<<< refs/remotes/upstream/main
 	parameter PIN_TYPE = "output"; 
 	parameter BUFFER_TYPE = "single-ended"; 
 	parameter REGISTER_MODE = "bypass"; 
@@ -54,6 +67,30 @@ module altgpio_one_bit(
 	parameter ENABLE_HR_CLOCK = "false"; 
 	parameter ENABLE_PHASE_DETECTOR_FOR_CK = "false"; 
 	parameter ENABLE_NSLEEP_PORT = "false"; 
+=======
+	parameter PIN_TYPE = "output";
+	parameter BUFFER_TYPE = "single-ended";
+	parameter REGISTER_MODE = "bypass";
+	parameter ASYNC_MODE = "none";
+	parameter SYNC_MODE = "none";
+	parameter BUS_HOLD = "false";
+	parameter SET_REGISTER_OUTPUTS_HIGH = "false";
+	parameter USE_ENHANCED_DDR_HIO_REGISTER = "false";
+	parameter BYPASS_THREE_QUARTER_REGISTER = "true";
+	parameter INVERT_OUTPUT = "false";
+	parameter INVERT_INPUT_CLOCK = "false";
+	parameter INVERT_OUTPUT_CLOCK = "false";
+	parameter INVERT_OE_INCLOCK = "false";
+	parameter USE_ONE_REG_TO_DRIVE_OE = "false";
+	parameter USE_DDIO_REG_TO_DRIVE_OE = "false";
+	parameter OPEN_DRAIN_OUTPUT = "false";
+	parameter ENABLE_OE_HALF_CYCLE_DELAY = "true";
+	parameter USE_ADVANCED_DDR_FEATURES_FOR_INPUT_ONLY = "false";
+	parameter ENABLE_CLOCK_ENA_PORT = "false";
+	parameter ENABLE_HR_CLOCK = "false";
+	parameter ENABLE_PHASE_DETECTOR_FOR_CK = "false";
+	parameter ENABLE_NSLEEP_PORT = "false";
+>>>>>>> Revert "enlever le chain de argu"
 
 	localparam DATA_SIZE = (REGISTER_MODE == "ddr") ? 2:1;
 	localparam DDIO_REG_POWER_UP = (ASYNC_MODE == "preset" || SET_REGISTER_OUTPUTS_HIGH == "true") ? "high" : "low";
@@ -307,7 +344,11 @@ module altgpio_one_bit(
 
                 assign din_ddr = reg_data_out;
 			end
+<<<<<<< refs/remotes/upstream/main
             else  
+=======
+            else
+>>>>>>> Revert "enlever le chain de argu"
             begin: out_path_reg_none
                 assign din_ddr = din_fr[0];
             end
@@ -962,6 +1003,7 @@ module altera_gpio_lite(
 	nsleep
 );
 
+<<<<<<< refs/remotes/upstream/main
 	parameter PIN_TYPE = "output"; 
 	parameter BUFFER_TYPE = "single-ended"; 
 	parameter REGISTER_MODE = "bypass"; 
@@ -987,6 +1029,33 @@ module altera_gpio_lite(
 	parameter ENABLE_PHASE_INVERT_CTRL_PORT = "false"; 
 	parameter ENABLE_PHASE_DETECTOR_FOR_CK = "false"; 
 	parameter ENABLE_NSLEEP_PORT = "false"; 
+=======
+	parameter PIN_TYPE = "output";
+	parameter BUFFER_TYPE = "single-ended";
+	parameter REGISTER_MODE = "bypass";
+	parameter SIZE = 4;
+	parameter ASYNC_MODE = "none";
+	parameter SYNC_MODE = "none";
+	parameter BUS_HOLD = "false";
+	parameter SET_REGISTER_OUTPUTS_HIGH = "false";
+	parameter INVERT_OUTPUT = "false";
+	parameter INVERT_INPUT_CLOCK = "false";
+	parameter INVERT_OUTPUT_CLOCK = "false";
+	parameter INVERT_OE_INCLOCK = "false";
+	parameter USE_ONE_REG_TO_DRIVE_OE = "false";
+	parameter USE_DDIO_REG_TO_DRIVE_OE = "false";
+	parameter OPEN_DRAIN_OUTPUT = "false";
+	parameter USE_ADVANCED_DDR_FEATURES = "false";
+	parameter USE_ADVANCED_DDR_FEATURES_FOR_INPUT_ONLY = "false";
+	parameter INVERT_CLKDIV_INPUT_CLOCK = "false";
+	parameter ENABLE_HR_CLOCK = "false";
+	parameter ENABLE_OE_HALF_CYCLE_DELAY = "true";
+	parameter ENABLE_OE_PORT = "false";
+	parameter ENABLE_CLOCK_ENA_PORT = "false";
+	parameter ENABLE_PHASE_INVERT_CTRL_PORT = "false";
+	parameter ENABLE_PHASE_DETECTOR_FOR_CK = "false";
+	parameter ENABLE_NSLEEP_PORT = "false";
+>>>>>>> Revert "enlever le chain de argu"
 
     localparam USE_ENHANCED_DDR_HIO_REGISTER = USE_ADVANCED_DDR_FEATURES;
 	localparam BYPASS_THREE_QUARTER_REGISTER = (USE_ADVANCED_DDR_FEATURES == "true") ? "false" : "true";

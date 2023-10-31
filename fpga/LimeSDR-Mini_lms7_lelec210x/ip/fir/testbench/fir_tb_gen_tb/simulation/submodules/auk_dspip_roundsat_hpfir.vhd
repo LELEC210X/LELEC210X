@@ -1,4 +1,5 @@
 -- (C) 2001-2018 Intel Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 -- Your use of Intel Corporation's design tools, logic functions and other 
 -- software and tools, and its AMPP partner logic functions, and any output 
 -- files from any of the foregoing (including device programming or simulation 
@@ -8,6 +9,17 @@
 -- license agreement, including, without limitation, that your use is for the 
 -- sole purpose of programming logic devices manufactured by Intel and sold by 
 -- Intel or its authorized distributors.  Please refer to the applicable 
+=======
+-- Your use of Intel Corporation's design tools, logic functions and other
+-- software and tools, and its AMPP partner logic functions, and any output
+-- files from any of the foregoing (including device programming or simulation
+-- files), and any associated documentation or information are expressly subject
+-- to the terms and conditions of the Intel Program License Subscription
+-- Agreement, Intel FPGA IP License Agreement, or other applicable
+-- license agreement, including, without limitation, that your use is for the
+-- sole purpose of programming logic devices manufactured by Intel and sold by
+-- Intel or its authorized distributors.  Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 -- agreement for further details.
 
 
@@ -22,9 +34,15 @@
 -- $Date: 2010/08/19 $
 -- Check in by     : $Author: max $
 --
+<<<<<<< refs/remotes/upstream/main
 -- Description : 
 -- Implement output options for HP-FIR
 -- 
+=======
+-- Description :
+-- Implement output options for HP-FIR
+--
+>>>>>>> Revert "enlever le chain de argu"
 -- ALTERA Confidential and Proprietary
 -- Copyright 2006 (c) Altera Corporation
 -- All rights reserved
@@ -116,7 +134,11 @@ begin  -- architecture beh
       end process round_up_sym_p;
     end generate rndup_lsb;
   end generate remove_lsb;
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   -----------------------------------------------------------------------------
   -- keep lsb
   -----------------------------------------------------------------------------
@@ -125,7 +147,11 @@ begin  -- architecture beh
     data_lsb <= datain;
     valid_lsb <= enable;
   end generate keep_lsb;
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   -----------------------------------------------------------------------------
   -- msb : trunc/saturation
   -----------------------------------------------------------------------------
@@ -159,9 +185,15 @@ begin  -- architecture beh
           valid <= valid_lsb;
         end if;
       end process msb_p;
+<<<<<<< refs/remotes/upstream/main
     end generate sat_msb; 
   end generate remove_msb;
   
+=======
+    end generate sat_msb;
+  end generate remove_msb;
+
+>>>>>>> Revert "enlever le chain de argu"
   -----------------------------------------------------------------------------
   -- keep msb
   -----------------------------------------------------------------------------
@@ -171,7 +203,11 @@ begin  -- architecture beh
     dataout  <= data_msb;
     valid    <= valid_lsb;
   end generate keep_msb;
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   -----------------------------------------------------------------------------
   -- error checking:
   --   Have we got a valid round mode?

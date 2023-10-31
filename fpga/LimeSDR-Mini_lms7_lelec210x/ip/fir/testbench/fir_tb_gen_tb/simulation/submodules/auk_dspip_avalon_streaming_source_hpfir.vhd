@@ -1,4 +1,5 @@
 -- (C) 2001-2018 Intel Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 -- Your use of Intel Corporation's design tools, logic functions and other 
 -- software and tools, and its AMPP partner logic functions, and any output 
 -- files from any of the foregoing (including device programming or simulation 
@@ -8,6 +9,17 @@
 -- license agreement, including, without limitation, that your use is for the 
 -- sole purpose of programming logic devices manufactured by Intel and sold by 
 -- Intel or its authorized distributors.  Please refer to the applicable 
+=======
+-- Your use of Intel Corporation's design tools, logic functions and other
+-- software and tools, and its AMPP partner logic functions, and any output
+-- files from any of the foregoing (including device programming or simulation
+-- files), and any associated documentation or information are expressly subject
+-- to the terms and conditions of the Intel Program License Subscription
+-- Agreement, Intel FPGA IP License Agreement, or other applicable
+-- license agreement, including, without limitation, that your use is for the
+-- sole purpose of programming logic devices manufactured by Intel and sold by
+-- Intel or its authorized distributors.  Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 -- agreement for further details.
 
 
@@ -22,19 +34,32 @@
 --
 -- Project      :  Avalon_streaming II Source Interface with ready_latency=0
 --
+<<<<<<< refs/remotes/upstream/main
 -- Description : 
+=======
+-- Description :
+>>>>>>> Revert "enlever le chain de argu"
 --
 -- This interface is capable of handling single or multi channel streams as
 -- well as blocks of data. The at_source_sop and at_source_eop are generated as
 -- described in the Avalon_streaming II specification. The at_source_error output is a 2-
+<<<<<<< refs/remotes/upstream/main
 -- bit signal that complies with the PFC error format (by Kent Orthner). 
 -- 
+=======
+-- bit signal that complies with the PFC error format (by Kent Orthner).
+--
+>>>>>>> Revert "enlever le chain de argu"
 -- 00: no error
 -- 01: missing sop
 -- 10: missing eop
 -- 11: unexpected eop
 -- other types of errors also marked as 11. Any error signal is accompanied
+<<<<<<< refs/remotes/upstream/main
 -- by at_sink_eop flagged high. 
+=======
+-- by at_sink_eop flagged high.
+>>>>>>> Revert "enlever le chain de argu"
 --
 -- When packet_size is greater than one, this interface expects the main design
 -- to supply the count of data starting from 1 to the packet_size. When it
@@ -50,7 +75,11 @@
 -- needs to stall all of the design so that no new data can be accepted (as in
 -- FIR), in other cases (i.e. a FIFO built on a dual port RAM),the input can
 -- still accept new data although it cannot send any output.
+<<<<<<< refs/remotes/upstream/main
 -- 
+=======
+--
+>>>>>>> Revert "enlever le chain de argu"
 -- ALTERA Confidential and Proprietary
 -- Copyright 2006 (c) Altera Corporation
 -- All rights reserved
@@ -73,7 +102,11 @@ entity auk_dspip_avalon_streaming_source_hpfir is
     DATA_WIDTH              : integer := 8;
     DATA_PORT_COUNT         : integer := 1;
     PACKET_SIZE_g           : natural := 2;
+<<<<<<< refs/remotes/upstream/main
     FIFO_DEPTH_g            : natural := 0; 
+=======
+    FIFO_DEPTH_g            : natural := 0;
+>>>>>>> Revert "enlever le chain de argu"
     HAVE_COUNTER_g          : boolean := false;
     COUNTER_LIMIT_g         : natural := 4;
     --MULTI_CHANNEL_g         : boolean := true;
@@ -122,30 +155,51 @@ architecture rtl of auk_dspip_avalon_streaming_source_hpfir is
   signal count_finished         : boolean := false;
   signal count_started          : boolean := false;
   signal at_source_valid_s      : std_logic;
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   signal data_valid             : std_logic;
   signal data_out               : std_logic_vector(WIDTH_g-1 downto 0);
   signal fifo_count             : std_logic_vector(DATA_PORT_COUNT*log2_ceil(FIFO_DEPTH_g)-1 downto 0);
   signal fifo_empty             : std_logic_vector(DATA_PORT_COUNT-1 downto 0);  -- multichan, multiinout
   signal fifo_alm_empty         : std_logic_vector(DATA_PORT_COUNT-1 downto 0);
   signal fifo_alm_full          : std_logic_vector(DATA_PORT_COUNT-1 downto 0);
+<<<<<<< refs/remotes/upstream/main
   signal fifo_full              : std_logic_vector(DATA_PORT_COUNT-1 downto 0); 
+=======
+  signal fifo_full              : std_logic_vector(DATA_PORT_COUNT-1 downto 0);
+>>>>>>> Revert "enlever le chain de argu"
   signal clear_fifo             : std_logic;
   signal fifo_rdreq             : std_logic;
   signal fifo_rdreq_d           : std_logic;
   signal fifo_wrreq             : std_logic;
   signal fifo_empty_d           : std_logic;
+<<<<<<< refs/remotes/upstream/main
   signal reset_design_int       : std_logic;   
   signal channel_out            : std_logic_vector(log2_ceil_one(PACKET_SIZE_g)-1 downto 0) := (others => '0');
   
+=======
+  signal reset_design_int       : std_logic;
+  signal channel_out            : std_logic_vector(log2_ceil_one(PACKET_SIZE_g)-1 downto 0) := (others => '0');
+
+>>>>>>> Revert "enlever le chain de argu"
   signal fifo_sop_in            : std_logic := '0';
   signal fifo_eop_in            : std_logic := '0';
   signal fifo_error_in          : std_logic_vector(1 downto 0);
   signal at_source_sop_s        : std_logic := '0';
+<<<<<<< refs/remotes/upstream/main
   signal at_source_eop_s        : std_logic := '0'; 
   signal at_source_error_s      : std_logic_vector(1 downto 0);  
   signal in_ready               : std_logic;
   
+=======
+  signal at_source_eop_s        : std_logic := '0';
+  signal at_source_error_s      : std_logic_vector(1 downto 0);
+  signal in_ready               : std_logic;
+
+>>>>>>> Revert "enlever le chain de argu"
   component altera_avalon_sc_fifo is
     generic(
        SYMBOLS_PER_BEAT : integer := 1;
@@ -169,7 +223,11 @@ architecture rtl of auk_dspip_avalon_streaming_source_hpfir is
          signal reset : IN STD_LOGIC;
 
          signal in_empty : IN STD_LOGIC_VECTOR (log2_ceil_one(DATA_PORT_COUNT)-1 DOWNTO 0);
+<<<<<<< refs/remotes/upstream/main
          
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
          signal csr_address : IN STD_LOGIC_VECTOR (1 DOWNTO 0);
          signal csr_write : IN STD_LOGIC;
          signal csr_read : IN STD_LOGIC;
@@ -193,23 +251,40 @@ begin
       at_source_eop_int      <= '0';
       packet_error0          <= packet_error(0);
       at_source_error_int(1) <= '0';
+<<<<<<< refs/remotes/upstream/main
       at_source_error_int(0) <= packet_error0;  
     end generate single_channel;
     
     packet_multi : if USE_PACKETS = 1 generate
       packet_error0 <= packet_error(1) or packet_error(0);
     
+=======
+      at_source_error_int(0) <= packet_error0;
+    end generate single_channel;
+
+    packet_multi : if USE_PACKETS = 1 generate
+      packet_error0 <= packet_error(1) or packet_error(0);
+
+>>>>>>> Revert "enlever le chain de argu"
       counter_no : if HAVE_COUNTER_g = false generate
         signal data_counter : unsigned(LOG2PACKET_SIZE_c-1 downto 0);
       begin
          count_finished <= true when data_counter = to_unsigned(PACKET_SIZE_g-1, LOG2PACKET_SIZE_c) else
                           false;
          data_counter  <= unsigned(data_count);
+<<<<<<< refs/remotes/upstream/main
         
          count_started <= true when data_counter = 0 else
                          false;
       end generate counter_no;
     
+=======
+
+         count_started <= true when data_counter = 0 else
+                         false;
+      end generate counter_no;
+
+>>>>>>> Revert "enlever le chain de argu"
       counter_yes : if HAVE_COUNTER_g = true generate
         signal data_counter : unsigned(log2_ceil(COUNTER_LIMIT_g)-1 downto 0);
       begin
@@ -217,7 +292,11 @@ begin
                           false;
         count_started <= true when data_counter = 0 else
                          false;
+<<<<<<< refs/remotes/upstream/main
                        
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
         packet_counter : process (clk, reset_n)
         begin  -- process packet_counter
           if reset_n = '0' then
@@ -234,6 +313,7 @@ begin
           end if;
         end process packet_counter;
       end generate counter_yes;
+<<<<<<< refs/remotes/upstream/main
         
       source_comb_update : process (--at_source_ready,
                                     count_finished, count_started,
@@ -244,6 +324,18 @@ begin
                                     
       begin  -- process source_comb_update
         
+=======
+
+      source_comb_update : process (--at_source_ready,
+                                    count_finished, count_started,
+                                    packet_error, packet_error0, source_state,
+                                    --at_source_valid_s
+				    in_ready,
+                                    source_valid_ctrl)
+
+      begin  -- process source_comb_update
+
+>>>>>>> Revert "enlever le chain de argu"
         case source_state is
           when start =>
             if packet_error0 = '1' then
@@ -262,8 +354,13 @@ begin
                 at_source_sop_int <= '0';
               end if;
             end if;
+<<<<<<< refs/remotes/upstream/main
             
           when sop =>     
+=======
+
+          when sop =>
+>>>>>>> Revert "enlever le chain de argu"
             if packet_error0 = '1' then
               source_next_state   <= st_err;
               at_source_error_int <= packet_error;
@@ -292,10 +389,17 @@ begin
                 at_source_sop_int <= '1';
               end if;
             end if;
+<<<<<<< refs/remotes/upstream/main
   
           when run1 =>
             at_source_sop_int <= '0';
   
+=======
+
+          when run1 =>
+            at_source_sop_int <= '0';
+
+>>>>>>> Revert "enlever le chain de argu"
             if packet_error0 = '1' then
               source_next_state   <= st_err;
               at_source_error_int <= packet_error;
@@ -313,9 +417,15 @@ begin
                 at_source_eop_int   <= '0';
               end if;
             end if;
+<<<<<<< refs/remotes/upstream/main
             
           when end1 =>
   
+=======
+
+          when end1 =>
+
+>>>>>>> Revert "enlever le chain de argu"
             if packet_error0 = '1' then
               source_next_state   <= st_err;
               at_source_error_int <= packet_error;
@@ -339,7 +449,11 @@ begin
                 at_source_eop_int <= '1';
               end if;
             end if;
+<<<<<<< refs/remotes/upstream/main
             
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
           when st_err =>
             at_source_sop_int <= '0';
             at_source_eop_int <= '0';
@@ -355,10 +469,17 @@ begin
             at_source_sop_int   <= '0';
             at_source_eop_int   <= '1';
             at_source_error_int <= "11";
+<<<<<<< refs/remotes/upstream/main
             
         end case;
       end process source_comb_update;
       
+=======
+
+        end case;
+      end process source_comb_update;
+
+>>>>>>> Revert "enlever le chain de argu"
       source_state_update : process (clk, reset_n)
       begin  -- process
        if reset_n = '0' then
@@ -368,6 +489,7 @@ begin
        end if;
       end process source_state_update;
   end generate packet_multi;
+<<<<<<< refs/remotes/upstream/main
     
       at_source_sop <= at_source_sop_s;
       at_source_eop <= at_source_eop_s;      
@@ -400,6 +522,40 @@ begin
     fifo_error_in <= "00" when USE_PACKETS = 0 else
                      at_source_error_int;
     
+=======
+
+      at_source_sop <= at_source_sop_s;
+      at_source_eop <= at_source_eop_s;
+      at_source_error <= at_source_error_s;
+
+      channel_info_exists : if USE_PACKETS = 1 generate
+        at_source_channel <= channel_out;
+      end generate channel_info_exists;
+
+      no_channel_info : if USE_PACKETS = 0 generate
+        at_source_channel <= (others => '0');
+      end generate no_channel_info;
+
+      at_source_data <= data_out;
+      at_source_valid <= data_valid;
+
+
+  backpressure_support: if ENABLE_BACKPRESSURE_g = true generate
+    reset_design_int   <= not reset_n;
+
+    --source_stall <= not(in_ready);
+    source_stall <= not(at_source_ready);
+
+    fifo_sop_in <= '0' when USE_PACKETS = 0 else
+                   at_source_sop_int;
+
+    fifo_eop_in <= '0' when USE_PACKETS = 0 else
+                   at_source_eop_int;
+
+    fifo_error_in <= "00" when USE_PACKETS = 0 else
+                     at_source_error_int;
+
+>>>>>>> Revert "enlever le chain de argu"
     scfifo : altera_avalon_sc_fifo
       generic map (
         SYMBOLS_PER_BEAT => DATA_PORT_COUNT,
@@ -434,34 +590,56 @@ begin
         out_channel => channel_out,
         out_startofpacket => at_source_sop_s,
         out_endofpacket => at_source_eop_s,
+<<<<<<< refs/remotes/upstream/main
         out_empty => open);  
      
+=======
+        out_empty => open);
+
+>>>>>>> Revert "enlever le chain de argu"
 end generate backpressure_support;
 
 
 backpressure_no_support: if ENABLE_BACKPRESSURE_g = false generate
   in_ready <= '1';
   source_stall <= '0';
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   output_registers : process (clk, reset_n)
   begin
     if reset_n = '0' then
       channel_out <= (others => '0');
       data_out <= (others => '0');
+<<<<<<< refs/remotes/upstream/main
       data_valid <= '0';  
+=======
+      data_valid <= '0';
+>>>>>>> Revert "enlever le chain de argu"
       at_source_error_s <= "00";
       at_source_sop_s <= '0';
       at_source_eop_s <= '0';
     elsif rising_edge(clk) then
       channel_out <= data_count;
       data_out <= data_in;
+<<<<<<< refs/remotes/upstream/main
       data_valid <= source_valid_ctrl;  
+=======
+      data_valid <= source_valid_ctrl;
+>>>>>>> Revert "enlever le chain de argu"
       at_source_error_s <= at_source_error_int;
       at_source_sop_s <= at_source_sop_int;
       at_source_eop_s <= at_source_eop_int;
     end if;
   end process output_registers;
 end generate backpressure_no_support;
+<<<<<<< refs/remotes/upstream/main
   
 end rtl;
 
+=======
+
+end rtl;
+>>>>>>> Revert "enlever le chain de argu"

@@ -37,7 +37,11 @@
 #define IOADDR_ALTERA_AVALON_UART_RXDATA(base)        \
         __IO_CALC_ADDRESS_NATIVE(base, ALTERA_AVALON_UART_RXDATA_REG)
 #define IORD_ALTERA_AVALON_UART_RXDATA(base)          \
+<<<<<<< refs/remotes/upstream/main
         IORD(base, ALTERA_AVALON_UART_RXDATA_REG) 
+=======
+        IORD(base, ALTERA_AVALON_UART_RXDATA_REG)
+>>>>>>> Revert "enlever le chain de argu"
 #define IOWR_ALTERA_AVALON_UART_RXDATA(base, data)    \
         IOWR(base, ALTERA_AVALON_UART_RXDATA_REG, data)
 
@@ -53,7 +57,11 @@
 #define IOADDR_ALTERA_AVALON_UART_STATUS(base)        \
         __IO_CALC_ADDRESS_NATIVE(base, ALTERA_AVALON_UART_STATUS_REG)
 #define IORD_ALTERA_AVALON_UART_STATUS(base)          \
+<<<<<<< refs/remotes/upstream/main
         IORD(base, ALTERA_AVALON_UART_STATUS_REG) 
+=======
+        IORD(base, ALTERA_AVALON_UART_STATUS_REG)
+>>>>>>> Revert "enlever le chain de argu"
 #define IOWR_ALTERA_AVALON_UART_STATUS(base, data)    \
         IOWR(base, ALTERA_AVALON_UART_STATUS_REG, data)
 
@@ -119,7 +127,11 @@
 #define IOADDR_ALTERA_AVALON_UART_DIVISOR(base)       \
         __IO_CALC_ADDRESS_NATIVE(base, ALTERA_AVALON_UART_DIVISOR_REG)
 #define IORD_ALTERA_AVALON_UART_DIVISOR(base)         \
+<<<<<<< refs/remotes/upstream/main
         IORD(base, ALTERA_AVALON_UART_DIVISOR_REG) 
+=======
+        IORD(base, ALTERA_AVALON_UART_DIVISOR_REG)
+>>>>>>> Revert "enlever le chain de argu"
 #define IOWR_ALTERA_AVALON_UART_DIVISOR(base, data)   \
         IOWR(base, ALTERA_AVALON_UART_DIVISOR_REG, data)
 

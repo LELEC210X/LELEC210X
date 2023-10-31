@@ -1,12 +1,20 @@
 -- ----------------------------------------------------------------------------
 -- FILE:          smpl_cmp.vhd
+<<<<<<< refs/remotes/upstream/main
 -- DESCRIPTION:   sample compare module  
+=======
+-- DESCRIPTION:   sample compare module
+>>>>>>> Revert "enlever le chain de argu"
 -- DATE:          5:19 PM Monday, December 11, 2017
 -- AUTHOR(s):     Lime Microsystems
 -- REVISIONS:
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
 --NOTES: 
+=======
+--NOTES:
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
@@ -34,7 +42,11 @@ entity smpl_cmp is
       cmp_start      : in std_logic := '0';
       cmp_length     : in std_logic_vector(15 downto 0) := x"00FF";  -- buffer length to check
       cmp_AI         : in std_logic_vector(smpl_width-1 downto 0);   -- values to compare with
+<<<<<<< refs/remotes/upstream/main
       cmp_AQ         : in std_logic_vector(smpl_width-1 downto 0);   
+=======
+      cmp_AQ         : in std_logic_vector(smpl_width-1 downto 0);
+>>>>>>> Revert "enlever le chain de argu"
       cmp_BI         : in std_logic_vector(smpl_width-1 downto 0);
       cmp_BQ         : in std_logic_vector(smpl_width-1 downto 0);
       cmp_done       : out std_logic;     -- '1' - indicates when sample compare is done
@@ -42,7 +54,11 @@ entity smpl_cmp is
       cmp_error_cnt  : out std_logic_vector(15 downto 0);
       --DIQ bus
       diq_h          : in std_logic_vector(smpl_width downto 0);
+<<<<<<< refs/remotes/upstream/main
       diq_l          : in std_logic_vector(smpl_width downto 0)  
+=======
+      diq_l          : in std_logic_vector(smpl_width downto 0)
+>>>>>>> Revert "enlever le chain de argu"
         );
 end smpl_cmp;
 
@@ -76,6 +92,7 @@ type state_type is (idle, wait_cyc, compare, compare_done);
 signal current_state, next_state : state_type;
 
 
+<<<<<<< refs/remotes/upstream/main
   
 begin
 -- ----------------------------------------------------------------------------
@@ -84,11 +101,25 @@ begin
    process(clk, reset_n)
    begin
       if reset_n = '0' then 
+=======
+
+begin
+-- ----------------------------------------------------------------------------
+-- Input registers
+-- ----------------------------------------------------------------------------
+   process(clk, reset_n)
+   begin
+      if reset_n = '0' then
+>>>>>>> Revert "enlever le chain de argu"
          diq_h_reg         <= (others=>'0');
          diq_l_reg         <= (others=>'0');
          fidm_reg          <= '0';
          cmp_start_reg     <= '0';
+<<<<<<< refs/remotes/upstream/main
       elsif (clk'event AND clk='1') then 
+=======
+      elsif (clk'event AND clk='1') then
+>>>>>>> Revert "enlever le chain de argu"
          diq_h_reg      <= diq_h;
          diq_l_reg      <= diq_l;
          fidm_reg       <= fidm;
@@ -96,13 +127,21 @@ begin
       end if;
    end process;
 
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 -- Compare samples
 -- ----------------------------------------------------------------------------
    process(clk, reset_n)
    begin
+<<<<<<< refs/remotes/upstream/main
       if reset_n = '0' then 
+=======
+      if reset_n = '0' then
+>>>>>>> Revert "enlever le chain de argu"
          AI_err      <= '0';
          AQ_err      <= '0';
          BI_err      <= '0';
@@ -112,6 +151,7 @@ begin
       elsif (clk'event AND clk='1') then
          --smpl_err <= AI_err OR AQ_err OR BI_err OR BQ_err OR IQ_SEL_err;
          smpl_err <= AI_err OR AQ_err OR IQ_SEL_err;
+<<<<<<< refs/remotes/upstream/main
          
          --compare IQ_SEL signal
          if diq_h_reg(smpl_width) = diq_l_reg(smpl_width) then 
@@ -154,11 +194,56 @@ begin
                BQ_err <= '1';
             end if;  
          else 
+=======
+
+         --compare IQ_SEL signal
+         if diq_h_reg(smpl_width) = diq_l_reg(smpl_width) then
+            IQ_SEL_err <= '0';
+         else
+            IQ_SEL_err <= '1';
+         end if;
+
+         --compare ch. A samples
+         if diq_h_reg(smpl_width) = fidm_reg AND diq_l_reg(smpl_width) = fidm_reg then
+            --AI
+            if diq_l_reg(smpl_width-1 downto 0) = cmp_AI then
+               AI_err <= '0';
+            else
+               AI_err <= '1';
+            end if;
+            --AQ
+            if diq_h_reg(smpl_width-1 downto 0) = cmp_AQ then
+               AQ_err <= '0';
+            else
+               AQ_err <= '1';
+            end if;
+         else
+            AI_err <= AI_err;
+            AQ_err <= AQ_err;
+         end if;
+
+         --compare ch. B samples
+         if diq_h_reg(smpl_width) /= fidm_reg AND diq_l_reg(smpl_width) /= fidm_reg then
+            --BI
+            if diq_l_reg(smpl_width-1 downto 0) = cmp_BI then
+               BI_err <= '0';
+            else
+               BI_err <= '1';
+            end if;
+            --BQ
+            if diq_h_reg(smpl_width-1 downto 0) = cmp_BQ then
+               BQ_err <= '0';
+            else
+               BQ_err <= '1';
+            end if;
+         else
+>>>>>>> Revert "enlever le chain de argu"
             BI_err <= BI_err;
             BQ_err <= BQ_err;
          end if;
       end if;
    end process;
+<<<<<<< refs/remotes/upstream/main
    
 -- ----------------------------------------------------------------------------
 -- Counter
@@ -192,10 +277,46 @@ begin
          if current_state = wait_cyc then 
             wait_cnt <= wait_cnt + 1;
          else 
+=======
+
+-- ----------------------------------------------------------------------------
+-- Counter
+-- ----------------------------------------------------------------------------
+   process(clk, reset_n)
+   begin
+      if reset_n = '0' then
+         compare_cnt    <= (others=>'0');
+         compare_stop   <= '0';
+      elsif (clk'event AND clk='1') then
+         if current_state = compare then
+            compare_cnt <= compare_cnt + 1;
+         else
+            compare_cnt <= (others=>'0');
+         end if;
+
+         if compare_cnt > unsigned(cmp_length) - 1 then
+            compare_stop <= '1';
+         else
+            compare_stop <= '0';
+         end if;
+
+      end if;
+   end process;
+
+   process(clk, reset_n)
+   begin
+      if reset_n = '0' then
+         wait_cnt <= (others=>'0');
+      elsif (clk'event AND clk='1') then
+         if current_state = wait_cyc then
+            wait_cnt <= wait_cnt + 1;
+         else
+>>>>>>> Revert "enlever le chain de argu"
             wait_cnt <= (others=>'0');
          end if;
       end if;
    end process;
+<<<<<<< refs/remotes/upstream/main
    
    process(clk, reset_n)
    begin
@@ -225,6 +346,37 @@ begin
    end process;
    
    
+=======
+
+   process(clk, reset_n)
+   begin
+      if reset_n = '0' then
+         smpl_err_cnt   <= (others => '0');
+         cmp_error_cnt_reg  <= (others => '0');
+      elsif (clk'event AND clk='1') then
+         if current_state = compare then
+            if smpl_err = '1' then
+               smpl_err_cnt <= smpl_err_cnt + 1;
+            else
+               smpl_err_cnt <= smpl_err_cnt;
+            end if;
+         else
+            smpl_err_cnt <= (others => '0');
+         end if;
+
+         if current_state = compare_done then
+            cmp_error_cnt_reg <= std_logic_vector(smpl_err_cnt);
+         elsif current_state = compare then
+            cmp_error_cnt_reg  <= (others => '0');
+         else
+            cmp_error_cnt_reg <= cmp_error_cnt_reg;
+         end if;
+
+      end if;
+   end process;
+
+
+>>>>>>> Revert "enlever le chain de argu"
 
 -- ----------------------------------------------------------------------------
 --state machine
@@ -232,9 +384,15 @@ begin
 fsm_f : process(clk, reset_n)begin
 	if(reset_n = '0')then
 		current_state <= idle;
+<<<<<<< refs/remotes/upstream/main
 	elsif(clk'event and clk = '1')then 
 		current_state <= next_state;
 	end if;	
+=======
+	elsif(clk'event and clk = '1')then
+		current_state <= next_state;
+	end if;
+>>>>>>> Revert "enlever le chain de argu"
 end process;
 
 -- ----------------------------------------------------------------------------
@@ -243,13 +401,20 @@ end process;
 fsm : process(current_state, cmp_start, cmp_start_reg, compare_stop, smpl_err, wait_cnt) begin
 	next_state <= current_state;
 	case current_state is
+<<<<<<< refs/remotes/upstream/main
 	  
 		when idle =>                     -- wait for start
          if cmp_start = '1' AND cmp_start_reg = '0' then 
+=======
+
+		when idle =>                     -- wait for start
+         if cmp_start = '1' AND cmp_start_reg = '0' then
+>>>>>>> Revert "enlever le chain de argu"
             next_state <= wait_cyc;
          else
             next_state <= idle;
          end if;
+<<<<<<< refs/remotes/upstream/main
          
       when wait_cyc =>                 -- wait clock cycles to capture registers and errors
          if wait_cnt > 3 then 
@@ -258,10 +423,21 @@ fsm : process(current_state, cmp_start, cmp_start_reg, compare_stop, smpl_err, w
             next_state <= wait_cyc;
          end if;
                 
+=======
+
+      when wait_cyc =>                 -- wait clock cycles to capture registers and errors
+         if wait_cnt > 3 then
+            next_state <= compare;
+         else
+            next_state <= wait_cyc;
+         end if;
+
+>>>>>>> Revert "enlever le chain de argu"
       when compare =>                  -- state to compare samples
          if compare_stop = '1' OR smpl_err = '1' then
          --if compare_stop = '1' then
             next_state <= compare_done;
+<<<<<<< refs/remotes/upstream/main
          else 
             next_state <= compare;
          end if;
@@ -270,6 +446,16 @@ fsm : process(current_state, cmp_start, cmp_start_reg, compare_stop, smpl_err, w
          next_state <= idle;
            
 		when others => 
+=======
+         else
+            next_state <= compare;
+         end if;
+
+      when compare_done =>
+         next_state <= idle;
+
+		when others =>
+>>>>>>> Revert "enlever le chain de argu"
 			next_state <= idle;
 	end case;
 end process;
@@ -279,6 +465,7 @@ end process;
 -- ----------------------------------------------------------------------------
 process(clk, reset_n)
 begin
+<<<<<<< refs/remotes/upstream/main
    if reset_n = '0' then 
       cmp_done_reg <= '0';
    elsif (clk'event AND clk='1') then 
@@ -287,6 +474,16 @@ begin
       elsif current_state = idle AND cmp_start = '0' then 
          cmp_done_reg <= '0';
       else 
+=======
+   if reset_n = '0' then
+      cmp_done_reg <= '0';
+   elsif (clk'event AND clk='1') then
+      if current_state = compare_done then
+         cmp_done_reg <= '1';
+      elsif current_state = idle AND cmp_start = '0' then
+         cmp_done_reg <= '0';
+      else
+>>>>>>> Revert "enlever le chain de argu"
          cmp_done_reg <= cmp_done_reg;
       end if;
    end if;
@@ -294,6 +491,7 @@ end process;
 
 process(clk, reset_n)
 begin
+<<<<<<< refs/remotes/upstream/main
    if reset_n = '0' then 
       cmp_error_reg <= '0';
    elsif (clk'event AND clk='1') then 
@@ -302,6 +500,16 @@ begin
       elsif current_state = idle AND cmp_start = '0'then 
          cmp_error_reg <= '0';
       else 
+=======
+   if reset_n = '0' then
+      cmp_error_reg <= '0';
+   elsif (clk'event AND clk='1') then
+      if smpl_err = '1' and current_state = compare then
+         cmp_error_reg <= '1';
+      elsif current_state = idle AND cmp_start = '0'then
+         cmp_error_reg <= '0';
+      else
+>>>>>>> Revert "enlever le chain de argu"
          cmp_error_reg <= cmp_error_reg;
       end if;
    end if;
@@ -314,9 +522,13 @@ cmp_error      <= cmp_error_reg;
 
 cmp_error_cnt <= cmp_error_cnt_reg;
 
+<<<<<<< refs/remotes/upstream/main
 end arch;   
 
 
 
 
 
+=======
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

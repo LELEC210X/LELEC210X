@@ -36,12 +36,20 @@
 
 /*
  * execve() is used by newlib to launch new processes. This is unsupported in
+<<<<<<< refs/remotes/upstream/main
  * the HAL environment. However a "do-nothing" implementation is still 
+=======
+ * the HAL environment. However a "do-nothing" implementation is still
+>>>>>>> Revert "enlever le chain de argu"
  * provied for newlib compatability.
  *
  * ALT_EXECVE is mapped onto the execve() system call in alt_syscall.h
  */
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 int ALT_EXECVE (char *name, char ** argv, char** env)
 {
   /* Generate a link time warning, should this function ever be called. */

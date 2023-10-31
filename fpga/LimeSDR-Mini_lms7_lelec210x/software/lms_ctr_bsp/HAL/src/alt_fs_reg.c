@@ -36,6 +36,7 @@
 #include "priv/alt_file.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * The alt_fs_reg() function is used to register a file system. Once registered 
  * a device can be accessed using the standard posix calls: open(), read(), 
  * write() etc.
@@ -54,6 +55,26 @@
  * failure. 
  */
  
+=======
+ * The alt_fs_reg() function is used to register a file system. Once registered
+ * a device can be accessed using the standard posix calls: open(), read(),
+ * write() etc.
+ *
+ * System behaviour is undefined in the event that a file system is registered
+ * with a name that conflicts with an existing device or file system.
+ *
+ * alt_fs_reg() is not thread safe in the sense that there should be no other
+ * thread using the file system list at the time that alt_dev_reg() is called. In
+ * practice this means that alt_fs_reg() should only be called while operating
+ * in a single threaded mode. The expectation is that it will only be called
+ * by the file system initilisation functions invoked by alt_sys_init(), which in
+ * turn should only be called by the single threaded C startup code.
+ *
+ * A return value of zero indicates success. A negative return value indicates
+ * failure.
+ */
+
+>>>>>>> Revert "enlever le chain de argu"
 int alt_fs_reg (alt_dev* dev)
 {
   /*
@@ -64,7 +85,11 @@ int alt_fs_reg (alt_dev* dev)
   {
     return -ENODEV;
   }
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   /*
    * register the file system.
    */
@@ -72,4 +97,8 @@ int alt_fs_reg (alt_dev* dev)
   alt_llist_insert(&alt_fs_list, &dev->llist);
 
   return 0;
+<<<<<<< refs/remotes/upstream/main
 } 
+=======
+}
+>>>>>>> Revert "enlever le chain de argu"

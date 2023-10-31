@@ -41,6 +41,7 @@
 #include "sys/alt_log_printf.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * The write() system call is used to write a block of data to a file or 
  * device. This function simply vectors the request to the device driver 
  * associated with the input file descriptor "file". 
@@ -48,6 +49,15 @@
  * ALT_WRITE is mapped onto the write() system call in alt_syscall.h
  */
  
+=======
+ * The write() system call is used to write a block of data to a file or
+ * device. This function simply vectors the request to the device driver
+ * associated with the input file descriptor "file".
+ *
+ * ALT_WRITE is mapped onto the write() system call in alt_syscall.h
+ */
+
+>>>>>>> Revert "enlever le chain de argu"
 #ifdef ALT_USE_DIRECT_DRIVERS
 
 #include "system.h"
@@ -101,7 +111,11 @@ int ALT_WRITE (int file, const void *ptr, size_t len)
    */
 
   fd = (file < 0) ? NULL : &alt_fd_list[file];
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   if (fd)
   {
     /*
@@ -112,7 +126,11 @@ int ALT_WRITE (int file, const void *ptr, size_t len)
 
     if (((fd->fd_flags & O_ACCMODE) != O_RDONLY) && fd->dev->write)
     {
+<<<<<<< refs/remotes/upstream/main
       
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
       /* ALT_LOG - see altera_hal/HAL/inc/sys/alt_log_printf.h */
       ALT_LOG_WRITE_FUNCTION(ptr,len);
 
@@ -128,7 +146,11 @@ int ALT_WRITE (int file, const void *ptr, size_t len)
       ALT_ERRNO = EACCES;
     }
   }
+<<<<<<< refs/remotes/upstream/main
   else  
+=======
+  else
+>>>>>>> Revert "enlever le chain de argu"
   {
     ALT_ERRNO = EBADFD;
   }

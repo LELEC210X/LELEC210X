@@ -1,4 +1,5 @@
 // (C) 2001-2018 Intel Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 // Your use of Intel Corporation's design tools, logic functions and other 
 // software and tools, and its AMPP partner logic functions, and any output 
 // files from any of the foregoing (including device programming or simulation 
@@ -8,10 +9,22 @@
 // license agreement, including, without limitation, that your use is for the 
 // sole purpose of programming logic devices manufactured by Intel and sold by 
 // Intel or its authorized distributors.  Please refer to the applicable 
+=======
+// Your use of Intel Corporation's design tools, logic functions and other
+// software and tools, and its AMPP partner logic functions, and any output
+// files from any of the foregoing (including device programming or simulation
+// files), and any associated documentation or information are expressly subject
+// to the terms and conditions of the Intel Program License Subscription
+// Agreement, Intel FPGA IP License Agreement, or other applicable
+// license agreement, including, without limitation, that your use is for the
+// sole purpose of programming logic devices manufactured by Intel and sold by
+// Intel or its authorized distributors.  Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 // agreement for further details.
 
 
 // (C) 2001-2011 Altera Corporation. All rights reserved.
+<<<<<<< refs/remotes/upstream/main
 // Your use of Altera Corporation's design tools, logic functions and other 
 // software and tools, and its AMPP partner logic functions, and any output 
 // files any of the foregoing (including device programming or simulation 
@@ -21,6 +34,17 @@
 // license agreement, including, without limitation, that your use is for the 
 // sole purpose of programming logic devices manufactured by Altera and sold by 
 // Altera or its authorized distributors.  Please refer to the applicable 
+=======
+// Your use of Altera Corporation's design tools, logic functions and other
+// software and tools, and its AMPP partner logic functions, and any output
+// files any of the foregoing (including device programming or simulation
+// files), and any associated documentation or information are expressly subject
+// to the terms and conditions of the Altera Program License Subscription
+// Agreement, Altera MegaCore Function License Agreement, or other applicable
+// license agreement, including, without limitation, that your use is for the
+// sole purpose of programming logic devices manufactured by Altera and sold by
+// Altera or its authorized distributors.  Please refer to the applicable
+>>>>>>> Revert "enlever le chain de argu"
 // agreement for further details.
 
 
@@ -44,7 +68,11 @@ module altera_merlin_slave_agent
    parameter PKT_ADDR_L                = 32,
    parameter PKT_TRANS_LOCK            = 87,
    parameter PKT_TRANS_COMPRESSED_READ = 67,
+<<<<<<< refs/remotes/upstream/main
    parameter PKT_TRANS_POSTED          = 66, 
+=======
+   parameter PKT_TRANS_POSTED          = 66,
+>>>>>>> Revert "enlever le chain de argu"
    parameter PKT_TRANS_WRITE           = 65,
    parameter PKT_TRANS_READ            = 64,
    parameter PKT_SRC_ID_H              = 74,
@@ -84,7 +112,11 @@ module altera_merlin_slave_agent
 
    // Derived FIFO width
    parameter FIFO_DATA_W = ST_DATA_W + 1,
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
    // ECC parameter
    parameter ECC_ENABLE = 0
 ) (
@@ -158,7 +190,11 @@ module altera_merlin_slave_agent
    function integer log2ceil;
       input reg[63:0] val;
       reg [63:0] i;
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
       begin
          i = 1;
          log2ceil = 0;
@@ -168,7 +204,11 @@ module altera_merlin_slave_agent
             i = i << 1;
          end
       end
+<<<<<<< refs/remotes/upstream/main
    endfunction     
+=======
+   endfunction
+>>>>>>> Revert "enlever le chain de argu"
 
    // ------------------------------------------------
    // Local Parameters
@@ -244,14 +284,22 @@ module altera_merlin_slave_agent
       if (PREVENT_FIFO_OVERFLOW) begin : prevent_fifo_overflow_block
          // ---------------------------------------------------
          // Backpressure if the slave says to, or if FIFO overflow may occur.
+<<<<<<< refs/remotes/upstream/main
          // 
+=======
+         //
+>>>>>>> Revert "enlever le chain de argu"
          // All commands are backpressured once the FIFO is full
          // even if they don't need storage. This breaks a long
          // combinatorial path from the master read/write through
          // this logic and back to the master via the backpressure
          // path.
          //
+<<<<<<< refs/remotes/upstream/main
          // To avoid a loss of throughput the FIFO will be parameterized 
+=======
+         // To avoid a loss of throughput the FIFO will be parameterized
+>>>>>>> Revert "enlever le chain de argu"
          // one slot deeper. The extra slot should never be used in normal
          // operation, but should a slave misbehave and accept one more
          // read than it should then backpressure will kick in.
@@ -302,7 +350,11 @@ module altera_merlin_slave_agent
    // into sub-bursts of length 1. However, the packet addresses are preserved,
    // which means this component may see size-aligned addresses.
    //
+<<<<<<< refs/remotes/upstream/main
    // Masking ensures that the addresses seen by an Avalon slave are aligned to 
+=======
+   // Masking ensures that the addresses seen by an Avalon slave are aligned to
+>>>>>>> Revert "enlever le chain de argu"
    // the full data width instead of the size.
    //
    // Example:
@@ -310,7 +362,11 @@ module altera_merlin_slave_agent
    // subburst1 addr=0, subburst2 addr=2, subburst3 addr=4, subburst4 addr=6
    // expected output from slave agent:
    // subburst1 addr=0, subburst2 addr=0, subburst3 addr=4, subburst4 addr=4
+<<<<<<< refs/remotes/upstream/main
    generate 
+=======
+   generate
+>>>>>>> Revert "enlever le chain de argu"
       if (BITS_TO_MASK > 0) begin : mask_address
 
          assign m0_address = { cmd_addr[ADDR_W-1:BITS_TO_MASK], {BITS_TO_MASK{1'b0}} };
@@ -338,7 +394,11 @@ module altera_merlin_slave_agent
 
    assign m0_read = ready_for_command & !suppress_read & (local_compressed_read | local_read);
 
+<<<<<<< refs/remotes/upstream/main
    generate 
+=======
+   generate
+>>>>>>> Revert "enlever le chain de argu"
        // AVS_BURSTCOUNT_W and BYTE_CNT_W may not be equal.  Assign m0_burstcount
        // from a sub-range, or 0-pad, as appropriate.
        if (AVS_BURSTCOUNT_W > BYTE_CNT_W) begin : m0_burstcount_zero_pad
@@ -348,8 +408,13 @@ module altera_merlin_slave_agent
              {zero_pad, cmd_byte_cnt};
        end
        else begin : m0_burstcount_no_pad
+<<<<<<< refs/remotes/upstream/main
           assign m0_burstcount = (local_read & ~local_compressed_read) ? 
           num_symbols[AVS_BURSTCOUNT_W-1:0] : 
+=======
+          assign m0_burstcount = (local_read & ~local_compressed_read) ?
+          num_symbols[AVS_BURSTCOUNT_W-1:0] :
+>>>>>>> Revert "enlever le chain de argu"
           cmd_byte_cnt[AVS_BURSTCOUNT_W-1:0];
        end
    endgenerate
@@ -374,7 +439,11 @@ module altera_merlin_slave_agent
 
    // ------------------------------------------------------------------
    // Generate a token when read commands are suppressed. The token
+<<<<<<< refs/remotes/upstream/main
    // is stored in the response FIFO, and will be used to synthesize 
+=======
+   // is stored in the response FIFO, and will be used to synthesize
+>>>>>>> Revert "enlever le chain de argu"
    // a read response. The same token is used for non-posted write
    // response synthesis.
    //
@@ -382,22 +451,38 @@ module altera_merlin_slave_agent
    // the burst uncompression logic at the read side of the response FIFO
    // generates the correct number of responses.
    //
+<<<<<<< refs/remotes/upstream/main
    // When the slave can return the response, let it do its job. Don't 
+=======
+   // When the slave can return the response, let it do its job. Don't
+>>>>>>> Revert "enlever le chain de argu"
    // synthesize a response in that case, unless we've suppressed the
    // the last transfer in a write sub-burst.
    // ------------------------------------------------------------------
    wire write_end_of_subburst;
+<<<<<<< refs/remotes/upstream/main
    assign needs_response_synthesis = ((local_read | local_compressed_read) & suppress_read) || 
+=======
+   assign needs_response_synthesis = ((local_read | local_compressed_read) & suppress_read) ||
+>>>>>>> Revert "enlever le chain de argu"
                                         (!USE_WRITERESPONSE && nonposted_write_endofpacket) ||
                                         (USE_WRITERESPONSE && write_end_of_subburst && suppress_write);
 
    // Avalon-ST interfaces to external response FIFO.
    //
+<<<<<<< refs/remotes/upstream/main
    // For efficiency, when synthesizing a write response we only store a non-posted write 
    // transaction at its endofpacket, even if it was split into multiple sub-bursts.
    //
    // When not synthesizing write responses, we store each sub-burst in the FIFO.
    // Each sub-burst to the slave will return a response, which corresponds to one 
+=======
+   // For efficiency, when synthesizing a write response we only store a non-posted write
+   // transaction at its endofpacket, even if it was split into multiple sub-bursts.
+   //
+   // When not synthesizing write responses, we store each sub-burst in the FIFO.
+   // Each sub-burst to the slave will return a response, which corresponds to one
+>>>>>>> Revert "enlever le chain de argu"
    // entry in the FIFO. We merge all the sub-burst responses on the final
    // sub-burst and send it on the response channel.
 
@@ -446,7 +531,11 @@ module altera_merlin_slave_agent
       if (USE_WRITERESPONSE) begin
          assign last_write_response = rf_sink_data[PKT_TRANS_WRITE] & rf_sink_endofpacket;
          always @* begin
+<<<<<<< refs/remotes/upstream/main
             if (rf_sink_data[PKT_TRANS_WRITE] == 1) 
+=======
+            if (rf_sink_data[PKT_TRANS_WRITE] == 1)
+>>>>>>> Revert "enlever le chain de argu"
                rp_valid = (rdata_fifo_sink_valid | generate_response) & last_write_response & !rf_sink_data[PKT_TRANS_POSTED];
             else
                rp_valid = rdata_fifo_sink_valid | uncompressor_source_valid;
@@ -474,7 +563,11 @@ module altera_merlin_slave_agent
         always_ff @(posedge clk, posedge reset) begin
            if (reset) begin
               first_write_response  <= 1'b1;
+<<<<<<< refs/remotes/upstream/main
            end 
+=======
+           end
+>>>>>>> Revert "enlever le chain de argu"
            else begin // Merging work for write response, for read: previous_response_in = current_response
               if (rf_sink_valid & (rdata_fifo_sink_valid | generate_response) & rf_sink_data[PKT_TRANS_WRITE]) begin
                  first_write_response <= 1'b0;
@@ -492,7 +585,11 @@ module altera_merlin_slave_agent
         end
 
         always_ff @(posedge clk or posedge reset) begin
+<<<<<<< refs/remotes/upstream/main
            if (reset) begin 
+=======
+           if (reset) begin
+>>>>>>> Revert "enlever le chain de argu"
               previous_response <= 2'b00;
            end
            else begin
@@ -503,7 +600,11 @@ module altera_merlin_slave_agent
         end
      end else begin : response_merging_read_only
         always @* begin
+<<<<<<< refs/remotes/upstream/main
            current_response = generate_response ? 2'b00: rdata_fifo_sink_data[AVS_DATA_W+1:AVS_DATA_W] | 
+=======
+           current_response = generate_response ? 2'b00: rdata_fifo_sink_data[AVS_DATA_W+1:AVS_DATA_W] |
+>>>>>>> Revert "enlever le chain de argu"
                                                          {2{rdata_fifo_sink_error}};
            response_merged = current_response;
         end
@@ -518,7 +619,11 @@ module altera_merlin_slave_agent
    wire [BURSTSIZE_W-1:0] rf_sink_burstsize  = rf_sink_data[PKT_BURST_SIZE_H:PKT_BURST_SIZE_L];
    wire [ADDR_W-1:0]      rf_sink_addr       = rf_sink_data[PKT_ADDR_H:PKT_ADDR_L];
    // a non posted write response is always completed in 1 cycle. Modify the startofpacket signal to 1'b1 instead of taking whatever is in the rf_fifo
+<<<<<<< refs/remotes/upstream/main
    wire rf_sink_startofpacket_wire = rf_sink_data[PKT_TRANS_WRITE] ? 1'b1 : rf_sink_startofpacket;    
+=======
+   wire rf_sink_startofpacket_wire = rf_sink_data[PKT_TRANS_WRITE] ? 1'b1 : rf_sink_startofpacket;
+>>>>>>> Revert "enlever le chain de argu"
 
    wire [BYTE_CNT_W-1:0]   burst_byte_cnt;
    wire [BURSTWRAP_W-1:0]  rp_burstwrap;
@@ -530,12 +635,21 @@ module altera_merlin_slave_agent
    // We're typically ready for a response if the network is ready. There
    // is one exception:
    //
+<<<<<<< refs/remotes/upstream/main
    // If the slave issues write responses, we only issue a merged response on 
    // the final sub-burst. As a result, we only care about response channel 
    // availability on the final burst when we send out the merged response.
    // ------------------------------------------------------------------
    assign ready_for_response = (USE_WRITERESPONSE) ? 
                             rp_ready || (rf_sink_data[PKT_TRANS_WRITE] && !last_write_response) || rf_sink_data[PKT_TRANS_POSTED]: 
+=======
+   // If the slave issues write responses, we only issue a merged response on
+   // the final sub-burst. As a result, we only care about response channel
+   // availability on the final burst when we send out the merged response.
+   // ------------------------------------------------------------------
+   assign ready_for_response = (USE_WRITERESPONSE) ?
+                            rp_ready || (rf_sink_data[PKT_TRANS_WRITE] && !last_write_response) || rf_sink_data[PKT_TRANS_POSTED]:
+>>>>>>> Revert "enlever le chain de argu"
                             rp_ready;
 
    // ------------------------------------------------------------------
@@ -574,7 +688,11 @@ module altera_merlin_slave_agent
 
    // ------------------------------------------------------------------
    // Note: the burst uncompressor may be asked to generate responses for
+<<<<<<< refs/remotes/upstream/main
    // write packets; these are treated the same as single-cycle uncompressed 
+=======
+   // write packets; these are treated the same as single-cycle uncompressed
+>>>>>>> Revert "enlever le chain de argu"
    // reads.
    // ------------------------------------------------------------------
    altera_merlin_burst_uncompressor #(
@@ -609,6 +727,7 @@ module altera_merlin_slave_agent
 
    //--------------------------------------
    // Assertion: In case slave support response. The slave needs return response in order
+<<<<<<< refs/remotes/upstream/main
    // Ex: non-posted write followed by a read: write response must complete before read data 
    //--------------------------------------
    // synthesis translate_off      
@@ -620,3 +739,15 @@ module altera_merlin_slave_agent
    // synthesis translate_on
 endmodule
 
+=======
+   // Ex: non-posted write followed by a read: write response must complete before read data
+   //--------------------------------------
+   // synthesis translate_off
+   ERROR_write_response_and_read_response_cannot_happen_same_time:
+   assert property ( @(posedge clk)
+      disable iff (reset) !(m0_writeresponsevalid  && m0_readdatavalid)
+   );
+
+   // synthesis translate_on
+endmodule
+>>>>>>> Revert "enlever le chain de argu"

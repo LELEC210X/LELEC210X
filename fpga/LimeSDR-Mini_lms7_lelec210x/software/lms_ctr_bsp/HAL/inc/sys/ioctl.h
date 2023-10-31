@@ -86,5 +86,9 @@ extern int ioctl (int fd, int req, void* arg);
 #ifdef __cplusplus
 }
 #endif
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 #endif /* __IOCTL_H__ */

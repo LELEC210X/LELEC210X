@@ -1006,4 +1006,8 @@
                 <sectionName>.stack</sectionName>
                 <regionName>onchip_memory2_0</regionName>
         </LinkerSection>
+<<<<<<< refs/remotes/upstream/main
 </sch:Settings>
+=======
+</sch:Settings>
+>>>>>>> Revert "enlever le chain de argu"

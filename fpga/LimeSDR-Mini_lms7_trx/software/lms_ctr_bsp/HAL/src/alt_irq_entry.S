@@ -73,7 +73,11 @@ alt_irq_entry:
         blt r4, r0, .Lnot_irq
 #else
         /*
+<<<<<<< refs/remotes/upstream/main
          * Test to see if the exception was a software exception or caused 
+=======
+         * Test to see if the exception was a software exception or caused
+>>>>>>> Revert "enlever le chain de argu"
          * by an external interrupt, and vector accordingly.
          */
         rdctl r4, ipending
@@ -84,7 +88,11 @@ alt_irq_entry:
 
         .section .exceptions.irqhandler, "xa"
         /*
+<<<<<<< refs/remotes/upstream/main
          * Now that all necessary registers have been preserved, call 
+=======
+         * Now that all necessary registers have been preserved, call
+>>>>>>> Revert "enlever le chain de argu"
          * alt_irq_handler() to process the interrupts.
          */
 
@@ -105,4 +113,7 @@ alt_irq_entry:
 
         .section .exceptions.exit.label
 .Lexception_exit:
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

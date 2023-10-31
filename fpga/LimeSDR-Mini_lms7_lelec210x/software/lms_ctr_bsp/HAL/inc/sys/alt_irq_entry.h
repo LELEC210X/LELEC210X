@@ -36,4 +36,7 @@
 __asm__( "\n\t.globl alt_irq_entry" );
 
 __asm__( "\n\t.globl alt_irq_handler" );
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

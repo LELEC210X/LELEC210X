@@ -1,11 +1,19 @@
 /**
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE:	sodera_pcie_brd.h
 -- DESCRIPTION:	Stream v2r2
 -- DATE:	2015.06.29
 -- AUTHOR(s):	Lime Microsystems
 -- REVISION: v0r2
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 
 */
 #ifndef _SODERA_PCIE_BRD_V1R0_H_

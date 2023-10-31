@@ -1,3 +1,4 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
 -- FILE: 	fifo2diq.vhd
 -- DESCRIPTION:	Writes DIQ data to FIFO, FIFO word size = 4  DIQ samples 
@@ -5,6 +6,15 @@
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+-- FILE: 	fifo2diq.vhd
+-- DESCRIPTION:	Writes DIQ data to FIFO, FIFO word size = 4  DIQ samples
+-- DATE:	Jan 13, 2016
+-- AUTHOR(s):	Lime Microsystems
+-- REVISIONS:
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -13,7 +23,11 @@ use ieee.numeric_std.all;
 -- Entity declaration
 -- ----------------------------------------------------------------------------
 entity fifo2diq is
+<<<<<<< refs/remotes/upstream/main
    generic( 
+=======
+   generic(
+>>>>>>> Revert "enlever le chain de argu"
       dev_family           : string := "Cyclone IV E";
       iq_width             : integer := 12
       );
@@ -25,25 +39,44 @@ entity fifo2diq is
       trxiqpulse           : in std_logic; -- trxiqpulse on: 1; trxiqpulse off: 0
       ddr_en               : in std_logic; -- DDR: 1; SDR: 0
       mimo_en              : in std_logic; -- SISO: 1; MIMO: 0
+<<<<<<< refs/remotes/upstream/main
       ch_en                : in std_logic_vector(1 downto 0); --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B. 
       fidm                 : in std_logic; -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
       pct_sync_mode        : in std_logic; -- 0 - timestamp, 1 - external pulse 
+=======
+      ch_en                : in std_logic_vector(1 downto 0); --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B.
+      fidm                 : in std_logic; -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
+      pct_sync_mode        : in std_logic; -- 0 - timestamp, 1 - external pulse
+>>>>>>> Revert "enlever le chain de argu"
       pct_sync_pulse       : in std_logic; -- external packet synchronisation pulse signal
       pct_sync_size        : in std_logic_vector(15 downto 0); -- valid in external pulse mode only
       pct_buff_rdy         : in std_logic;
       --txant
       txant_cyc_before_en  : in std_logic_vector(15 downto 0); -- valid in external pulse sync mode only
+<<<<<<< refs/remotes/upstream/main
       txant_cyc_after_en   : in std_logic_vector(15 downto 0); -- valid in external pulse sync mode only 
       txant_en             : out std_logic;                 
       --Tx interface data 
+=======
+      txant_cyc_after_en   : in std_logic_vector(15 downto 0); -- valid in external pulse sync mode only
+      txant_en             : out std_logic;
+      --Tx interface data
+>>>>>>> Revert "enlever le chain de argu"
       DIQ                  : out std_logic_vector(iq_width-1 downto 0);
       fsync                : out std_logic;
       DIQ_h                : out std_logic_vector(iq_width downto 0);
       DIQ_l                : out std_logic_vector(iq_width downto 0);
+<<<<<<< refs/remotes/upstream/main
       --fifo ports 
       fifo_rdempty         : in std_logic;
       fifo_rdreq           : out std_logic;
       fifo_q               : in std_logic_vector(iq_width*4-1 downto 0) 
+=======
+      --fifo ports
+      fifo_rdempty         : in std_logic;
+      fifo_rdreq           : out std_logic;
+      fifo_q               : in std_logic_vector(iq_width*4-1 downto 0)
+>>>>>>> Revert "enlever le chain de argu"
 
         );
 end fifo2diq;
@@ -53,7 +86,11 @@ end fifo2diq;
 -- ----------------------------------------------------------------------------
 architecture arch of fifo2diq is
 --declare signals,  components here
+<<<<<<< refs/remotes/upstream/main
 signal inst0_DIQ_h         : std_logic_vector (iq_width downto 0); 
+=======
+signal inst0_DIQ_h         : std_logic_vector (iq_width downto 0);
+>>>>>>> Revert "enlever le chain de argu"
 signal inst0_DIQ_l         : std_logic_vector (iq_width downto 0);
 --inst1 signals
 signal inst1_fifo_rdreq    : std_logic;
@@ -66,23 +103,36 @@ signal inst3_txant_en      : std_logic;
 signal int_mode            : std_logic_vector(1 downto 0);
 
 signal txant_en_mux        : std_logic;
+<<<<<<< refs/remotes/upstream/main
   
 begin
    
+=======
+
+begin
+
+>>>>>>> Revert "enlever le chain de argu"
    -- ----------------------------------------------------------------------------
 --Internal mode selection for DIQ position
 -- "00" - MIMO DDR both channels enabled, SISO DDR, TXIQ_PULSE
 -- "01" - MIMO DDR, TXIQ_PULSE first channel enabled
 -- "10" - MIMO DDR, TXIQ_PULSE second channel enabled
+<<<<<<< refs/remotes/upstream/main
 -- "11" - SISO SDR 
 -- ----------------------------------------------------------------------------
  int_mode <= "00" when (mimo_en='0' AND ddr_en='1') OR ((mimo_en='1' OR trxiqpulse ='1') AND ch_en="11") else 
+=======
+-- "11" - SISO SDR
+-- ----------------------------------------------------------------------------
+ int_mode <= "00" when (mimo_en='0' AND ddr_en='1') OR ((mimo_en='1' OR trxiqpulse ='1') AND ch_en="11") else
+>>>>>>> Revert "enlever le chain de argu"
              "01" when ((mimo_en='1' OR trxiqpulse ='1') AND ch_en="01") else
              "10" when ((mimo_en='1' OR trxiqpulse ='1') AND ch_en="10") else
              "11";
 
 process(clk, reset_n)
 begin
+<<<<<<< refs/remotes/upstream/main
    if reset_n = '0' then 
       inst3_pct_sync_size <= (others=> '0');
    elsif (clk'event AND clk='1') then 
@@ -90,13 +140,28 @@ begin
          inst3_pct_sync_size <= pct_sync_size;
       else 
          inst3_pct_sync_size <= '0' & pct_sync_size(15 downto 1); 
+=======
+   if reset_n = '0' then
+      inst3_pct_sync_size <= (others=> '0');
+   elsif (clk'event AND clk='1') then
+      if  int_mode = "00" then
+         inst3_pct_sync_size <= pct_sync_size;
+      else
+         inst3_pct_sync_size <= '0' & pct_sync_size(15 downto 1);
+>>>>>>> Revert "enlever le chain de argu"
       end if;
    end if;
 end process;
 
+<<<<<<< refs/remotes/upstream/main
         
 inst0_lms7002_dout : entity work.lms7002_ddout
    generic map( 
+=======
+
+inst0_lms7002_dout : entity work.lms7002_ddout
+   generic map(
+>>>>>>> Revert "enlever le chain de argu"
       dev_family  => dev_family,
       iq_width    => iq_width
    )
@@ -108,10 +173,17 @@ inst0_lms7002_dout : entity work.lms7002_ddout
       txiq        => DIQ,
       txiqsel     => fsync
       );
+<<<<<<< refs/remotes/upstream/main
         
         
  inst1_txiq : entity work.txiq
    generic map( 
+=======
+
+
+ inst1_txiq : entity work.txiq
+   generic map(
+>>>>>>> Revert "enlever le chain de argu"
       dev_family     => dev_family,
       iq_width       => iq_width
    )
@@ -122,7 +194,11 @@ inst0_lms7002_dout : entity work.lms7002_ddout
       trxiqpulse     => trxiqpulse,
       ddr_en         => ddr_en,
       mimo_en        => mimo_en,
+<<<<<<< refs/remotes/upstream/main
       ch_en          => ch_en, 
+=======
+      ch_en          => ch_en,
+>>>>>>> Revert "enlever le chain de argu"
       fidm           => fidm,
       DIQ_h          => inst0_DIQ_h,
       DIQ_l          => inst0_DIQ_l,
@@ -131,7 +207,11 @@ inst0_lms7002_dout : entity work.lms7002_ddout
       fifo_q         => fifo_q,
       txant_en       => inst1_txant_en
         );
+<<<<<<< refs/remotes/upstream/main
         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 txiq_ctrl_inst3 : entity work.txiq_ctrl
    port map(
       clk                  => clk,
@@ -147,6 +227,7 @@ txiq_ctrl_inst3 : entity work.txiq_ctrl
       txant_cyc_after_en   => txant_cyc_after_en,
       txant_en             => inst3_txant_en
         );
+<<<<<<< refs/remotes/upstream/main
         
 process(clk, reset_n)
 begin
@@ -157,6 +238,18 @@ begin
          txant_en_mux <= inst1_txant_en;
       else 
          txant_en_mux <= inst3_txant_en; 
+=======
+
+process(clk, reset_n)
+begin
+   if reset_n = '0' then
+      txant_en_mux <= '0';
+   elsif (clk'event AND clk='1') then
+      if  pct_sync_mode = '0' then
+         txant_en_mux <= inst1_txant_en;
+      else
+         txant_en_mux <= inst3_txant_en;
+>>>>>>> Revert "enlever le chain de argu"
       end if;
    end if;
 end process;
@@ -168,5 +261,10 @@ fifo_rdreq  <= inst1_fifo_rdreq;
 DIQ_h       <= inst0_DIQ_h;
 DIQ_l       <= inst0_DIQ_l;
 
+<<<<<<< refs/remotes/upstream/main
   
 end arch;
+=======
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

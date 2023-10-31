@@ -46,8 +46,13 @@
 #include "alt_types.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * This header provides the internal defenitions required to control file 
  * access. These variables and functions are not guaranteed to exist in 
+=======
+ * This header provides the internal defenitions required to control file
+ * access. These variables and functions are not guaranteed to exist in
+>>>>>>> Revert "enlever le chain de argu"
  * future implementations of the HAL.
  */
 
@@ -59,9 +64,15 @@ extern "C"
 /*
  * The function alt_find_dev() is used to search the device list "list" to
  * locate a device named "name". If a match is found, then a pointer to the
+<<<<<<< refs/remotes/upstream/main
  * device is returned, otherwise NULL is returned. 
  */
  
+=======
+ * device is returned, otherwise NULL is returned.
+ */
+
+>>>>>>> Revert "enlever le chain de argu"
 extern alt_dev* alt_find_dev (const char* name, alt_llist* list);
 
 /*
@@ -70,7 +81,11 @@ extern alt_dev* alt_find_dev (const char* name, alt_llist* list);
  * found, then a pointer to the filesystems alt_dev structure is returned,
  * otherwise NULL is returned.
  *
+<<<<<<< refs/remotes/upstream/main
  * Note that a match does not indicate that the file exists, only that a 
+=======
+ * Note that a match does not indicate that the file exists, only that a
+>>>>>>> Revert "enlever le chain de argu"
  * filesystem exists that is registered for a partition that could contain
  * the file. The filesystems open() function would need to be called in order
  * to determine if the file exists.
@@ -79,7 +94,11 @@ extern alt_dev* alt_find_dev (const char* name, alt_llist* list);
 extern alt_dev* alt_find_file (const char* name);
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_get_fd() is used to allocate a file descriptor for the device or 
+=======
+ * alt_get_fd() is used to allocate a file descriptor for the device or
+>>>>>>> Revert "enlever le chain de argu"
  * filesystem "dev". A negative return value indicates an error, otherwise the
  * return value is the index of the file descriptor within the file descriptor
  * pool.
@@ -94,17 +113,28 @@ extern int alt_get_fd (alt_dev* dev);
 extern void alt_release_fd (int fd);
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_fd_lock() is called by ioctl() to mark the file descriptor "fd" as 
  * being open for exclusive access. Subsequent calls to open() for the device 
  * associated with "fd" will fail. A device is unlocked by either calling 
  * close() for "fd", or by an alternate call to ioctl() (see ioctl.c for 
+=======
+ * alt_fd_lock() is called by ioctl() to mark the file descriptor "fd" as
+ * being open for exclusive access. Subsequent calls to open() for the device
+ * associated with "fd" will fail. A device is unlocked by either calling
+ * close() for "fd", or by an alternate call to ioctl() (see ioctl.c for
+>>>>>>> Revert "enlever le chain de argu"
  * details).
  */
 
 extern int alt_fd_lock (alt_fd* fd);
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_fd_unlock() is called by ioctl() to unlock a descriptor previously 
+=======
+ * alt_fd_unlock() is called by ioctl() to unlock a descriptor previously
+>>>>>>> Revert "enlever le chain de argu"
  * locked by a call to alt_fd_lock().
  */
 
@@ -117,14 +147,22 @@ extern int alt_fd_unlock (alt_fd* fd);
 extern alt_fd alt_fd_list[];
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * flags used by alt_fd. 
+=======
+ * flags used by alt_fd.
+>>>>>>> Revert "enlever le chain de argu"
  *
  * ALT_FD_EXCL is used to mark a file descriptor as locked for exclusive
  * access, i.e. further calls to open() for the associated device should
  * fail.
  *
  * ALT_FD_DEV marks a dile descriptor as belonging to a device as oposed to a
+<<<<<<< refs/remotes/upstream/main
  * filesystem. 
+=======
+ * filesystem.
+>>>>>>> Revert "enlever le chain de argu"
  */
 
 #define ALT_FD_EXCL 0x80000000
@@ -152,6 +190,7 @@ extern alt_llist alt_fs_list;
 ALT_EXTERN_SEM(alt_fd_list_lock)
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * "alt_max_fd" is a 'high water mark'. It indicates the highest file 
  * descriptor allocated. Use of this can save searching the entire pool
  * for active file descriptors, which helps avoid contention on access 
@@ -169,6 +208,25 @@ extern alt_32 alt_max_fd;
 
 extern void alt_io_redirect(const char* stdout_dev, 
                             const char* stdin_dev, 
+=======
+ * "alt_max_fd" is a 'high water mark'. It indicates the highest file
+ * descriptor allocated. Use of this can save searching the entire pool
+ * for active file descriptors, which helps avoid contention on access
+ * to the file descriptor pool.
+ */
+
+extern alt_32 alt_max_fd;
+
+/*
+ * alt_io_redirect() is called at startup to redirect stdout, stdin, and
+ * stderr to the devices named in the input arguments. By default these streams
+ * are directed at /dev/null, and are then redirected using this function once
+ * all of the devices have been registered within the system.
+ */
+
+extern void alt_io_redirect(const char* stdout_dev,
+                            const char* stdin_dev,
+>>>>>>> Revert "enlever le chain de argu"
                             const char* stderr_dev);
 
 

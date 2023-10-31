@@ -18,11 +18,19 @@ repos:
   - id: isort
     name: isort (python)
 - repo: https://github.com/psf/black
+<<<<<<< refs/remotes/upstream/main
   rev: 23.11.0
   hooks:
   - id: black
 - repo: https://github.com/astral-sh/ruff-pre-commit
   rev: v0.1.6
+=======
+  rev: 23.10.1
+  hooks:
+  - id: black
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.1.3
+>>>>>>> Revert "enlever le chain de argu"
   hooks:
   - id: ruff
     args: [--fix]
@@ -52,7 +60,11 @@ repos:
     exclude: .*poetry.lock
     args: [--autofix]
 - repo: https://github.com/pre-commit/mirrors-prettier
+<<<<<<< refs/remotes/upstream/main
   rev: v3.1.0   # Use the sha or tag you want to point at
+=======
+  rev: v3.0.3   # Use the sha or tag you want to point at
+>>>>>>> Revert "enlever le chain de argu"
   hooks:
   - id: prettier
 - repo: https://github.com/tcort/markdown-link-check
@@ -60,4 +72,8 @@ repos:
   hooks:
   - id: markdown-link-check
     args: [-q]
+<<<<<<< refs/remotes/upstream/main
 exclude: ((fpga/.*)|(.*\.(c|h|mxproject|s)))
+=======
+exclude: .*\.(c|h|mxproject|s)
+>>>>>>> Revert "enlever le chain de argu"

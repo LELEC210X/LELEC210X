@@ -44,7 +44,11 @@
 #include "system.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * Provide minimal version that just describes all file descriptors 
+=======
+ * Provide minimal version that just describes all file descriptors
+>>>>>>> Revert "enlever le chain de argu"
  * as tty devices for provided stdio devices.
  */
 int ALT_ISATTY (int file)
@@ -72,6 +76,7 @@ int ALT_ISATTY (int file)
 
 #else /* !ALT_USE_DIRECT_DRIVERS */
 /*
+<<<<<<< refs/remotes/upstream/main
  * isatty() can be used to determine whether the input file descriptor "file" 
  * refers to a terminal device or not. If it is a terminal device then the
  * return value is one, otherwise it is zero.  
@@ -79,6 +84,15 @@ int ALT_ISATTY (int file)
  * ALT_ISATTY is mapped onto the isatty() system call in alt_syscall.h
  */
  
+=======
+ * isatty() can be used to determine whether the input file descriptor "file"
+ * refers to a terminal device or not. If it is a terminal device then the
+ * return value is one, otherwise it is zero.
+ *
+ * ALT_ISATTY is mapped onto the isatty() system call in alt_syscall.h
+ */
+
+>>>>>>> Revert "enlever le chain de argu"
 int ALT_ISATTY (int file)
 {
   alt_fd*     fd;
@@ -91,11 +105,19 @@ int ALT_ISATTY (int file)
    */
 
   fd = (file < 0) ? NULL : &alt_fd_list[file];
+<<<<<<< refs/remotes/upstream/main
   
   if (fd)
   {
     /*
      * If a device driver does not provide an fstat() function, then it is 
+=======
+
+  if (fd)
+  {
+    /*
+     * If a device driver does not provide an fstat() function, then it is
+>>>>>>> Revert "enlever le chain de argu"
      * treated as a terminal device by default.
      */
 
@@ -107,7 +129,11 @@ int ALT_ISATTY (int file)
     /*
      * If a driver does provide an implementation of the fstat() function, then
      * this is called so that the device can identify itself.
+<<<<<<< refs/remotes/upstream/main
      */ 
+=======
+     */
+>>>>>>> Revert "enlever le chain de argu"
 
     else
     {

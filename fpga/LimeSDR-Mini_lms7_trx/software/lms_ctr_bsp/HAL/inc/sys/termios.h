@@ -37,7 +37,11 @@
 ******************************************************************************/
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * This is the termios.h file provided with newlib. The only modification has 
+=======
+ * This is the termios.h file provided with newlib. The only modification has
+>>>>>>> Revert "enlever le chain de argu"
  * been to the baud rate macro definitions, and an increase in the size of the
  * termios structure to accomodate this.
  */
@@ -176,6 +180,11 @@ struct termios {
 #ifdef __cplusplus
 }
 #endif
+<<<<<<< refs/remotes/upstream/main
  
 #endif  /* _SYS_TERMIOS_H */
 
+=======
+
+#endif  /* _SYS_TERMIOS_H */
+>>>>>>> Revert "enlever le chain de argu"

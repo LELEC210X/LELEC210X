@@ -1,3 +1,4 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
 -- FILE: 	packets2data_tb.vhd
 -- DESCRIPTION:	
@@ -5,6 +6,15 @@
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+-- FILE: 	packets2data_tb.vhd
+-- DESCRIPTION:
+-- DATE:	April 03, 2017
+-- AUTHOR(s):	Lime Microsystems
+-- REVISIONS:
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -24,13 +34,21 @@ end packets2data_tb;
 
 architecture tb_behave of packets2data_tb is
 constant clk0_period    : time := 10 ns;
+<<<<<<< refs/remotes/upstream/main
 constant clk1_period    : time := 10 ns; 
+=======
+constant clk1_period    : time := 10 ns;
+>>>>>>> Revert "enlever le chain de argu"
 
 constant smpl_nr_delay  : integer := 13;
 constant C_PCT_SIZE     : integer := 4096;
    --signals
 signal clk0,clk1		   : std_logic;
+<<<<<<< refs/remotes/upstream/main
 signal reset_n          : std_logic; 
+=======
+signal reset_n          : std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 
 constant file_data_width   : integer := 64;
 signal file_read           : std_logic;
@@ -52,10 +70,17 @@ signal dut0_rdusedw  : std_logic_vector(C_DUT0_RDUSEDW_WIDTH-1 downto 0);
 type my_array is array (0 to smpl_nr_delay) of std_logic_vector(63 downto 0);
 
 signal smpl_nr_array : my_array;
+<<<<<<< refs/remotes/upstream/main
   
 
 begin 
   
+=======
+
+
+begin
+
+>>>>>>> Revert "enlever le chain de argu"
       clock0: process is
 	begin
 		clk0 <= '0'; wait for clk0_period/2;
@@ -67,17 +92,29 @@ begin
 		clk1 <= '0'; wait for clk1_period/2;
 		clk1 <= '1'; wait for clk1_period/2;
 	end process clock;
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		res: process is
 	begin
 		reset_n <= '0'; wait for 20 ns;
 		reset_n <= '1'; wait;
 	end process res;
+<<<<<<< refs/remotes/upstream/main
    
 -- ----------------------------------------------------------------------------
 -- Writing to FIFO. Full packet is written to FIFO when dut0_wrempty is detected
 -- ----------------------------------------------------------------------------   
    fifo_wr_proc : process 
+=======
+
+-- ----------------------------------------------------------------------------
+-- Writing to FIFO. Full packet is written to FIFO when dut0_wrempty is detected
+-- ----------------------------------------------------------------------------
+   fifo_wr_proc : process
+>>>>>>> Revert "enlever le chain de argu"
    begin
       file_read <= '0';
       wait until rising_edge(clk0) AND reset_n = '1';
@@ -89,14 +126,22 @@ begin
          wait until dut0_wrempty = '1';
          wait until rising_edge(clk0);
    end process;
+<<<<<<< refs/remotes/upstream/main
    
 -- ----------------------------------------------------------------------------
 -- Read packet data
 -- ----------------------------------------------------------------------------   
+=======
+
+-- ----------------------------------------------------------------------------
+-- Read packet data
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
    process(clk0, reset_n)
       --select one of the three files depending on sample width
       FILE in_file      : TEXT OPEN READ_MODE IS "sim/out_pct_6_12b";
       --FILE in_file      : TEXT OPEN READ_MODE IS "sim/out_pct_6_14b";
+<<<<<<< refs/remotes/upstream/main
       --FILE in_file      : TEXT OPEN READ_MODE IS "sim/out_pct_6_16b";  
       VARIABLE in_line  : LINE;
       VARIABLE data     : std_logic_vector(63 downto 0);
@@ -109,6 +154,20 @@ begin
             HREAD(in_line, data);
             file_data <= data;
          else 
+=======
+      --FILE in_file      : TEXT OPEN READ_MODE IS "sim/out_pct_6_16b";
+      VARIABLE in_line  : LINE;
+      VARIABLE data     : std_logic_vector(63 downto 0);
+   begin
+      if reset_n = '0' then
+         file_data <= (others=>'0');
+      elsif (clk0'event AND clk0='1') then
+         if file_read = '1' then
+            READLINE(in_file, in_line);
+            HREAD(in_line, data);
+            file_data <= data;
+         else
+>>>>>>> Revert "enlever le chain de argu"
             file_data <= file_data;
          end if;
       end if;
@@ -116,16 +175,27 @@ begin
 
    process(clk0, reset_n)
    begin
+<<<<<<< refs/remotes/upstream/main
       if reset_n = '0' then 
+=======
+      if reset_n = '0' then
+>>>>>>> Revert "enlever le chain de argu"
          dut0_wrreq <= '0';
       elsif (clk0'event AND clk0='1') then
          dut0_wrreq <= file_read;
       end if;
    end process;
+<<<<<<< refs/remotes/upstream/main
   
 -- ----------------------------------------------------------------------------
 -- FIFO instance (Simulating stream FIFO)
 -- ----------------------------------------------------------------------------   
+=======
+
+-- ----------------------------------------------------------------------------
+-- FIFO instance (Simulating stream FIFO)
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
    fifo_inst_dut0 : entity work.fifo_inst
    generic map(
       dev_family     => "Cyclone IV E",
@@ -134,9 +204,15 @@ begin
       rdwidth        => C_DUT0_RDWIDTH,
       rdusedw_width  => C_DUT0_RDUSEDW_WIDTH,
       show_ahead     => "OFF"
+<<<<<<< refs/remotes/upstream/main
    )  
    port map(
       --input ports 
+=======
+   )
+   port map(
+      --input ports
+>>>>>>> Revert "enlever le chain de argu"
       reset_n  => reset_n,
       wrclk    => clk0,
       wrreq    => dut0_wrreq,
@@ -149,6 +225,7 @@ begin
       q        => dut0_q,
       rdempty  => open,
       rdusedw  => dut0_rdusedw
+<<<<<<< refs/remotes/upstream/main
    ); 
 
    end tb_behave;
@@ -157,3 +234,8 @@ begin
 
 
   
+=======
+   );
+
+   end tb_behave;
+>>>>>>> Revert "enlever le chain de argu"

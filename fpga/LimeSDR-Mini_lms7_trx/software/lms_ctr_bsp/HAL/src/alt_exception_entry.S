@@ -37,12 +37,21 @@
  * used so that if an interrupt is never registered, then this code will not
  * appear in the generated executable, thereby improving code footprint.
  *
+<<<<<<< refs/remotes/upstream/main
  * If an external interrpt controller (EIC) is present, it will supply an 
  * interrupt vector address to the processor when an interrupt occurs. For 
  * The Altera Vectored Interrupt Controller (VIC) driver will establish a 
  * vector table and the processor will jump directly to the appropriate 
  * table entry, funnel routine, and then user ISR. This will bypass this code 
  * in entirety. This code might still be linked into a system with an EIC, 
+=======
+ * If an external interrpt controller (EIC) is present, it will supply an
+ * interrupt vector address to the processor when an interrupt occurs. For
+ * The Altera Vectored Interrupt Controller (VIC) driver will establish a
+ * vector table and the processor will jump directly to the appropriate
+ * table entry, funnel routine, and then user ISR. This will bypass this code
+ * in entirety. This code might still be linked into a system with an EIC,
+>>>>>>> Revert "enlever le chain de argu"
  * but would then be used only for non-interrupt exceptions.
  */
 
@@ -69,7 +78,11 @@
 #endif /* ALT_STACK_CHECK */
 #endif /* ALT_EXCEPTION_STACK */
 
+<<<<<<< refs/remotes/upstream/main
 /* 
+=======
+/*
+>>>>>>> Revert "enlever le chain de argu"
  * The code at alt_exception is located at the Nios II exception
  * handler address.
  */
@@ -92,7 +105,11 @@ alt_exception:
 
 #ifdef ALT_EXCEPTION_STACK
 #ifdef ALT_STACK_CHECK
+<<<<<<< refs/remotes/upstream/main
         /* 
+=======
+        /*
+>>>>>>> Revert "enlever le chain de argu"
          * When runtime stack checking is enabled, the et register
          * contains the stack limit. Save this in memory before
          * overwriting the et register.
@@ -100,12 +117,20 @@ alt_exception:
         stw   et, %gprel(alt_exception_old_stack_limit)(gp)
 #endif /* ALT_STACK_CHECK */
 
+<<<<<<< refs/remotes/upstream/main
         /* 
+=======
+        /*
+>>>>>>> Revert "enlever le chain de argu"
          * Switch to the exception stack and save the current stack pointer
          * in memory. Uses the et register as a scratch register.
          */
         movhi et, %hi(__alt_exception_stack_pointer - 80)
+<<<<<<< refs/remotes/upstream/main
         ori   et, et, %lo(__alt_exception_stack_pointer - 80) 
+=======
+        ori   et, et, %lo(__alt_exception_stack_pointer - 80)
+>>>>>>> Revert "enlever le chain de argu"
         stw   sp, 76(et)
         mov   sp, et
 
@@ -114,12 +139,20 @@ alt_exception:
          * Restore the stack limit from memory to the et register.
          */
         movhi et, %hi(__alt_exception_stack_limit)
+<<<<<<< refs/remotes/upstream/main
         ori   et, et, %lo(__alt_exception_stack_limit) 
+=======
+        ori   et, et, %lo(__alt_exception_stack_limit)
+>>>>>>> Revert "enlever le chain de argu"
         stw   et, %gprel(alt_stack_limit_value)(gp)
 #endif /* ALT_STACK_CHECK */
 
 #else /* ALT_EXCEPTION_STACK disabled */
+<<<<<<< refs/remotes/upstream/main
         /* 
+=======
+        /*
+>>>>>>> Revert "enlever le chain de argu"
          * Reserve space on normal stack for registers about to be pushed.
          */
         addi  sp, sp, -76
@@ -131,7 +164,11 @@ alt_exception:
 
 #endif /* ALT_EXCEPTION_STACK */
 
+<<<<<<< refs/remotes/upstream/main
         /* 
+=======
+        /*
+>>>>>>> Revert "enlever le chain de argu"
          * Process an exception.  For all exceptions we must preserve all
          * caller saved registers on the stack (See the Nios II ABI
          * documentation for details).
@@ -171,12 +208,21 @@ alt_exception:
          * linked here. If the Internal Interrupt Controller (IIC) is
          * present (an EIC is not present), the presense of an interrupt
          * is determined by examining CPU control registers or an interrupt
+<<<<<<< refs/remotes/upstream/main
          * custom instruction, if present. 
          * 
          * If the IIC is used and an interrupt is active, the code linked 
          * here will call the HAL IRQ handler (alt_irq_handler()) which 
          * successively calls registered interrupt handler(s) until no 
          * interrupts remain pending. It then jumps to .exceptions.exit. If 
+=======
+         * custom instruction, if present.
+         *
+         * If the IIC is used and an interrupt is active, the code linked
+         * here will call the HAL IRQ handler (alt_irq_handler()) which
+         * successively calls registered interrupt handler(s) until no
+         * interrupts remain pending. It then jumps to .exceptions.exit. If
+>>>>>>> Revert "enlever le chain de argu"
          * there is no interrupt then it continues to .exception.notirq, below.
          */
 
@@ -347,8 +393,13 @@ alt_exception_unknown:
 
         .section .exceptions.exit, "xa"
 
+<<<<<<< refs/remotes/upstream/main
         /* 
          * Restore the saved registers, so that all general purpose registers 
+=======
+        /*
+         * Restore the saved registers, so that all general purpose registers
+>>>>>>> Revert "enlever le chain de argu"
          * have been restored to their state at the time the interrupt occured.
          */
 
@@ -399,4 +450,7 @@ alt_exception_unknown:
 .Lstack_overflow:
         break 3
 #endif /* ALT_STACK_CHECK */
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

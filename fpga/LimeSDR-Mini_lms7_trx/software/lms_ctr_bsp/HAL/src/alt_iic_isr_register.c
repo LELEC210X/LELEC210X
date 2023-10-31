@@ -47,7 +47,11 @@
  * The header, alt_irq_entry.h, contains the exception entry point, and is
  * provided by the processor component. It is included here, so that the code
  * will be added to the executable only if alt_irq_register() is present, i.e.
+<<<<<<< refs/remotes/upstream/main
  * if no interrupts are registered - there's no need to provide any 
+=======
+ * if no interrupts are registered - there's no need to provide any
+>>>>>>> Revert "enlever le chain de argu"
  * interrupt handling.
  */
 
@@ -60,7 +64,11 @@
 
 #include "priv/alt_irq_table.h"
 
+<<<<<<< refs/remotes/upstream/main
 /** @Function Description:  This function registers an interrupt handler. 
+=======
+/** @Function Description:  This function registers an interrupt handler.
+>>>>>>> Revert "enlever le chain de argu"
   * If the function is succesful, then the requested interrupt will be enabled
   * upon return. Registering a NULL handler will disable the interrupt.
   *
@@ -69,6 +77,7 @@
   * @param irq              IRQ ID number
   * @param isr              Pointer to interrupt service routine
   * @param isr_context      Opaque pointer passed to ISR
+<<<<<<< refs/remotes/upstream/main
   * @param flags            
   * @return                 0 if successful, else error (-1)
   */
@@ -76,12 +85,25 @@ int alt_iic_isr_register(alt_u32 ic_id, alt_u32 irq, alt_isr_func isr,
   void *isr_context, void *flags)
 {
   int rc = -EINVAL;  
+=======
+  * @param flags
+  * @return                 0 if successful, else error (-1)
+  */
+int alt_iic_isr_register(alt_u32 ic_id, alt_u32 irq, alt_isr_func isr,
+  void *isr_context, void *flags)
+{
+  int rc = -EINVAL;
+>>>>>>> Revert "enlever le chain de argu"
   int id = irq;             /* IRQ interpreted as the interrupt ID. */
   alt_irq_context status;
 
   if (id < ALT_NIRQ)
   {
+<<<<<<< refs/remotes/upstream/main
     /* 
+=======
+    /*
+>>>>>>> Revert "enlever le chain de argu"
      * interrupts are disabled while the handler tables are updated to ensure
      * that an interrupt doesn't occur while the tables are in an inconsistant
      * state.
@@ -97,7 +119,11 @@ int alt_iic_isr_register(alt_u32 ic_id, alt_u32 irq, alt_isr_func isr,
     alt_irq_enable_all(status);
   }
 
+<<<<<<< refs/remotes/upstream/main
   return rc; 
+=======
+  return rc;
+>>>>>>> Revert "enlever le chain de argu"
 }
 
 #endif /* ALT_ENHANCED_INTERRUPT_API_PRESENT */

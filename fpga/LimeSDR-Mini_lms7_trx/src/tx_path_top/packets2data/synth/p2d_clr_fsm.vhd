@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	p2d_clr_fsm.vhd
 -- DESCRIPTION:	FSm for data reading from packets.
 -- DATE:	April 6, 2017
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 
 -- ----------------------------------------------------------------------------
 -- Notes:
@@ -28,6 +36,7 @@ entity p2d_clr_fsm is
    port (
       clk                  : in std_logic;
       reset_n              : in std_logic;
+<<<<<<< refs/remotes/upstream/main
       pct_size             : in std_logic_vector(pct_size_w-1 downto 0);   --Whole packet size in 
                                                                            --in_pct_data_w words
                                                                            
@@ -44,6 +53,24 @@ entity p2d_clr_fsm is
 
       pct_buff_rdy         : in std_logic_vector(n_buff-1 downto 0)   
       
+=======
+      pct_size             : in std_logic_vector(pct_size_w-1 downto 0);   --Whole packet size in
+                                                                           --in_pct_data_w words
+
+      smpl_nr              : in std_logic_vector(63 downto 0);
+
+      pct_hdr_0            : in std_logic_vector(63 downto 0);
+      pct_hdr_0_valid      : in std_logic_vector(n_buff-1 downto 0);
+
+      pct_hdr_1            : in std_logic_vector(63 downto 0);
+      pct_hdr_1_valid      : in std_logic_vector(n_buff-1 downto 0);
+
+      pct_data_clr_n       : out std_logic_vector(n_buff-1 downto 0);
+      pct_data_clr_dis     : in std_logic_vector(n_buff-1 downto 0);
+
+      pct_buff_rdy         : in std_logic_vector(n_buff-1 downto 0)
+
+>>>>>>> Revert "enlever le chain de argu"
         );
 end p2d_clr_fsm;
 
@@ -54,9 +81,15 @@ architecture arch of p2d_clr_fsm is
 --declare signals,  components here
 
 type state_type is (idle, sel_buff, rd_buff);
+<<<<<<< refs/remotes/upstream/main
 signal current_state, next_state : state_type; 
 
 type smpl_nr_array_type  is array (0 to n_buff-1) of std_logic_vector(63 downto 0);  
+=======
+signal current_state, next_state : state_type;
+
+type smpl_nr_array_type  is array (0 to n_buff-1) of std_logic_vector(63 downto 0);
+>>>>>>> Revert "enlever le chain de argu"
 signal smpl_nr_array       : smpl_nr_array_type;
 
 signal pct_smpl_nr_less       : std_logic_vector(n_buff-1 downto 0);
@@ -79,7 +112,11 @@ COMPONENT lpm_compare
 			dataa	: IN STD_LOGIC_VECTOR (63 DOWNTO 0);
 			datab	: IN STD_LOGIC_VECTOR (63 DOWNTO 0);
 			aeb	: OUT STD_LOGIC ;
+<<<<<<< refs/remotes/upstream/main
 			alb	: OUT STD_LOGIC 
+=======
+			alb	: OUT STD_LOGIC
+>>>>>>> Revert "enlever le chain de argu"
 	);
 	END COMPONENT;
 
@@ -93,6 +130,7 @@ begin
 -- ----------------------------------------------------------------------------
 process(clk, reset_n)
 begin
+<<<<<<< refs/remotes/upstream/main
    if reset_n = '0' then 
       smpl_nr_array <= (others=>(others=>'0'));
    elsif (clk'event AND clk='1') then 
@@ -100,6 +138,15 @@ begin
          if pct_hdr_1_valid(i) = '1' then 
             smpl_nr_array(i)<= pct_hdr_1;
          else 
+=======
+   if reset_n = '0' then
+      smpl_nr_array <= (others=>(others=>'0'));
+   elsif (clk'event AND clk='1') then
+      for i in 0 to n_buff-1 loop
+         if pct_hdr_1_valid(i) = '1' then
+            smpl_nr_array(i)<= pct_hdr_1;
+         else
+>>>>>>> Revert "enlever le chain de argu"
             smpl_nr_array(i)<=smpl_nr_array(i);
          end if;
       end loop;
@@ -112,7 +159,11 @@ end process;
 -- ----------------------------------------------------------------------------
 -- Pipelined comparators
 -- ----------------------------------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
 gen_lpm_compare : 
+=======
+gen_lpm_compare :
+>>>>>>> Revert "enlever le chain de argu"
 for i in 0 to n_buff-1 generate
 LPM_COMPARE_component : LPM_COMPARE
 	GENERIC MAP (
@@ -128,7 +179,11 @@ LPM_COMPARE_component : LPM_COMPARE
 		aeb                  => open,
 		alb                  => pct_smpl_nr_less(i)
 	);
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 end generate gen_lpm_compare;
 
 
@@ -137,6 +192,7 @@ end generate gen_lpm_compare;
 -- ----------------------------------------------------------------------------
 process(clk, reset_n)
 begin
+<<<<<<< refs/remotes/upstream/main
    if reset_n = '0' then 
       pct_smpl_nr_sync_dis <= (others=>'0');
    elsif (clk'event AND clk='1') then 
@@ -144,6 +200,15 @@ begin
          if pct_hdr_0_valid(i) = '1' then 
             pct_smpl_nr_sync_dis(i)<= pct_hdr_0(4);
          else 
+=======
+   if reset_n = '0' then
+      pct_smpl_nr_sync_dis <= (others=>'0');
+   elsif (clk'event AND clk='1') then
+      for i in 0 to n_buff-1 loop
+         if pct_hdr_0_valid(i) = '1' then
+            pct_smpl_nr_sync_dis(i)<= pct_hdr_0(4);
+         else
+>>>>>>> Revert "enlever le chain de argu"
             pct_smpl_nr_sync_dis(i)<=pct_smpl_nr_sync_dis(i);
          end if;
       end loop;
@@ -155,7 +220,11 @@ end process;
 -- ----------------------------------------------------------------------------
 process(clk, reset_n)
 begin
+<<<<<<< refs/remotes/upstream/main
    if reset_n = '0' then 
+=======
+   if reset_n = '0' then
+>>>>>>> Revert "enlever le chain de argu"
       pct_data_clr_n <= (others=>'0');
       pct_buff_rdy_reg0 <=(others=>'0');
       pct_buff_rdy_reg1 <=(others=>'0');
@@ -167,10 +236,17 @@ begin
       pct_buff_rdy_reg2 <= pct_buff_rdy_reg1;
       pct_buff_rdy_reg3 <= pct_buff_rdy_reg2;
       for i in 0 to n_buff-1 loop
+<<<<<<< refs/remotes/upstream/main
          if pct_data_clr_dis(i) = '0' AND pct_smpl_nr_sync_dis(i) = '0' AND 
             pct_smpl_nr_less(i) = '1' AND pct_buff_rdy_reg3(i) = '1' then 
             pct_data_clr_n(i)<= '0';
          else 
+=======
+         if pct_data_clr_dis(i) = '0' AND pct_smpl_nr_sync_dis(i) = '0' AND
+            pct_smpl_nr_less(i) = '1' AND pct_buff_rdy_reg3(i) = '1' then
+            pct_data_clr_n(i)<= '0';
+         else
+>>>>>>> Revert "enlever le chain de argu"
             pct_data_clr_n(i)<= '1';
          end if;
       end loop;
@@ -179,9 +255,13 @@ end process;
 
 
 
+<<<<<<< refs/remotes/upstream/main
 end arch;   
 
 
 
 
 
+=======
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

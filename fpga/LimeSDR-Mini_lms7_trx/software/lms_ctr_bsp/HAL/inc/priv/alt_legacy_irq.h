@@ -33,11 +33,19 @@
 
 /*
  * This file provides prototypes and inline implementations of certain routines
+<<<<<<< refs/remotes/upstream/main
  * used by the legacy interrupt API. Do not include this in your driver or 
  * application source files, use "sys/alt_irq.h" instead to access the proper
  * public API.
  */
  
+=======
+ * used by the legacy interrupt API. Do not include this in your driver or
+ * application source files, use "sys/alt_irq.h" instead to access the proper
+ * public API.
+ */
+
+>>>>>>> Revert "enlever le chain de argu"
 #include <errno.h>
 #include "system.h"
 
@@ -54,12 +62,21 @@ extern "C"
 #endif /* __cplusplus */
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_irq_register() can be used to register an interrupt handler. If the 
  * function is succesful, then the requested interrupt will be enabled upon 
  * return.
  */
 extern int alt_irq_register (alt_u32 id, 
                              void*   context, 
+=======
+ * alt_irq_register() can be used to register an interrupt handler. If the
+ * function is succesful, then the requested interrupt will be enabled upon
+ * return.
+ */
+extern int alt_irq_register (alt_u32 id,
+                             void*   context,
+>>>>>>> Revert "enlever le chain de argu"
                              alt_isr_func handler);
 
 /*
@@ -129,7 +146,11 @@ static ALT_INLINE alt_u32 ALT_ALWAYS_INLINE alt_irq_interruptible (alt_u32 prior
 
   NIOS2_WRITE_STATUS (1);
 
+<<<<<<< refs/remotes/upstream/main
   return old_priority; 
+=======
+  return old_priority;
+>>>>>>> Revert "enlever le chain de argu"
 }
 
 /*
@@ -141,11 +162,19 @@ static ALT_INLINE void ALT_ALWAYS_INLINE alt_irq_non_interruptible (alt_u32 mask
   extern volatile alt_u32 alt_priority_mask;
   extern volatile alt_u32 alt_irq_active;
 
+<<<<<<< refs/remotes/upstream/main
   NIOS2_WRITE_STATUS (0);  
 
   alt_priority_mask = mask;
 
   NIOS2_WRITE_IENABLE (mask & alt_irq_active);  
+=======
+  NIOS2_WRITE_STATUS (0);
+
+  alt_priority_mask = mask;
+
+  NIOS2_WRITE_IENABLE (mask & alt_irq_active);
+>>>>>>> Revert "enlever le chain de argu"
 }
 #endif /* ALT_EXCEPTION_STACK */
 

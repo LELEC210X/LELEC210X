@@ -8,4 +8,7 @@
 		.fir_compiler_ii_0_avalon_streaming_source_error (<connected-to-fir_compiler_ii_0_avalon_streaming_source_error>), //                                          .error
 		.reset_reset_n                                   (<connected-to-reset_reset_n>)                                    //                                     reset.reset_n
 	);
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

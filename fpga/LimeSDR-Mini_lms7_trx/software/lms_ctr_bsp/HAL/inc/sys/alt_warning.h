@@ -32,9 +32,15 @@
 ******************************************************************************/
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_warning.h provides macro definitions that can be used to generate link 
  * time warnings.
  */ 
+=======
+ * alt_warning.h provides macro definitions that can be used to generate link
+ * time warnings.
+ */
+>>>>>>> Revert "enlever le chain de argu"
 
 #ifdef __cplusplus
 extern "C"
@@ -42,9 +48,15 @@ extern "C"
 #endif /* __cplusplus */
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * The symbol "__alt_invalid" is used to force a link error. There should be 
  * no corresponding implementation of this function.
  */  
+=======
+ * The symbol "__alt_invalid" is used to force a link error. There should be
+ * no corresponding implementation of this function.
+ */
+>>>>>>> Revert "enlever le chain de argu"
 
 extern void __alt_invalid (void);
 

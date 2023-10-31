@@ -21,8 +21,11 @@
 #ifndef __GPIO_H__
 #define __GPIO_H__
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> parent of 1c43eec (enlever le chain de argu)
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -38,13 +38,22 @@
 ******************************************************************************/
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * Definition of a table describing each interrupt handler. The index into 
  * the array is the interrupt id associated with the handler. 
+=======
+ * Definition of a table describing each interrupt handler. The index into
+ * the array is the interrupt id associated with the handler.
+>>>>>>> Revert "enlever le chain de argu"
  *
  * When an interrupt occurs, the associated handler is called with
  * the argument stored in the context member.
  *
+<<<<<<< refs/remotes/upstream/main
  * The table is physically created in alt_irq_handler.c 
+=======
+ * The table is physically created in alt_irq_handler.c
+>>>>>>> Revert "enlever le chain de argu"
  */
 extern struct ALT_IRQ_HANDLER
 {

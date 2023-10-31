@@ -41,7 +41,11 @@
 /*
  * The read() system call is used to read a block of data from a file or device.
  * This function simply vectors the request to the device driver associated
+<<<<<<< refs/remotes/upstream/main
  * with the input file descriptor "file". 
+=======
+ * with the input file descriptor "file".
+>>>>>>> Revert "enlever le chain de argu"
  *
  * ALT_READ is mapped onto the read() system call in alt_syscall.h
  */
@@ -91,7 +95,11 @@ int ALT_READ (int file, void *ptr, size_t len)
    */
 
   fd = (file < 0) ? NULL : &alt_fd_list[file];
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
   if (fd)
   {
     /*
@@ -100,7 +108,11 @@ int ALT_READ (int file, void *ptr, size_t len)
      * call the drivers read() function to process the request.
      */
 
+<<<<<<< refs/remotes/upstream/main
     if (((fd->fd_flags & O_ACCMODE) != O_WRONLY) && 
+=======
+    if (((fd->fd_flags & O_ACCMODE) != O_WRONLY) &&
+>>>>>>> Revert "enlever le chain de argu"
         (fd->dev->read))
       {
         if ((rval = fd->dev->read(fd, ptr, len)) < 0)

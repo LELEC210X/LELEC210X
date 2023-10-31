@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	rxiq.vhd
 -- DESCRIPTION:	describe
 -- DATE:	Feb 13, 2014
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -13,7 +21,11 @@ use ieee.numeric_std.all;
 -- Entity declaration
 -- ----------------------------------------------------------------------------
 entity rxiq is
+<<<<<<< refs/remotes/upstream/main
    generic( 
+=======
+   generic(
+>>>>>>> Revert "enlever le chain de argu"
       dev_family	: string := "Cyclone IV E";
       iq_width		: integer := 12
    );
@@ -24,6 +36,7 @@ entity rxiq is
       trxiqpulse	: in std_logic; -- trxiqpulse on: 1; trxiqpulse off: 0
 		ddr_en 		: in std_logic; -- DDR: 1; SDR: 0
 		mimo_en		: in std_logic; -- SISO: 1; MIMO: 0
+<<<<<<< refs/remotes/upstream/main
 		ch_en			: in std_logic_vector(1 downto 0); --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B.  
 		fidm			: in std_logic; -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
       --Rx interface data 
@@ -33,6 +46,17 @@ entity rxiq is
       fifo_wfull  : in std_logic;
       fifo_wrreq  : out std_logic;
       fifo_wdata  : out std_logic_vector(iq_width*4-1 downto 0)        
+=======
+		ch_en			: in std_logic_vector(1 downto 0); --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B.
+		fidm			: in std_logic; -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
+      --Rx interface data
+      DIQ_h		 	: in std_logic_vector(iq_width downto 0);
+		DIQ_l	 	   : in std_logic_vector(iq_width downto 0);
+      --fifo ports
+      fifo_wfull  : in std_logic;
+      fifo_wrreq  : out std_logic;
+      fifo_wdata  : out std_logic_vector(iq_width*4-1 downto 0)
+>>>>>>> Revert "enlever le chain de argu"
         );
 end rxiq;
 
@@ -49,27 +73,48 @@ signal inst0_reset_n		: std_logic;
 
 signal fifo_wrreq_reg   : std_logic;
 signal fifo_wdata_reg   : std_logic_vector(iq_width*4-1 downto 0);
+<<<<<<< refs/remotes/upstream/main
   
 begin
  
  
+=======
+
+begin
+
+
+>>>>>>> Revert "enlever le chain de argu"
  -- ----------------------------------------------------------------------------
 -- Synchronous resets for instances
 -- ----------------------------------------------------------------------------
 inst0_reset_proc : process(reset_n, clk)
 begin
+<<<<<<< refs/remotes/upstream/main
    if reset_n ='0' then 
       inst0_reset_n <= '0';
    elsif (clk'event and clk='1') then 
       if mimo_en = '0' then 
          inst0_reset_n <= '1';
       else 
+=======
+   if reset_n ='0' then
+      inst0_reset_n <= '0';
+   elsif (clk'event and clk='1') then
+      if mimo_en = '0' then
+         inst0_reset_n <= '1';
+      else
+>>>>>>> Revert "enlever le chain de argu"
          inst0_reset_n <= '0';
       end if;
    end if;
 end process;
+<<<<<<< refs/remotes/upstream/main
  
  
+=======
+
+
+>>>>>>> Revert "enlever le chain de argu"
  inst0_rxiq_siso : entity work.rxiq_siso
    generic map (
       iq_width    => 12
@@ -84,6 +129,7 @@ end process;
       fifo_wfull  => fifo_wfull,
       fifo_wrreq  => inst0_fifo_wrreq,
       fifo_wdata  => inst0_fifo_wdata
+<<<<<<< refs/remotes/upstream/main
         ); 
 
 --output register
@@ -93,6 +139,17 @@ begin
       fifo_wdata_reg <=(others=>'0');
       fifo_wrreq_reg <='0';
    elsif (clk'event AND clk = '1') then 
+=======
+        );
+
+--output register
+process (reset_n, clk)
+begin
+   if reset_n='0' then
+      fifo_wdata_reg <=(others=>'0');
+      fifo_wrreq_reg <='0';
+   elsif (clk'event AND clk = '1') then
+>>>>>>> Revert "enlever le chain de argu"
       fifo_wdata_reg <=inst0_fifo_wdata;
       fifo_wrreq_reg <=inst0_fifo_wrreq;
    end if;
@@ -104,6 +161,7 @@ fifo_wrreq <= fifo_wrreq_reg AND NOT fifo_wfull;
 
 
 
+<<<<<<< refs/remotes/upstream/main
   
 end arch;   
 
@@ -112,3 +170,7 @@ end arch;
 
 
 
+=======
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

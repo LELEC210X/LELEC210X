@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	pll_reconfig_status.vhd
 -- DESCRIPTION:	Shows when pll reconfiguration has been completed
 -- DATE:	Mar 29, 2016
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -14,7 +22,11 @@ use ieee.numeric_std.all;
 -- ----------------------------------------------------------------------------
 entity pll_reconfig_status is
   port (
+<<<<<<< refs/remotes/upstream/main
         --input ports 
+=======
+        --input ports
+>>>>>>> Revert "enlever le chain de argu"
         clk       			: in std_logic;
         reset_n   			: in std_logic;
 		  reconfig_en			: in std_logic;
@@ -22,9 +34,15 @@ entity pll_reconfig_status is
 		  exclude_ps_status	: in std_logic;
 		  ps_en					: in std_logic;
 		  ps_status				: in std_logic;
+<<<<<<< refs/remotes/upstream/main
         --output ports 		  
 		  rcfig_complete		: out std_logic
 		  
+=======
+        --output ports
+		  rcfig_complete		: out std_logic
+
+>>>>>>> Revert "enlever le chain de argu"
         );
 end pll_reconfig_status;
 
@@ -43,7 +61,11 @@ signal scandone_fall	: std_logic;
 --signal ps_en_rising	: std_logic;
 
 
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 process(current_state) begin
@@ -61,9 +83,15 @@ end process;
 fsm_f : process(clk, reset_n)begin
 	if(reset_n = '0')then
 		current_state <= idle;
+<<<<<<< refs/remotes/upstream/main
 	elsif(clk'event and clk = '1')then 
 		current_state <= next_state;
 	end if;	
+=======
+	elsif(clk'event and clk = '1')then
+		current_state <= next_state;
+	end if;
+>>>>>>> Revert "enlever le chain de argu"
 end process;
 
 -- ----------------------------------------------------------------------------
@@ -72,6 +100,7 @@ end process;
 fsm : process(current_state, reconfig_en, scandone_fall, ps_status, exclude_ps_status) begin
 	next_state <= current_state;
 	case current_state is
+<<<<<<< refs/remotes/upstream/main
 	  
 		when idle => --idle state, wait for reconfiguration enable
 			if reconfig_en='1' then
@@ -91,11 +120,33 @@ fsm : process(current_state, reconfig_en, scandone_fall, ps_status, exclude_ps_s
 			end if;
 		when wait_ps_begin => --wait for phase shift enable
 			if ps_status='1' then 
+=======
+
+		when idle => --idle state, wait for reconfiguration enable
+			if reconfig_en='1' then
+				next_state<=reconfig_begin;
+			else
+				next_state<=idle;
+			end if;
+		when reconfig_begin=> --wait for reconfiguration complete
+			if scandone_fall='1' then
+				if exclude_ps_status='0' then
+					next_state<=wait_ps_begin;
+				else
+					next_state<=reconfig_complete;
+				end if;
+			else
+				next_state<=reconfig_begin;
+			end if;
+		when wait_ps_begin => --wait for phase shift enable
+			if ps_status='1' then
+>>>>>>> Revert "enlever le chain de argu"
 				next_state<=ps_begin;
 			else
 				next_state<=wait_ps_begin;
 			end if;
 		when ps_begin => 		--wait for phase shift complete
+<<<<<<< refs/remotes/upstream/main
 			if ps_status='0' then 
 				next_state<=reconfig_complete;
 			else 
@@ -108,6 +159,20 @@ fsm : process(current_state, reconfig_en, scandone_fall, ps_status, exclude_ps_s
 				next_state<=reconfig_complete;
 			end if;
 		when others => 
+=======
+			if ps_status='0' then
+				next_state<=reconfig_complete;
+			else
+				next_state<=ps_begin;
+			end if;
+		when reconfig_complete => --reconfig complete, wait for another reconfiguration
+			if reconfig_en='0' then
+				next_state<=idle;
+			else
+				next_state<=reconfig_complete;
+			end if;
+		when others =>
+>>>>>>> Revert "enlever le chain de argu"
 			next_state<=idle;
 	end case;
 end process;
@@ -126,6 +191,7 @@ process(reset_n, clk)
 		  --ps_en_reg1<=ps_en_reg0;
  	    end if;
     end process;
+<<<<<<< refs/remotes/upstream/main
 	 
 	 
 scandone_fall 	<= '1' when scandone_reg0='0' and scandone_reg1='1' else '0';
@@ -136,3 +202,11 @@ end arch;
 
 
 
+=======
+
+
+scandone_fall 	<= '1' when scandone_reg0='0' and scandone_reg1='1' else '0';
+--ps_en_rising	<= '1' when ps_en_reg0='1' and ps_en_reg1='0' else '0';
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

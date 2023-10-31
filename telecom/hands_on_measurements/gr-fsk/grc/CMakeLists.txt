@@ -19,7 +19,10 @@
 # Boston, MA 02110-1301, USA.
 install(FILES
     fsk_preamble_detect.block.yml
+<<<<<<< refs/remotes/upstream/main
     fsk_flag_detector.block.yml
+=======
+>>>>>>> Revert "enlever le chain de argu"
     fsk_synchronization.block.yml
     fsk_demodulation.block.yml
     fsk_packet_parser.block.yml

@@ -31,7 +31,11 @@
 ******************************************************************************/
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * This file defines the alt_errno global variable. See comments in 
+=======
+ * This file defines the alt_errno global variable. See comments in
+>>>>>>> Revert "enlever le chain de argu"
  * alt_errno.h for the use of this variable.
  */
 

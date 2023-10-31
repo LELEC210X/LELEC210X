@@ -46,9 +46,15 @@
  *
  * The motivation for these macros is to allow code to be developed which is
  * thread safe under uC/OS-II, but incurs no additional overhead when used in a
+<<<<<<< refs/remotes/upstream/main
  * single threaded HAL environment.  
  *
  * In the case of a single threaded HAL environment, they compile to 
+=======
+ * single threaded HAL environment.
+ *
+ * In the case of a single threaded HAL environment, they compile to
+>>>>>>> Revert "enlever le chain de argu"
  * "do nothing" directives, which ensures they do not contribute to the final
  * executable.
  *
@@ -64,7 +70,11 @@
  * Input arguments and return codes are all consistant with the equivalent
  * uC/OS-II function.
  *
+<<<<<<< refs/remotes/upstream/main
  * It's important to be careful in the use of the macros: ALT_SEM, 
+=======
+ * It's important to be careful in the use of the macros: ALT_SEM,
+>>>>>>> Revert "enlever le chain de argu"
  * ALT_EXTERN_SEM, and ALT_STATIC_SEM. In these three cases the semi-colon is
  * included in the macro definition; so, for example, you should use:
  *
@@ -77,15 +87,24 @@
  * The inclusion of the semi-colon has been necessary to ensure the macros can
  * compile with no warnings when used in a single threaded HAL environment.
  *
+<<<<<<< refs/remotes/upstream/main
  */ 
+=======
+ */
+>>>>>>> Revert "enlever le chain de argu"
 
 #include "priv/alt_no_error.h"
 
 #define ALT_SEM(sem)
 #define ALT_EXTERN_SEM(sem)
 #define ALT_STATIC_SEM(sem)
+<<<<<<< refs/remotes/upstream/main
               
 #define ALT_SEM_CREATE(sem, value) alt_no_error () 
+=======
+
+#define ALT_SEM_CREATE(sem, value) alt_no_error ()
+>>>>>>> Revert "enlever le chain de argu"
 #define ALT_SEM_PEND(sem, timeout) alt_no_error ()
 #define ALT_SEM_POST(sem) alt_no_error ()
 

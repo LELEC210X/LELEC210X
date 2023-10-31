@@ -36,12 +36,20 @@
 
 /*
  * The fork() system call is used by newlib to create a duplicate copy of the
+<<<<<<< refs/remotes/upstream/main
  * curent process.  This is unsupported in the HAL environment. However a 
+=======
+ * curent process.  This is unsupported in the HAL environment. However a
+>>>>>>> Revert "enlever le chain de argu"
  * "do-nothing" implementation is still provied for newlib compatability.
  *
  * ALT_FORK is mapped onto the fork() system call in alt_syscall.h
  */
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 int ALT_FORK (void)
 {
   /* Generate a link time warning, should this function ever be called. */
@@ -53,5 +61,8 @@ int ALT_FORK (void)
   ALT_ERRNO = ENOSYS;
   return -1;
 }
+<<<<<<< refs/remotes/upstream/main
 
  
+=======
+>>>>>>> Revert "enlever le chain de argu"

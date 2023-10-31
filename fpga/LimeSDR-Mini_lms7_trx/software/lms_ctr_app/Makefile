@@ -38,13 +38,21 @@ ALT_LDFLAGS :=
 
 #------------------------------------------------------------------------------
 #                         The adjust-path macro
+<<<<<<< refs/remotes/upstream/main
 # 
+=======
+#
+>>>>>>> Revert "enlever le chain de argu"
 # If COMSPEC/ComSpec is defined, Make is launched from Windows through
 # Cygwin.  The adjust-path macro converts absolute windows paths into
 # unix style paths (Example: c:/dir -> /c/dir). This will ensture
 # paths are readable by GNU Make.
 #
+<<<<<<< refs/remotes/upstream/main
 # If COMSPEC/ComSpec is not defined, Make is launched from linux, and no 
+=======
+# If COMSPEC/ComSpec is not defined, Make is launched from linux, and no
+>>>>>>> Revert "enlever le chain de argu"
 # adjustment is necessary
 #
 #------------------------------------------------------------------------------
@@ -57,7 +65,11 @@ endif # COMSPEC
 
 ifdef COMSPEC # if Windows OS
 
+<<<<<<< refs/remotes/upstream/main
 ifeq ($(MAKE_VERSION),3.81) 
+=======
+ifeq ($(MAKE_VERSION),3.81)
+>>>>>>> Revert "enlever le chain de argu"
 #
 # adjust-path/adjust-path-mixed for Mingw Gnu Make on Windows
 #
@@ -69,10 +81,17 @@ ifeq ($(MAKE_VERSION),3.81)
 
 #
 # adjust-path
+<<<<<<< refs/remotes/upstream/main
 #  - converts back slash characters into forward slashes 
 #  - if input arg ($1) is an empty string then return the empty string
 #  - if input arg ($1) does not contain the string ":/", then return input arg
 #  - using sed, convert mixed path [c:/...] into mingw path [/c/...] 
+=======
+#  - converts back slash characters into forward slashes
+#  - if input arg ($1) is an empty string then return the empty string
+#  - if input arg ($1) does not contain the string ":/", then return input arg
+#  - using sed, convert mixed path [c:/...] into mingw path [/c/...]
+>>>>>>> Revert "enlever le chain de argu"
 define adjust-path
 $(strip \
 $(if $1,\
@@ -83,6 +102,7 @@ endef
 
 #
 # adjust-path-mixed
+<<<<<<< refs/remotes/upstream/main
 #  - converts back slash characters into forward slashes 
 #  - if input arg ($1) is an empty string then return the empty string
 #  - if input arg ($1) does not begin with a forward slash '/' char, then 
@@ -90,6 +110,15 @@ endef
 #  - using sed, convert mingw path [/c/...] or cygwin path [/c/cygdrive/...] 
 #    into a mixed path [c:/...] 
 define adjust-path-mixed 
+=======
+#  - converts back slash characters into forward slashes
+#  - if input arg ($1) is an empty string then return the empty string
+#  - if input arg ($1) does not begin with a forward slash '/' char, then
+#    return input arg
+#  - using sed, convert mingw path [/c/...] or cygwin path [/c/cygdrive/...]
+#    into a mixed path [c:/...]
+define adjust-path-mixed
+>>>>>>> Revert "enlever le chain de argu"
 $(strip \
 $(if $1,\
 $(if $(findstring $(subst \,/,$1),$(patsubst /%,%,$(subst \,/,$1))),\
@@ -97,7 +126,11 @@ $(subst \,/,$1),\
 $(shell echo $(subst \,/,$1) | sed -e 's,^/cygdrive/\([a-zA-Z]\)/,\1:/,' -e 's,^/\([a-zA-Z]\)/,\1:/,'))))
 endef
 
+<<<<<<< refs/remotes/upstream/main
 else # MAKE_VERSION != 3.81 (MAKE_VERSION == 3.80 or MAKE_VERSION == 3.79) 
+=======
+else # MAKE_VERSION != 3.81 (MAKE_VERSION == 3.80 or MAKE_VERSION == 3.79)
+>>>>>>> Revert "enlever le chain de argu"
 #
 #  adjust-path for Cygwin Gnu Make
 # $(call adjust-path,c:/aaa/bbb) = /cygdrive/c/aaa/bbb
@@ -123,6 +156,7 @@ endif # COMSPEC
 ACTIVE_BUILD_CONFIG := default
 BUILD_CONFIGS := default
 
+<<<<<<< refs/remotes/upstream/main
 # The following TYPE comment allows tools to identify the 'type' of target this 
 # makefile is associated with. 
 # TYPE: APP_MAKEFILE
@@ -139,6 +173,24 @@ ACDS_VERSION := 15.1
 # Define path to the application ELF. 
 # It may be used by the makefile fragments so is defined before including them. 
 # 
+=======
+# The following TYPE comment allows tools to identify the 'type' of target this
+# makefile is associated with.
+# TYPE: APP_MAKEFILE
+
+# This following VERSION comment indicates the version of the tool used to
+# generate this makefile. A makefile variable is provided for VERSION as well.
+# ACDS_VERSION: 15.1
+ACDS_VERSION := 15.1
+
+# This following BUILD_NUMBER comment indicates the build number of the tool
+# used to generate this makefile.
+# BUILD_NUMBER: 185
+
+# Define path to the application ELF.
+# It may be used by the makefile fragments so is defined before including them.
+#
+>>>>>>> Revert "enlever le chain de argu"
 ELF := lms_ctr_app.elf
 
 # Paths to C, C++, and assembly source files.
@@ -215,7 +267,11 @@ endif
 all:
 	@$(ECHO) [$(APP_NAME) build complete]
 
+<<<<<<< refs/remotes/upstream/main
 all : build_pre_process libs app build_post_process 
+=======
+all : build_pre_process libs app build_post_process
+>>>>>>> Revert "enlever le chain de argu"
 
 
 #------------------------------------------------------------------------------
@@ -241,25 +297,42 @@ ABS_BSP_ROOT_DIR := $(call adjust-path-mixed,$(shell cd "$(BSP_ROOT_DIR)"; pwd))
 BSP_INCLUDE_FILE := $(BSP_ROOT_DIR)/public.mk
 ALT_LIBRARY_ROOT_DIR := $(BSP_ROOT_DIR)
 include $(BSP_INCLUDE_FILE)
+<<<<<<< refs/remotes/upstream/main
 # C2H will need this to touch the BSP public.mk and avoid the sopc file 
+=======
+# C2H will need this to touch the BSP public.mk and avoid the sopc file
+>>>>>>> Revert "enlever le chain de argu"
 # out-of-date error during a BSP make
 ABS_BSP_INCLUDE_FILE := $(ABS_BSP_ROOT_DIR)/public.mk
 
 
 ifneq ($(WARNING.SMALL_STACK_SIZE),)
 # This WARNING is here to protect you from unknowingly using a very small stack
+<<<<<<< refs/remotes/upstream/main
 # If the warning is set, increase your stack size or enable the BSP small stack 
+=======
+# If the warning is set, increase your stack size or enable the BSP small stack
+>>>>>>> Revert "enlever le chain de argu"
 # setting to eliminate the warning
 $(warning WARNING: $(WARNING.SMALL_STACK_SIZE))
 endif
 
+<<<<<<< refs/remotes/upstream/main
 # If the BSP public.mk indicates that ALT_SIM_OPTIMIZE is set, rename the ELF 
 # by prefixing it with RUN_ON_HDL_SIMULATOR_ONLY_.  
+=======
+# If the BSP public.mk indicates that ALT_SIM_OPTIMIZE is set, rename the ELF
+# by prefixing it with RUN_ON_HDL_SIMULATOR_ONLY_.
+>>>>>>> Revert "enlever le chain de argu"
 ifneq ($(filter -DALT_SIM_OPTIMIZE,$(ALT_CPPFLAGS)),)
 ELF := RUN_ON_HDL_SIMULATOR_ONLY_$(ELF)
 endif
 
+<<<<<<< refs/remotes/upstream/main
 # If the BSP public.mk indicates that ALT_PROVIDE_GMON is set, add option to 
+=======
+# If the BSP public.mk indicates that ALT_PROVIDE_GMON is set, add option to
+>>>>>>> Revert "enlever le chain de argu"
 # download_elf target
 ifneq ($(filter -DALT_PROVIDE_GMON,$(ALT_CPPFLAGS)),)
 GMON_OUT_FILENAME := gmon.out
@@ -393,6 +466,7 @@ ifeq ($(CREATE_LINKER_MAP), 1)
 APP_LDFLAGS += -Wl,-Map=$(LINKER_MAP_NAME)
 endif
 
+<<<<<<< refs/remotes/upstream/main
 # QUARTUS_PROJECT_DIR and SOPC_NAME need to be defined if you want the 
 # mem_init_install target of the mem_init.mk (located in the associated BSP) 
 # to know how to copy memory initialization files (e.g. .dat, .hex) into 
@@ -409,6 +483,24 @@ endif
 # to provide the initial memory contents of all memories that can be 
 # initialized by RTL simulation. This variable should be set to the same name 
 # as your SOPC Builder system name. For example, if you have a system called 
+=======
+# QUARTUS_PROJECT_DIR and SOPC_NAME need to be defined if you want the
+# mem_init_install target of the mem_init.mk (located in the associated BSP)
+# to know how to copy memory initialization files (e.g. .dat, .hex) into
+# directories required for Quartus compilation or RTL simulation.
+
+# Defining QUARTUS_PROJECT_DIR causes mem_init_install to copy memory
+# initialization files into your Quartus project directory. This is required
+# to provide the initial memory contents of FPGA memories that can be
+# initialized by the programming file (.sof) or Hardcopy ROMs. It is also used
+# for VHDL simulation of on-chip memories.
+
+# Defining SOPC_NAME causes the mem_init_install target to copy memory
+# initialization files into your RTL simulation directory.  This is required
+# to provide the initial memory contents of all memories that can be
+# initialized by RTL simulation. This variable should be set to the same name
+# as your SOPC Builder system name. For example, if you have a system called
+>>>>>>> Revert "enlever le chain de argu"
 # "foo.sopc", this variable should be set to "foo".
 
 # If SOPC_NAME is not set and QUARTUS_PROJECT_DIR is set, then derive SOPC_NAME.
@@ -418,6 +510,7 @@ SOPC_NAME := $(basename $(notdir $(wildcard $(QUARTUS_PROJECT_DIR)/*.sopcinfo)))
 endif
 endif
 
+<<<<<<< refs/remotes/upstream/main
 # Defining JDI_FILE is required to specify the JTAG Debug Information File 
 # path. This file is generated by Quartus, and is needed along with the 
 # .sopcinfo file to resolve processor instance ID's from names in a multi-CPU 
@@ -428,13 +521,29 @@ endif
 # BSP creation. If JDI_FILE is not set and QUARTUS_PROJECT_DIR is set, then 
 # derive JDI_FILE. We do not attempt to derive SOPCINFO_FILE since there may be 
 # multiple .sopcinfo files in a Quartus project. 
+=======
+# Defining JDI_FILE is required to specify the JTAG Debug Information File
+# path. This file is generated by Quartus, and is needed along with the
+# .sopcinfo file to resolve processor instance ID's from names in a multi-CPU
+# systems. For multi-CPU systems, the processor instance ID is used to select
+# from multiple CPU's during ELF download.
+
+# Both JDI_FILE and SOPCINFO_FILE are provided by the BSP if they found during
+# BSP creation. If JDI_FILE is not set and QUARTUS_PROJECT_DIR is set, then
+# derive JDI_FILE. We do not attempt to derive SOPCINFO_FILE since there may be
+# multiple .sopcinfo files in a Quartus project.
+>>>>>>> Revert "enlever le chain de argu"
 ifeq ($(JDI_FILE),)
 ifneq ($(QUARTUS_PROJECT_DIR),)
 JDI_FILE := $(firstword $(wildcard $(QUARTUS_PROJECT_DIR)/output_files/*.jdi) $(wildcard $(QUARTUS_PROJECT_DIR)/*.jdi))
 endif
 endif
 
+<<<<<<< refs/remotes/upstream/main
 # Path to root runtime directory used for hdl simulation 
+=======
+# Path to root runtime directory used for hdl simulation
+>>>>>>> Revert "enlever le chain de argu"
 RUNTIME_ROOT_DIR := $(CONFIG_OBJ_DIR)/runtime
 
 
@@ -482,7 +591,11 @@ SDIR_OBJ_LIST := $(sort $(SDIR_OBJ_LIST_C) $(SDIR_OBJ_LIST_CPP) \
 
 # Relative-pathed objects that being with "../" are handled differently.
 #
+<<<<<<< refs/remotes/upstream/main
 # Regular objects are created as 
+=======
+# Regular objects are created as
+>>>>>>> Revert "enlever le chain de argu"
 #   $(CONFIG_OBJ_DIR)/<path>/<filename>.o
 # where the path structure is maintained under the obj directory.  This
 # applies for both absolute and relative paths; in the absolute path
@@ -490,6 +603,7 @@ SDIR_OBJ_LIST := $(sort $(SDIR_OBJ_LIST_C) $(SDIR_OBJ_LIST_CPP) \
 # directory.  This is done to allow two source files with the same name
 # to be included as part of the project.
 #
+<<<<<<< refs/remotes/upstream/main
 # Note: On Cygwin, the path recreated under the obj directory will be 
 # the cygpath -u output path.
 #
@@ -500,6 +614,18 @@ SDIR_OBJ_LIST := $(sort $(SDIR_OBJ_LIST_C) $(SDIR_OBJ_LIST_CPP) \
 # $(CONFIG_OBJ_DIR)/<filename>.o.  Due to this, two files specified with 
 # "../" in the beginning cannot have the same name in the project.  VPATH 
 # will be set for these sources to allow make to relocate the source file 
+=======
+# Note: On Cygwin, the path recreated under the obj directory will be
+# the cygpath -u output path.
+#
+# Relative-path objects that begin with "../" cause problems under this
+# scheme, as $(CONFIG_OBJ_DIR)/../<rest of path>/ can potentially put the object
+# files anywhere in the system, creating clutter and polluting the source tree.
+# As such, their paths are flattened - the object file created will be
+# $(CONFIG_OBJ_DIR)/<filename>.o.  Due to this, two files specified with
+# "../" in the beginning cannot have the same name in the project.  VPATH
+# will be set for these sources to allow make to relocate the source file
+>>>>>>> Revert "enlever le chain de argu"
 # via %.o rules.
 #
 # The following lines separate the object list into the flatten and regular
@@ -587,7 +713,11 @@ ifneq ($(wildcard $(SOPCINFO_FILE)),)
 ELF_PATCH_FLAG += --sopcinfo $(SOPCINFO_FILE)
 endif
 
+<<<<<<< refs/remotes/upstream/main
 # Use the DOWNLOAD_CABLE variable to specify which JTAG cable to use. 
+=======
+# Use the DOWNLOAD_CABLE variable to specify which JTAG cable to use.
+>>>>>>> Revert "enlever le chain de argu"
 # This is not needed if you only have one cable.
 ifneq ($(DOWNLOAD_CABLE),)
 DOWNLOAD_CABLE_FLAG := --cable '$(DOWNLOAD_CABLE)'
@@ -749,7 +879,11 @@ $(AS) -MP -MMD -c $(APP_CPPFLAGS) $(APP_CFLAGS) $(APP_ASFLAGS) -o $@ $<
 $(AS_POST_PROCESS)
 endef
 
+<<<<<<< refs/remotes/upstream/main
 ifeq ($(MAKE_VERSION),3.81) 
+=======
+ifeq ($(MAKE_VERSION),3.81)
+>>>>>>> Revert "enlever le chain de argu"
 .SECONDEXPANSION:
 
 $(APP_OBJS_C): $(CONFIG_OBJ_DIR)/%.o: $$(call adjust-path-mixed,%.c)
@@ -847,7 +981,11 @@ help :
 	@$(ECHO) "    all (default)     - Application and all libraries (including BSP)"
 	@$(ECHO) "    bsp               - Just the BSP"
 	@$(ECHO) "    libs              - All libraries (including BSP)"
+<<<<<<< refs/remotes/upstream/main
 	@$(ECHO) "    flash             - All flash files"	
+=======
+	@$(ECHO) "    flash             - All flash files"
+>>>>>>> Revert "enlever le chain de argu"
 	@$(ECHO) "    mem_init_generate - All memory initialization files"
 	@$(ECHO)
 	@$(ECHO) "  Clean targets:"
@@ -900,7 +1038,11 @@ $(APP_LDDEPS): libs
 endif
 
 # Rules to force your project to rebuild or relink
+<<<<<<< refs/remotes/upstream/main
 # .force_relink file will cause any application that depends on this project to relink 
+=======
+# .force_relink file will cause any application that depends on this project to relink
+>>>>>>> Revert "enlever le chain de argu"
 # .force_rebuild file will cause this project to rebuild object files
 # .force_rebuild_all file will cause this project and any project that depends on this project to rebuild object files
 
@@ -967,9 +1109,15 @@ download-elf : $(ELF)
 	else \
 		$(ECHO) Info: Downloading $(ELF); \
 		$(DOWNLOAD) --go --cpu_name=$(CPU_NAME) $(DOWNLOAD_CABLE_FLAG) $(SOPC_SYSID_FLAG) $(DOWNLOAD_JDI_FLAG) $(WRITE_GMON_OPTION) $(ELF); \
+<<<<<<< refs/remotes/upstream/main
 	fi	
 
 # Delete the target of a rule if it has changed and its commands exit 
+=======
+	fi
+
+# Delete the target of a rule if it has changed and its commands exit
+>>>>>>> Revert "enlever le chain de argu"
 # with a nonzero exit status.
 .DELETE_ON_ERROR:
 
@@ -1075,5 +1223,8 @@ $(OBJDUMP_NAME) : $(ELF)
 .PHONY: print-elf-name
 print-elf-name:
 	@$(ECHO) $(ELF)
+<<<<<<< refs/remotes/upstream/main
 
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

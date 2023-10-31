@@ -1,11 +1,19 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE:	mcfg32wm_fsm.vhd
 -- DESCRIPTION:	Finite State Machine for serial interface
 --							addresses 32 words, with MIMO enable.
 -- DATE:	Mar 22, 2013
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -53,7 +61,11 @@ architecture mcfg32wm_fsm_arch of mcfg32wm_fsm is
 	constant s14: std_logic_vector(5 downto 0) := "001110";
 	constant s15: std_logic_vector(5 downto 0) := "001111";
 	constant s16: std_logic_vector(5 downto 0) := "010000";
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 	constant s17: std_logic_vector(5 downto 0) := "010001";
 	constant s18: std_logic_vector(5 downto 0) := "010010";
 	constant s19: std_logic_vector(5 downto 0) := "010011";
@@ -89,16 +101,26 @@ begin
 
 	state_machine: process (state, sen, inst_reg, address, mimo_en)
 	begin
+<<<<<<< refs/remotes/upstream/main
 		case state is	
 			when s0 =>
 				inst_reg_en <= not sen; 
+=======
+		case state is
+			when s0 =>
+				inst_reg_en <= not sen;
+>>>>>>> Revert "enlever le chain de argu"
 				din_reg_en <= '0';
 				dout_reg_sen <= '0';--0
 				dout_reg_len <= '0';
 				mem_we <= '0';
 				oe <= '0';--0
 				next_state <= s1;
+<<<<<<< refs/remotes/upstream/main
 			when s1 =>		  
+=======
+			when s1 =>
+>>>>>>> Revert "enlever le chain de argu"
 				-- 1 instruction bit is in
 				inst_reg_en <= '1';
 				din_reg_en <= '0';
@@ -252,13 +274,21 @@ begin
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
+<<<<<<< refs/remotes/upstream/main
 					mem_we <= '0';					
+=======
+					mem_we <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 					oe <= '0';
 				end if;
 				next_state <= s17;
 			when s17 =>
 				-- 1 data bit in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= '0';	
+=======
+				inst_reg_en <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
 					din_reg_en <= '1';
 					dout_reg_sen <= '0';
@@ -271,17 +301,29 @@ begin
 					dout_reg_len <= '0';
 					mem_we <= '0';
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
 					mem_we <= '0';					
+=======
+				else
+					din_reg_en <= '0';
+					dout_reg_sen <= '0';
+					dout_reg_len <= '0';
+					mem_we <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 					oe <= '0';
 				end if;
 				next_state <= s18;
 			when s18 =>
 				-- 2 data bits in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= '0';	
+=======
+				inst_reg_en <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
 					din_reg_en <= '1';
 					dout_reg_sen <= '0';
@@ -294,17 +336,29 @@ begin
 					dout_reg_len <= '0';
 					mem_we <= '0';
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
 					mem_we <= '0';					
+=======
+				else
+					din_reg_en <= '0';
+					dout_reg_sen <= '0';
+					dout_reg_len <= '0';
+					mem_we <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 					oe <= '0';
 				end if;
 				next_state <= s19;
 			when s19 =>
 				-- 3 data bits in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= '0';	
+=======
+				inst_reg_en <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
 					din_reg_en <= '1';
 					dout_reg_sen <= '0';
@@ -317,17 +371,29 @@ begin
 					dout_reg_len <= '0';
 					mem_we <= '0';
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
 					mem_we <= '0';					
+=======
+				else
+					din_reg_en <= '0';
+					dout_reg_sen <= '0';
+					dout_reg_len <= '0';
+					mem_we <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 					oe <= '0';
 				end if;
 				next_state <= s20;
 			when s20 =>
 				-- 4 data bits in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= '0';	
+=======
+				inst_reg_en <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
 					din_reg_en <= '1';
 					dout_reg_sen <= '0';
@@ -340,17 +406,29 @@ begin
 					dout_reg_len <= '0';
 					mem_we <= '0';
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
 					mem_we <= '0';					
+=======
+				else
+					din_reg_en <= '0';
+					dout_reg_sen <= '0';
+					dout_reg_len <= '0';
+					mem_we <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 					oe <= '0';
 				end if;
 				next_state <= s21;
 			when s21 =>
 				-- 5 data bits in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= '0';	
+=======
+				inst_reg_en <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
 					din_reg_en <= '1';
 					dout_reg_sen <= '0';
@@ -363,17 +441,29 @@ begin
 					dout_reg_len <= '0';
 					mem_we <= '0';
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
 					mem_we <= '0';					
+=======
+				else
+					din_reg_en <= '0';
+					dout_reg_sen <= '0';
+					dout_reg_len <= '0';
+					mem_we <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 					oe <= '0';
 				end if;
 				next_state <= s22;
 			when s22 =>
 				-- 6 data bits in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= '0';	
+=======
+				inst_reg_en <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
 					din_reg_en <= '1';
 					dout_reg_sen <= '0';
@@ -386,7 +476,11 @@ begin
 					dout_reg_len <= '0';
 					mem_we <= '0';
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
+=======
+				else
+>>>>>>> Revert "enlever le chain de argu"
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
@@ -396,7 +490,11 @@ begin
 				next_state <= s23;
 			when s23 =>
 				-- 7 data bits in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= '0';	
+=======
+				inst_reg_en <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
 					din_reg_en <= '1';
 					dout_reg_sen <= '0';
@@ -409,7 +507,11 @@ begin
 					dout_reg_len <= '0';
 					mem_we <= '0';
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
+=======
+				else
+>>>>>>> Revert "enlever le chain de argu"
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
@@ -419,7 +521,11 @@ begin
 				next_state <= s24;
 			when s24 =>
 				-- 8 data bits in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= '0';	
+=======
+				inst_reg_en <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
 					din_reg_en <= '1';
 					dout_reg_sen <= '0';
@@ -432,7 +538,11 @@ begin
 					dout_reg_len <= '0';
 					mem_we <= '0';
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
+=======
+				else
+>>>>>>> Revert "enlever le chain de argu"
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
@@ -442,7 +552,11 @@ begin
 				next_state <= s25;
 			when s25 =>
 				-- 9 data bits in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= '0';	
+=======
+				inst_reg_en <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
 					din_reg_en <= '1';
 					dout_reg_sen <= '0';
@@ -455,7 +569,11 @@ begin
 					dout_reg_len <= '0';
 					mem_we <= '0';
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
+=======
+				else
+>>>>>>> Revert "enlever le chain de argu"
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
@@ -465,7 +583,11 @@ begin
 				next_state <= s26;
 			when s26 =>
 				-- 10 data bits in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= '0';	
+=======
+				inst_reg_en <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
 					din_reg_en <= '1';
 					dout_reg_sen <= '0';
@@ -478,7 +600,11 @@ begin
 					dout_reg_len <= '0';
 					mem_we <= '0';
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
+=======
+				else
+>>>>>>> Revert "enlever le chain de argu"
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
@@ -488,7 +614,11 @@ begin
 				next_state <= s27;
 			when s27 =>
 				-- 11 data bits in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= '0';	
+=======
+				inst_reg_en <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
 					din_reg_en <= '1';
 					dout_reg_sen <= '0';
@@ -501,7 +631,11 @@ begin
 					dout_reg_len <= '0';
 					mem_we <= '0';
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
+=======
+				else
+>>>>>>> Revert "enlever le chain de argu"
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
@@ -511,7 +645,11 @@ begin
 				next_state <= s28;
 			when s28 =>
 				-- 12 data bits in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= '0';	
+=======
+				inst_reg_en <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
 					din_reg_en <= '1';
 					dout_reg_sen <= '0';
@@ -524,7 +662,11 @@ begin
 					dout_reg_len <= '0';
 					mem_we <= '0';
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
+=======
+				else
+>>>>>>> Revert "enlever le chain de argu"
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
@@ -534,7 +676,11 @@ begin
 				next_state <= s29;
 			when s29 =>
 				-- 13 data bits in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= '0';	
+=======
+				inst_reg_en <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
 					din_reg_en <= '1';
 					dout_reg_sen <= '0';
@@ -547,7 +693,11 @@ begin
 					dout_reg_len <= '0';
 					mem_we <= '0';
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
+=======
+				else
+>>>>>>> Revert "enlever le chain de argu"
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
@@ -557,7 +707,11 @@ begin
 				next_state <= s30;
 			when s30 =>
 				-- 14 data bits in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= '0';	
+=======
+				inst_reg_en <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
 					din_reg_en <= '1';
 					dout_reg_sen <= '0';
@@ -570,7 +724,11 @@ begin
 					dout_reg_len <= '0';
 					mem_we <= '0';
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
+=======
+				else
+>>>>>>> Revert "enlever le chain de argu"
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
@@ -580,7 +738,11 @@ begin
 				next_state <= s31;
 			when s31 =>
 				-- 15 data bits in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= '0';	
+=======
+				inst_reg_en <= '0';
+>>>>>>> Revert "enlever le chain de argu"
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
 					din_reg_en <= '1';
 					dout_reg_sen <= '0';
@@ -593,7 +755,11 @@ begin
 					dout_reg_len <= '0';
 					mem_we <= '0';
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
+=======
+				else
+>>>>>>> Revert "enlever le chain de argu"
 					din_reg_en <= '0';
 					dout_reg_sen <= '0';
 					dout_reg_len <= '0';
@@ -604,7 +770,11 @@ begin
 				--next_state <= s0;
 			when s32 =>
 				-- 16 data bits in/out
+<<<<<<< refs/remotes/upstream/main
 				inst_reg_en <= not sen; --'1'; 
+=======
+				inst_reg_en <= not sen; --'1';
+>>>>>>> Revert "enlever le chain de argu"
 				din_reg_en <= '0';
 				dout_reg_len <= '0';
 				if    inst_reg(14 downto 5) = address and inst_reg(15) = '1' and mimo_en = '1' then -- Write cycle
@@ -615,14 +785,22 @@ begin
 					mem_we <= '0';
 					dout_reg_sen <= '0'; --0
 					oe <= '1';
+<<<<<<< refs/remotes/upstream/main
 				else 
+=======
+				else
+>>>>>>> Revert "enlever le chain de argu"
 					mem_we <= '0';
 					dout_reg_sen <= '0';
 					oe <= '0';
 				end if;
 				next_state <= s1;
 
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 
 
 
@@ -636,6 +814,10 @@ begin
 				oe <= '0';
 				next_state <= s0;
 		end case;
+<<<<<<< refs/remotes/upstream/main
 	end process state_machine;	
+=======
+	end process state_machine;
+>>>>>>> Revert "enlever le chain de argu"
 
 end mcfg32wm_fsm_arch;

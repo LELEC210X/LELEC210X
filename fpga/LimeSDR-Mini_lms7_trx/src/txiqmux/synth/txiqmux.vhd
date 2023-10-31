@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	txiqmux.vhd
 -- DESCRIPTION:	describe file
 -- DATE:	Jan 27, 2016
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -47,7 +55,11 @@ signal mux_sel_sync        : std_logic;
 signal isnt0_diq_h         : std_logic_vector(diq_width downto 0);
 signal isnt0_diq_l         : std_logic_vector(diq_width downto 0);
 
+<<<<<<< refs/remotes/upstream/main
 --inst1 
+=======
+--inst1
+>>>>>>> Revert "enlever le chain de argu"
 signal inst1_data_h			: std_logic_vector(diq_width downto 0);
 signal inst1_data_l			: std_logic_vector(diq_width downto 0);
 
@@ -70,7 +82,11 @@ signal mux2_diq_l          : std_logic_vector(diq_width downto 0);
 signal mux2_diq_h_reg      : std_logic_vector(diq_width downto 0);
 signal mux2_diq_l_reg      : std_logic_vector(diq_width downto 0);
 
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 sync_reg0 : entity work.sync_reg
@@ -94,10 +110,17 @@ tst_ptrn_inst0 : entity work.txiq_tst_ptrn
       diq_h    => isnt0_diq_h,
       diq_l    => isnt0_diq_l
         );
+<<<<<<< refs/remotes/upstream/main
         
 -- ----------------------------------------------------------------------------
 -- Mux 0, between tx data and wfm
 -- ----------------------------------------------------------------------------        
+=======
+
+-- ----------------------------------------------------------------------------
+-- Mux 0, between tx data and wfm
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 mux0_diq_h <= tx_diq_h when mux_sel_sync = '0' else wfm_diq_h;
 mux0_diq_l <= tx_diq_l when mux_sel_sync = '0' else wfm_diq_l;
 
@@ -108,6 +131,7 @@ mux0_diq_l <= tx_diq_l when mux_sel_sync = '0' else wfm_diq_l;
          mux0_diq_l_reg <= (others=>'0');
       elsif (clk'event and clk = '1') then
  	      mux0_diq_h_reg <= mux0_diq_h;
+<<<<<<< refs/remotes/upstream/main
  	      mux0_diq_l_reg <= mux0_diq_l;         
  	    end if;
     end process;
@@ -115,6 +139,15 @@ mux0_diq_l <= tx_diq_l when mux_sel_sync = '0' else wfm_diq_l;
 -- ----------------------------------------------------------------------------
 -- Mux 1, Mux 0 data and test pattern
 -- ----------------------------------------------------------------------------        
+=======
+ 	      mux0_diq_l_reg <= mux0_diq_l;
+ 	    end if;
+    end process;
+
+-- ----------------------------------------------------------------------------
+-- Mux 1, Mux 0 data and test pattern
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 mux1_diq_h <= mux0_diq_h_reg when test_ptrn_en_sync = '0' else isnt0_diq_h;
 mux1_diq_l <= mux0_diq_l_reg when test_ptrn_en_sync = '0' else isnt0_diq_l;
 
@@ -125,12 +158,21 @@ mux1_diq_l <= mux0_diq_l_reg when test_ptrn_en_sync = '0' else isnt0_diq_l;
          mux1_diq_l_reg <= (others=>'0');
       elsif (clk'event and clk = '1') then
  	      mux1_diq_h_reg <= mux1_diq_h;
+<<<<<<< refs/remotes/upstream/main
  	      mux1_diq_l_reg <= mux1_diq_l;         
  	    end if;
     end process;
 	 
 	 
 	 
+=======
+ 	      mux1_diq_l_reg <= mux1_diq_l;
+ 	    end if;
+    end process;
+
+
+
+>>>>>>> Revert "enlever le chain de argu"
 test_data_dd_inst1 : entity work.test_data_dd
   PORT MAP(
 			clk       		=> clk,
@@ -140,10 +182,17 @@ test_data_dd_inst1 : entity work.test_data_dd
 			data_h		  	=> inst1_data_h,
 			data_l		  	=> inst1_data_l
         );
+<<<<<<< refs/remotes/upstream/main
 		  
 -- ----------------------------------------------------------------------------
 -- Mux 2, Mux 1 data and test data
 -- ----------------------------------------------------------------------------        
+=======
+
+-- ----------------------------------------------------------------------------
+-- Mux 2, Mux 1 data and test data
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 mux2_diq_h <= mux1_diq_h_reg when test_data_en = '0' else inst1_data_l;
 mux2_diq_l <= mux1_diq_l_reg when test_data_en = '0' else inst1_data_h;
 
@@ -154,6 +203,7 @@ mux2_diq_l <= mux1_diq_l_reg when test_data_en = '0' else inst1_data_h;
          mux2_diq_l_reg <= (others=>'0');
       elsif (clk'event and clk = '1') then
  	      mux2_diq_h_reg <= mux2_diq_h;
+<<<<<<< refs/remotes/upstream/main
  	      mux2_diq_l_reg <= mux2_diq_l;         
  	    end if;
     end process;
@@ -170,3 +220,16 @@ end arch;
 
 
 
+=======
+ 	      mux2_diq_l_reg <= mux2_diq_l;
+ 	    end if;
+    end process;
+
+-- ----------------------------------------------------------------------------
+-- To output ports
+-- ----------------------------------------------------------------------------
+diq_h <= mux2_diq_h_reg;
+diq_l <= mux2_diq_l_reg;
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

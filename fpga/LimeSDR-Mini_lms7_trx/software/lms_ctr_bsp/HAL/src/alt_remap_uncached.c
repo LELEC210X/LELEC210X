@@ -45,7 +45,11 @@
  * function so it fails with a link error.
  */
 
+<<<<<<< refs/remotes/upstream/main
 volatile void* 
+=======
+volatile void*
+>>>>>>> Revert "enlever le chain de argu"
 alt_remap_uncached(void* ptr, alt_u32 len)
 {
   /* Generate a link time error, should this function ever be called. */

@@ -42,11 +42,19 @@
 int ALT_CLOSE (int fildes)
 {
   /* Generate a link time warning, should this function ever be called. */
+<<<<<<< refs/remotes/upstream/main
   
   ALT_STUB_WARNING(close);
   
   /* Indicate an error */
   
+=======
+
+  ALT_STUB_WARNING(close);
+
+  /* Indicate an error */
+
+>>>>>>> Revert "enlever le chain de argu"
   ALT_ERRNO = ENOSYS;
   return -1;
 }
@@ -55,12 +63,20 @@ int ALT_CLOSE (int fildes)
 
 /*
  * close() is called by an application to release a file descriptor. If the
+<<<<<<< refs/remotes/upstream/main
  * associated file system/device has a close() callback function registered 
+=======
+ * associated file system/device has a close() callback function registered
+>>>>>>> Revert "enlever le chain de argu"
  * then this called. The file descriptor is then marked as free.
  *
  * ALT_CLOSE is mapped onto the close() system call in alt_syscall.h
  */
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 int ALT_CLOSE (int fildes)
 {
   alt_fd* fd;
@@ -77,7 +93,11 @@ int ALT_CLOSE (int fildes)
   if (fd)
   {
     /*
+<<<<<<< refs/remotes/upstream/main
      * If the associated file system/device has a close function, call it so 
+=======
+     * If the associated file system/device has a close function, call it so
+>>>>>>> Revert "enlever le chain de argu"
      * that any necessary cleanup code can run.
      */
 

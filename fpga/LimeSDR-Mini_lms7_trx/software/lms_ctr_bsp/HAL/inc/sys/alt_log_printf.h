@@ -2,6 +2,7 @@
  *
  *  ALT_LOG is designed to provide extra logging/debugging messages from HAL
  *  through a different port than stdout.  It is enabled by the ALT_LOG_ENABLE
+<<<<<<< refs/remotes/upstream/main
  *  define, which needs to supplied at compile time.  When logging is turned off, 
  *  code size is unaffected.  Thus, this should be transparent to the user
  *  when it is not actively turned on, and should not affect projects in any way.
@@ -12,10 +13,23 @@
  *
  *  To turn on ALT_LOG, ALT_LOG_ENABLE must be defined, and ALT_LOG_PORT_TYPE and
  *  ALT_LOG_PORT_BASE must be set in system.h.  This is done through editing 
+=======
+ *  define, which needs to supplied at compile time.  When logging is turned off,
+ *  code size is unaffected.  Thus, this should be transparent to the user
+ *  when it is not actively turned on, and should not affect projects in any way.
+ *
+ *  There are macros sprinkled within different components, such as the jtag uart
+ *  and timer, in the HAL code.  They are always named ALT_LOG_<name>, and can be
+ *  safely ignored if ALT_LOG is turned off.
+ *
+ *  To turn on ALT_LOG, ALT_LOG_ENABLE must be defined, and ALT_LOG_PORT_TYPE and
+ *  ALT_LOG_PORT_BASE must be set in system.h.  This is done through editing
+>>>>>>> Revert "enlever le chain de argu"
  *  <project>.ptf, by editing the alt_log_port_type & alt_log_port_base settings.
  *  See the documentation html file for examples.
  *
  *  When it is turned on, it will output extra HAL messages to a port specified
+<<<<<<< refs/remotes/upstream/main
  *  in system.h.  This can be a UART or JTAG UART port.  By default it will 
  *  output boot messages, detailing every step of the boot process.  
  *
@@ -23,21 +37,43 @@
  *  alt_log_printf.c.  The default value is that all flags are off, so only the
  *  boot up logging messages show up.  ALT_LOG_FLAGS can be set to enable certain
  *  groupings of flags, and that grouping is done in this file.  Each flag can 
+=======
+ *  in system.h.  This can be a UART or JTAG UART port.  By default it will
+ *  output boot messages, detailing every step of the boot process.
+ *
+ *  Extra logging is designed to be enabled by flags, which are defined in
+ *  alt_log_printf.c.  The default value is that all flags are off, so only the
+ *  boot up logging messages show up.  ALT_LOG_FLAGS can be set to enable certain
+ *  groupings of flags, and that grouping is done in this file.  Each flag can
+>>>>>>> Revert "enlever le chain de argu"
  *  also be overridden with a -D at compile time.
  *
  *  This header file includes the necessary prototypes for using the alt_log
  *  functions.  It also contains all the macros that are used to remove the code
+<<<<<<< refs/remotes/upstream/main
  *  from alt log is turned off.  Also, the macros in other HAL files are defined 
  *  here at the bottom.  These macros all call some C function that is in 
+=======
+ *  from alt log is turned off.  Also, the macros in other HAL files are defined
+ *  here at the bottom.  These macros all call some C function that is in
+>>>>>>> Revert "enlever le chain de argu"
  *  alt_log_printf.c.
  *
  *  The logging has functions for printing in C (ALT_LOG_PRINTF) and in assembly
  *  (ALT_LOG_PUTS).  This was needed because the assembly printing occurs before
+<<<<<<< refs/remotes/upstream/main
  *  the device is initialized.  The assembly function corrupts register R4-R7, 
  *  which are not used in the normal boot process.  For this reason, do not call
  *  the assembly function in C.
  *
  *  author: gkwan 
+=======
+ *  the device is initialized.  The assembly function corrupts register R4-R7,
+ *  which are not used in the normal boot process.  For this reason, do not call
+ *  the assembly function in C.
+ *
+ *  author: gkwan
+>>>>>>> Revert "enlever le chain de argu"
  */
 
 
@@ -61,7 +97,11 @@
         #include <stdarg.h>
         #include "sys/alt_alarm.h"
         #include "sys/alt_dev.h"
+<<<<<<< refs/remotes/upstream/main
         #ifdef __ALTERA_AVALON_JTAG_UART 
+=======
+        #ifdef __ALTERA_AVALON_JTAG_UART
+>>>>>>> Revert "enlever le chain de argu"
             #include "altera_avalon_jtag_uart.h"
         #endif
     #endif /* ALT_ASM_SRC */
@@ -70,6 +110,7 @@
      * to write to the port.  Only include if the port type is set correctly,
      * otherwise error.  If alt_log is turned on and the port to output to is
      * incorrect or does not exist, then should exit. */
+<<<<<<< refs/remotes/upstream/main
     #if ALT_LOG_PORT_TYPE == ALTERA_AVALON_JTAG_UART 
         #ifdef __ALTERA_AVALON_JTAG_UART
             #include <altera_avalon_jtag_uart_regs.h>
@@ -77,6 +118,15 @@
             #error ALT_LOG: JTAG_UART port chosen, but no JTAG_UART in system. 
         #endif
     #elif ALT_LOG_PORT_TYPE == ALTERA_AVALON_UART 
+=======
+    #if ALT_LOG_PORT_TYPE == ALTERA_AVALON_JTAG_UART
+        #ifdef __ALTERA_AVALON_JTAG_UART
+            #include <altera_avalon_jtag_uart_regs.h>
+        #else
+            #error ALT_LOG: JTAG_UART port chosen, but no JTAG_UART in system.
+        #endif
+    #elif ALT_LOG_PORT_TYPE == ALTERA_AVALON_UART
+>>>>>>> Revert "enlever le chain de argu"
         #ifdef __ALTERA_AVALON_UART
             #include <altera_avalon_uart_regs.h>
         #else
@@ -88,7 +138,11 @@
 
     /* ALT_LOG_ENABLE turns on the basic printing function */
     #define ALT_LOG_PRINTF(...) do {alt_log_printf_proc(__VA_ARGS__);} while (0)
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     /* Assembly macro for printing in assembly, calls tx_log_str
      * which is in alt_log_macro.S.
      * If alt_log_boot_on_flag is 0, skips the printing */
@@ -100,18 +154,31 @@
          addi r4, r4, %lo(str) ; \
 	 call tx_log_str ; \
        0:
+<<<<<<< refs/remotes/upstream/main
     
     /* These defines are here to faciliate the use of one output function 
      * (alt_log_txchar) to print to both the JTAG UART or the UART. Depending
      * on the port type, the status register, read mask, and output register 
      * are set to the appropriate value for the port.  */
     #if ALT_LOG_PORT_TYPE == ALTERA_AVALON_JTAG_UART 
+=======
+
+    /* These defines are here to faciliate the use of one output function
+     * (alt_log_txchar) to print to both the JTAG UART or the UART. Depending
+     * on the port type, the status register, read mask, and output register
+     * are set to the appropriate value for the port.  */
+    #if ALT_LOG_PORT_TYPE == ALTERA_AVALON_JTAG_UART
+>>>>>>> Revert "enlever le chain de argu"
       #define ALT_LOG_PRINT_REG_RD IORD_ALTERA_AVALON_JTAG_UART_CONTROL
       #define ALT_LOG_PRINT_MSK ALTERA_AVALON_JTAG_UART_CONTROL_WSPACE_MSK
       #define ALT_LOG_PRINT_TXDATA_WR IOWR_ALTERA_AVALON_JTAG_UART_DATA
       #define ALT_LOG_PRINT_REG_OFFSET (ALTERA_AVALON_JTAG_UART_CONTROL_REG*0x4)
       #define ALT_LOG_PRINT_TXDATA_REG_OFFSET (ALTERA_AVALON_JTAG_UART_DATA_REG*0x4)
+<<<<<<< refs/remotes/upstream/main
     #elif ALT_LOG_PORT_TYPE == ALTERA_AVALON_UART 
+=======
+    #elif ALT_LOG_PORT_TYPE == ALTERA_AVALON_UART
+>>>>>>> Revert "enlever le chain de argu"
       #define ALT_LOG_PRINT_REG_RD IORD_ALTERA_AVALON_UART_STATUS
       #define ALT_LOG_PRINT_MSK ALTERA_AVALON_UART_STATUS_TRDY_MSK
       #define ALT_LOG_PRINT_TXDATA_WR IOWR_ALTERA_AVALON_UART_TXDATA
@@ -119,19 +186,32 @@
       #define ALT_LOG_PRINT_TXDATA_REG_OFFSET (ALTERA_AVALON_UART_TXDATA_REG*0x4)
     #endif /* ALT_LOG_PORT */
 
+<<<<<<< refs/remotes/upstream/main
     /* Grouping of flags via ALT_LOG_FLAGS.  Each specific flag can be set via 
      * -D at compile time, or else they'll be set to a default value according
      * to ALT_LOG_FLAGS.  ALT_LOG_FLAGS = 0 or not set is the default, where 
+=======
+    /* Grouping of flags via ALT_LOG_FLAGS.  Each specific flag can be set via
+     * -D at compile time, or else they'll be set to a default value according
+     * to ALT_LOG_FLAGS.  ALT_LOG_FLAGS = 0 or not set is the default, where
+>>>>>>> Revert "enlever le chain de argu"
      * only the boot messages will be printed. As ALT_LOG_FLAGS increase, they
      * increase in intrusiveness to the program, and will affect performance.
      *
      * Flag Level 1 - turns on system clock and JTAG UART startup status
      *            2 - turns on write echo and JTAG_UART alarm (periodic report)
      *            3 - turns on JTAG UART ISR logging - will slow performance
+<<<<<<< refs/remotes/upstream/main
      *                significantly. 
      *           -1 - All logging output is off, but if ALT_LOG_ENABLE is 
      *                defined all logging function is built and code size 
      *                remains constant 
+=======
+     *                significantly.
+     *           -1 - All logging output is off, but if ALT_LOG_ENABLE is
+     *                defined all logging function is built and code size
+     *                remains constant
+>>>>>>> Revert "enlever le chain de argu"
      *
      * Flag settings - 1 = on, 0 = off. */
 
@@ -158,7 +238,11 @@
             #define ALT_LOG_SYS_CLK_ON_FLAG_SETTING 0x1
         #elif ALT_LOG_FLAGS == 3
             #define ALT_LOG_SYS_CLK_ON_FLAG_SETTING 0x1
+<<<<<<< refs/remotes/upstream/main
         #elif ALT_LOG_FLAGS == -1 /* silent mode */ 
+=======
+        #elif ALT_LOG_FLAGS == -1 /* silent mode */
+>>>>>>> Revert "enlever le chain de argu"
             #define ALT_LOG_SYS_CLK_ON_FLAG_SETTING 0x0
         #else /* default setting */
             #define ALT_LOG_SYS_CLK_ON_FLAG_SETTING 0x0
@@ -180,7 +264,11 @@
     #endif /* ALT_LOG_WRITE_ON_FLAG_SETTING */
 
     #ifndef ALT_LOG_JTAG_UART_ALARM_ON_FLAG_SETTING
+<<<<<<< refs/remotes/upstream/main
         #ifndef __ALTERA_AVALON_JTAG_UART 
+=======
+        #ifndef __ALTERA_AVALON_JTAG_UART
+>>>>>>> Revert "enlever le chain de argu"
             #define ALT_LOG_JTAG_UART_ALARM_ON_FLAG_SETTING 0x0
         #elif ALT_LOG_FLAGS == 1
             #define ALT_LOG_JTAG_UART_ALARM_ON_FLAG_SETTING 0x0
@@ -196,7 +284,11 @@
     #endif /* ALT_LOG_JTAG_UART_ALARM_ON_FLAG_SETTING */
 
     #ifndef ALT_LOG_JTAG_UART_STARTUP_INFO_ON_FLAG_SETTING
+<<<<<<< refs/remotes/upstream/main
         #ifndef __ALTERA_AVALON_JTAG_UART 
+=======
+        #ifndef __ALTERA_AVALON_JTAG_UART
+>>>>>>> Revert "enlever le chain de argu"
             #define ALT_LOG_JTAG_UART_STARTUP_INFO_ON_FLAG_SETTING 0x0
         #elif ALT_LOG_FLAGS == 1
             #define ALT_LOG_JTAG_UART_STARTUP_INFO_ON_FLAG_SETTING 0x1
@@ -212,7 +304,11 @@
     #endif /* ALT_LOG_JTAG_UART_STARTUP_INFO_FLAG_SETTING */
 
     #ifndef ALT_LOG_JTAG_UART_ISR_ON_FLAG_SETTING
+<<<<<<< refs/remotes/upstream/main
         #ifndef __ALTERA_AVALON_JTAG_UART 
+=======
+        #ifndef __ALTERA_AVALON_JTAG_UART
+>>>>>>> Revert "enlever le chain de argu"
             #define ALT_LOG_JTAG_UART_ISR_ON_FLAG_SETTING 0x0
         #elif ALT_LOG_FLAGS == 1
             #define ALT_LOG_JTAG_UART_ISR_ON_FLAG_SETTING 0x0
@@ -234,7 +330,11 @@
     void alt_log_repchar(char c,int r,int base);
     int alt_log_printf_proc(const char *fmt, ... );
     void alt_log_system_clock();
+<<<<<<< refs/remotes/upstream/main
     #ifdef __ALTERA_AVALON_JTAG_UART 
+=======
+    #ifdef __ALTERA_AVALON_JTAG_UART
+>>>>>>> Revert "enlever le chain de argu"
         alt_u32 altera_avalon_jtag_uart_report_log(void * context);
         void alt_log_jtag_uart_startup_info(altera_avalon_jtag_uart_state* dev, int base);
         void alt_log_jtag_uart_print_control_reg(altera_avalon_jtag_uart_state* dev, \
@@ -242,12 +342,20 @@
         void alt_log_jtag_uart_isr_proc(int base, altera_avalon_jtag_uart_state* dev);
     #endif
     void alt_log_write(const void *ptr, size_t len);
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     /* extern all global variables */
     /* CASE:368514 - The boot message flag is linked into the sdata section
      * because if it is zero, it would otherwise be placed in the bss section.
      * alt_log examines this variable before the BSS is cleared in the boot-up
+<<<<<<< refs/remotes/upstream/main
      * process. 
+=======
+     * process.
+>>>>>>> Revert "enlever le chain de argu"
      */
     extern volatile alt_u32 alt_log_boot_on_flag __attribute__ ((section (".sdata")));
     extern volatile alt_u8 alt_log_write_on_flag;
@@ -262,13 +370,21 @@
 
 
     /* Below are the MACRO defines used in various HAL files.  They check
+<<<<<<< refs/remotes/upstream/main
      * if their specific flag is turned on; if it is, then it executes its 
+=======
+     * if their specific flag is turned on; if it is, then it executes its
+>>>>>>> Revert "enlever le chain de argu"
      * code.
      *
      * To keep this file reasonable, most of these macros calls functions,
      * which are defined in alt_log_printf.c.  Look there for implementation
      * details. */
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     /* Boot Messages Logging */
     #define ALT_LOG_PRINT_BOOT(...) \
        do { if (alt_log_boot_on_flag==1) {ALT_LOG_PRINTF(__VA_ARGS__);} \
@@ -283,9 +399,15 @@
         #define ALT_LOG_JTAG_UART_TICKS \
         	(alt_ticks_per_second()/ALT_LOG_JTAG_UART_TICKS_DIVISOR)
     #endif
+<<<<<<< refs/remotes/upstream/main
   
     /* if there's a JTAG UART defined, then enable these macros */
     #ifdef __ALTERA_AVALON_JTAG_UART 
+=======
+
+    /* if there's a JTAG UART defined, then enable these macros */
+    #ifdef __ALTERA_AVALON_JTAG_UART
+>>>>>>> Revert "enlever le chain de argu"
 
         /* Macro in altera_avalon_jtag_uart.c, to register the alarm function.
          * Also, the startup register info is also printed here, as this is
@@ -298,6 +420,7 @@
                  if (alt_log_jtag_uart_startup_info_on_flag==1) {\
                     alt_log_jtag_uart_startup_info(dev, base);} \
                } while (0)
+<<<<<<< refs/remotes/upstream/main
   
         /* JTAG UART IRQ Logging (when buffer is empty) 
          * Inserted in the ISR in altera_avalon_jtag_uart.c */
@@ -308,6 +431,18 @@
     #else
         #define ALT_LOG_JTAG_UART_ALARM_REGISTER(dev, base) 
         #define ALT_LOG_JTAG_UART_ISR_FUNCTION(base, dev) 
+=======
+
+        /* JTAG UART IRQ Logging (when buffer is empty)
+         * Inserted in the ISR in altera_avalon_jtag_uart.c */
+        #define ALT_LOG_JTAG_UART_ISR_FUNCTION(base, dev) \
+            do { alt_log_jtag_uart_isr_proc(base, dev); } while (0)
+    /* else, define macros to nothing.  Or else the jtag_uart specific types
+     * will throw compiler errors */
+    #else
+        #define ALT_LOG_JTAG_UART_ALARM_REGISTER(dev, base)
+        #define ALT_LOG_JTAG_UART_ISR_FUNCTION(base, dev)
+>>>>>>> Revert "enlever le chain de argu"
     #endif
 
     /* System clock logging
@@ -321,8 +456,13 @@
 	    (alt_ticks_per_second()*ALT_LOG_SYS_CLK_INTERVAL_MULTIPLIER)
     #endif
 
+<<<<<<< refs/remotes/upstream/main
     /* System clock logging - prints a message every interval (set above) 
      * to show that the system clock is alive. 
+=======
+    /* System clock logging - prints a message every interval (set above)
+     * to show that the system clock is alive.
+>>>>>>> Revert "enlever le chain de argu"
      * This macro is used in altera_avalon_timer_sc.c */
     #define ALT_LOG_SYS_CLK_HEARTBEAT() \
     	do { alt_log_system_clock(); } while (0)
@@ -342,13 +482,24 @@
     /* logging is off, set all relevant macros to null */
     #define ALT_LOG_PRINT_BOOT(...)
     #define ALT_LOG_PRINTF(...)
+<<<<<<< refs/remotes/upstream/main
     #define ALT_LOG_JTAG_UART_ISR_FUNCTION(base, dev) 
     #define ALT_LOG_JTAG_UART_ALARM_REGISTER(dev, base) 
     #define ALT_LOG_SYS_CLK_HEARTBEAT()
     #define ALT_LOG_PUTS(str) 
     #define ALT_LOG_WRITE_FUNCTION(ptr,len) 
+=======
+    #define ALT_LOG_JTAG_UART_ISR_FUNCTION(base, dev)
+    #define ALT_LOG_JTAG_UART_ALARM_REGISTER(dev, base)
+    #define ALT_LOG_SYS_CLK_HEARTBEAT()
+    #define ALT_LOG_PUTS(str)
+    #define ALT_LOG_WRITE_FUNCTION(ptr,len)
+>>>>>>> Revert "enlever le chain de argu"
 
 #endif /* ALT_LOG_ENABLE */
 
 #endif /* __ALT_LOG_PRINTF_H__ */
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

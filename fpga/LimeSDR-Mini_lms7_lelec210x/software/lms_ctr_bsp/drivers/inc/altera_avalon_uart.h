@@ -64,8 +64,13 @@ typedef struct altera_avalon_uart_state_s
 } altera_avalon_uart_state;
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * The macro ALTERA_AVALON_UART_STATE_INSTANCE is used by the 
  * auto-generated file alt_sys_init.c to create an instance of this 
+=======
+ * The macro ALTERA_AVALON_UART_STATE_INSTANCE is used by the
+ * auto-generated file alt_sys_init.c to create an instance of this
+>>>>>>> Revert "enlever le chain de argu"
  * device driver state.
  */
 
@@ -91,10 +96,17 @@ typedef struct altera_avalon_uart_state_s
  */
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * ALT_AVALON_UART_READ_RDY and ALT_AVALON_UART_WRITE_RDY are the bitmasks 
  * that define uC/OS-II event flags that are releated to this device.
  *
  * ALT_AVALON_UART_READY_RDY indicates that there is read data in the buffer 
+=======
+ * ALT_AVALON_UART_READ_RDY and ALT_AVALON_UART_WRITE_RDY are the bitmasks
+ * that define uC/OS-II event flags that are releated to this device.
+ *
+ * ALT_AVALON_UART_READY_RDY indicates that there is read data in the buffer
+>>>>>>> Revert "enlever le chain de argu"
  * ready to be processed. ALT_UART_WRITE_RDY indicates that the transmitter is
  * ready for more data.
  */
@@ -110,7 +122,11 @@ typedef struct altera_avalon_uart_state_s
 #define ALT_AVALON_UART_BUF_LEN (64)
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * ALT_AVALON_UART_BUF_MSK is used as an internal convenience for detecting 
+=======
+ * ALT_AVALON_UART_BUF_MSK is used as an internal convenience for detecting
+>>>>>>> Revert "enlever le chain de argu"
  * the end of the arrays used to implement the transmit and receive buffers.
  */
 
@@ -135,7 +151,11 @@ typedef struct altera_avalon_uart_state_s
 
 /*
  * The value ALT_AVALON_UART_FC is a value set in the device flag field to
+<<<<<<< refs/remotes/upstream/main
  * indicate the the device is using flow control, i.e. the driver must 
+=======
+ * indicate the the device is using flow control, i.e. the driver must
+>>>>>>> Revert "enlever le chain de argu"
  * throttle on transmit if the nCTS pin is low.
  */
 
@@ -145,7 +165,11 @@ typedef struct altera_avalon_uart_state_s
  * The altera_avalon_uart_state structure is used to hold device specific data.
  * This includes the transmit and receive buffers.
  *
+<<<<<<< refs/remotes/upstream/main
  * An instance of this structure is created in the auto-generated 
+=======
+ * An instance of this structure is created in the auto-generated
+>>>>>>> Revert "enlever le chain de argu"
  * alt_sys_init.c file for each UART listed in the systems PTF file. This is
  * done using the ALTERA_AVALON_UART_STATE_INSTANCE macro given below.
  */
@@ -163,10 +187,17 @@ typedef struct altera_avalon_uart_state_s
   alt_u32          freq;            /* Current baud rate */
 #endif
   alt_u32          flags;           /* Configuation flags */
+<<<<<<< refs/remotes/upstream/main
   ALT_FLAG_GRP     (events)         /* Event flags used for 
                                      * foreground/background in mult-threaded
                                      * mode */
   ALT_SEM          (read_lock)      /* Semaphore used to control access to the 
+=======
+  ALT_FLAG_GRP     (events)         /* Event flags used for
+                                     * foreground/background in mult-threaded
+                                     * mode */
+  ALT_SEM          (read_lock)      /* Semaphore used to control access to the
+>>>>>>> Revert "enlever le chain de argu"
                                      * read buffer in multi-threaded mode */
   ALT_SEM          (write_lock)     /* Semaphore used to control access to the
                                      * write buffer in multi-threaded mode */
@@ -248,12 +279,21 @@ typedef struct altera_avalon_uart_state_s
    }
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * altera_avalon_uart_init() is called by the auto-generated function 
  * alt_sys_init() for each UART in the system. This is done using the 
  * ALTERA_AVALON_UART_INIT macro given below.
  *
  * This function is responsible for performing all the run time initilisation
  * for a device instance, i.e. registering the interrupt handler, and 
+=======
+ * altera_avalon_uart_init() is called by the auto-generated function
+ * alt_sys_init() for each UART in the system. This is done using the
+ * ALTERA_AVALON_UART_INIT macro given below.
+ *
+ * This function is responsible for performing all the run time initilisation
+ * for a device instance, i.e. registering the interrupt handler, and
+>>>>>>> Revert "enlever le chain de argu"
  * regestering the device with the system.
  */
 extern void altera_avalon_uart_init(altera_avalon_uart_state* sp,
@@ -264,7 +304,11 @@ extern void altera_avalon_uart_init(altera_avalon_uart_state* sp,
  * alt_sys_init.c to initialize an instance of the device driver state.
  *
  * This macro performs a sanity check to ensure that the interrupt has been
+<<<<<<< refs/remotes/upstream/main
  * connected for this device. If not, then an apropriate error message is 
+=======
+ * connected for this device. If not, then an apropriate error message is
+>>>>>>> Revert "enlever le chain de argu"
  * generated at build time.
  */
 

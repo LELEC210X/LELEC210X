@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	lms7002_ddout.vhd
 -- DESCRIPTION:	takes data in SDR and ouputs double data rate
 -- DATE:	Mar 14, 2016
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -20,15 +28,26 @@ entity lms7002_ddout is
 				iq_width		: integer :=12
 	);
 	port (
+<<<<<<< refs/remotes/upstream/main
       --input ports 
+=======
+      --input ports
+>>>>>>> Revert "enlever le chain de argu"
       clk       	: in std_logic;
       reset_n   	: in std_logic;
 		data_in_h	: in std_logic_vector(iq_width downto 0);
 		data_in_l	: in std_logic_vector(iq_width downto 0);
+<<<<<<< refs/remotes/upstream/main
 		--output ports 
 		txiq		 	: out std_logic_vector(iq_width-1 downto 0);
 		txiqsel	 	: out std_logic
 		
+=======
+		--output ports
+		txiq		 	: out std_logic_vector(iq_width-1 downto 0);
+		txiqsel	 	: out std_logic
+
+>>>>>>> Revert "enlever le chain de argu"
         );
 end lms7002_ddout;
 
@@ -63,6 +82,7 @@ aclr<=not reset_n;
 		outclock 	=> clk,
 		dataout 		=> datout
 	);
+<<<<<<< refs/remotes/upstream/main
 	
 	txiq		<=datout(11 downto 0);
 	txiqsel	<=datout(12);
@@ -74,3 +94,11 @@ end arch;
 
 
 
+=======
+
+	txiq		<=datout(11 downto 0);
+	txiqsel	<=datout(12);
+
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

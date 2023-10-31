@@ -44,7 +44,11 @@
  * descriptor for the file named "name". The "flags" and "mode" arguments are
  * identical to the "flags" and "mode" arguments of open().
  *
+<<<<<<< refs/remotes/upstream/main
  * The distinction between the two functions is that the file descriptor 
+=======
+ * The distinction between the two functions is that the file descriptor
+>>>>>>> Revert "enlever le chain de argu"
  * structure to use is passed in as an argument, rather than allocated from the
  * list of free file descriptors.
  *
@@ -69,21 +73,37 @@ static void alt_open_fd(alt_fd* fd, const char* name, int flags, int mode)
 
     alt_release_fd (old);
   }
+<<<<<<< refs/remotes/upstream/main
 } 
 
 /*
  * alt_io_redirect() is called once the device/filesystem lists have been 
+=======
+}
+
+/*
+ * alt_io_redirect() is called once the device/filesystem lists have been
+>>>>>>> Revert "enlever le chain de argu"
  * initialised, but before main(). Its function is to redirect standard in,
  * standard out and standard error so that they point to the devices selected by
  * the user (as defined in system.h).
  *
  * Prior to the call to this function, io is directed towards /dev/null. If
+<<<<<<< refs/remotes/upstream/main
  * i/o can not be redirected to the requested device, for example if the device 
  * does not exist, then it remains directed at /dev/null. 
  */
  
 void alt_io_redirect(const char* stdout_dev, 
                      const char* stdin_dev, 
+=======
+ * i/o can not be redirected to the requested device, for example if the device
+ * does not exist, then it remains directed at /dev/null.
+ */
+
+void alt_io_redirect(const char* stdout_dev,
+                     const char* stdin_dev,
+>>>>>>> Revert "enlever le chain de argu"
                      const char* stderr_dev)
 {
   /* Redirect the channels */
@@ -91,8 +111,12 @@ void alt_io_redirect(const char* stdout_dev,
   alt_open_fd (&alt_fd_list[STDOUT_FILENO], stdout_dev, O_WRONLY, 0777);
   alt_open_fd (&alt_fd_list[STDIN_FILENO], stdin_dev, O_RDONLY, 0777);
   alt_open_fd (&alt_fd_list[STDERR_FILENO], stderr_dev, O_WRONLY, 0777);
+<<<<<<< refs/remotes/upstream/main
 }  
 
 
 
 
+=======
+}
+>>>>>>> Revert "enlever le chain de argu"

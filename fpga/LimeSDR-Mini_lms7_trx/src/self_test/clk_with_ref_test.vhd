@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	clk_with_ref_test.vhd
 -- DESCRIPTION:	Counts clock transitions for defined time period
 -- DATE:	Sep 5, 2016
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -14,7 +22,11 @@ use ieee.numeric_std.all;
 -- ----------------------------------------------------------------------------
 entity clk_with_ref_test is
   port (
+<<<<<<< refs/remotes/upstream/main
         --input ports 
+=======
+        --input ports
+>>>>>>> Revert "enlever le chain de argu"
         refclk       	: in std_logic;
         reset_n   		: in std_logic;
 		  clk0				: in std_logic;
@@ -23,7 +35,11 @@ entity clk_with_ref_test is
 		  clk3				: in std_logic;
 		  clk4				: in std_logic;
 		  clk5				: in std_logic;
+<<<<<<< refs/remotes/upstream/main
 		  clk6				: in std_logic;		  
+=======
+		  clk6				: in std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 		  test_en			: in std_logic;
 		  test_cnt0			: out std_logic_vector(15 downto 0);
 		  test_cnt1			: out std_logic_vector(15 downto 0);
@@ -34,7 +50,11 @@ entity clk_with_ref_test is
 		  test_cnt6			: out std_logic_vector(15 downto 0);
 		  test_complete	: out std_logic;
 		  test_pass_fail	: out std_logic
+<<<<<<< refs/remotes/upstream/main
      
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
         );
 end clk_with_ref_test;
 
@@ -44,7 +64,11 @@ end clk_with_ref_test;
 architecture arch of clk_with_ref_test is
 --declare signals,  components here
 signal cnt_ref_clk 			: unsigned (15 downto 0);
+<<<<<<< refs/remotes/upstream/main
 signal cnt_ref_clk_en		: std_logic; 
+=======
+signal cnt_ref_clk_en		: std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 signal cnt_clk0				: unsigned (15 downto 0);
 signal cnt_clk1				: unsigned (15 downto 0);
 signal cnt_clk2				: unsigned (15 downto 0);
@@ -52,7 +76,11 @@ signal cnt_clk3				: unsigned (15 downto 0);
 signal cnt_clk4				: unsigned (15 downto 0);
 signal cnt_clk5				: unsigned (15 downto 0);
 signal cnt_clk6				: unsigned (15 downto 0);
+<<<<<<< refs/remotes/upstream/main
 signal cnt_clk_en				: std_logic; 
+=======
+signal cnt_clk_en				: std_logic;
+>>>>>>> Revert "enlever le chain de argu"
 
 signal cnt_clk0_en_reg0, cnt_clk0_en_reg1 : std_logic;
 signal cnt_clk1_en_reg0, cnt_clk1_en_reg1 : std_logic;
@@ -69,7 +97,11 @@ type state_type is (idle, count, count_end);
 
 signal current_state, next_state : state_type;
 
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 -- ----------------------------------------------------------------------------
@@ -100,16 +132,28 @@ end process;
   process(reset_n, refclk)
     begin
       if reset_n='0' then
+<<<<<<< refs/remotes/upstream/main
         cnt_ref_clk<=(others=>'0'); 
  	    elsif (refclk'event and refclk = '1') then
  	      if cnt_ref_clk_en='1' then 
 				cnt_ref_clk<=cnt_ref_clk+1;
 			else 
+=======
+        cnt_ref_clk<=(others=>'0');
+ 	    elsif (refclk'event and refclk = '1') then
+ 	      if cnt_ref_clk_en='1' then
+				cnt_ref_clk<=cnt_ref_clk+1;
+			else
+>>>>>>> Revert "enlever le chain de argu"
 				cnt_ref_clk<=(others=>'0');
 			end if;
  	    end if;
     end process;
+<<<<<<< refs/remotes/upstream/main
 	 
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 --state machine
 -- ----------------------------------------------------------------------------
@@ -122,7 +166,11 @@ fsm_f : process(refclk, reset_n)begin
 		test_en_reg(0)<=test_en;
 		test_en_reg(1)<=test_en_reg(0);
 		current_state <= next_state;
+<<<<<<< refs/remotes/upstream/main
 	end if;	
+=======
+	end if;
+>>>>>>> Revert "enlever le chain de argu"
 end process;
 
 -- ----------------------------------------------------------------------------
@@ -131,15 +179,24 @@ end process;
 fsm : process(current_state, test_en_reg(1), cnt_ref_clk) begin
 	next_state <= current_state;
 	case current_state is
+<<<<<<< refs/remotes/upstream/main
 	  
 		when idle => 					--idle state
 			if test_en_reg(1)='1' then 
 				next_state<=count;
 			else 
+=======
+
+		when idle => 					--idle state
+			if test_en_reg(1)='1' then
+				next_state<=count;
+			else
+>>>>>>> Revert "enlever le chain de argu"
 				next_state<=idle;
 			end if;
 		when count => 					--enable counting
 			if test_en_reg(1)='1' then
+<<<<<<< refs/remotes/upstream/main
 				if cnt_ref_clk>=65535 then 
 					next_state<=count_end;
 				else 
@@ -155,6 +212,23 @@ fsm : process(current_state, test_en_reg(1), cnt_ref_clk) begin
 				next_state<=count_end;
 			end if;				
 		when others => 
+=======
+				if cnt_ref_clk>=65535 then
+					next_state<=count_end;
+				else
+					next_state<=count;
+				end if;
+			else
+				next_state<=idle;
+			end if;
+		when count_end => 			--counter overflow
+			if test_en_reg(1)='0' then
+				next_state<=idle;
+			else
+				next_state<=count_end;
+			end if;
+		when others =>
+>>>>>>> Revert "enlever le chain de argu"
 			next_state<=idle;
 	end case;
 end process;
@@ -180,14 +254,24 @@ end process;
  	    elsif (clk0'event and clk0 = '1') then
 			cnt_clk0_en_reg0<=cnt_clk_en;
 			cnt_clk0_en_reg1<=cnt_clk0_en_reg0;
+<<<<<<< refs/remotes/upstream/main
  	      if cnt_clk0_en_reg1='1' then 
 				cnt_clk0<=cnt_clk0+1;
 			else 
+=======
+ 	      if cnt_clk0_en_reg1='1' then
+				cnt_clk0<=cnt_clk0+1;
+			else
+>>>>>>> Revert "enlever le chain de argu"
 				cnt_clk0<=cnt_clk0;
 			end if;
  	    end if;
     end process;
+<<<<<<< refs/remotes/upstream/main
 	 
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 -- clock cycle counter in clk1 domain
 -- ----------------------------------------------------------------------------
@@ -196,6 +280,7 @@ end process;
       if test_en='0' then
 			cnt_clk1<=(others=>'0');
 			cnt_clk1_en_reg0<='0';
+<<<<<<< refs/remotes/upstream/main
 			cnt_clk1_en_reg1<='0';		  
  	    elsif (clk1'event and clk1 = '1') then
 		 	cnt_clk1_en_reg0<=cnt_clk_en;
@@ -203,6 +288,15 @@ end process;
  	      if cnt_clk1_en_reg1='1' then 
 				cnt_clk1<=cnt_clk1+1;
 			else 
+=======
+			cnt_clk1_en_reg1<='0';
+ 	    elsif (clk1'event and clk1 = '1') then
+		 	cnt_clk1_en_reg0<=cnt_clk_en;
+			cnt_clk1_en_reg1<=cnt_clk1_en_reg0;
+ 	      if cnt_clk1_en_reg1='1' then
+				cnt_clk1<=cnt_clk1+1;
+			else
+>>>>>>> Revert "enlever le chain de argu"
 				cnt_clk1<=cnt_clk1;
 			end if;
  	    end if;
@@ -216,6 +310,7 @@ end process;
       if test_en='0' then
 			cnt_clk2<=(others=>'0');
 			cnt_clk2_en_reg0<='0';
+<<<<<<< refs/remotes/upstream/main
 			cnt_clk2_en_reg1<='0'; 
  	    elsif (clk2'event and clk2 = '1') then
 			cnt_clk2_en_reg0<=cnt_clk_en;
@@ -223,6 +318,15 @@ end process;
  	      if cnt_clk2_en_reg1='1' then 
 				cnt_clk2<=cnt_clk2+1;
 			else 
+=======
+			cnt_clk2_en_reg1<='0';
+ 	    elsif (clk2'event and clk2 = '1') then
+			cnt_clk2_en_reg0<=cnt_clk_en;
+			cnt_clk2_en_reg1<=cnt_clk2_en_reg0;
+ 	      if cnt_clk2_en_reg1='1' then
+				cnt_clk2<=cnt_clk2+1;
+			else
+>>>>>>> Revert "enlever le chain de argu"
 				cnt_clk2<=cnt_clk2;
 			end if;
  	    end if;
@@ -234,15 +338,25 @@ end process;
   process(test_en, clk3)
     begin
       if test_en='0' then
+<<<<<<< refs/remotes/upstream/main
 			cnt_clk3<=(others=>'0'); 
+=======
+			cnt_clk3<=(others=>'0');
+>>>>>>> Revert "enlever le chain de argu"
 			cnt_clk3_en_reg0<='0';
 			cnt_clk3_en_reg1<='0';
  	    elsif (clk3'event and clk3 = '1') then
 		 	cnt_clk3_en_reg0<=cnt_clk_en;
 			cnt_clk3_en_reg1<=cnt_clk3_en_reg0;
+<<<<<<< refs/remotes/upstream/main
  	      if cnt_clk3_en_reg1='1' then 
 				cnt_clk3<=cnt_clk3+1;
 			else 
+=======
+ 	      if cnt_clk3_en_reg1='1' then
+				cnt_clk3<=cnt_clk3+1;
+			else
+>>>>>>> Revert "enlever le chain de argu"
 				cnt_clk3<=cnt_clk3;
 			end if;
  	    end if;
@@ -256,6 +370,7 @@ end process;
       if test_en='0' then
 			cnt_clk4<=(others=>'0');
 			cnt_clk4_en_reg0<='0';
+<<<<<<< refs/remotes/upstream/main
 			cnt_clk4_en_reg1<='0'; 
  	    elsif (clk4'event and clk4 = '1') then
 		 	cnt_clk4_en_reg0<=cnt_clk_en;
@@ -263,6 +378,15 @@ end process;
  	      if cnt_clk4_en_reg1='1' then 
 				cnt_clk4<=cnt_clk4+1;
 			else 
+=======
+			cnt_clk4_en_reg1<='0';
+ 	    elsif (clk4'event and clk4 = '1') then
+		 	cnt_clk4_en_reg0<=cnt_clk_en;
+			cnt_clk4_en_reg1<=cnt_clk4_en_reg0;
+ 	      if cnt_clk4_en_reg1='1' then
+				cnt_clk4<=cnt_clk4+1;
+			else
+>>>>>>> Revert "enlever le chain de argu"
 				cnt_clk4<=cnt_clk4;
 			end if;
  	    end if;
@@ -274,12 +398,17 @@ end process;
   process(test_en, clk5)
     begin
       if test_en='0' then
+<<<<<<< refs/remotes/upstream/main
 			cnt_clk5<=(others=>'0'); 
+=======
+			cnt_clk5<=(others=>'0');
+>>>>>>> Revert "enlever le chain de argu"
 			cnt_clk5_en_reg0<='0';
 			cnt_clk5_en_reg1<='0';
  	    elsif (clk5'event and clk5 = '1') then
 			cnt_clk5_en_reg0<=cnt_clk_en;
 			cnt_clk5_en_reg1<=cnt_clk5_en_reg0;
+<<<<<<< refs/remotes/upstream/main
  	      if cnt_clk5_en_reg1='1' then 
 				cnt_clk5<=cnt_clk5+1;
 			else 
@@ -288,6 +417,16 @@ end process;
  	    end if;
     end process;	
 	
+=======
+ 	      if cnt_clk5_en_reg1='1' then
+				cnt_clk5<=cnt_clk5+1;
+			else
+				cnt_clk5<=cnt_clk5;
+			end if;
+ 	    end if;
+    end process;
+
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 -- clock cycle counter in clk6 domain
 -- ----------------------------------------------------------------------------
@@ -296,6 +435,7 @@ end process;
       if test_en='0' then
 			cnt_clk6<=(others=>'0');
 			cnt_clk6_en_reg0<='0';
+<<<<<<< refs/remotes/upstream/main
 			cnt_clk6_en_reg1<='0'; 
  	    elsif (clk6'event and clk6 = '1') then
 			cnt_clk6_en_reg0<=cnt_clk_en;
@@ -307,6 +447,19 @@ end process;
 			end if;
  	    end if;
     end process;	
+=======
+			cnt_clk6_en_reg1<='0';
+ 	    elsif (clk6'event and clk6 = '1') then
+			cnt_clk6_en_reg0<=cnt_clk_en;
+			cnt_clk6_en_reg1<=cnt_clk6_en_reg0;
+ 	      if cnt_clk6_en_reg1='1' then
+				cnt_clk6<=cnt_clk6+1;
+			else
+				cnt_clk6<=cnt_clk6;
+			end if;
+ 	    end if;
+    end process;
+>>>>>>> Revert "enlever le chain de argu"
 
 test_cnt0<=std_logic_vector(cnt_clk0);
 test_cnt1<=std_logic_vector(cnt_clk1);
@@ -316,6 +469,7 @@ test_cnt4<=std_logic_vector(cnt_clk4);
 test_cnt5<=std_logic_vector(cnt_clk5);
 test_cnt6<=std_logic_vector(cnt_clk6);
 
+<<<<<<< refs/remotes/upstream/main
 	 
 end arch;
 
@@ -323,3 +477,7 @@ end arch;
 
 
 
+=======
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

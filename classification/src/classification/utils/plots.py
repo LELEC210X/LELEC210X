@@ -16,7 +16,12 @@ Synthesis of the functions in :
 """
 # -----------------------------------------------------------------------------
 
+<<<<<<< refs/remotes/upstream/main
 def show_confusion_matrix(y_predict, y_true, classnames, title=""):
+=======
+
+def show_confusion_matrix(y_predict, y_true2, classnames, title=""):
+>>>>>>> Revert "enlever le chain de argu"
     """
     From target labels and prediction arrays, sort them appropriately and plot confusion matrix.
     The arrays can contain either ints or str quantities, as long as classnames contains all the elements present in them.
@@ -29,9 +34,14 @@ def show_confusion_matrix(y_predict, y_true, classnames, title=""):
     #         mask[j] = (y_predict[j] == classnames[i])
     #     labels[mask] = mode(y_true2[mask])[0]
 
+<<<<<<< refs/remotes/upstream/main
     plt.figure(figsize=(3,3))
     confmat = confusion_matrix(
         y_true, y_predict
+=======
+    confmat = confusion_matrix(
+        y_true2, y_predict, labels=np.arange(np.max(y_true2) + 1)
+>>>>>>> Revert "enlever le chain de argu"
     )
     heatmap(
         confmat.T,
@@ -41,7 +51,10 @@ def show_confusion_matrix(y_predict, y_true, classnames, title=""):
         cbar=False,
         xticklabels=classnames,
         yticklabels=classnames,
+<<<<<<< refs/remotes/upstream/main
         ax = plt.gca()
+=======
+>>>>>>> Revert "enlever le chain de argu"
     )
     plt.xlabel("True label")
     plt.ylabel("Predicted label")
@@ -152,7 +165,10 @@ def plot_decision_boundaries(
 ):
     """
     Plot decision boundaries of a classifier in 2D, and display true labels.
+<<<<<<< refs/remotes/upstream/main
     The labels y must be numerical values.
+=======
+>>>>>>> Revert "enlever le chain de argu"
     """
     if ax is None:
         fig = plt.figure(figsize=(4, 4))
@@ -160,12 +176,20 @@ def plot_decision_boundaries(
     ax.set_aspect("equal", adjustable="box")
     # Plot the decision boundary.
     n = 80
+<<<<<<< refs/remotes/upstream/main
     one_axis = np.linspace(np.min(X), np.max(X), n)
     grid = np.meshgrid(one_axis, one_axis)
     fv = np.array(grid).reshape(2, n**2).T
 
     ax.contourf(
         grid[0], grid[1], model.predict(fv).reshape(n, n), cmap=cm, alpha=0.5
+=======
+    vec = np.linspace(np.min(X), np.max(X), n)
+    Xtmp = np.meshgrid(vec, vec)
+    Xtmp2 = np.array(Xtmp).reshape(2, n**2).T
+    ax.contourf(
+        Xtmp[0], Xtmp[1], model.predict(Xtmp2).reshape(n, n), cmap=cm, alpha=0.5
+>>>>>>> Revert "enlever le chain de argu"
     )
     scatterd = ax.scatter(X[:, 0], X[:, 1], c=y, cmap=cm, edgecolors=edgc, s=s)
     ax.set_title(title)

@@ -27,11 +27,19 @@ entity two_fifo_inst is
       RDUSEDW_WIDTH  : integer := 9;      -- rdwords = 2^(RDUSEDW_WIDTH-1)
       SHOW_AHEAD     : string  := "OFF";
       TRNSF_SIZE     : integer := 1024;   -- First to second FIFO transfer size in bytes
+<<<<<<< refs/remotes/upstream/main
       TRNSF_N        : integer := 4       -- N transfer cycles    
    );
    port (
       reset_0_n     : in std_logic;       -- reset for first FIFO, has to be synchronous to wrclk
       reset_1_n     : in std_logic;       -- reset for second FIFO, has to be synchronous to wrclk   
+=======
+      TRNSF_N        : integer := 4       -- N transfer cycles
+   );
+   port (
+      reset_0_n     : in std_logic;       -- reset for first FIFO, has to be synchronous to wrclk
+      reset_1_n     : in std_logic;       -- reset for second FIFO, has to be synchronous to wrclk
+>>>>>>> Revert "enlever le chain de argu"
       wrclk         : in std_logic;
       wrreq         : in std_logic;
       data          : in std_logic_vector(wrwidth-1 downto 0);
@@ -42,7 +50,11 @@ entity two_fifo_inst is
       rdreq         : in std_logic;
       q             : out std_logic_vector(rdwidth-1 downto 0);
       rdempty       : out std_logic;
+<<<<<<< refs/remotes/upstream/main
       rdusedw       : out std_logic_vector(rdusedw_width-1 downto 0)   
+=======
+      rdusedw       : out std_logic_vector(rdusedw_width-1 downto 0)
+>>>>>>> Revert "enlever le chain de argu"
    );
 end two_fifo_inst;
 
@@ -76,6 +88,7 @@ signal current_state, next_state : state_type;
 
 signal trnsf_cnt                 : unsigned(7 downto 0);
 signal rd_cnt                    : unsigned(15 downto 0);
+<<<<<<< refs/remotes/upstream/main
   
 begin
    
@@ -89,16 +102,39 @@ begin
 -- First 2kB FIFO
 -- ----------------------------------------------------------------------------
    fifo_2kB_inst0 : entity work.fifo_inst		
+=======
+
+begin
+
+-- ----------------------------------------------------------------------------
+-- Internal reset logic
+-- ----------------------------------------------------------------------------
+   reset_n <= reset_0_n AND reset_1_n;
+
+
+-- ----------------------------------------------------------------------------
+-- First 2kB FIFO
+-- ----------------------------------------------------------------------------
+   fifo_2kB_inst0 : entity work.fifo_inst
+>>>>>>> Revert "enlever le chain de argu"
    generic map(
          dev_family		=> DEV_FAMILY,
          wrwidth			=> C_INST0_WRWIDTH,
          wrusedw_witdth	=> C_INST0_WRUSEDW_WIDTH,
          rdwidth			=> C_INST0_RDWIDTH,
+<<<<<<< refs/remotes/upstream/main
          rdusedw_width	=> C_INST0_RDUSEDW_WIDTH,				
          show_ahead     => "OFF"
    )
    port map(
          reset_n       	=> reset_0_n, 
+=======
+         rdusedw_width	=> C_INST0_RDUSEDW_WIDTH,
+         show_ahead     => "OFF"
+   )
+   port map(
+         reset_n       	=> reset_0_n,
+>>>>>>> Revert "enlever le chain de argu"
          wrclk         	=> wrclk,
          wrreq         	=> wrreq,
          data          	=> data,
@@ -109,25 +145,44 @@ begin
          rdreq         	=> inst0_rdreq,
          q             	=> inst0_q,
          rdempty       	=> open,
+<<<<<<< refs/remotes/upstream/main
          rdusedw       	=> inst0_rdusedw         
       );
    
+=======
+         rdusedw       	=> inst0_rdusedw
+      );
+
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 -- Second 6kB FIFO
 -- ----------------------------------------------------------------------------
    inst1_data <= inst0_q;
+<<<<<<< refs/remotes/upstream/main
    
    fifo_4kB_inst1 : entity work.fifo_inst		
+=======
+
+   fifo_4kB_inst1 : entity work.fifo_inst
+>>>>>>> Revert "enlever le chain de argu"
    generic map(
          dev_family		=> DEV_FAMILY,
          wrwidth			=> C_INST1_WRWIDTH,
          wrusedw_witdth	=> C_INST1_WRUSEDW_WIDTH,
          rdwidth			=> C_INST1_RDWIDTH,
+<<<<<<< refs/remotes/upstream/main
          rdusedw_width	=> C_INST1_RDUSEDW_WIDTH,				
          show_ahead     => "OFF"
    )
    port map(
          reset_n       	=> reset_n, 
+=======
+         rdusedw_width	=> C_INST1_RDUSEDW_WIDTH,
+         show_ahead     => "OFF"
+   )
+   port map(
+         reset_n       	=> reset_n,
+>>>>>>> Revert "enlever le chain de argu"
          wrclk         	=> wrclk,
          wrreq         	=> inst1_wrreq,
          data          	=> inst1_data,
@@ -138,6 +193,7 @@ begin
          rdreq         	=> rdreq,
          q             	=> q,
          rdempty       	=> rdempty,
+<<<<<<< refs/remotes/upstream/main
          rdusedw       	=> rdusedw            
       );
    
@@ -166,28 +222,71 @@ begin
          if current_state = trnsf_fifo then 
             rd_cnt <= rd_cnt + 1;
          else 
+=======
+         rdusedw       	=> rdusedw
+      );
+
+   -- Count transfer cycles
+   process(wrclk, reset_n)
+   begin
+      if reset_n = '0' then
+         trnsf_cnt <= (others=>'0');
+      elsif (wrclk'event AND wrclk='1') then
+         if current_state = check_trnsf then
+            trnsf_cnt <= trnsf_cnt + 1;
+         elsif current_state = idle then
+            trnsf_cnt <= (others=>'0');
+         else
+            trnsf_cnt <= trnsf_cnt;
+         end if;
+      end if;
+   end process;
+
+   -- Count Read cycle
+   process(wrclk, reset_n)
+   begin
+      if reset_n = '0' then
+         rd_cnt <= (others=>'0');
+      elsif (wrclk'event AND wrclk='1') then
+         if current_state = trnsf_fifo then
+            rd_cnt <= rd_cnt + 1;
+         else
+>>>>>>> Revert "enlever le chain de argu"
             rd_cnt <= (others=>'0');
          end if;
       end if;
    end process;
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 -- state machine
 -- ----------------------------------------------------------------------------
    fsm_f : process(wrclk, reset_n) begin
       if(reset_n = '0') then
          current_state <= idle;
+<<<<<<< refs/remotes/upstream/main
       elsif(wrclk'event and wrclk = '1')then 
          current_state <= next_state;
       end if;	
    end process;
    
+=======
+      elsif(wrclk'event and wrclk = '1')then
+         current_state <= next_state;
+      end if;
+   end process;
+
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 --state machine combo
 -- ----------------------------------------------------------------------------
    fsm : process(current_state, inst1_wrempty, inst0_rdusedw, trnsf_cnt, rd_cnt) begin
       next_state <= current_state;
       case current_state is
+<<<<<<< refs/remotes/upstream/main
       
          when idle => 						-- idle state, wait for both FIFO to be ready
             if unsigned(inst0_rdusedw) > TRNSF_SIZE*8/C_INST0_RDWIDTH - 1 AND inst1_wrempty = '1' then 
@@ -242,6 +341,62 @@ begin
             inst0_rdreq <= '0';
          end if;
          
+=======
+
+         when idle => 						-- idle state, wait for both FIFO to be ready
+            if unsigned(inst0_rdusedw) > TRNSF_SIZE*8/C_INST0_RDWIDTH - 1 AND inst1_wrempty = '1' then
+               next_state <= check_trnsf;
+            else
+               next_state <= idle;
+            end if;
+
+         when check_trnsf =>           -- Check number of transfer cycle
+            if trnsf_cnt < TRNSF_N then
+               next_state <= check_fifo_0;
+            else
+               next_state <= check_fifo_1;
+            end if;
+
+         when check_fifo_0 =>          -- Check if first FIFO has right amount words
+            if unsigned(inst0_rdusedw) > TRNSF_SIZE*8/C_INST0_RDWIDTH - 1  then
+               next_state <= trnsf_fifo;
+            else
+               next_state <= check_fifo_0;
+            end if;
+
+         when trnsf_fifo =>            -- Transfer one chunk of data from first to second FIFO
+            if rd_cnt < TRNSF_SIZE*8/C_INST0_RDWIDTH - 1 then
+               next_state <= trnsf_fifo;
+            else
+               next_state <= check_trnsf;
+            end if;
+
+         when check_fifo_1 =>          -- Check if second FIFO is empty
+            if inst1_wrempty = '1' then
+               next_state <= idle;
+            else
+               next_state <= check_fifo_1;
+            end if;
+
+         when others =>
+            next_state<=idle;
+      end case;
+   end process;
+
+   -- Internal registers
+   int_regs : process(wrclk, reset_n)
+   begin
+      if reset_n = '0' then
+         inst0_rdreq <= '0';
+         inst1_wrreq <= '0';
+      elsif (wrclk'event AND wrclk='1') then
+         if current_state = trnsf_fifo then
+            inst0_rdreq <= '1';
+         else
+            inst0_rdreq <= '0';
+         end if;
+
+>>>>>>> Revert "enlever le chain de argu"
          inst1_wrreq <= inst0_rdreq;
       end if;
    end process;
@@ -251,7 +406,12 @@ begin
 -- ----------------------------------------------------------------------------
 
 
+<<<<<<< refs/remotes/upstream/main
   
 end arch;   
 
 
+=======
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

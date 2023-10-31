@@ -33,10 +33,17 @@
 #include "system.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * This interrupt registry mechanism works with the Nios II internal interrupt 
  * controller (IIC) only. Systems with an external interrupt controller (EIC),
  * or those with the IIC who are using the enhanced interrupt API will
  * utilize the alt_ic_isr_register() routine to register an interrupt. 
+=======
+ * This interrupt registry mechanism works with the Nios II internal interrupt
+ * controller (IIC) only. Systems with an external interrupt controller (EIC),
+ * or those with the IIC who are using the enhanced interrupt API will
+ * utilize the alt_ic_isr_register() routine to register an interrupt.
+>>>>>>> Revert "enlever le chain de argu"
  */
 #ifndef NIOS2_EIC_PRESENT
 
@@ -50,7 +57,11 @@
  * The header, alt_irq_entry.h, contains the exception entry point, and is
  * provided by the processor component. It is included here, so that the code
  * will be added to the executable only if alt_irq_register() is present, i.e.
+<<<<<<< refs/remotes/upstream/main
  * if no interrupts are registered - there's no need to provide any 
+=======
+ * if no interrupts are registered - there's no need to provide any
+>>>>>>> Revert "enlever le chain de argu"
  * interrupt handling.
  */
 
@@ -64,6 +75,7 @@
 #include "priv/alt_irq_table.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * alt_irq_handler() is called to register an interrupt handler. If the 
  * function is succesful, then the requested interrupt will be enabled upon 
  * return. Registering a NULL handler will disable the interrupt.
@@ -77,11 +89,30 @@ int alt_irq_register (alt_u32 id,
                       alt_isr_func handler)
 {
   int rc = -EINVAL;  
+=======
+ * alt_irq_handler() is called to register an interrupt handler. If the
+ * function is succesful, then the requested interrupt will be enabled upon
+ * return. Registering a NULL handler will disable the interrupt.
+ *
+ * The return value is 0 if the interrupt handler was registered and the
+ * interrupt was enabled, otherwise it is negative.
+ */
+
+int alt_irq_register (alt_u32 id,
+                      void* context,
+                      alt_isr_func handler)
+{
+  int rc = -EINVAL;
+>>>>>>> Revert "enlever le chain de argu"
   alt_irq_context status;
 
   if (id < ALT_NIRQ)
   {
+<<<<<<< refs/remotes/upstream/main
     /* 
+=======
+    /*
+>>>>>>> Revert "enlever le chain de argu"
      * interrupts are disabled while the handler tables are updated to ensure
      * that an interrupt doesn't occur while the tables are in an inconsistant
      * state.
@@ -96,7 +127,13 @@ int alt_irq_register (alt_u32 id,
 
     alt_irq_enable_all(status);
   }
+<<<<<<< refs/remotes/upstream/main
   return rc; 
 }
 #endif /* NIOS2_EIC_PRESENT */
 
+=======
+  return rc;
+}
+#endif /* NIOS2_EIC_PRESENT */
+>>>>>>> Revert "enlever le chain de argu"

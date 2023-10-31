@@ -20,7 +20,11 @@
 #set_clock_groups -asynchronous -group {altera_reserved_tck}
 
 #**************************************************************
+<<<<<<< refs/remotes/upstream/main
 # Set TCL Path Variables 
+=======
+# Set TCL Path Variables
+>>>>>>> Revert "enlever le chain de argu"
 #**************************************************************
 
 set 	lms_ctr_nios2_cpu_cpu 	lms_ctr_nios2_cpu_cpu:*

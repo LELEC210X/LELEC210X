@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	rxiq_mimo.vhd
 -- DESCRIPTION:	rxiq samples in MIMO mode
 -- DATE:	Jan 13, 2016
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -20,6 +28,7 @@ entity rxiq_mimo is
       clk         : in std_logic;
       reset_n     : in std_logic;
       trxiqpulse	: in std_logic; -- trxiqpulse on: 1; trxiqpulse off: 0
+<<<<<<< refs/remotes/upstream/main
 		ch_en			: in std_logic_vector(1 downto 0); --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B. 
       fidm		   : in std_logic; -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
       --Rx interface data 
@@ -29,6 +38,17 @@ entity rxiq_mimo is
       fifo_wfull  : in std_logic;
       fifo_wrreq  : out std_logic;
       fifo_wdata  : out std_logic_vector(iq_width*4-1 downto 0)   
+=======
+		ch_en			: in std_logic_vector(1 downto 0); --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B.
+      fidm		   : in std_logic; -- External Frame ID mode. Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
+      --Rx interface data
+      DIQ_h		 	: in std_logic_vector(iq_width downto 0);
+		DIQ_l	 	   : in std_logic_vector(iq_width downto 0);
+      --fifo ports
+      fifo_wfull  : in std_logic;
+      fifo_wrreq  : out std_logic;
+      fifo_wdata  : out std_logic_vector(iq_width*4-1 downto 0)
+>>>>>>> Revert "enlever le chain de argu"
         );
 end rxiq_mimo;
 
@@ -66,12 +86,21 @@ begin
 -- ----------------------------------------------------------------------------
 inst0_reset_proc : process(reset_n, clk)
 begin
+<<<<<<< refs/remotes/upstream/main
    if reset_n ='0' then 
       inst0_reset_n <= '0';
    elsif (clk'event and clk='1') then 
       if trxiqpulse = '0' then 
          inst0_reset_n <= '1';
       else 
+=======
+   if reset_n ='0' then
+      inst0_reset_n <= '0';
+   elsif (clk'event and clk='1') then
+      if trxiqpulse = '0' then
+         inst0_reset_n <= '1';
+      else
+>>>>>>> Revert "enlever le chain de argu"
          inst0_reset_n <= '0';
       end if;
    end if;
@@ -79,18 +108,31 @@ end process;
 
 inst1_reset_proc : process(reset_n, clk)
 begin
+<<<<<<< refs/remotes/upstream/main
    if reset_n ='0' then 
       inst1_reset_n <= '0';
    elsif (clk'event and clk='1') then 
       if trxiqpulse = '1' then 
          inst1_reset_n <= '1';
       else 
+=======
+   if reset_n ='0' then
+      inst1_reset_n <= '0';
+   elsif (clk'event and clk='1') then
+      if trxiqpulse = '1' then
+         inst1_reset_n <= '1';
+      else
+>>>>>>> Revert "enlever le chain de argu"
          inst1_reset_n <= '0';
       end if;
    end if;
 end process;
 
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 -- ----------------------------------------------------------------------------
 -- RXIQ MIMO DDR mode
 -- ----------------------------------------------------------------------------
@@ -108,11 +150,19 @@ end process;
       fifo_wfull  => fifo_wfull,
       fifo_wrreq  => inst0_fifo_wrreq,
       fifo_wdata  => inst0_fifo_wdata
+<<<<<<< refs/remotes/upstream/main
         ); 
  
 -- ----------------------------------------------------------------------------
 -- RXIQ PULSE DDR mode
 -- ---------------------------------------------------------------------------- 
+=======
+        );
+
+-- ----------------------------------------------------------------------------
+-- RXIQ PULSE DDR mode
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
   rxiq_pulse_ddr_inst1 : entity work.rxiq_pulse_ddr
    generic map (
       iq_width    => 12
@@ -128,6 +178,7 @@ end process;
       fifo_wrreq  => inst1_fifo_wrreq,
       fifo_wdata  => inst1_fifo_wdata
         );
+<<<<<<< refs/remotes/upstream/main
         
         
  --Mux between modes       
@@ -160,3 +211,30 @@ end arch;
 
 
 
+=======
+
+
+ --Mux between modes
+mux_fifo_wrreq <= inst0_fifo_wrreq when trxiqpulse='0' else inst1_fifo_wrreq;
+mux_fifo_wdata <= inst0_fifo_wdata when trxiqpulse='0' else inst1_fifo_wdata;
+
+
+--output port registers
+out_reg_fifo_wdata : process (reset_n, clk)
+begin
+   if reset_n = '0' then
+      fifo_wdata_reg <= (others=>'0');
+      fifo_wrreq_reg <= '0';
+   elsif (clk'event and clk='1') then
+      fifo_wdata_reg <= mux_fifo_wdata;
+      fifo_wrreq_reg <= mux_fifo_wrreq;
+   end if;
+end process;
+
+fifo_wdata <= fifo_wdata_reg;
+fifo_wrreq <= fifo_wrreq_reg AND NOT fifo_wfull;
+
+
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

@@ -1,3 +1,4 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
 -- FILE: 	gpio_ctrl.vhd
 -- DESCRIPTION:	GPIO with controled direction. 
@@ -5,6 +6,15 @@
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+-- FILE: 	gpio_ctrl.vhd
+-- DESCRIPTION:	GPIO with controled direction.
+-- DATE:	March 17, 2017
+-- AUTHOR(s):	Lime Microsystems
+-- REVISIONS:
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -33,7 +43,11 @@ architecture arch of gpio_ctrl is
 
 signal gpio_dir	: std_logic;
 signal gpio_val	: std_logic;
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 --mux
@@ -44,6 +58,7 @@ gpio_val <= out_val_0	when mux_sel = '0' else out_val_1;
 gpio		<= gpio_val when gpio_dir = '1' else 'Z';
 
 gpio_in	<= gpio;
+<<<<<<< refs/remotes/upstream/main
   
 end arch;
 
@@ -51,3 +66,7 @@ end arch;
 
 
 
+=======
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

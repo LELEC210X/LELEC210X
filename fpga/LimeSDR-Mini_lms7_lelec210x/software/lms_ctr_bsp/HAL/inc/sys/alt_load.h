@@ -33,6 +33,7 @@
 #include "alt_types.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * This macro is used to load code/data from its load address to its 
  * execution address for a given section. The section name is the input
  * argument. Note that a leading '.' is assumed in the name. For example
@@ -44,6 +45,19 @@
  * for the section in question. This will be the case if you are using the
  * default linker script.
  */ 
+=======
+ * This macro is used to load code/data from its load address to its
+ * execution address for a given section. The section name is the input
+ * argument. Note that a leading '.' is assumed in the name. For example
+ * to load the section .onchip_ram, use:
+ *
+ * ALT_LOAD_SECTION_BY_NAME(onchip_ram);
+ *
+ * This requires that the apropriate linker symbols have been generated
+ * for the section in question. This will be the case if you are using the
+ * default linker script.
+ */
+>>>>>>> Revert "enlever le chain de argu"
 
 #define ALT_LOAD_SECTION_BY_NAME(name)                         \
   {                                                            \
@@ -64,8 +78,13 @@
  *
  */
 
+<<<<<<< refs/remotes/upstream/main
 static void ALT_INLINE alt_load_section (alt_u32* from, 
                                          alt_u32* to, 
+=======
+static void ALT_INLINE alt_load_section (alt_u32* from,
+                                         alt_u32* to,
+>>>>>>> Revert "enlever le chain de argu"
                                          alt_u32* end)
 {
   if (to != from)

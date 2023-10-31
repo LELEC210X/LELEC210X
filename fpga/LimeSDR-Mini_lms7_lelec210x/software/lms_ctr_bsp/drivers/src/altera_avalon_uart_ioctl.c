@@ -47,7 +47,11 @@
 
 /*
  * To reduce the code footprint of this driver, the ioctl() function is not
+<<<<<<< refs/remotes/upstream/main
  * included by default. If you wish to use the ioctl features provided 
+=======
+ * included by default. If you wish to use the ioctl features provided
+>>>>>>> Revert "enlever le chain de argu"
  * below, you can do so by adding the option : -DALTERA_AVALON_UART_USE_IOCTL
  * to CPPFLAGS in the Makefile (or through the Eclipse IDE).
  */
@@ -72,7 +76,11 @@ static int altera_avalon_uart_tiocmget(altera_avalon_uart_state* sp,
 static int altera_avalon_uart_tiocmset(altera_avalon_uart_state* sp,
   struct termios* term);
 
+<<<<<<< refs/remotes/upstream/main
 int 
+=======
+int
+>>>>>>> Revert "enlever le chain de argu"
 altera_avalon_uart_ioctl(altera_avalon_uart_state* sp, int req, void* arg)
 {
   int rc = -ENOTTY;
@@ -93,12 +101,20 @@ altera_avalon_uart_ioctl(altera_avalon_uart_state* sp, int req, void* arg)
 
 /*
  * altera_avalon_uart_tiocmget() is used by altera_avalon_uart_ioctl() to fill
+<<<<<<< refs/remotes/upstream/main
  * in the input termios structure with the current device configuration. 
+=======
+ * in the input termios structure with the current device configuration.
+>>>>>>> Revert "enlever le chain de argu"
  *
  * See termios.h for further details on the contents of the termios structure.
  */
 
+<<<<<<< refs/remotes/upstream/main
 static int 
+=======
+static int
+>>>>>>> Revert "enlever le chain de argu"
 altera_avalon_uart_tiocmget(altera_avalon_uart_state* sp,
   struct termios* term)
 {
@@ -107,14 +123,23 @@ altera_avalon_uart_tiocmget(altera_avalon_uart_state* sp,
 }
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * altera_avalon_uart_tiocmset() is used by altera_avalon_uart_ioctl() to 
  * configure the device according to the settings in the input termios 
+=======
+ * altera_avalon_uart_tiocmset() is used by altera_avalon_uart_ioctl() to
+ * configure the device according to the settings in the input termios
+>>>>>>> Revert "enlever le chain de argu"
  * structure. In practice the only configuration that can be changed is the
  * baud rate, and then only if the hardware is configured to have a writable
  * baud register.
  */
 
+<<<<<<< refs/remotes/upstream/main
 static int 
+=======
+static int
+>>>>>>> Revert "enlever le chain de argu"
 altera_avalon_uart_tiocmset(altera_avalon_uart_state* sp,
   struct termios* term)
 {
@@ -128,7 +153,11 @@ altera_avalon_uart_tiocmset(altera_avalon_uart_state* sp,
   {
     sp->termios.c_ispeed = sp->termios.c_ospeed = term->c_ispeed;
   }
+<<<<<<< refs/remotes/upstream/main
   /* 
+=======
+  /*
+>>>>>>> Revert "enlever le chain de argu"
    * If the request was for an unsupported setting, return an error.
    */
 
@@ -141,8 +170,13 @@ altera_avalon_uart_tiocmset(altera_avalon_uart_state* sp,
   /*
    * Otherwise, update the hardware.
    */
+<<<<<<< refs/remotes/upstream/main
   
   IOWR_ALTERA_AVALON_UART_DIVISOR(sp->base, 
+=======
+
+  IOWR_ALTERA_AVALON_UART_DIVISOR(sp->base,
+>>>>>>> Revert "enlever le chain de argu"
     ((sp->freq/sp->termios.c_ispeed) - 1));
 
   return 0;

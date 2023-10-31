@@ -66,4 +66,7 @@ void alt_flash_close_dev(alt_flash_fd* fd)
   }
   return;
 }
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

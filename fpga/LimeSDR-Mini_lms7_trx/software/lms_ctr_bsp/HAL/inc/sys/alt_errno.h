@@ -40,6 +40,7 @@
 ******************************************************************************/
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * errno is defined in <errno.h> so that it uses the thread local version 
  * stored in the location pointed to by "_impure_ptr". This means that the 
  * accesses to errno within the HAL library can cause the entirety of 
@@ -57,11 +58,34 @@
  * pointed to by _impure_ptr.
  *
  * Note that this macro accesses __errno() using an externally declared 
+=======
+ * errno is defined in <errno.h> so that it uses the thread local version
+ * stored in the location pointed to by "_impure_ptr". This means that the
+ * accesses to errno within the HAL library can cause the entirety of
+ * of the structure pointed to by "_impure_ptr" to be added to the
+ * users application. This can be undesirable in very small footprint systems.
+ *
+ * To avoid this happening, the HAL uses the macro ALT_ERRNO, defined below,
+ * to access errno, rather than accessing it directly. This macro will only
+ * use the thread local version if some other code has already caused it to be
+ * included into the system, otherwise it will use the global errno value.
+ *
+ * This causes a slight increases in code size where errno is accessed, but
+ * can lead to significant overall benefits in very small systems. The
+ * increase is inconsequential when compared to the size of the structure
+ * pointed to by _impure_ptr.
+ *
+ * Note that this macro accesses __errno() using an externally declared
+>>>>>>> Revert "enlever le chain de argu"
  * function pointer (alt_errno). This is done so that the function call uses the
  * subroutine call instruction via a register rather than an immediate address.
  * This is important in the case that the code has been linked for a high
  * address, but __errno() is not being used. In this case the weak linkage
+<<<<<<< refs/remotes/upstream/main
  * would have resulted in the instruction: "call 0" which would fail to link. 
+=======
+ * would have resulted in the instruction: "call 0" which would fail to link.
+>>>>>>> Revert "enlever le chain de argu"
  */
 
 extern int* (*alt_errno) (void);

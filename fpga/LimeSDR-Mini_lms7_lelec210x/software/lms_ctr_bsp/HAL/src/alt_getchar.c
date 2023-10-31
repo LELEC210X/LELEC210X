@@ -47,7 +47,11 @@
  * Uses the ALT_DRIVER_READ() macro to call directly to driver if available.
  * Otherwise, uses newlib provided getchar() routine.
  */
+<<<<<<< refs/remotes/upstream/main
 int 
+=======
+int
+>>>>>>> Revert "enlever le chain de argu"
 alt_getchar(void)
 {
 #ifdef ALT_SEMIHOSTING

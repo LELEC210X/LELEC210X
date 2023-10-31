@@ -45,10 +45,17 @@
 /* ----------------------------------------------------------- */
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * altera_avalon_uart_write() is called by the system write() function in 
  * order to write a block of data to the UART. 
  * "len" is the length of the data to write,
  * and "ptr" indicates the source address. "fd" is the file descriptor for the 
+=======
+ * altera_avalon_uart_write() is called by the system write() function in
+ * order to write a block of data to the UART.
+ * "len" is the length of the data to write,
+ * and "ptr" indicates the source address. "fd" is the file descriptor for the
+>>>>>>> Revert "enlever le chain de argu"
  * device to be read from.
  *
  * Permission checks are made before the call to altera_avalon_uart_write(), so
@@ -57,6 +64,7 @@
  *
  * The return value is the number of bytes actually written.
  *
+<<<<<<< refs/remotes/upstream/main
  * This function will block on the devices transmit register, until all 
  * characters have been transmitted. This is unless the device is being 
  * accessed in non-blocking mode. In this case this function will return as 
@@ -67,6 +75,18 @@
  */
 
 int 
+=======
+ * This function will block on the devices transmit register, until all
+ * characters have been transmitted. This is unless the device is being
+ * accessed in non-blocking mode. In this case this function will return as
+ * soon as the device reports that it is not ready to transmit.
+ *
+ * Since this is the small footprint version of the UART driver, the value of
+ * CTS is ignored.
+ */
+
+int
+>>>>>>> Revert "enlever le chain de argu"
 altera_avalon_uart_write(altera_avalon_uart_state* sp, const char* ptr, int len,
   int flags)
 {
@@ -80,7 +100,11 @@ altera_avalon_uart_write(altera_avalon_uart_state* sp, const char* ptr, int len,
   do
   {
     status = IORD_ALTERA_AVALON_UART_STATUS(sp->base);
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     if (status & ALTERA_AVALON_UART_STATUS_TRDY_MSK)
     {
       IOWR_ALTERA_AVALON_UART_TXDATA(sp->base, *ptr++);
@@ -105,7 +129,11 @@ altera_avalon_uart_write(altera_avalon_uart_state* sp, const char* ptr, int len,
 
 /*
  * altera_avalon_uart_write() is called by the system write() function in order
+<<<<<<< refs/remotes/upstream/main
  * to write a block of data to the UART. "len" is the length of the data to 
+=======
+ * to write a block of data to the UART. "len" is the length of the data to
+>>>>>>> Revert "enlever le chain de argu"
  * write, and "ptr" indicates the source address. "sp" is the state pointer
  * for the device to be written to.
  *
@@ -129,7 +157,11 @@ altera_avalon_uart_write(altera_avalon_uart_state* sp, const char* ptr, int len,
   alt_u32         next;
   int             count = len;
 
+<<<<<<< refs/remotes/upstream/main
   /* 
+=======
+  /*
+>>>>>>> Revert "enlever le chain de argu"
    * Construct a flag to indicate whether the device is being accessed in
    * blocking or non-blocking mode.
    */
@@ -162,7 +194,11 @@ altera_avalon_uart_write(altera_avalon_uart_state* sp, const char* ptr, int len,
       if (no_block)
       {
         /* Set errno to indicate why this function returned early */
+<<<<<<< refs/remotes/upstream/main
  
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
         ALT_ERRNO = EWOULDBLOCK;
         break;
       }
@@ -183,13 +219,21 @@ altera_avalon_uart_write(altera_avalon_uart_state* sp, const char* ptr, int len,
         do
         {
           /*
+<<<<<<< refs/remotes/upstream/main
            * When running in a multi-threaded mode, we pend on the write event 
+=======
+           * When running in a multi-threaded mode, we pend on the write event
+>>>>>>> Revert "enlever le chain de argu"
            * flag set in the interrupt service routine. This avoids wasting CPU
            * cycles waiting in this thread, when we could be doing something
            * more profitable elsewhere.
            */
 
+<<<<<<< refs/remotes/upstream/main
           ALT_FLAG_PEND (sp->events, 
+=======
+          ALT_FLAG_PEND (sp->events,
+>>>>>>> Revert "enlever le chain de argu"
                          ALT_UART_WRITE_RDY,
                          OS_FLAG_WAIT_SET_ANY + OS_FLAG_CONSUME,
                          0);
@@ -213,8 +257,13 @@ altera_avalon_uart_write(altera_avalon_uart_state* sp, const char* ptr, int len,
 
   ALT_SEM_POST (sp->write_lock);
 
+<<<<<<< refs/remotes/upstream/main
   /* 
    * Ensure that interrupts are enabled, so that the circular buffer can 
+=======
+  /*
+   * Ensure that interrupts are enabled, so that the circular buffer can
+>>>>>>> Revert "enlever le chain de argu"
    * drain.
    */
 

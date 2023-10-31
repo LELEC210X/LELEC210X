@@ -1,5 +1,6 @@
 /*  alt_log_macro.S
  *
+<<<<<<< refs/remotes/upstream/main
  *  Implements the function tx_log_str, called by the assembly macro 
  *  ALT_LOG_PUTS().  The macro will be empty when logging is turned off,
  *  and this function will not be compiled.  When logging is on,
@@ -10,6 +11,18 @@
  *  This routine only handles strings, and sends a character into the defined
  *  output device's output buffer when the device is ready. It's intended for 
  *  debugging purposes, where messages can be set to print out at certain 
+=======
+ *  Implements the function tx_log_str, called by the assembly macro
+ *  ALT_LOG_PUTS().  The macro will be empty when logging is turned off,
+ *  and this function will not be compiled.  When logging is on,
+ *  this function is used to print out the strings defined in the beginning
+ *  of alt_log_printf.c, using port information taken from system.h and
+ *  alt_log_printf.h.
+ *
+ *  This routine only handles strings, and sends a character into the defined
+ *  output device's output buffer when the device is ready. It's intended for
+ *  debugging purposes, where messages can be set to print out at certain
+>>>>>>> Revert "enlever le chain de argu"
  *  points in the boot code to indicate the progress of the program.
  *
  */
@@ -21,8 +34,13 @@
  * of various include files. */
 #define ALT_ASM_SRC
 
+<<<<<<< refs/remotes/upstream/main
 #ifdef ALT_LOG_ENABLE // only compile this function if this flag is defined. 
 	
+=======
+#ifdef ALT_LOG_ENABLE // only compile this function if this flag is defined.
+
+>>>>>>> Revert "enlever le chain de argu"
 	#include "system.h"
 	#include "sys/alt_log_printf.h"
 
@@ -32,7 +50,11 @@ tx_log_str:
 	movhi r6, %hiadj(ALT_LOG_PORT_BASE)
 	addi r6, r6, %lo(ALT_LOG_PORT_BASE)
 tx_next_char:
+<<<<<<< refs/remotes/upstream/main
         /* if pointer points to null, return 
+=======
+        /* if pointer points to null, return
+>>>>>>> Revert "enlever le chain de argu"
          * r4 is the pointer to the str to be printed, set by ALT_LOG_PUTS */
 	ldb r7, (r4)
 	beq r0, r7, end_tx
@@ -45,6 +67,7 @@ wait_tx_ready_loop:
         andhi   r5, r8, %hi(ALT_LOG_PRINT_MSK)
         andi    r8, r8, %lo(ALT_LOG_PRINT_MSK)
         or      r5, r5, r8
+<<<<<<< refs/remotes/upstream/main
         beq     r5, r0, wait_tx_ready_loop	
 	/* write char */
 	stwio   r7, ALT_LOG_PRINT_TXDATA_REG_OFFSET (r6)		
@@ -58,3 +81,17 @@ end_tx:
 
 #endif /* __ALT_LOG_MACROS__ */
 
+=======
+        beq     r5, r0, wait_tx_ready_loop
+	/* write char */
+	stwio   r7, ALT_LOG_PRINT_TXDATA_REG_OFFSET (r6)
+	/* advance string pointer */
+	addi r4, r4, 1
+	br tx_next_char
+end_tx:
+        ret
+
+#endif
+
+#endif /* __ALT_LOG_MACROS__ */
+>>>>>>> Revert "enlever le chain de argu"

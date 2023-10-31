@@ -1,4 +1,8 @@
+<<<<<<< refs/remotes/upstream/main
 # ----------------------------------------------------------------------------	
+=======
+# ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 # FILE: 	compile.tcl
 # DESCRIPTION:	General compile script for ModelSim - Altera
 # DATE:	Jan 19, 2017
@@ -7,7 +11,11 @@
 # ----------------------------------------------------------------------------
 
 puts {
+<<<<<<< refs/remotes/upstream/main
  ----------------------------------------------------------------------------	
+=======
+ ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
  FILE: 	compile.tcl
  DESCRIPTION:	General compile script for ModelSim - Altera
  DATE:	Jan 19, 2017
@@ -24,7 +32,11 @@ puts {
 set library_file_list {
                            source_library { ../general/sync_reg.vhd
                                             ../general/bus_sync_reg.vhd
+<<<<<<< refs/remotes/upstream/main
                                             
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
                                             synth/lms7002_ddin.vhd
                                             synth/test_data_dd.vhd
                                             synth/rxiq_siso_sdr.vhd
@@ -34,7 +46,11 @@ set library_file_list {
                                             synth/rxiq_mimo.vhd
                                             synth/rxiq_siso.vhd
                                             synth/rxiq.vhd
+<<<<<<< refs/remotes/upstream/main
                                             synth/diq2fifo.vhd                                           
+=======
+                                            synth/diq2fifo.vhd
+>>>>>>> Revert "enlever le chain de argu"
                                             sim/adc_data_sim.vhd
                                             sim/LMS7002_DIQ2_sim.vhd
                                             sim/diq2fifo_tb.vhd
@@ -87,5 +103,8 @@ puts {
  rr = Recompile everything
   q = Quit without confirmation
 }
+<<<<<<< refs/remotes/upstream/main
 
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

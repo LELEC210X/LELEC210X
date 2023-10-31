@@ -130,7 +130,11 @@ alt_u32 I2C_read(alt_u32 base,alt_u32 last)
 int I2C_write
             assumes that any addressing and start
             has already been done.
+<<<<<<< refs/remotes/upstream/main
             writes one byte of data from the slave.  
+=======
+            writes one byte of data from the slave.
+>>>>>>> Revert "enlever le chain de argu"
             If last is set the stop bit set.
 inputs
       base = the base address of the component

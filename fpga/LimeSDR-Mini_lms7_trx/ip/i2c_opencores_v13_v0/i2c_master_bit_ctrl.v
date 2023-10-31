@@ -127,7 +127,11 @@
 `include "i2c_master_defines.v"
 
 module i2c_master_bit_ctrl(
+<<<<<<< refs/remotes/upstream/main
 	clk, rst, nReset, 
+=======
+	clk, rst, nReset,
+>>>>>>> Revert "enlever le chain de argu"
 	clk_cnt, ena, cmd, cmd_ack, busy, al, din, dout,
 	scl_i, scl_o, scl_oen, sda_i, sda_o, sda_oen
 	);

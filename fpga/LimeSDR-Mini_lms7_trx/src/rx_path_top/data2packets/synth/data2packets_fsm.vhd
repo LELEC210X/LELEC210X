@@ -1,3 +1,4 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
 -- FILE: 	data2packets_fsm.vhd
 -- DESCRIPTION:	Ensures continuous sample packing while not overflowing pct buffer  
@@ -5,6 +6,15 @@
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+-- FILE: 	data2packets_fsm.vhd
+-- DESCRIPTION:	Ensures continuous sample packing while not overflowing pct buffer
+-- DATE:	March 22, 2017
+-- AUTHOR(s):	Lime Microsystems
+-- REVISIONS:
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 
 -- ----------------------------------------------------------------------------
 -- Notes:
@@ -27,7 +37,11 @@ entity data2packets_fsm is
       smpl_buff_rdy     : in std_logic;   -- Assert 1 when there is enough samples for at least one packet
       smpl_buff_rdreq   : out std_logic;  -- Read require is asserted for smpl_rd_size cycles
       data2packets_done : in std_logic    -- Assert when packet formation cycle is done
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
         );
 end data2packets_fsm;
 
@@ -44,7 +58,11 @@ signal smpl_buff_rd_done         : std_logic;
 signal smpl_buff_rd_cnt          : unsigned(11 downto 0);
 signal smpl_buff_rd_cnt_max      : unsigned(11 downto 0);
 signal pct_buff_wr_dis_sig       : std_logic;
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 
@@ -53,12 +71,21 @@ begin
 -- ----------------------------------------------------------------------------
 pct_buff_wr_dis_proc : process(clk, reset_n)
 begin
+<<<<<<< refs/remotes/upstream/main
    if reset_n = '0' then 
       pct_buff_wr_dis_sig <= '0';
    elsif (clk'event AND clk='1') then 
       if current_state = check_pct_buff then
          pct_buff_wr_dis_sig <= pct_buff_rdy;
       else 
+=======
+   if reset_n = '0' then
+      pct_buff_wr_dis_sig <= '0';
+   elsif (clk'event AND clk='1') then
+      if current_state = check_pct_buff then
+         pct_buff_wr_dis_sig <= pct_buff_rdy;
+      else
+>>>>>>> Revert "enlever le chain de argu"
          pct_buff_wr_dis_sig <= pct_buff_wr_dis_sig;
       end if;
    end if;
@@ -71,6 +98,7 @@ pct_buff_wr_dis <= pct_buff_wr_dis_sig;
 -- ----------------------------------------------------------------------------
 smpl_buff_rd_cnt_proc : process(clk, reset_n)
 begin
+<<<<<<< refs/remotes/upstream/main
    if reset_n = '0' then 
       smpl_buff_rd_cnt     <= (others=>'0');
       smpl_buff_rd_cnt_max <= (others=> '0');
@@ -79,6 +107,16 @@ begin
       if current_state = rd_smpl_buff then
          smpl_buff_rd_cnt <= smpl_buff_rd_cnt+1;
       else 
+=======
+   if reset_n = '0' then
+      smpl_buff_rd_cnt     <= (others=>'0');
+      smpl_buff_rd_cnt_max <= (others=> '0');
+   elsif (clk'event AND clk='1') then
+      smpl_buff_rd_cnt_max <= unsigned(smpl_rd_size) - 2;
+      if current_state = rd_smpl_buff then
+         smpl_buff_rd_cnt <= smpl_buff_rd_cnt+1;
+      else
+>>>>>>> Revert "enlever le chain de argu"
          smpl_buff_rd_cnt <= (others=>'0');
       end if;
    end if;
@@ -88,10 +126,17 @@ smpl_buff_rd_done_proc : process(clk, reset_n)
 begin
    if reset_n = '0' then
       smpl_buff_rd_done<= '0';
+<<<<<<< refs/remotes/upstream/main
    elsif (clk'event AND clk='1') then 
       if smpl_buff_rd_cnt < smpl_buff_rd_cnt_max then
          smpl_buff_rd_done <= '0';
       else 
+=======
+   elsif (clk'event AND clk='1') then
+      if smpl_buff_rd_cnt < smpl_buff_rd_cnt_max then
+         smpl_buff_rd_done <= '0';
+      else
+>>>>>>> Revert "enlever le chain de argu"
          smpl_buff_rd_done <= '1';
       end if;
    end if;
@@ -99,9 +144,15 @@ end process;
 
 smpl_buff_rdreq_comb : process(current_state)
 begin
+<<<<<<< refs/remotes/upstream/main
    if current_state = rd_smpl_buff then 
       smpl_buff_rdreq <= '1';
    else 
+=======
+   if current_state = rd_smpl_buff then
+      smpl_buff_rdreq <= '1';
+   else
+>>>>>>> Revert "enlever le chain de argu"
       smpl_buff_rdreq <= '0';
    end if;
 end process;
@@ -113,9 +164,15 @@ end process;
 fsm_f : process(clk, reset_n)begin
 	if(reset_n = '0')then
 		current_state <= idle;
+<<<<<<< refs/remotes/upstream/main
 	elsif(clk'event and clk = '1')then 
 		current_state <= next_state;
 	end if;	
+=======
+	elsif(clk'event and clk = '1')then
+		current_state <= next_state;
+	end if;
+>>>>>>> Revert "enlever le chain de argu"
 end process;
 
 -- ----------------------------------------------------------------------------
@@ -124,13 +181,20 @@ end process;
 fsm : process(current_state, smpl_buff_rdy, smpl_buff_rd_done, data2packets_done) begin
 	next_state <= current_state;
 	case current_state is
+<<<<<<< refs/remotes/upstream/main
 	  
 		when idle =>                  -- wait for enough samples for one packet
          if smpl_buff_rdy = '1' then 
+=======
+
+		when idle =>                  -- wait for enough samples for one packet
+         if smpl_buff_rdy = '1' then
+>>>>>>> Revert "enlever le chain de argu"
             next_state <= check_pct_buff;
          else
             next_state <= idle;
          end if;
+<<<<<<< refs/remotes/upstream/main
        
       when check_pct_buff =>        -- state to capture pct_buff_rdy 
             next_state <= rd_smpl_buff;
@@ -160,3 +224,29 @@ end arch;
 
 
 
+=======
+
+      when check_pct_buff =>        -- state to capture pct_buff_rdy
+            next_state <= rd_smpl_buff;
+
+      when rd_smpl_buff =>          -- read smpl_rd_size cycles
+         if smpl_buff_rd_done = '0' then
+            next_state <= rd_smpl_buff;
+         else
+            next_state <= wait_data2packets_done;
+         end if;
+
+      when wait_data2packets_done => -- wait when packet formation is done
+         if data2packets_done = '1' then
+            next_state <= idle;
+         else
+            next_state <= wait_data2packets_done;
+         end if;
+
+		when others =>
+			next_state <= idle;
+	end case;
+end process;
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

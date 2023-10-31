@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	txiq_tst_ptrn.vhd
 -- DESCRIPTION:	Creates test samples for tx IQ in DDR mode
 -- DATE:	Jan 27, 2016
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -42,7 +50,11 @@ signal ptrn_h     : std_logic_vector(15 downto 0);
 signal ptrn_l     : std_logic_vector(15 downto 0);
 signal ptrn_i_sync: std_logic_vector(15 downto 0);
 signal ptrn_q_sync: std_logic_vector(15 downto 0);
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 --Synch registers
@@ -58,22 +70,38 @@ generic map (16)
 port map(clk, '1', ptrn_q, ptrn_q_sync);
 
 
+<<<<<<< refs/remotes/upstream/main
 ----Test pattern 
+=======
+----Test pattern
+>>>>>>> Revert "enlever le chain de argu"
 --ptrn_h <= x"AAAA"; --I
 --ptrn_l <= X"5555"; --Q
 
 ptrn_h <= ptrn_i_sync; --I
 ptrn_l <= ptrn_q_sync; --Q
+<<<<<<< refs/remotes/upstream/main
  
 fsync_gen : process(reset_n, clk)
     begin
       if reset_n='0' then
          fsync_int <= '1';  
+=======
+
+fsync_gen : process(reset_n, clk)
+    begin
+      if reset_n='0' then
+         fsync_int <= '1';
+>>>>>>> Revert "enlever le chain de argu"
       elsif (clk'event and clk = '1') then
  	      fsync_int <= not fsync_int;
  	    end if;
     end process;
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 fsync_ext <= fsync_int when fidm_sync = '1' else NOT fsync_int;
 
 diq_h(diq_width) <= fsync_ext;
@@ -81,6 +109,7 @@ diq_l(diq_width) <= fsync_ext;
 
 diq_h(diq_width-1 downto 0) <= ptrn_h(diq_width-1 downto 0);
 diq_l(diq_width-1 downto 0) <= ptrn_l(diq_width-1 downto 0);
+<<<<<<< refs/remotes/upstream/main
   
 end arch;   
 
@@ -88,3 +117,7 @@ end arch;
 
 
 
+=======
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

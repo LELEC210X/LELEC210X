@@ -33,7 +33,11 @@
 #include "system.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * These global variables are used to save the current list of enabled 
+=======
+ * These global variables are used to save the current list of enabled
+>>>>>>> Revert "enlever le chain de argu"
  * interrupts. See alt_irq.h for further details.
  */
 
@@ -44,4 +48,7 @@ volatile alt_u32 alt_irq_active    = 0;
 volatile alt_u32 alt_priority_mask = (alt_u32) -1;
 
 #endif
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

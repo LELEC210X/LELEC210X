@@ -81,7 +81,11 @@ extern int main (int, char **, char **);
 
 void alt_main (void)
 {
+<<<<<<< refs/remotes/upstream/main
 #ifndef ALT_NO_EXIT    
+=======
+#ifndef ALT_NO_EXIT
+>>>>>>> Revert "enlever le chain de argu"
   int result;
 #endif
 
@@ -121,8 +125,13 @@ void alt_main (void)
 #endif
 
 #ifndef ALT_NO_C_PLUS_PLUS
+<<<<<<< refs/remotes/upstream/main
   /* 
    * Call the C++ constructors 
+=======
+  /*
+   * Call the C++ constructors
+>>>>>>> Revert "enlever le chain de argu"
    */
 
   ALT_LOG_PRINT_BOOT("[alt_main.c] Calling C++ constructors.\r\n");
@@ -158,4 +167,7 @@ void alt_main (void)
 
   ALT_LOG_PRINT_BOOT("[alt_main.c] After main - we should not be here?.\r\n");
 }
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"

@@ -33,7 +33,11 @@
 #include "os/alt_syscall.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * These are the environment variables passed to the C code. By default there 
+=======
+ * These are the environment variables passed to the C code. By default there
+>>>>>>> Revert "enlever le chain de argu"
  * are no variables registered. An application can manipulate this list using
  * getenv() and setenv().
  */

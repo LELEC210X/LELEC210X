@@ -43,8 +43,13 @@
 #include "alt_types.h"
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * This header provides the internal defenitions required to control file 
  * access. These variables and functions are not guaranteed to exist in 
+=======
+ * This header provides the internal defenitions required to control file
+ * access. These variables and functions are not guaranteed to exist in
+>>>>>>> Revert "enlever le chain de argu"
  * future implementations of the HAL.
  */
 
@@ -54,7 +59,11 @@ extern "C"
 #endif /* __cplusplus */
 
 /*
+<<<<<<< refs/remotes/upstream/main
  * The alt_dev_llist is an internal structure used to form a common base 
+=======
+ * The alt_dev_llist is an internal structure used to form a common base
+>>>>>>> Revert "enlever le chain de argu"
  * class for all device types. The use of this structure allows common code
  * to be used to manipulate the various device lists.
  */

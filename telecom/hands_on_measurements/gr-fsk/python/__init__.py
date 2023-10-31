@@ -33,7 +33,10 @@ except ImportError:
 
 # import any pure python here
 from .demodulation import demodulation  # noqa: F401
+<<<<<<< refs/remotes/upstream/main
 from .flag_detector import flag_detector  # noqa: F401
+=======
+>>>>>>> Revert "enlever le chain de argu"
 from .noise_estimation import noise_estimation  # noqa: F401
 from .packet_parser import packet_parser  # noqa: F401
 from .preamble_detect import preamble_detect  # noqa: F401

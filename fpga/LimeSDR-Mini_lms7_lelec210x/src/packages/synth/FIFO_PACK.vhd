@@ -1,4 +1,8 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	FIFO_PACK.vhd
 -- DESCRIPTION:	Package for functions related to altera FIFO
 -- DATE:	June 8, 2017
@@ -18,6 +22,7 @@ package FIFO_PACK is
 
    function FIFORD_SIZE (wr_width : integer; rd_width : integer; wr_size : integer)
       return integer;
+<<<<<<< refs/remotes/upstream/main
       
    function FIFOWR_SIZE (wr_width : integer; rd_width : integer; rd_size : integer)
       return integer;
@@ -25,6 +30,15 @@ package FIFO_PACK is
    function FIFO_WORDS_TO_Nbits (n_words : integer; add_msb : boolean)
       return integer;
       
+=======
+
+   function FIFOWR_SIZE (wr_width : integer; rd_width : integer; rd_size : integer)
+      return integer;
+
+   function FIFO_WORDS_TO_Nbits (n_words : integer; add_msb : boolean)
+      return integer;
+
+>>>>>>> Revert "enlever le chain de argu"
 end  FIFO_PACK;
 
 -- ----------------------------------------------------------------------------
@@ -35,6 +49,7 @@ package body FIFO_PACK is
 -- ----------------------------------------------------------------------------
 -- Return FIFO rdusedw size, up to 4 times difference in port width
 -- ----------------------------------------------------------------------------
+<<<<<<< refs/remotes/upstream/main
    function FIFORD_SIZE (wr_width : integer; rd_width : integer; wr_size : integer)  
       return integer is     
    begin  
@@ -71,9 +86,50 @@ package body FIFO_PACK is
       if add_msb then 
          return integer(ceil(log2(real(n_words))))+1;
       else 
+=======
+   function FIFORD_SIZE (wr_width : integer; rd_width : integer; wr_size : integer)
+      return integer is
+   begin
+      if wr_width > rd_width then
+         return wr_size+(wr_width/rd_width)/2;
+      elsif wr_width < rd_width then
+         return wr_size-(rd_width/wr_width)/2;
+      else
+         return wr_size;
+      end if;
+   end FIFORD_SIZE;
+
+-- ----------------------------------------------------------------------------
+-- Return FIFO wrusedw size, up to 4 times difference in port width
+-- ----------------------------------------------------------------------------
+   function FIFOWR_SIZE (wr_width : integer; rd_width : integer; rd_size : integer)
+      return integer is
+   begin
+      if rd_width > wr_width then
+         return rd_size+(rd_width/wr_width)/2;
+      elsif rd_width < wr_width then
+         return rd_size-(wr_width/rd_width)/2;
+      else
+         return rd_size;
+      end if;
+   end FIFOWR_SIZE;
+
+-- ----------------------------------------------------------------------------
+-- Return FIFO required bits to represent number of words
+-- ----------------------------------------------------------------------------
+   function FIFO_WORDS_TO_Nbits (n_words : integer; add_msb : boolean)
+      return integer is
+   begin
+      if add_msb then
+         return integer(ceil(log2(real(n_words))))+1;
+      else
+>>>>>>> Revert "enlever le chain de argu"
          return integer(ceil(log2(real(n_words))));
       end if;
    end FIFO_WORDS_TO_Nbits;
 end FIFO_PACK;
+<<<<<<< refs/remotes/upstream/main
       
       
+=======
+>>>>>>> Revert "enlever le chain de argu"

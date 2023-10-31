@@ -49,8 +49,13 @@
 #include <sys/times.h>
 
 extern int     ALT_CLOSE (int __fd);
+<<<<<<< refs/remotes/upstream/main
 extern int     ALT_EXECVE (const char *__path, 
                            char * const __argv[], 
+=======
+extern int     ALT_EXECVE (const char *__path,
+                           char * const __argv[],
+>>>>>>> Revert "enlever le chain de argu"
                            char * const __envp[]);
 extern void    ALT_EXIT (int __status);
 extern int     ALT_FSTAT (int file, struct stat *st);
@@ -59,10 +64,17 @@ extern pid_t   ALT_FORK (void);
 extern pid_t   ALT_GETPID (void);
 
 #if defined (__GNUC__) && __GNUC__ >= 4
+<<<<<<< refs/remotes/upstream/main
 extern int     ALT_GETTIMEOFDAY (struct timeval  *ptimeval, 
                                  void *ptimezone);
 #else
 extern int     ALT_GETTIMEOFDAY (struct timeval  *ptimeval, 
+=======
+extern int     ALT_GETTIMEOFDAY (struct timeval  *ptimeval,
+                                 void *ptimezone);
+#else
+extern int     ALT_GETTIMEOFDAY (struct timeval  *ptimeval,
+>>>>>>> Revert "enlever le chain de argu"
                                  struct timezone *ptimezone);
 #endif
 

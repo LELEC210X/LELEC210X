@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	lpm_cnt_inst.vhd
 -- DESCRIPTION:	describe file
 -- DATE:	Jan 27, 2017
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -64,7 +72,11 @@ signal aclr : std_logic;
 	);
 	END COMPONENT;
 
+<<<<<<< refs/remotes/upstream/main
   
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 begin
 
 aclr <= NOT reset_n;
@@ -87,6 +99,7 @@ aclr <= NOT reset_n;
 		cout     => cout,
 		q        => q
 	);
+<<<<<<< refs/remotes/upstream/main
   
 end arch;   
 
@@ -94,3 +107,7 @@ end arch;
 
 
 
+=======
+
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

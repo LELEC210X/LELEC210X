@@ -1,3 +1,4 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
 -- FILE: 	handshake_sync_tb.vhd
 -- DESCRIPTION:	
@@ -5,6 +6,15 @@
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+-- FILE: 	handshake_sync_tb.vhd
+-- DESCRIPTION:
+-- DATE:	April 13, 2017
+-- AUTHOR(s):	Lime Microsystems
+-- REVISIONS:
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -21,6 +31,7 @@ end handshake_sync_tb;
 
 architecture tb_behave of handshake_sync_tb is
 
+<<<<<<< refs/remotes/upstream/main
    constant clk0_period    : time := 1 ns; 
    constant clk1_period    : time := 6.25 ns; 
    --signals
@@ -31,6 +42,18 @@ architecture tb_behave of handshake_sync_tb is
 
 begin 
   
+=======
+   constant clk0_period    : time := 1 ns;
+   constant clk1_period    : time := 6.25 ns;
+   --signals
+	signal clk0,clk1        : std_logic;
+	signal reset_n          : std_logic;
+
+   signal inst0_en         : std_logic;
+
+begin
+
+>>>>>>> Revert "enlever le chain de argu"
    	clock0: process is
 	begin
 		clk0 <= '0'; wait for clk0_period/2;
@@ -42,13 +65,21 @@ begin
 		clk1 <= '0'; wait for clk1_period/2;
 		clk1 <= '1'; wait for clk1_period/2;
 	end process clock;
+<<<<<<< refs/remotes/upstream/main
 	
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
 		res: process is
 	begin
 		reset_n <= '0'; wait for 20 ns;
 		reset_n <= '1'; wait;
 	end process res;
+<<<<<<< refs/remotes/upstream/main
    
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
     inst0en: process is
 	begin
 		inst0_en <= '0'; wait until reset_n = '1';
@@ -56,8 +87,13 @@ begin
 		inst0_en <= '1'; wait until rising_edge(clk0);
       inst0_en <= '0'; wait;
 	end process inst0en;
+<<<<<<< refs/remotes/upstream/main
    
    
+=======
+
+
+>>>>>>> Revert "enlever le chain de argu"
    handshake_sync_inst0 : entity work.handshake_sync
    port map(
       src_clk        => clk0,
@@ -68,6 +104,7 @@ begin
       dst_clk        => clk1,
       dst_reset_n    => reset_n,
       dst_out        => open
+<<<<<<< refs/remotes/upstream/main
       
         );
 	
@@ -87,3 +124,17 @@ begin
 
 
   
+=======
+
+        );
+
+
+
+
+
+
+
+
+
+	end tb_behave;
+>>>>>>> Revert "enlever le chain de argu"

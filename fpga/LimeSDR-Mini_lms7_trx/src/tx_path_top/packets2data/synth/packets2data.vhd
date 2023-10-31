@@ -1,10 +1,18 @@
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 -- FILE: 	packets2data.vhd
 -- DESCRIPTION:	Reads data from packets.
 -- DATE:	April 03, 2017
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
+<<<<<<< refs/remotes/upstream/main
 -- ----------------------------------------------------------------------------	
+=======
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 
 -- ----------------------------------------------------------------------------
 -- Notes:
@@ -21,8 +29,13 @@ use work.FIFO_PACK.all;
 entity packets2data is
    generic (
       g_DEV_FAMILY      : string := "Cyclone IV E";
+<<<<<<< refs/remotes/upstream/main
       g_PCT_MAX_SIZE    : integer := 4096;     
       g_PCT_HDR_SIZE    : integer := 16;           
+=======
+      g_PCT_MAX_SIZE    : integer := 4096;
+      g_PCT_HDR_SIZE    : integer := 16;
+>>>>>>> Revert "enlever le chain de argu"
       g_BUFF_COUNT      : integer := 4; -- 2,4 valid values
       in_pct_data_w     : integer := 32;
       out_pct_data_w    : integer := 32
@@ -32,21 +45,35 @@ entity packets2data is
       wclk                    : in std_logic;
       rclk                    : in std_logic;
       reset_n                 : in std_logic;
+<<<<<<< refs/remotes/upstream/main
       --Mode settings      
+=======
+      --Mode settings
+>>>>>>> Revert "enlever le chain de argu"
       mode			            : in std_logic; -- JESD207: 1; TRXIQ: 0
       trxiqpulse	            : in std_logic; -- trxiqpulse on: 1; trxiqpulse off: 0
 		ddr_en 		            : in std_logic; -- DDR: 1; SDR: 0
 		mimo_en		            : in std_logic; -- SISO: 1; MIMO: 0
+<<<<<<< refs/remotes/upstream/main
 		ch_en			            : in std_logic_vector(1 downto 0); --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B.  
       sample_width            : in std_logic_vector(1 downto 0); --"10"-12bit, "01"-14bit, "00"-16bit;
             
       pct_sync_dis            : in std_logic;
       sample_nr               : in std_logic_vector(63 downto 0);
       
+=======
+		ch_en			            : in std_logic_vector(1 downto 0); --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B.
+      sample_width            : in std_logic_vector(1 downto 0); --"10"-12bit, "01"-14bit, "00"-16bit;
+
+      pct_sync_dis            : in std_logic;
+      sample_nr               : in std_logic_vector(63 downto 0);
+
+>>>>>>> Revert "enlever le chain de argu"
       in_pct_reset_n_req      : out std_logic;
       in_pct_rdreq            : out std_logic;
       in_pct_data             : in std_logic_vector(in_pct_data_w-1 downto 0);
       in_pct_rdy              : in std_logic;
+<<<<<<< refs/remotes/upstream/main
             
       in_pct_clr_flag         : out std_logic;
       in_pct_buff_rdy         : out std_logic_vector(g_BUFF_COUNT-1 downto 0);
@@ -55,6 +82,16 @@ entity packets2data is
       smpl_buff_q             : out std_logic_vector(out_pct_data_w-1 downto 0);
       smpl_buff_valid         : out std_logic
       
+=======
+
+      in_pct_clr_flag         : out std_logic;
+      in_pct_buff_rdy         : out std_logic_vector(g_BUFF_COUNT-1 downto 0);
+
+      smpl_buff_almost_full   : in std_logic;
+      smpl_buff_q             : out std_logic_vector(out_pct_data_w-1 downto 0);
+      smpl_buff_valid         : out std_logic
+
+>>>>>>> Revert "enlever le chain de argu"
         );
 end packets2data;
 
@@ -102,7 +139,11 @@ signal inst3_pct_buff_sel           : std_logic_vector(3 downto 0);
 
 
 --instx
+<<<<<<< refs/remotes/upstream/main
 constant c_INSTX_WRUSEDW_W          : integer := FIFO_WORDS_TO_Nbits(g_PCT_MAX_SIZE/(in_pct_data_w/8),true); 
+=======
+constant c_INSTX_WRUSEDW_W          : integer := FIFO_WORDS_TO_Nbits(g_PCT_MAX_SIZE/(in_pct_data_w/8),true);
+>>>>>>> Revert "enlever le chain de argu"
 constant c_INSTX_RDUSEDW_W          : integer := FIFO_WORDS_TO_Nbits(g_PCT_MAX_SIZE/(out_pct_data_w/8),true);
 signal instx_wrempty                : std_logic_vector(g_BUFF_COUNT-1 downto 0);
 type instx_rdusedw_array is array (0 to (g_BUFF_COUNT-1)) of std_logic_vector(c_INSTX_RDUSEDW_W-1 downto 0);
@@ -120,10 +161,17 @@ signal pct_buff_size                : pct_size_array;
 signal smpl_buff_valid_int          : std_logic;
 
 
+<<<<<<< refs/remotes/upstream/main
   
 begin
 
 sync_reg1 : entity work.sync_reg 
+=======
+
+begin
+
+sync_reg1 : entity work.sync_reg
+>>>>>>> Revert "enlever le chain de argu"
 port map(rclk, '1', pct_sync_dis, pct_sync_dis_rclk);
 
 process(rclk, reset_n)
@@ -134,10 +182,17 @@ begin
    elsif (rclk'event AND rclk='1') then
       for i in 0 to g_BUFF_COUNT-1 loop
          inst1_pct_data_clr <= not inst3_pct_buff_clr_n;
+<<<<<<< refs/remotes/upstream/main
       end loop; 
       if unsigned(inst1_pct_data_clr) > 0 OR inst0_in_pct_reset_n_req = '0' then 
          in_pct_clr_flag <= '1';
       else 
+=======
+      end loop;
+      if unsigned(inst1_pct_data_clr) > 0 OR inst0_in_pct_reset_n_req = '0' then
+         in_pct_clr_flag <= '1';
+      else
+>>>>>>> Revert "enlever le chain de argu"
          in_pct_clr_flag <= '0';
       end if;
    end if;
@@ -150,15 +205,26 @@ end process;
 -- ----------------------------------------------------------------------------
 p2d_wr_fsm_inst0 : entity work.p2d_wr_fsm
    generic map(
+<<<<<<< refs/remotes/upstream/main
       g_PCT_MAX_SIZE => g_PCT_MAX_SIZE,   
       g_PCT_HDR_SIZE => g_PCT_HDR_SIZE,         
       g_BUFF_COUNT   => g_BUFF_COUNT
        
+=======
+      g_PCT_MAX_SIZE => g_PCT_MAX_SIZE,
+      g_PCT_HDR_SIZE => g_PCT_HDR_SIZE,
+      g_BUFF_COUNT   => g_BUFF_COUNT
+
+>>>>>>> Revert "enlever le chain de argu"
    )
    port map(
       clk               => wclk,
       reset_n           => reset_n,
+<<<<<<< refs/remotes/upstream/main
       
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
       pct_sync_dis      => pct_sync_dis,
       sample_nr         => sample_nr,
       in_pct_reset_n_req=> inst0_in_pct_reset_n_req,
@@ -175,6 +241,7 @@ p2d_wr_fsm_inst0 : entity work.p2d_wr_fsm
       pct_data          => inst0_pct_data,
       pct_data_wrreq    => inst0_pct_data_wrreq,
 
+<<<<<<< refs/remotes/upstream/main
       pct_buff_rdy      => instx_wrempty     
       );
       
@@ -182,12 +249,22 @@ p2d_wr_fsm_inst0 : entity work.p2d_wr_fsm
 -- ----------------------------------------------------------------------------
 -- Generated FIFO buffers
 -- ----------------------------------------------------------------------------        
+=======
+      pct_buff_rdy      => instx_wrempty
+      );
+
+
+-- ----------------------------------------------------------------------------
+-- Generated FIFO buffers
+-- ----------------------------------------------------------------------------
+>>>>>>> Revert "enlever le chain de argu"
 gen_fifo :
    for i in 0 to g_BUFF_COUNT-1 generate
       fifo_inst_isntx : entity work.fifo_inst
          generic map(
             dev_family	    => g_DEV_FAMILY,
             wrwidth         => in_pct_data_w,
+<<<<<<< refs/remotes/upstream/main
             wrusedw_witdth  => c_INSTX_WRUSEDW_W, --12=2048 words 
             rdwidth         => out_pct_data_w,
             rdusedw_width   => c_INSTX_RDUSEDW_W,
@@ -195,6 +272,15 @@ gen_fifo :
          ) 
          port map(
             --input ports 
+=======
+            wrusedw_witdth  => c_INSTX_WRUSEDW_W, --12=2048 words
+            rdwidth         => out_pct_data_w,
+            rdusedw_width   => c_INSTX_RDUSEDW_W,
+            show_ahead      => "OFF"
+         )
+         port map(
+            --input ports
+>>>>>>> Revert "enlever le chain de argu"
             reset_n       => inst3_pct_buff_clr_n(i),
             wrclk         => wclk,
             wrreq         => inst0_pct_data_wrreq(i),
@@ -206,7 +292,11 @@ gen_fifo :
             rdreq         => inst3_pct_buff_rdreq(i),
             q             => instx_q(i),
             rdempty       => open,
+<<<<<<< refs/remotes/upstream/main
             rdusedw       => instx_rdusedw(i)          
+=======
+            rdusedw       => instx_rdusedw(i)
+>>>>>>> Revert "enlever le chain de argu"
             );
 end generate gen_fifo;
 
@@ -215,6 +305,7 @@ end generate gen_fifo;
 
 process(rclk, reset_n)
 begin
+<<<<<<< refs/remotes/upstream/main
    if reset_n = '0' then 
       pct_buff_rdy_int <= (others=>'0');
       pct_buff_size       <= (others=>(others=>'1'));
@@ -236,6 +327,29 @@ begin
             pct_buff_size(i) <= pct_buff_size(i);
          end if;
          
+=======
+   if reset_n = '0' then
+      pct_buff_rdy_int <= (others=>'0');
+      pct_buff_size       <= (others=>(others=>'1'));
+   elsif (rclk'event AND rclk='1') then
+      for i in 0 to g_BUFF_COUNT-1 loop
+         if unsigned(instx_rdusedw(i)) = unsigned(pct_buff_size(i)) then
+            pct_buff_rdy_int(i)<= '1';
+         else
+            pct_buff_rdy_int(i)<= '0';
+         end if;
+
+         if inst0_pct_hdr_0_valid(i) = '1' then
+            if inst0_pct_hdr_0(23 downto 8) = "0000000000000000" then
+               pct_buff_size(i) <= std_logic_vector(to_unsigned(c_PCT_MAX_WORDS, 16));
+            else
+               pct_buff_size(i) <= std_logic_vector(unsigned(in_pct_data(23 downto 8))/c_RD_RATIO);
+            end if;
+         else
+            pct_buff_size(i) <= pct_buff_size(i);
+         end if;
+
+>>>>>>> Revert "enlever le chain de argu"
       end loop;
    end if;
 end process;
@@ -243,6 +357,7 @@ end process;
 inst1_pct_buff_rdy   <= pct_buff_rdy_int;
 in_pct_buff_rdy      <= pct_buff_rdy_int;
 
+<<<<<<< refs/remotes/upstream/main
         
 inst1_pct_data_clr_dis <= inst3_pct_data_rdstate when pct_sync_dis_rclk = '0' else (others=>'1');
     
@@ -259,30 +374,67 @@ p2d_rd_inst3 : entity work.p2d_rd
          
       synch_dis               => pct_sync_dis,
          
+=======
+
+inst1_pct_data_clr_dis <= inst3_pct_data_rdstate when pct_sync_dis_rclk = '0' else (others=>'1');
+
+
+p2d_rd_inst3 : entity work.p2d_rd
+   generic map(
+      g_PCT_MAX_SIZE => g_PCT_MAX_SIZE,
+      g_PCT_HDR_SIZE => g_PCT_HDR_SIZE,
+      g_BUFF_COUNT   => g_BUFF_COUNT
+   )
+   port map(
+      clk                     => rclk,
+      reset_n                 => reset_n,
+
+      synch_dis               => pct_sync_dis,
+
+>>>>>>> Revert "enlever le chain de argu"
       pct_hdr_0               => inst0_pct_hdr_0,
       pct_hdr_0_valid         => inst0_pct_hdr_0_valid,
       pct_hdr_1               => inst0_pct_hdr_1,
       pct_hdr_1_valid         => inst0_pct_hdr_1_valid,
+<<<<<<< refs/remotes/upstream/main
          
       sample_nr               => sample_nr,  
    
+=======
+
+      sample_nr               => sample_nr,
+
+>>>>>>> Revert "enlever le chain de argu"
       pct_buff_rdy            => pct_buff_rdy_int,
       pct_buff_rdreq          => inst3_pct_buff_rdreq,
       pct_buff_sel            => inst3_pct_buff_sel,
       pct_buff_clr_n          => inst3_pct_buff_clr_n,
+<<<<<<< refs/remotes/upstream/main
       
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
       smpl_buff_almost_full   => smpl_buff_almost_full
 
    );
 
    process(rclk, reset_n)
    begin
+<<<<<<< refs/remotes/upstream/main
       if reset_n = '0' then 
          smpl_buff_valid_int <= '0';
       elsif (rclk'event AND rclk='1') then 
          if unsigned(inst3_pct_buff_rdreq) > 0 then 
             smpl_buff_valid_int <= '1';
          else 
+=======
+      if reset_n = '0' then
+         smpl_buff_valid_int <= '0';
+      elsif (rclk'event AND rclk='1') then
+         if unsigned(inst3_pct_buff_rdreq) > 0 then
+            smpl_buff_valid_int <= '1';
+         else
+>>>>>>> Revert "enlever le chain de argu"
             smpl_buff_valid_int <= '0';
          end if;
       end if;
@@ -290,18 +442,28 @@ p2d_rd_inst3 : entity work.p2d_rd
 
 -- ----------------------------------------------------------------------------
 -- Output ports
+<<<<<<< refs/remotes/upstream/main
 -- ---------------------------------------------------------------------------- 
    
    out_reg : process(rclk, reset_n)
    begin
       if reset_n = '0' then
          smpl_buff_valid <= '0';         
+=======
+-- ----------------------------------------------------------------------------
+
+   out_reg : process(rclk, reset_n)
+   begin
+      if reset_n = '0' then
+         smpl_buff_valid <= '0';
+>>>>>>> Revert "enlever le chain de argu"
          smpl_buff_q <= (others=> '0');
       elsif (rclk'event AND rclk='1') then
          smpl_buff_valid   <= smpl_buff_valid_int;
          smpl_buff_q       <= instx_q(to_integer(unsigned(inst3_pct_buff_sel)));
       end if;
    end process;
+<<<<<<< refs/remotes/upstream/main
    
    in_pct_reset_n_req <= inst0_in_pct_reset_n_req;
         
@@ -310,7 +472,15 @@ p2d_rd_inst3 : entity work.p2d_rd
   
 end arch;   
 
+=======
+
+   in_pct_reset_n_req <= inst0_in_pct_reset_n_req;
+>>>>>>> Revert "enlever le chain de argu"
 
 
 
 
+<<<<<<< refs/remotes/upstream/main
+=======
+end arch;
+>>>>>>> Revert "enlever le chain de argu"

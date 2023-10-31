@@ -119,9 +119,15 @@ architecture sync_reg of dspba_sync_reg is
 
     signal iclk_enable : std_logic;
     signal iclk_data : std_logic_vector(width1-1 downto 0);
+<<<<<<< refs/remotes/upstream/main
     signal oclk_data : std_logic_vector(width2-1 downto 0); 
 
     -- For Synthesis this means: preserve this registers and do not merge any other flip-flops with synchronizer flip-flops 
+=======
+    signal oclk_data : std_logic_vector(width2-1 downto 0);
+
+    -- For Synthesis this means: preserve this registers and do not merge any other flip-flops with synchronizer flip-flops
+>>>>>>> Revert "enlever le chain de argu"
     -- For TimeQuest this means: identify these flip-flops as synchronizer to enable automatic MTBF analysis
     signal sync_regs : bit_array;
     attribute altera_attribute : string;
@@ -130,29 +136,49 @@ architecture sync_reg of dspba_sync_reg is
     signal oclk_enable : std_logic;
 
     constant init_value_internal : std_logic_vector(width1-1 downto 0) := init_value;
+<<<<<<< refs/remotes/upstream/main
     
     signal counter : UNSIGNED(counter_width-1 downto 0);
     signal ena_internal : std_logic;
 begin
     oclk_enable <= sync_regs(depth-1);  
+=======
+
+    signal counter : UNSIGNED(counter_width-1 downto 0);
+    signal ena_internal : std_logic;
+begin
+    oclk_enable <= sync_regs(depth-1);
+>>>>>>> Revert "enlever le chain de argu"
 
     no_multiplication: if pulse_multiplier=1 generate
         ena_internal <= ena(0);
     end generate;
 
     async_reset: if reset_kind="ASYNC" generate
+<<<<<<< refs/remotes/upstream/main
         
         multiply_ena: if pulse_multiplier>1 generate
             ena_internal <= '1' when counter>0 else ena(0);
             process (clk1, aclr1)
 	        begin	
+=======
+
+        multiply_ena: if pulse_multiplier>1 generate
+            ena_internal <= '1' when counter>0 else ena(0);
+            process (clk1, aclr1)
+	        begin
+>>>>>>> Revert "enlever le chain de argu"
                 if aclr1=reset1_high then
                     counter <= (others => '0');
                 elsif clk1'event and clk1='1' then
                     if counter>0 then
                         if counter=pulse_multiplier-1 then
                             counter <= (others => '0');
+<<<<<<< refs/remotes/upstream/main
                         else 
+=======
+                        else
+>>>>>>> Revert "enlever le chain de argu"
                             counter <= counter + TO_UNSIGNED(1, counter_width);
                         end if;
                     else
@@ -163,7 +189,11 @@ begin
                 end if;
             end process;
         end generate;
+<<<<<<< refs/remotes/upstream/main
         
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
         process (clk1, aclr1)
         begin
             if aclr1=reset1_high then
@@ -176,22 +206,38 @@ begin
                 end if;
             end if;
         end process;
+<<<<<<< refs/remotes/upstream/main
         
         sync_reg_loop: for i in 0 to depth-1 generate
             process (clk2, aclr2) 
+=======
+
+        sync_reg_loop: for i in 0 to depth-1 generate
+            process (clk2, aclr2)
+>>>>>>> Revert "enlever le chain de argu"
             begin
                 if aclr2=reset2_high then
                     sync_regs(i) <= '0';
                 elsif clk2'event and clk2='1' then
                     if i>0 then
+<<<<<<< refs/remotes/upstream/main
                         sync_regs(i) <= sync_regs(i-1); 
                     else
                         sync_regs(i) <= iclk_enable; 
+=======
+                        sync_regs(i) <= sync_regs(i-1);
+                    else
+                        sync_regs(i) <= iclk_enable;
+>>>>>>> Revert "enlever le chain de argu"
                     end if;
                 end if;
             end process;
         end generate;
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
         process (clk2, aclr2)
         begin
             if aclr2=reset2_high then
@@ -217,7 +263,11 @@ begin
                         if counter>0 then
                             if counter=pulse_multiplier-1 then
                                 counter <= (others => '0');
+<<<<<<< refs/remotes/upstream/main
                             else 
+=======
+                            else
+>>>>>>> Revert "enlever le chain de argu"
                                 counter <= counter + TO_UNSIGNED(1, counter_width);
                             end if;
                         else
@@ -236,7 +286,11 @@ begin
                 if aclr1=reset1_high then
                     iclk_enable <= '0';
                     iclk_data <= init_value_internal;
+<<<<<<< refs/remotes/upstream/main
                 else 
+=======
+                else
+>>>>>>> Revert "enlever le chain de argu"
                     iclk_enable <= ena_internal;
                     if ena(0)='1' then
                         iclk_data <= xin;
@@ -244,24 +298,42 @@ begin
                 end if;
             end if;
         end process;
+<<<<<<< refs/remotes/upstream/main
         
         sync_reg_loop: for i in 0 to depth-1 generate
             process (clk2) 
+=======
+
+        sync_reg_loop: for i in 0 to depth-1 generate
+            process (clk2)
+>>>>>>> Revert "enlever le chain de argu"
             begin
                 if clk2'event and clk2='1' then
                     if aclr2=reset2_high then
                         sync_regs(i) <= '0';
+<<<<<<< refs/remotes/upstream/main
                     else 
                         if i>0 then
                             sync_regs(i) <= sync_regs(i-1); 
                         else
                             sync_regs(i) <= iclk_enable; 
+=======
+                    else
+                        if i>0 then
+                            sync_regs(i) <= sync_regs(i-1);
+                        else
+                            sync_regs(i) <= iclk_enable;
+>>>>>>> Revert "enlever le chain de argu"
                         end if;
                     end if;
                 end if;
             end process;
         end generate;
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
         process (clk2)
         begin
             if clk2'event and clk2='1' then
@@ -275,16 +347,27 @@ begin
     end generate;
 
     none_reset: if reset_kind="NONE" generate
+<<<<<<< refs/remotes/upstream/main
         
         multiply_ena: if pulse_multiplier>1 generate
             ena_internal <= '1' when counter>0 else ena(0);
             process (clk1, aclr1) 
+=======
+
+        multiply_ena: if pulse_multiplier>1 generate
+            ena_internal <= '1' when counter>0 else ena(0);
+            process (clk1, aclr1)
+>>>>>>> Revert "enlever le chain de argu"
 	        begin
                 if clk1'event and clk1='1' then
                     if counter>0 then
                         if counter=pulse_multiplier-1 then
                             counter <= (others => '0');
+<<<<<<< refs/remotes/upstream/main
                         else 
+=======
+                        else
+>>>>>>> Revert "enlever le chain de argu"
                             counter <= counter + TO_UNSIGNED(1, counter_width);
                         end if;
                     else
@@ -305,6 +388,7 @@ begin
                 end if;
             end if;
         end process;
+<<<<<<< refs/remotes/upstream/main
         
         sync_reg_loop: for i in 0 to depth-1 generate
             process (clk2) 
@@ -314,11 +398,26 @@ begin
                         sync_regs(i) <= sync_regs(i-1); 
                     else
                         sync_regs(i) <= iclk_enable; 
+=======
+
+        sync_reg_loop: for i in 0 to depth-1 generate
+            process (clk2)
+            begin
+                if clk2'event and clk2='1' then
+                    if i>0 then
+                        sync_regs(i) <= sync_regs(i-1);
+                    else
+                        sync_regs(i) <= iclk_enable;
+>>>>>>> Revert "enlever le chain de argu"
                     end if;
                 end if;
             end process;
         end generate;
+<<<<<<< refs/remotes/upstream/main
     
+=======
+
+>>>>>>> Revert "enlever le chain de argu"
         process (clk2)
         begin
             if clk2'event and clk2='1' then
@@ -374,4 +473,7 @@ begin
     q <= stage_array(num_stages);
 
 end rtl;
+<<<<<<< refs/remotes/upstream/main
 
+=======
+>>>>>>> Revert "enlever le chain de argu"
