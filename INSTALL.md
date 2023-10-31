@@ -269,7 +269,6 @@ sudo apt install libgtk-3-dev
 Finally, to forward the display on the proper port,
 the following lines should be added to the _.bashrc_ file of your Ubuntu distribution:
 
-
 ```bash
 echo "export DISPLAY=:0.0" >> ~/.bashrc
 echo "export LIBGL_ALWAYS_INDIRECT=1" >> ~/.bashrc
@@ -280,7 +279,9 @@ Restart the WSL and you should now be able to launch GNU Radio's GUI as follows:
 ```bash
 gnuradio-companion
 ```
+
 If this does not work, you might need to change the two exports above to:
+
 ```bash
 echo "export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0" >> ~/.bashrc
 echo "export LIBGL_ALWAYS_INDIRECT=1" >> ~/.bashrc
