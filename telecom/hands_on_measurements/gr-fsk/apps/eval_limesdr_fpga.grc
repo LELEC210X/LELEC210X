@@ -90,9 +90,9 @@ blocks:
     orient: Qt.Horizontal
     rangeType: int
     start: '0'
-    step: '100'
-    stop: 2**16-1
-    value: '20000'
+    step: '1'
+    stop: '200'
+    value: '12'
     widget: counter_slider
   states:
     bus_sink: false
@@ -165,7 +165,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '100'
+    value: '200'
   states:
     bus_sink: false
     bus_source: false
@@ -235,9 +235,28 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [607, 347]
+    coordinate: [672, 348.0]
     rotation: 0
     state: enabled
+- name: fsk_flag_detector_0
+  id: fsk_flag_detector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    drate: data_rate
+    enable: '1'
+    fsamp: samp_rate
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packet_len: packet_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [288, 204.0]
+    rotation: 0
+    state: true
 - name: fsk_packet_parser_0
   id: fsk_packet_parser
   parameters:
@@ -254,7 +273,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [882, 355]
+    coordinate: [944, 356.0]
     rotation: 0
     state: enabled
 - name: fsk_synchronization_0
@@ -275,7 +294,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [896, 184]
+    coordinate: [408, 340.0]
     rotation: 0
     state: enabled
 - name: limesdr_fpga_source_0
@@ -294,7 +313,6 @@ blocks:
     dacVal: '180'
     digital_bandw_ch0: samp_rate
     digital_bandw_ch1: samp_rate
-    dspcfg_FILTER_LEN: '32'
     dspcfg_PASSTHROUGH_LEN: (packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate)
     dspcfg_THRESHOLD: detect_threshold_fpga
     dspcfg_preamble_en: '1'
@@ -315,7 +333,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [28, 201]
+    coordinate: [32, 204.0]
     rotation: 0
     state: true
 - name: qtgui_sink_x_0
@@ -344,7 +362,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [366, 466]
+    coordinate: [632, 196.0]
     rotation: 0
     state: enabled
 - name: zeromq_pub_sink_0
@@ -363,16 +381,17 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1166, 355]
+    coordinate: [1088, 492.0]
     rotation: 0
     state: enabled
 
 connections:
 - [fsk_demodulation_0, '0', fsk_packet_parser_0, '0']
+- [fsk_flag_detector_0, '0', fsk_synchronization_0, '0']
+- [fsk_flag_detector_0, '0', qtgui_sink_x_0, '0']
 - [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
 - [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
-- [limesdr_fpga_source_0, '0', fsk_synchronization_0, '0']
-- [limesdr_fpga_source_0, '0', qtgui_sink_x_0, '0']
+- [limesdr_fpga_source_0, '0', fsk_flag_detector_0, '0']
 
 metadata:
   file_format: 1

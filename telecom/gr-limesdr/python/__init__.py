@@ -19,22 +19,17 @@
 # The presence of this file turns this directory into a Python package
 
 """
-This is the GNU Radio FSK module. Place your Python package
+This is the GNU Radio LIMESDR module. Place your Python package
 description here (python/__init__.py).
 """
 from __future__ import unicode_literals
 
-# import swig generated symbols into the fsk namespace
+# import swig generated symbols into the limesdr namespace
 try:
     # this might fail if the module is python-only
-    from .fsk_swig import *
+    from .limesdr_fpga_swig import *
 except ImportError:
     pass
 
 # import any pure python here
-from .demodulation import demodulation  # noqa: F401
-from .noise_estimation import noise_estimation  # noqa: F401
-from .packet_parser import packet_parser  # noqa: F401
-from .preamble_detect import preamble_detect  # noqa: F401
-from .flag_detector import flag_detector  # noqa: F401
-from .synchronization import synchronization  # noqa: F401
+#
