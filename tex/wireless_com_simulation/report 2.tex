@@ -1,0 +1,62 @@
+\section{Report R3a: simulation results}
+
+We only ask a report at the end of the \textbf{next hand-on}. The report should contain a part dedicated to the simulation results, for which you may find the guidelines below.
+
+This hands-on report (maximum 3 pages) should contain:
+\begin{enumerate}
+    \item A copy-paste of your implementations in the simulation framework:
+    \begin{itemize}
+        \item the \py{demodulate()} function in \textbf{chain.py};
+        \item the \py{cfo_estimation()} function in \textbf{chain.py}.
+    \end{itemize}
+    \item Some BER-SNR simulation curves:
+    \begin{itemize}
+        \item a BER-SNR curve with perfect synchronization, showing the performance of your demodulation algorithm (all bypass booleans should be set to \py{True});
+        \item a BER-SNR curve of the complete chain, involving all the synchronization blocks (all bypass booleans should be set to \py{False}).
+    \end{itemize}
+    Briefly comment the results by giving some hypotheses that could explain the differences between the curves with and without ideal synchronization. \textbf{For your simulation results to be meaningful, increase the number of sent packets and the number of bits per packet in \textbf{chain.py}}.
+\item The simulated RMSE curve of the CFO estimation (with a random CFO in the range of \SI{1}{\kilo\hertz}, all bypass booleans set to \py{False}). Briefly explain the different trends observed in the curve.
+\end{enumerate}
+
+\textbf{This is all we ask you for this hands-on report. You probably noticed that improvements could be made to the communication chain but this will be for the second quadrimester.} Indeed, if you want to try new algorithms \textbf{later}, you can easily create a new \texttt{Chain} subclass with these new algorithms, run it and compare its outputs with the ones of the current \texttt{BasicChain} file.
+
+
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{If you finish early...}
+If you finish before the 2x2 hours allocated for this hands-on, do not hesitate to start thinking about the following items, as it will be useful for the characterization report you must submit at the end of this quadrimester:
+\begin{itemize}
+    \item Go through the different simulation files. Make sure you understand all the subtleties that have been added by the teaching team.
+    \item \textbf{Modulation-demodulation:} Does the simulated BER-SNR curve (with perfect synchronization) fit with the theoretical curve? How can the differences be explained? (\textit{difficult question)}
+    \item \textbf{Preamble detection:} Modify the energy detection threshold. What happens to the metrics when it is too low or too high? (\textit{Bypass the CFO and STO estimations when doing so.})
+    \item \textbf{CFO estimation:} Increase the possible CFOs range. Can your algorithm correct CFO of any magnitude?
+    \item \textbf{STO estimation:} What is the effect of the receiver oversampling factor on the symbol timing estimation?
+    \item \textbf{SNR estimator:} How could you monitor the performance of this estimator (in simulation)?
+    \item \textbf{Low-pass filter:} What happens when you change the cutoff frequency of the low-pass filter?
+\end{itemize}
+\end{bclogo}
+
+
+\pagebreak
+\appendix
+\section{Appendix - SNR estimation}
+\label{appA}
+In the simulation, the SNR is known as the addition of the noise is performed in \textbf{sim.py} with the SNR range specified in \textbf{chain.py}. Nevertheless, in practice, the SNR must be estimated based on the received signal. An estimator of the SNR can be derived by first computing the noise power when no useful signal is sent and then computing the received signal power. A possible estimator for the noise power is
+\begin{equation*}
+    \widehat{\sigma}_{w}^2 \:=\: \frac{1}{N} \sum_{n=0}^{N-1} |y[n]|^2 \:=\: \frac{1}{N} \sum_{n=0}^{N-1} |w[n]|^2,
+\end{equation*}
+when no useful signal is sent, i.e., $y[n]=w[n]$.
+
+Instead, the signal power is given by, adding an attenuation $a$ ($y[n]=a x[n] +w[n]$):
+\begin{equation*}
+    \sigma_y^2\:=\: \mathbb{E}\left[|y[n]|^2\right]\:=\:\mathbb{E}\left[ |a|^2 |x[n]|^2 + |w[n]|^2 + 2 \Re{\left\{a x[n] w^*[n]\right\}}\right]\:=\:|a|^2 + \sigma_w^2,
+\end{equation*}
+since the noise has zero-mean and the sent waveforms have a modulus of 1. Hence, when a signal $x[n]$ is sent, an estimation of the received power can be obtained by:
+\begin{equation*}
+    \widehat{\sigma}_y^2 = \frac{1}{N} \sum_{n=0}^{N-1} |y[n]|^2 \approx |a|^2 + \widehat{\sigma}_w^2,
+\end{equation*}
+ Finally the SNR is estimated by
+\begin{equation*}
+    \widehat{\text{SNR}}\:=\:\frac{\widehat{\sigma}_y^2 - \widehat{\sigma}_{w}^2}{\widehat{\sigma}_{w}^2}.
+\end{equation*}
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{SNR estimator}
+This SNR estimator has already been implemented in the simulation (in \textbf{sim.py}), storing in a matrix the values of all estimated SNR. You \textbf{should not spend time using it for the moment} as the SNR is known in the simulation. Nevertheless, it will be particularly useful for measuring the performance of the practical implementation later.
+\end{bclogo}

@@ -1,0 +1,59 @@
+\newpage
+\section{Crypto - Security analysis}
+Let us assume that our system is deployed with multiple sensor nodes that all
+share the same key.
+We ask you to analyze the \textbf{security} properties of the system against the
+following attacks:
+\begin{itemize}
+    \item Forgery of packets using a wrong key.
+    \item CBC-MAC length extension attack.
+    \item CBC-MAC padding attack.
+    \item Transmitter modification attack (capture a packet sent by the device
+        while jamming the receiver, and re-emit the packet, while changing the
+        \texttt{emitter\_id}).
+    \item Packet replay attack (capture a packet sent by a device, and re-emit
+        it later).
+    \item Packet delay attack (capture a packet sent by the device while
+        jamming the receiver, and re-emit the packet later).
+    \item Eavesdropping attack: capture the packets and extract information.
+    \item Timing attack against the AES implementation.\footnote{%
+            For more information of timing attacks, see~\url{%
+                https://en.wikipedia.org/wiki/Timing_attack
+            } and, for more details,
+            \url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.42.679&rep=rep1&type=pdf}
+            (the AES block cipher was originally named Rijndael).
+        }
+\end{itemize}
+
+\noindent For each of those attacks, describe
+\begin{itemize}
+    \item the plausible goals of an adversary that would mount such an attack
+        (perform this analysis while considering that the system monitors a
+        forest),
+    \item whether the attack is possible to mount, and what capabilities would the
+        adversary need to mount the attack (Justify your claim based on your
+        understanding of the system and support your claims by analysis of the
+        code (running on the MCU or on the receiver) or by experimental
+        evidence.),
+    \item if the attack is possible to mount, analyze whether protecting
+        against it would require a packet format change (with respect to the format
+        given in H6,
+        or if the packet can be kept unchanged, and only the emitter or
+        receiver implementation have to be changed.
+\end{itemize}
+\noindent The report concerns security at the cryptographic level. Thus, assume for all cases the following :
+\begin{itemize}
+\item The adversary knows every detail of the implementation, packet format and so on. Only the secret shared key is hidden from the adversary.
+\item The receiver node is able to process all incoming packets, therefore jamming and denial of service are out of scope.
+\end{itemize}
+Finally, be brief and limit yourselves to the one attack listed above at a time (i.e. don't use them as basis for other attacks.). Every attack can be analyzed and justified in a couple of lines.
+
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{AES timing attack vulnerability}
+    If the execution time of the implementation of a cryptographic primitive
+    depends on the key, then it is vulnerable to timing attacks.
+    In order to test this property for the AES implementation you use, you need
+    perfectly repeatable (i.e., noise-free) measurements of the execution time
+    of the AES encryption function. (The \texttt{\_\_disable\_irq();} and
+    \texttt{\_\_enable\_irq();} macros may be useful.)
+    Then measure the execution time for various keys and quantify its variability.
+\end{bclogo}
