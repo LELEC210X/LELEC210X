@@ -41,16 +41,16 @@ blocks:
     min_len: '200'
     orient: Qt.Horizontal
     rangeType: int
-    start: '0'
+    start: '1'
     step: '1'
-    stop: '200'
+    stop: '254'
     value: '12'
     widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [864, 12.0]
+    coordinate: [856, 12.0]
     rotation: 0
     state: enabled
 - name: carrier_freq

@@ -41,9 +41,9 @@ blocks:
     min_len: '200'
     orient: Qt.Horizontal
     rangeType: int
-    start: '0'
+    start: '1'
     step: '1'
-    stop: '200'
+    stop: '254'
     value: '12'
     widget: counter_slider
   states:

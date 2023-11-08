@@ -54,8 +54,8 @@ refer to the applicable agreement for further details.
 	(port
 		(pt 0 240)
 		(input)
-		(text "ppd_cfg_threshold[15..0]" (rect 0 0 97 12)(font "Arial" (font_size 8)))
-		(text "ppd_cfg_threshold[15..0]" (rect 4 229 148 240)(font "Arial" (font_size 8)))
+		(text "ppd_cfg_threshold[7..0]" (rect 0 0 94 12)(font "Arial" (font_size 8)))
+		(text "ppd_cfg_threshold[7..0]" (rect 4 229 142 240)(font "Arial" (font_size 8)))
 		(line (pt 0 240)(pt 176 240)(line_width 3))
 	)
 	(port

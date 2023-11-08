@@ -1,9 +1,10 @@
 Info: Starting: Create testbench Platform Designer system
-Info: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen.ipx
-Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen.qsys --testbench=STANDARD --output-directory=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x --family="MAX 10" --part=10M16SAU169C8G
+Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen.ipx
+Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen.qsys --testbench=STANDARD --output-directory=D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x --family="MAX 10" --part=10M16SAU169C8G
 Progress: Loading LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen.qsys
 Progress: Reading input file
 Progress: Adding conduit_bfm_0 [altera_conduit_bfm 18.1]
+Info: altera_conduit_bfm: Preferred Simulation Language is set to None.
 Progress: Parameterizing module conduit_bfm_0
 Progress: Adding packet_presence_detection_0 [packet_presence_detection 1.0]
 Progress: Parameterizing module packet_presence_detection_0
@@ -22,8 +23,8 @@ Info: C:\intelfpga\18.1\quartus\sopc_builder\bin\root_components.ipx: Loading no
 Info: Reading index C:\intelfpga\18.1\quartus\sopc_builder\bin\ip_component_categories.ipx
 Info: C:\intelfpga\18.1\quartus\sopc_builder\bin\ip_component_categories.ipx described 0 plugins, 0 paths, in 0.00 seconds
 Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/ip_component_categories.ipx matched 1 files in 0.00 seconds
-Info: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ip/**/* matched 0 files in 0.00 seconds
-Info: Reading index D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\packet_presence_detection_tb_gen.ipx
+Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ip/**/* matched 0 files in 0.00 seconds
+Info: Reading index D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\packet_presence_detection_tb_gen.ipx
 Progress: Loading LimeSDR-Mini_lms7_lelec210x/AVS2FIFO_hw.tcl
 Progress: Loading LimeSDR-Mini_lms7_lelec210x/Av_FIFO_Int_hw.tcl
 Progress: Loading LimeSDR-Mini_lms7_lelec210x/FIFO2AVS_hw.tcl
@@ -32,53 +33,53 @@ Progress: Loading LimeSDR-Mini_lms7_lelec210x/lms_ctr.qsys
 Progress: Loading LimeSDR-Mini_lms7_lelec210x/lms_dsp.qsys
 Progress: Loading LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_hw.tcl
 Progress: Loading LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen.qsys
-Info: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/* matched 43 files in 0.09 seconds
+Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/* matched 43 files in 0.13 seconds
 Progress: Loading clkctrl/clkctrl.qsys
-Info: Reading index D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\fir\testbench\fir_tb_gen.ipx
-Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*
-Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/*
-Info: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/* matched 999 files in 0.03 seconds
-Info: D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\fir\testbench\fir_tb_gen.ipx described 0 plugins, 3 paths, in 0.03 seconds
+Info: Reading index D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\fir\testbench\fir_tb_gen.ipx
+Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*
+Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/*
+Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*/* matched 999 files in 0.02 seconds
+Info: D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\fir\testbench\fir_tb_gen.ipx described 0 plugins, 3 paths, in 0.02 seconds
 Progress: Loading testbench/fir_tb_gen_tb.qsys
 Progress: Loading i2c_opencores_v13/i2c_opencores_hw.tcl
 Progress: Loading i2c_opencores_v13/i2c_opencores_sw.tcl
 Progress: Loading i2c_opencores_v13_v0/i2c_opencores_hw.tcl
 Progress: Loading i2c_opencores_v13_v0/i2c_opencores_sw.tcl
-Info: Reading index D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\packet_presence_detection_tb_gen.ipx
-Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*
-Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/*
-Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/*
-Info: D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\packet_presence_detection_tb_gen.ipx described 0 plugins, 3 paths, in 0.00 seconds
+Info: Reading index D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\packet_presence_detection_tb_gen.ipx
+Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*
+Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/*
+Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*/*
+Info: D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\packet_presence_detection_tb_gen.ipx described 0 plugins, 3 paths, in 0.00 seconds
 Progress: Loading testbench/packet_presence_detection_tb_gen_tb.qsys
-Info: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/* matched 138 files in 0.10 seconds
-Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/*
-Info: D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\packet_presence_detection_tb_gen.ipx described 0 plugins, 3 paths, in 0.20 seconds
+Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/* matched 126 files in 0.07 seconds
+Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*/*
+Info: D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\packet_presence_detection_tb_gen.ipx described 0 plugins, 3 paths, in 0.20 seconds
 Progress: Loading testbench/packet_presence_detection_tb_gen_tb.qsys
-Info: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/* matched 31 files in 0.20 seconds
-Info: Reading index D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\testbench\packet_presence_detection_tb_gen.ipx
-Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/*/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*
-Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/*/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/*
-Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/*/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/*
-Info: D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\testbench\packet_presence_detection_tb_gen.ipx described 0 plugins, 3 paths, in 0.01 seconds
+Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/* matched 31 files in 0.21 seconds
+Info: Reading index D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\testbench\packet_presence_detection_tb_gen.ipx
+Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/*/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*
+Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/*/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/*
+Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/*/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*/*
+Info: D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\testbench\packet_presence_detection_tb_gen.ipx described 0 plugins, 3 paths, in 0.00 seconds
 Progress: Loading testbench/packet_presence_detection_tb_gen_tb.qsys
-Info: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/*/* matched 34 files in 0.02 seconds
-Info: Z:/.altera.quartus/ip/18.1/**/* matched 0 files in 0.02 seconds
+Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/*/* matched 34 files in 0.00 seconds
+Info: Z:/.altera.quartus/ip/18.1/**/* matched 0 files in 0.01 seconds
 Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/$$QUARTUS_IP_PROJECTDIR/* matched 0 files in 0.00 seconds
 Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/$$QUARTUS_IP_USERDIR/* matched 0 files in 0.00 seconds
 Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/$$QUARTUS_IP_GLOBALDIR/* matched 0 files in 0.00 seconds
 Info: Reading index C:\intelfpga\18.1\ip\altera\altera_components.ipx
-Info: C:\intelfpga\18.1\ip\altera\altera_components.ipx described 2035 plugins, 0 paths, in 0.13 seconds
-Info: C:/intelfpga/18.1/ip/**/* matched 139 files in 0.13 seconds
+Info: C:\intelfpga\18.1\ip\altera\altera_components.ipx described 2035 plugins, 0 paths, in 0.08 seconds
+Info: C:/intelfpga/18.1/ip/**/* matched 139 files in 0.08 seconds
 Info: C:/intelfpga/ip/**/* matched 0 files in 0.00 seconds
 Info: Reading index C:\intelfpga\18.1\quartus\sopc_builder\builtin.ipx
-Info: C:\intelfpga\18.1\quartus\sopc_builder\builtin.ipx described 83 plugins, 0 paths, in 0.01 seconds
-Info: C:/intelfpga/18.1/quartus/sopc_builder/**/* matched 8 files in 0.01 seconds
+Info: C:\intelfpga\18.1\quartus\sopc_builder\builtin.ipx described 83 plugins, 0 paths, in 0.03 seconds
+Info: C:/intelfpga/18.1/quartus/sopc_builder/**/* matched 8 files in 0.03 seconds
 Info: Reading index C:\intelfpga\18.1\quartus\common\librarian\factories\index.ipx
 Info: C:\intelfpga\18.1\quartus\common\librarian\factories\index.ipx described 151 plugins, 0 paths, in 0.01 seconds
 Info: C:/intelfpga/18.1/quartus/common/librarian/factories/**/* matched 4 files in 0.01 seconds
 Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/$IP_IPX_PATH matched 1 files in 0.00 seconds
-Info: C:\intelfpga\18.1\quartus\sopc_builder\bin\root_components.ipx described 0 plugins, 13 paths, in 0.37 seconds
-Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/root_components.ipx matched 1 files in 0.37 seconds
+Info: C:\intelfpga\18.1\quartus\sopc_builder\bin\root_components.ipx described 0 plugins, 13 paths, in 0.34 seconds
+Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/root_components.ipx matched 1 files in 0.34 seconds
 Progress: 
 Progress: 
 Progress: 
@@ -277,9 +278,9 @@ Info: TB_Gen: Saving testbench system: packet_presence_detection_tb_gen_tb.qsys
 Info: save_system packet_presence_detection_tb_gen_tb.qsys
 Info: send_message Info TB_Gen: TBGEN SUCCESSFUL
 Info: TB_Gen: TBGEN SUCCESSFUL
-Info: Testbench system: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb.qsys
+Info: Testbench system: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb.qsys
 Info: Done
-Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen.qsys --simulation=VERILOG --allow-mixed-language-simulation --testbench=STANDARD --testbench-simulation=VERILOG --allow-mixed-language-testbench-simulation --output-directory=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\packet_presence_detection_tb_gen_tb\simulation --family="MAX 10" --part=10M16SAU169C8G
+Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen.qsys --simulation=VERILOG --allow-mixed-language-simulation --testbench=STANDARD --testbench-simulation=VERILOG --allow-mixed-language-testbench-simulation --output-directory=D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\packet_presence_detection_tb_gen_tb\simulation --family="MAX 10" --part=10M16SAU169C8G
 Progress: Loading testbench/packet_presence_detection_tb_gen_tb.qsys
 Progress: Reading input file
 Progress: Adding packet_presence_detection_tb_gen_inst [packet_presence_detection_tb_gen 1.0]
@@ -317,33 +318,33 @@ Info: packet_presence_detection_tb_gen_tb: Generating packet_presence_detection_
 Info: packet_presence_detection_tb_gen_inst: "packet_presence_detection_tb_gen_tb" instantiated packet_presence_detection_tb_gen "packet_presence_detection_tb_gen_inst"
 Info: packet_presence_detection_tb_gen_inst_clock_bfm: "packet_presence_detection_tb_gen_tb" instantiated altera_avalon_clock_source "packet_presence_detection_tb_gen_inst_clock_bfm"
 Info: packet_presence_detection_tb_gen_inst_reset_bfm: "packet_presence_detection_tb_gen_tb" instantiated altera_avalon_reset_source "packet_presence_detection_tb_gen_inst_reset_bfm"
-Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
+Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
 Info: packet_presence_detection_tb_gen_inst_sink_bfm: "packet_presence_detection_tb_gen_tb" instantiated altera_avalon_st_source_bfm "packet_presence_detection_tb_gen_inst_sink_bfm"
-Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
+Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
 Info: packet_presence_detection_tb_gen_inst_source_bfm: "packet_presence_detection_tb_gen_tb" instantiated altera_avalon_st_sink_bfm "packet_presence_detection_tb_gen_inst_source_bfm"
-Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
-Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv
+Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
+Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv
 Info: conduit_bfm_0: "packet_presence_detection_tb_gen_inst" instantiated altera_conduit_bfm "conduit_bfm_0"
-Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
+Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
 Info: packet_presence_detection_0: "packet_presence_detection_tb_gen_inst" instantiated packet_presence_detection "packet_presence_detection_0"
 Info: packet_presence_detection_tb_gen_tb: Done "packet_presence_detection_tb_gen_tb" with 8 modules, 12 files
 Info: qsys-generate succeeded.
-Info: sim-script-gen --spd=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen_tb.spd --output-directory=D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ --use-relative-paths=true
-Info: Doing: ip-make-simscript --spd=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen_tb.spd --output-directory=D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ --use-relative-paths=true
-Info: Generating the following file(s) for MODELSIM simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ directory:
+Info: sim-script-gen --spd=D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen_tb.spd --output-directory=D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ --use-relative-paths=true
+Info: Doing: ip-make-simscript --spd=D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen_tb.spd --output-directory=D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ --use-relative-paths=true
+Info: Generating the following file(s) for MODELSIM simulator in D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ directory:
 Info: 	mentor/msim_setup.tcl
-Info: Generating the following file(s) for VCS simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ directory:
+Info: Generating the following file(s) for VCS simulator in D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ directory:
 Info: 	synopsys/vcs/vcs_setup.sh
-Info: Generating the following file(s) for VCSMX simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ directory:
+Info: Generating the following file(s) for VCSMX simulator in D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ directory:
 Info: 	synopsys/vcsmx/synopsys_sim.setup
 Info: 	synopsys/vcsmx/vcsmx_setup.sh
-Info: Generating the following file(s) for NCSIM simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ directory:
+Info: Generating the following file(s) for NCSIM simulator in D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ directory:
 Info: 	cadence/cds.lib
 Info: 	cadence/hdl.var
 Info: 	cadence/ncsim_setup.sh
 Info: 	8 .cds.lib files in cadence/cds_libs/ directory
-Info: Generating the following file(s) for RIVIERA simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ directory:
+Info: Generating the following file(s) for RIVIERA simulator in D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ directory:
 Info: 	aldec/rivierapro_setup.tcl
-Info: For information on how to simulate your IP, see the explanatory comments in the simulator-specific subdirectories under D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/.
+Info: For information on how to simulate your IP, see the explanatory comments in the simulator-specific subdirectories under D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/.
 Info: Regenerate these scripts whenever you make any change to any Quartus-generated IP in your project.
 Info: Finished: Create testbench Platform Designer system

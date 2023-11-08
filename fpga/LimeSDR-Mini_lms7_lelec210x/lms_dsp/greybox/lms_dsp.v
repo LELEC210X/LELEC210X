@@ -16,7 +16,7 @@
 // PROGRAM "Quartus Prime"
 // VERSION "Version 18.1.0 Build 625 09/12/2018 SJ Standard Edition"
 
-// DATE "11/08/2023 00:35:59"
+// DATE "11/08/2023 03:05:30"
 
 // 
 // Device: Altera 10M16SAU169C8G Package UFBGA169
@@ -48,7 +48,7 @@ input 	fifo_in_wrreq;
 output 	[47:0] fifo_out_wrdata;
 output 	fifo_out_wrreq;
 input 	[15:0] ppd_cfg_passthrough_len;
-input 	[15:0] ppd_cfg_threshold;
+input 	[7:0] ppd_cfg_threshold;
 input 	ppd_cfg_clear_rs;
 input 	ppd_cfg_enable;
 output 	[31:0] ppd_debug_count;
@@ -352,14 +352,6 @@ wire \ppd_cfg_threshold[4]~input_o ;
 wire \ppd_cfg_threshold[5]~input_o ;
 wire \ppd_cfg_threshold[6]~input_o ;
 wire \ppd_cfg_threshold[7]~input_o ;
-wire \ppd_cfg_threshold[8]~input_o ;
-wire \ppd_cfg_threshold[9]~input_o ;
-wire \ppd_cfg_threshold[10]~input_o ;
-wire \ppd_cfg_threshold[11]~input_o ;
-wire \ppd_cfg_threshold[12]~input_o ;
-wire \ppd_cfg_threshold[13]~input_o ;
-wire \ppd_cfg_threshold[14]~input_o ;
-wire \ppd_cfg_threshold[15]~input_o ;
 wire \clk_clk~input_o ;
 wire \ppd_cfg_passthrough_len[15]~input_o ;
 wire \ppd_cfg_passthrough_len[14]~input_o ;
@@ -1354,22 +1346,6 @@ assign \ppd_cfg_threshold[5]~input_o  = ppd_cfg_threshold[5];
 assign \ppd_cfg_threshold[6]~input_o  = ppd_cfg_threshold[6];
 
 assign \ppd_cfg_threshold[7]~input_o  = ppd_cfg_threshold[7];
-
-assign \ppd_cfg_threshold[8]~input_o  = ppd_cfg_threshold[8];
-
-assign \ppd_cfg_threshold[9]~input_o  = ppd_cfg_threshold[9];
-
-assign \ppd_cfg_threshold[10]~input_o  = ppd_cfg_threshold[10];
-
-assign \ppd_cfg_threshold[11]~input_o  = ppd_cfg_threshold[11];
-
-assign \ppd_cfg_threshold[12]~input_o  = ppd_cfg_threshold[12];
-
-assign \ppd_cfg_threshold[13]~input_o  = ppd_cfg_threshold[13];
-
-assign \ppd_cfg_threshold[14]~input_o  = ppd_cfg_threshold[14];
-
-assign \ppd_cfg_threshold[15]~input_o  = ppd_cfg_threshold[15];
 
 endmodule
 

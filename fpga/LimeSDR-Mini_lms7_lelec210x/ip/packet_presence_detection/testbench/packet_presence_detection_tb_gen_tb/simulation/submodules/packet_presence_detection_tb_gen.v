@@ -16,7 +16,7 @@ module packet_presence_detection_tb_gen (
 	wire  [31:0] packet_presence_detection_0_cfg_debug_count;     // packet_presence_detection_0:debug_count -> conduit_bfm_0:sig_debug_count
 	wire   [0:0] conduit_bfm_0_conduit_cfg_enable;                // conduit_bfm_0:sig_cfg_enable -> packet_presence_detection_0:cfg_enable
 	wire  [31:0] packet_presence_detection_0_cfg_debug_long_sum;  // packet_presence_detection_0:debug_long_sum -> conduit_bfm_0:sig_debug_long_sum
-	wire  [15:0] conduit_bfm_0_conduit_cfg_threshold;             // conduit_bfm_0:sig_cfg_threshold -> packet_presence_detection_0:cfg_THRESHOLD
+	wire   [7:0] conduit_bfm_0_conduit_cfg_threshold;             // conduit_bfm_0:sig_cfg_threshold -> packet_presence_detection_0:cfg_THRESHOLD
 	wire  [15:0] conduit_bfm_0_conduit_cfg_passthrough_len;       // conduit_bfm_0:sig_cfg_passthrough_len -> packet_presence_detection_0:cfg_PASSTHROUGH_LEN
 	wire  [31:0] packet_presence_detection_0_cfg_debug_short_sum; // packet_presence_detection_0:debug_short_sum -> conduit_bfm_0:sig_debug_short_sum
 

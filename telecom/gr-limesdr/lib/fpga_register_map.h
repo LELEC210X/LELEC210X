@@ -25,7 +25,7 @@ struct DSPCFGParameter
 };
 
 static const struct DSPCFGParameter DSPCFG_PASSTHROUGH_LEN = { 0x000b, 15, 0, 255, "" };
-static const struct DSPCFGParameter DSPCFG_THRESHOLD       = { 0x000d, 15, 0, 0b0101000000000000, "" };
+static const struct DSPCFGParameter DSPCFG_THRESHOLD       = { 0x000d, 7, 0, 12, "" };
 static const struct DSPCFGParameter DSPCFG_CLEAR_RS   = { 0x000e, 1, 1, 0, "" };
 static const struct DSPCFGParameter DSPCFG_PREAMBLE_EN = { 0x000e, 0, 0, 0, "" };
 static const struct DSPCFGParameter DSPCFG_PREAMBLE_SHORT_SUM_MSB = { 0x000f, 15, 0, 0, "" };

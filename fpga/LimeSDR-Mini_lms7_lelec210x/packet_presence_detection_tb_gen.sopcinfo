@@ -5,11 +5,11 @@
  version="1.0"
  fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
- <!-- 2023.11.08.00:16:27 -->
+ <!-- 2023.11.08.03:03:09 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1699398987</value>
+  <value>1699408989</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -132,7 +132,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="SIGNAL_WIDTHS">
    <type>[Ljava.lang.Integer;</type>
-   <value>1,16,1,16,32,32,32</value>
+   <value>1,8,1,16,32,32,32</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -209,7 +209,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>sig_cfg_threshold</name>
     <direction>Output</direction>
-    <width>16</width>
+    <width>8</width>
     <role>cfg_threshold</role>
    </port>
    <port>
@@ -330,7 +330,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>cfg_THRESHOLD</name>
     <direction>Input</direction>
-    <width>16</width>
+    <width>8</width>
     <role>cfg_threshold</role>
    </port>
    <port>

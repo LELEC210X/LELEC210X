@@ -6,7 +6,7 @@
 			fifo_out_wrdata         : out std_logic_vector(47 downto 0);                    -- wrdata
 			fifo_out_wrreq          : out std_logic;                                        -- wrreq
 			ppd_cfg_passthrough_len : in  std_logic_vector(15 downto 0) := (others => 'X'); -- cfg_passthrough_len
-			ppd_cfg_threshold       : in  std_logic_vector(15 downto 0) := (others => 'X'); -- cfg_threshold
+			ppd_cfg_threshold       : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- cfg_threshold
 			ppd_cfg_clear_rs        : in  std_logic                     := 'X';             -- cfg_clear_rs
 			ppd_cfg_enable          : in  std_logic                     := 'X';             -- cfg_enable
 			ppd_debug_count         : out std_logic_vector(31 downto 0);                    -- debug_count

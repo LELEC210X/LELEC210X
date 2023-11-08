@@ -349,7 +349,7 @@ public:
      *
      * @param   dspcfg_THRESHOLD  Default value is 2048 range is [1,65535]
      */
-    void set_dspcfg_preamble(int device_number, uint16_t dspcfg_PASSTHROUGH_LEN, uint16_t dspcfg_THRESHOLD, int dspcfg_preamble_en);
+    void set_dspcfg_preamble(int device_number, uint16_t dspcfg_PASSTHROUGH_LEN, uint8_t dspcfg_THRESHOLD, int dspcfg_preamble_en);
 
 
     /**
@@ -368,7 +368,7 @@ public:
      *
      * @param   dspcfg_THRESHOLD  Default value is 2048 range is [1,4294967295]
      */
-    void set_dspcfg_THRESHOLD(int device_number, uint16_t dspcfg_THRESHOLD);
+    void set_dspcfg_THRESHOLD(int device_number, uint8_t dspcfg_THRESHOLD);
 
     void set_dspcfg_clear_rs(int device_number, int setting);
 

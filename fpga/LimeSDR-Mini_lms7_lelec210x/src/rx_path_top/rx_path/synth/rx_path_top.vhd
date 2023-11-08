@@ -36,7 +36,7 @@ entity rx_path_top is
 		dspcfg_preamble_en     : in  std_logic  := 'X'; -- dspcfg_preamble_en
 		dspcfg_clear_rs        : in  std_logic  := 'X'; -- dspcfg_clear_rs
       dspcfg_PASSTHROUGH_LEN : in  std_logic_vector(15 downto 0) := (others => 'X'); -- dspcfg_PASSTHROUGH_LEN
-      dspcfg_THRESHOLD       : in  std_logic_vector(15 downto 0) := (others => 'X'); -- dspcfg_THRESHOLD
+      dspcfg_THRESHOLD       : in  std_logic_vector(7  downto 0) := (others => 'X'); -- dspcfg_THRESHOLD
       dspcfg_short_sum       : out std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_sum
 		dspcfg_long_sum        : out std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_sum
       dspcfg_count           : out std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_count
@@ -121,7 +121,7 @@ component lms_dsp is
       ppd_cfg_enable          : in  std_logic                     := 'X';             -- dspcfg_enable
 		ppd_cfg_clear_rs        : in  std_logic                     := 'X';             -- dspcfg_clear_rs 
       ppd_cfg_passthrough_len : in  std_logic_vector(15 downto 0) := (others => 'X'); -- dspcfg_PASSTHROUGH_LEN
-      ppd_cfg_threshold       : in  std_logic_vector(15 downto 0) := (others => 'X'); -- dspcfg_THRESHOLD
+      ppd_cfg_threshold       : in  std_logic_vector(7  downto 0) := (others => 'X'); -- dspcfg_THRESHOLD
       ppd_debug_short_sum     : out std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_short_sum
 		ppd_debug_long_sum      : out std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_long_sum
       ppd_debug_count         : out std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_count

@@ -32,6 +32,7 @@ fpga/LimeSDR-Mini_bitstreams/*.map
 fpga/LimeSDR-Mini_bitstreams/*.pof
 fpga/LimeSDR-Mini_bitstreams/*.sof
 fpga/LimeSDR-Mini_bitstreams/*.rpd
+fpga/*.flock
 
 # MCU
 

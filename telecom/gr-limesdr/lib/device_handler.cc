@@ -712,7 +712,7 @@ int device_handler::read_spi_reg_bits(lms_device_t *device, const uint16_t addre
     return spiDataReg;
 }
 
-void device_handler::set_dspcfg_preamble(int device_number, uint16_t dspcfg_PASSTHROUGH_LEN, uint16_t dspcfg_THRESHOLD, int dspcfg_preamble_en) {
+void device_handler::set_dspcfg_preamble(int device_number, uint16_t dspcfg_PASSTHROUGH_LEN, uint8_t dspcfg_THRESHOLD, int dspcfg_preamble_en) { 
     std::cout << "INFO: device_handler::set_dspcfg_preamble(): ";
     if (modify_spi_reg_bits(device_handler::getInstance().get_device(device_number),DSPCFGparam(PREAMBLE_EN), dspcfg_preamble_en) != LMS_SUCCESS) {
         std::cout
@@ -732,8 +732,9 @@ void device_handler::set_dspcfg_preamble(int device_number, uint16_t dspcfg_PASS
         spiDataRegX = read_spi_reg_bits(device_handler::getInstance().get_device(device_number), DSPCFG_PASSTHROUGH_LEN); 
         std::cout << "Passthrough length: " << spiDataRegX << std::endl;
         
-        spiDataRegX = read_spi_reg_bits(device_handler::getInstance().get_device(device_number), DSPCFG_THRESHOLD); 
-        std::cout << "Detection threshold: " << spiDataRegX << std::endl;
+        uint8_t spiDataRegThresh;
+        spiDataRegThresh = read_spi_reg_bits(device_handler::getInstance().get_device(device_number), DSPCFG_THRESHOLD); 
+        std::cout << "Detection threshold: " << spiDataRegThresh << std::endl;
         
         
         //sum-count
@@ -765,8 +766,8 @@ void device_handler::set_dspcfg_PASSTHROUGH_LEN(int device_number, uint16_t dspc
     }
 }
 
-void device_handler::set_dspcfg_THRESHOLD(int device_number, uint16_t dspcfg_THRESHOLD) {
-    if (modify_spi_reg_bits(device_handler::getInstance().get_device(device_number),DSPCFGparam(THRESHOLD), dspcfg_THRESHOLD & 0xffff) != LMS_SUCCESS) {
+void device_handler::set_dspcfg_THRESHOLD(int device_number, uint8_t dspcfg_THRESHOLD) {
+    if (modify_spi_reg_bits(device_handler::getInstance().get_device(device_number),DSPCFGparam(THRESHOLD), dspcfg_THRESHOLD & 0xff) != LMS_SUCCESS) {
         std::cout
             << "ERROR: device_handler::set_dspcfg_THRESHOLD(): cannot modify the register"
             << std::endl;

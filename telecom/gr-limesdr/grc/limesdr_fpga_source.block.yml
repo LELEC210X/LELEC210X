@@ -299,7 +299,7 @@ asserts:
 - ${ 61.44e6 >= samp_rate }
 
 - ${ dspcfg_PASSTHROUGH_LEN > 0 and dspcfg_PASSTHROUGH_LEN < 65535 }
-- ${ dspcfg_THRESHOLD > 0 and dspcfg_THRESHOLD < 65535 }
+- ${ dspcfg_THRESHOLD > 0 and dspcfg_THRESHOLD < 255 }
 
 outputs:
 - label: out

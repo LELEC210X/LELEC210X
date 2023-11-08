@@ -377,7 +377,7 @@ void source_impl::write_lms_reg(uint32_t address, uint16_t val)
     device_handler::getInstance().write_lms_reg(stored.device_number, address, val);
 }
 
-void source_impl::set_dspcfg_preamble(uint16_t dspcfg_PASSTHROUGH_LEN, uint16_t dspcfg_THRESHOLD, int dspcfg_preamble_en) {
+void source_impl::set_dspcfg_preamble(uint16_t dspcfg_PASSTHROUGH_LEN, uint8_t dspcfg_THRESHOLD, int dspcfg_preamble_en) {
     device_handler::getInstance().set_dspcfg_preamble(stored.device_number,  dspcfg_PASSTHROUGH_LEN, dspcfg_THRESHOLD, dspcfg_preamble_en);
 }
 

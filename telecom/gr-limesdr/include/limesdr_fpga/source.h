@@ -189,7 +189,7 @@ public:
      * @param   dspcfg_PASSTHROUGH_LEN  Default value is 100 range is [1,1024]
      * @param   dspcfg_THRESHOLD  Default value is 100 range is [1,65535]
      */
-    virtual void set_dspcfg_preamble( uint16_t dspcfg_PASSTHROUGH_LEN = 100u, uint16_t dspcfg_THRESHOLD = 100u, int dspcfg_preamble_en = 0) = 0;
+    virtual void set_dspcfg_preamble( uint16_t dspcfg_PASSTHROUGH_LEN = 100u, uint8_t dspcfg_THRESHOLD = 100u, int dspcfg_preamble_en = 0) = 0;
 
     virtual uint32_t get_dspcfg_long_sum() = 0;
 

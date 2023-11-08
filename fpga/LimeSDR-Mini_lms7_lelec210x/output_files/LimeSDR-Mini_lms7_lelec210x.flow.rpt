@@ -1,5 +1,5 @@
 Flow report for LimeSDR-Mini_lms7_lelec210x
-Wed Nov 08 00:46:44 2023
+Wed Nov 08 03:16:41 2023
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Standard Edition
 
 
@@ -40,15 +40,15 @@ refer to the applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Flow Summary                                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Flow Status                        ; Successful - Wed Nov 08 00:46:44 2023           ;
+; Flow Status                        ; Successful - Wed Nov 08 03:16:41 2023           ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Standard Edition ;
 ; Revision Name                      ; LimeSDR-Mini_lms7_lelec210x                     ;
 ; Top-level Entity Name              ; lms7_trx_top                                    ;
 ; Family                             ; MAX 10                                          ;
 ; Device                             ; 10M16SAU169C8G                                  ;
 ; Timing Models                      ; Final                                           ;
-; Total logic elements               ; 13,503 / 15,840 ( 85 % )                        ;
-;     Total combinational functions  ; 9,313 / 15,840 ( 59 % )                         ;
+; Total logic elements               ; 13,530 / 15,840 ( 85 % )                        ;
+;     Total combinational functions  ; 9,314 / 15,840 ( 59 % )                         ;
 ;     Dedicated logic registers      ; 10,619 / 15,840 ( 67 % )                        ;
 ; Total registers                    ; 10691                                           ;
 ; Total pins                         ; 117 / 130 ( 90 % )                              ;
@@ -66,7 +66,7 @@ refer to the applicable agreement for further details.
 +-------------------+-----------------------------+
 ; Option            ; Setting                     ;
 +-------------------+-----------------------------+
-; Start date & time ; 11/08/2023 00:37:47         ;
+; Start date & time ; 11/08/2023 03:07:47         ;
 ; Main task         ; Compilation                 ;
 ; Revision Name     ; LimeSDR-Mini_lms7_lelec210x ;
 +-------------------+-----------------------------+
@@ -78,7 +78,7 @@ refer to the applicable agreement for further details.
 ; Assignment Name                     ; Value                                                            ; Default Value               ; Entity Name         ; Section Id     ;
 +-------------------------------------+------------------------------------------------------------------+-----------------------------+---------------------+----------------+
 ; ALLOW_REGISTER_RETIMING             ; Off                                                              ; On                          ; --                  ; --             ;
-; COMPILER_SIGNATURE_ID               ; 1096826009345.169940026646540                                    ; --                          ; --                  ; --             ;
+; COMPILER_SIGNATURE_ID               ; 1096826009345.169940926745152                                    ; --                          ; --                  ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Vhdl                                                             ; --                          ; --                  ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (VHDL)                                           ; <None>                      ; --                  ; --             ;
 ; ENABLE_SIGNALTAP                    ; Off                                                              ; --                          ; --                  ; --             ;
@@ -135,7 +135,7 @@ refer to the applicable agreement for further details.
 ; SLD_FILE                            ; ip/clkctrl/clkctrl/synthesis/clkctrl.debuginfo                   ; --                          ; --                  ; --             ;
 ; SLD_INFO                            ; QSYS_NAME clkctrl HAS_SOPCINFO 1 GENERATION_ID 1618509941        ; --                          ; clkctrl             ; --             ;
 ; SLD_INFO                            ; QSYS_NAME lms_ctr HAS_SOPCINFO 1 GENERATION_ID 1633259245        ; --                          ; lms_ctr             ; --             ;
-; SLD_INFO                            ; QSYS_NAME lms_dsp HAS_SOPCINFO 1 GENERATION_ID 1699400061        ; --                          ; lms_dsp             ; --             ;
+; SLD_INFO                            ; QSYS_NAME lms_dsp HAS_SOPCINFO 1 GENERATION_ID 1699409035        ; --                          ; lms_dsp             ; --             ;
 ; SOPCINFO_FILE                       ; lms_dsp/synthesis/../../lms_dsp.sopcinfo                         ; --                          ; --                  ; --             ;
 ; SOPCINFO_FILE                       ; lms_ctr/synthesis/../../lms_ctr.sopcinfo                         ; --                          ; --                  ; --             ;
 ; SOPCINFO_FILE                       ; ip/clkctrl/clkctrl/synthesis/../../clkctrl.sopcinfo              ; --                          ; --                  ; --             ;
@@ -154,13 +154,13 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:02:31     ; 1.0                     ; 5146 MB             ; 00:00:34                           ;
-; Fitter               ; 00:02:42     ; 1.3                     ; 5876 MB             ; 00:00:44                           ;
-; Assembler            ; 00:01:30     ; 1.0                     ; 4733 MB             ; 00:00:01                           ;
-; Power Analyzer       ; 00:00:46     ; 2.0                     ; 4977 MB             ; 00:00:08                           ;
-; Timing Analyzer      ; 00:00:42     ; 2.2                     ; 4980 MB             ; 00:00:06                           ;
-; EDA Netlist Writer   ; 00:01:00     ; 1.0                     ; 4820 MB             ; 00:00:02                           ;
-; Total                ; 00:09:11     ; --                      ; --                  ; 00:01:35                           ;
+; Analysis & Synthesis ; 00:02:17     ; 1.0                     ; 5156 MB             ; 00:00:27                           ;
+; Fitter               ; 00:02:38     ; 1.3                     ; 5874 MB             ; 00:00:51                           ;
+; Assembler            ; 00:01:37     ; 1.0                     ; 4741 MB             ; 00:00:01                           ;
+; Power Analyzer       ; 00:00:47     ; 2.0                     ; 4975 MB             ; 00:00:07                           ;
+; Timing Analyzer      ; 00:00:49     ; 2.2                     ; 4980 MB             ; 00:00:06                           ;
+; EDA Netlist Writer   ; 00:01:01     ; 1.0                     ; 4825 MB             ; 00:00:01                           ;
+; Total                ; 00:09:09     ; --                      ; --                  ; 00:01:33                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

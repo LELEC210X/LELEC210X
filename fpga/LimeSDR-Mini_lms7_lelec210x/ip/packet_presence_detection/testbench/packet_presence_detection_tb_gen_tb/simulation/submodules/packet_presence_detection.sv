@@ -100,7 +100,7 @@ module dual_running_sum #(
 		input  wire                 	 	 clear_rs,
 		input  wire [(DATA_WIDTH_IN-1):0]    in,
 		input  wire 						 running,
-		input  wire [15:0]					 K,
+		input  wire [7:0]					 K,
 		output wire [(SHORT_SUM_WIDTH-1):0]  short_sum,
 		output wire [(LONG_SUM_WIDTH-1):0]   long_sum,
 		output wire 						 launch
@@ -194,7 +194,7 @@ module dual_running_sum #(
 	end
 	
 	
-	wire  [(LONG_SUM_WIDTH+16 -1):0] long_shift_rescale;
+	wire  [(LONG_SUM_WIDTH+8 -1):0] long_shift_rescale;
 	
 	assign long_shift_rescale  = long_sum_reg ;
 
@@ -260,7 +260,7 @@ module packet_presence_detection #(
 		input  wire                                cfg_enable,                    //                     cfg.enable
 		input  wire								   cfg_clear_rs,                  //                     cfg.clear_rs //signal toggling
 		input  wire [(PASSTHROUGH_LEN_WIDTH-1):0]  cfg_PASSTHROUGH_LEN,           //                     cfg.PASSTHROUGH_LEN
-		input  wire [15:0]                         cfg_THRESHOLD,                 //                     cfg.THRESHOLD
+		input  wire [7:0]                          cfg_THRESHOLD,                 //                     cfg.THRESHOLD
 		input  wire [(2*DATA_WIDTH-1):0]           avalon_streaming_sink_data,    //   avalon_streaming_sink.data
 		input  wire                                avalon_streaming_sink_valid,   //                        .valid
 		output wire [(2*DATA_WIDTH-1):0]           avalon_streaming_source_data,  // avalon_streaming_source.data

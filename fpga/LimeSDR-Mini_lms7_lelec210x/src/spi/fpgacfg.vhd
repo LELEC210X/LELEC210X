@@ -245,7 +245,7 @@ begin
          --DSP Config
          mem(11)  <= "0000000011111111";  --  0 free, dspcfg_PASSTHROUGH_LEN[15:0]
          mem(12)  <= "0000000000000000";  -- 16 free
-         mem(13)  <= "0000000000000001";  --  0 free, dspcfg_THRESHOLD[15:0]
+         mem(13)  <= "0000000000000001";  --  0 free, 8{0b0}, dspcfg_THRESHOLD[7:0]
          mem(14)  <= "0000000000000010";  -- 14 free, 14{0b0}, dspcfg_clear_rs,dspcfg_preamble_en
          mem(15)  <= x"03FC";             --  0 free, (Reserved for debug)
          --Peripheral config
@@ -307,7 +307,7 @@ begin
 --    from_fpgacfg.tx_cnt_en           <= mem(10) (10);
       
       from_fpgacfg.dspcfg_PASSTHROUGH_LEN <= mem(11) (15 downto 0);
-      from_fpgacfg.dspcfg_THRESHOLD    <= mem(13) (15 downto 0);
+      from_fpgacfg.dspcfg_THRESHOLD    <= mem(13) (7 downto 0);
       from_fpgacfg.dspcfg_preamble_en  <= mem(14) (0);
 		from_fpgacfg.dspcfg_clear_rs     <= mem(14) (1);
 --    from_fpgacfg.wfm_play            <= mem(13) (1);

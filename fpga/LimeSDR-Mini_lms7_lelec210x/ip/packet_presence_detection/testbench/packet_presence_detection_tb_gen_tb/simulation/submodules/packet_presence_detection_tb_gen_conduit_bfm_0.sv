@@ -28,7 +28,7 @@
 // This BFM's HDL is been generated through terp file in Qsys/SOPC Builder.
 // Generation parameters:
 // output_name:                                       packet_presence_detection_tb_gen_conduit_bfm_0
-// role:width:direction:                              cfg_enable:1:output,cfg_threshold:16:output,cfg_clear_rs:1:output,cfg_passthrough_len:16:output,debug_short_sum:32:input,debug_count:32:input,debug_long_sum:32:input
+// role:width:direction:                              cfg_enable:1:output,cfg_threshold:8:output,cfg_clear_rs:1:output,cfg_passthrough_len:16:output,debug_short_sum:32:input,debug_count:32:input,debug_long_sum:32:input
 // 0
 //-----------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
@@ -49,7 +49,7 @@ module packet_presence_detection_tb_gen_conduit_bfm_0
    // =head2 User defined interface
    //--------------------------------------------------------------------------
    output sig_cfg_enable;
-   output [15 : 0] sig_cfg_threshold;
+   output [7 : 0] sig_cfg_threshold;
    output sig_cfg_clear_rs;
    output [15 : 0] sig_cfg_passthrough_len;
    input [31 : 0] sig_debug_short_sum;
@@ -60,7 +60,7 @@ module packet_presence_detection_tb_gen_conduit_bfm_0
    import verbosity_pkg::*;
    
    typedef logic ROLE_cfg_enable_t;
-   typedef logic [15 : 0] ROLE_cfg_threshold_t;
+   typedef logic [7 : 0] ROLE_cfg_threshold_t;
    typedef logic ROLE_cfg_clear_rs_t;
    typedef logic [15 : 0] ROLE_cfg_passthrough_len_t;
    typedef logic [31 : 0] ROLE_debug_short_sum_t;
@@ -69,8 +69,8 @@ module packet_presence_detection_tb_gen_conduit_bfm_0
 
    reg sig_cfg_enable_temp;
    reg sig_cfg_enable_out;
-   reg [15 : 0] sig_cfg_threshold_temp;
-   reg [15 : 0] sig_cfg_threshold_out;
+   reg [7 : 0] sig_cfg_threshold_temp;
+   reg [7 : 0] sig_cfg_threshold_out;
    reg sig_cfg_clear_rs_temp;
    reg sig_cfg_clear_rs_out;
    reg [15 : 0] sig_cfg_passthrough_len_temp;

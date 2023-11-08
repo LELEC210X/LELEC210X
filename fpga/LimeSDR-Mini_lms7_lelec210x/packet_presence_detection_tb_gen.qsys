@@ -99,7 +99,7 @@
   <parameter name="ENABLE_RESET" value="false" />
   <parameter name="SIGNAL_DIRECTIONS">output,output,output,output,input,input,input</parameter>
   <parameter name="SIGNAL_ROLES">cfg_enable,cfg_threshold,cfg_clear_rs,cfg_passthrough_len,debug_short_sum,debug_count,debug_long_sum</parameter>
-  <parameter name="SIGNAL_WIDTHS" value="1,16,1,16,32,32,32" />
+  <parameter name="SIGNAL_WIDTHS" value="1,8,1,16,32,32,32" />
  </module>
  <module
    name="packet_presence_detection_0"
@@ -107,9 +107,7 @@
    version="1.0"
    enabled="1">
   <parameter name="DATA_WIDTH" value="12" />
-  <parameter name="LONG_SUM_LEN" value="256" />
   <parameter name="PASSTHROUGH_LEN_WIDTH" value="16" />
-  <parameter name="SHORT_SUM_LEN" value="32" />
  </module>
  <connection
    kind="conduit"

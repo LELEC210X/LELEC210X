@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 18.1 625 win32 2023.11.08.00:16:40
+# ACDS 18.1 625 win32 2023.11.08.03:03:20
 
 # ----------------------------------------
 # vcs - auto-generated simulation script
@@ -94,7 +94,7 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
-# ACDS 18.1 625 win32 2023.11.08.00:16:40
+# ACDS 18.1 625 win32 2023.11.08.03:03:20
 # ----------------------------------------
 # initialize variables
 TOP_LEVEL_NAME="packet_presence_detection_tb_gen_tb"

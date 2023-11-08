@@ -10,7 +10,7 @@ module lms_dsp (
 		output wire [47:0] fifo_out_wrdata,         // fifo_out.wrdata
 		output wire        fifo_out_wrreq,          //         .wrreq
 		input  wire [15:0] ppd_cfg_passthrough_len, //      ppd.cfg_passthrough_len
-		input  wire [15:0] ppd_cfg_threshold,       //         .cfg_threshold
+		input  wire [7:0]  ppd_cfg_threshold,       //         .cfg_threshold
 		input  wire        ppd_cfg_clear_rs,        //         .cfg_clear_rs
 		input  wire        ppd_cfg_enable,          //         .cfg_enable
 		output wire [31:0] ppd_debug_count,         //         .debug_count
