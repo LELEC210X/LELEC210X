@@ -44,7 +44,7 @@ Configuration signal & Description & Allowed values\\
 \hline
 \texttt{cfg\_PASSTHROUGH\_LEN} & Number of samples to pass-through after a start flag has been added. Avoid any retriggering of this flag meanwhile. & $\left[1,2^{\textsc{PASSTHROUGH\_LEN\_WIDTH}}-1\right]$ \\
 \hline
-\texttt{cfg\_THRESHOLD} & Value to multiply the normalized result of the long-term sum, before comparison. & $\left[1,2^{16}-1\right]$ \\
+\texttt{cfg\_THRESHOLD} & Value to multiply the normalized result of the long-term sum, before comparison. & $\left[1,2^{8}-1\right]$ \\
 \hline
 \end{tabular}
 \caption{Configuration signals \texttt{packet\_presence\_detection} IP}
