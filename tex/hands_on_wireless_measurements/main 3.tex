@@ -1,0 +1,95 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{float}
+\usepackage{epstopdf}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{gensymb}
+\usepackage[bottom]{footmisc}
+\usepackage{appendix}
+\usepackage{pdfpages}
+\usepackage{todonotes}
+\usepackage{mathpazo}
+\usepackage{titleps}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{siunitx}
+\usepackage{pdflscape}
+\usepackage{cancel}
+
+\usepackage[skins]{tcolorbox}
+\usepackage{sectsty}
+\usepackage[arrowmos]{circuitikz}
+\usepackage{pgfplots}
+\usepackage{blindtext}
+\usepackage[inner=2cm,outer=2cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{todonotes}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{adjustbox}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{fancybox}
+\usepackage[tikz]{bclogo}
+\usepackage{soul}
+
+\input{../code_environments.tex}
+
+
+\graphicspath{{figures/}}
+\sectionfont{\large}
+\subsectionfont{\normalsize}
+
+%%%%%%%%%%%%%%%%%%%
+% HANDS-ON NUMBER
+\newcommand\handsOnN{3b}
+% WEEK NUMBER
+\newcommand\weekN{6}
+%%%%%%%%%%%%%%%%%%%
+
+\newpagestyle{main}{
+	\sethead[LELEC2102: Hands-on \handsOnN][][Week \weekN]{LELEC2102: Hands-on \handsOnN}{}{Week \weekN}
+	\headrule
+    \setfoot[][\thepage][]{}{\thepage}{}
+}
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\renewcommand{\figurename}{Fig.}
+
+\renewcommand{\thepage}{\arabic{page}}
+\setcounter{page}{1}
+\pagestyle{main}
+\newpage \clearpage
+
+\begin{center}
+\begin{huge}
+Hands-on \handsOnN: Experimental SDR-based wireless communications \\
+\end{huge}
+\vspace{0.3cm}
+%\textit{TA 1, TA 2}
+\end{center}
+
+\input{introduction}
+
+\input{objectives}
+\input{material}
+\input{core}
+\input{report}
+
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
