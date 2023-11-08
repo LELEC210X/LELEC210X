@@ -171,7 +171,7 @@ This SNR is therefore defined on each sample, meaning that a SNR of 0 dB implies
 \paragraph{Bit error rate}
 Often, the demodulation performances of a communication chain are determined by measuring the bit error rate (BER). It is defined as the probability of making a demodulation error on a bit. To compute it in simulation, many iterations are performed with thousands of bits sent and the error probability is simply obtained by counting the number of bits demodulated properly and the ones suffering from a demodulation error. Thus the simulation framework can directly output a simulated BER-SNR curve, for the range of SNRs specified in \textbf{chain.py}.
 
-This simulated BER-SNR curve can then be compared to some theoretical curves, obtained thanks to mathematical developments based on the decision variable and the model of the noise (AWGN). For example, the bit error probability in the case of a BPSK transmission if given by
+This simulated BER-SNR curve can then be compared to some theoretical curves, obtained thanks to mathematical developments based on the decision variable and the model of the noise (AWGN). For example, the bit error probability in the case of a BPSK transmission is given by
 \begin{equation*}
     p_{e,\text{BPSK}}\:=\:\frac{1}{2} \text{erfc}\left(\sqrt{\text{SNR}_o}\right),
 \end{equation*}
