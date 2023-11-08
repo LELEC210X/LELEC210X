@@ -20,7 +20,7 @@
 #set_clock_groups -asynchronous -group {altera_reserved_tck}
 
 #**************************************************************
-# Set TCL Path Variables
+# Set TCL Path Variables 
 #**************************************************************
 
 set 	lms_ctr_nios2_cpu_cpu 	lms_ctr_nios2_cpu_cpu:*

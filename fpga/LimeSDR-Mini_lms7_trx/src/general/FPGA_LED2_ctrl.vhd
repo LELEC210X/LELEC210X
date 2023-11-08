@@ -1,6 +1,6 @@
 -- ----------------------------------------------------------------------------
 -- FILE:          FPGA_LED2_ctrl.vhd
--- DESCRIPTION:   displays adf and dac status.
+-- DESCRIPTION:   displays adf and dac status. 
 -- DATE:          4:56 PM Monday, May 7, 2018
 -- AUTHOR(s):     Lime Microsystems
 -- REVISIONS:
@@ -18,7 +18,7 @@ use ieee.numeric_std.all;
 -- ----------------------------------------------------------------------------
 entity FPGA_LED2_ctrl is
    port (
-      --input ports
+      --input ports 
       clk            : in std_logic;
       reset_n        : in std_logic;
       adf_muxout     : in std_logic;
@@ -48,31 +48,32 @@ begin
    process(reset_n, clk)
    begin
       if reset_n='0' then
-         last_val<="10";
+         last_val<="10"; 
       elsif (clk'event and clk = '1') then
-         if dac_ss='0' then
+         if dac_ss='0' then 
             last_val<="00";
-         elsif adf_ss='0' then
+         elsif adf_ss='0' then 
             last_val<="10";
-         else
+         else 
             last_val<=last_val;
          end if;
       end if;
    end process;
-
+   
    led_g_ovr <= '1' when led_ctrl(2)='1' and led_ctrl(1)='0' else '0';
-   led_r_ovr <= '1' when led_ctrl(1)='1' and led_ctrl(2)='0' else '0';
+   led_r_ovr <= '1' when led_ctrl(1)='1' and led_ctrl(2)='0' else '0';	 
 
-   led_g_def <=   '0' when last_val="00" else
-                  '1' when last_val="10" and adf_muxout='1' else
+   led_g_def <=   '0' when last_val="00" else 
+                  '1' when last_val="10" and adf_muxout='1' else 
                   '0';
-
-   led_r_def <=   '0' when last_val="00" else
-                  '1' when last_val="10" and adf_muxout='0' else
-                  '0';
-
+  
+   led_r_def <=   '0' when last_val="00" else 
+                  '1' when last_val="10" and adf_muxout='0' else 
+                  '0'; 
+  
    led_g<= led_g_def when led_ctrl(0)='0' else led_g_ovr;
-   led_r<= led_r_def when led_ctrl(0)='0' else led_r_ovr;
-
-
+   led_r<= led_r_def when led_ctrl(0)='0' else led_r_ovr;  
+  
+  
 end arch;
+

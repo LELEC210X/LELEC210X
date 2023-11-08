@@ -38,13 +38,13 @@
 ******************************************************************************/
 
 /*
- * Definition of a table describing each interrupt handler. The index into
- * the array is the interrupt id associated with the handler.
+ * Definition of a table describing each interrupt handler. The index into 
+ * the array is the interrupt id associated with the handler. 
  *
  * When an interrupt occurs, the associated handler is called with
  * the argument stored in the context member.
  *
- * The table is physically created in alt_irq_handler.c
+ * The table is physically created in alt_irq_handler.c 
  */
 extern struct ALT_IRQ_HANDLER
 {

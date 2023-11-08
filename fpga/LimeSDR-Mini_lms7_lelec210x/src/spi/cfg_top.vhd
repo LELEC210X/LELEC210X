@@ -33,7 +33,7 @@ entity cfg_top is
       sdin                 : in  std_logic;   -- Data in
       sclk                 : in  std_logic;   -- Data clock
       sen                  : in  std_logic;   -- Enable signal (active low)
-      sdout                : out std_logic;  -- Data out
+      sdout                : out std_logic;  -- Data out      
       -- Signals coming from the pins or top level serial interface
       lreset               : in  std_logic;   -- Logic reset signal, resets logic cells only  (use only one reset)
       mreset               : in  std_logic;   -- Memory reset signal, resets configuration memory only (use only one reset)
@@ -54,7 +54,7 @@ end cfg_top;
 -- ----------------------------------------------------------------------------
 architecture arch of cfg_top is
 --declare signals,  components here
---inst0
+--inst0 
 signal inst0_sdout   : std_logic;
 
 --inst1
@@ -70,99 +70,101 @@ begin
 
 -- ----------------------------------------------------------------------------
 -- fpgacfg instance
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------     
    fpgacfg_inst0 : entity work.fpgacfg
    port map(
       -- Address and location of this module
       -- Will be hard wired at the top level
       maddress    => std_logic_vector(to_unsigned(FPGACFG_START_ADDR/32,10)),
-      mimo_en     => '1',
+      mimo_en     => '1',   
       -- Serial port IOs
       sdin        => sdin,
       sclk        => sclk,
       sen         => sen,
-      sdout       => inst0_sdout,
+      sdout       => inst0_sdout,  
       -- Signals coming from the pins or top level serial interface
       lreset      => lreset,   -- Logic reset signal, resets logic cells only  (use only one reset)
-      mreset      => mreset,   -- Memory reset signal, resets configuration memory only (use only one reset)
+      mreset      => mreset,   -- Memory reset signal, resets configuration memory only (use only one reset)      
       oen         => open,
-      stateo      => open,
+      stateo      => open,      
       to_fpgacfg  => to_fpgacfg,
       from_fpgacfg=> from_fpgacfg
    );
-
+   
 -- ----------------------------------------------------------------------------
 -- pllcfg instance
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------  
    pllcfg_inst1 : entity work.pllcfg
    port map(
       -- Address and location of this module
       -- Will be hard wired at the top level
       maddress       => std_logic_vector(to_unsigned(PLLCFG_START_ADDR/32,10)),
-      mimo_en        => '1',
+      mimo_en        => '1',      
       -- Serial port A IOs
       sdinA          => sdin,
       sclkA          => sclk,
       senA           => sen,
-      sdoutA         => inst1_sdoutA,
-      oenA           => open,
+      sdoutA         => inst1_sdoutA,    
+      oenA           => open,     
       -- Signals coming from the pins or top level serial interface
       lreset         => lreset, -- Logic reset signal, resets logic cells only  (use only one reset)
-      mreset         => mreset,-- Memory reset signal, resets configuration memory only (use only one reset)
+      mreset         => mreset,-- Memory reset signal, resets configuration memory only (use only one reset)      
       to_pllcfg      => to_pllcfg,
       from_pllcfg    => from_pllcfg
    );
-
+   
 -- ----------------------------------------------------------------------------
 -- tstcfg instance
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------    
    tstcfg_inst3 : entity work.tstcfg
    port map(
       -- Address and location of this module
       -- Will be hard wired at the top level
       maddress             => std_logic_vector(to_unsigned(TSTCFG_START_ADDR/32,10)),
-      mimo_en              => '1',
+      mimo_en              => '1',   
       -- Serial port IOs
       sdin                 => sdin,
       sclk                 => sclk,
       sen                  => sen,
-      sdout                => inst3_sdout,
+      sdout                => inst3_sdout,  
       -- Signals coming from the pins or top level serial interface
       lreset               => lreset,   -- Logic reset signal, resets logic cells only  (use only one reset)
-      mreset               => mreset,   -- Memory reset signal, resets configuration memory only (use only one reset)
+      mreset               => mreset,   -- Memory reset signal, resets configuration memory only (use only one reset)      
       oen                  => open,
-      stateo               => open,
+      stateo               => open,    
       to_tstcfg            => to_tstcfg,
       to_tstcfg_from_rxtx  => to_tstcfg_from_rxtx,
       from_tstcfg          => from_tstcfg
    );
 
-
+   
 -- ----------------------------------------------------------------------------
 -- periphcfg instance
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------    
    periphcfg_inst6 : entity work.periphcfg
    port map(
       -- Address and location of this module
       -- Will be hard wired at the top level
       maddress    => std_logic_vector(to_unsigned(PERIPHCFG_START_ADDR/32,10)),
-      mimo_en     => '1',
+      mimo_en     => '1',   
       -- Serial port IOs
       sdin        => sdin,
       sclk        => sclk,
       sen         => sen,
-      sdout       => inst6_sdout,
+      sdout       => inst6_sdout,  
       -- Signals coming from the pins or top level serial interface
       lreset      => lreset,   -- Logic reset signal, resets logic cells only  (use only one reset)
-      mreset      => mreset,   -- Memory reset signal, resets configuration memory only (use only one reset)
+      mreset      => mreset,   -- Memory reset signal, resets configuration memory only (use only one reset)      
       oen         => open,
-      stateo      => open,
+      stateo      => open,    
       to_periphcfg   => to_periphcfg,
       from_periphcfg => from_periphcfg
    );
 -- ----------------------------------------------------------------------------
 -- Output ports
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------    
    sdout <= inst0_sdout OR inst1_sdoutA OR inst3_sdout OR inst6_sdout;
+  
+end arch;   
 
-end arch;
+

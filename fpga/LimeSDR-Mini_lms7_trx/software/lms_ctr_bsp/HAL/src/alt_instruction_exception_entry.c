@@ -64,7 +64,7 @@ int alt_instruction_exception_entry (alt_u32 exception_pc)
  * that handler if it has been registered. Absent a handler, it will
  * break break or hang as discussed below.
  */
-int
+int 
 alt_instruction_exception_entry (alt_u32 exception_pc)
 {
   alt_u32 cause, badaddr;
@@ -170,7 +170,7 @@ alt_instruction_exception_entry (alt_u32 exception_pc)
  * this is a convenience routine to easily test the validity of that
  * argument in your handler.
  *
- * Note that this routine will return false (0) for causes
+ * Note that this routine will return false (0) for causes 
  * NIOS2_EXCEPTION_TLB_MISS and NIOS2_EXCEPTION_ECC_TLB_ERR.
  * You must read the TLBMISC.D field to determine if BADADDR
  * is valid for these (valid if TLBMISC.D = 1).
@@ -183,7 +183,7 @@ alt_instruction_exception_entry (alt_u32 exception_pc)
  * Return: 1: BADADDR (bad_addr argument to handler) is valid
  *         0: BADADDR is not valid
  */
-int
+int 
 alt_exception_cause_generated_bad_addr(alt_exception_cause cause)
 {
   switch (cause) {

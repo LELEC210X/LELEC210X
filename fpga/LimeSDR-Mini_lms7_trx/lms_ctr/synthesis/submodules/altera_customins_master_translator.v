@@ -1,13 +1,13 @@
 // (C) 2001-2018 Intel Corporation. All rights reserved.
-// Your use of Intel Corporation's design tools, logic functions and other
-// software and tools, and its AMPP partner logic functions, and any output
-// files from any of the foregoing (including device programming or simulation
-// files), and any associated documentation or information are expressly subject
-// to the terms and conditions of the Intel Program License Subscription
-// Agreement, Intel FPGA IP License Agreement, or other applicable
-// license agreement, including, without limitation, that your use is for the
-// sole purpose of programming logic devices manufactured by Intel and sold by
-// Intel or its authorized distributors.  Please refer to the applicable
+// Your use of Intel Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files from any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Intel Program License Subscription 
+// Agreement, Intel FPGA IP License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Intel and sold by 
+// Intel or its authorized distributors.  Please refer to the applicable 
 // agreement for further details.
 
 
@@ -20,7 +20,7 @@
 // ------------------------------------------
 `timescale 1 ns / 1 ns
 
-module altera_customins_master_translator
+module altera_customins_master_translator 
 #(
     parameter SHARED_COMB_AND_MULTI = 0
 )
@@ -122,7 +122,7 @@ module altera_customins_master_translator
         assign multi_ci_master_readra  = ci_slave_multi_readra;
         assign multi_ci_master_readrb  = ci_slave_multi_readrb;
         assign multi_ci_master_writerc = ci_slave_multi_writerc;
-
+        
         assign ci_slave_result         = comb_ci_master_result;
         assign ci_slave_multi_result   = multi_ci_master_result;
 

@@ -40,7 +40,8 @@ begin
          cnt <= cnt + 1;
       end if;
    end process cntp;
-
+   
    beat <= cnt(24);
 
 end alive_arch;
+

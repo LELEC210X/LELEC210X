@@ -41,14 +41,14 @@
 
 /*
  * This header provides macro definitions that can be used to create and use
- * uc/OS-II style event flags. These macros can be used in both a uC/OS-II based
+ * uc/OS-II style event flags. These macros can be used in both a uC/OS-II based 
  * environment, and a single threaded HAL based environment.
  *
  * The motivation for these macros is to allow code to be developed which is
  * thread safe under uC/OS-II, but incurs no additional overhead when used in a
- * single threaded HAL environment.
+ * single threaded HAL environment.  
  *
- * In the case of a single threaded HAL environment, they compile to
+ * In the case of a single threaded HAL environment, they compile to 
  * "do nothing" directives, which ensures they do not contribute to the final
  * executable.
  *
@@ -60,14 +60,14 @@
  * ALT_FLAG_CREATE     - Initialise a flag group.
  * ALT_FLAG_PEND       - Pend on a flag group.
  * ALT_FLAG_POST       - Set a flag condition.
-
+ 
  *
  * Input arguments and return codes are all consistant with the equivalent
  * uC/OS-II function.
  *
- * It's important to be careful in the use of the macros: ALT_FLAG_GRP,
- * ALT_EXTERN_FLAG_GRP, and ALT_STATIC_FLAG_GRP. In these three cases the
- * semi-colon is included in the macro definition; so, for example, you should
+ * It's important to be careful in the use of the macros: ALT_FLAG_GRP, 
+ * ALT_EXTERN_FLAG_GRP, and ALT_STATIC_FLAG_GRP. In these three cases the 
+ * semi-colon is included in the macro definition; so, for example, you should 
  * use:
  *
  * ALT_FLAG_GRP(mygroup)
@@ -79,15 +79,15 @@
  * The inclusion of the semi-colon has been necessary to ensure the macros can
  * compile with no warnings when used in a single threaded HAL environment.
  *
- */
+ */ 
 
 #include "priv/alt_no_error.h"
 
 #define ALT_FLAG_GRP(group)
-#define ALT_EXTERN_FLAG_GRP(group)
+#define ALT_EXTERN_FLAG_GRP(group) 
 #define ALT_STATIC_FLAG_GRP(group)
-
-#define ALT_FLAG_CREATE(group, flags) alt_no_error ()
+       
+#define ALT_FLAG_CREATE(group, flags) alt_no_error ()   
 #define ALT_FLAG_PEND(group, flags, wait_type, timeout) alt_no_error ()
 #define ALT_FLAG_POST(group, flags, opt) alt_no_error ()
 

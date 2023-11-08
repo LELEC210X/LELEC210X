@@ -32,9 +32,9 @@
 ******************************************************************************/
 
 /*
- * alt_warning.h provides macro definitions that can be used to generate link
+ * alt_warning.h provides macro definitions that can be used to generate link 
  * time warnings.
- */
+ */ 
 
 #ifdef __cplusplus
 extern "C"
@@ -42,9 +42,9 @@ extern "C"
 #endif /* __cplusplus */
 
 /*
- * The symbol "__alt_invalid" is used to force a link error. There should be
+ * The symbol "__alt_invalid" is used to force a link error. There should be 
  * no corresponding implementation of this function.
- */
+ */  
 
 extern void __alt_invalid (void);
 

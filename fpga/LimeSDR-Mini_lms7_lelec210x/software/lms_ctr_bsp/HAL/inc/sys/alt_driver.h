@@ -64,7 +64,7 @@
  *
  * Example:
  *   Assume the design has an instance of an altera_avalon_uart called uart1.
- *   Calling ALT_DRIVER_FUNC_NAME(uart1, write) returns
+ *   Calling ALT_DRIVER_FUNC_NAME(uart1, write) returns 
  *   altera_avalon_uart_write.
  */
 

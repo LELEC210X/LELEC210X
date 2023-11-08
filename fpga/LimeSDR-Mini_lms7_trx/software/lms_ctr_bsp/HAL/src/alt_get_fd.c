@@ -43,10 +43,10 @@
 
 /*
  * alt_get_fd() is called to allocate a new file descriptor from the file
- * descriptor pool. If a file descriptor is succesfully allocated, it is
+ * descriptor pool. If a file descriptor is succesfully allocated, it is 
  * configured to refer to device "dev".
  *
- * The return value is the index of the file descriptor structure (i.e.
+ * The return value is the index of the file descriptor structure (i.e. 
  * the offset of the file descriptor within the file descriptor array). A
  * negative value indicates failure.
  */
@@ -55,23 +55,23 @@ int alt_get_fd (alt_dev* dev)
 {
   alt_32 i;
   int rc = -EMFILE;
-
-  /*
-   * Take the alt_fd_list_lock semaphore in order to avoid races when
+  
+  /* 
+   * Take the alt_fd_list_lock semaphore in order to avoid races when 
    * accessing the file descriptor pool.
    */
-
+  
   ALT_SEM_PEND(alt_fd_list_lock, 0);
-
-  /*
+  
+  /* 
    * Search through the list of file descriptors, and allocate the first
-   * free descriptor that's found.
+   * free descriptor that's found. 
    *
-   * If a free descriptor is found, then the value of "alt_max_fd" is
-   * updated accordingly. "alt_max_fd" is a 'highwater mark' which
+   * If a free descriptor is found, then the value of "alt_max_fd" is 
+   * updated accordingly. "alt_max_fd" is a 'highwater mark' which 
    * indicates the highest file descriptor ever allocated. This is used to
-   * improve efficency when searching the file descriptor list, and
-   * therefore reduce contention on the alt_fd_list_lock semaphore.
+   * improve efficency when searching the file descriptor list, and 
+   * therefore reduce contention on the alt_fd_list_lock semaphore. 
    */
 
   for (i = 0; i < ALT_MAX_FD; i++)
@@ -99,3 +99,7 @@ int alt_get_fd (alt_dev* dev)
 
   return rc;
 }
+
+
+
+

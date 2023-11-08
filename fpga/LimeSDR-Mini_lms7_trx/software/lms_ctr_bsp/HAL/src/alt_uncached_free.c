@@ -36,7 +36,7 @@
  * Free a block of uncached memory.
  */
 
-void
+void 
 alt_uncached_free(volatile void* ptr)
 {
 #if ALT_CPU_DCACHE_SIZE > 0

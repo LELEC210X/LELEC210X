@@ -14,9 +14,9 @@
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_debug_slave_sysclk (
                                                   // inputs:
@@ -112,40 +112,40 @@ reg              update_jdo_strobe /* synthesis ALTERA_ATTRIBUTE = "SUPPRESS_DA_
     end
 
 
-  assign take_action_ocimem_a = enable_action_strobe && (ir == 2'b00) &&
+  assign take_action_ocimem_a = enable_action_strobe && (ir == 2'b00) && 
     ~jdo[35] && jdo[34];
 
-  assign take_no_action_ocimem_a = enable_action_strobe && (ir == 2'b00) &&
+  assign take_no_action_ocimem_a = enable_action_strobe && (ir == 2'b00) && 
     ~jdo[35] && ~jdo[34];
 
-  assign take_action_ocimem_b = enable_action_strobe && (ir == 2'b00) &&
+  assign take_action_ocimem_b = enable_action_strobe && (ir == 2'b00) && 
     jdo[35];
 
-  assign take_action_break_a = enable_action_strobe && (ir == 2'b10) &&
-    ~jdo[36] &&
+  assign take_action_break_a = enable_action_strobe && (ir == 2'b10) && 
+    ~jdo[36] && 
     jdo[37];
 
-  assign take_no_action_break_a = enable_action_strobe && (ir == 2'b10) &&
-    ~jdo[36] &&
+  assign take_no_action_break_a = enable_action_strobe && (ir == 2'b10) && 
+    ~jdo[36] && 
     ~jdo[37];
 
-  assign take_action_break_b = enable_action_strobe && (ir == 2'b10) &&
+  assign take_action_break_b = enable_action_strobe && (ir == 2'b10) && 
     jdo[36] && ~jdo[35] &&
     jdo[37];
 
-  assign take_no_action_break_b = enable_action_strobe && (ir == 2'b10) &&
+  assign take_no_action_break_b = enable_action_strobe && (ir == 2'b10) && 
     jdo[36] && ~jdo[35] &&
     ~jdo[37];
 
-  assign take_action_break_c = enable_action_strobe && (ir == 2'b10) &&
+  assign take_action_break_c = enable_action_strobe && (ir == 2'b10) && 
     jdo[36] &&  jdo[35] &&
     jdo[37];
 
-  assign take_no_action_break_c = enable_action_strobe && (ir == 2'b10) &&
+  assign take_no_action_break_c = enable_action_strobe && (ir == 2'b10) && 
     jdo[36] &&  jdo[35] &&
     ~jdo[37];
 
-  assign take_action_tracectrl = enable_action_strobe && (ir == 2'b11) &&
+  assign take_action_tracectrl = enable_action_strobe && (ir == 2'b11) &&  
     jdo[15];
 
   always @(posedge clk)
@@ -159,3 +159,4 @@ reg              update_jdo_strobe /* synthesis ALTERA_ATTRIBUTE = "SUPPRESS_DA_
 
 
 endmodule
+

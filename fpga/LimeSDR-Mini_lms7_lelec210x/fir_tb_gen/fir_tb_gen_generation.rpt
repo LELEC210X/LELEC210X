@@ -1,0 +1,77 @@
+Info: Starting: Create simulation model
+Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\fir_tb_gen.qsys --simulation=VERILOG --allow-mixed-language-simulation --output-directory=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\fir_tb_gen\simulation --family="MAX 10" --part=10M16SAU169C8G
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/fir_tb_gen.qsys
+Progress: Reading input file
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
+Progress: Adding fir_compiler_ii_0 [altera_fir_compiler_ii 18.1]
+Progress: Parameterizing module fir_compiler_ii_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: fir_tb_gen.fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 25, Bankcount 1, CoefBitWidth 8
+Info: fir_tb_gen: Generating fir_tb_gen "fir_tb_gen" for SIM_VERILOG
+Info: fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 25, Bankcount 1, Latency 17, CoefBitWidth 8
+Info: fir_compiler_ii_0: "fir_tb_gen" instantiated altera_fir_compiler_ii "fir_compiler_ii_0"
+Info: rst_controller: "fir_tb_gen" instantiated altera_reset_controller "rst_controller"
+Info: fir_tb_gen: Done "fir_tb_gen" with 3 modules, 24 files
+Info: qsys-generate succeeded.
+Info: Finished: Create simulation model
+Info: Starting: Create Modelsim Project.
+Info: sim-script-gen --spd=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\fir_tb_gen\fir_tb_gen.spd --output-directory=D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/fir_tb_gen/simulation/ --use-relative-paths=true
+Info: Doing: ip-make-simscript --spd=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\fir_tb_gen\fir_tb_gen.spd --output-directory=D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/fir_tb_gen/simulation/ --use-relative-paths=true
+Info: Generating the following file(s) for MODELSIM simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/fir_tb_gen/simulation/ directory:
+Info: 	mentor/msim_setup.tcl
+Info: Skipping VCS script generation since VHDL file $QUARTUS_INSTALL_DIR/eda/sim_lib/altera_syn_attributes.vhd is required for simulation
+Info: Generating the following file(s) for VCSMX simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/fir_tb_gen/simulation/ directory:
+Info: 	synopsys/vcsmx/synopsys_sim.setup
+Info: 	synopsys/vcsmx/vcsmx_setup.sh
+Info: Generating the following file(s) for NCSIM simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/fir_tb_gen/simulation/ directory:
+Info: 	cadence/cds.lib
+Info: 	cadence/hdl.var
+Info: 	cadence/ncsim_setup.sh
+Info: 	2 .cds.lib files in cadence/cds_libs/ directory
+Info: Generating the following file(s) for RIVIERA simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/fir_tb_gen/simulation/ directory:
+Info: 	aldec/rivierapro_setup.tcl
+Info: For information on how to simulate your IP, see the explanatory comments in the simulator-specific subdirectories under D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/fir_tb_gen/simulation/.
+Info: Regenerate these scripts whenever you make any change to any Quartus-generated IP in your project.
+Info: Finished: Create Modelsim Project.
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\fir_tb_gen.qsys --block-symbol-file --output-directory=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\fir_tb_gen --family="MAX 10" --part=10M16SAU169C8G
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/fir_tb_gen.qsys
+Progress: Reading input file
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
+Progress: Adding fir_compiler_ii_0 [altera_fir_compiler_ii 18.1]
+Progress: Parameterizing module fir_compiler_ii_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: fir_tb_gen.fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 25, Bankcount 1, CoefBitWidth 8
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\fir_tb_gen.qsys --synthesis=VERILOG --greybox --output-directory=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\fir_tb_gen\synthesis --family="MAX 10" --part=10M16SAU169C8G
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/fir_tb_gen.qsys
+Progress: Reading input file
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
+Progress: Adding fir_compiler_ii_0 [altera_fir_compiler_ii 18.1]
+Progress: Parameterizing module fir_compiler_ii_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: fir_tb_gen.fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 25, Bankcount 1, CoefBitWidth 8
+Info: fir_tb_gen: Generating fir_tb_gen "fir_tb_gen" for QUARTUS_SYNTH
+Info: fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 25, Bankcount 1, Latency 17, CoefBitWidth 8
+Info: fir_compiler_ii_0: "fir_tb_gen" instantiated altera_fir_compiler_ii "fir_compiler_ii_0"
+Info: rst_controller: "fir_tb_gen" instantiated altera_reset_controller "rst_controller"
+Info: fir_tb_gen: Done "fir_tb_gen" with 3 modules, 16 files
+Info: Generating third-party timing and resource estimation model ...
+Error: Third-party timing and resource estimation model project creation failed: C:/intelfpga/18.1/quartus\bin64/quartus_sh -t quartus_greybox.tcl
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis

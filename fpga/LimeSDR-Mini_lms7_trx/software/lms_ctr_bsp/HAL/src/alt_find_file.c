@@ -39,39 +39,39 @@
 
 #include "alt_types.h"
 
-/*
- * alt_find_file() is used by open() in order to locate a previously registered
- * filesystem that owns that mount point that contains the file named "name".
+/* 
+ * alt_find_file() is used by open() in order to locate a previously registered 
+ * filesystem that owns that mount point that contains the file named "name". 
  *
  * The return value is a pointer to the matching filesystem, or NULL if there is
- * no match.
+ * no match. 
  *
  * A match is considered to have been found if the filesystem name followed by
  * either '/' or '\0' is the prefix of the filename. For example the filename:
- * "/myfilesystem/junk.txt" would match: "/myfilesystem", but not: "/myfile".
+ * "/myfilesystem/junk.txt" would match: "/myfilesystem", but not: "/myfile". 
  */
-
+ 
 alt_dev* alt_find_file (const char* name)
 {
-  alt_dev* next = (alt_dev*) alt_fs_list.next;
+  alt_dev* next = (alt_dev*) alt_fs_list.next;   
 
   alt_32 len;
-
+ 
   /*
    * Check each list entry in turn, until a match is found, or we reach the
    * end of the list (i.e. next winds up pointing back to the list head).
-   */
-
+   */ 
+ 
   while (next != (alt_dev*) &alt_fs_list)
   {
     len = strlen(next->name);
-
+    
     if (next->name[len-1] == '/')
     {
       len -= 1;
     }
 
-    if (((name[len] == '/') || (name[len] == '\0')) &&
+    if (((name[len] == '/') || (name[len] == '\0')) && 
         !memcmp (next->name, name, len))
     {
       /* match found */
@@ -80,8 +80,10 @@ alt_dev* alt_find_file (const char* name)
     }
     next = (alt_dev*) next->llist.next;
   }
-
+  
   /* No match found */
-
-  return NULL;
+  
+  return NULL;     
 }
+
+

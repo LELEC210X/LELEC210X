@@ -32,6 +32,18 @@ options:
     state: enabled
 
 blocks:
+- name: K_threshold
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [556, 66]
+    rotation: 0
+    state: true
 - name: carrier_freq
   id: variable
   parameters:
@@ -54,18 +66,6 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [226, 103]
-    rotation: 0
-    state: true
-- name: detect_threshold_fpga
-  id: variable
-  parameters:
-    comment: ''
-    value: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [556, 66]
     rotation: 0
     state: true
 - name: rx_gain
@@ -131,9 +131,8 @@ blocks:
     dacVal: '180'
     digital_bandw_ch0: samp_rate
     digital_bandw_ch1: samp_rate
-    dspcfg_FILTER_LEN: '32'
     dspcfg_PASSTHROUGH_LEN: '1000'
-    dspcfg_THRESHOLD: detect_threshold_fpga
+    dspcfg_THRESHOLD: K_threshold
     dspcfg_preamble_en: '0'
     filename: ''
     gain_dB_ch0: rx_gain

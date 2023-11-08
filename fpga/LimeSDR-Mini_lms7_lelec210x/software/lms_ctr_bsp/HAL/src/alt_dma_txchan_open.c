@@ -45,7 +45,7 @@ ALT_LLIST_HEAD(alt_dma_txchan_list);
  * a DMA transmit device. The name is the name of the associated physical
  * device (e.g. "/dev/dma_0").
  *
- * The return value will be NULL on failure, and non-NULL otherwise.
+ * The return value will be NULL on failure, and non-NULL otherwise. 
  */
 
 alt_dma_txchan alt_dma_txchan_open (const char* name)

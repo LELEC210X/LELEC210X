@@ -32,7 +32,7 @@
 #include "system.h"
 
 #include "alt_types.h"
-#include "sys/alt_cache.h"
+#include "sys/alt_cache.h" 
 
 #define ALT_FLUSH_DATA(i) __asm__ volatile ("flushda (%0)" :: "r" (i));
 
@@ -48,16 +48,16 @@ void alt_dcache_flush (void* start, alt_u32 len)
 #if NIOS2_DCACHE_SIZE > 0
 
   char* i;
-  char* end = ((char*) start) + len;
+  char* end = ((char*) start) + len; 
 
   for (i = start; i < end; i+= NIOS2_DCACHE_LINE_SIZE)
-  {
-    ALT_FLUSH_DATA(i);
+  { 
+    ALT_FLUSH_DATA(i); 
   }
 
-  /*
+  /* 
    * For an unaligned flush request, we've got one more line left.
-   * Note that this is dependent on NIOS2_DCACHE_LINE_SIZE to be a
+   * Note that this is dependent on NIOS2_DCACHE_LINE_SIZE to be a 
    * multiple of 2 (which it always is).
    */
 

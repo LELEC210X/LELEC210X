@@ -18,7 +18,7 @@ use work.pllcfg_pkg.all;
 use work.tstcfg_pkg.all;
 use work.periphcfg_pkg.all;
 use work.FIFO_PACK.all;
-library altera;
+library altera; 
 use altera.altera_primitives_components.all;
 
 -- ----------------------------------------------------------------------------
@@ -29,17 +29,17 @@ entity lms7_trx_top is
       -- General parameters
       BOARD                   : string := "LimeSDR-Mini";
       DEV_FAMILY              : string := "MAX 10";
-      -- LMS7002 related
+      -- LMS7002 related 
       LMS_DIQ_WIDTH           : integer := 12;
       -- FTDI (USB3) related
-      FTDI_DQ_WIDTH           : integer := 32;     -- FTDI Data bus size
+      FTDI_DQ_WIDTH           : integer := 32;     -- FTDI Data bus size      
       CTRL0_FPGA_RX_SIZE      : integer := 1024;   -- Control PC->FPGA, FIFO size in bytes.
       CTRL0_FPGA_RX_RWIDTH    : integer := 32;     -- Control PC->FPGA, FIFO rd width.
       CTRL0_FPGA_TX_SIZE      : integer := 1024;   -- Control FPGA->PC, FIFO size in bytes
       CTRL0_FPGA_TX_WWIDTH    : integer := 32;     -- Control FPGA->PC, FIFO wr width
       STRM0_FPGA_TX_SIZE      : integer := 16384;  -- Stream FPGA->PC, FIFO size in bytes
       STRM0_FPGA_TX_WWIDTH    : integer := 64;     -- Stream FPGA->PC, wr width
-      -- Internal configuration memory
+      -- Internal configuration memory 
       FPGACFG_START_ADDR      : integer := 0;
       PLLCFG_START_ADDR       : integer := 32;
       TSTCFG_START_ADDR       : integer := 96;
@@ -82,13 +82,13 @@ entity lms7_trx_top is
          -- Control, flags
       FT_RXFn           : in     std_logic;
       FT_TXEn           : in     std_logic;
-      FT_WRn            : out    std_logic;
+      FT_WRn            : out    std_logic;  
       -- ----------------------------------------------------------------------------
       -- External communication interfaces
          -- FPGA_SPI
       FPGA_SPI_SCLK     : out    std_logic;
       FPGA_SPI_MOSI     : out    std_logic;
-      FPGA_SPI_MISO     : in     std_logic;
+      FPGA_SPI_MISO     : in     std_logic;      
       FPGA_SPI_LMS_SS   : out    std_logic;
       FPGA_SPI_DAC_SS   : out    std_logic;
          -- FPGA_QSPI
@@ -103,24 +103,24 @@ entity lms7_trx_top is
       FPGA_I2C_SDA      : inout  std_logic;
       -- ----------------------------------------------------------------------------
       -- General periphery
-         -- LEDs
+         -- LEDs          
       FPGA_LED_R        : out    std_logic;
       FPGA_LED_G        : out    std_logic;
-         -- GPIO
+         -- GPIO 
       FPGA_GPIO         : inout  std_logic_vector(7 downto 0);
       FPGA_EGPIO        : inout  std_logic_vector(1 downto 0);
          -- Temperature sensor
       LM75_OS           : in     std_logic;
-         -- Fan control
+         -- Fan control 
       FAN_CTRL          : out    std_logic;
-         -- RF loop back control
+         -- RF loop back control 
       RFSW_RX_V1        : out    std_logic;
       RFSW_RX_V2        : out    std_logic;
       RFSW_TX_V1        : out    std_logic;
       RFSW_TX_V2        : out    std_logic;
       TX_LB_AT          : out    std_logic;
       TX_LB_SH          : OUT    std_logic;
-         -- Bill Of material and hardware version
+         -- Bill Of material and hardware version 
       BOM_VER           : in     std_logic_vector(2 downto 0);
       HW_VER            : in     std_logic_vector(3 downto 0)
 
@@ -132,7 +132,7 @@ end lms7_trx_top;
 -- ----------------------------------------------------------------------------
 architecture arch of lms7_trx_top is
 --declare signals,  components here
-signal reset_n                   : std_logic;
+signal reset_n                   : std_logic; 
 signal reset_n_ft_clk            : std_logic;
 signal reset_n_lmk_clk           : std_logic;
 
@@ -206,26 +206,26 @@ begin
 
 -- ----------------------------------------------------------------------------
 -- Reset logic
--- ----------------------------------------------------------------------------
-   -- Reset from FPGA pin.
+-- ----------------------------------------------------------------------------  
+   -- Reset from FPGA pin. 
    reset_n <= not HW_VER(3);
-
-   -- Reset signal with synchronous removal to FTDI_PCLK clock domain,
-   sync_reg0 : entity work.sync_reg
+   
+   -- Reset signal with synchronous removal to FTDI_PCLK clock domain, 
+   sync_reg0 : entity work.sync_reg 
    port map(FT_CLK, reset_n, '1', reset_n_ft_clk);
+   
+   sync_reg1 : entity work.sync_reg 
+   port map(LMK_CLK, reset_n, '1', reset_n_lmk_clk);   
 
-   sync_reg1 : entity work.sync_reg
-   port map(LMK_CLK, reset_n, '1', reset_n_lmk_clk);
-
-	-- Reset signal for inst0 with synchronous removal to rx_clk clock domain,
-   sync_reg2 : entity work.sync_reg
+	-- Reset signal for inst0 with synchronous removal to rx_clk clock domain, 
+   sync_reg2 : entity work.sync_reg 
    port map(inst1_pll_c3, inst0_from_fpgacfg.rx_en, '1', inst6_rx_pct_fifo_aclrn_req);
-
+      
 
 -- ----------------------------------------------------------------------------
 -- NIOS CPU instance.
 -- CPU is responsible for communication interfaces and control logic
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------   
    inst0_nios_cpu : entity work.nios_cpu
    generic map (
       FPGACFG_START_ADDR   => FPGACFG_START_ADDR,
@@ -238,13 +238,13 @@ begin
       reset_n                    => reset_n_lmk_clk,
       -- Control data FIFO
       exfifo_if_d                => inst2_EP02_rdata,
-      exfifo_if_rd               => inst0_exfifo_if_rd,
+      exfifo_if_rd               => inst0_exfifo_if_rd, 
       exfifo_if_rdempty          => inst2_EP02_rempty,
-      exfifo_of_d                => inst0_exfifo_of_d,
-      exfifo_of_wr               => inst0_exfifo_of_wr,
+      exfifo_of_d                => inst0_exfifo_of_d, 
+      exfifo_of_wr               => inst0_exfifo_of_wr, 
       exfifo_of_wrfull           => inst2_EP82_wfull,
-      exfifo_of_rst              => inst0_exfifo_of_rst,
-      -- SPI 0
+      exfifo_of_rst              => inst0_exfifo_of_rst, 
+      -- SPI 0 
       spi_0_MISO                 => FPGA_SPI_MISO,
       spi_0_MOSI                 => inst0_spi_0_MOSI,
       spi_0_SCLK                 => inst0_spi_0_SCLK,
@@ -259,8 +259,8 @@ begin
       i2c_sda                    => FPGA_I2C_SDA,
       -- Genral purpose I/O
       gpi                        => (others=>'0'),
-      gpo                        => open,
-      -- LMS7002 control
+      gpo                        => open, 
+      -- LMS7002 control 
       lms_ctr_gpio               => inst0_lms_ctr_gpio,
       -- Configuration registers
       from_fpgacfg               => inst0_from_fpgacfg,
@@ -273,19 +273,19 @@ begin
       from_periphcfg             => inst0_from_periphcfg,
       to_periphcfg               => inst0_to_periphcfg
    );
-
+   
    inst0_to_fpgacfg.HW_VER    <= HW_VER;
-   inst0_to_fpgacfg.BOM_VER   <= '0' & BOM_VER;
+   inst0_to_fpgacfg.BOM_VER   <= '0' & BOM_VER; 
    inst0_to_fpgacfg.PWR_SRC   <= '0';
-
+   
 -- ----------------------------------------------------------------------------
 -- pll_top instance.
 -- Clock source for LMS7002 RX and TX logic
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------   
    inst1_pll_top : entity work.pll_top
    generic map(
       N_PLL                   => 1,
-      -- PLL parameters
+      -- PLL parameters       
       BANDWIDTH_TYPE          => "AUTO",
       CLK0_DIVIDE_BY          => 1,
       CLK0_DUTY_CYCLE         => 50,
@@ -325,34 +325,34 @@ begin
       pll_c2               => LMS_FCLK2,
       pll_c3               => inst1_pll_c3,
       pll_locked           => inst1_pll_locked,
-      pll_smpl_cmp_en      => inst1_pll_smpl_cmp_en,
+      pll_smpl_cmp_en      => inst1_pll_smpl_cmp_en,      
       pll_smpl_cmp_done    => inst6_rx_smpl_cmp_done,
       pll_smpl_cmp_error   => inst6_rx_smpl_cmp_err,
-      pll_smpl_cmp_cnt     => inst1_pll_smpl_cmp_cnt,
+      pll_smpl_cmp_cnt     => inst1_pll_smpl_cmp_cnt,       
       -- pllcfg ports
       from_pllcfg          => inst0_from_pllcfg,
       to_pllcfg            => inst0_to_pllcfg
    );
-
+   
 -- ----------------------------------------------------------------------------
 -- FT601_top instance.
--- USB3 interface
+-- USB3 interface 
 -- ----------------------------------------------------------------------------
    inst2_FT601_top : entity work.FT601_top
    generic map(
       FT_data_width        => FTDI_DQ_WIDTH,
       FT_be_width          => FTDI_DQ_WIDTH/8,
-      EP02_rdusedw_width   => C_EP02_RDUSEDW_WIDTH,
+      EP02_rdusedw_width   => C_EP02_RDUSEDW_WIDTH, 
       EP02_rwidth          => CTRL0_FPGA_RX_RWIDTH,
       EP82_wrusedw_width   => C_EP82_WRUSEDW_WIDTH,
       EP82_wwidth          => CTRL0_FPGA_TX_WWIDTH,
       EP82_wsize           => 64,  --packet size in bytes, has to be multiple of 4 bytes
       EP83_wrusedw_width   => C_EP83_WRUSEDW_WIDTH,
       EP83_wwidth          => STRM0_FPGA_TX_WWIDTH,
-      EP83_wsize           => 2048 --packet size in bytes, has to be multiple of 4 bytes
+      EP83_wsize           => 2048 --packet size in bytes, has to be multiple of 4 bytes	
    )
    port map(
-      --input ports
+      --input ports 
       clk            => FT_CLK,   --FTDI CLK
       reset_n        => reset_n,
       --FTDI external ports
@@ -361,8 +361,8 @@ begin
       FT_data        => FT_D,
       FT_be          => FT_BE,
       FT_txe_n       => FT_TXEn,
-      --controll endpoint fifo PC->FPGA
-      EP02_rdclk     => LMK_CLK,
+      --controll endpoint fifo PC->FPGA 
+      EP02_rdclk     => LMK_CLK, 
       EP02_rd        => inst0_exfifo_if_rd,
       EP02_rdata     => inst2_EP02_rdata,
       EP02_rempty    => inst2_EP02_rempty,
@@ -373,7 +373,7 @@ begin
       EP82_wdata     => inst0_exfifo_of_d,
       EP82_wfull     => inst2_EP82_wfull,
       --stream endpoint fifo FPGA->PC
-      EP83_wclk      => inst1_pll_c3,
+      EP83_wclk      => inst1_pll_c3, 
       EP83_aclrn     => inst6_rx_pct_fifo_aclrn_req,
       EP83_wr        => inst6_rx_pct_fifo_wrreq,
       EP83_wdata     => inst6_rx_pct_fifo_wdata,
@@ -387,9 +387,9 @@ begin
 -- ----------------------------------------------------------------------------
    inst3_tst_top : entity work.tst_top
    port map(
-      --input ports
+      --input ports 
       FX3_clk           => FT_CLK,
-      reset_n           => reset_n_ft_clk,
+      reset_n           => reset_n_ft_clk,    
       Si5351C_clk_0     => '0',
       Si5351C_clk_1     => '0',
       Si5351C_clk_2     => '0',
@@ -398,13 +398,13 @@ begin
       Si5351C_clk_6     => '0',
       Si5351C_clk_7     => '0',
       LMK_CLK           => LMK_CLK,
-      ADF_MUXOUT        => '0',
-
+      ADF_MUXOUT        => '0',    
+   
       -- To configuration memory
       to_tstcfg         => inst0_to_tstcfg,
       from_tstcfg       => inst0_from_tstcfg
    );
-
+   
 -- ----------------------------------------------------------------------------
 -- general_periph_top instance.
 -- Control module for external periphery
@@ -420,14 +420,14 @@ begin
       reset_n              => reset_n_ft_clk,
       -- configuration memory
       to_periphcfg         => inst0_to_periphcfg,
-      from_periphcfg       => inst0_from_periphcfg,
+      from_periphcfg       => inst0_from_periphcfg,     
       -- Dual colour LEDs
       -- LED1 (Clock and PLL lock status)
       led1_pll1_locked     => inst1_pll_locked,
       led1_pll2_locked     => inst1_pll_locked,
       led1_ctrl            => inst0_from_fpgacfg.FPGA_LED1_CTRL,
       led1_g               => FPGA_LED_G,
-      led1_r               => FPGA_LED_R,
+      led1_r               => FPGA_LED_R,      
       --LED2 (TCXO control status)
       led2_clk             => '0',
       led2_adf_muxout      => '0',
@@ -435,14 +435,14 @@ begin
       led2_adf_ss          => '0',
       led2_ctrl            => inst0_from_fpgacfg.FPGA_LED2_CTRL,
       led2_g               => open,
-      led2_r               => open,
+      led2_r               => open,     
       --LED3 (FX3 and NIOS CPU busy)
       led3_g_in            => '0',
       led3_r_in            => '0',
       led3_ctrl            => inst0_from_fpgacfg.FX3_LED_CTRL,
       led3_hw_ver          => HW_VER,
       led3_g               => open,
-      led3_r               => open,
+      led3_r               => open,     
       --GPIO
       gpio_dir             => (others=>'1'),
       gpio_out_val         => "000000000" & inst1_pll_locked,
@@ -453,17 +453,17 @@ begin
       fan_sens_in          => LM75_OS,
       fan_ctrl_out         => FAN_CTRL
    );
-
+   
    -- ----------------------------------------------------------------------------
 -- rx_path_top instance.
 -- Receive interface for LMS7002
 -- ----------------------------------------------------------------------------
 	inst6_rx_path_top : entity work.rx_path_top
-   generic map(
+   generic map( 
       dev_family           => DEV_FAMILY,
       iq_width             => LMS_DIQ_WIDTH,
       invert_input_clocks  => "ON",
-      smpl_buff_rdusedw_w  => 11,
+      smpl_buff_rdusedw_w  => 11, 
       pct_buff_wrusedw_w   => C_EP83_WRUSEDW_WIDTH
    )
    port map(
@@ -476,21 +476,22 @@ begin
       trxiqpulse           => inst0_from_fpgacfg.trxiq_pulse,       -- trxiqpulse on: 1; trxiqpulse off: 0
       ddr_en               => inst0_from_fpgacfg.ddr_en,            -- DDR: 1; SDR: 0
       mimo_en              => inst0_from_fpgacfg.mimo_int_en,       -- SISO: 1; MIMO: 0
-      ch_en                => inst0_from_fpgacfg.ch_en(1 downto 0), --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B.
+      ch_en                => inst0_from_fpgacfg.ch_en(1 downto 0), --"01" - Ch. A, "10" - Ch. B, "11" - Ch. A and Ch. B. 
       fidm                 => '0',                                  -- Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
 		--DSP settings
 		dspcfg_preamble_en     => inst0_from_fpgacfg.dspcfg_preamble_en,     -- config_preamble_detect.dspcfg_preamble_en
-		dspcfg_FILTER_LEN      => inst0_from_fpgacfg.dspcfg_FILTER_LEN,      --                       .dspcfg_FILTER_LEN
       dspcfg_PASSTHROUGH_LEN => inst0_from_fpgacfg.dspcfg_PASSTHROUGH_LEN, --                       .dspcfg_PASSTHROUGH_LEN
       dspcfg_THRESHOLD       => inst0_from_fpgacfg.dspcfg_THRESHOLD,       --                       .dspcfg_THRESHOLD
-      dspcfg_sum             => inst0_to_fpgacfg.dspcfg_sum,               --                       .dspcfg_sum
+		dspcfg_clear_rs        => inst0_from_fpgacfg.dspcfg_clear_rs  ,      --                       .dspcfg_clear_rs
+		dspcfg_short_sum       => inst0_to_fpgacfg.dspcfg_short_sum,               --                       .dspcfg_sum
+      dspcfg_long_sum        => inst0_to_fpgacfg.dspcfg_long_sum,               --                       .dspcfg_sum
       dspcfg_count           => inst0_to_fpgacfg.dspcfg_count,             --                       .dspcfg_count
-      --Rx interface data
+      --Rx interface data 
       DIQ                  => LMS_DIQ2_D,
       fsync                => LMS_ENABLE_IQSEL2,
       --samples
       smpl_fifo_wrreq_out  => open,
-      --Packet fifo ports
+      --Packet fifo ports 
       pct_fifo_wusedw      => inst2_EP83_wrusedw,
       pct_fifo_wrreq       => inst6_rx_pct_fifo_wrreq,
       pct_fifo_wdata       => inst6_rx_pct_fifo_wdata,
@@ -505,7 +506,7 @@ begin
       smpl_cmp_done        => inst6_rx_smpl_cmp_done,
       smpl_cmp_err         => inst6_rx_smpl_cmp_err
    );
-
+   
 -- ----------------------------------------------------------------------------
 -- Output ports
 -- ----------------------------------------------------------------------------
@@ -514,27 +515,30 @@ begin
    FPGA_SPI_SCLK     <= inst0_spi_0_SCLK;
    FPGA_SPI_LMS_SS   <= inst0_spi_0_SS_n(0);
    FPGA_SPI_DAC_SS   <= inst0_spi_0_SS_n(2);
-
+   
    FPGA_QSPI_SCLK    <= inst0_spi_1_SCLK;
    FPGA_QSPI_IO0     <= inst0_spi_1_MOSI;
    FPGA_QSPI_IO2     <= '1';
    FPGA_QSPI_IO3     <= '1';
    FPGA_QSPI_FLASH_SS<= inst0_spi_1_SS_n(0);
-
+   
    LMS_RESET         <= inst0_from_fpgacfg.LMS1_RESET AND inst0_lms_ctr_gpio(0);
    LMS_TXEN          <= '0';
    LMS_RXEN          <= inst0_from_fpgacfg.LMS1_RXEN;
    LMS_CORE_LDO_EN   <= inst0_from_fpgacfg.LMS1_CORE_LDO_EN;
    LMS_TXNRX1        <= inst0_from_fpgacfg.LMS1_TXNRX1;
    LMS_TXNRX2        <= inst0_from_fpgacfg.LMS1_TXNRX2;
-
+   
    RFSW_RX_V1        <= inst0_from_fpgacfg.GPIO(8);
    RFSW_RX_V2        <= inst0_from_fpgacfg.GPIO(9);
    RFSW_TX_V1        <= inst0_from_fpgacfg.GPIO(12);
    RFSW_TX_V2        <= inst0_from_fpgacfg.GPIO(13);
    TX_LB_AT          <= inst0_from_fpgacfg.GPIO(1);
    TX_LB_SH          <= inst0_from_fpgacfg.GPIO(2);
+   
+
+
+end arch;   
 
 
 
-end arch;

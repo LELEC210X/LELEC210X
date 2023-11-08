@@ -62,7 +62,7 @@ int alt_avalon_spi_command(alt_u32 base, alt_u32 slave,
    */
 
   IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(base, 1 << slave);
-
+  
   /* Set the SSO bit (force chipselect) only if the toggle flag is not set */
   if ((flags & ALT_AVALON_SPI_COMMAND_TOGGLE_SS_N) == 0) {
     IOWR_ALTERA_AVALON_SPI_CONTROL(base, ALTERA_AVALON_SPI_CONTROL_SSO_MSK);
@@ -74,11 +74,11 @@ int alt_avalon_spi_command(alt_u32 base, alt_u32 slave,
    * behind.
    */
   IORD_ALTERA_AVALON_SPI_RXDATA(base);
-
+    
   /* Keep clocking until all the data has been processed. */
   for ( ; ; )
   {
-
+    
     do
     {
       status = IORD_ALTERA_AVALON_SPI_STATUS(base);
@@ -114,7 +114,7 @@ int alt_avalon_spi_command(alt_u32 base, alt_u32 slave,
       if (read_ignore == 0 && read_data == read_end)
         break;
     }
-
+    
   }
 
   /* Wait until the interface has finished transmitting */
@@ -132,3 +132,4 @@ int alt_avalon_spi_command(alt_u32 base, alt_u32 slave,
 
   return read_length;
 }
+

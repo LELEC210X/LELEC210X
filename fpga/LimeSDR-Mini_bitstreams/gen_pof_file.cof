@@ -8,14 +8,14 @@
 		<user_name>Page_0</user_name>
 		<page_flags>1</page_flags>
 		<bit0>
-			<sof_filename>../LimeSDR-Mini_lms7_trx/output_files/LimeSDR-Mini_lms7_trx.sof<compress_bitstream>1</compress_bitstream></sof_filename>
+			<sof_filename>../LimeSDR-Mini_lms7_trx/output_files/LimeSDR-Mini_lms7_trx.sof<compress_bitstream>1</compress_bitstream></sof_filename> 
 		</bit0>
 	</sof_data>
 	<sof_data>
 		<user_name>Page_1</user_name>
 		<page_flags>2</page_flags>
 		<bit0>
-			<sof_filename>../LimeSDR-Mini_lms7_lelec210x/output_files/LimeSDR-Mini_lms7_lelec210x.sof<compress_bitstream>1</compress_bitstream></sof_filename>
+			<sof_filename>../LimeSDR-Mini_lms7_lelec210x/output_files/LimeSDR-Mini_lms7_lelec210x.sof<compress_bitstream>1</compress_bitstream></sof_filename> 
 		</bit0>
 	</sof_data>
 	<version>9</version>

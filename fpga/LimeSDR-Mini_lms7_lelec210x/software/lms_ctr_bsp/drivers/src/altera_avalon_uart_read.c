@@ -56,13 +56,13 @@
  * The return value is the number of bytes actually read.
  *
  * This implementation polls the device waiting for characters. At most it can
- * only return one character, regardless of how many are requested. If the
+ * only return one character, regardless of how many are requested. If the 
  * device is being accessed in non-blocking mode then it is possible for this
  * function to return without reading any characters. In this case errno is
  * set to EWOULDBLOCK.
  */
 
-int
+int 
 altera_avalon_uart_read(altera_avalon_uart_state* sp, char* ptr, int len,
   int flags)
 {
@@ -83,7 +83,7 @@ altera_avalon_uart_read(altera_avalon_uart_state* sp, char* ptr, int len,
     {
       ptr[0] = IORD_ALTERA_AVALON_UART_RXDATA(sp->base);
 
-      if (!(status & (ALTERA_AVALON_UART_STATUS_PE_MSK |
+      if (!(status & (ALTERA_AVALON_UART_STATUS_PE_MSK | 
       ALTERA_AVALON_UART_STATUS_FE_MSK)))
       {
         return 1;
@@ -93,7 +93,7 @@ altera_avalon_uart_read(altera_avalon_uart_state* sp, char* ptr, int len,
   while (block);
 
   ALT_ERRNO = EWOULDBLOCK;
-
+ 
   return 0;
 }
 
@@ -120,7 +120,7 @@ altera_avalon_uart_read(altera_avalon_uart_state* sp, char* ptr, int len,
  * for copying data from the device into this buffer.
  */
 
-int
+int 
 altera_avalon_uart_read(altera_avalon_uart_state* sp, char* ptr, int len,
   int flags)
 {
@@ -129,7 +129,7 @@ altera_avalon_uart_read(altera_avalon_uart_state* sp, char* ptr, int len,
   alt_u8          read_would_block = 0;
   int             count = 0;
 
-  /*
+  /* 
    * Construct a flag to indicate whether the device is being accessed in
    * blocking or non-blocking mode.
    */
@@ -149,7 +149,7 @@ altera_avalon_uart_read(altera_avalon_uart_state* sp, char* ptr, int len,
    * bytes have been read. If the circular buffer is empty, and no data has
    * been read, then the loop will block (when in blocking mode).
    *
-   * If the circular buffer is empty, and some data has already been
+   * If the circular buffer is empty, and some data has already been 
    * transferred, or the device is being accessed in non-blocking mode, then
    * the loop terminates without necessarily reading all the requested data.
    */
@@ -165,7 +165,7 @@ altera_avalon_uart_read(altera_avalon_uart_state* sp, char* ptr, int len,
     {
       count++;
       *ptr++ = sp->rx_buf[sp->rx_start];
-
+      
       sp->rx_start = (sp->rx_start+1) & ALT_AVALON_UART_BUF_MSK;
     }
 
@@ -196,13 +196,13 @@ altera_avalon_uart_read(altera_avalon_uart_state* sp, char* ptr, int len,
        alt_irq_enable_all (context);
 
        /*
-        * When running in a multi-threaded mode, we pend on the read event
+        * When running in a multi-threaded mode, we pend on the read event 
         * flag set in the interrupt service routine. This avoids wasting CPU
-        * cycles waiting in this thread, when we could be doing something more
+        * cycles waiting in this thread, when we could be doing something more 
         * profitable elsewhere.
         */
 
-       ALT_FLAG_PEND (sp->events,
+       ALT_FLAG_PEND (sp->events, 
                       ALT_UART_READ_RDY,
                       OS_FLAG_WAIT_SET_ANY + OS_FLAG_CONSUME,
                       0);

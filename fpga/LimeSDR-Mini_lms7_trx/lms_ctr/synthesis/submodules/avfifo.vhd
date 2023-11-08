@@ -36,24 +36,24 @@ entity avfifo is
 	(
 		clk		: in	std_logic;
 		rsi_nrst	: in	std_logic;
-
+		
 		chipselect: in	std_logic;
 		address: in	std_logic_vector(1 downto 0);
 		write		: in	std_logic;
 		writedata	: in	std_logic_vector(width-1 downto 0);
 		read		: in	std_logic;
 		readdata	: out	std_logic_vector(width-1 downto 0);
-
+		
 		coe_of_d: out	std_logic_vector(31 downto 0);
 		coe_of_wr: out std_logic;
 		coe_of_wrfull: in  std_logic;
-
+		
 		coe_if_d: in	std_logic_vector(31 downto 0);
 		coe_if_rd: out std_logic;
 		coe_if_rdempty: in  std_logic;
-
+		
 		coe_fifo_rst: out std_logic
-
+		
 	);
 end avfifo;
 
@@ -69,7 +69,7 @@ begin
 	-- Output FIFO
 	coe_of_d <= writedata;
 	coe_of_wr <= '1' when chipselect = '1' and write = '1' and address = "00" and coe_of_wrfull = '0' else '0';
-
+	
 	-- Input FIFO
 	fiford <= '1' when chipselect = '1' and read = '1' and address = "01" and coe_if_rdempty = '0' else '0';
 
@@ -83,7 +83,7 @@ begin
 		end if;
 	end process frd_proc;
 	coe_if_rd <= '1' when fiford_reg = '0' and fiford = '1' else '0';
-
+	
 	-- Status register
 	st_proc: process(clk, rsi_nrst)
 	begin
@@ -93,7 +93,7 @@ begin
 			status_reg(1 downto 0) <= coe_of_wrfull & coe_if_rdempty;
 		end if;
 	end process st_proc;
-
+	
 	-- Control register
 	ct_proc: process(clk, rsi_nrst)
 	begin
@@ -104,19 +104,20 @@ begin
 				coe_fifo_rst <= writedata(0);
 			end if;
 		end if;
-	end process ct_proc;
-
+	end process ct_proc;	
+	
 
 	-- Avalon data output mux
-	rd_proc: process(address, status_reg, coe_if_d)
+	rd_proc: process(address, status_reg, coe_if_d) 
 	begin
 		case address is
 			when "01" => readdata <= coe_if_d;
 			when "10" => readdata <= status_reg;		-- Status register to the Avalon bus
-			when others => readdata <= (others => '0');
+			when others => readdata <= (others => '0');			
 		end case;
 	end process rd_proc;
 
 
 
 end avfifo_arch;
+

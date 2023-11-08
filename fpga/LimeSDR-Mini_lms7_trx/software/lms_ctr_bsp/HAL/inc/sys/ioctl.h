@@ -86,5 +86,5 @@ extern int ioctl (int fd, int req, void* arg);
 #ifdef __cplusplus
 }
 #endif
-
+  
 #endif /* __IOCTL_H__ */

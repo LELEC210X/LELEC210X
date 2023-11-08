@@ -1,0 +1,425 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "LMS_FCLK1",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_TXNRX1",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_FCLK2",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_TXNRX2",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_RESET",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_RXEN",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_CORE_LDO_EN",
+					"strict" : false
+				},
+				{
+					"name" : "FT_WRn",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_SPI_SCLK",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_SPI_MOSI",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_SPI_LMS_SS",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_SPI_DAC_SS",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_QSPI_SCLK",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_QSPI_IO0",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_QSPI_FLASH_SS",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_LED_R",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_LED_G",
+					"strict" : false
+				},
+				{
+					"name" : "FAN_CTRL",
+					"strict" : false
+				},
+				{
+					"name" : "RFSW_RX_V1",
+					"strict" : false
+				},
+				{
+					"name" : "RFSW_RX_V2",
+					"strict" : false
+				},
+				{
+					"name" : "RFSW_TX_V1",
+					"strict" : false
+				},
+				{
+					"name" : "RFSW_TX_V2",
+					"strict" : false
+				},
+				{
+					"name" : "TX_LB_AT",
+					"strict" : false
+				},
+				{
+					"name" : "TX_LB_SH",
+					"strict" : false
+				},
+				{
+					"name" : "FT_BE[0]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_BE[1]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_BE[2]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_BE[3]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[0]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[1]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[2]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[3]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[4]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[5]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[6]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[7]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[8]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[9]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[10]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[11]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[12]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[13]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[14]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[15]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[16]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[17]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[18]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[19]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[20]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[21]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[22]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[23]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[24]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[25]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[26]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[27]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[28]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[29]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[30]",
+					"strict" : false
+				},
+				{
+					"name" : "FT_D[31]",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_I2C_SCL",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_I2C_SDA",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_GPIO[0]",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_GPIO[1]",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_GPIO[2]",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_GPIO[3]",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_GPIO[4]",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_GPIO[5]",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_GPIO[6]",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_GPIO[7]",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_EGPIO[0]",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_EGPIO[1]",
+					"strict" : false
+				},
+				{
+					"name" : "LM75_OS",
+					"strict" : false
+				},
+				{
+					"name" : "LMK_CLK",
+					"strict" : false
+				},
+				{
+					"name" : "FT_RXFn",
+					"strict" : false
+				},
+				{
+					"name" : "FT_CLK",
+					"strict" : false
+				},
+				{
+					"name" : "HW_VER[3]",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_MCLK2",
+					"strict" : false
+				},
+				{
+					"name" : "FT_TXEn",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_QSPI_IO1",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_SPI_MISO",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_ENABLE_IQSEL2",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_DIQ2_D[10]",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_DIQ2_D[8]",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_DIQ2_D[11]",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_DIQ2_D[9]",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_DIQ2_D[6]",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_DIQ2_D[4]",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_DIQ2_D[7]",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_DIQ2_D[5]",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_DIQ2_D[2]",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_DIQ2_D[0]",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_DIQ2_D[3]",
+					"strict" : false
+				},
+				{
+					"name" : "LMS_DIQ2_D[1]",
+					"strict" : false
+				},
+				{
+					"name" : "BOM_VER[2]",
+					"strict" : false
+				},
+				{
+					"name" : "HW_VER[0]",
+					"strict" : false
+				},
+				{
+					"name" : "HW_VER[1]",
+					"strict" : false
+				},
+				{
+					"name" : "HW_VER[2]",
+					"strict" : false
+				},
+				{
+					"name" : "BOM_VER[1]",
+					"strict" : false
+				},
+				{
+					"name" : "BOM_VER[0]",
+					"strict" : false
+				},
+				{
+					"name" : "altera_reserved_tms",
+					"strict" : false
+				},
+				{
+					"name" : "altera_reserved_tck",
+					"strict" : false
+				},
+				{
+					"name" : "altera_reserved_tdi",
+					"strict" : false
+				},
+				{
+					"name" : "altera_reserved_tdo",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

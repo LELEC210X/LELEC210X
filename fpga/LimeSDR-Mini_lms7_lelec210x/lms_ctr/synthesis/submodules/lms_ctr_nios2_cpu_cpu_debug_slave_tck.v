@@ -14,9 +14,9 @@
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_debug_slave_tck (
                                                // inputs:
@@ -103,21 +103,21 @@ wire             unxcomplemented_resetxx2;
     begin
       if (vs_cdr)
           case (ir_in)
-
+          
               2'b00: begin
                   sr[35] <= debugack_sync;
                   sr[34] <= monitor_error;
                   sr[33] <= resetlatch;
                   sr[32 : 1] <= MonDReg;
                   sr[0] <= monitor_ready_sync;
-              end // 2'b00
-
+              end // 2'b00 
+          
               2'b01: begin
                   sr[35 : 0] <= tracemem_trcdata;
                   sr[37] <= tracemem_tw;
                   sr[36] <= tracemem_on;
-              end // 2'b01
-
+              end // 2'b01 
+          
               2'b10: begin
                   sr[37] <= trigger_state_1;
                   sr[36] <= dbrk_hit3_latch;
@@ -126,66 +126,66 @@ wire             unxcomplemented_resetxx2;
                   sr[33] <= dbrk_hit0_latch;
                   sr[32 : 1] <= break_readreg;
                   sr[0] <= trigbrktype;
-              end // 2'b10
-
+              end // 2'b10 
+          
               2'b11: begin
                   sr[15 : 2] <= trc_im_addr;
                   sr[1] <= trc_wrap;
                   sr[0] <= trc_on;
-              end // 2'b11
-
+              end // 2'b11 
+          
           endcase // ir_in
       if (vs_sdr)
           case (DRsize)
-
+          
               3'b000: begin
                   sr <= {tdi, sr[37 : 2], tdi};
-              end // 3'b000
-
+              end // 3'b000 
+          
               3'b001: begin
                   sr <= {tdi, sr[37 : 9], tdi, sr[7 : 1]};
-              end // 3'b001
-
+              end // 3'b001 
+          
               3'b010: begin
                   sr <= {tdi, sr[37 : 17], tdi, sr[15 : 1]};
-              end // 3'b010
-
+              end // 3'b010 
+          
               3'b011: begin
                   sr <= {tdi, sr[37 : 33], tdi, sr[31 : 1]};
-              end // 3'b011
-
+              end // 3'b011 
+          
               3'b100: begin
                   sr <= {tdi, sr[37],         tdi, sr[35 : 1]};
-              end // 3'b100
-
+              end // 3'b100 
+          
               3'b101: begin
                   sr <= {tdi, sr[37 : 1]};
-              end // 3'b101
-
+              end // 3'b101 
+          
               default: begin
                   sr <= {tdi, sr[37 : 2], tdi};
               end // default
-
+          
           endcase // DRsize
       if (vs_uir)
           case (ir_in)
-
+          
               2'b00: begin
                   DRsize <= 3'b100;
-              end // 2'b00
-
+              end // 2'b00 
+          
               2'b01: begin
                   DRsize <= 3'b101;
-              end // 2'b01
-
+              end // 2'b01 
+          
               2'b10: begin
                   DRsize <= 3'b101;
-              end // 2'b10
-
+              end // 2'b10 
+          
               2'b11: begin
                   DRsize <= 3'b010;
-              end // 2'b11
-
+              end // 2'b11 
+          
           endcase // ir_in
     end
 
@@ -218,7 +218,7 @@ wire             unxcomplemented_resetxx2;
     begin
       if (jrst_n == 0)
           ir_out <= 2'b0;
-      else
+      else 
         ir_out <= {debugack_sync, monitor_ready_sync};
     end
 
@@ -236,3 +236,4 @@ wire             unxcomplemented_resetxx2;
 //synthesis read_comments_as_HDL off
 
 endmodule
+

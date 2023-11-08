@@ -33,10 +33,10 @@
 #include "system.h"
 
 /*
- * This interrupt registry mechanism works with the Nios II internal interrupt
+ * This interrupt registry mechanism works with the Nios II internal interrupt 
  * controller (IIC) only. Systems with an external interrupt controller (EIC),
  * or those with the IIC who are using the enhanced interrupt API will
- * utilize the alt_ic_isr_register() routine to register an interrupt.
+ * utilize the alt_ic_isr_register() routine to register an interrupt. 
  */
 #ifndef NIOS2_EIC_PRESENT
 
@@ -50,7 +50,7 @@
  * The header, alt_irq_entry.h, contains the exception entry point, and is
  * provided by the processor component. It is included here, so that the code
  * will be added to the executable only if alt_irq_register() is present, i.e.
- * if no interrupts are registered - there's no need to provide any
+ * if no interrupts are registered - there's no need to provide any 
  * interrupt handling.
  */
 
@@ -64,24 +64,24 @@
 #include "priv/alt_irq_table.h"
 
 /*
- * alt_irq_handler() is called to register an interrupt handler. If the
- * function is succesful, then the requested interrupt will be enabled upon
+ * alt_irq_handler() is called to register an interrupt handler. If the 
+ * function is succesful, then the requested interrupt will be enabled upon 
  * return. Registering a NULL handler will disable the interrupt.
  *
- * The return value is 0 if the interrupt handler was registered and the
+ * The return value is 0 if the interrupt handler was registered and the 
  * interrupt was enabled, otherwise it is negative.
  */
-
-int alt_irq_register (alt_u32 id,
-                      void* context,
+ 
+int alt_irq_register (alt_u32 id, 
+                      void* context, 
                       alt_isr_func handler)
 {
-  int rc = -EINVAL;
+  int rc = -EINVAL;  
   alt_irq_context status;
 
   if (id < ALT_NIRQ)
   {
-    /*
+    /* 
      * interrupts are disabled while the handler tables are updated to ensure
      * that an interrupt doesn't occur while the tables are in an inconsistant
      * state.
@@ -96,6 +96,7 @@ int alt_irq_register (alt_u32 id,
 
     alt_irq_enable_all(status);
   }
-  return rc;
+  return rc; 
 }
 #endif /* NIOS2_EIC_PRESENT */
+

@@ -35,7 +35,7 @@
 #include "priv/alt_file.h"
 
 /*
- * alt_fd_unlock() is the inverse of alt_fd_lock(). It is called as a
+ * alt_fd_unlock() is the inverse of alt_fd_lock(). It is called as a 
  * consequence of a TIOCNXCL ioctl request, e.g:
  *
  * ioctl (fd, TIOCNXCL, NULL);

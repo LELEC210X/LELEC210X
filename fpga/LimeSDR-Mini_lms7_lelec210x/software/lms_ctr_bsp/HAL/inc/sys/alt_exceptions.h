@@ -122,7 +122,7 @@ void alt_instruction_exception_register (
  * This routine should be called to validate the bad_addr argument to
  * your exception handler.
  *
- * Note that this routine will return false (0) for causes
+ * Note that this routine will return false (0) for causes 
  * NIOS2_EXCEPTION_TLB_MISS and NIOS2_EXCEPTION_ECC_TLB_ERR.
  * You must read the TLBMISC.D field to determine if BADADDR
  * is valid for these (valid if TLBMISC.D = 1).
@@ -134,7 +134,7 @@ int alt_exception_cause_generated_bad_addr(alt_exception_cause cause);
  * service likely fatal ECC error exceptions. Likely the handler will
  * assume that correct execution of the running software is not possible
  * and re-initialize the processor (e.g. jump to reset address).
- *
+ * 
  * Passing null (0x0) in the handler argument will disable a previously-
  * registered handler.
  *
@@ -142,7 +142,7 @@ int alt_exception_cause_generated_bad_addr(alt_exception_cause cause);
  * occurs on a likely fatal ECC exception and the exception processing
  * code might trigger an infinite exception loop.
  *
- * Note that the handler isn't a C function: it must be written in
+ * Note that the handler isn't a C function: it must be written in 
  * assembly-code because it doesn't support C language calling conventions
  * and it can't return.
  *
@@ -151,8 +151,8 @@ int alt_exception_cause_generated_bad_addr(alt_exception_cause cause);
  * The handler must avoid reading registers in case the fatal ECC
  * error is a register file ECC error.
  * If a data cache is present, the handler must avoid instructions that
- * access the data cache in case the fatal ECC error is a data cache
- * related ECC error. This includes cacheable load, cacheable store,
+ * access the data cache in case the fatal ECC error is a data cache 
+ * related ECC error. This includes cacheable load, cacheable store, 
  * non-cacheable store (because it looks in the data cache to update the
  * data cache if it hits), and all data cache management instructions except
  * for INITD.

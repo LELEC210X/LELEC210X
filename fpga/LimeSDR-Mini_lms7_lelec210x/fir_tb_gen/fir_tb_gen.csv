@@ -1,0 +1,41 @@
+# system info fir_tb_gen on 2023.11.01.09:11:22
+system_info:
+name,value
+DEVICE,10M16SAU169C8G
+DEVICE_FAMILY,MAX 10
+GENERATION_ID,1698826279
+#
+#
+# Files generated for fir_tb_gen on 2023.11.01.09:11:22
+files:
+filepath,kind,attributes,module,is_top
+simulation/fir_tb_gen.v,VERILOG,,fir_tb_gen,true
+simulation/submodules/dspba_library_package.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/dspba_library.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/auk_dspip_math_pkg_hpfir.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/auk_dspip_lib_pkg_hpfir.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/auk_dspip_avalon_streaming_controller_hpfir.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/auk_dspip_avalon_streaming_sink_hpfir.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/auk_dspip_avalon_streaming_source_hpfir.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/auk_dspip_roundsat_hpfir.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/altera_avalon_sc_fifo.v,VERILOG,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/fir_tb_gen_fir_compiler_ii_0_rtl_core.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/fir_tb_gen_fir_compiler_ii_0_ast.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/fir_tb_gen_fir_compiler_ii_0.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/fir_tb_gen_fir_compiler_ii_0_nativelink.tcl,OTHER,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/fir_tb_gen_fir_compiler_ii_0_msim.tcl,OTHER,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/fir_tb_gen_fir_compiler_ii_0_tb.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/fir_tb_gen_fir_compiler_ii_0_mlab.m,OTHER,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/fir_tb_gen_fir_compiler_ii_0_model.m,OTHER,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/fir_tb_gen_fir_compiler_ii_0_coef_int.txt,OTHER,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/fir_tb_gen_fir_compiler_ii_0_input.txt,OTHER,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/fir_tb_gen_fir_compiler_ii_0_param.txt,OTHER,,fir_tb_gen_fir_compiler_ii_0,false
+simulation/submodules/altera_reset_controller.v,VERILOG,,altera_reset_controller,false
+simulation/submodules/altera_reset_synchronizer.v,VERILOG,,altera_reset_controller,false
+simulation/submodules/altera_reset_controller.sdc,SDC,,altera_reset_controller,false
+#
+# Map from instance-path to kind of module
+instances:
+instancePath,module
+fir_tb_gen.fir_compiler_ii_0,fir_tb_gen_fir_compiler_ii_0
+fir_tb_gen.rst_controller,altera_reset_controller

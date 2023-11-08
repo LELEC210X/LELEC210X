@@ -32,6 +32,39 @@ options:
     state: enabled
 
 blocks:
+- name: K_threshold
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: K factor for threshold
+    min_len: '200'
+    orient: Qt.Horizontal
+    rangeType: int
+    start: '0'
+    step: '1'
+    stop: '200'
+    value: '12'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1111, 19]
+    rotation: 0
+    state: enabled
+- name: K_threshold
+  id: variable
+  parameters:
+    comment: ''
+    value: '20000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1313, 22]
+    rotation: 0
+    state: disabled
 - name: carrier_freq
   id: variable
   parameters:
@@ -80,39 +113,6 @@ blocks:
     coordinate: [797, 22]
     rotation: 0
     state: true
-- name: detect_threshold_fpga
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: ''
-    min_len: '200'
-    orient: Qt.Horizontal
-    rangeType: int
-    start: '0'
-    step: '1'
-    stop: '200'
-    value: '12'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1111, 19]
-    rotation: 0
-    state: enabled
-- name: detect_threshold_fpga
-  id: variable
-  parameters:
-    comment: ''
-    value: '20000'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1313, 22]
-    rotation: 0
-    state: disabled
 - name: estimated_noise_power
   id: variable
   parameters:
@@ -314,7 +314,8 @@ blocks:
     digital_bandw_ch0: samp_rate
     digital_bandw_ch1: samp_rate
     dspcfg_PASSTHROUGH_LEN: (packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate)
-    dspcfg_THRESHOLD: detect_threshold_fpga
+      + 1000
+    dspcfg_THRESHOLD: K_threshold
     dspcfg_preamble_en: '1'
     filename: ''
     gain_dB_ch0: rx_gain
@@ -362,7 +363,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [632, 196.0]
+    coordinate: [160, 340.0]
     rotation: 0
     state: enabled
 - name: zeromq_pub_sink_0
@@ -388,10 +389,10 @@ blocks:
 connections:
 - [fsk_demodulation_0, '0', fsk_packet_parser_0, '0']
 - [fsk_flag_detector_0, '0', fsk_synchronization_0, '0']
-- [fsk_flag_detector_0, '0', qtgui_sink_x_0, '0']
 - [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
 - [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
 - [limesdr_fpga_source_0, '0', fsk_flag_detector_0, '0']
+- [limesdr_fpga_source_0, '0', qtgui_sink_x_0, '0']
 
 metadata:
   file_format: 1

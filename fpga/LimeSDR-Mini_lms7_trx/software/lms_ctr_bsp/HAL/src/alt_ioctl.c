@@ -39,24 +39,24 @@
 #include "os/alt_syscall.h"
 
 /*
- * The ioctl() system call is provided so that application code can manipulate
+ * The ioctl() system call is provided so that application code can manipulate 
  * the i/o capabilities of a device in device specific ways. This is identical
  * to the standard posix ioctl() function.
  *
- * In general this implementation simply vectors ioctl requests to the
+ * In general this implementation simply vectors ioctl requests to the 
  * apropriate drivers ioctl function (as registered in the drivers alt_dev
  * structure).
  *
  * However in the case of devices (as oposed to filesystem), the TIOCEXCL and
- * TIOCNXCL requests are handled without reference to the driver. These
+ * TIOCNXCL requests are handled without reference to the driver. These 
  * requests are used to lock/release a device for exclusive access.
  *
- * Handling these requests centrally eases the task of device driver
- * development.
+ * Handling these requests centrally eases the task of device driver 
+ * development. 
  *
- * ALT_IOCTL is mapped onto the ioctl() system call in alt_syscall.h
+ * ALT_IOCTL is mapped onto the ioctl() system call in alt_syscall.h 
  */
-
+ 
 #ifdef ALT_USE_DIRECT_DRIVERS
 
 #include "system.h"
@@ -115,7 +115,7 @@ int ALT_IOCTL (int file, int req, void* arg)
    */
 
   fd = (file < 0) ? NULL : &alt_fd_list[file];
-
+  
   if (fd)
   {
 
@@ -143,7 +143,7 @@ int ALT_IOCTL (int file, int req, void* arg)
      * request, otherwise set the return code to indicate that the request
      * could not be processed.
      */
-
+   
     if (fd->dev->ioctl)
     {
       rc = fd->dev->ioctl(fd, req, arg);
@@ -153,7 +153,7 @@ int ALT_IOCTL (int file, int req, void* arg)
       rc = -ENOTTY;
     }
   }
-  else
+  else  
   {
     rc = -EBADFD;
   }

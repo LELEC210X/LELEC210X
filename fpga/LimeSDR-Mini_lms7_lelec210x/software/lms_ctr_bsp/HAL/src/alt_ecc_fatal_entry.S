@@ -35,7 +35,7 @@
  *
  * This code is pulled in from a .globl in alt_ecc_fatal_exception.c.
  * This scheme is used so that if a handler is never registered, then this
- * code will not appear in the generated executable, thereby improving
+ * code will not appear in the generated executable, thereby improving 
  * code footprint.
  *
  * This code is located in its own section that the linker script
@@ -54,11 +54,11 @@
          * This might be handling an unrecoverable ECC error exception
          * in the register file and/or data cache.
          * Must avoid reading registers or performing load/store instructions
-         * before this is determined because they could trigger another
+         * before this is determined because they could trigger another 
          * unrecoverable ECC error exception and create an infinite loop.
          *
          * The EXCEPTION register is always present when ECC is present.
-         * Bit 31 of this register indicates that there was an unrecoverable
+         * Bit 31 of this register indicates that there was an unrecoverable 
          * ECC error exception in the register file and/or data cache.
          * Test this (using blt to check sign bit) to determine if this is
          * what we are dealing with.  Otherwise, just do normal processing.
@@ -78,15 +78,15 @@
          * Using a ldwio is safe because it completely bypasses the data cache.
          */
         movhi et, %hi(alt_exception_ecc_fatal_handler)
-        ori   et, et, %lo(alt_exception_ecc_fatal_handler)
+        ori   et, et, %lo(alt_exception_ecc_fatal_handler) 
         ldwio et, 0(et)
-
-        /*
+ 
+        /* 
          * If ECC fatal handler pointer is not 0, assume a handler
          * has been provided by the application.
          */
         beq et, r0, alt_exception_not_ecc_fatal
-
+        
         /*
          * The et register contains the address of the ECC fatal handler.
          * Jump to this address to invoke the handler.

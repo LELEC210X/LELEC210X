@@ -43,7 +43,7 @@
  * because gcc assumes they are normal C variables in .sdata
  * and therefore addressable from gp using a 16-bit offset,
  * when in fact they are special values defined by linker.x
- * and located nowhere near .sdata.
+ * and located nowhere near .sdata. 
  * Specifying __attribute__((section(".data"))) will force these
  * in .data. (CASE:258384.)
  */
@@ -54,7 +54,7 @@ extern alt_u32 __ram_rwdata_end __attribute__((section(".data")));
 extern alt_u32 __flash_rodata_start __attribute__((section(".data")));
 extern alt_u32 __ram_rodata_start __attribute__((section(".data")));
 extern alt_u32 __ram_rodata_end __attribute__((section(".data")));
-extern alt_u32 __flash_exceptions_start __attribute__((section(".data")));
+extern alt_u32 __flash_exceptions_start __attribute__((section(".data")));  
 extern alt_u32 __ram_exceptions_start __attribute__((section(".data")));
 extern alt_u32 __ram_exceptions_end __attribute__((section(".data")));
 
@@ -62,15 +62,15 @@ extern alt_u32 __ram_exceptions_end __attribute__((section(".data")));
  * alt_load() is called when the code is executing from flash. In this case
  * there is no bootloader, so this application is responsible for loading to
  * RAM any sections that are required.
- */
+ */  
 
 void alt_load (void)
 {
-  /*
-   * Copy the .rwdata section.
+  /* 
+   * Copy the .rwdata section. 
    */
 
-  alt_load_section (&__flash_rwdata_start,
+  alt_load_section (&__flash_rwdata_start, 
 		               &__ram_rwdata_start,
 		               &__ram_rwdata_end);
 
@@ -78,7 +78,7 @@ void alt_load (void)
    * Copy the exception handler.
    */
 
-  alt_load_section (&__flash_exceptions_start,
+  alt_load_section (&__flash_exceptions_start, 
 		                &__ram_exceptions_start,
 		                &__ram_exceptions_end);
 
@@ -86,14 +86,14 @@ void alt_load (void)
    * Copy the .rodata section.
    */
 
-  alt_load_section (&__flash_rodata_start,
+  alt_load_section (&__flash_rodata_start, 
 		                &__ram_rodata_start,
 		                &__ram_rodata_end);
-
+  
   /*
    * Now ensure that the caches are in synch.
    */
-
+  
   alt_dcache_flush_all();
   alt_icache_flush_all();
 }

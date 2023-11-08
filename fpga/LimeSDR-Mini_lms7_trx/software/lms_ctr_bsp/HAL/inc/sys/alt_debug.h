@@ -32,7 +32,7 @@
 ******************************************************************************/
 
 /*
- * The ALT_DEVUG_ASSERT macro can be used to generate a debugger break
+ * The ALT_DEVUG_ASSERT macro can be used to generate a debugger break 
  * from within software. The break is generated if "condition" evaluates to
  * false.
  */

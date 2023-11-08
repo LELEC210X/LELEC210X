@@ -1,10 +1,10 @@
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------	
 -- FILE: 	iq_smpl_cnt.vhd
 -- DESCRIPTION:	Sample counter
 -- DATE:	March 28, 2017
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------	
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -32,7 +32,7 @@ entity iq_smpl_cnt is
       data        : in std_logic_vector(cnt_width-1 downto 0);
       cnt_en      : in std_logic;
       q           : out std_logic_vector(cnt_width-1 downto 0)
-
+          
         );
 end ;
 
@@ -42,14 +42,14 @@ end ;
 architecture arch of iq_smpl_cnt is
 --declare signals,  components here
 signal one_ch           : std_logic;
-signal shift_cnt_out    : std_logic;
+signal shift_cnt_out    : std_logic; 
 
 --inst0
 signal inst0_q          : std_logic_vector(cnt_width-1 downto 0);
-
+ 
 begin
 
-
+   
 lpm_cnt_inst_inst0 : entity work.lpm_cnt_inst
    generic map (
       cnt_width   =>  64
@@ -69,8 +69,13 @@ lpm_cnt_inst_inst0 : entity work.lpm_cnt_inst
    );
 
 q <= inst0_q;
+    
+    
+
+  
+end arch;   
 
 
 
 
-end arch;
+

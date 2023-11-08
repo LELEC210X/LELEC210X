@@ -1,26 +1,26 @@
 // (C) 2001-2018 Intel Corporation. All rights reserved.
-// Your use of Intel Corporation's design tools, logic functions and other
-// software and tools, and its AMPP partner logic functions, and any output
-// files from any of the foregoing (including device programming or simulation
-// files), and any associated documentation or information are expressly subject
-// to the terms and conditions of the Intel Program License Subscription
-// Agreement, Intel FPGA IP License Agreement, or other applicable
-// license agreement, including, without limitation, that your use is for the
-// sole purpose of programming logic devices manufactured by Intel and sold by
-// Intel or its authorized distributors.  Please refer to the applicable
+// Your use of Intel Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files from any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Intel Program License Subscription 
+// Agreement, Intel FPGA IP License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Intel and sold by 
+// Intel or its authorized distributors.  Please refer to the applicable 
 // agreement for further details.
 
 
 // (C) 2001-2013 Altera Corporation. All rights reserved.
-// Your use of Altera Corporation's design tools, logic functions and other
-// software and tools, and its AMPP partner logic functions, and any output
-// files any of the foregoing (including device programming or simulation
-// files), and any associated documentation or information are expressly subject
-// to the terms and conditions of the Altera Program License Subscription
-// Agreement, Altera MegaCore Function License Agreement, or other applicable
-// license agreement, including, without limitation, that your use is for the
-// sole purpose of programming logic devices manufactured by Altera and sold by
-// Altera or its authorized distributors.  Please refer to the applicable
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
 // agreement for further details.
 
 
@@ -120,10 +120,10 @@ module altera_reset_controller
 
    localparam LARGER = RESET_REQ_WAIT_TIME > RESET_REQ_EARLY_DSRT_TIME ? RESET_REQ_WAIT_TIME : RESET_REQ_EARLY_DSRT_TIME;
 
-   localparam ASSERTION_CHAIN_LENGTH =  (MIN_METASTABLE > LARGER) ?
+   localparam ASSERTION_CHAIN_LENGTH =  (MIN_METASTABLE > LARGER) ? 
                                             MIN_RST_ASSERTION_TIME + 1 :
                                         (
-                                        (MIN_RST_ASSERTION_TIME > LARGER)?
+                                        (MIN_RST_ASSERTION_TIME > LARGER)? 
                                             MIN_RST_ASSERTION_TIME + (LARGER - MIN_METASTABLE + 1) + 1 :
                                             MIN_RST_ASSERTION_TIME + RESET_REQ_EARLY_DSRT_TIME + RESET_REQ_WAIT_TIME - MIN_METASTABLE + 2
                                         );
@@ -145,22 +145,22 @@ module altera_reset_controller
     // --------------------------------------
     // "Or" all the input resets together
     // --------------------------------------
-    assign merged_reset = (
-                              reset_in0 |
-                              reset_in1 |
-                              reset_in2 |
-                              reset_in3 |
-                              reset_in4 |
-                              reset_in5 |
-                              reset_in6 |
-                              reset_in7 |
-                              reset_in8 |
-                              reset_in9 |
-                              reset_in10 |
-                              reset_in11 |
-                              reset_in12 |
-                              reset_in13 |
-                              reset_in14 |
+    assign merged_reset = (  
+                              reset_in0 | 
+                              reset_in1 | 
+                              reset_in2 | 
+                              reset_in3 | 
+                              reset_in4 | 
+                              reset_in5 | 
+                              reset_in6 | 
+                              reset_in7 | 
+                              reset_in8 | 
+                              reset_in9 | 
+                              reset_in10 | 
+                              reset_in11 | 
+                              reset_in12 | 
+                              reset_in13 | 
+                              reset_in14 | 
                               reset_in15
                           );
 
@@ -180,7 +180,7 @@ module altera_reset_controller
                               ( (USE_RESET_REQUEST_IN12 == 1) ? reset_req_in12 : 1'b0)  |
                               ( (USE_RESET_REQUEST_IN13 == 1) ? reset_req_in13 : 1'b0)  |
                               ( (USE_RESET_REQUEST_IN14 == 1) ? reset_req_in14 : 1'b0)  |
-                              ( (USE_RESET_REQUEST_IN15 == 1) ? reset_req_in15 : 1'b0)
+                              ( (USE_RESET_REQUEST_IN15 == 1) ? reset_req_in15 : 1'b0) 
                             );
 
 
@@ -260,8 +260,8 @@ module altera_reset_controller
 
     always @(posedge clk)
     begin
-        altera_reset_synchronizer_int_chain[RSTREQ_ASRT_SYNC_TAP:0] <=
-            {altera_reset_synchronizer_int_chain[RSTREQ_ASRT_SYNC_TAP-1:0], reset_out_pre};
+        altera_reset_synchronizer_int_chain[RSTREQ_ASRT_SYNC_TAP:0] <= 
+            {altera_reset_synchronizer_int_chain[RSTREQ_ASRT_SYNC_TAP-1:0], reset_out_pre}; 
     end
 
     // Synchronous reset pipe
@@ -292,7 +292,7 @@ module altera_reset_controller
             3'b001:   r_sync_rst <= 1'b0;
             3'b010:   r_sync_rst <= 1'b0;
             3'b011:   r_sync_rst <= 1'b1;
-            3'b100:   r_sync_rst <= 1'b1;
+            3'b100:   r_sync_rst <= 1'b1; 
             3'b101:   r_sync_rst <= 1'b1;
             3'b110:   r_sync_rst <= 1'b1;
             3'b111:   r_sync_rst <= 1'b1; // In Reset

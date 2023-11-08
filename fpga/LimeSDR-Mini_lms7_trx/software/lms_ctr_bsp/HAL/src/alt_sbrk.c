@@ -45,7 +45,7 @@
  *
  * This simple implementation does not perform any bounds checking. Memory will
  * be allocated, even if the request region colides with the stack or overflows
- * the available physical memory.
+ * the available physical memory. 
  *
  * ALT_SBRK is mapped onto the sbrk() system call in alt_syscall.h
  *
@@ -62,13 +62,13 @@ static char *heap_end = __alt_heap_start;
 #if defined(ALT_EXCEPTION_STACK) && defined(ALT_STACK_CHECK)
 char * alt_exception_old_stack_limit = NULL;
 #endif
-
+ 
 caddr_t ALT_SBRK (int incr) __attribute__ ((no_instrument_function ));
 
 caddr_t ALT_SBRK (int incr)
-{
+{ 
   alt_irq_context context;
-  char *prev_heap_end;
+  char *prev_heap_end; 
 
   context = alt_irq_disable_all();
 
@@ -76,7 +76,7 @@ caddr_t ALT_SBRK (int incr)
   heap_end = (char *)(((unsigned int)heap_end + 3) & ~3);
 
 #ifdef ALT_MAX_HEAP_BYTES
-  /*
+  /*  
    * User specified a maximum heap size.  Return -1 if it would
    * be exceeded by this sbrk call.
    */
@@ -91,15 +91,15 @@ caddr_t ALT_SBRK (int incr)
   }
 #endif
 
-  prev_heap_end = heap_end;
-  heap_end += incr;
+  prev_heap_end = heap_end; 
+  heap_end += incr; 
 
 #ifdef ALT_STACK_CHECK
   /*
    * If the stack and heap are contiguous then extending the heap reduces the
    * space available for the stack.  If we are still using the default stack
    * then adjust the stack limit to note this, while checking for stack
-   * pointer overflow.
+   * pointer overflow. 
    * If the stack limit isn't pointing at the top of the heap then the code
    * is using a different stack so none of this needs to be done.
    */
@@ -132,5 +132,5 @@ caddr_t ALT_SBRK (int incr)
 
   alt_irq_enable_all(context);
 
-  return (caddr_t) prev_heap_end;
-}
+  return (caddr_t) prev_heap_end; 
+} 

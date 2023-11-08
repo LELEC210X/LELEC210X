@@ -1,26 +1,26 @@
 // (C) 2001-2018 Intel Corporation. All rights reserved.
-// Your use of Intel Corporation's design tools, logic functions and other
-// software and tools, and its AMPP partner logic functions, and any output
-// files from any of the foregoing (including device programming or simulation
-// files), and any associated documentation or information are expressly subject
-// to the terms and conditions of the Intel Program License Subscription
-// Agreement, Intel FPGA IP License Agreement, or other applicable
-// license agreement, including, without limitation, that your use is for the
-// sole purpose of programming logic devices manufactured by Intel and sold by
-// Intel or its authorized distributors.  Please refer to the applicable
+// Your use of Intel Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files from any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Intel Program License Subscription 
+// Agreement, Intel FPGA IP License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Intel and sold by 
+// Intel or its authorized distributors.  Please refer to the applicable 
 // agreement for further details.
 
 
 
-// Your use of Altera Corporation's design tools, logic functions and other
-// software and tools, and its AMPP partner logic functions, and any output
-// files any of the foregoing (including device programming or simulation
-// files), and any associated documentation or information are expressly subject
-// to the terms and conditions of the Altera Program License Subscription
-// Agreement, Altera MegaCore Function License Agreement, or other applicable
-// license agreement, including, without limitation, that your use is for the
-// sole purpose of programming logic devices manufactured by Altera and sold by
-// Altera or its authorized distributors.  Please refer to the applicable
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
 // agreement for further details.
 
 
@@ -32,7 +32,7 @@
 // -------------------------------------------------------
 // Merlin Router
 //
-// Asserts the appropriate one-hot encoded channel based on
+// Asserts the appropriate one-hot encoded channel based on 
 // either (a) the address or (b) the dest id. The DECODER_TYPE
 // parameter controls this behaviour. 0 means address decoder,
 // 1 means dest id decoder.
@@ -47,7 +47,7 @@ module lms_ctr_mm_interconnect_0_router_002_default_decode
      parameter DEFAULT_CHANNEL = 0,
                DEFAULT_WR_CHANNEL = -1,
                DEFAULT_RD_CHANNEL = -1,
-               DEFAULT_DESTID = 0
+               DEFAULT_DESTID = 0 
    )
   (output [89 - 86 : 0] default_destination_id,
    output [15-1 : 0] default_wr_channel,
@@ -55,7 +55,7 @@ module lms_ctr_mm_interconnect_0_router_002_default_decode
    output [15-1 : 0] default_src_channel
   );
 
-  assign default_destination_id =
+  assign default_destination_id = 
     DEFAULT_DESTID[89 - 86 : 0];
 
   generate
@@ -211,3 +211,5 @@ end
     endfunction
 
 endmodule
+
+

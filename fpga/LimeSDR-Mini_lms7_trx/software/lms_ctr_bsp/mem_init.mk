@@ -144,17 +144,17 @@ flash2dat_extra_args = $(mem_pad_flag) $(mem_reloc_input_flag)
 #-------------------------------------
 
 
-# The following TYPE comment allows tools to identify the 'type' of target this
-# makefile is associated with.
+# The following TYPE comment allows tools to identify the 'type' of target this 
+# makefile is associated with. 
 # TYPE: BSP_MEMINIT_MAKEFILE
 
-# This following VERSION comment indicates the version of the tool used to
-# generate this makefile. A makefile variable is provided for VERSION as well.
+# This following VERSION comment indicates the version of the tool used to 
+# generate this makefile. A makefile variable is provided for VERSION as well. 
 # ACDS_VERSION: 18.1
 ACDS_VERSION := 18.1
 
-# This following BUILD_NUMBER comment indicates the build number of the tool
-# used to generate this makefile.
+# This following BUILD_NUMBER comment indicates the build number of the tool 
+# used to generate this makefile. 
 # BUILD_NUMBER: 625
 
 # Optimize for simulation
@@ -300,7 +300,7 @@ $(foreach i,0 1 2 3 4 5 6 7,%_lane$(i).dat): %.dat
 
 ELF_TO_HEX_CMD_NO_BOOTLOADER = $(ELF2HEX) $< $(mem_start_address) $(mem_end_address) --width=$(mem_hex_width) \
 			$(mem_endianness) --create-lanes=$(mem_create_lanes) $(elf2hex_extra_args) $@
-
+			
 ELF_TO_HEX_CMD_WITH_BOOTLOADER = $(ALT_FILE_CONVERT) -I $(NIOS2_ELF_FORMAT) -O hex --input=$< --output=$@ \
 			--base=$(mem_start_address) --end=$(mem_end_address) --reset=$(RESET_ADDRESS) \
 			--out-data-width=$(mem_hex_width) $(flash_mem_boot_loader_flag)

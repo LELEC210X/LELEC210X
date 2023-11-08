@@ -46,19 +46,19 @@ extern int altera_avalon_uart_close(altera_avalon_uart_state* sp, int flags);
  *
  */
 
-int
+int 
 altera_avalon_uart_read_fd(alt_fd* fd, char* buffer, int space)
 {
-    altera_avalon_uart_dev* dev = (altera_avalon_uart_dev*) fd->dev;
+    altera_avalon_uart_dev* dev = (altera_avalon_uart_dev*) fd->dev; 
 
     return altera_avalon_uart_read(&dev->state, buffer, space,
       fd->fd_flags);
 }
 
-int
+int 
 altera_avalon_uart_write_fd(alt_fd* fd, const char* buffer, int space)
 {
-    altera_avalon_uart_dev* dev = (altera_avalon_uart_dev*) fd->dev;
+    altera_avalon_uart_dev* dev = (altera_avalon_uart_dev*) fd->dev; 
 
     return altera_avalon_uart_write(&dev->state, buffer, space,
       fd->fd_flags);
@@ -72,14 +72,14 @@ altera_avalon_uart_write_fd(alt_fd* fd, const char* buffer, int space)
 
 /*
  * To reduce the code footprint of this driver, the ioctl() function is not
- * included by default. If you wish to use the ioctl features provided
+ * included by default. If you wish to use the ioctl features provided 
  * below, you can do so by adding the option : -DALTERA_AVALON_UART_USE_IOCTL
  * to CPPFLAGS in the Makefile (or through the Eclipse IDE).
  */
 
 #ifdef ALTERA_AVALON_UART_USE_IOCTL
 
-int
+int 
 altera_avalon_uart_ioctl_fd(alt_fd* fd, int req, void* arg)
 {
     altera_avalon_uart_dev* dev = (altera_avalon_uart_dev*) fd->dev;
@@ -89,10 +89,10 @@ altera_avalon_uart_ioctl_fd(alt_fd* fd, int req, void* arg)
 
 #endif /* ALTERA_AVALON_UART_USE_IOCTL */
 
-int
+int 
 altera_avalon_uart_close_fd(alt_fd* fd)
 {
-    altera_avalon_uart_dev* dev = (altera_avalon_uart_dev*) fd->dev;
+    altera_avalon_uart_dev* dev = (altera_avalon_uart_dev*) fd->dev; 
 
     return altera_avalon_uart_close(&dev->state, fd->fd_flags);
 }

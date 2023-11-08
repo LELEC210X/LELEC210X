@@ -48,15 +48,15 @@ extern "C"
 
 /*
  * alt_no_error() is a dummy function used by alt_sem.h and alt_flag.h. It
- * substitutes for functions that have a return code by creating a function
- * that always returns zero.
+ * substitutes for functions that have a return code by creating a function 
+ * that always returns zero. 
  *
- * This may seem a little obscure, but what happens is that the compiler can
+ * This may seem a little obscure, but what happens is that the compiler can 
  * then optomise away the call to this function, and any code written which
- * handles the error path (i.e. non zero return values).
+ * handles the error path (i.e. non zero return values). 
  *
  * This allows code to be written which correctly use the uC/OS-II semaphore
- * and flag utilities, without the use of those utilities impacting on
+ * and flag utilities, without the use of those utilities impacting on 
  * excutables built for a single threaded HAL environment.
  *
  * This function is considered to be part of the internal implementation of

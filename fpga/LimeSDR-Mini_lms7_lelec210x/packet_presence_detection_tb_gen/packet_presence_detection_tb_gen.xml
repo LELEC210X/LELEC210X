@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy
+ date="2023.11.01.16:22:46"
+ outputDirectory="D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/">
+ <perimeter>
+  <parameter
+     name="AUTO_GENERATION_ID"
+     type="Integer"
+     defaultValue="0"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_UNIQUE_ID"
+     type="String"
+     defaultValue=""
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_DEVICE_FAMILY"
+     type="String"
+     defaultValue="MAX 10"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_DEVICE"
+     type="String"
+     defaultValue="10M16SAU169C8G"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_DEVICE_SPEEDGRADE"
+     type="String"
+     defaultValue="8"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_CLOCK_CLOCK_RATE"
+     type="Long"
+     defaultValue="-1"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_CLOCK_CLOCK_DOMAIN"
+     type="Integer"
+     defaultValue="-1"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_CLOCK_RESET_DOMAIN"
+     type="Integer"
+     defaultValue="-1"
+     onHdl="0"
+     affectsHdl="1" />
+  <interface name="clock" kind="clock" start="0">
+   <property name="clockRate" value="100000000" />
+   <property name="externallyDriven" value="false" />
+   <property name="ptfSchematicName" value="" />
+   <port name="clock_clk" direction="input" role="clk" width="1" />
+  </interface>
+  <interface name="reset" kind="reset" start="0">
+   <property name="associatedClock" value="clock" />
+   <property name="synchronousEdges" value="DEASSERT" />
+   <port name="reset_reset" direction="input" role="reset" width="1" />
+  </interface>
+  <interface name="sink" kind="avalon_streaming" start="0">
+   <property name="associatedClock" value="clock" />
+   <property name="associatedReset" value="reset" />
+   <property name="beatsPerCycle" value="1" />
+   <property name="dataBitsPerSymbol" value="12" />
+   <property name="emptyWithinPacket" value="false" />
+   <property name="errorDescriptor" value="" />
+   <property name="firstSymbolInHighOrderBits" value="true" />
+   <property name="highOrderSymbolAtMSB" value="false" />
+   <property name="maxChannel" value="0" />
+   <property name="packetDescription" value="" />
+   <property name="readyLatency" value="0" />
+   <property name="symbolsPerBeat" value="1" />
+   <port name="sink_data" direction="input" role="data" width="24" />
+   <port name="sink_valid" direction="input" role="valid" width="1" />
+  </interface>
+  <interface name="source" kind="avalon_streaming" start="1">
+   <property name="associatedClock" value="clock" />
+   <property name="associatedReset" value="reset" />
+   <property name="beatsPerCycle" value="1" />
+   <property name="dataBitsPerSymbol" value="12" />
+   <property name="emptyWithinPacket" value="false" />
+   <property name="errorDescriptor" value="" />
+   <property name="firstSymbolInHighOrderBits" value="true" />
+   <property name="highOrderSymbolAtMSB" value="false" />
+   <property name="maxChannel" value="0" />
+   <property name="packetDescription" value="" />
+   <property name="readyLatency" value="0" />
+   <property name="symbolsPerBeat" value="1" />
+   <port name="source_data" direction="output" role="data" width="24" />
+   <port name="source_valid" direction="output" role="valid" width="1" />
+  </interface>
+ </perimeter>
+ <entity
+   path=""
+   parameterizationKey="packet_presence_detection_tb_gen:1.0:AUTO_CLOCK_CLOCK_DOMAIN=-1,AUTO_CLOCK_CLOCK_RATE=-1,AUTO_CLOCK_RESET_DOMAIN=-1,AUTO_DEVICE=10M16SAU169C8G,AUTO_DEVICE_FAMILY=MAX 10,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1698852163,AUTO_UNIQUE_ID=(altera_conduit_bfm:18.1:CLOCKED_SIGNAL=false,ENABLE_RESET=false,SIGNAL_DIRECTIONS=output,output,output,output,input,input,SIGNAL_ROLES=cfg_enable,cfg_threshold,cfg_clear_rs,cfg_passthrough_len,debug_count,debug_sum,SIGNAL_WIDTHS=1,16,1,16,32,32)(packet_presence_detection:1.0:DATA_WIDTH=12,LONG_SUM_LEN=256,PASSTHROUGH_LEN_WIDTH=16,SHORT_SUM_LEN=32)(conduit:18.1:endPort=,endPortLSB=0,startPort=,startPortLSB=0,width=0)"
+   instancePathKey="packet_presence_detection_tb_gen"
+   kind="packet_presence_detection_tb_gen"
+   version="1.0"
+   name="packet_presence_detection_tb_gen">
+  <parameter name="AUTO_CLOCK_CLOCK_RATE" value="-1" />
+  <parameter name="AUTO_CLOCK_CLOCK_DOMAIN" value="-1" />
+  <parameter name="AUTO_CLOCK_RESET_DOMAIN" value="-1" />
+  <parameter name="AUTO_GENERATION_ID" value="1698852163" />
+  <parameter name="AUTO_DEVICE" value="10M16SAU169C8G" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="MAX 10" />
+  <parameter name="AUTO_UNIQUE_ID" value="" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="8" />
+  <generatedFiles>
+   <file
+       path="D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/synthesis/packet_presence_detection_tb_gen.v"
+       type="VERILOG" />
+  </generatedFiles>
+  <childGeneratedFiles>
+   <file
+       path="D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/synthesis/submodules/verbosity_pkg.sv"
+       type="SYSTEM_VERILOG"
+       attributes="" />
+   <file
+       path="D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/synthesis/submodules/packet_presence_detection_tb_gen_conduit_bfm_0.sv"
+       type="SYSTEM_VERILOG"
+       attributes="" />
+   <file
+       path="D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/synthesis/submodules/packet_presence_detection.sv"
+       type="SYSTEM_VERILOG"
+       attributes="TOP_LEVEL_FILE" />
+   <file
+       path="D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/synthesis/submodules/short_shift.v"
+       type="VERILOG"
+       attributes="" />
+   <file
+       path="D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/synthesis/submodules/long_shift.v"
+       type="VERILOG"
+       attributes="" />
+  </childGeneratedFiles>
+  <sourceFiles>
+   <file
+       path="D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen.qsys" />
+  </sourceFiles>
+  <childSourceFiles>
+   <file
+       path="C:/intelfpga/18.1/ip/altera/sopc_builder_ip/verification/altera_conduit_bfm/altera_conduit_bfm_hw.tcl" />
+   <file
+       path="D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_hw.tcl" />
+  </childSourceFiles>
+  <messages>
+   <message level="Debug" culprit="packet_presence_detection_tb_gen">queue size: 0 starting:packet_presence_detection_tb_gen "packet_presence_detection_tb_gen"</message>
+   <message level="Progress" culprit="min"></message>
+   <message level="Progress" culprit="max"></message>
+   <message level="Progress" culprit="current"></message>
+   <message level="Debug">Transform: CustomInstructionTransform</message>
+   <message level="Debug">No custom instruction connections, skipping transform </message>
+   <message level="Debug" culprit="merlin_custom_instruction_transform"><![CDATA[After transform: <b>2</b> modules, <b>1</b> connections]]></message>
+   <message level="Debug">Transform: MMTransform</message>
+   <message level="Debug">Transform: InterruptMapperTransform</message>
+   <message level="Debug">Transform: InterruptSyncTransform</message>
+   <message level="Debug">Transform: InterruptFanoutTransform</message>
+   <message level="Debug">Transform: AvalonStreamingTransform</message>
+   <message level="Debug">Transform: ResetAdaptation</message>
+   <message level="Debug" culprit="packet_presence_detection_tb_gen"><![CDATA["<b>packet_presence_detection_tb_gen</b>" reuses <b>altera_conduit_bfm</b> "<b>submodules/packet_presence_detection_tb_gen_conduit_bfm_0</b>"]]></message>
+   <message level="Debug" culprit="packet_presence_detection_tb_gen"><![CDATA["<b>packet_presence_detection_tb_gen</b>" reuses <b>packet_presence_detection</b> "<b>submodules/packet_presence_detection</b>"]]></message>
+   <message level="Debug" culprit="packet_presence_detection_tb_gen">queue size: 1 starting:altera_conduit_bfm "submodules/packet_presence_detection_tb_gen_conduit_bfm_0"</message>
+   <message level="Info" culprit="conduit_bfm_0"><![CDATA["<b>packet_presence_detection_tb_gen</b>" instantiated <b>altera_conduit_bfm</b> "<b>conduit_bfm_0</b>"]]></message>
+   <message level="Debug" culprit="packet_presence_detection_tb_gen">queue size: 0 starting:packet_presence_detection "submodules/packet_presence_detection"</message>
+   <message level="Info" culprit="packet_presence_detection_0"><![CDATA["<b>packet_presence_detection_tb_gen</b>" instantiated <b>packet_presence_detection</b> "<b>packet_presence_detection_0</b>"]]></message>
+  </messages>
+ </entity>
+ <entity
+   path="submodules/"
+   parameterizationKey="altera_conduit_bfm:18.1:CLOCKED_SIGNAL=false,ENABLE_RESET=false,SIGNAL_DIRECTIONS=output,output,output,output,input,input,SIGNAL_ROLES=cfg_enable,cfg_threshold,cfg_clear_rs,cfg_passthrough_len,debug_count,debug_sum,SIGNAL_WIDTHS=1,16,1,16,32,32"
+   instancePathKey="packet_presence_detection_tb_gen:.:conduit_bfm_0"
+   kind="altera_conduit_bfm"
+   version="18.1"
+   name="packet_presence_detection_tb_gen_conduit_bfm_0">
+  <parameter name="ENABLE_RESET" value="false" />
+  <parameter name="SIGNAL_WIDTHS" value="1,16,1,16,32,32" />
+  <parameter
+     name="SIGNAL_ROLES"
+     value="cfg_enable,cfg_threshold,cfg_clear_rs,cfg_passthrough_len,debug_count,debug_sum" />
+  <parameter name="CLOCKED_SIGNAL" value="false" />
+  <parameter
+     name="SIGNAL_DIRECTIONS"
+     value="output,output,output,output,input,input" />
+  <generatedFiles>
+   <file
+       path="D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/synthesis/submodules/verbosity_pkg.sv"
+       type="SYSTEM_VERILOG"
+       attributes="" />
+   <file
+       path="D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/synthesis/submodules/packet_presence_detection_tb_gen_conduit_bfm_0.sv"
+       type="SYSTEM_VERILOG"
+       attributes="" />
+  </generatedFiles>
+  <childGeneratedFiles/>
+  <sourceFiles>
+   <file
+       path="C:/intelfpga/18.1/ip/altera/sopc_builder_ip/verification/altera_conduit_bfm/altera_conduit_bfm_hw.tcl" />
+  </sourceFiles>
+  <childSourceFiles/>
+  <instantiator instantiator="packet_presence_detection_tb_gen" as="conduit_bfm_0" />
+  <messages>
+   <message level="Debug" culprit="packet_presence_detection_tb_gen">queue size: 1 starting:altera_conduit_bfm "submodules/packet_presence_detection_tb_gen_conduit_bfm_0"</message>
+   <message level="Info" culprit="conduit_bfm_0"><![CDATA["<b>packet_presence_detection_tb_gen</b>" instantiated <b>altera_conduit_bfm</b> "<b>conduit_bfm_0</b>"]]></message>
+  </messages>
+ </entity>
+ <entity
+   path="submodules/"
+   parameterizationKey="packet_presence_detection:1.0:DATA_WIDTH=12,LONG_SUM_LEN=256,PASSTHROUGH_LEN_WIDTH=16,SHORT_SUM_LEN=32"
+   instancePathKey="packet_presence_detection_tb_gen:.:packet_presence_detection_0"
+   kind="packet_presence_detection"
+   version="1.0"
+   name="packet_presence_detection">
+  <parameter name="DATA_WIDTH" value="12" />
+  <parameter name="PASSTHROUGH_LEN_WIDTH" value="16" />
+  <parameter name="SHORT_SUM_LEN" value="32" />
+  <parameter name="LONG_SUM_LEN" value="256" />
+  <generatedFiles>
+   <file
+       path="D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/synthesis/submodules/packet_presence_detection.sv"
+       type="SYSTEM_VERILOG"
+       attributes="TOP_LEVEL_FILE" />
+   <file
+       path="D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/synthesis/submodules/short_shift.v"
+       type="VERILOG"
+       attributes="" />
+   <file
+       path="D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/synthesis/submodules/long_shift.v"
+       type="VERILOG"
+       attributes="" />
+  </generatedFiles>
+  <childGeneratedFiles/>
+  <sourceFiles>
+   <file
+       path="D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_hw.tcl" />
+  </sourceFiles>
+  <childSourceFiles/>
+  <instantiator
+     instantiator="packet_presence_detection_tb_gen"
+     as="packet_presence_detection_0" />
+  <messages>
+   <message level="Debug" culprit="packet_presence_detection_tb_gen">queue size: 0 starting:packet_presence_detection "submodules/packet_presence_detection"</message>
+   <message level="Info" culprit="packet_presence_detection_0"><![CDATA["<b>packet_presence_detection_tb_gen</b>" instantiated <b>packet_presence_detection</b> "<b>packet_presence_detection_0</b>"]]></message>
+  </messages>
+ </entity>
+</deploy>

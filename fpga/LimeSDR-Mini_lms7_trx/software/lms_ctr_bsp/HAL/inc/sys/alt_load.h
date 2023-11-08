@@ -33,17 +33,17 @@
 #include "alt_types.h"
 
 /*
- * This macro is used to load code/data from its load address to its
+ * This macro is used to load code/data from its load address to its 
  * execution address for a given section. The section name is the input
  * argument. Note that a leading '.' is assumed in the name. For example
  * to load the section .onchip_ram, use:
- *
+ * 
  * ALT_LOAD_SECTION_BY_NAME(onchip_ram);
- *
+ * 
  * This requires that the apropriate linker symbols have been generated
  * for the section in question. This will be the case if you are using the
  * default linker script.
- */
+ */ 
 
 #define ALT_LOAD_SECTION_BY_NAME(name)                         \
   {                                                            \
@@ -64,8 +64,8 @@
  *
  */
 
-static void ALT_INLINE alt_load_section (alt_u32* from,
-                                         alt_u32* to,
+static void ALT_INLINE alt_load_section (alt_u32* from, 
+                                         alt_u32* to, 
                                          alt_u32* end)
 {
   if (to != from)

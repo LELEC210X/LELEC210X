@@ -1,10 +1,10 @@
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------	
 -- FILE: 	fifo_inst.vhd
 -- DESCRIPTION:	describe
 -- DATE:	Feb 13, 2014
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------	
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -17,14 +17,14 @@ USE altera_mf.all;
 entity fifo_inst is
   generic(dev_family	     : string  := "Cyclone IV E";
           wrwidth         : integer := 24;
-          wrusedw_witdth  : integer := 12; --12=2048 words
+          wrusedw_witdth  : integer := 12; --12=2048 words 
           rdwidth         : integer := 48;
           rdusedw_width   : integer := 11;
           show_ahead      : string  := "ON"
-  );
+  );  
 
   port (
-      --input ports
+      --input ports 
       reset_n       : in std_logic;
       wrclk         : in std_logic;
       wrreq         : in std_logic;
@@ -36,12 +36,12 @@ entity fifo_inst is
       rdreq         : in std_logic;
       q             : out std_logic_vector(rdwidth-1 downto 0);
       rdempty       : out std_logic;
-      rdusedw       : out std_logic_vector(rdusedw_width-1 downto 0)
+      rdusedw       : out std_logic_vector(rdusedw_width-1 downto 0)     
 
 
 
-      --output ports
-
+      --output ports 
+        
         );
 end fifo_inst;
 
@@ -81,20 +81,20 @@ signal aclr : std_logic;
 			wrreq	   : IN STD_LOGIC ;
 			q			: OUT STD_LOGIC_VECTOR(rdwidth-1 downto 0);
 			rdempty	: OUT STD_LOGIC ;
-			rdusedw	: OUT STD_LOGIC_VECTOR (rdusedw_width-1 downto 0);
+			rdusedw	: OUT STD_LOGIC_VECTOR (rdusedw_width-1 downto 0); 
 			wrempty	: out std_logic;
 			wrfull	: OUT STD_LOGIC;
 			wrusedw	: OUT STD_LOGIC_VECTOR (wrusedw_witdth-1 downto 0)
 	);
 	END COMPONENT;
+	
 
-
-
+  
 begin
-
+  
   aclr<= not reset_n;
-
-
+  
+  
   	dcfifo_mixed_widths_component : dcfifo_mixed_widths
 	GENERIC MAP (
 		add_usedw_msb_bit       => "ON",
@@ -129,5 +129,10 @@ begin
 		wrusedw	=> wrusedw
 	);
 
+  
+end arch;   
 
-end arch;
+
+
+
+

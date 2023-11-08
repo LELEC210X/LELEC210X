@@ -127,7 +127,7 @@
 `include "i2c_master_defines.v"
 
 module i2c_master_bit_ctrl(
-	clk, rst, nReset,
+	clk, rst, nReset, 
 	clk_cnt, ena, cmd, cmd_ack, busy, al, din, dout,
 	scl_i, scl_o, scl_oen, sda_i, sda_o, sda_oen
 	);

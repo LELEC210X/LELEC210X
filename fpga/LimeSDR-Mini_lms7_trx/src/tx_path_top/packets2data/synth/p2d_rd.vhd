@@ -1,10 +1,10 @@
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------	
 -- FILE:          p2d_rd.vhd
 -- DESCRIPTION:   FSM for data reading from packets.
 -- DATE:          April 6, 2017
 -- AUTHOR(s):     Lime Microsystems
 -- REVISIONS:
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------	
 
 -- ----------------------------------------------------------------------------
 -- Notes:
@@ -24,30 +24,30 @@ USE lpm.all;
 entity p2d_rd is
    generic (
       g_PCT_MAX_SIZE : integer := 4096;   -- Whole packet size in bytes
-      g_PCT_HDR_SIZE : integer := 16;     -- Packet header size in bytes
+      g_PCT_HDR_SIZE : integer := 16;     -- Packet header size in bytes  
       g_BUFF_COUNT   : integer := 4;      -- 2,4 valid values
       g_DATA_W       : integer := 64
    );
    port (
       clk                     : in std_logic;
       reset_n                 : in std_logic;
-
+      
       synch_dis               : in std_logic;
-
+      
       pct_hdr_0               : in std_logic_vector(63 downto 0);
-      pct_hdr_0_valid         : in std_logic_vector(g_BUFF_COUNT-1 downto 0);
+      pct_hdr_0_valid         : in std_logic_vector(g_BUFF_COUNT-1 downto 0);      
       pct_hdr_1               : in std_logic_vector(63 downto 0);
       pct_hdr_1_valid         : in std_logic_vector(g_BUFF_COUNT-1 downto 0);
-
+      
       sample_nr               : in std_logic_vector(63 downto 0);
-
+      
       pct_buff_rdy            : in std_logic_vector(g_BUFF_COUNT-1 downto 0);
       pct_buff_rdreq          : out std_logic_vector(g_BUFF_COUNT-1 downto 0);
       pct_buff_sel            : out std_logic_vector(3 downto 0);
       pct_buff_clr_n          : out std_logic_vector(g_BUFF_COUNT-1 downto 0);
-
+      
       smpl_buff_almost_full   : in std_logic
-
+     
    );
 end p2d_rd;
 
@@ -70,8 +70,8 @@ signal pct_synch_dis                : std_logic_vector(g_BUFF_COUNT-1 downto 0);
 
 signal crnt_buff_rdy                : std_logic;
 signal crnt_buff_pct_synch_dis      : std_logic;
-signal crnt_buff_pct_smpl_nr_equal  : std_logic;
-signal crnt_buff_pct_smpl_nr_less   : std_logic;
+signal crnt_buff_pct_smpl_nr_equal  : std_logic; 
+signal crnt_buff_pct_smpl_nr_less   : std_logic; 
 signal crnt_buff_cnt                : unsigned(3 downto 0);
 signal crnt_buff_payload_size       : std_logic_vector(15 downto 0);
 
@@ -80,7 +80,7 @@ signal rd_cnt                       : unsigned(15 downto 0);
 signal rd_cnt_max                   : unsigned(15 downto 0);
 
 type state_type is (idle, switch_next_buff, check_next_buf, rd_buff, rd_hold, clr_buff);
-signal current_state, next_state : state_type;
+signal current_state, next_state : state_type;   
 
 -- Component declaration
 COMPONENT lpm_compare
@@ -95,25 +95,25 @@ COMPONENT lpm_compare
       dataa : IN STD_LOGIC_VECTOR (63 DOWNTO 0);
       datab : IN STD_LOGIC_VECTOR (63 DOWNTO 0);
       aeb   : OUT STD_LOGIC ;
-      alb   : OUT STD_LOGIC
+      alb   : OUT STD_LOGIC 
    );
    END COMPONENT;
 
 begin
-
+   
 -- ----------------------------------------------------------------------------
 -- Capture pct_hdr_0 and pct_hdr_1 to array
 -- ----------------------------------------------------------------------------
    -- pct_hdr_0 capture register
    process(clk, reset_n)
    begin
-      if reset_n = '0' then
+      if reset_n = '0' then 
          pct_hdr_0_array <= (others=>(others=>'0'));
-      elsif (clk'event AND clk='1') then
+      elsif (clk'event AND clk='1') then 
          for i in 0 to g_BUFF_COUNT-1 loop
-            if pct_hdr_0_valid(i) = '1' then
+            if pct_hdr_0_valid(i) = '1' then 
                pct_hdr_0_array(i)<= pct_hdr_0;
-            else
+            else 
                pct_hdr_0_array(i)<=pct_hdr_0_array(i);
             end if;
          end loop;
@@ -123,29 +123,29 @@ begin
    -- pct_hdr_1 capture register
    process(clk, reset_n)
    begin
-      if reset_n = '0' then
+      if reset_n = '0' then 
          pct_hdr_1_array <= (others=>(others=>'0'));
-      elsif (clk'event AND clk='1') then
+      elsif (clk'event AND clk='1') then 
          for i in 0 to g_BUFF_COUNT-1 loop
-            if pct_hdr_1_valid(i) = '1' then
+            if pct_hdr_1_valid(i) = '1' then 
                pct_hdr_1_array(i)<= pct_hdr_1;
-            else
+            else 
                pct_hdr_1_array(i)<=pct_hdr_1_array(i);
             end if;
          end loop;
       end if;
    end process;
-
+   
    -- Packet synchronization bit from received packet header
-   pct_synch_dis_gen : for i in 0 to g_BUFF_COUNT-1 generate
+   pct_synch_dis_gen : for i in 0 to g_BUFF_COUNT-1 generate 
       pct_synch_dis(i) <= pct_hdr_0_array(i)(4);
-   end generate pct_synch_dis_gen;
-
+   end generate pct_synch_dis_gen; 
+   
 -- ----------------------------------------------------------------------------
 -- Pipelined comparators
 -- Sample number is compared with current received sample number in packet
 -- ----------------------------------------------------------------------------
-   gen_lpm_compare :
+   gen_lpm_compare : 
    for i in 0 to g_BUFF_COUNT-1 generate
    LPM_COMPARE_component : LPM_COMPARE
       GENERIC MAP (
@@ -161,14 +161,14 @@ begin
          aeb                  => pct_smpl_nr_equal(i),
          alb                  => pct_smpl_nr_less(i)
       );
-   end generate gen_lpm_compare;
-
+   end generate gen_lpm_compare;  
+   
 -- ----------------------------------------------------------------------------
 -- Buffer selection process
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------     
    crnt_buff_sel_proc : process(clk, reset_n)
    begin
-      if reset_n = '0' then
+      if reset_n = '0' then 
          crnt_buff_cnt               <= (others=>'0');
          crnt_buff_rdy               <= '0';
          crnt_buff_pct_synch_dis     <= '0';
@@ -180,58 +180,58 @@ begin
          if current_state = switch_next_buff then
             if crnt_buff_cnt < g_BUFF_COUNT - 1 then
                crnt_buff_cnt <= crnt_buff_cnt + 1;
-            else
+            else 
                crnt_buff_cnt <= (others=>'0');
             end if;
-         else
+         else 
             crnt_buff_cnt <= crnt_buff_cnt;
          end if;
-
+         
          -- Signal MUX
-         crnt_buff_rdy               <= pct_buff_rdy(to_integer(crnt_buff_cnt));
+         crnt_buff_rdy               <= pct_buff_rdy(to_integer(crnt_buff_cnt)); 
          crnt_buff_pct_synch_dis     <= pct_synch_dis(to_integer(crnt_buff_cnt));
          crnt_buff_pct_smpl_nr_equal <= pct_smpl_nr_equal(to_integer(crnt_buff_cnt));
          crnt_buff_pct_smpl_nr_less  <= pct_smpl_nr_less(to_integer(crnt_buff_cnt));
          crnt_buff_payload_size      <= pct_hdr_0_array(to_integer(crnt_buff_cnt))(23 downto 8);
-
+         
       end if;
    end process;
-
+   
    -- Read counter to terminate buffer read state
    rd_cnt_proc : process(clk, reset_n)
    begin
-      if reset_n = '0' then
+      if reset_n = '0' then 
          rd_cnt <= (others=>'0');
          rd_cnt_max <= (others=> '0');
-      elsif (clk'event AND clk='1') then
-         if current_state = idle then
+      elsif (clk'event AND clk='1') then 
+         if current_state = idle then 
             rd_cnt <= (others=>'0');
-         else
-            if rd_req_int = '1' then
+         else 
+            if rd_req_int = '1' then 
                rd_cnt <= rd_cnt + 1;
-            else
+            else 
                rd_cnt <= rd_cnt;
             end if;
          end if;
-
-         if unsigned(crnt_buff_payload_size) = 0 then
+         
+         if unsigned(crnt_buff_payload_size) = 0 then 
             rd_cnt_max <= to_unsigned(c_PCT_MAX_WORDS,rd_cnt_max'length);
          else
             rd_cnt_max <= unsigned(crnt_buff_payload_size)/c_RD_RATIO;
          end if;
       end if;
    end process;
-
-   -- internal read request signal,
+   
+   -- internal read request signal,  
    rd_req_int_proc : process (current_state, smpl_buff_almost_full)
-   begin
-      if current_state = rd_buff AND smpl_buff_almost_full = '0' then
+   begin 
+      if current_state = rd_buff AND smpl_buff_almost_full = '0' then 
          rd_req_int <= '1';
-      else
+      else 
          rd_req_int <= '0';
       end if;
    end process;
-
+   
 -- ----------------------------------------------------------------------------
 --state machine
 -- ----------------------------------------------------------------------------
@@ -245,8 +245,8 @@ begin
 
 -- ----------------------------------------------------------------------------
 -- State machine combo.
--- FSM waits until current selected buffer is ready, if synchronization is
--- disabled buffer read process begins. If synchronization is enabled current
+-- FSM waits until current selected buffer is ready, if synchronization is 
+-- disabled buffer read process begins. If synchronization is enabled current 
 -- buffer read process begins only when received sample number equals to sample_nr,
 -- if received sample number is less than sample_nr, buffer clear signal is asserted
 -- (Current buffer is cleared and FSM goes to check next buffer)
@@ -256,66 +256,66 @@ begin
                   smpl_buff_almost_full) begin
       next_state <= current_state;
       case current_state is
-
+      
          when idle =>
             if crnt_buff_rdy = '1' then
-               if synch_dis = '1' OR crnt_buff_pct_synch_dis = '1' then
+               if synch_dis = '1' OR crnt_buff_pct_synch_dis = '1' then 
                   next_state <= rd_buff;
                else
-                  if crnt_buff_pct_smpl_nr_equal = '1' then
+                  if crnt_buff_pct_smpl_nr_equal = '1' then 
                      next_state <= rd_buff;
-                  elsif crnt_buff_pct_smpl_nr_less = '1' then
+                  elsif crnt_buff_pct_smpl_nr_less = '1' then 
                      next_state <= clr_buff;
-                  else
+                  else 
                      next_state <= idle;
-                  end if;
+                  end if;                  
                end if;
-            else
+            else 
                next_state <= idle;
             end if;
-
+            
          when clr_buff =>
             next_state <= switch_next_buff;
-
+         
          when rd_buff =>
             if smpl_buff_almost_full = '0' then
-               if rd_cnt < rd_cnt_max - 1 then
+               if rd_cnt < rd_cnt_max - 1 then 
                   next_state <= rd_buff;
-               else
+               else 
                   next_state <= switch_next_buff;
                end if;
-            else
+            else 
                next_state <= rd_hold;
             end if;
-
-         when rd_hold =>
+         
+         when rd_hold => 
             if smpl_buff_almost_full = '0' then
                next_state <= rd_buff;
             else
                next_state <= rd_hold;
             end if;
-
+            
          when switch_next_buff =>
             next_state <= check_next_buf;
-
+            
          when check_next_buf =>     -- Extra state to allow all data to be read
             next_state <= idle;
-
-         when others =>
+            
+         when others => 
             next_state <= idle;
       end case;
    end process;
-
+   
 
 -- ----------------------------------------------------------------------------
 -- Output ports
 -- ----------------------------------------------------------------------------
    process(rd_req_int, crnt_buff_cnt)
-   begin
+   begin 
       pct_buff_rdreq <= (others=>'0');
       pct_buff_rdreq(to_integer(crnt_buff_cnt))   <= rd_req_int;
    end process;
-
+   
    process(current_state, crnt_buff_cnt, reset_n)
    begin
       if reset_n = '0' then
@@ -323,11 +323,11 @@ begin
       elsif current_state = clr_buff then
          pct_buff_clr_n <= (others=>'1');
          pct_buff_clr_n(to_integer(crnt_buff_cnt))   <= '0';
-      else
-         pct_buff_clr_n <= (others=>'1');
+      else 
+         pct_buff_clr_n <= (others=>'1');        
       end if;
    end process;
-
+   
    pct_buff_sel <= std_logic_vector(crnt_buff_cnt);
 
 end arch;

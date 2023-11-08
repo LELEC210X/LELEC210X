@@ -53,31 +53,31 @@ extern "C"
  * "alt_alarm" is a structure type used by applications to register an alarm
  * callback function. An instance of this type must be passed as an input
  * argument to alt_alarm_start(). The user is not responsible for initialising
- * the contents of the instance. This is done by alt_alarm_start().
+ * the contents of the instance. This is done by alt_alarm_start(). 
  */
 
 typedef struct alt_alarm_s alt_alarm;
 
-/*
+/* 
  * alt_alarm_start() can be called by an application/driver in order to register
  * a function for periodic callback at the system clock frequency. Be aware that
- * this callback is likely to occur in interrupt context.
+ * this callback is likely to occur in interrupt context. 
  */
 
-extern int alt_alarm_start (alt_alarm* the_alarm,
-                            alt_u32    nticks,
+extern int alt_alarm_start (alt_alarm* the_alarm, 
+                            alt_u32    nticks, 
                             alt_u32    (*callback) (void* context),
                             void*      context);
 
 /*
- * alt_alarm_stop() is used to unregister a callback. Alternatively the callback
+ * alt_alarm_stop() is used to unregister a callback. Alternatively the callback 
  * can return zero to unregister.
  */
 
 extern void alt_alarm_stop (alt_alarm* the_alarm);
 
 /*
- * Obtain the system clock rate in ticks/s.
+ * Obtain the system clock rate in ticks/s. 
  */
 
 static ALT_INLINE alt_u32 ALT_ALWAYS_INLINE alt_ticks_per_second (void)

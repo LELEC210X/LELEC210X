@@ -34,10 +34,10 @@
 #include "priv/alt_file.h"
 
 /*
- * alt_release_fd() is called to free an allocated file descriptor. This is
+ * alt_release_fd() is called to free an allocated file descriptor. This is 
  * done by setting the device pointer in the file descriptor structure to zero.
- *
- * File descriptors correcponding to standard in, standard out and standard
+ * 
+ * File descriptors correcponding to standard in, standard out and standard 
  * error cannont be released backed to the pool. They are always reserved.
  */
 
@@ -49,3 +49,6 @@ void alt_release_fd (int fd)
     alt_fd_list[fd].dev      = 0;
   }
 }
+
+
+

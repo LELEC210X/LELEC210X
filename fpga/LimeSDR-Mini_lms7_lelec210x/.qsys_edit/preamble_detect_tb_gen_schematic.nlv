@@ -1,0 +1,10 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst preamble_detect_tb_gen -pg 1 -lvl 1 -y 40 -regy -20
+preplace inst preamble_detect_tb_gen.preamble_detect_0 -pg 1 -lvl 1 -y 30
+preplace netloc EXPORT<net_container>preamble_detect_tb_gen</net_container>(SLAVE)preamble_detect_tb_gen.reset,(SLAVE)preamble_detect_0.reset_sink) 1 0 1 NJ
+preplace netloc EXPORT<net_container>preamble_detect_tb_gen</net_container>(SLAVE)preamble_detect_tb_gen.clock,(SLAVE)preamble_detect_0.clock_sink) 1 0 1 NJ
+preplace netloc EXPORT<net_container>preamble_detect_tb_gen</net_container>(SLAVE)preamble_detect_0.avalon_streaming_sink,(SLAVE)preamble_detect_tb_gen.sink) 1 0 1 NJ
+preplace netloc EXPORT<net_container>preamble_detect_tb_gen</net_container>(MASTER)preamble_detect_0.avalon_streaming_source,(MASTER)preamble_detect_tb_gen.source) 1 1 1 N
+levelinfo -pg 1 0 50 360
+levelinfo -hier preamble_detect_tb_gen 60 90 290

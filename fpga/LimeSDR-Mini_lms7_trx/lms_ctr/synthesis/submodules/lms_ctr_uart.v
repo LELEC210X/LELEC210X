@@ -14,9 +14,9 @@
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_uart_tx (
                          // inputs:
@@ -125,7 +125,7 @@ reg     [  9: 0] unxshiftxtx_shift_register_contentsxtx_shift_reg_outxx5_out;
       else if (clk_en)
           if (baud_rate_counter_is_zero || do_load_shifter)
               baud_rate_counter <= baud_divisor;
-          else
+          else 
             baud_rate_counter <= baud_rate_counter - 1;
     end
 
@@ -140,8 +140,8 @@ reg     [  9: 0] unxshiftxtx_shift_register_contentsxtx_shift_reg_outxx5_out;
     end
 
 
-  assign do_shift = baud_clk_en  &&
-    (~shift_done) &&
+  assign do_shift = baud_clk_en  && 
+    (~shift_done) && 
     (~do_load_shifter);
 
   always @(posedge clk or negedge reset_n)
@@ -187,9 +187,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_uart_rx_stimulus_source (
                                          // inputs:
@@ -281,9 +281,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_uart_rx (
                          // inputs:
@@ -409,7 +409,7 @@ reg     [  9: 0] unxshiftxrxd_shift_regxshift_reg_start_bit_nxx6_out;
       else if (clk_en)
           if (baud_rate_counter_is_zero || rxd_edge)
               baud_rate_counter <= baud_load_value;
-          else
+          else 
             baud_rate_counter <= baud_rate_counter - 1;
     end
 
@@ -422,7 +422,7 @@ reg     [  9: 0] unxshiftxrxd_shift_regxshift_reg_start_bit_nxx6_out;
       else if (clk_en)
           if (rxd_edge)
               baud_clk_en <= 0;
-          else
+          else 
             baud_clk_en <= baud_rate_counter_is_zero;
     end
 
@@ -435,7 +435,7 @@ reg     [  9: 0] unxshiftxrxd_shift_regxshift_reg_start_bit_nxx6_out;
       else if (clk_en)
           if (~rx_in_process && rxd_falling)
               do_start_rx <= 1;
-          else
+          else 
             do_start_rx <= 0;
     end
 
@@ -540,9 +540,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_uart_regs (
                            // inputs:
@@ -786,9 +786,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_uart (
                       // inputs:
@@ -918,3 +918,4 @@ wire             txd;
   //s1, which is an e_avalon_slave
 
 endmodule
+

@@ -37,7 +37,7 @@
 ******************************************************************************/
 
 /*
- * This is the termios.h file provided with newlib. The only modification has
+ * This is the termios.h file provided with newlib. The only modification has 
  * been to the baud rate macro definitions, and an increase in the size of the
  * termios structure to accomodate this.
  */
@@ -176,5 +176,6 @@ struct termios {
 #ifdef __cplusplus
 }
 #endif
-
+ 
 #endif  /* _SYS_TERMIOS_H */
+

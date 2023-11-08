@@ -1,13 +1,13 @@
 -- (C) 2001-2018 Intel Corporation. All rights reserved.
--- Your use of Intel Corporation's design tools, logic functions and other
--- software and tools, and its AMPP partner logic functions, and any output
--- files from any of the foregoing (including device programming or simulation
--- files), and any associated documentation or information are expressly subject
--- to the terms and conditions of the Intel Program License Subscription
--- Agreement, Intel FPGA IP License Agreement, or other applicable
--- license agreement, including, without limitation, that your use is for the
--- sole purpose of programming logic devices manufactured by Intel and sold by
--- Intel or its authorized distributors.  Please refer to the applicable
+-- Your use of Intel Corporation's design tools, logic functions and other 
+-- software and tools, and its AMPP partner logic functions, and any output 
+-- files from any of the foregoing (including device programming or simulation 
+-- files), and any associated documentation or information are expressly subject 
+-- to the terms and conditions of the Intel Program License Subscription 
+-- Agreement, Intel FPGA IP License Agreement, or other applicable 
+-- license agreement, including, without limitation, that your use is for the 
+-- sole purpose of programming logic devices manufactured by Intel and sold by 
+-- Intel or its authorized distributors.  Please refer to the applicable 
 -- agreement for further details.
 
 
@@ -22,7 +22,7 @@
 --
 -- Project : Atlantic II Sink Interface with ready_latency=0
 --
--- Description :
+-- Description : 
 --
 -- This interface is capable of handling single or multi channel streams as
 -- well as blocks of data. The at_sink_sop and at_sink_eop must be fed as
@@ -34,8 +34,8 @@
 -- 01: missing sop
 -- 10: missing eop
 -- 11: unexpected eop
--- other types of errors also marked as 11.
---
+-- other types of errors also marked as 11. 
+-- 
 -- ALTERA Confidential and Proprietary
 -- Copyright 2006 (c) Altera Corporation
 -- All rights reserved
@@ -75,7 +75,7 @@ entity auk_dspip_avalon_streaming_sink_hpfir is
     ----------------- DESIGN SIDE SIGNALS
     data            : out std_logic_vector(WIDTH_g-1 downto 0);
     data_valid      : out std_logic_vector(0 downto 0);
-
+    
     sink_ready_ctrl : in  std_logic;    --the controller will tell
                                         --the interface whether
                                         --new input can be accepted.
@@ -87,7 +87,7 @@ entity auk_dspip_avalon_streaming_sink_hpfir is
     --send_sop        : out std_logic;    -- transmit SOP signal to the design.
                                         -- It only transmits the legal SOP.
     --send_eop        : out std_logic;    -- transmit EOP signal to the design.
-                                        -- It only transmits the legal EOP.
+                                        -- It only transmits the legal EOP.    
     ----------------- ATLANTIC SIDE SIGNALS
     at_sink_ready   : out std_logic;    --it will be '1' whenever the
                                         --sink_ready_ctrl signal is high.
@@ -129,7 +129,7 @@ architecture rtl of auk_dspip_avalon_streaming_sink_hpfir is
 --       BITS_PER_SYMBOL : integer := 8;
 --       FIFO_DEPTH : integer := 16;
 --       CHANNEL_WIDTH : integer := 0;
---       ERROR_WIDTH : integer := 0;
+--       ERROR_WIDTH : integer := 0; 
 --       USE_PACKETS : integer := 0
 --      );
 --       port (
@@ -138,7 +138,7 @@ architecture rtl of auk_dspip_avalon_streaming_sink_hpfir is
 --         signal in_data : IN STD_LOGIC_VECTOR (DATA_WIDTH*DATA_PORT_COUNT-1 DOWNTO 0);
 --         signal in_valid : IN STD_LOGIC;
 --         signal in_startofpacket : IN STD_LOGIC;
---         signal in_endofpacket : IN STD_LOGIC;
+--         signal in_endofpacket : IN STD_LOGIC;                  
 --         signal out_ready : IN STD_LOGIC;
 --         signal reset : IN STD_LOGIC;
 --
@@ -168,7 +168,7 @@ begin
   begin
     at_sink_error_int <= at_sink_error(0) when at_sink_valid = '1' else
                          '0';
-
+    
     packet_error_int  <= '0' & packet_error0;
 
     packet_error0 <= '0' when at_sink_error_int = '0' and sink_next_state /= st_err else
@@ -254,10 +254,10 @@ begin
       end case;
     end process sink_comb_update_1;
   end generate valid_generate_single;
-
+  
 
   valid_generate_mult : if PACKET_SIZE_g > 1 generate
-
+    
     at_sink_error_int <= at_sink_error(1) or at_sink_error(0) when at_sink_valid = '1' else
                          '0';
 
@@ -266,7 +266,7 @@ begin
                     '0';
     reset_count <= '1' when sink_next_state = st_err else
                    '0';
-
+    
     sink_comb_update_2 : process (sink_state, at_sink_ready_s, at_sink_valid,
                                   at_sink_error, at_sink_error_int, at_sink_sop,
                                   at_sink_eop, count, count_finished)
@@ -290,7 +290,7 @@ begin
               packet_error_int <= "00";
             end if;
           end if;
-
+          
         when run1 =>
           --fifo_wrreq <= '1';
 
@@ -398,7 +398,7 @@ begin
         when others => null;
       end case;
     end process sink_comb_update_2;
-
+    
 
     counter : process (clk, reset_n)
     begin  -- process counter
@@ -411,11 +411,11 @@ begin
         else
           if count_enable = '1' then
             if count = PACKET_SIZE_g-2 then
-              max_reached <= true;
+              max_reached <= true; 
             else
               max_reached <= false;
             end if;
-
+            
             if max_reached = false then
               count <= count + 1;
             else
@@ -456,9 +456,9 @@ begin
       packet_error_s <= packet_error_int;
     end if;
   end process;
-
+  
   packet_error <= packet_error_s;
-
+  
   -----------------------------------------------------------------------------
   -- This was included because the vho simulations of fifo produce 'X' in
   -- reset whcih means that for the FFT, alll outputs go to X when sop = X
@@ -468,12 +468,12 @@ begin
 --   -- generate sop and eop separate
 --  out_cnt_p : process (clk, reset)
 --  begin  -- process out_cnt_p
---    if reset = '1' then
+--    if reset = '1' then  
 --      fifo_rdreq_d <= '0';
 --      out_cnt <= 0;
 --    elsif rising_edge(clk) then
 --      fifo_rdreq_d <= fifo_rdreq;
---      if fifo_rdreq = '1' then
+--      if fifo_rdreq = '1' then  
 --        if out_cnt < PACKET_SIZE_g - 1  then
 --          out_cnt <= out_cnt + 1;
 --          else
@@ -482,13 +482,13 @@ begin
 --      end if;
 --    end if;
 --  end process out_cnt_p;
---
+--   
 --   send_sop_eop_p : process (clk, reset)
 --   begin  -- process send_sop_eop_p
---     if reset = '1' then
+--     if reset = '1' then  
 --       send_sop_s <= '0';
 --       send_eop_s <= '0';
---     elsif rising_edge(clk) then
+--     elsif rising_edge(clk) then 
 --       if fifo_rdreq = '1' and sink_ready_ctrl = '1' then
 --         send_sop_s <= '0';
 --         send_eop_s <= '0';
@@ -501,17 +501,17 @@ begin
 --       end if;
 --     end if;
 --   end process send_sop_eop_p;
---
+--    
 --  end generate gen_calc_sop;
-
-
+ 
+   
 
   --reset <= not reset_n;
   at_sink_ready <= at_sink_ready_s;
   at_sink_ready_s <= sink_ready_ctrl;
   data <= at_sink_data;
-  data_valid(0) <= at_sink_valid;
-
+  data_valid(0) <= at_sink_valid;  
+    
 --  sink_scfifo : altera_avalon_sc_fifo
 --      generic map (
 --        SYMBOLS_PER_BEAT => DATA_PORT_COUNT,
@@ -526,7 +526,7 @@ begin
 --        in_ready => at_sink_ready_s,
 --        in_data => at_sink_data,
 --        in_valid => at_sink_valid,
---        in_startofpacket => '0',
+--        in_startofpacket => '0',               
 --        in_endofpacket => '0',
 --        out_ready => sink_ready_ctrl,
 --        out_data => data,

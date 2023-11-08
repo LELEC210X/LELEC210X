@@ -1,13 +1,13 @@
 // (C) 2001-2018 Intel Corporation. All rights reserved.
-// Your use of Intel Corporation's design tools, logic functions and other
-// software and tools, and its AMPP partner logic functions, and any output
-// files from any of the foregoing (including device programming or simulation
-// files), and any associated documentation or information are expressly subject
-// to the terms and conditions of the Intel Program License Subscription
-// Agreement, Intel FPGA IP License Agreement, or other applicable
-// license agreement, including, without limitation, that your use is for the
-// sole purpose of programming logic devices manufactured by Intel and sold by
-// Intel or its authorized distributors.  Please refer to the applicable
+// Your use of Intel Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files from any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Intel Program License Subscription 
+// Agreement, Intel FPGA IP License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Intel and sold by 
+// Intel or its authorized distributors.  Please refer to the applicable 
 // agreement for further details.
 
 
@@ -30,12 +30,12 @@ module altera_merlin_master_agent
    // -------------------
    // Packet Format Parameters
    // -------------------
-   parameter
+   parameter 
    PKT_QOS_H                  = 109,
    PKT_QOS_L                  = 106,
    PKT_DATA_SIDEBAND_H        = 105,
    PKT_DATA_SIDEBAND_L        = 98,
-   PKT_ADDR_SIDEBAND_H        = 97,
+   PKT_ADDR_SIDEBAND_H        = 97, 
    PKT_ADDR_SIDEBAND_L        = 93,
    PKT_CACHE_H                = 92,
    PKT_CACHE_L                = 89,
@@ -155,7 +155,7 @@ module altera_merlin_master_agent
    endfunction // clogb2
 
    localparam MAX_BURST    = 1 << (AV_BURSTCOUNT_W - 1);
-   localparam NUMSYMBOLS   = PKT_BYTEEN_W;
+   localparam NUMSYMBOLS   = PKT_BYTEEN_W; 
    localparam BURSTING     = (MAX_BURST > NUMSYMBOLS);
    localparam BITS_TO_ZERO = clogb2(NUMSYMBOLS);
    localparam BURST_SIZE   = clogb2(NUMSYMBOLS);
@@ -175,7 +175,7 @@ module altera_merlin_master_agent
    assign is_burst = (BURSTING) & (av_burstcount > NUMSYMBOLS);
 
    wire [31 : 0] burstwrap_value_int = BURSTWRAP_VALUE;
-   wire [31 : 0] id_int              = ID;
+   wire [31 : 0] id_int              = ID; 
    wire [PKT_BURST_SIZE_W-1 : 0] burstsize_sig = BURST_SIZE[PKT_BURST_SIZE_W-1 : 0];
    wire [1 : 0] bursttype_value = burstwrap_value_int[PKT_BURSTWRAP_W-1] ? INCR : WRAP;
 
@@ -186,14 +186,14 @@ module altera_merlin_master_agent
    // the transaction size.
    // --------------------------------------
    wire [PKT_ADDR_W-1 : 0] av_address_aligned;
-   generate
+   generate 
       if (NUMSYMBOLS > 1) begin
-         assign av_address_aligned =
+         assign av_address_aligned = 
          {av_address[PKT_ADDR_W-1 : BITS_TO_ZERO], {BITS_TO_ZERO {1'b0}}};
       end
       else begin
          assign av_address_aligned = av_address;
-      end
+      end 
    endgenerate
 
    // --------------------------------------
@@ -202,7 +202,7 @@ module altera_merlin_master_agent
    always_comb begin
       cp_data                                              = '0;
 
-      cp_data[PKT_PROTECTION_L]                            = av_debugaccess;
+      cp_data[PKT_PROTECTION_L]                            = av_debugaccess;    
       cp_data[PKT_PROTECTION_L+1]                          = SECURE_ACCESS_BIT[0];  // secure cache bit
       cp_data[PKT_PROTECTION_L+2]                          = 1'b0;                  // instruction/data cache bit
       cp_data[PKT_BURSTWRAP_H : PKT_BURSTWRAP_L]           = burstwrap_value_int[PKT_BURSTWRAP_W-1 : 0];
@@ -222,7 +222,7 @@ module altera_merlin_master_agent
       cp_data[PKT_SRC_ID_H : PKT_SRC_ID_L]                 = id_int[PKT_SRC_ID_W-1 : 0];
       cp_data[PKT_THREAD_ID_H : PKT_THREAD_ID_L]           = '0;
       cp_data[PKT_CACHE_H : PKT_CACHE_L]                   = CACHE_VALUE[3 : 0];
-      cp_data[PKT_QOS_H : PKT_QOS_L]                       = '0;
+      cp_data[PKT_QOS_H : PKT_QOS_L]                       = '0;        
       cp_data[PKT_ADDR_SIDEBAND_H : PKT_ADDR_SIDEBAND_L]   = '0;
       cp_data[PKT_DATA_SIDEBAND_H : PKT_DATA_SIDEBAND_L]   = '0;
 
@@ -243,8 +243,8 @@ module altera_merlin_master_agent
          hold_waitrequest <= 1'b1;
       else
          hold_waitrequest <= 1'b0;
-   end
-
+   end  
+   
    always_comb begin
       cp_valid = 0;
 
@@ -271,7 +271,7 @@ module altera_merlin_master_agent
       assign cp_startofpacket = sop_enable;
       assign cp_endofpacket   = (av_read) | (av_burstcount == NUMSYMBOLS);
 
-   end
+   end 
    else begin
 
       assign cp_startofpacket = 1'b1;

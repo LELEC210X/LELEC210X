@@ -50,11 +50,11 @@ extern "C"
 #endif /* __cplusplus */
 
 /*
- * This header contains the application side interface for accessing DMA
+ * This header contains the application side interface for accessing DMA 
  * resources. See alt_dma_dev.h for the dma device driver interface.
  *
- * The interface model treats a DMA transaction as being composed of two
- * halves (read and write).
+ * The interface model treats a DMA transaction as being composed of two 
+ * halves (read and write). 
  *
  * The application can supply data for transmit using an "alt_dma_txchan"
  * descriptor. Alternatively an "alt_dma_rxchan" descriptor can be used to
@@ -66,13 +66,13 @@ extern "C"
  * a DMA transmit device. The name is the name of the associated physical
  * device (e.g. "/dev/dma_0").
  *
- * The return value will be NULL on failure, and non-NULL otherwise.
+ * The return value will be NULL on failure, and non-NULL otherwise. 
  */
 
 extern alt_dma_txchan alt_dma_txchan_open (const char* name);
 
 /*
- * alt_dma_txchan_close() is provided so that an application can notify the
+ * alt_dma_txchan_close() is provided so that an application can notify the 
  * system that it has finished with a given DMA transmit channel. This is only
  * provided for completness.
  */
@@ -96,24 +96,24 @@ static ALT_INLINE int alt_dma_txchan_close (alt_dma_txchan dma)
  * zero otherwise.
  */
 
-static ALT_INLINE int alt_dma_txchan_send (alt_dma_txchan dma,
-             const void* from,
+static ALT_INLINE int alt_dma_txchan_send (alt_dma_txchan dma, 
+             const void* from, 
              alt_u32 length,
-             alt_txchan_done* done,
+             alt_txchan_done* done, 
              void* handle)
 {
-  return dma ? dma->dma_send (dma,
-        from,
+  return dma ? dma->dma_send (dma, 
+        from, 
         length,
-        done,
+        done, 
         handle) : -ENODEV;
 }
 
 /*
- * alt_dma_txchan_space() returns the number of tranmit requests that can be
+ * alt_dma_txchan_space() returns the number of tranmit requests that can be 
  * posted to the specified DMA transmit channel.
  *
- * A negative value indicates that the value could not be determined.
+ * A negative value indicates that the value could not be determined. 
  */
 
 static ALT_INLINE int alt_dma_txchan_space (alt_dma_txchan dma)
@@ -122,17 +122,17 @@ static ALT_INLINE int alt_dma_txchan_space (alt_dma_txchan dma)
 }
 
 /*
- * alt_dma_txchan_ioctl() can be used to perform device specific I/O
+ * alt_dma_txchan_ioctl() can be used to perform device specific I/O 
  * operations on the indicated DMA transmit channel. For example some drivers
  * support options to control the width of the transfer operations. See
  * alt_dma_dev.h for the list of generic requests.
  *
  * A negative return value indicates failure, otherwise the interpretation
- * of the return value is request specific.
+ * of the return value is request specific.  
  */
 
-static ALT_INLINE int alt_dma_txchan_ioctl (alt_dma_txchan dma,
-              int            req,
+static ALT_INLINE int alt_dma_txchan_ioctl (alt_dma_txchan dma, 
+              int            req, 
               void*          arg)
 {
   return dma ? dma->ioctl (dma, req, arg) : -ENODEV;
@@ -143,13 +143,13 @@ static ALT_INLINE int alt_dma_txchan_ioctl (alt_dma_txchan dma,
  * a DMA receive channel. The name is the name of the associated physical
  * device (e.g. "/dev/dma_0").
  *
- * The return value will be NULL on failure, and non-NULL otherwise.
+ * The return value will be NULL on failure, and non-NULL otherwise. 
  */
 
 extern alt_dma_rxchan alt_dma_rxchan_open (const char* dev);
 
 /*
- * alt_dma_rxchan_close() is provided so that an application can notify the
+ * alt_dma_rxchan_close() is provided so that an application can notify the 
  * system that it has finished with a given DMA receive channel. This is only
  * provided for completness.
  */
@@ -165,13 +165,13 @@ static ALT_INLINE int alt_dma_rxchan_close (alt_dma_rxchan dma)
 
 /*
  * alt_dma_rxchan_prepare() posts a receive request to a DMA receive channel.
- *
+ * 
  * The input arguments are:
  *
  * dma: the channel to use.
  * data: a pointer to the location that data is to be received to.
- * len: the maximum length of the data to receive.
- * done: callback function that will be called once the data has been
+ * len: the maximum length of the data to receive. 
+ * done: callback function that will be called once the data has been 
  *       received.
  * handle: opaque value passed to "done".
  *
@@ -179,27 +179,27 @@ static ALT_INLINE int alt_dma_rxchan_close (alt_dma_rxchan dma)
  * zero otherwise.
  */
 
-static ALT_INLINE int alt_dma_rxchan_prepare (alt_dma_rxchan   dma,
+static ALT_INLINE int alt_dma_rxchan_prepare (alt_dma_rxchan   dma, 
                                               void*            data,
                                               alt_u32          len,
-                                              alt_rxchan_done* done,
+                                              alt_rxchan_done* done,  
                                               void*            handle)
 {
   return dma ? dma->prepare (dma, data, len, done, handle) : -ENODEV;
 }
 
 /*
- * alt_dma_rxchan_ioctl() can be used to perform device specific I/O
+ * alt_dma_rxchan_ioctl() can be used to perform device specific I/O 
  * operations on the indicated DMA receive channel. For example some drivers
  * support options to control the width of the transfer operations. See
  * alt_dma_dev.h for the list of generic requests.
  *
  * A negative return value indicates failure, otherwise the interpretation
- * of the return value is request specific.
+ * of the return value is request specific.  
  */
 
-static ALT_INLINE int alt_dma_rxchan_ioctl (alt_dma_rxchan dma,
-              int            req,
+static ALT_INLINE int alt_dma_rxchan_ioctl (alt_dma_rxchan dma, 
+              int            req, 
               void*          arg)
 {
   return dma ? dma->ioctl (dma, req, arg) : -ENODEV;

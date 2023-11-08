@@ -1,13 +1,13 @@
 // (C) 2001-2018 Intel Corporation. All rights reserved.
-// Your use of Intel Corporation's design tools, logic functions and other
-// software and tools, and its AMPP partner logic functions, and any output
-// files from any of the foregoing (including device programming or simulation
-// files), and any associated documentation or information are expressly subject
-// to the terms and conditions of the Intel Program License Subscription
-// Agreement, Intel FPGA IP License Agreement, or other applicable
-// license agreement, including, without limitation, that your use is for the
-// sole purpose of programming logic devices manufactured by Intel and sold by
-// Intel or its authorized distributors.  Please refer to the applicable
+// Your use of Intel Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files from any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Intel Program License Subscription 
+// Agreement, Intel FPGA IP License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Intel and sold by 
+// Intel or its authorized distributors.  Please refer to the applicable 
 // agreement for further details.
 
 
@@ -19,11 +19,11 @@
 // --------------------------------------
 // Merlin Master Translator
 //
-// Converts an Avalon-MM master interface into an
+// Converts an Avalon-MM master interface into an 
 // Avalon-MM "universal" master interface.
 //
 // The universal interface is defined as the superset of ports
-// and parameters that can represent any legal Avalon
+// and parameters that can represent any legal Avalon 
 // interface.
 // --------------------------------------
 
@@ -39,7 +39,7 @@ module altera_merlin_master_translator #(
 
       UAV_ADDRESS_W               = 38,
       UAV_BURSTCOUNT_W            = 10,
-
+  
       // optional ports
       USE_BURSTCOUNT              = 1,
       USE_BEGINBURSTTRANSFER      = 0,
@@ -51,7 +51,7 @@ module altera_merlin_master_translator #(
       USE_WAITREQUEST             = 1,
       USE_WRITERESPONSE           = 0,
       USE_READRESPONSE            = 0,
-
+   
       AV_REGISTERINCOMINGSIGNALS  = 0,
       AV_SYMBOLS_PER_WORD         = 4,
       AV_ADDRESS_SYMBOLS          = 0,
@@ -237,7 +237,7 @@ module altera_merlin_master_translator #(
    end
 
    // -------------------------------------------------
-   // This is where we perform the per-transfer address and burstcount
+   // This is where we perform the per-transfer address and burstcount 
    // calculations that are required by downstream modules.
    // -------------------------------------------------
    reg [UAV_ADDRESS_W -1 : 0] address_register;
@@ -375,7 +375,7 @@ module altera_merlin_master_translator #(
    end
 
    // -------------------------------------------------
-   // Determine the output read and write signals from
+   // Determine the output read and write signals from 
    // the read/write/chipselect input signals.
    // -------------------------------------------------
    always_comb begin
@@ -388,7 +388,7 @@ module altera_merlin_master_translator #(
          if (USE_READ) begin
             uav_read_pre = av_read;
          end
-
+     
          if (USE_WRITE) begin
             uav_write_pre = av_write;
          end
@@ -518,7 +518,7 @@ module altera_merlin_master_translator #(
          av_byteenable_r            <= av_byteenable;
          av_burstcount_r            <= av_burstcount;
          av_writedata_r             <= av_writedata;
-
+   
          if (
             av_waitrequest_r && // When waitrequest is asserted
             (
@@ -545,9 +545,9 @@ module altera_merlin_master_translator #(
             $display("av_debugaccess            %x --> %x", av_debugaccess_r           , av_debugaccess           );
          end
       end
-
+   
    // end check_1
-
+   
    end
 
   // synthesis translate_on

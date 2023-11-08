@@ -45,9 +45,9 @@
 /* ----------------------------------------------------------- */
 
 /*
- * altera_avalon_uart_init() is called by the auto-generated function
+ * altera_avalon_uart_init() is called by the auto-generated function 
  * alt_sys_init() in order to initialize a particular instance of this device.
- * It is responsible for configuring the device and associated software
+ * It is responsible for configuring the device and associated software 
  * constructs.
  */
 
@@ -55,26 +55,26 @@
 static void altera_avalon_uart_irq(void* context);
 #else
 static void altera_avalon_uart_irq(void* context, alt_u32 id);
-#endif
+#endif 
 
 static void altera_avalon_uart_rxirq(altera_avalon_uart_state* sp,
   alt_u32 status);
 static void altera_avalon_uart_txirq(altera_avalon_uart_state* sp,
   alt_u32 status);
 
-void
-altera_avalon_uart_init(altera_avalon_uart_state* sp,
+void 
+altera_avalon_uart_init(altera_avalon_uart_state* sp, 
   alt_u32 irq_controller_id,  alt_u32 irq)
 {
   void* base = sp->base;
   int error;
 
-  /*
-   * Initialise the read and write flags and the semaphores used to
+  /* 
+   * Initialise the read and write flags and the semaphores used to 
    * protect access to the circular buffers when running in a multi-threaded
    * environment.
    */
-  error = ALT_FLAG_CREATE (&sp->events, 0)    ||
+  error = ALT_FLAG_CREATE (&sp->events, 0)    || 
           ALT_SEM_CREATE (&sp->read_lock, 1)  ||
           ALT_SEM_CREATE (&sp->write_lock, 1);
 
@@ -85,22 +85,22 @@ altera_avalon_uart_init(altera_avalon_uart_state* sp,
                 ALTERA_AVALON_UART_CONTROL_RRDY_MSK |
                 ALTERA_AVALON_UART_CONTROL_DCTS_MSK;
 
-    IOWR_ALTERA_AVALON_UART_CONTROL(base, sp->ctrl);
-
+    IOWR_ALTERA_AVALON_UART_CONTROL(base, sp->ctrl); 
+  
     /* register the interrupt handler */
 #ifdef ALT_ENHANCED_INTERRUPT_API_PRESENT
-    alt_ic_isr_register(irq_controller_id, irq, altera_avalon_uart_irq, sp,
+    alt_ic_isr_register(irq_controller_id, irq, altera_avalon_uart_irq, sp, 
       0x0);
 #else
     alt_irq_register (irq, sp, altera_avalon_uart_irq);
-#endif
+#endif  
   }
 }
 
 /*
- * altera_avalon_uart_irq() is the interrupt handler registered at
- * configuration time for processing UART interrupts. It vectors
- * interrupt requests to either altera_avalon_uart_rxirq() (for incoming
+ * altera_avalon_uart_irq() is the interrupt handler registered at 
+ * configuration time for processing UART interrupts. It vectors 
+ * interrupt requests to either altera_avalon_uart_rxirq() (for incoming 
  * data), or altera_avalon_uart_txirq() (for outgoing data).
  */
 #ifdef ALT_ENHANCED_INTERRUPT_API_PRESENT
@@ -126,7 +126,7 @@ static void altera_avalon_uart_irq(void* context, alt_u32 id)
 
   /* Dummy read to ensure IRQ is negated before ISR returns */
   IORD_ALTERA_AVALON_UART_STATUS(base);
-
+  
   /* process a read irq */
   if (status & ALTERA_AVALON_UART_STATUS_RRDY_MSK)
   {
@@ -134,29 +134,29 @@ static void altera_avalon_uart_irq(void* context, alt_u32 id)
   }
 
   /* process a write irq */
-  if (status & (ALTERA_AVALON_UART_STATUS_TRDY_MSK |
+  if (status & (ALTERA_AVALON_UART_STATUS_TRDY_MSK | 
                   ALTERA_AVALON_UART_STATUS_DCTS_MSK))
   {
     altera_avalon_uart_txirq(sp, status);
   }
-
+  
 
 }
 
 /*
- * altera_avalon_uart_rxirq() is called by altera_avalon_uart_irq() to
- * process a receive interrupt. It transfers the incoming character into
- * the receive circular buffer, and sets the apropriate flags to indicate
+ * altera_avalon_uart_rxirq() is called by altera_avalon_uart_irq() to 
+ * process a receive interrupt. It transfers the incoming character into 
+ * the receive circular buffer, and sets the apropriate flags to indicate 
  * that there is data ready to be processed.
  */
-static void
+static void 
 altera_avalon_uart_rxirq(altera_avalon_uart_state* sp, alt_u32 status)
 {
   alt_u32 next;
-
+  
   /* If there was an error, discard the data */
 
-  if (status & (ALTERA_AVALON_UART_STATUS_PE_MSK |
+  if (status & (ALTERA_AVALON_UART_STATUS_PE_MSK | 
                   ALTERA_AVALON_UART_STATUS_FE_MSK))
   {
     return;
@@ -193,31 +193,31 @@ altera_avalon_uart_rxirq(altera_avalon_uart_state* sp, alt_u32 status)
   if (next == sp->rx_start)
   {
     sp->ctrl &= ~ALTERA_AVALON_UART_CONTROL_RRDY_MSK;
-    IOWR_ALTERA_AVALON_UART_CONTROL(sp->base, sp->ctrl);
-  }
+    IOWR_ALTERA_AVALON_UART_CONTROL(sp->base, sp->ctrl); 
+  }   
 }
 
 /*
- * altera_avalon_uart_txirq() is called by altera_avalon_uart_irq() to
- * process a transmit interrupt. It transfers data from the transmit
- * buffer to the device, and sets the apropriate flags to indicate that
+ * altera_avalon_uart_txirq() is called by altera_avalon_uart_irq() to 
+ * process a transmit interrupt. It transfers data from the transmit 
+ * buffer to the device, and sets the apropriate flags to indicate that 
  * there is data ready to be processed.
  */
-static void
+static void 
 altera_avalon_uart_txirq(altera_avalon_uart_state* sp, alt_u32 status)
 {
   /* Transfer data if there is some ready to be transfered */
 
   if (sp->tx_start != sp->tx_end)
   {
-    /*
+    /* 
      * If the device is using flow control (i.e. RTS/CTS), then the
      * transmitter is required to throttle if CTS is high.
      */
 
     if (!(sp->flags & ALT_AVALON_UART_FC) ||
       (status & ALTERA_AVALON_UART_STATUS_CTS_MSK))
-    {
+    { 
 
       /*
        * In a multi-threaded environment, set the write event flag to indicate
@@ -226,8 +226,8 @@ altera_avalon_uart_txirq(altera_avalon_uart_state* sp, alt_u32 status)
        */
 
       if (sp->tx_start == ((sp->tx_end + 1) & ALT_AVALON_UART_BUF_MSK))
-      {
-        ALT_FLAG_POST (sp->events,
+      { 
+        ALT_FLAG_POST (sp->events, 
                        ALT_UART_WRITE_RDY,
                        OS_FLAG_SET);
       }
@@ -239,9 +239,9 @@ altera_avalon_uart_txirq(altera_avalon_uart_state* sp, alt_u32 status)
       sp->tx_start = (++sp->tx_start) & ALT_AVALON_UART_BUF_MSK;
 
       /*
-       * In case the tranmit interrupt had previously been disabled by
+       * In case the tranmit interrupt had previously been disabled by 
        * detecting a low value on CTS, it is reenabled here.
-       */
+       */ 
 
       sp->ctrl |= ALTERA_AVALON_UART_CONTROL_TRDY_MSK;
     }
@@ -249,17 +249,17 @@ altera_avalon_uart_txirq(altera_avalon_uart_state* sp, alt_u32 status)
     {
       /*
        * CTS is low and we are using flow control, so disable the transmit
-       * interrupt while we wait for CTS to go high again. This will be
+       * interrupt while we wait for CTS to go high again. This will be 
        * detected using the DCTS interrupt.
        *
-       * There is a race condition here. "status" may indicate that
-       * CTS is low, but it actually went high before DCTS was cleared on
+       * There is a race condition here. "status" may indicate that 
+       * CTS is low, but it actually went high before DCTS was cleared on 
        * the last write to the status register. To avoid this resulting in
        * deadlock, it's necessary to re-check the status register here
        * before throttling.
        */
-
-      status = IORD_ALTERA_AVALON_UART_STATUS(sp->base);
+ 
+      status = IORD_ALTERA_AVALON_UART_STATUS(sp->base); 
 
       if (!(status & ALTERA_AVALON_UART_STATUS_CTS_MSK))
       {
@@ -285,24 +285,24 @@ altera_avalon_uart_txirq(altera_avalon_uart_state* sp, alt_u32 status)
 /*
  * The close() routine is implemented to drain the UART transmit buffer
  * when not in "small" mode. This routine will wait for transimt data to be
- * emptied unless the driver flags have been set to non-blocking mode.
- * This routine should be called indirectly (i.e. though the C library
- * close() routine) so that the file descriptor associated with the relevant
- * stream (i.e. stdout) can be closed as well. This routine does not manage
+ * emptied unless the driver flags have been set to non-blocking mode. 
+ * This routine should be called indirectly (i.e. though the C library 
+ * close() routine) so that the file descriptor associated with the relevant 
+ * stream (i.e. stdout) can be closed as well. This routine does not manage 
  * file descriptors.
- *
+ * 
  * The close routine is not implemented for the small driver; instead it will
  * map to null. This is because the small driver simply waits while characters
- * are transmitted; there is no interrupt-serviced buffer to empty
+ * are transmitted; there is no interrupt-serviced buffer to empty 
  */
 int altera_avalon_uart_close(altera_avalon_uart_state* sp, int flags)
 {
-  /*
+  /* 
    * Wait for all transmit data to be emptied by the UART ISR.
    */
   while (sp->tx_start != sp->tx_end) {
     if (flags & O_NONBLOCK) {
-      return -EWOULDBLOCK;
+      return -EWOULDBLOCK; 
     }
   }
 

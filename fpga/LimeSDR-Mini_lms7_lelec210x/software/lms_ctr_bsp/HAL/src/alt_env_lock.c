@@ -33,10 +33,10 @@
 #include <reent.h>
 
 /*
- * These are the empty env lock/unlock stubs required by newlib. These are
- * used to make accesses to environment variables thread safe. The default HAL
- * configuration is single threaded, so there is nothing to do here. Note that
- * this requires that environment variables are never manipulated by an interrupt
+ * These are the empty env lock/unlock stubs required by newlib. These are 
+ * used to make accesses to environment variables thread safe. The default HAL 
+ * configuration is single threaded, so there is nothing to do here. Note that 
+ * this requires that environment variables are never manipulated by an interrupt 
  * service routine.
  */
 

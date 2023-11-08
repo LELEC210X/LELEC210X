@@ -119,9 +119,9 @@ architecture sync_reg of dspba_sync_reg is
 
     signal iclk_enable : std_logic;
     signal iclk_data : std_logic_vector(width1-1 downto 0);
-    signal oclk_data : std_logic_vector(width2-1 downto 0);
+    signal oclk_data : std_logic_vector(width2-1 downto 0); 
 
-    -- For Synthesis this means: preserve this registers and do not merge any other flip-flops with synchronizer flip-flops
+    -- For Synthesis this means: preserve this registers and do not merge any other flip-flops with synchronizer flip-flops 
     -- For TimeQuest this means: identify these flip-flops as synchronizer to enable automatic MTBF analysis
     signal sync_regs : bit_array;
     attribute altera_attribute : string;
@@ -130,29 +130,29 @@ architecture sync_reg of dspba_sync_reg is
     signal oclk_enable : std_logic;
 
     constant init_value_internal : std_logic_vector(width1-1 downto 0) := init_value;
-
+    
     signal counter : UNSIGNED(counter_width-1 downto 0);
     signal ena_internal : std_logic;
 begin
-    oclk_enable <= sync_regs(depth-1);
+    oclk_enable <= sync_regs(depth-1);  
 
     no_multiplication: if pulse_multiplier=1 generate
         ena_internal <= ena(0);
     end generate;
 
     async_reset: if reset_kind="ASYNC" generate
-
+        
         multiply_ena: if pulse_multiplier>1 generate
             ena_internal <= '1' when counter>0 else ena(0);
             process (clk1, aclr1)
-	        begin
+	        begin	
                 if aclr1=reset1_high then
                     counter <= (others => '0');
                 elsif clk1'event and clk1='1' then
                     if counter>0 then
                         if counter=pulse_multiplier-1 then
                             counter <= (others => '0');
-                        else
+                        else 
                             counter <= counter + TO_UNSIGNED(1, counter_width);
                         end if;
                     else
@@ -163,7 +163,7 @@ begin
                 end if;
             end process;
         end generate;
-
+        
         process (clk1, aclr1)
         begin
             if aclr1=reset1_high then
@@ -176,22 +176,22 @@ begin
                 end if;
             end if;
         end process;
-
+        
         sync_reg_loop: for i in 0 to depth-1 generate
-            process (clk2, aclr2)
+            process (clk2, aclr2) 
             begin
                 if aclr2=reset2_high then
                     sync_regs(i) <= '0';
                 elsif clk2'event and clk2='1' then
                     if i>0 then
-                        sync_regs(i) <= sync_regs(i-1);
+                        sync_regs(i) <= sync_regs(i-1); 
                     else
-                        sync_regs(i) <= iclk_enable;
+                        sync_regs(i) <= iclk_enable; 
                     end if;
                 end if;
             end process;
         end generate;
-
+    
         process (clk2, aclr2)
         begin
             if aclr2=reset2_high then
@@ -217,7 +217,7 @@ begin
                         if counter>0 then
                             if counter=pulse_multiplier-1 then
                                 counter <= (others => '0');
-                            else
+                            else 
                                 counter <= counter + TO_UNSIGNED(1, counter_width);
                             end if;
                         else
@@ -236,7 +236,7 @@ begin
                 if aclr1=reset1_high then
                     iclk_enable <= '0';
                     iclk_data <= init_value_internal;
-                else
+                else 
                     iclk_enable <= ena_internal;
                     if ena(0)='1' then
                         iclk_data <= xin;
@@ -244,24 +244,24 @@ begin
                 end if;
             end if;
         end process;
-
+        
         sync_reg_loop: for i in 0 to depth-1 generate
-            process (clk2)
+            process (clk2) 
             begin
                 if clk2'event and clk2='1' then
                     if aclr2=reset2_high then
                         sync_regs(i) <= '0';
-                    else
+                    else 
                         if i>0 then
-                            sync_regs(i) <= sync_regs(i-1);
+                            sync_regs(i) <= sync_regs(i-1); 
                         else
-                            sync_regs(i) <= iclk_enable;
+                            sync_regs(i) <= iclk_enable; 
                         end if;
                     end if;
                 end if;
             end process;
         end generate;
-
+    
         process (clk2)
         begin
             if clk2'event and clk2='1' then
@@ -275,16 +275,16 @@ begin
     end generate;
 
     none_reset: if reset_kind="NONE" generate
-
+        
         multiply_ena: if pulse_multiplier>1 generate
             ena_internal <= '1' when counter>0 else ena(0);
-            process (clk1, aclr1)
+            process (clk1, aclr1) 
 	        begin
                 if clk1'event and clk1='1' then
                     if counter>0 then
                         if counter=pulse_multiplier-1 then
                             counter <= (others => '0');
-                        else
+                        else 
                             counter <= counter + TO_UNSIGNED(1, counter_width);
                         end if;
                     else
@@ -305,20 +305,20 @@ begin
                 end if;
             end if;
         end process;
-
+        
         sync_reg_loop: for i in 0 to depth-1 generate
-            process (clk2)
+            process (clk2) 
             begin
                 if clk2'event and clk2='1' then
                     if i>0 then
-                        sync_regs(i) <= sync_regs(i-1);
+                        sync_regs(i) <= sync_regs(i-1); 
                     else
-                        sync_regs(i) <= iclk_enable;
+                        sync_regs(i) <= iclk_enable; 
                     end if;
                 end if;
             end process;
         end generate;
-
+    
         process (clk2)
         begin
             if clk2'event and clk2='1' then
@@ -374,3 +374,4 @@ begin
     q <= stage_array(num_stages);
 
 end rtl;
+

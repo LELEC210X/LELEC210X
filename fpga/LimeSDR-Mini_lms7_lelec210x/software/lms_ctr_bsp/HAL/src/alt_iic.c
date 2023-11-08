@@ -31,16 +31,16 @@
 
 /*
  * This file implements the HAL Enhanced interrupt API for Nios II processors
- * with an internal interrupt controller (IIC). For most routines, this serves
- * as a wrapper layer over the legacy interrupt API (which must be used with
- * the IIC only).
+ * with an internal interrupt controller (IIC). For most routines, this serves 
+ * as a wrapper layer over the legacy interrupt API (which must be used with 
+ * the IIC only). 
  *
  * Use of the enhanced API is recommended so that application and device
- * drivers are compatible with a Nios II system configured with an external
- * interrupt controller (EIC), or IIC. This will afford maximum portability.
+ * drivers are compatible with a Nios II system configured with an external 
+ * interrupt controller (EIC), or IIC. This will afford maximum portability. 
  *
- * If an EIC is present, the EIC device driver must provide these routines,
- * because their operation will be specific to that EIC type.
+ * If an EIC is present, the EIC device driver must provide these routines, 
+ * because their operation will be specific to that EIC type. 
  */
 #ifndef NIOS2_EIC_PRESENT
 #ifdef ALT_ENHANCED_INTERRUPT_API_PRESENT
@@ -48,20 +48,20 @@
 #include "sys/alt_irq.h"
 #include "priv/alt_iic_isr_register.h"
 #include "priv/alt_legacy_irq.h"
-
-/** @Function Description:  This function registers an interrupt handler.
-  * If the function is succesful, then the requested interrupt will be enabled upon
+                            
+/** @Function Description:  This function registers an interrupt handler. 
+  * If the function is succesful, then the requested interrupt will be enabled upon 
   * return. Registering a NULL handler will disable the interrupt.
   * @API Type:              External
   * @param ic_id            Ignored.
   * @param irq              IRQ number
   * @return                 0 if successful, else error (-1)
   */
-int alt_ic_isr_register(alt_u32 ic_id, alt_u32 irq, alt_isr_func isr,
+int alt_ic_isr_register(alt_u32 ic_id, alt_u32 irq, alt_isr_func isr, 
   void *isr_context, void *flags)
 {
     return alt_iic_isr_register(ic_id, irq, isr, isr_context, flags);
-}
+}  
 
 /** @Function Description:  This function enables a single interrupt.
   * @API Type:              External

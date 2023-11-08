@@ -19,7 +19,7 @@ SPACE := $(empty) $(empty)
 
 #------------------------------------------------------------------------------
 #                         The adjust-path macro
-#
+# 
 # If COMSPEC is defined, Make is launched from Windows through
 # Cygwin.  This adjust-path macro will call 'cygpath -u' on all
 # paths to ensure they are readable by Make.
@@ -78,26 +78,26 @@ OBJ_DIR := ./obj
 # utilize the BSP settings mechanism to do so.
 #
 # Note that most variable assignments in this section have a corresponding BSP
-# setting that can be changed by using the nios2-bsp-create-settings or
-# nios2-bsp-update-settings command before nios2-bsp-generate-files; if you
-# want any variable set to a specific value when this Makefile is re-generated
-# (to prevent hand-edits from being over-written), use the BSP settings
+# setting that can be changed by using the nios2-bsp-create-settings or  
+# nios2-bsp-update-settings command before nios2-bsp-generate-files; if you 
+# want any variable set to a specific value when this Makefile is re-generated 
+# (to prevent hand-edits from being over-written), use the BSP settings 
 # facilities above.
 #------------------------------------------------------------------------------
 
 #START MANAGED
 
-# The following TYPE comment allows tools to identify the 'type' of target this
-# makefile is associated with.
+# The following TYPE comment allows tools to identify the 'type' of target this 
+# makefile is associated with. 
 # TYPE: BSP_PRIVATE_MAKEFILE
 
-# This following VERSION comment indicates the version of the tool used to
-# generate this makefile. A makefile variable is provided for VERSION as well.
+# This following VERSION comment indicates the version of the tool used to 
+# generate this makefile. A makefile variable is provided for VERSION as well. 
 # ACDS_VERSION: 18.1
 ACDS_VERSION := 18.1
 
-# This following BUILD_NUMBER comment indicates the build number of the tool
-# used to generate this makefile.
+# This following BUILD_NUMBER comment indicates the build number of the tool 
+# used to generate this makefile. 
 # BUILD_NUMBER: 625
 
 SETTINGS_FILE := settings.bsp
@@ -105,52 +105,52 @@ SOPC_FILE := ../../lms_ctr.sopcinfo
 
 #-------------------------------------------------------------------------------
 #                             TOOL & COMMAND DEFINITIONS
-#
+# 
 # The base command for each build operation are expressed here. Additional
-# switches may be expressed here. They will run for all instances of the
+# switches may be expressed here. They will run for all instances of the 
 # utility.
 #-------------------------------------------------------------------------------
 
-# Archiver command. Creates library files.
+# Archiver command. Creates library files. 
 AR = nios2-elf-ar
 
-# Assembler command. Note that CC is used for .S files.
+# Assembler command. Note that CC is used for .S files. 
 AS = nios2-elf-gcc
 
-# Custom flags only passed to the archiver. This content of this variable is
-# directly passed to the archiver rather than the more standard "ARFLAGS". The
-# reason for this is that GNU Make assumes some default content in ARFLAGS.
-# This setting defines the value of BSP_ARFLAGS in Makefile.
+# Custom flags only passed to the archiver. This content of this variable is 
+# directly passed to the archiver rather than the more standard "ARFLAGS". The 
+# reason for this is that GNU Make assumes some default content in ARFLAGS. 
+# This setting defines the value of BSP_ARFLAGS in Makefile. 
 BSP_ARFLAGS = -src
 
-# Custom flags only passed to the assembler. This setting defines the value of
-# BSP_ASFLAGS in Makefile.
+# Custom flags only passed to the assembler. This setting defines the value of 
+# BSP_ASFLAGS in Makefile. 
 BSP_ASFLAGS = -Wa,-gdwarf2
 
-# C/C++ compiler optimization level. "-O0" = no optimization,"-O2" = "normal"
-# optimization, etc. "-O0" is recommended for code that you want to debug since
-# compiler optimization can remove variables and produce non-sequential
-# execution of code while debugging. This setting defines the value of
-# BSP_CFLAGS_OPTIMIZATION in Makefile.
+# C/C++ compiler optimization level. "-O0" = no optimization,"-O2" = "normal" 
+# optimization, etc. "-O0" is recommended for code that you want to debug since 
+# compiler optimization can remove variables and produce non-sequential 
+# execution of code while debugging. This setting defines the value of 
+# BSP_CFLAGS_OPTIMIZATION in Makefile. 
 BSP_CFLAGS_OPTIMIZATION = -O0
 
-# C/C++ compiler warning level. "-Wall" is commonly used.This setting defines
-# the value of BSP_CFLAGS_WARNINGS in Makefile.
+# C/C++ compiler warning level. "-Wall" is commonly used.This setting defines 
+# the value of BSP_CFLAGS_WARNINGS in Makefile. 
 BSP_CFLAGS_WARNINGS = -Wall
 
-# C compiler command.
+# C compiler command. 
 CC = nios2-elf-gcc -xc
 
-# C++ compiler command.
+# C++ compiler command. 
 CXX = nios2-elf-gcc -xc++
 
-# Command used to remove files during 'clean' target.
+# Command used to remove files during 'clean' target. 
 RM = rm -f
 
 
 #-------------------------------------------------------------------------------
 #                         BUILD PRE & POST PROCESS COMMANDS
-#
+# 
 # The following variables are treated as shell commands in the rule
 # definitions for each file-type associated with the BSP build, as well as
 # commands run at the beginning and end of the entire BSP build operation.
@@ -158,7 +158,7 @@ RM = rm -f
 # a command defined in the "CC_PRE_PROCESS" variable executes before the C
 # compiler for building .c files), while post-process commands are executed
 # immediately afterwards.
-#
+# 
 # You can view each pre/post-process command in the "Build Rules: All &
 # Clean", "Pattern Rules to Build Objects", and "Library Rules" sections of
 # this Makefile.
@@ -167,33 +167,33 @@ RM = rm -f
 
 #-------------------------------------------------------------------------------
 #                     BSP SOURCE BUILD SETTINGS (FLAG GENERATION)
-#
+# 
 # Software build settings such as compiler optimization, debug level, warning
 # flags, etc., may be defined in the following variables. The variables below
 # are concatenated together in the 'Flags' section of this Makefile to form
 # final variables of flags passed to the build tools.
-#
+# 
 # These settings are considered private to the BSP and apply to all library &
 # driver files in it; they do NOT automatically propagate to, for example, the
 # build settings for an application.
 # # For additional detail and syntax requirements, please refer to GCC help
 # (example: "nios2-elf-gcc --help --verbose").
-#
+# 
 # Unless indicated otherwise, multiple entries in each variable should be
 # space-separated.
 #-------------------------------------------------------------------------------
 
-# Altera HAL alt_sys_init.c generated source file
+# Altera HAL alt_sys_init.c generated source file 
 GENERATED_C_FILES := $(ABS_BSP_ROOT)/alt_sys_init.c
 GENERATED_C_LIB_SRCS += alt_sys_init.c
 
 
 #-------------------------------------------------------------------------------
 #                            BSP SOURCE FILE LISTING
-#
-# All source files that comprise the BSP are listed here, along with path
-# information to each file expressed relative to the BSP root. The precise
-# list and location of each file is derived from the driver, operating system,
+# 
+# All source files that comprise the BSP are listed here, along with path 
+# information to each file expressed relative to the BSP root. The precise 
+# list and location of each file is derived from the driver, operating system, 
 # or software package source file declarations.
 #
 # Following specification of the source files for each component, driver, etc.,
@@ -202,28 +202,28 @@ GENERATED_C_LIB_SRCS += alt_sys_init.c
 # used to build each file.
 #-------------------------------------------------------------------------------
 
-# altera_avalon_pio_driver sources root
+# altera_avalon_pio_driver sources root 
 altera_avalon_pio_driver_SRCS_ROOT := drivers
 
-# altera_avalon_pio_driver sources
-# altera_avalon_spi_driver sources root
+# altera_avalon_pio_driver sources 
+# altera_avalon_spi_driver sources root 
 altera_avalon_spi_driver_SRCS_ROOT := drivers
 
-# altera_avalon_spi_driver sources
+# altera_avalon_spi_driver sources 
 altera_avalon_spi_driver_C_LIB_SRCS := \
 	$(altera_avalon_spi_driver_SRCS_ROOT)/src/altera_avalon_spi.c
 
-# altera_avalon_sysid_qsys_driver sources root
+# altera_avalon_sysid_qsys_driver sources root 
 altera_avalon_sysid_qsys_driver_SRCS_ROOT := drivers
 
-# altera_avalon_sysid_qsys_driver sources
+# altera_avalon_sysid_qsys_driver sources 
 altera_avalon_sysid_qsys_driver_C_LIB_SRCS := \
 	$(altera_avalon_sysid_qsys_driver_SRCS_ROOT)/src/altera_avalon_sysid_qsys.c
 
-# altera_avalon_uart_driver sources root
+# altera_avalon_uart_driver sources root 
 altera_avalon_uart_driver_SRCS_ROOT := drivers
 
-# altera_avalon_uart_driver sources
+# altera_avalon_uart_driver sources 
 altera_avalon_uart_driver_C_LIB_SRCS := \
 	$(altera_avalon_uart_driver_SRCS_ROOT)/src/altera_avalon_uart_fd.c \
 	$(altera_avalon_uart_driver_SRCS_ROOT)/src/altera_avalon_uart_init.c \
@@ -231,10 +231,10 @@ altera_avalon_uart_driver_C_LIB_SRCS := \
 	$(altera_avalon_uart_driver_SRCS_ROOT)/src/altera_avalon_uart_read.c \
 	$(altera_avalon_uart_driver_SRCS_ROOT)/src/altera_avalon_uart_write.c
 
-# altera_nios2_gen2_hal_driver sources root
+# altera_nios2_gen2_hal_driver sources root 
 altera_nios2_gen2_hal_driver_SRCS_ROOT := HAL
 
-# altera_nios2_gen2_hal_driver sources
+# altera_nios2_gen2_hal_driver sources 
 altera_nios2_gen2_hal_driver_C_LIB_SRCS := \
 	$(altera_nios2_gen2_hal_driver_SRCS_ROOT)/src/altera_nios2_gen2_irq.c \
 	$(altera_nios2_gen2_hal_driver_SRCS_ROOT)/src/alt_usleep.c \
@@ -268,17 +268,17 @@ altera_nios2_gen2_hal_driver_ASM_LIB_SRCS := \
 	$(altera_nios2_gen2_hal_driver_SRCS_ROOT)/src/alt_log_macro.S \
 	$(altera_nios2_gen2_hal_driver_SRCS_ROOT)/src/crt0.S
 
-# altera_onchip_flash_driver sources root
+# altera_onchip_flash_driver sources root 
 altera_onchip_flash_driver_SRCS_ROOT := drivers
 
-# altera_onchip_flash_driver sources
+# altera_onchip_flash_driver sources 
 altera_onchip_flash_driver_C_LIB_SRCS := \
 	$(altera_onchip_flash_driver_SRCS_ROOT)/src/altera_onchip_flash.c
 
-# hal sources root
+# hal sources root 
 hal_SRCS_ROOT := HAL
 
-# hal sources
+# hal sources 
 hal_C_LIB_SRCS := \
 	$(hal_SRCS_ROOT)/src/alt_alarm_start.c \
 	$(hal_SRCS_ROOT)/src/alt_close.c \
@@ -334,15 +334,15 @@ hal_C_LIB_SRCS := \
 	$(hal_SRCS_ROOT)/src/alt_wait.c \
 	$(hal_SRCS_ROOT)/src/alt_write.c
 
-# i2c_opencores_driver sources root
+# i2c_opencores_driver sources root 
 i2c_opencores_driver_SRCS_ROOT := drivers
 
-# i2c_opencores_driver sources
+# i2c_opencores_driver sources 
 i2c_opencores_driver_C_LIB_SRCS := \
 	$(i2c_opencores_driver_SRCS_ROOT)/src/i2c_opencores.c
 
 
-# Assemble all component C source files
+# Assemble all component C source files 
 COMPONENT_C_LIB_SRCS += \
 	$(altera_avalon_spi_driver_C_LIB_SRCS) \
 	$(altera_avalon_sysid_qsys_driver_C_LIB_SRCS) \
@@ -352,11 +352,11 @@ COMPONENT_C_LIB_SRCS += \
 	$(hal_C_LIB_SRCS) \
 	$(i2c_opencores_driver_C_LIB_SRCS)
 
-# Assemble all component assembly source files
+# Assemble all component assembly source files 
 COMPONENT_ASM_LIB_SRCS += \
 	$(altera_nios2_gen2_hal_driver_ASM_LIB_SRCS)
 
-# Assemble all component C++ source files
+# Assemble all component C++ source files 
 COMPONENT_CPP_LIB_SRCS += \
 
 #END MANAGED
@@ -376,7 +376,7 @@ COMPONENT_CPP_LIB_SRCS += \
 # purpose of this variable is to allow an external Makefile to append on
 # path information to precisely locate paths expressed in public.mk
 # Since this is the BSP Makefile, we set ALT_LIBRARY_ROOT_DIR to point right
-# here ("."), at the BSP root.
+# here ("."), at the BSP root. 
 #
 # ALT_LIBRARY_ROOT_DIR must always be set before public.mk is included.
 #------------------------------------------------------------------------------
@@ -402,7 +402,7 @@ BSP_CFLAGS += \
   $(BSP_CFLAGS_WARNINGS) \
   $(BSP_CFLAGS_USER_FLAGS) \
   $(ALT_CFLAGS) \
-  $(CFLAGS)
+  $(CFLAGS) 
 
 # Make ready the final list of include directories and other C pre-processor
 # flags. Each include path is made ready by prefixing it with "-I".
@@ -479,7 +479,7 @@ DEPS = $(OBJS:.o=.d)
 
 
 # Rules to force your project to rebuild or relink
-# .force_relink file will cause any application that depends on this project to relink
+# .force_relink file will cause any application that depends on this project to relink 
 # .force_rebuild file will cause this project to rebuild object files
 # .force_rebuild_all file will cause this project and any project that depends on this project to rebuild object files
 
@@ -761,7 +761,7 @@ endif
 ifneq ($(NEWLIB_DIR),)
 $(NEWLIB_DIR):
 	@$(ECHO) Creating $(NEWLIB_DIR)...
-	nios2-newlib-gen --no-multilib $(NEWLIB_DIR)-build-tmp $(NEWLIB_DIR) --custom "$(NEWLIB_FLAGS)"
+	nios2-newlib-gen --no-multilib $(NEWLIB_DIR)-build-tmp $(NEWLIB_DIR) --custom "$(NEWLIB_FLAGS)"		
 	@$(ECHO) Removing $(NEWLIB_DIR)-build-tmp...
 	@$(RM) -rf $(NEWLIB_DIR)-build-tmp
 endif
@@ -785,3 +785,5 @@ ifneq ($(findstring clean, $(MAKECMDGOALS)),clean)
 endif
 
 # End of Makefile
+
+

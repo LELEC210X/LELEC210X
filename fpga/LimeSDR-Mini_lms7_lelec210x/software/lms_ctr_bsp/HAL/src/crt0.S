@@ -224,18 +224,18 @@ _exit:
     .type _start, @function
 _start:
 
-#if (NIOS2_NUM_OF_SHADOW_REG_SETS > 0)
+#if (NIOS2_NUM_OF_SHADOW_REG_SETS > 0)    
     /*
      * Ensure that the current register set is 0 upon
      * entry to this code.  Switch register set to 0 by
      * writing zero to SSTATUS register and executing an ERET instruction
      * to set STATUS.CRS to 0.
      */
-
+    
     /* Get the current register set number (STATUS.CRS). */
     rdctl r2, status
     andi r2, r2, NIOS2_STATUS_CRS_MSK
-
+    
     /* Skip switching register set if STATUS.CRS is 0.  */
     beq r2, zero, 0f
 
@@ -307,7 +307,7 @@ _start:
     ori gp, gp, %lo(_gp)
 
 #ifdef NIOS2_ECC_PRESENT
-    /*
+    /* 
      * Initialize all general-purpose registers so that ECC can be enabled
      * later without accidentally triggering a spurious ECC error.
      */
@@ -347,8 +347,8 @@ _start:
 
 #endif /* NIOS2_ECC_PRESENT */
 
-#if (NIOS2_NUM_OF_SHADOW_REG_SETS > 0)
-    /*
+#if (NIOS2_NUM_OF_SHADOW_REG_SETS > 0)    
+    /* 
      * Setup registers in shadow register sets
      * from 1 to NIOS2_NUM_OF_SHADOW_REG_SETS.
      */
@@ -356,7 +356,7 @@ _start:
     movui r2, 0     /* Contains value written into STATUS */
     movui r3, NIOS2_NUM_OF_SHADOW_REG_SETS  /* counter */
     movhi r4, 1     /* Constant to increment STATUS.PRS */
-
+    
 .Linitialize_shadow_registers:
     /* Increment STATUS.PRS */
     add r2, r2, r4
@@ -368,7 +368,7 @@ _start:
     /* Write the GP in previous register set */
     wrprs gp, gp
 
-    /*
+    /* 
      * Only write the SP in previous register set
      * if using the separate exception stack. For normal case (single stack),
      * funnel code would read the SP from previous register set with a RDPRS.
@@ -380,7 +380,7 @@ _start:
 #endif /* ALT_INTERRUPT_STACK */
 
 #ifdef NIOS2_ECC_PRESENT
-    /*
+    /* 
      * Initialize all general-purpose registers so that ECC can be enabled
      * later without accidentally triggering a spurious ECC error.
      */

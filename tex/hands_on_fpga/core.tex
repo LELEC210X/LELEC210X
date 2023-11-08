@@ -3,17 +3,15 @@
 
 \section{Flashing the design on the FPGA}
 
- In this section, you will learn how to flash this design on the FPGA of the LimeSDR. The Lime Suite GUI tool is needed to flash your FPGA and it is already preinstalled on the VM. You only need to transfer the \texttt{LimeSDR-Mini\_bitstreams/LimeSDR-Mini\_lms7\_lelec210x\_HW\_1.0\_auto.rpd} file to the VM using one of the methods mentioned in the "Hands-on \handsOnN: Installation of the required components" document. This additionnal resource also discuss several issues you may encounter when flashing the FPGA.
-
-Open the Lime Suite GUI tool and connect the LimeSDR. We will first perform a flash of the default design. To this end, go to \textit{Options -> Connection Settings} and connect to the device. You should observe in the console that the LimeSDR Mini board is now correctly connected. Then, open the programming panel in \textit{Modules -> Programming}, select the \textit{Automatic} mode and launch the flashing using the \textit{Program} button.
+ In this section, you will learn how to flash this design on the FPGA of the LimeSDR. The Lime Suite GUI tool is needed to flash your FPGA. Open it and connect the LimeSDR. We will first perform a flash of the default design. To this end, go to \textit{Options -> Connection Settings} and connect to the device. You should observe in the console that the LimeSDR Mini board is now correctly connected. Then, open the programming panel in \textit{Modules -> Programming}, select the \textit{Automatic} mode and launch the flashing using the \textit{Program} button.
 
 If the programming completed successfully, you may now program the modified design provided by the teaching team. Select the programming mode \textit{FPGA FLASH} and open the file \\ \texttt{LimeSDR-Mini\_bitstreams/LimeSDR-Mini\_lms7\_lelec210x\_HW\_1.0\_auto.rpd}. Start the programming. When the programming is completed, disconnect the board in \textit{Options -> Connection Settings}.
 
-The custom design brings new runtime parameters that can be set by a GNU Radio application. However, these modifications requires the usage of a new version of the LimeSDR FPGA Source block. To compile this block, the following packages need to be installed:
+The custom design brings new runtime parameters that can be set by a GNU Radio application. However, these modifications requires the usage of a new version of the LimeSDR FPGA Source block. To compile this block, the following packages need to be installed on the system running GNU Radio:
 \begin{lstlisting}[language=bash]
     $ sudo apt install liblimesuite-dev swig4.0 liborc-0.4-dev
 \end{lstlisting}
-Then, go into the \texttt{gr-limesdr} module we provided you in the zip file and install it:
+Then, go into the \texttt{./telecom/gr-limesdr} directory and install it:
 \begin{lstlisting}[language=bash]
     $ mkdir build
     $ cd build/
@@ -22,12 +20,7 @@ Then, go into the \texttt{gr-limesdr} module we provided you in the zip file and
     $ sudo ldconfig
 \end{lstlisting}
 
-Finally, you may now open in the GNU Radio Companion the application \texttt{decode\_limesdr\_FPGA.grc}. Do not forget to change the carrier frequency in the design. Observe that the low-pass filter block is no longer present, since it is accelerated in hardware. The software preamble detection is however still needed, even if the hardware preamble detector is enabled.
+Finally, you may now open in the GNU Radio Companion the application \texttt{eval\_limesdr\_fpga.grc}. Do not forget to change the carrier frequency in the design. Observe that the low-pass filter block is no longer present, since it is accelerated in hardware. The software preamble detection has been replaced by a much more simple Flag detector. Using the MCU code from the hands-on last week, try to receive 5 packets over the air with this new GRC application. Do not hesitate to change the RX gain to receive the packets. You may want to adapt the K factor of the threshold if needed. However, your main tuning knob should be the gain.
 
-Using the MCU code from the hands-on H3b, try to receive 5 packets over the air with this new GRC application and an Rx gain of 60~dB. You may need to modify the \texttt{detect\_threshold} variable for the packets to be detected. Do you observe the impact of the accelerated LPF and preamble detector on the display of the received signal?
 
-Then, enable the hardware preamble detector in the \textit{LimeSDR FPGA Source} block, panel \textit{Custom FPGA}. Relaunch the application. Decrease the detection threshold until packets get detected by the hardware preamble detector. How does the received signal behave when no packet is transmitted?
 
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Simulation and GNU radio application}
-In the initial version of the digital design provided to you, the preamble detector calculated $I^2+Q^2$ to evaluate the norm of the IQ samples. We then switched to a simpler version. Please note that the python testbench as well as the GNU radio application are configured to work with the Absolute-value norm estimator. If you wish to work with the initial version, you will have to adapt some parameters, e.g., the detection threshold.
-\end{bclogo}

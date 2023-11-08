@@ -1,17 +1,17 @@
 
 /* alt_log_printf.c
  *
- * This file implements the various C functions used for the
+ * This file implements the various C functions used for the 
  * alt_log logging/debugging print functions.  The functions
  * sit as is here - the job of hiding them from the compiler
- * if logging is disabled is accomplished in the .h file.
+ * if logging is disabled is accomplished in the .h file. 
  *
- * All the global variables for alt_log are defined here.
- * These include the various flags that turn on additional
+ * All the global variables for alt_log are defined here.  
+ * These include the various flags that turn on additional 
  * logging options; the strings for assembly printing; and
- * other globals needed by different logging options.
+ * other globals needed by different logging options. 
  *
- * There are 4 functions that handle the actual printing:
+ * There are 4 functions that handle the actual printing: 
  * alt_log_txchar: Actual function that puts 1 char to UART/JTAG UART.
  * alt_log_repchar: Calls alt_log_txchar 'n' times - used by
  *            alt_log_private_printf for formatting.
@@ -19,7 +19,7 @@
  *     Stripped down implementation of printf - no floats.
  * alt_log_printf_proc:
  *     Wrapper function for private_printf.
- *
+ * 
  * The rest of the functions are called by the macros which
  * were called by code in the other components.  Each function
  * is preceded by a comment, about which file it gets called
@@ -51,7 +51,7 @@ char alt_log_write_buf[ALT_LOG_WRITE_ECHO_LEN+2];
 
 /* global variables for all 'on' flags */
 
-/*
+/* 
  * CASE:368514 - The boot message flag is linked into the sdata section
  * because if it is zero, it would otherwise be placed in the bss section.
  * alt_log examines this variable before the BSS is cleared in the boot-up
@@ -368,8 +368,8 @@ alt_u32 altera_avalon_jtag_uart_report_log(void * context)
         alt_log_jtag_uart_print_control_reg(dev, dev->base, header);
         return ALT_LOG_JTAG_UART_TICKS;
     }
-    else
-    {
+    else 
+    {  
         /* If flag is not on, return 0 to disable future alarms.
         * Should never be here, alarm should not be enabled at all. */
         return 0;
@@ -392,7 +392,7 @@ void alt_log_jtag_uart_print_control_reg(altera_avalon_jtag_uart_state* dev, int
          ALTERA_AVALON_JTAG_UART_CONTROL_WI_OFST;
      ac= (control & ALTERA_AVALON_JTAG_UART_CONTROL_AC_MSK) >>
          ALTERA_AVALON_JTAG_UART_CONTROL_AC_OFST;
-
+         
 #ifdef ALTERA_AVALON_JTAG_UART_SMALL
     ALT_LOG_PRINTF(
      "%s HW FIFO wspace=%d AC=%d WI=%d RI=%d WE=%d RE=%d\r\n",
@@ -401,8 +401,8 @@ void alt_log_jtag_uart_print_control_reg(altera_avalon_jtag_uart_state* dev, int
     ALT_LOG_PRINTF(
      "%s SW CirBuf = %d, HW FIFO wspace=%d AC=%d WI=%d RI=%d WE=%d RE=%d\r\n",
          header,(dev->tx_out-dev->tx_in),space,ac,wi,ri,we,re);
-#endif
-
+#endif   
+         
      return;
 
 }
@@ -410,7 +410,7 @@ void alt_log_jtag_uart_print_control_reg(altera_avalon_jtag_uart_state* dev, int
 /* In altera_avalon_jtag_uart.c
  * Same output as the alarm function above, but this is called in the driver
  * init function.  Hence, it gives the status of the JTAG UART control register
- * right at the initialization of the driver */
+ * right at the initialization of the driver */ 
 void alt_log_jtag_uart_startup_info(altera_avalon_jtag_uart_state* dev, int base)
 {
      const char* header="JTAG Startup Info:";
@@ -421,7 +421,7 @@ void alt_log_jtag_uart_startup_info(altera_avalon_jtag_uart_state* dev, int base
 /* In altera_avalon_jtag_uart.c
  * When turned on, this function will print out the status of the jtag uart
  * control register every time there is a jtag uart "almost-empty" interrupt. */
-void alt_log_jtag_uart_isr_proc(int base, altera_avalon_jtag_uart_state* dev)
+void alt_log_jtag_uart_isr_proc(int base, altera_avalon_jtag_uart_state* dev) 
 {
     if (alt_log_jtag_uart_isr_on_flag) {
         const char* header="JTAG IRQ:";
@@ -430,11 +430,11 @@ void alt_log_jtag_uart_isr_proc(int base, altera_avalon_jtag_uart_state* dev)
     return;
 }
 
-#endif /* __ALTERA_AVALON_JTAG_UART */
+#endif /* __ALTERA_AVALON_JTAG_UART */ 
 
 /* In alt_write.c
  * When the alt_log_write_on_flag is turned on, this function gets called
- * every time alt_write gets called.  The first
+ * every time alt_write gets called.  The first 
  * ALT_LOG_WRITE_ECHO_LEN characters of every printf command (or any command
  * that eventually calls write()) gets echoed to the alt_log output. */
 void alt_log_write(const void *ptr, size_t len)

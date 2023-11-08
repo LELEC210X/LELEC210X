@@ -44,7 +44,7 @@
 /*
  * alt_llist.h defines structures and functions for use in manipulating linked
  * lists. A list is considered to be constructed from a chain of objects of
- * type alt_llist, with one object being defined to be the head element.
+ * type alt_llist, with one object being defined to be the head element. 
  *
  * A list is considered to be empty if it only contains the head element.
  */
@@ -67,9 +67,9 @@ struct alt_llist_s {
 };
 
 /*
- * ALT_LLIST_HEAD is a macro that can be used to create the head of a new
- * linked list. This is named "head". The head element is initialised to
- * represent an empty list.
+ * ALT_LLIST_HEAD is a macro that can be used to create the head of a new 
+ * linked list. This is named "head". The head element is initialised to 
+ * represent an empty list.  
  */
 
 #define ALT_LLIST_HEAD(head) alt_llist head = {&head, &head}
@@ -83,11 +83,11 @@ struct alt_llist_s {
 #define ALT_LLIST_ENTRY {0, 0}
 
 /*
- * alt_llist_insert() insert adds the linked list entry "entry" as the
- * first entry in the linked list "list". "list" is the list head element.
+ * alt_llist_insert() insert adds the linked list entry "entry" as the 
+ * first entry in the linked list "list". "list" is the list head element.  
  */
 
-static ALT_INLINE void ALT_ALWAYS_INLINE alt_llist_insert(alt_llist* list,
+static ALT_INLINE void ALT_ALWAYS_INLINE alt_llist_insert(alt_llist* list, 
                 alt_llist* entry)
 {
   entry->previous = list;
@@ -101,23 +101,23 @@ static ALT_INLINE void ALT_ALWAYS_INLINE alt_llist_insert(alt_llist* list,
  * alt_llist_remove() is called to remove an element from a linked list. The
  * input argument is the element to remove.
  */
-
+     
 static ALT_INLINE void ALT_ALWAYS_INLINE alt_llist_remove(alt_llist* entry)
 {
   entry->next->previous = entry->previous;
   entry->previous->next = entry->next;
 
-  /*
+  /* 
    * Set the entry to point to itself, so that any further calls to
    * alt_llist_remove() are harmless.
    */
 
   entry->previous = entry;
   entry->next     = entry;
-}
+} 
 
 #ifdef __cplusplus
 }
 #endif
-
-#endif /* __ALT_LLIST_H__ */
+ 
+#endif /* __ALT_LLIST_H__ */ 

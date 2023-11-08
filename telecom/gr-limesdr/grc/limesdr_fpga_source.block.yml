@@ -158,10 +158,10 @@ parameters:
   category: Advanced
 
 - id: dspcfg_preamble_en
-  label: Enable Preamble Detector
+  label: Enable Packet Presence Detector
   dtype: enum
   options:       ['1' ,    '0']
-  option_labels: [ 'Yes' , 'No']
+  option_labels: ['Yes' , 'No']
   hide: part
   category: Custom FPGA
 

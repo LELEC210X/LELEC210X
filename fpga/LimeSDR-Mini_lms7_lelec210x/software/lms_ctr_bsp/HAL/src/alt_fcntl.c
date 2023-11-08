@@ -49,10 +49,10 @@
  * file descriptor. Normally these flags are set during the call to
  * open(). It is anticipated that the main use of this function will be to
  * change the state of a device from blocking to non-blocking (where this is
- * supported).
+ * supported). 
  *
  * The input argument "fd" is the file descriptor to be manipulated. "cmd"
- * is the command to execute. This can be either F_GETFL (return the
+ * is the command to execute. This can be either F_GETFL (return the 
  * current value of the flags) or F_SETFL (set the value of the flags).
  *
  * If "cmd" is F_SETFL then the argument "arg" is the new value of flags,
@@ -62,9 +62,9 @@
  *
  * ALT_FCNTL is mapped onto the fcntl() system call in alt_syscall.h
  */
-
+ 
 int ALT_FCNTL (int file, int cmd, ...)
-{
+{ 
   alt_fd*  fd;
   long     flags;
   va_list  argp;
@@ -76,7 +76,7 @@ int ALT_FCNTL (int file, int cmd, ...)
    */
 
   fd = (file < 0) ? NULL : &alt_fd_list[file];
-
+  
   if (fd)
   {
     switch (cmd)

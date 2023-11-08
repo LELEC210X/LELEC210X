@@ -1,10 +1,10 @@
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------	
 -- FILE: pulse_gen.vhd
--- DESCRIPTION: generates one clk cycle long pulse
+-- DESCRIPTION: generates one clk cycle long pulse 
 -- DATE: August 25, 2017
 -- AUTHOR(s): Lime Microsystems
 -- REVISIONS:
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------	
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -29,7 +29,7 @@ architecture arch of pulse_gen is
 signal cnt           : unsigned(31 downto 0);
 signal cnt_max       : unsigned(31 downto 0);
 
-
+  
 begin
 
 
@@ -41,14 +41,19 @@ begin
       pulse <= '0';
       elsif (clk'event and clk = '1') then
          cnt_max <= unsigned(wait_cycles)-1;
-         if cnt = cnt_max then
+         if cnt = cnt_max then 
             cnt <= (others => '0');
             pulse <= '1';
-         else
+         else 
             cnt <= cnt + 1;
             pulse <= '0';
-         end if;
+         end if;         
       end if;
 end process;
+  
+end arch;   
 
-end arch;
+
+
+
+

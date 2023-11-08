@@ -63,7 +63,7 @@ static ALT_INLINE char * ALT_ALWAYS_INLINE alt_stack_limit (void)
   char * limit;
   NIOS2_READ_ET(limit);
 
-  return limit;
+  return limit; 
 }
 
 /*
@@ -76,7 +76,7 @@ static ALT_INLINE char * ALT_ALWAYS_INLINE alt_stack_pointer (void)
   char * pointer;
   NIOS2_READ_SP(pointer);
 
-  return pointer;
+  return pointer; 
 }
 
 
@@ -123,3 +123,4 @@ static ALT_INLINE void ALT_ALWAYS_INLINE alt_report_stack_overflow (void)
 #endif /* __cplusplus */
 
 #endif /* __ALT_STACK_H__ */
+

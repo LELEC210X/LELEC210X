@@ -31,7 +31,7 @@ set_sw_property bsp_subdirectory drivers
 # This peripheral has an IRQ output but the driver doesn't currently
 # have any interrupt service routine. To ensure that the BSP tools
 # do not otherwise limit the BSP functionality for users of the
-# Nios II enhanced interrupt port, these settings advertise
+# Nios II enhanced interrupt port, these settings advertise 
 # compliance with both legacy and enhanced interrupt APIs, and to state
 # that any driver ISR supports preemption. If an interrupt handler
 # is added to this driver, these must be re-examined for validity.

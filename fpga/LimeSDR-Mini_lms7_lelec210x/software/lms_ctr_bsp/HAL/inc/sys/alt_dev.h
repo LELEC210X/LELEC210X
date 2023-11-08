@@ -49,7 +49,7 @@ extern "C"
 #endif /* __cplusplus */
 
 /*
- * The value ALT_IRQ_NOT_CONNECTED is used to represent an unconnected
+ * The value ALT_IRQ_NOT_CONNECTED is used to represent an unconnected 
  * interrupt line. It cannot evaluate to a valid interrupt number.
  */
 
@@ -70,36 +70,36 @@ typedef struct alt_fd_s
   int      fd_flags;
 } alt_fd;
 
-/*
- * The device structure definition.
+/* 
+ * The device structure definition. 
  */
-
+ 
 struct alt_dev_s {
   alt_llist    llist;     /* for internal use */
-  const char*  name;
+  const char*  name; 
   int (*open)  (alt_fd* fd, const char* name, int flags, int mode);
   int (*close) (alt_fd* fd);
   int (*read)  (alt_fd* fd, char* ptr, int len);
-  int (*write) (alt_fd* fd, const char* ptr, int len);
+  int (*write) (alt_fd* fd, const char* ptr, int len); 
   int (*lseek) (alt_fd* fd, int ptr, int dir);
   int (*fstat) (alt_fd* fd, struct stat* buf);
   int (*ioctl) (alt_fd* fd, int req, void* arg);
 };
 
 /*
- * Functions used to register device for access through the C standard
+ * Functions used to register device for access through the C standard 
  * library.
  *
- * The only difference between alt_dev_reg() and alt_fs_reg() is the
+ * The only difference between alt_dev_reg() and alt_fs_reg() is the 
  * interpretation that open() places on the device name. In the case of
  * alt_dev_reg the device is assumed to be a particular character device,
- * and so there must be an exact match in the name for open to succeed.
+ * and so there must be an exact match in the name for open to succeed. 
  * In the case of alt_fs_reg() the name of the device is treated as the
- * mount point for a directory, and so any call to open() where the name
- * is the root of the device filename will succeed.
+ * mount point for a directory, and so any call to open() where the name 
+ * is the root of the device filename will succeed. 
  */
 
-extern int alt_fs_reg  (alt_dev* dev);
+extern int alt_fs_reg  (alt_dev* dev); 
 
 static ALT_INLINE int alt_dev_reg (alt_dev* dev)
 {
@@ -111,5 +111,5 @@ static ALT_INLINE int alt_dev_reg (alt_dev* dev)
 #ifdef __cplusplus
 }
 #endif
-
+ 
 #endif /* __ALT_DEV_H__ */

@@ -14,9 +14,9 @@
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_test_bench (
                                           // inputs:
@@ -649,9 +649,10 @@ wire             test_has_ended;
 
 //synthesis translate_on
 //synthesis read_comments_as_HDL on
-//
+//  
 //  assign av_ld_data_aligned_filtered = av_ld_data_aligned_unfiltered;
 //
 //synthesis read_comments_as_HDL off
 
 endmodule
+

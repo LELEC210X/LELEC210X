@@ -33,7 +33,7 @@
 #include "system.h"
 
 /*
- * These global variables are used to save the current list of enabled
+ * These global variables are used to save the current list of enabled 
  * interrupts. See alt_irq.h for further details.
  */
 
@@ -44,3 +44,4 @@ volatile alt_u32 alt_irq_active    = 0;
 volatile alt_u32 alt_priority_mask = (alt_u32) -1;
 
 #endif
+

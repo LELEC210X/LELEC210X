@@ -1,10 +1,10 @@
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------	
 -- FILE: 	lms7002_ddin.vhd
 -- DESCRIPTION:	takes data from lms7002 in double data rate
 -- DATE:	Mar 14, 2016
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------	
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -21,15 +21,15 @@ entity lms7002_ddin is
 				invert_input_clocks	: string := "ON"
 	);
 	port (
-      --input ports
+      --input ports 
       clk       	: in std_logic;
       reset_n   	: in std_logic;
 		rxiq		 	: in std_logic_vector(iq_width-1 downto 0);
 		rxiqsel	 	: in std_logic;
-		--output ports
+		--output ports 
 		data_out_h	: out std_logic_vector(iq_width downto 0);
 		data_out_l	: out std_logic_vector(iq_width downto 0)
-
+		
         );
 end lms7002_ddin;
 
@@ -63,5 +63,10 @@ aclr<=not reset_n;
 		dataout_h 	=> data_out_h,
 		dataout_l 	=> data_out_l
 	);
+  
+end arch;   
 
-end arch;
+
+
+
+

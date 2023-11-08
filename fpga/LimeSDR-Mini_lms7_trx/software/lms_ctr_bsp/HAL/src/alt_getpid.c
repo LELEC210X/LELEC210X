@@ -33,14 +33,15 @@
 #include "os/alt_syscall.h"
 
 /*
- * The getpid() system call is used by newlib to obtain the current process
+ * The getpid() system call is used by newlib to obtain the current process 
  * id. Since there is only ever a single process in the HAL environment,
- * this just returns a constant.
+ * this just returns a constant. 
  *
  * ALT_GETPID is mapped onto the getpid() system call in alt_syscall.h
  */
-
+ 
 int ALT_GETPID (void)
 {
   return 0;
 }
+

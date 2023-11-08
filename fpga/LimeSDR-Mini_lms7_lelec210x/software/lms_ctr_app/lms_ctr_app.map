@@ -414,9 +414,9 @@ LOAD e:/intelfpga/18.1/nios2eds/bin/gnu/h-x86_64-mingw32/bin/../lib/gcc/nios2-el
                 0x0000000000200000                . = ALIGN (0x4)
  *(.rodata .rodata.* .gnu.linkonce.r.*)
  .rodata        0x0000000000200000       0x25 ../lms_ctr_bsp/\libhal_bsp.a(alt_sys_init.o)
- *fill*         0x0000000000200025        0x3
+ *fill*         0x0000000000200025        0x3 
  .rodata        0x0000000000200028        0xa ../lms_ctr_bsp/\libhal_bsp.a(alt_dev.o)
- *fill*         0x0000000000200032        0x2
+ *fill*         0x0000000000200032        0x2 
  .rodata.str1.4
                 0x0000000000200034        0x4 e:/intelfpga/18.1/nios2eds/bin/gnu/h-x86_64-mingw32/bin/../lib/gcc/nios2-elf/5.3.0/../../../../../H-x86_64-mingw32/nios2-elf/lib/mno-hw-mul\libc.a(lib_a-impure.o)
                                           0x2 (size before relaxing)
@@ -553,7 +553,7 @@ LOAD e:/intelfpga/18.1/nios2eds/bin/gnu/h-x86_64-mingw32/bin/../lib/gcc/nios2-el
                 0x000000000020085c                fpga_byte
  .sbss          0x0000000000200860        0x1 obj/default/spi_flash_lib.o
                 0x0000000000200860                spiFastRead
- *fill*         0x0000000000200861        0x3
+ *fill*         0x0000000000200861        0x3 
  .sbss          0x0000000000200864        0xc ../lms_ctr_bsp/\libhal_bsp.a(alt_main.o)
                 0x0000000000200864                alt_argc
                 0x0000000000200868                alt_argv

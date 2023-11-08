@@ -28,7 +28,7 @@
 *                                                                             *
 ******************************************************************************/
 
-/*  mcount or _mcount is inserted by GCC before the function prologue of every
+/*  mcount or _mcount is inserted by GCC before the function prologue of every 
  *  function when a program is compiled for profiling. At the start of mcount,
  *  we guarantee that:
  *  ra = self_pc (an address in the function which called mcount)
@@ -47,7 +47,7 @@
         /* _mcount is used by gcc4 */
         .global _mcount
 
-_mcount:
+_mcount:        
 mcount:
         /* Use a hash to speed up locating fn_entry.  We use bits 5 upwards to choose
          * the bucket because bits 1:0 will always be 0, and because the distribution
@@ -101,7 +101,7 @@ mcount:
         mov     r6, r10
         mov     r7, r11
         call     __mcount_record
-
+        
         /* restore registers from the stack */
         ldw     ra, 0(sp)
         ldw     r4, 4(sp)
@@ -195,3 +195,4 @@ mcount:
 
         .align   2
 2:
+

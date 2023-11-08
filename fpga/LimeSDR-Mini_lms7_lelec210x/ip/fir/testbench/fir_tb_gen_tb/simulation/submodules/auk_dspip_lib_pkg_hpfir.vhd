@@ -1,13 +1,13 @@
 -- (C) 2001-2018 Intel Corporation. All rights reserved.
--- Your use of Intel Corporation's design tools, logic functions and other
--- software and tools, and its AMPP partner logic functions, and any output
--- files from any of the foregoing (including device programming or simulation
--- files), and any associated documentation or information are expressly subject
--- to the terms and conditions of the Intel Program License Subscription
--- Agreement, Intel FPGA IP License Agreement, or other applicable
--- license agreement, including, without limitation, that your use is for the
--- sole purpose of programming logic devices manufactured by Intel and sold by
--- Intel or its authorized distributors.  Please refer to the applicable
+-- Your use of Intel Corporation's design tools, logic functions and other 
+-- software and tools, and its AMPP partner logic functions, and any output 
+-- files from any of the foregoing (including device programming or simulation 
+-- files), and any associated documentation or information are expressly subject 
+-- to the terms and conditions of the Intel Program License Subscription 
+-- Agreement, Intel FPGA IP License Agreement, or other applicable 
+-- license agreement, including, without limitation, that your use is for the 
+-- sole purpose of programming logic devices manufactured by Intel and sold by 
+-- Intel or its authorized distributors.  Please refer to the applicable 
 -- agreement for further details.
 
 
@@ -16,11 +16,11 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 -- Alex, 02-10-07, this package declaration results in error at built time on a new machine
---
+--   
 use work.auk_dspip_math_pkg_hpfir.all;
 
-package auk_dspip_lib_pkg_hpfir is
---Component names:
+package auk_dspip_lib_pkg_hpfir is 
+--Component names: 
 --auk_dspip_atlantic_sink
 --auk_dspip_atlantic_source
 --auk_dspip_interface_controller
@@ -67,7 +67,7 @@ component auk_dspip_atlantic_sink is
     send_sop        : out std_logic;    -- transmit SOP signal to the design.
                                         -- It only transmits the legal SOP.
     send_eop        : out std_logic;    -- transmit EOP signal to the design.
-                                        -- It only transmits the legal EOP.
+                                        -- It only transmits the legal EOP.    
     ----------------- ATLANTIC SIDE SIGNALS
     at_sink_ready   : out std_logic;    --it will be '1' whenever the
                                         --sink_ready_ctrl signal is high.
@@ -118,7 +118,7 @@ end component auk_dspip_atlantic_source;
 
 
 component auk_dspip_interface_controller IS
-   PORT(
+   PORT( 
     clk 	            : in  std_logic;
       reset               : IN     std_logic;
     ready               : in  std_logic;
@@ -166,7 +166,7 @@ component auk_dspip_avalon_streaming_controller_pe_fir_91 is
     ENABLE_PIPELINE_DEPTH_g : natural := 0;  -- this value should match the depth of the enable pipeline in the core
     FAMILY_g                : string  := "Stratix II";
     MEM_TYPE_g              : string  := "Auto"
-    );
+    );  
   port(
     clk                 : in  std_logic;
     clk_en              : in  std_logic := '1';
@@ -223,7 +223,7 @@ component auk_dspip_avalon_streaming_sink_hpfir is
     --send_sop        : out std_logic;    -- transmit SOP signal to the design.
                                         -- It only transmits the legal SOP.
     --send_eop        : out std_logic;    -- transmit EOP signal to the design.
-                                        -- It only transmits the legal EOP.
+                                        -- It only transmits the legal EOP.    
     ----------------- ATLANTIC SIDE SIGNALS
     at_sink_ready   : out std_logic;    --it will be '1' whenever the
                                         --sink_ready_ctrl signal is high.
@@ -240,11 +240,11 @@ end component auk_dspip_avalon_streaming_sink_hpfir;
 
 component auk_dspip_avalon_streaming_source_hpfir is
   generic(
-    WIDTH_g                 : integer := 8;
+    WIDTH_g                 : integer := 8;   
     DATA_WIDTH              : integer := 8;
     DATA_PORT_COUNT         : integer := 1;
     PACKET_SIZE_g           : natural := 2;
-    FIFO_DEPTH_g            : natural := 0;
+    FIFO_DEPTH_g            : natural := 0; 
     HAVE_COUNTER_g          : boolean := false;
     COUNTER_LIMIT_g         : natural := 4;
     --MULTI_CHANNEL_g         : boolean := true;
@@ -302,7 +302,7 @@ component auk_dspip_delay_fir_91 is
                                         -- will be delayed by
     MEMORY_TYPE_g    :     string  := "AUTO";
                                         -- possible values are  "m4k", "m512",
-                                        -- "register", "mram", "auto",
+                                        -- "register", "mram", "auto", 
                                         -- "lutram", "M9K", "M144K".
                                         -- Any other string will be interpreted
                                         -- as "auto"
@@ -360,8 +360,8 @@ component auk_dspip_pipelined_adder_fir_91 is
   generic (
     INWIDTH_g      : natural := 42;
 		-- width of lab in selected device ( 10 or 16 in Cyclone,
-    -- Cylone II, Stratix and Stratix II.
-		--  Alex :  should I use 19 bits for Stratix III?
+    -- Cylone II, Stratix and Stratix II.  
+		--  Alex :  should I use 19 bits for Stratix III? 
     -- The rational being 10 ALM (2 bits x ALM  + the carry chain inside the same LAB for efficiency.
 		LABWIDTH_g :     natural := 38);
   port (
@@ -378,8 +378,8 @@ component auk_dspip_fast_accumulator_fir_91 is
   generic (
     DATA_WIDTH_g      : natural := 42;
 		-- width of lab in selected device ( 10 or 16 in Cyclone,
-    -- Cylone II, Stratix and Stratix II.
-		--  for Stratix III is 20 so labwidth should be set to 18.
+    -- Cylone II, Stratix and Stratix II.  
+		--  for Stratix III is 20 so labwidth should be set to 18. 
     -- The rational being 10 ALM (2 bits x ALM  + the carry chain inside the same LAB for efficiency.
 		LABWIDTH_g :     natural := 38;
     NUM_OF_CHANNELS_g : natural := 1;
@@ -572,7 +572,7 @@ component auk_dspip_avalon_streaming_block_sink_fir_91 is
     out_eop        : out std_logic;
     out_data       : out std_logic_vector(DATAWIDTH_g - 1 downto 0);
     curr_blk       : out std_logic_vector(log2_ceil(MAX_BLK_g) downto 0);
-    -- these are specific to the FFT, no effort has been made to optimize!
+    -- these are specific to the FFT, no effort has been made to optimize! 
     curr_pwr_2     : out std_logic;
     curr_inverse   : out std_logic;
     curr_input_sel : out std_logic_vector(NUM_STAGES_g - 1 downto 0));

@@ -32,6 +32,27 @@ options:
     state: enabled
 
 blocks:
+- name: K_threshold
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: K factor for threshold
+    min_len: '200'
+    orient: Qt.Horizontal
+    rangeType: int
+    start: '0'
+    step: '1'
+    stop: '200'
+    value: '12'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [864, 12.0]
+    rotation: 0
+    state: enabled
 - name: carrier_freq
   id: variable
   parameters:
@@ -77,30 +98,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 20.0]
+    coordinate: [576, 20.0]
     rotation: 0
     state: true
-- name: detect_threshold_fpga
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: ''
-    min_len: '200'
-    orient: Qt.Horizontal
-    rangeType: int
-    start: '0'
-    step: '1'
-    stop: '200'
-    value: '12'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [880, 20.0]
-    rotation: 0
-    state: enabled
 - name: estimated_noise_power
   id: variable
   parameters:
@@ -110,7 +110,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [728, 20.0]
+    coordinate: [704, 20.0]
     rotation: 0
     state: true
 - name: fdev
@@ -203,7 +203,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1032, 20.0]
+    coordinate: [1032, 12.0]
     rotation: 0
     state: true
 - name: samp_rate
@@ -247,7 +247,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [607, 347]
+    coordinate: [672, 284.0]
     rotation: 0
     state: enabled
 - name: fsk_flag_detector_0
@@ -266,7 +266,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [392, 204.0]
+    coordinate: [288, 156.0]
     rotation: 0
     state: true
 - name: fsk_packet_parser_0
@@ -285,7 +285,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [882, 355]
+    coordinate: [936, 292.0]
     rotation: 0
     state: enabled
 - name: fsk_synchronization_0
@@ -306,7 +306,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [896, 184]
+    coordinate: [400, 276.0]
     rotation: 0
     state: enabled
 - name: limesdr_fpga_source_0
@@ -326,7 +326,7 @@ blocks:
     digital_bandw_ch0: samp_rate
     digital_bandw_ch1: samp_rate
     dspcfg_PASSTHROUGH_LEN: (packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate)+2000
-    dspcfg_THRESHOLD: detect_threshold_fpga
+    dspcfg_THRESHOLD: K_threshold
     dspcfg_preamble_en: '1'
     filename: ''
     gain_dB_ch0: rx_gain
@@ -345,7 +345,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [28, 201]
+    coordinate: [16, 204.0]
     rotation: 0
     state: true
 - name: qtgui_sink_x_0
@@ -374,7 +374,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [366, 466]
+    coordinate: [296, 428.0]
     rotation: 0
     state: true
 - name: zeromq_pub_sink_0
@@ -393,7 +393,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1166, 355]
+    coordinate: [1048, 420.0]
     rotation: 0
     state: enabled
 

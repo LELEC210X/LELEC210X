@@ -44,17 +44,17 @@ static char buf[ALT_PUTBUF_SIZE] ={0};
 // index into the buffer
 static unsigned int fill_index;
 
-/*
+/* 
  * ALT putcharbuf funtion
- * Used only for semihosting.
+ * Used only for semihosting. 
  * Not thread safe!
  * This fucntion buffers up chars to be printed until either alt_putbufflush()
  * is called or the buffer is full.
  * It is called by alt_printf when semihosting is turned on
  * Its purpose is to minimize the number of Break 1 issuesd by the semihosting
- * libraries.
+ * libraries. 
  */
-int
+int 
 alt_putcharbuf(int c)
 {
     buf[fill_index++] = (char)(c & 0xff);
@@ -64,12 +64,12 @@ alt_putcharbuf(int c)
 }
 
 /*
- * ALT putbufflush
+ * ALT putbufflush 
  * used only for smehosting
  * Not thread safe!
  * Dumps all the chars in the buffer to STDOUT
  */
-int
+int 
 alt_putbufflush()
 {
     int results;

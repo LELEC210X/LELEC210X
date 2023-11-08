@@ -57,15 +57,15 @@ struct timeval  alt_resettime = {0, 0};
  * gettimeofday() can be called to obtain a time structure which indicates the
  * current "wall clock" time. This is calculated using the elapsed number of
  * system clock ticks, and the value of "alt_resettime" and "alt_timezone" set
- * through the last call to settimeofday().
+ * through the last call to settimeofday().  
  *
- * Warning: if this function is called concurrently with a call to
- * settimeofday(), the value returned by gettimeofday() will be unreliable.
+ * Warning: if this function is called concurrently with a call to 
+ * settimeofday(), the value returned by gettimeofday() will be unreliable. 
  *
- * ALT_GETTIMEOFDAY is mapped onto the gettimeofday() system call in
+ * ALT_GETTIMEOFDAY is mapped onto the gettimeofday() system call in 
  * alt_syscall.h
  */
-
+ 
 
 #if defined (__GNUC__) && (__GNUC__ >= 4)
 int ALT_GETTIMEOFDAY (struct timeval  *ptimeval, void *ptimezone_vptr)
@@ -75,12 +75,12 @@ int ALT_GETTIMEOFDAY (struct timeval  *ptimeval, void *ptimezone_vptr)
 int ALT_GETTIMEOFDAY (struct timeval  *ptimeval, struct timezone *ptimezone)
 {
 #endif
-
-  alt_u32 nticks = alt_nticks ();
+  
+  alt_u32 nticks = alt_nticks (); 
   alt_u32 tick_rate = alt_ticks_per_second ();
 
-  /*
-   * Check to see if the system clock is running. This is indicated by a
+  /* 
+   * Check to see if the system clock is running. This is indicated by a 
    * non-zero system clock rate. If the system clock is not running, an error
    * is generated and the contents of "ptimeval" and "ptimezone" are not
    * updated.
@@ -91,7 +91,7 @@ int ALT_GETTIMEOFDAY (struct timeval  *ptimeval, struct timezone *ptimezone)
     ptimeval->tv_sec  = alt_resettime.tv_sec  + nticks/tick_rate;
     ptimeval->tv_usec = alt_resettime.tv_usec +
      (alt_u32)(((alt_u64)nticks*(ALT_US/tick_rate))%ALT_US);
-
+      
     while(ptimeval->tv_usec < 0) {
       if (ptimeval->tv_sec <= 0)
       {
@@ -105,14 +105,14 @@ int ALT_GETTIMEOFDAY (struct timeval  *ptimeval, struct timezone *ptimezone)
           ptimeval->tv_usec += ALT_US;
       }
     }
-
+    
     while(ptimeval->tv_usec >= ALT_US) {
       ptimeval->tv_sec++;
       ptimeval->tv_usec -= ALT_US;
     }
-
+      
     if (ptimezone)
-    {
+    { 
       ptimezone->tz_minuteswest = alt_timezone.tz_minuteswest;
       ptimezone->tz_dsttime     = alt_timezone.tz_dsttime;
     }
@@ -122,3 +122,4 @@ int ALT_GETTIMEOFDAY (struct timeval  *ptimeval, struct timezone *ptimezone)
 
   return -ENOTSUP;
 }
+

@@ -35,13 +35,13 @@
 #include "os/alt_syscall.h"
 
 /*
- * link() is used by newlib to create a new link to an existing file. This is
- * unsupported in the HAL environment. However a "do-nothing" implementation
- * is still provied for newlib compatability.
+ * link() is used by newlib to create a new link to an existing file. This is 
+ * unsupported in the HAL environment. However a "do-nothing" implementation 
+ * is still provied for newlib compatability. 
  *
  * ALT_LINK is mapped onto the link() system call in alt_syscall.h
  */
-
+ 
 int ALT_LINK ( char *existing, char *new)
 {
   /* Generate a link time warning, should this function ever be called. */
@@ -53,3 +53,4 @@ int ALT_LINK ( char *existing, char *new)
   ALT_ERRNO = ENOSYS;
   return -1;
 }
+

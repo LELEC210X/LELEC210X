@@ -3,21 +3,21 @@
 # DO NOT MODIFY
 
 
-#
+# 
 # AVS2FIFO "AVS2FIFO" v1.0
 #  2021.04.27.18:28:03
-#
-#
+# 
+# 
 
-#
+# 
 # request TCL package from ACDS 16.1
-#
+# 
 package require -exact qsys 16.1
 
 
-#
+# 
 # module AVS2FIFO
-#
+# 
 set_module_property DESCRIPTION ""
 set_module_property NAME AVS2FIFO
 set_module_property VERSION 1.0
@@ -33,9 +33,9 @@ set_module_property ALLOW_GREYBOX_GENERATION false
 set_module_property REPORT_HIERARCHY false
 
 
-#
+# 
 # file sets
-#
+# 
 add_fileset QUARTUS_SYNTH QUARTUS_SYNTH "" ""
 set_fileset_property QUARTUS_SYNTH TOP_LEVEL avs2fifo
 set_fileset_property QUARTUS_SYNTH ENABLE_RELATIVE_INCLUDE_PATHS false
@@ -53,9 +53,9 @@ set_fileset_property SIM_VHDL ENABLE_FILE_OVERWRITE_MODE true
 add_fileset_file avs2fifo.v VERILOG PATH ip/avs2fifo/avs2fifo.v
 
 
-#
+# 
 # parameters
-#
+# 
 add_parameter datawidth INTEGER 48 ""
 set_parameter_property datawidth DEFAULT_VALUE 48
 set_parameter_property datawidth DISPLAY_NAME datawidth
@@ -66,14 +66,14 @@ set_parameter_property datawidth DESCRIPTION ""
 set_parameter_property datawidth HDL_PARAMETER true
 
 
-#
+# 
 # display items
-#
+# 
 
 
-#
+# 
 # connection point clock_sink
-#
+# 
 add_interface clock_sink clock end
 set_interface_property clock_sink clockRate 0
 set_interface_property clock_sink ENABLED true
@@ -85,9 +85,9 @@ set_interface_property clock_sink SVD_ADDRESS_GROUP ""
 add_interface_port clock_sink clock_sink_clk clk Input 1
 
 
-#
+# 
 # connection point reset_sink
-#
+# 
 add_interface reset_sink reset end
 set_interface_property reset_sink associatedClock clock_sink
 set_interface_property reset_sink synchronousEdges DEASSERT
@@ -100,9 +100,9 @@ set_interface_property reset_sink SVD_ADDRESS_GROUP ""
 add_interface_port reset_sink reset_sink_reset reset Input 1
 
 
-#
+# 
 # connection point avalon_streaming_sink
-#
+# 
 add_interface avalon_streaming_sink avalon_streaming end
 set_interface_property avalon_streaming_sink associatedClock clock_sink
 set_interface_property avalon_streaming_sink associatedReset reset_sink
@@ -121,9 +121,9 @@ add_interface_port avalon_streaming_sink avalon_streaming_sink_data data Input d
 add_interface_port avalon_streaming_sink avalon_streaming_sink_valid valid Input 1
 
 
-#
+# 
 # connection point conduit_end
-#
+# 
 add_interface conduit_end conduit end
 set_interface_property conduit_end associatedClock clock_sink
 set_interface_property conduit_end associatedReset reset_sink
@@ -135,3 +135,4 @@ set_interface_property conduit_end SVD_ADDRESS_GROUP ""
 
 add_interface_port conduit_end fifo_wrdata wrdata Output datawidth
 add_interface_port conduit_end fifo_wrreq wrreq Output 1
+

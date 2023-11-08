@@ -55,12 +55,12 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 ; Legal Notice ;
 ----------------
 Copyright (C) 2018  Intel Corporation. All rights reserved.
-Your use of Intel Corporation's design tools, logic functions
-and other software and tools, and its AMPP partner logic
-functions, and any output files from any of the foregoing
-(including device programming or simulation files), and any
-associated documentation or information are expressly subject
-to the terms and conditions of the Intel Program License
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
 Subscription Agreement, the Intel Quartus Prime License Agreement,
 the Intel FPGA IP License Agreement, or other applicable license
 agreement, including, without limitation, that your use is for
@@ -3453,34 +3453,34 @@ Info (332164): Evaluating HDL-embedded SDC commands
     Info (332165): Entity altera_std_synchronizer
         Info (332166): set_false_path -to [get_keepers {*altera_std_synchronizer:*|din_s1}]
     Info (332165): Entity dcfifo_2hn1
-        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_md9:dffpipe13|dffe14a*
-        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_ld9:dffpipe9|dffe10a*
+        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_md9:dffpipe13|dffe14a* 
+        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_ld9:dffpipe9|dffe10a* 
     Info (332165): Entity dcfifo_3dn1
-        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_od9:dffpipe9|dffe10a*
-        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_nd9:dffpipe6|dffe7a*
+        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_od9:dffpipe9|dffe10a* 
+        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_nd9:dffpipe6|dffe7a* 
     Info (332165): Entity dcfifo_3hn1
-        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_ve9:dffpipe15|dffe16a*
-        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_ue9:dffpipe12|dffe13a*
+        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_ve9:dffpipe15|dffe16a* 
+        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_ue9:dffpipe12|dffe13a* 
     Info (332165): Entity dcfifo_5gn1
-        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_qd9:dffpipe9|dffe10a*
-        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_pd9:dffpipe6|dffe7a*
+        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_qd9:dffpipe9|dffe10a* 
+        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_pd9:dffpipe6|dffe7a* 
     Info (332165): Entity dcfifo_6en1
-        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_te9:dffpipe17|dffe18a*
-        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_se9:dffpipe14|dffe15a*
+        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_te9:dffpipe17|dffe18a* 
+        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_se9:dffpipe14|dffe15a* 
     Info (332165): Entity dcfifo_pcn1
-        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_id9:dffpipe17|dffe18a*
-        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_hd9:dffpipe14|dffe15a*
+        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_id9:dffpipe17|dffe18a* 
+        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_hd9:dffpipe14|dffe15a* 
     Info (332165): Entity dcfifo_r9n1
-        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_kd9:dffpipe9|dffe10a*
-        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_jd9:dffpipe6|dffe7a*
+        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_kd9:dffpipe9|dffe10a* 
+        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_jd9:dffpipe6|dffe7a* 
     Info (332165): Entity dcfifo_sfn1
-        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_sd9:dffpipe13|dffe14a*
-        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_rd9:dffpipe10|dffe11a*
+        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_sd9:dffpipe13|dffe14a* 
+        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_rd9:dffpipe10|dffe11a* 
     Info (332165): Entity pll_altpll
-        Info (332166): set_false_path -from ** -to *phasedone_state*
-        Info (332166): set_false_path -from ** -to *internal_phasestep*
+        Info (332166): set_false_path -from ** -to *phasedone_state* 
+        Info (332166): set_false_path -from ** -to *internal_phasestep* 
     Info (332165): Entity sld_hub
-        Info (332166): create_clock -name altera_reserved_tck [get_ports {altera_reserved_tck}] -period 10MHz
+        Info (332166): create_clock -name altera_reserved_tck [get_ports {altera_reserved_tck}] -period 10MHz   
         Info (332166): set_clock_groups -asynchronous -group {altera_reserved_tck}
 Info (332104): Reading SDC File: 'lms_ctr/synthesis/submodules/altera_reset_controller.sdc'
 Info (332104): Reading SDC File: 'lms_ctr/synthesis/submodules/altera_onchip_flash.sdc'
@@ -3573,7 +3573,7 @@ Info (176353): Automatically promoted node nios_cpu:inst0_nios_cpu|lms_ctr:lms_c
         Info (176357): Destination node nios_cpu:inst0_nios_cpu|lms_ctr:lms_ctr_inst0|lms_ctr_fpga_spi:fpga_spi|shift_reg~7 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/lms_ctr/synthesis/submodules/lms_ctr_fpga_spi.v Line: 124
         Info (176357): Destination node nios_cpu:inst0_nios_cpu|lms_ctr:lms_ctr_inst0|lms_ctr_fpga_spi:fpga_spi|shift_reg~8 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/lms_ctr/synthesis/submodules/lms_ctr_fpga_spi.v Line: 124
         Info (176358): Non-global destination nodes limited to 10 nodes
-Info (176353): Automatically promoted node altera_internal_jtag~TCKUTAP
+Info (176353): Automatically promoted node altera_internal_jtag~TCKUTAP 
     Info (176355): Automatically promoted destinations to use location or clock signal Global Clock
 Info (176353): Automatically promoted node nios_cpu:inst0_nios_cpu|lms_ctr:lms_ctr_inst0|altera_onchip_flash:onchip_flash_0|altera_onchip_flash_block:altera_onchip_flash_block|osc  File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/lms_ctr/synthesis/submodules/rtl/altera_onchip_flash_block.v Line: 147
     Info (176355): Automatically promoted destinations to use location or clock signal Global Clock
@@ -3730,3 +3730,5 @@ Info: Quartus Prime Fitter was successful. 0 errors, 12 warnings
 ; Fitter Suppressed Messages ;
 +----------------------------+
 The suppressed messages can be found in E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/output_files/LimeSDR-Mini_lms7_trx.fit.smsg.
+
+

@@ -37,13 +37,13 @@ end gpio_ctrl_top;
 -- ----------------------------------------------------------------------------
 architecture arch of gpio_ctrl_top is
 --declare signals,  components here
-
+ 
 begin
 
 
 --Generate components for all bus bits
-gpio_ctrl_gen : for i in 0 to bus_width-1 generate
-   gpio_ctrl_bitx	: entity work.gpio_ctrl
+gpio_ctrl_gen : for i in 0 to bus_width-1 generate 
+   gpio_ctrl_bitx	: entity work.gpio_ctrl 
       port map (
       gpio        => gpio(i),
       gpio_in     => gpio_in(i),
@@ -55,5 +55,10 @@ gpio_ctrl_gen : for i in 0 to bus_width-1 generate
       );
 end generate gpio_ctrl_gen;
 
-
+  
 end arch;
+
+
+
+
+
