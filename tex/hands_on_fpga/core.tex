@@ -5,7 +5,7 @@
 
  In this section, you will learn how to flash this design on the FPGA of the LimeSDR. The Lime Suite GUI tool is needed to flash your FPGA. Open it and connect the LimeSDR. We will first perform a flash of the default design. To this end, go to \textit{Options -> Connection Settings} and connect to the device. You should observe in the console that the LimeSDR Mini board is now correctly connected. Then, open the programming panel in \textit{Modules -> Programming}, select the \textit{Automatic} mode and launch the flashing using the \textit{Program} button.
 
-If the programming completed successfully, you may now program the modified design provided by the teaching team. Select the programming mode \textit{FPGA FLASH} and open the file \\ \texttt{LimeSDR-Mini\_bitstreams/LimeSDR-Mini\_lms7\_lelec210x\_HW\_1.0\_auto.rpd}. Start the programming. When the programming is completed, disconnect the board in \textit{Options -> Connection Settings}.
+If the programming completed successfully, you may now program the modified design. Select the programming mode \textit{FPGA FLASH} and open the file \\ \texttt{LimeSDR-Mini\_bitstreams/LimeSDR-Mini\_lms7\_lelec210x\_HW\_1.0\_auto.rpd}. Start the programming. When the programming is completed, disconnect the board in \textit{Options -> Connection Settings}.
 
 The custom design brings new runtime parameters that can be set by a GNU Radio application. However, these modifications requires the usage of a new version of the LimeSDR FPGA Source block. To compile this block, the following packages need to be installed on the system running GNU Radio:
 \begin{lstlisting}[language=bash]
