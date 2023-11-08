@@ -1,0 +1,21 @@
+INIT_FROM_EXTERNAL_ROM_CHECKBOX_CHECKED=NO
+INTENDED_DEVICE_FAMILY="MAX 10"
+DEVICE_FAMILY="MAX 10"
+clock
+counter_param
+counter_type
+data_in
+pll_areset_in
+pll_scandataout
+pll_scandone
+read_param
+reconfig
+reset
+write_param
+busy
+data_out
+pll_areset
+pll_configupdate
+pll_scanclk
+pll_scanclkena
+pll_scandata

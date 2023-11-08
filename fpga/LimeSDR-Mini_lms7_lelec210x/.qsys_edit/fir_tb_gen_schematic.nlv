@@ -1,0 +1,13 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst fir_tb_gen.clk_0 -pg 1 -lvl 1 -y 50
+preplace inst fir_tb_gen.fir_compiler_ii_0 -pg 1 -lvl 2 -y 30
+preplace inst fir_tb_gen -pg 1 -lvl 1 -y 40 -regy -20
+preplace netloc EXPORT<net_container>fir_tb_gen</net_container>(SLAVE)fir_compiler_ii_0.avalon_streaming_sink,(SLAVE)fir_tb_gen.fir_compiler_ii_0_avalon_streaming_sink) 1 0 2 NJ 40 NJ
+preplace netloc POINT_TO_POINT<net_container>fir_tb_gen</net_container>(SLAVE)fir_compiler_ii_0.clk,(MASTER)clk_0.clk) 1 1 1 N
+preplace netloc EXPORT<net_container>fir_tb_gen</net_container>(SLAVE)clk_0.clk_in,(SLAVE)fir_tb_gen.clk) 1 0 1 NJ
+preplace netloc EXPORT<net_container>fir_tb_gen</net_container>(SLAVE)clk_0.clk_in_reset,(SLAVE)fir_tb_gen.reset) 1 0 1 NJ
+preplace netloc POINT_TO_POINT<net_container>fir_tb_gen</net_container>(SLAVE)fir_compiler_ii_0.rst,(MASTER)clk_0.clk_reset) 1 1 1 N
+preplace netloc EXPORT<net_container>fir_tb_gen</net_container>(MASTER)fir_tb_gen.fir_compiler_ii_0_avalon_streaming_source,(MASTER)fir_compiler_ii_0.avalon_streaming_source) 1 2 1 N
+levelinfo -pg 1 0 200 840
+levelinfo -hier fir_tb_gen 210 240 420 620

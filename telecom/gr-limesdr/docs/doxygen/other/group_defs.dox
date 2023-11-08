@@ -1,0 +1,6 @@
+/*!
+ * \defgroup block GNU Radio LIMESDR_FPGA C++ Signal Processing Blocks
+ * \brief All C++ blocks that can be used from the LIMESDR_FPGA GNU Radio
+ *        module are listed here or in the subcategories below.
+ *
+ */

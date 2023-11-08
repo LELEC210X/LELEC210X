@@ -33,7 +33,7 @@
 * file be used in conjunction or combination with any other product.          *
 ******************************************************************************/
 
-/*
+/* 
  * Don't declare these typedefs if this file is included by assembly source.
  */
 #ifndef ALT_ASM_SRC

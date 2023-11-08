@@ -43,8 +43,8 @@
 #include "alt_types.h"
 
 /*
- * This header provides the internal defenitions required to control file
- * access. These variables and functions are not guaranteed to exist in
+ * This header provides the internal defenitions required to control file 
+ * access. These variables and functions are not guaranteed to exist in 
  * future implementations of the HAL.
  */
 
@@ -54,7 +54,7 @@ extern "C"
 #endif /* __cplusplus */
 
 /*
- * The alt_dev_llist is an internal structure used to form a common base
+ * The alt_dev_llist is an internal structure used to form a common base 
  * class for all device types. The use of this structure allows common code
  * to be used to manipulate the various device lists.
  */

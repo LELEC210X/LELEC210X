@@ -7,7 +7,7 @@
    description=""
    tags="INTERNAL_COMPONENT=true"
    categories="" />
- <parameter name="bonusData"><![CDATA[bonusData
+ <parameter name="bonusData"><![CDATA[bonusData 
 {
    element altclkctrl_0
    {

@@ -7,7 +7,7 @@
 
 // Radio evaluation parameters
 #define MIN_PA_LEVEL -16 // initial Tx transmit power, in dBm
-#define MAX_PA_LEVEL -16 // final Tx transmit power, in dBm
+#define MAX_PA_LEVEL 0 // final Tx transmit power, in dBm
 #define N_PACKETS 5 // number of packets transmitted for each Tx power level
 #define PAYLOAD_LEN 100 // payload length of the transmitted packets
 #define PACKET_DELAY 1 // delay between two packets, in seconds

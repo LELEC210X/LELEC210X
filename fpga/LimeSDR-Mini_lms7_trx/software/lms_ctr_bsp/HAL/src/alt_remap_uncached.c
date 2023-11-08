@@ -45,7 +45,7 @@
  * function so it fails with a link error.
  */
 
-volatile void*
+volatile void* 
 alt_remap_uncached(void* ptr, alt_u32 len)
 {
   /* Generate a link time error, should this function ever be called. */

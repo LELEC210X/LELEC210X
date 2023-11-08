@@ -1,10 +1,12 @@
+\section{To go further : configuration signal exchanges between FPGA and GNU Radio}
+
 \subsection{SystemVerilog parameters}
 When instantiating the IP in the subsystem, you are allowed to define the values of a few \textit{SystemVerilog parameters} for the top-level module of the preamble detector, as shown in Figure \ref{fig:pd_hard_param}. Those parameters described in the Table \ref{table:pd_hard_param}.
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=\linewidth]{figures/preamble_detect_qsys_config.PNG}
-    \caption{SystemVerilog parameters of the preamble detector in QSYS.}
+    \includegraphics[width=\linewidth]{figures/ppd_detect_qsys_config.PNG}
+    \caption{SystemVerilog parameters of the packet presence detector in QSYS.}
     \label{fig:pd_hard_param}
 \end{figure}
 
@@ -16,8 +18,6 @@ Parameter & Description & Default value \\
 \hline
 \textsc{DATA\_WIDTH} & Bit width of the samples & 12 \\
 \hline
-\textsc{FILTER\_LEN\_WIDTH} & Bit width of the configurable moving average filter length & 6 \\
-\hline
 \textsc{PASSTHROUGH\_LEN\_WIDTH} & Bit width of the configurable number of samples to pass-through once the threshold is reached & 16 \\
 \hline
 \end{tabular}
@@ -27,7 +27,7 @@ Parameter & Description & Default value \\
 
 \subsection{Configuration signals}
 \begin{sloppypar}
-Additionally, there are several configuration signals that can be changed during operation from GNU Radio for better flexibility. Those configuration signals are listed in Table \ref{table:pd_soft_param}, you can trace them in the VHDL code, they are coming from the \texttt{fpgacfg} module defined in \texttt{LimeSDR-Mini\_lms7\_lelec210x/src/spi/fpgacfg.vhd}and located in the design hierarchy at \texttt{lms7\_trx\_top/inst0\_nios\_cpu/cfg\_top\_inst1/fpgacfg\_inst0}, as shown in Figure \ref{fig:design_hier_fpgacfg}.
+Additionally, there are several configuration signals that can be changed during operation from GNU Radio for better flexibility. Those configuration signals are listed in Table \ref{table:pd_soft_param}, you can trace them in the VHDL code, they are coming from the \texttt{fpgacfg} module defined in \texttt{LimeSDR-Mini\_lms7\_lelec210x/src/spi/fpgacfg.vhd} and located in the design hierarchy at \texttt{lms7\_trx\_top/inst0\_nios\_cpu/cfg\_top\_inst1/fpgacfg\_inst0}, as shown in Figure \ref{fig:design_hier_fpgacfg}.
 \end{sloppypar}
 
 This module contains a RAM with 16-bit words that retains the configuration of various elements of the FPGA. We used available addresses to put our custom configuration, the address map is written in the repo README. There are default values assigned at reset for the memory bits (Figure \ref{fig:design_hier_fpgacfg}) but they can be changed with a write operation.
@@ -38,16 +38,16 @@ This module contains a RAM with 16-bit words that retains the configuration of v
 \hline
 Configuration signal & Description & Allowed values\\
 \hline
-\texttt{cfg\_enable} & Enable or disable the preamble detector. When disabled, the samples are always passing through. & $\left\{0,1\right\}$ \\
+\texttt{cfg\_enable} & Enable or disable the PPD. & $\left\{0,1\right\}$ \\
 \hline
-\texttt{cfg\_FILTER\_LEN} & Size of the moving average filter. & $\left[1,2^{\textsc{FILTER\_LEN\_WIDTH}}-1\right]$ \\
+\texttt{cfg\_clear\_} & Clear the delay lines of the dual running sum. & $\left\{0,1\right\}$ \\
 \hline
-\texttt{cfg\_PASSTHROUGH\_LEN} & Number of samples to pass-through once the threshold is reached. & $\left[1,2^{\textsc{PASSTHROUGH\_LEN\_WIDTH}}-1\right]$ \\
+\texttt{cfg\_PASSTHROUGH\_LEN} & Number of samples to pass-through after a start flag has been added. Avoid any retriggering of this flag meanwhile. & $\left[1,2^{\textsc{PASSTHROUGH\_LEN\_WIDTH}}-1\right]$ \\
 \hline
-\texttt{cfg\_THRESHOLD} & Value to be compared with the moving average filter output. & $\left[1,2^{32}-1\right]$ \\
+\texttt{cfg\_THRESHOLD} & Value to multiply the normalized result of the long-term sum, before comparison. & $\left[1,2^{8}-1\right]$ \\
 \hline
 \end{tabular}
-\caption{Configuration signals \texttt{preamble\_detector} IP}
+\caption{Configuration signals \texttt{packet\_presence\_detection} IP}
 \label{table:pd_soft_param}
 \end{table}
 

@@ -14,9 +14,9 @@
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 //Register map:
 //addr      register      type
@@ -144,7 +144,7 @@ wire             write_tx_holding;
     begin
       if (reset_n == 0)
           rd_strobe <= 0;
-      else
+      else 
         rd_strobe <= p1_rd_strobe;
     end
 
@@ -154,7 +154,7 @@ wire             write_tx_holding;
     begin
       if (reset_n == 0)
           data_rd_strobe <= 0;
-      else
+      else 
         data_rd_strobe <= p1_data_rd_strobe;
     end
 
@@ -165,7 +165,7 @@ wire             write_tx_holding;
     begin
       if (reset_n == 0)
           wr_strobe <= 0;
-      else
+      else 
         wr_strobe <= p1_wr_strobe;
     end
 
@@ -175,7 +175,7 @@ wire             write_tx_holding;
     begin
       if (reset_n == 0)
           data_wr_strobe <= 0;
-      else
+      else 
         data_wr_strobe <= p1_data_wr_strobe;
     end
 
@@ -229,7 +229,7 @@ wire             write_tx_holding;
     begin
       if (reset_n == 0)
           irq_reg <= 0;
-      else
+      else 
         irq_reg <= (EOP & iEOP_reg) | ((TOE | ROE) & iE_reg) | (RRDY & iRRDY_reg) | (TRDY & iTRDY_reg) | (TOE & iTOE_reg) | (ROE & iROE_reg);
     end
 
@@ -266,7 +266,7 @@ wire             write_tx_holding;
     begin
       if (reset_n == 0)
           slowcount <= 0;
-      else
+      else 
         slowcount <= p1_slowcount;
     end
 
@@ -291,7 +291,7 @@ wire             write_tx_holding;
     begin
       if (reset_n == 0)
           data_to_cpu <= 0;
-      else
+      else 
         // Data to cpu.
         data_to_cpu <= p1_data_to_cpu;
 
@@ -311,7 +311,7 @@ wire             write_tx_holding;
           stateZero <= state == 17;
           if (state == 17)
               state <= 0;
-          else
+          else 
             state <= state + 1;
         end
     end
@@ -347,7 +347,7 @@ wire             write_tx_holding;
           SCLK_reg <= 0;
           MISO_reg <= 0;
         end
-      else
+      else 
         begin
           if (write_tx_holding)
             begin
@@ -402,7 +402,7 @@ wire             write_tx_holding;
                   if (1)
                       shift_reg <= {shift_reg[6 : 0], MISO_reg};
                 end
-              else
+              else 
                 MISO_reg <= ds_MISO;
             end
         end
@@ -412,3 +412,4 @@ wire             write_tx_holding;
   assign ds_MISO = MISO;
 
 endmodule
+

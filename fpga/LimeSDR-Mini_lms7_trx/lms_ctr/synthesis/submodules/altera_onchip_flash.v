@@ -1,13 +1,13 @@
 // (C) 2001-2018 Intel Corporation. All rights reserved.
-// Your use of Intel Corporation's design tools, logic functions and other
-// software and tools, and its AMPP partner logic functions, and any output
-// files from any of the foregoing (including device programming or simulation
-// files), and any associated documentation or information are expressly subject
-// to the terms and conditions of the Intel Program License Subscription
-// Agreement, Intel FPGA IP License Agreement, or other applicable
-// license agreement, including, without limitation, that your use is for the
-// sole purpose of programming logic devices manufactured by Intel and sold by
-// Intel or its authorized distributors.  Please refer to the applicable
+// Your use of Intel Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files from any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Intel Program License Subscription 
+// Agreement, Intel FPGA IP License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Intel and sold by 
+// Intel or its authorized distributors.  Please refer to the applicable 
 // agreement for further details.
 
 
@@ -16,17 +16,17 @@
 //   ALTERA_ONCHIP_FLASH
 //
 //  Copyright (C) 1991-2013 Altera Corporation
-//  Your use of Altera Corporation's design tools, logic functions
-//  and other software and tools, and its AMPP partner logic
-//  functions, and any output files from any of the foregoing
-//  (including device programming or simulation files), and any
-//  associated documentation or information are expressly subject
-//  to the terms and conditions of the Altera Program License
-//  Subscription Agreement, Altera MegaCore Function License
-//  Agreement, or other applicable license agreement, including,
-//  without limitation, that your use is for the sole purpose of
-//  programming logic devices manufactured by Altera and sold by
-//  Altera or its authorized distributors.  Please refer to the
+//  Your use of Altera Corporation's design tools, logic functions 
+//  and other software and tools, and its AMPP partner logic 
+//  functions, and any output files from any of the foregoing 
+//  (including device programming or simulation files), and any 
+//  associated documentation or information are expressly subject 
+//  to the terms and conditions of the Altera Program License 
+//  Subscription Agreement, Altera MegaCore Function License 
+//  Agreement, or other applicable license agreement, including, 
+//  without limitation, that your use is for the sole purpose of 
+//  programming logic devices manufactured by Altera and sold by 
+//  Altera or its authorized distributors.  Please refer to the 
 //  applicable agreement for further details.
 //
 ////////////////////////////////////////////////////////////////////
@@ -35,11 +35,11 @@
 
 `timescale 1 ps / 1 ps
 
-module  altera_onchip_flash (
+module  altera_onchip_flash ( 
 	// To/From System
 	clock,
 	reset_n,
-
+	
 	// To/From Avalon_MM data slave interface
 	avmm_data_read,
 	avmm_data_write,
@@ -49,7 +49,7 @@ module  altera_onchip_flash (
 	avmm_data_waitrequest,
 	avmm_data_readdatavalid,
 	avmm_data_readdata,
-
+	
 	// To/From Avalon_MM csr slave interface
 	avmm_csr_read,
 	avmm_csr_write,
@@ -72,7 +72,7 @@ module  altera_onchip_flash (
 	parameter PARALLEL_MODE = 0;
 	parameter READ_AND_WRITE_MODE = 0;
 	parameter WRAPPING_BURST_MODE = 0;
-
+	
 	parameter AVMM_CSR_DATA_WIDTH = 32;
 	parameter AVMM_DATA_DATA_WIDTH = 32;
 	parameter AVMM_DATA_ADDR_WIDTH = 20;
@@ -154,7 +154,7 @@ module  altera_onchip_flash (
 	wire flash_par_en;
 	wire flash_xe_ye_wire;
 	wire flash_se_wire;
-
+	
 	assign avmm_data_readdata = avmm_data_readdata_wire;
 
 	generate
@@ -179,13 +179,13 @@ module  altera_onchip_flash (
 			assign flash_se = flash_se_wire;
 		end
 	endgenerate
-
+	
 	generate
 		if (READ_AND_WRITE_MODE) begin
 			// -------------------------------------------------------------------
 			// Instantiate a Avalon_MM csr slave controller
-			// -------------------------------------------------------------------
-			altera_onchip_flash_avmm_csr_controller avmm_csr_controller (
+			// -------------------------------------------------------------------	
+			altera_onchip_flash_avmm_csr_controller avmm_csr_controller ( 
 				// To/From System
 				.clock(clock),
 				.reset_n(reset_n),
@@ -196,7 +196,7 @@ module  altera_onchip_flash (
 				.avmm_addr(avmm_csr_addr),
 				.avmm_writedata(avmm_csr_writedata),
 				.avmm_readdata(avmm_csr_readdata_wire),
-
+		
 				// To/From Avalon_MM data slave interface
 				.csr_control(csr_control_wire),
 				.csr_status(csr_status_wire)
@@ -206,7 +206,7 @@ module  altera_onchip_flash (
 
 	// -------------------------------------------------------------------
 	// Instantiate a Avalon_MM data slave controller
-	// -------------------------------------------------------------------
+	// -------------------------------------------------------------------	
 	altera_onchip_flash_avmm_data_controller # (
 
 		.READ_AND_WRITE_MODE (READ_AND_WRITE_MODE),
@@ -244,11 +244,11 @@ module  altera_onchip_flash (
 		.ADDR_RANGE2_OFFSET (ADDR_RANGE2_OFFSET),
 		.ADDR_RANGE3_OFFSET (ADDR_RANGE3_OFFSET)
 
-	) avmm_data_controller (
+	) avmm_data_controller ( 
 		// To/From System
 		.clock(clock),
 		.reset_n(reset_n),
-
+		
 		// To/From Flash IP interface
 		.flash_busy(flash_busy),
 		.flash_se_pass(flash_se_pass),
@@ -280,12 +280,12 @@ module  altera_onchip_flash (
 		.csr_control(csr_control_wire),
 		.csr_status(csr_status_wire)
 	);
-
+	
 	// -------------------------------------------------------------------
 	// Instantiate wysiwyg for onchip flash block
 	// -------------------------------------------------------------------
 	altera_onchip_flash_block # (
-
+	
 		.DEVICE_FAMILY (DEVICE_FAMILY),
 		.PART_NAME (PART_NAME),
 		.IS_DUAL_BOOT (IS_DUAL_BOOT),
@@ -305,7 +305,7 @@ module  altera_onchip_flash (
 		.DEVICE_ID (DEVICE_ID),
 		.INIT_FILENAME_SIM (INIT_FILENAME_SIM)
 		// simulation only end
-
+		
 	) altera_onchip_flash_block (
 		.xe_ye(flash_xe_ye),
 		.se(flash_se),
@@ -325,7 +325,7 @@ module  altera_onchip_flash (
 		.sp_pass(flash_sp_pass),
 		.osc(flash_osc)
 	);
-
-
+	
+	
 endmodule //altera_onchip_flash
 //VALID FILE

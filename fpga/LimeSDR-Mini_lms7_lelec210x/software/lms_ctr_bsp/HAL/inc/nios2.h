@@ -50,14 +50,14 @@ extern "C"
  * Macros for accessing select Nios II general-purpose registers.
  */
 
-/* ET (Exception Temporary) register */
+/* ET (Exception Temporary) register */ 
 #define NIOS2_READ_ET(et) \
     do { __asm ("mov %0, et" : "=r" (et) ); } while (0)
 
 #define NIOS2_WRITE_ET(et) \
     do { __asm volatile ("mov et, %z0" : : "rM" (et)); } while (0)
 
-/* SP (Stack Pointer) register */
+/* SP (Stack Pointer) register */ 
 #define NIOS2_READ_SP(sp) \
     do { __asm ("mov %0, sp" : "=r" (sp) ); } while (0)
 

@@ -1,82 +1,102 @@
-\section{Accelerating the preamble detector}
-As introduced in the previous Hands-On, our demodulation chain requires a component called the \textit{preamble detector} that actively seeks the preamble sequence located at the beginning of a packet. When the preamble is found, this block forwards the input samples downstream for further processing. This system allows to avoid unnecessary heavy computations as well as real-time operation. As the preamble detector operates continuously, it is best to move its functionality from software towards specialized hardware in order to improve its \textbf{energy efficiency and processing speed}. If we decide at one point to increase the packet rate of the overall transmission chain, this solution is more robust regarding packet misses. It is also further motivated by the fact that this block occurs at the very beginning of the processing chain, just after the low-pass filter we designed in the previous section.
+\section{Accelerating the detection of the preamble}
+In the previous Hands-On, our demodulation chain required a component called the \textit{preamble detector} that actively seeks the preamble sequence located at the beginning of a packet by looking at the energy of each sample and accumulating it over time. When the accumulated value exceeded a threshold, the preamble was considered present and a given amount of samples were forwarded to the syncrhonization stage. This system allows to avoid unnecessary heavy computations as well as real-time operation. There are two drawbacks to this process. First, the theshold is not updated and increasing the gain of the RF front-end will increase the noise power, possibly going above the set threshold. Second, this preamble detection scheme requires a lot of computation, calculating and accumulating the energy of each sample. As it operates continuously, it is best to move its functionality from software towards specialized hardware in order to improve its \textbf{energy efficiency and processing speed}. If we decide at one point to increase the packet rate of the overall transmission chain, this solution is more robust regarding packet misses. It is also further motivated by the fact that this block occurs at the very beginning of the processing chain, just after the low-pass filter we designed in the previous section. We will also change the behavior of the block by calculating the threshold based on the noise power and a given factor. The accelerated block will therefore be called the packet presence detector (PPD). However, we only want to accelerate the energy detection step but still receive all samples in GNU Radio to be able to monitor the channel if needed. Therefore, the PPD will add a flag at the start of a packet when it has been detected. This flag corresponds to the value \texttt{0x7FF} which can not be reached by the LMS7002M chip.
+
 
 \subsection{Design overview}
-We implemented for you a preamble detector module in SystemVerilog HDL\footnote{Although uncommon, it is possible to mix multiple HDL languages in a single design. For instance, the majority of the LimeSDR-Mini system is written in VHDL, but for your convenience we have written the preamble detector in SystemVerilog.}. First, open the Quartus project, \texttt{LimeSDR-Mini\_lms7\_lelec210x/LimeSDR-Mini\_lms7\_lelec210x.qpf}. If a message asking you for overwriting the database is printed, click "yes". You can then open the preamble detector design file located in \texttt{LimeSDR-Mini\_lms7\_lelec210x/ip/preamble\_detect/preamble\_detect.sv} and containing the following interfaces:
+We implemented for you a packet presence detection module in SystemVerilog HDL\footnote{Although uncommon, it is possible to mix multiple HDL languages in a single design. For instance, the majority of the LimeSDR-Mini system is written in VHDL, but for your convenience we have written the PPD in SystemVerilog.}. First, open the Quartus project, \texttt{LimeSDR-Mini\_lms7\_lelec210x/LimeSDR-Mini\_lms7\_lelec210x.qpf}. If a message asking you for overwriting the database is printed, click "yes". You can then open the PPD design file located in \texttt{LimeSDR-Mini\_lms7\_lelec210x/ip/packet\_presence\_detection.sv} and containing the following interfaces:
 \begin{itemize}
     \item A clock and reset interface.
     \item A sink (input) streaming interface with data and valid signals.
     \item A source (output) streaming interface with data and valid signals.
     \item A custom static interface for configuration signals.
 \end{itemize}
-The preamble detector follows the low-pass filter in the receiver chain, as you have seen in previous hands-on. The filter, implemented using a FIR, is already included in the hardware design provided to you. Indeed, as a FIR is composed of multiply-and-accumulate operations, it can be easily accelerated in hardware. The preamble detector module is integrated as a custom IP inside the same subsystem as the FIR, it therefore shares the same streaming interfaces\footnote{See pp 40-52 of \texttt{mnl\_avalon\_spec.pdf} on Moodle for details.}: the data bus is 24-bit wide with the MSBs and LSBs containing the samples of the I and Q channels respectively. In addition a valid signal is associated with the streaming data to indicate whether the data bus contains information of interest, or not. With the preamble detector, the goal is to produce an output valid signal that indicates if the complex magnitude of the data has reached a threshold.
+The PPD follows the low-pass filter in the receiver chain, as you have seen in previous hands-on. The filter, implemented using a FIR, is already included in the hardware design provided to you. Indeed, as a FIR is composed of multiply-and-accumulate operations, it can be easily accelerated in hardware. The  PPD module is integrated as a custom IP inside the same subsystem as the FIR, it therefore shares the same streaming interfaces\footnote{See pp 40-52 of \texttt{mnl\_avalon\_spec.pdf} on Moodle for details.}: the data bus is 24-bit wide with the MSBs and LSBs containing the samples of the I and Q channels respectively. In addition a valid signal is associated with the streaming data to indicate whether the data bus contains information of interest, or not. With the preamble detector, the goal is to produce an output valid signal that indicates if the complex magnitude of the data has reached a threshold.
 
-\subsection{Preamble Detector schematic}
-In Figure \ref{fig:pd_schematic} below you can find a schematic of the different modules that compose the preamble detector. It functions as follows:
+\subsection{Packet presence detector schematic}
+In Figure \ref{fig:pd_schematic} below you can find a schematic of the different modules that compose the preamble detector. As a reminder, the objective of this block is to add a flag at the start of a packet when a sufficient energy has been detected in the signal. It functions as follows:
 \begin{enumerate}
     \item \textbf{Complex to magnitude: } The IQ samples are processed by a \textit{complex to magnitude} block which outputs the magnitude of the complex IQ vector.
-    To do so, we calculate the square of the magnitude as $I^2+Q^2$. As square-root function are difficult to implement in hardware logic, the result is initially kept squared in the rest of the pipeline. This does not pose any problem as long as the bus width and the threshold is adapted.
+    To do so, we calculate the magnitude as the square root of $I^2+Q^2$. As square-root function are difficult to implement in hardware logic, we are thus going to use a very simple and accurate algorithm. The estimate for the first quadrant of the trigonometric circle is drawn on Figure \ref{fig:cmplx2mag}. The mathematical formula is provided to you in Equation \ref{eq:1norm}\footnote{Further information can be found online: \url{https://en.wikipedia.org/wiki/Alpha_max_plus_beta_min_algorithm} and \url{http://dspguru.com/dsp/tricks/magnitude-estimator/}.}.
 
-    \item \textbf{Running sum: } The estimated complex magnitude is then averaged over multiple samples by a configurable \textit{moving average filter}. It is implemented by forwarding input samples in a \textit{delay line} of configurable length.
+    \begin{equation}
+        |z| = \frac{min(|I|,|Q|)}{4} + max(|I|,|Q|)
+        \label{eq:1norm}
+    \end{equation}
+    
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.45\linewidth]{figures/trigo.png}
+        \includegraphics[width=0.45\linewidth]{figures/angle.png}
+        \caption{Complex Magnitude Estimator output in x-y coordinates (left) or polar coordinates (right) for input points of the trigonometric circle.}
+        \label{fig:cmplx2mag}
+    \end{figure}
+
+    \item \textbf{Dual running sum: } The estimated complex magnitude is then averaged over multiple samples by two moving average filter of different length in series, a short-term sum and long-term one. They are implemented by forwarding input samples in  memory-based \textit{delay lines}, developped by Altera. 
 
     \begin{align}
             y[n] = \sum_{k=0}^{N-1}\left|x[n-k]\right|
     \end{align}
 
-    At each clock cycle an accumulator adds and substracts the first and last magnitudes stored in the delay line to its content. This structure is more efficient than the general FIR because we know each tap is equal to one, we therefore only need two adders.
+    At each clock cycle an accumulator adds and substracts the first and last magnitudes stored in the delay line to its content. This structure is more efficient than the general FIR because we know each tap is equal to one, we therefore only need two adders. 
 
     \begin{align}
             y[n+1] = y[n] + \left|x[n]\right| - \left|x[n-N+1]\right|
     \end{align}
 
-    To implement a configurable length delay line, we use \textit{SystemVerilog arrays}. Because SystemVerilog forbids to use arrays as module ports, we are forced to pack the array into a bus and unpack the bus back into an array to index it. These concepts should be familiar to you when using \texttt{numpy.flatten} or \texttt{numpy.reshape}.
+    The two moving average filters have two different functions. The first one, the short-term sum, receive the sample magnitudes first and its delayed output value are then forwarded to the long-term sum. It uses a longer delay line and is used to evaluate the noise power. 
 
-    \item \textbf{Counter :} The averaged value is compared with a configurable threshold and can trigger the start of a counter. This start/stop counter is used to count the samples to let through when the threshold has been reached by the moving average. A \texttt{launch} signal starts the counter, it stops only after reaching its maximum value. During the sequence a \texttt{running} signal indicates the state of the counter.
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=\linewidth]{figures/dual_running_sum_block.png}
+        \caption{Architecture of the dual running sum}
+        \label{fig:dual_runnign_sum}
+    \end{figure}
+    
+    The overall architecture of the dual running sum is shown in Fig. \ref{fig:dual_runnign_sum}. When packet samples arrive, possibly with  higher energy than the noise, they first enter the first delay line. Its accumulator value therefore increases and might at one point exceed the accumulator value of the second line, which contains only noise sample. At this point, a packet is considered present and a launch signal is triggered. 
 
-    \item \textbf{Debugging multiplexer: }At last a multiplexer is needed if we want to disable entirely the preamble detector, for debugging purposes.
+    To be noted, when a packet is detected and the counter (next block) is enabled, we clear the short-term sum and disable the long-term one, to avoid any retriggering or corruption of our noise evaluation by packet samples.
+
+
+    \item \textbf{Counter :} This block receives the launch signal of the previous one. This counter block is used to count the samples when the threshold has been reached and avoid triggering a start flag multiple times inside a single packet. A \texttt{launch} signal starts the counter, it stops only after reaching its maximum value. During the sequence a \texttt{running} signal indicates the state of the counter. This signal is used to clear the short-term sum of the dual running sum.
+
+    \item \textbf{Flag addition :} A multiplexer is used at the end to set a sample to a flag, here $I=$\texttt{0x7FF} and $Q=$\texttt{0x7FF}  when the launch signal is triggered.
 
 \end{enumerate}
 
 
-\begin{figure}[!h]
+\begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{figures/preamble_detect_block.png}
-    \caption{Hardware Preamble Detector Schematic}
+    \includegraphics[width=\linewidth]{figures/packet_presence_detection.png}
+    \caption{Hardware packet presence detector schematic}
     \label{fig:pd_schematic}
 \end{figure}
 
-In order to reduce the length of the critical path between registers, we use a paradigm called \textit{pipelining}. In short, we divide the operations of the preamble detector into several stages with similar length. As the critical path in this configuration is much shorter, it allows to operate the circuit at a higher frequency. In return, the additional registers add area and energy consumption to the design. It also requires to forward control signals in the pipeline and it can add complexity (see \textit{Control Path} in Figure \ref{fig:pd_schematic}). You will learn the concept of pipelining in details when studying the \textit{pipelined processor} in the course of \texttt{LELEC2531}.
+In order to reduce the length of the critical path between registers, we use a paradigm called \textit{pipelining}. In short, we divide the operations of the PPD into several stages with similar length. As the critical path in this configuration is much shorter, it allows to operate the circuit at a higher frequency. In return, the additional registers add area and energy consumption to the design. It also requires to forward control signals in the pipeline and it can add complexity (see \textit{Control Path} in Figure \ref{fig:pd_schematic}). You will learn the concept of pipelining in details when studying the \textit{pipelined processor} in the course of \texttt{LELEC2531}.
 
 Try to understand the SystemVerilog implementation of those blocks with respect to their theoretical behavior. Pay particular attention to the bus width of intermediate signals, they are computed in order to systematically avoid any overflow of intermediate values!
 
 
-\subsection{Timing analysis of the initial preamble detector}
+\subsection{Modification and simulation of the PPD}
 
-As you have seen in course, an important aspect of digital design is to ensure that your design meet both the resource and timing requirements. Indeed, long combinatorial logic path can lead to setup or hold constraints violations. The design we provided to you has already been compiled and the timing analysis has already been performed. You can check the compilation report using the shortcut highlighted in Figure \ref{fig:compilation_report_button}. If it is not available, you must perform a full compilation of the design. Be careful when launching a compilation in Quartus, a window may ask you to update the project revision. Answer NO.
 
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=\linewidth]{figures/Compilation_report_button.PNG}
-    \caption{Toolbar of Quartus. The Compilation Report shortcut is highlighted in red.}
-    \label{fig:compilation_report_button}
-\end{figure}
+We will first ask you to make some modifications to the dual running sum, more specifically to the comparison between the short- and long-term sum results. In order to make it adaptative from GNU Radio, we will use the \textit{cfg\_THRESHOLD} signal of the packet presence detection module to multiply the result of the long-term sum before comparing it to the short-term sum result. This allows to be more selective regarding the signal-to-noise ratio required to detect the packet. Increasing its value will limit the risk of false alarm due to noise but make your system less sensitive. In short, with this parameter set to 10, the PPD should require a signal magnitude 10 times than the noise one to trigger a detection. However, we should also normalize the short-term and long-term result with respect to the delay line length, here the second one is eight times longer than the other. Overall, we ask you to implement the multiplication shown in Figure \ref{fig:dual_runnign_sum}. In the SystemVerilog code, go to the line 199. We ask you to implement both the normalization, i.e. division by eight, and the multiplication operation on the same line. Note that the \textit{cfg\_THRESHOLD} signal was connected to the \texttt{K} input of the dual running sum module.
 
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcattention]{MAX 10 Device Support might not be installed}
-    The support for the FPGA device we use might not be installed in the Quartus you have, which will lead to errors in the compilation. The installation instructions are provided to you in the "Hands-on FPGA: Installation of the required components" document.
 
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{Division by eight}
+    \begin{itemize}
+        \item Performing multiplications and divisions is much more complex than simple additions. However, when performing operations with values that are power-of-two, things always seem easier. What would be an efficient way to perform the division by eight?
+        \item The ordrer of the operations, here the multiplication by K and division by eight would normally have no importance. Is it the case here? And which operation should be performed first?
+    \end{itemize}
 \end{bclogo}
 
-In the \textit{"Flow Summary"} tab, the resource utilisation is reported. Observe that no embedded multiplier are employed while we perform two multiplications in the \textit{cmplx2mag} block. Moreover, in the \textit{"Analysis \& Synthesis/Timing Analyzer"} tab, you can see the results for the different corners, constraints violations being highlighted in red. Try to identify the faulty clock involved. In the different summary proposed, you can right click on a clock and select \textit{"Report Timing... (In Timing Analyzer UI)"}. In the opened window, just press \textit{"Report Timing"} at the bottom. Those steps are depicted in Figure \ref{fig:report_timing_analyzer}. You can now analyze the most critical path implying the selected clock, as well as the logic cells involved. Try to link the critical path to the RTL design. As we will perform multiple synthesis during the hands-on, please note each time the resource usage in terms of logic, as well as the worst setup slack.
+Once you have implemented this function, we should now test the PPD. We have developped a testbench for you, and we will use ModelSim to verify the PPD behavior before deploying it into the complete system. A few python scripts located at \texttt{ip/packet\_presence\_detection/testbench/python} allow you to generate input vectors for the PPD and compare the testbench output with an expected result obtained with python:
 
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=\linewidth]{figures/Report_Timing_Analyzer.png}
-    \caption{Steps to analyze the most critical path on a given clock.}
-    \label{fig:report_timing_analyzer}
-\end{figure}
+\begin{enumerate}
+    \item \texttt{1\_input\_gen.py} : generates input vectors and export them as input vector of the PPD HDL implementation.
+    \item \texttt{2\_compare} : when the SystemVerilog testbench has been executed, compares the input data samples to the output of the PPD, plotting them. If it works as expected, the only difference should be the addition of the flag.
+\end{enumerate}
 
-Two mechanisms were used in the provided design that affected negatively the timing. First, to save resources and have a most pure logic-based design, embedded multipliers were disabled for the \textit{cmplx2mag} module. This was made possible by the \texttt{ (* multstyle = \textcolor{purple}{"logic"} *)} prefix at the beginning of the module definition, on line 26. Delete it and save the design. Remember we only modified the IP, we now need to propagate those changes to the actual design. To do so, we will need to use the Platform Designer, as the \textit{lms\_dsp} (Limesuite Digital Signal Processing) block has been implemented using this tool. It allows the interconnection of multiple blocks of a digital design with a more intuitive user interface. Open the Platform Design using the shortcut highlighted in Figure \ref{fig:quartus_platform_designer}. Open the \texttt{lms\_dps.qsys} design. Nothing has to be done except clicking \textit{"Generate HDL ..."} on the bottom right of the window and update the path to
-\texttt{LimeSDR-Mini\_lms7\_lelec210x/lms\_dsp/} if it is not made automatically. Then press on \textit{"Generate}. The changes you made locally to the preamble detector have now been propagated. In the Platform Designer, you can quickly observe the structure of the \textit{lms\_dsp} block, with the FIR, the preamble detector and the different Avalon Streaming Interface. You can now compile your design and observe the resource and timing report.
+To generate the testbench, we will use the \textit{Platform Designer}. It allows the interconnection of multiple blocks of a digital design with a more intuitive user interface. Open the \textit{Platform Design} using the shortcut highlighted in Figure \ref{fig:quartus_platform_designer}. Open the \texttt{packet\_presence\_detection\_tb\_gen}, and go in \textit{Generate} in the upper left corner, then \textit{Generate Testbench System}. Change the path to \texttt{LimeSDR-Mini\_lms7\_lelec210x/ip/packet\_presence\_detection/} and click on \textit{Generate}. To execute the testbench, open ModelSim and change the working directory to \texttt{ip/packet\_presence\_detection/testbench}. Then run \texttt{do run\_sim.tcl} in order to compile and launch the simulation.
 
 \begin{figure}[H]
     \centering
@@ -85,11 +105,41 @@ Two mechanisms were used in the provided design that affected negatively the tim
     \label{fig:quartus_platform_designer}
 \end{figure}
 
-Second, we prevented \textbf{register retiming} which allows the synthesis tool to balance the combinatorial logic across registers when it does not affect the system behaviour. This helps on meeting the timing requirements by offloading parts of long combinatorial path. To enable this setting, go in \textit{"Assignments/Settings/Compiler Settings"} on Quartus and uncheck the \textit{"Prevent register retiming"} box.
+Once you have analysed the results, we will propagate the changes you made to the complete system that will flashed on the FPGA. Remember we only modified the IP, we now need to propagate those changes to the actual design. In the \textit{Platform Designer}, open the \texttt{lms\_dps.qsys} design. Nothing has to be done except clicking \textit{"Generate HDL ..."} on the bottom right of the window and update the path to
+\texttt{LimeSDR-Mini\_lms7\_lelec210x/lms\_dsp/} if it is not made automatically. Then press on \textit{"Generate}. The changes you made locally to the PPD have now been propagated. In the Platform Designer, you can quickly observe the structure of the \textit{lms\_dsp} block, with the FIR, the packet presence detection and the different Avalon Streaming Interface. You can now compile your design and observe the resource and timing report. Be careful when launching a compilation in Quartus, a window may ask you to update the project revision. Answer NO.
 
-Now relaunch a compilation and analyze the results. Again, if a window asks you to update the project revision, answer NO.  Has the resource usage changed? Is there still a timing constraint violation? Can you still link the most critical path to the HDL design?
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcattention]{MAX 10 Device Support might not be installed}
+    The support for the FPGA device we use might not be installed in the Quartus you have, which will lead to errors in the compilation. The installation instructions are provided in the wiki of the course.
+
+\end{bclogo}
+
+\subsection{Timing and ressource analysis}
+
+As you have seen in course, an important aspect of digital design is to ensure that your design meet both the resource and timing requirements. Indeed, long combinatorial logic path can lead to setup or hold constraints violations. Now that the design has been compiled, you can check the compilation report using the shortcut highlighted in Figure \ref{fig:compilation_report_button}. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{figures/Compilation_report_button.PNG}
+    \caption{Toolbar of Quartus. The Compilation Report shortcut is highlighted in red.}
+    \label{fig:compilation_report_button}
+\end{figure}
 
 
+In the \textit{"Flow Summary"} tab, the resource utilisation is reported. Observe the  number of embedded multipliers that are employed for example. Moreover, in the \textit{"Analysis \& Synthesis/Timing Analyzer"} tab, you can see the results for the different corners, constraints violations being highlighted in red. Try to identify the faulty clock involved. In the different summary proposed, you can right click on a clock and select \textit{"Report Timing... (In Timing Analyzer UI)"}. In the opened window, just press \textit{"Report Timing"} at the bottom. Those steps are depicted in Figure \ref{fig:report_timing_analyzer}. You can now analyze the most critical path implying the selected clock, as well as the logic cells involved. Try to link the critical path to the RTL design. It should involve a signal starting in the dual running sum module. An easy fix is here to add a register in the path to break in two. This will delay the launch signal by one clock cycle, which is not problematic. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{figures/Report_Timing_Analyzer.png}
+    \caption{Steps to analyze the most critical path on a given clock.}
+    \label{fig:report_timing_analyzer}
+\end{figure}
+
+Moreover, we prevented \textbf{register retiming} which allows the synthesis tool to balance the combinatorial logic across registers when it does not affect the system behaviour. This helps on meeting the timing requirements by offloading parts of long combinatorial path. To enable this setting, go in \textit{"Assignments/Settings/Compiler Settings"} on Quartus and uncheck the \textit{"Prevent register retiming"} box.
+
+Before relaunching a compilation, ask to an assistant to check your modifications, to avoid wasting precious synthesis time. Done? now relaunch a compilation and analyze the results. Again, if a window asks you to update the project revision, answer NO. Is there still a timing constraint violation? Can you still link the most critical path to the HDL design?
+
+To analyse the ressource used by the design, you can look at the \textit{Project Navigator} tab in \textit{Hierarchy}. More than navigating through the design, you can also look at the ressource used by each module. Analyse the resource usage of the PPD, more specifically the memory bits and the DSP.
+\begin{comment}
 \subsection{From Euclidean norm to Absolute-value norm}
 
 In order to meet the timing requirements, another solution is to use a less complex estimation of the IQ samples magnitude. We are thus going to use a very simple and accurate algorithm that does not have the burden of implementing the complex logic of \textit{integer multiplication}. The estimate for the first quadrant of the trigonometric circle is drawn on Figure \ref{fig:cmplx2mag}. We ask you to implement it in System Verilog, the mathematical formula being provided to you in Equation \ref{eq:1norm}\footnote{Further information can be found online: \url{https://en.wikipedia.org/wiki/Alpha_max_plus_beta_min_algorithm} and \url{http://dspguru.com/dsp/tricks/magnitude-estimator/}.}. Your modification of the \texttt{cmplx2mag} module must be done in the \texttt{USER CODE} parts, which goes from line 45 to 52 and on line 210. As we were performing two multiplications and one addition in the previous algorithm ($I^2+Q^2$), the data bus at the output of the \textit{cmplx2mag} module was specified as twice the input data bit width (due to multiplication) plus one (due to the addition). This is specified on line 210, do not forget to adapt it for the new algorithm. In the next step, you are going to make a behavioral simulation of you implementation to validate it.
@@ -99,7 +149,7 @@ In order to meet the timing requirements, another solution is to use a less comp
     \label{eq:1norm}
 \end{equation}
 
-\begin{figure}[!h]
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.45\linewidth]{figures/trigo.png}
     \includegraphics[width=0.45\linewidth]{figures/angle.png}
@@ -107,23 +157,7 @@ In order to meet the timing requirements, another solution is to use a less comp
     \label{fig:cmplx2mag}
 \end{figure}
 
-\subsection{Simulation and synthesis}
-\begin{sloppypar}
-With your implementation of the Absolute-value norm estimator finished, we are going to use a testbench and a few python scripts and ModelSim to verify the preamble detector before deploying it into the complete system. A few python scripts located at \texttt{LimeSDR-Mini\_lms7\_lelec210x/ip/preamble\_detect/testbench/python} allow you to generate input vectors for the preamble detector and compare the testbench output with an expected result obtained with python:
-
-\begin{enumerate}
-    \item \texttt{1\_input\_gen.py} : generates input vectors and export them for processing in python and as input vector of the preamble detector HDL implementation.
-    \item \texttt{2\_output\_gen.py} : processes the python input vector with a software implementation of the preamble detector and exports the result.
-    \item \texttt{3\_compare} : when the SystemVerilog testbench has been executed, compares the software and hardware preamble detector results, plotting them as well as their difference.
-\end{enumerate}
-
-The SystemVerilog testbench has already been generated for you. To execute it, open ModelSim and change the working directory to \texttt{LimeSDR-Mini\_lms7\_lelec210x/ip/preamble\_detect/testbench/mentor}. After having Then run \texttt{do run\_sim.tcl} in order to compile and launch the simulation.
-
-
-
-\end{sloppypar}
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcattention]{You cannot regenerate the testbench for the preamble detector}
-    Unlike the testbench for the FIR filter that required to regenerate the internal files when updating the taps, this testbench do not need to be adjusted. In order to change the SystemVerilog parameters of the preamble detector, you need to directly adjust them in the file \texttt{LimeSDR-Mini\_}\\\texttt{lms7\_lelec210x/ip/preamble\_detect/testbench/mentor/preamble\_detect\_tb\_gen\_tb/}\\\texttt{simulation/submodules/preamble\_detect\_tb\_gen.v}.
-\end{bclogo}
 
 Now that you have a functional design for the preamble detector with the Absolute-value norm, we can perform a synthesis of the complete design. Do not forget to propagate your change by regenerating the HDL via the Platform Designer. Observe the resource usage and the timing report, is there still a timing constraint violation?
+
+\end{comment}

@@ -39,18 +39,18 @@
 
 #include "alt_types.h"
 
-/*
- * alt_find_dev() is used by open() in order to locate a previously registered
+/* 
+ * alt_find_dev() is used by open() in order to locate a previously registered 
  * device with the name "name". The input argument "llist" is a pointer to the
  * head of the device list to search.
  *
  * The return value is a pointer to the matching device, or NULL if there is
- * no match.
+ * no match. 
  *
  * "name" must be an exact match for the devices registered name for a match to
  * be found.
  */
-
+ 
 alt_dev* alt_find_dev(const char* name, alt_llist* llist)
 {
   alt_dev* next = (alt_dev*) llist->next;
@@ -61,12 +61,12 @@ alt_dev* alt_find_dev(const char* name, alt_llist* llist)
   /*
    * Check each list entry in turn, until a match is found, or we reach the
    * end of the list (i.e. next winds up pointing back to the list head).
-   */
+   */ 
 
   while (next != (alt_dev*) llist)
   {
 
-    /*
+    /* 
      * memcmp() is used here rather than strcmp() in order to reduce the size
      * of the executable.
      */
@@ -79,8 +79,10 @@ alt_dev* alt_find_dev(const char* name, alt_llist* llist)
     }
     next = (alt_dev*) next->llist.next;
   }
-
+  
   /* No match found */
-
+  
   return NULL;
 }
+
+

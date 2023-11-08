@@ -12,12 +12,12 @@
 // terms and conditions of the Intel Program License Subscription
 // Agreement, the Intel Quartus Prime License Agreement, the
 // Intel FPGA IP License Agreement, or other applicable license
-// agreement, including, without limitation, that your use is
+// agreement, including, without limitation, that your use is 
 // for the sole purpose of simulating designs for use exclusively
-// in logic devices manufactured by Intel and sold by Intel or
+// in logic devices manufactured by Intel and sold by Intel or 
 // its authorized distributors. Please refer to the applicable
 // agreement for further details. Intel products and services
-// are protected under numerous U.S. and foreign patents,
+// are protected under numerous U.S. and foreign patents, 
 // maskwork rights, copyrights and other intellectual property laws.
 // Intel assumes no responsibility or liability arising out of the
 // application or use of this simulation model.

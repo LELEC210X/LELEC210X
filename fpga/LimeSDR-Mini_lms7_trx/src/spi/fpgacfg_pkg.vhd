@@ -17,7 +17,7 @@ use ieee.numeric_std.all;
 -- Package declaration
 -- ----------------------------------------------------------------------------
 package fpgacfg_pkg is
-
+   
    -- Outputs from the fpgacfg.
    type t_FROM_FPGACFG is record
       --FPGA direct clocking
@@ -47,13 +47,13 @@ package fpgacfg_pkg is
       wfm_load       : std_logic;
       wfm_smpl_width : std_logic_vector(1 downto 0);
       SPI_SS         : std_logic_vector(15 downto 0);
-
+      
       LMS1_SS        : std_logic;
       -- LMS2_SS     : std_logic;
       -- ADF_SS      : std_logic;
       -- DAC_SS      : std_logic;
       -- POT1_SS     : std_logic;
-
+      
       LMS1_RESET        : std_logic;
       LMS1_CORE_LDO_EN  : std_logic;
       LMS1_TXNRX1       : std_logic;
@@ -76,14 +76,14 @@ package fpgacfg_pkg is
       txant_pre         : std_logic_vector(15 downto 0);
       txant_post        : std_logic_vector(15 downto 0);
    end record t_FROM_FPGACFG;
-
+  
    -- Inputs to the fpgacfg.
    type t_TO_FPGACFG is record
       HW_VER   : std_logic_vector(3 downto 0);
       BOM_VER  : std_logic_vector(3 downto 0);
       PWR_SRC  : std_logic;
    end record t_TO_FPGACFG;
+   
 
-
-
+      
 end package fpgacfg_pkg;

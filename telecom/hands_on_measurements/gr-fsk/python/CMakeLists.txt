@@ -33,6 +33,7 @@ GR_PYTHON_INSTALL(
     FILES
     __init__.py
     preamble_detect.py
+    flag_detector.py
     synchronization.py
     demodulation.py
     packet_parser.py

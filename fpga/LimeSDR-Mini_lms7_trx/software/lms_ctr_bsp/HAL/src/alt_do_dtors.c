@@ -44,7 +44,7 @@
 ******************************************************************************/
 
 /*
- *
+ * 
  */
 
 typedef void (*destructor) (void);
@@ -60,5 +60,5 @@ void _do_dtors(void)
   destructor* dtor;
 
   for (dtor = &__DTOR_END__[-1]; dtor >= __DTOR_LIST__; dtor--)
-        (*dtor) ();
+        (*dtor) (); 
 }

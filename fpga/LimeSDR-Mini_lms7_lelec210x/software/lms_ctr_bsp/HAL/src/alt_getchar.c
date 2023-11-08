@@ -47,7 +47,7 @@
  * Uses the ALT_DRIVER_READ() macro to call directly to driver if available.
  * Otherwise, uses newlib provided getchar() routine.
  */
-int
+int 
 alt_getchar(void)
 {
 #ifdef ALT_SEMIHOSTING

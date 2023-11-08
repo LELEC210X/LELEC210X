@@ -1,0 +1,23 @@
+# system info packet_presence_detection_tb_gen on 2023.11.01.16:22:37
+system_info:
+name,value
+DEVICE,10M16SAU169C8G
+DEVICE_FAMILY,MAX 10
+GENERATION_ID,1698852155
+#
+#
+# Files generated for packet_presence_detection_tb_gen on 2023.11.01.16:22:37
+files:
+filepath,kind,attributes,module,is_top
+simulation/packet_presence_detection_tb_gen.v,VERILOG,,packet_presence_detection_tb_gen,true
+simulation/submodules/verbosity_pkg.sv,SYSTEM_VERILOG, COMMON_SYSTEMVERILOG_PACKAGE=avalon_vip_verbosity_pkg,packet_presence_detection_tb_gen_conduit_bfm_0,false
+simulation/submodules/packet_presence_detection_tb_gen_conduit_bfm_0.sv,SYSTEM_VERILOG,,packet_presence_detection_tb_gen_conduit_bfm_0,false
+simulation/submodules/packet_presence_detection.sv,SYSTEM_VERILOG,,packet_presence_detection,false
+simulation/submodules/short_shift.v,VERILOG,,packet_presence_detection,false
+simulation/submodules/long_shift.v,VERILOG,,packet_presence_detection,false
+#
+# Map from instance-path to kind of module
+instances:
+instancePath,module
+packet_presence_detection_tb_gen.conduit_bfm_0,packet_presence_detection_tb_gen_conduit_bfm_0
+packet_presence_detection_tb_gen.packet_presence_detection_0,packet_presence_detection

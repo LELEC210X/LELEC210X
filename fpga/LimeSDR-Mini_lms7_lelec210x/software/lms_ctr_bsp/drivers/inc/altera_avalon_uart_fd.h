@@ -46,7 +46,7 @@ extern int altera_avalon_uart_write_fd (alt_fd* fd, const char* ptr,
   int len);
 
 /*
- * Device structure definition. This is needed by alt_sys_init in order to
+ * Device structure definition. This is needed by alt_sys_init in order to 
  * reserve memory for the device instance.
  */
 typedef struct altera_avalon_uart_dev_s

@@ -48,7 +48,7 @@
  * Uses the ALT_DRIVER_WRITE() macro to call directly to driver if available.
  * Otherwise, uses newlib provided fputs() routine.
  */
-int
+int 
 alt_putstr(const char* str)
 {
 #ifdef ALT_SEMIHOSTING

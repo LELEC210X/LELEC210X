@@ -52,7 +52,7 @@ extern "C"
  * bit in the slave select register should be set.
  */
 
-/* If you need to make multiple accesses to the same slave then you should
+/* If you need to make multiple accesses to the same slave then you should 
  * set the merge bit in the flags for all of them except the first.
  */
 #define ALT_AVALON_SPI_COMMAND_MERGE (0x01)

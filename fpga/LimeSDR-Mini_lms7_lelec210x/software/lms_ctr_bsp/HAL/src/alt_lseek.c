@@ -42,11 +42,11 @@
 off_t ALT_LSEEK (int file, off_t ptr, int dir)
 {
   /* Generate a link time warning, should this function ever be called. */
-
+  
   ALT_STUB_WARNING(lseek);
-
+  
   /* Indicate an error */
-
+  
   ALT_ERRNO = ENOSYS;
   return -1;
 }
@@ -54,7 +54,7 @@ off_t ALT_LSEEK (int file, off_t ptr, int dir)
 #else /* !ALT_USE_DIRECT_DRIVERS */
 
 /*
- * lseek() can be called to move the read/write pointer associated with the
+ * lseek() can be called to move the read/write pointer associated with the 
  * file descriptor "file". This function simply vectors the call to the lseek()
  * function provided by the driver associated with the file descriptor.
  *
@@ -70,7 +70,7 @@ off_t ALT_LSEEK (int file, off_t ptr, int dir)
 off_t ALT_LSEEK (int file, off_t ptr, int dir)
 {
   alt_fd* fd;
-  off_t   rc = 0;
+  off_t   rc = 0; 
 
   /*
    * A common error case is that when the file descriptor was created, the call
@@ -79,14 +79,14 @@ off_t ALT_LSEEK (int file, off_t ptr, int dir)
    */
 
   fd = (file < 0) ? NULL : &alt_fd_list[file];
-
-  if (fd)
+  
+  if (fd) 
   {
     /*
      * If the device driver provides an implementation of the lseek() function,
      * then call that to process the request.
      */
-
+ 
     if (fd->dev->lseek)
     {
       rc = fd->dev->lseek(fd, ptr, dir);
@@ -100,7 +100,7 @@ off_t ALT_LSEEK (int file, off_t ptr, int dir)
       rc = -ENOTSUP;
     }
   }
-  else
+  else  
   {
     rc = -EBADFD;
   }

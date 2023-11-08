@@ -1,16 +1,16 @@
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------	
 -- FILE:	mem_package.vhd
 -- DESCRIPTION:	Define subtypes and types used in constructing memory arrays.
 -- DATE:	Aug 20, 2001
 -- AUTHOR(s):	Lime Microsystems
 -- REVISIONS:
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------	
 
 -- ----------------------------------------------------------------------------
-library ieee;
+library ieee; 
 use ieee.std_logic_1164.all ;
 
-package mem_package is
+package mem_package is 
  	subtype mword1 is std_logic;      		       -- 1 bit memory word
  	subtype mword16 is std_logic_vector(15 downto 0);      -- 16 bit memory word
 	subtype mword12 is std_logic_vector(11 downto 0);      -- 12 bit memory word
@@ -29,3 +29,4 @@ package mem_package is
 	type    marray16x16 is array (15 downto 0) of mword16; -- 16x16b memory array
  	type    marray8x25  is array ( 7 downto 0) of mword25; -- 8x25b memory array
 end mem_package;
+

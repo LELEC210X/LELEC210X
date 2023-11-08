@@ -14,9 +14,9 @@
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_register_bank_a_module (
                                                       // inputs:
@@ -80,9 +80,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_register_bank_b_module (
                                                       // inputs:
@@ -146,9 +146,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_oci_debug (
                                                // inputs:
@@ -232,8 +232,8 @@ wire             unxcomplemented_resetxx0;
       else if (take_action_ocimem_a)
         begin
           resetrequest <= jdo[22];
-          jtag_break <= jdo[21]     ? 1
-                    : jdo[20]  ? 0
+          jtag_break <= jdo[21]     ? 1 
+                    : jdo[20]  ? 0 
                     : jtag_break;
 
           break_on_reset <= jdo[19]     ? 1
@@ -260,7 +260,7 @@ wire             unxcomplemented_resetxx0;
           monitor_error <= 1'b0;
           monitor_go <= 1'b0;
         end
-      else
+      else 
         begin
           if (take_action_ocimem_a && jdo[25])
               monitor_ready <= 1'b0;
@@ -288,9 +288,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_oci_break (
                                                // inputs:
@@ -400,7 +400,7 @@ reg     [  7: 0] xbrk_ctrl3 /* synthesis ALTERA_ATTRIBUTE = "SUPPRESS_DA_RULE_IN
           xbrk_ctrl3 <= 0;
           trigbrktype <= 0;
         end
-      else
+      else 
         begin
           if (take_action_any_break)
               trigbrktype <= 0;
@@ -481,77 +481,77 @@ reg     [  7: 0] xbrk_ctrl3 /* synthesis ALTERA_ATTRIBUTE = "SUPPRESS_DA_RULE_IN
           break_readreg <= jdo[31 : 0];
       else if (take_no_action_break_a)
           case (break_a_wpr_high_bits)
-
+          
               2'd0: begin
                   case (break_a_wpr_low_bits) // synthesis full_case
-
+                  
                       2'd0: begin
                           break_readreg <= xbrk0_value;
-                      end // 2'd0
-
+                      end // 2'd0 
+                  
                       2'd1: begin
                           break_readreg <= xbrk1_value;
-                      end // 2'd1
-
+                      end // 2'd1 
+                  
                       2'd2: begin
                           break_readreg <= xbrk2_value;
-                      end // 2'd2
-
+                      end // 2'd2 
+                  
                       2'd3: begin
                           break_readreg <= xbrk3_value;
-                      end // 2'd3
-
+                      end // 2'd3 
+                  
                   endcase // break_a_wpr_low_bits
-              end // 2'd0
-
+              end // 2'd0 
+          
               2'd1: begin
                   break_readreg <= 32'b0;
-              end // 2'd1
-
+              end // 2'd1 
+          
               2'd2: begin
                   case (break_a_wpr_low_bits) // synthesis full_case
-
+                  
                       2'd0: begin
                           break_readreg <= dbrk0_low_value;
-                      end // 2'd0
-
+                      end // 2'd0 
+                  
                       2'd1: begin
                           break_readreg <= dbrk1_low_value;
-                      end // 2'd1
-
+                      end // 2'd1 
+                  
                       2'd2: begin
                           break_readreg <= dbrk2_low_value;
-                      end // 2'd2
-
+                      end // 2'd2 
+                  
                       2'd3: begin
                           break_readreg <= dbrk3_low_value;
-                      end // 2'd3
-
+                      end // 2'd3 
+                  
                   endcase // break_a_wpr_low_bits
-              end // 2'd2
-
+              end // 2'd2 
+          
               2'd3: begin
                   case (break_a_wpr_low_bits) // synthesis full_case
-
+                  
                       2'd0: begin
                           break_readreg <= dbrk0_high_value;
-                      end // 2'd0
-
+                      end // 2'd0 
+                  
                       2'd1: begin
                           break_readreg <= dbrk1_high_value;
-                      end // 2'd1
-
+                      end // 2'd1 
+                  
                       2'd2: begin
                           break_readreg <= dbrk2_high_value;
-                      end // 2'd2
-
+                      end // 2'd2 
+                  
                       2'd3: begin
                           break_readreg <= dbrk3_high_value;
-                      end // 2'd3
-
+                      end // 2'd3 
+                  
                   endcase // break_a_wpr_low_bits
-              end // 2'd3
-
+              end // 2'd3 
+          
           endcase // break_a_wpr_high_bits
       else if (take_no_action_break_b)
           break_readreg <= jdo[31 : 0];
@@ -581,9 +581,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_oci_xbrk (
                                               // inputs:
@@ -788,9 +788,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_oci_dbrk (
                                               // inputs:
@@ -903,8 +903,8 @@ reg              dbrk_trigout;
     begin
       if (reset_n == 0)
           dbrk_break <= 0;
-      else
-        dbrk_break <= dbrk_break   ? ~debugack
+      else 
+        dbrk_break <= dbrk_break   ? ~debugack   
                 : dbrk_break_pulse;
 
     end
@@ -954,7 +954,7 @@ reg              dbrk_trigout;
           dbrk_goto0 <= 0;
           dbrk_goto1 <= 0;
         end
-      else
+      else 
         begin
           dbrk_trigout <= dbrk0_trigout | dbrk1_trigout | dbrk2_trigout | dbrk3_trigout;
           dbrk_break_pulse <= dbrk0_break_pulse | dbrk1_break_pulse | dbrk2_break_pulse | dbrk3_break_pulse;
@@ -975,9 +975,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_oci_itrace (
                                                 // inputs:
@@ -1092,7 +1092,7 @@ wire             trc_on;
         end
       else if (dbrk_traceoff | xbrk_traceoff)
           trc_ctrl_reg[1] <= 0;
-      else if (trc_ctrl_reg[0] &
+      else if (trc_ctrl_reg[0] & 
                                   (dbrk_traceon | xbrk_traceon))
           trc_ctrl_reg[1] <= 1;
     end
@@ -1108,9 +1108,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_oci_td_mode (
                                                  // inputs:
@@ -1131,39 +1131,39 @@ reg     [  3: 0] td_mode;
   always @(ctrl_bits_for_mux)
     begin
       case (ctrl_bits_for_mux)
-
+      
           3'b000: begin
               td_mode = 4'b0000;
-          end // 3'b000
-
+          end // 3'b000 
+      
           3'b001: begin
               td_mode = 4'b1000;
-          end // 3'b001
-
+          end // 3'b001 
+      
           3'b010: begin
               td_mode = 4'b0100;
-          end // 3'b010
-
+          end // 3'b010 
+      
           3'b011: begin
               td_mode = 4'b1100;
-          end // 3'b011
-
+          end // 3'b011 
+      
           3'b100: begin
               td_mode = 4'b0010;
-          end // 3'b100
-
+          end // 3'b100 
+      
           3'b101: begin
               td_mode = 4'b1010;
-          end // 3'b101
-
+          end // 3'b101 
+      
           3'b110: begin
               td_mode = 4'b0101;
-          end // 3'b110
-
+          end // 3'b110 
+      
           3'b111: begin
               td_mode = 4'b1111;
-          end // 3'b111
-
+          end // 3'b111 
+      
       endcase // ctrl_bits_for_mux
     end
 
@@ -1176,9 +1176,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_oci_dtrace (
                                                 // inputs:
@@ -1241,7 +1241,7 @@ wire    [  3: 0] td_mode_trc_ctrl;
           atm <= 0;
           dtm <= 0;
         end
-      else
+      else 
         begin
           atm <= 0;
           dtm <= 0;
@@ -1258,9 +1258,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_oci_compute_input_tm_cnt (
                                                               // inputs:
@@ -1285,39 +1285,39 @@ wire    [  2: 0] switch_for_mux;
   always @(switch_for_mux)
     begin
       case (switch_for_mux)
-
+      
           3'b000: begin
               compute_input_tm_cnt = 0;
-          end // 3'b000
-
+          end // 3'b000 
+      
           3'b001: begin
               compute_input_tm_cnt = 1;
-          end // 3'b001
-
+          end // 3'b001 
+      
           3'b010: begin
               compute_input_tm_cnt = 1;
-          end // 3'b010
-
+          end // 3'b010 
+      
           3'b011: begin
               compute_input_tm_cnt = 2;
-          end // 3'b011
-
+          end // 3'b011 
+      
           3'b100: begin
               compute_input_tm_cnt = 1;
-          end // 3'b100
-
+          end // 3'b100 
+      
           3'b101: begin
               compute_input_tm_cnt = 2;
-          end // 3'b101
-
+          end // 3'b101 
+      
           3'b110: begin
               compute_input_tm_cnt = 2;
-          end // 3'b110
-
+          end // 3'b110 
+      
           3'b111: begin
               compute_input_tm_cnt = 3;
-          end // 3'b111
-
+          end // 3'b111 
+      
       endcase // switch_for_mux
     end
 
@@ -1330,9 +1330,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_oci_fifo_wrptr_inc (
                                                         // inputs:
@@ -1360,7 +1360,7 @@ reg     [  3: 0] fifo_wrptr_inc;
           fifo_wrptr_inc = 2;
       else if (input_tm_cnt >= 1)
           fifo_wrptr_inc = 1;
-      else
+      else 
         fifo_wrptr_inc = 0;
     end
 
@@ -1373,9 +1373,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_oci_fifo_cnt_inc (
                                                       // inputs:
@@ -1407,7 +1407,7 @@ reg     [  4: 0] fifo_cnt_inc;
           fifo_cnt_inc = 1;
       else if (input_tm_cnt >= 1)
           fifo_cnt_inc = 0;
-      else
+      else 
         fifo_cnt_inc = {5{1'b1}};
     end
 
@@ -1420,9 +1420,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_oci_fifo (
                                               // inputs:
@@ -1572,7 +1572,7 @@ wire    [ 35: 0] tw;
           fifo_cnt <= 0;
           overflow_pending <= 1;
         end
-      else
+      else 
         begin
           fifo_wrptr <= fifo_wrptr + fifo_wrptr_inc;
           fifo_cnt <= fifo_cnt + fifo_cnt_inc;
@@ -1906,9 +1906,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_oci_pib (
                                              // outputs:
@@ -1929,9 +1929,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_oci_im (
                                             // inputs:
@@ -1979,7 +1979,7 @@ wire             xbrk_wrap_traceoff;
           trc_im_addr <= 0;
           trc_wrap <= 0;
         end
-      else
+      else 
         begin
           trc_im_addr <= 0;
           trc_wrap <= 0;
@@ -1999,11 +1999,11 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
-module lms_ctr_nios2_cpu_cpu_nios2_performance_monitors
+module lms_ctr_nios2_cpu_cpu_nios2_performance_monitors 
 ;
 
 
@@ -2016,9 +2016,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_avalon_reg (
                                                 // inputs:
@@ -2079,8 +2079,8 @@ wire             write_strobe;
   assign ocireg_mrs = writedata[0];
   assign ocireg_sstep = writedata[3];
   assign oci_reg_readdata = oci_reg_00_addressed ? {28'b0, oci_single_step_mode, monitor_go,
-    monitor_ready, monitor_error} :
-    oci_reg_01_addressed ?  oci_ienable :
+    monitor_ready, monitor_error} : 
+    oci_reg_01_addressed ?  oci_ienable :   
     32'b0;
 
   always @(posedge clk or negedge reset_n)
@@ -2109,9 +2109,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_ociram_sp_ram_module (
                                                     // inputs:
@@ -2174,9 +2174,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_ocimem (
                                             // inputs:
@@ -2254,7 +2254,7 @@ reg              waitrequest /* synthesis ALTERA_ATTRIBUTE = "SUPPRESS_DA_RULE_I
           waitrequest <= 1'b1;
           avalon_ociram_readdata_ready <= 1'b0;
         end
-      else
+      else 
         begin
           if (take_no_action_ocimem_a)
             begin
@@ -2279,7 +2279,7 @@ reg              waitrequest /* synthesis ALTERA_ATTRIBUTE = "SUPPRESS_DA_RULE_I
               jtag_ram_wr <= MonARegAddrIncAccessingRAM;
               jtag_ram_access <= MonARegAddrIncAccessingRAM;
             end
-          else
+          else 
             begin
               jtag_rd <= 0;
               jtag_ram_wr <= 0;
@@ -2302,7 +2302,7 @@ reg              waitrequest /* synthesis ALTERA_ATTRIBUTE = "SUPPRESS_DA_RULE_I
               avalon_ociram_readdata_ready <= ~(~address[8] & jtag_ram_access);
               waitrequest <= ~avalon_ociram_readdata_ready;
             end
-          else
+          else 
             begin
               waitrequest <= 1'b1;
               avalon_ociram_readdata_ready <= 1'b0;
@@ -2355,9 +2355,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu_nios2_oci (
                                          // inputs:
@@ -2717,7 +2717,7 @@ wire             xbrk_wrap_traceoff;
     begin
       if (jrst_n == 0)
           address <= 0;
-      else
+      else 
         address <= address_nxt;
     end
 
@@ -2726,7 +2726,7 @@ wire             xbrk_wrap_traceoff;
     begin
       if (jrst_n == 0)
           byteenable <= 0;
-      else
+      else 
         byteenable <= byteenable_nxt;
     end
 
@@ -2735,7 +2735,7 @@ wire             xbrk_wrap_traceoff;
     begin
       if (jrst_n == 0)
           writedata <= 0;
-      else
+      else 
         writedata <= writedata_nxt;
     end
 
@@ -2744,7 +2744,7 @@ wire             xbrk_wrap_traceoff;
     begin
       if (jrst_n == 0)
           debugaccess <= 0;
-      else
+      else 
         debugaccess <= debugaccess_nxt;
     end
 
@@ -2753,7 +2753,7 @@ wire             xbrk_wrap_traceoff;
     begin
       if (jrst_n == 0)
           read <= 0;
-      else
+      else 
         read <= read ? waitrequest : read_nxt;
     end
 
@@ -2762,7 +2762,7 @@ wire             xbrk_wrap_traceoff;
     begin
       if (jrst_n == 0)
           write <= 0;
-      else
+      else 
         write <= write ? waitrequest : write_nxt;
     end
 
@@ -2771,7 +2771,7 @@ wire             xbrk_wrap_traceoff;
     begin
       if (jrst_n == 0)
           readdata <= 0;
-      else
+      else 
         readdata <= address[8] ? oci_reg_readdata : ociram_readdata;
     end
 
@@ -2827,9 +2827,9 @@ endmodule
 `timescale 1ns / 1ps
 // synthesis translate_on
 
-// turn off superfluous verilog processor warnings
-// altera message_level Level1
-// altera message_off 10034 10035 10036 10037 10230 10240 10030
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
 module lms_ctr_nios2_cpu_cpu (
                                // inputs:
@@ -3949,21 +3949,21 @@ reg              wait_for_one_post_bret_inst;
     begin
       if (reset_n == 0)
           i_read <= 1'b1;
-      else
+      else 
         i_read <= i_read_nxt;
     end
 
 
   assign oci_tb_hbreak_req = oci_hbreak_req;
   assign hbreak_req = (oci_tb_hbreak_req | hbreak_pending) & hbreak_enabled &  ~(wait_for_one_post_bret_inst & ~W_valid);
-  assign hbreak_pending_nxt = hbreak_pending ? hbreak_enabled
+  assign hbreak_pending_nxt = hbreak_pending ? hbreak_enabled 
     : hbreak_req;
 
   always @(posedge clk or negedge reset_n)
     begin
       if (reset_n == 0)
           wait_for_one_post_bret_inst <= 1'b0;
-      else
+      else 
         wait_for_one_post_bret_inst <= (~hbreak_enabled & oci_single_step_mode) ? 1'b1  : (F_valid | ~oci_single_step_mode) ? 1'b0  : wait_for_one_post_bret_inst;
     end
 
@@ -3972,7 +3972,7 @@ reg              wait_for_one_post_bret_inst;
     begin
       if (reset_n == 0)
           hbreak_pending <= 1'b0;
-      else
+      else 
         hbreak_pending <= hbreak_pending_nxt;
     end
 
@@ -3981,7 +3981,7 @@ reg              wait_for_one_post_bret_inst;
   assign F_av_iw = i_readdata;
   assign F_iw = hbreak_req     ? 4040762 :
     1'b0   ? 127034 :
-    intr_req       ? 3926074 :
+    intr_req       ? 3926074 : 
     F_av_iw;
 
   always @(posedge clk or negedge reset_n)
@@ -3997,13 +3997,13 @@ reg              wait_for_one_post_bret_inst;
     begin
       if (reset_n == 0)
           D_valid <= 0;
-      else
+      else 
         D_valid <= F_valid | W1_rf_ecc_recoverable_valid;
     end
 
 
-  assign D_dst_regnum = D_ctrl_implicit_dst_retaddr    ? 5'd31 :
-    D_ctrl_implicit_dst_eretaddr   ? 5'd29 :
+  assign D_dst_regnum = D_ctrl_implicit_dst_retaddr    ? 5'd31 : 
+    D_ctrl_implicit_dst_eretaddr   ? 5'd29 : 
     D_ctrl_b_is_dst                ? D_iw_b :
     D_iw_c;
 
@@ -4011,11 +4011,11 @@ reg              wait_for_one_post_bret_inst;
   assign D_logic_op_raw = D_is_opx_inst ? D_iw_opx[4 : 3] :
     D_iw_op[4 : 3];
 
-  assign D_logic_op = D_ctrl_alu_force_xor ? 2'b11 :
+  assign D_logic_op = D_ctrl_alu_force_xor ? 2'b11 : 
     D_ctrl_alu_force_and ? 2'b01 :
     D_logic_op_raw;
 
-  assign D_compare_op = D_is_opx_inst ? D_iw_opx[4 : 3] :
+  assign D_compare_op = D_is_opx_inst ? D_iw_opx[4 : 3] : 
     D_iw_op[4 : 3];
 
   assign D_jmp_direct_target_waddr = D_iw[31 : 6];
@@ -4023,7 +4023,7 @@ reg              wait_for_one_post_bret_inst;
     begin
       if (reset_n == 0)
           R_valid <= 0;
-      else
+      else 
         R_valid <= D_valid;
     end
 
@@ -4032,7 +4032,7 @@ reg              wait_for_one_post_bret_inst;
     begin
       if (reset_n == 0)
           R_wr_dst_reg <= 0;
-      else
+      else 
         R_wr_dst_reg <= D_wr_dst_reg;
     end
 
@@ -4041,7 +4041,7 @@ reg              wait_for_one_post_bret_inst;
     begin
       if (reset_n == 0)
           R_dst_regnum <= 0;
-      else
+      else 
         R_dst_regnum <= D_dst_regnum;
     end
 
@@ -4050,7 +4050,7 @@ reg              wait_for_one_post_bret_inst;
     begin
       if (reset_n == 0)
           R_logic_op <= 0;
-      else
+      else 
         R_logic_op <= D_logic_op;
     end
 
@@ -4059,7 +4059,7 @@ reg              wait_for_one_post_bret_inst;
     begin
       if (reset_n == 0)
           R_compare_op <= 0;
-      else
+      else 
         R_compare_op <= D_compare_op;
     end
 
@@ -4068,7 +4068,7 @@ reg              wait_for_one_post_bret_inst;
     begin
       if (reset_n == 0)
           R_src2_use_imm <= 0;
-      else
+      else 
         R_src2_use_imm <= D_ctrl_src2_choose_imm | (D_ctrl_br & R_valid);
     end
 
@@ -4082,7 +4082,7 @@ reg              wait_for_one_post_bret_inst;
     begin
       if (reset_n == 0)
           W_rf_ecc_recoverable_valid <= 0;
-      else
+      else 
         W_rf_ecc_recoverable_valid <= E_rf_ecc_recoverable_valid;
     end
 
@@ -4091,7 +4091,7 @@ reg              wait_for_one_post_bret_inst;
     begin
       if (reset_n == 0)
           W1_rf_ecc_recoverable_valid <= 0;
-      else
+      else 
         W1_rf_ecc_recoverable_valid <= W_rf_ecc_recoverable_valid;
     end
 
@@ -4100,7 +4100,7 @@ reg              wait_for_one_post_bret_inst;
     begin
       if (reset_n == 0)
           W_rf_ecc_unrecoverable_valid <= 0;
-      else
+      else 
         W_rf_ecc_unrecoverable_valid <= E_rf_ecc_unrecoverable_valid & ~E_rf_ecc_recoverable_valid;
     end
 
@@ -4164,7 +4164,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           E_valid_from_R <= 0;
-      else
+      else 
         E_valid_from_R <= R_valid | E_stall;
     end
 
@@ -4173,7 +4173,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           E_new_inst <= 0;
-      else
+      else 
         E_new_inst <= R_valid;
     end
 
@@ -4182,7 +4182,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           E_src1 <= 0;
-      else
+      else 
         E_src1 <= R_src1;
     end
 
@@ -4191,7 +4191,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           E_src2 <= 0;
-      else
+      else 
         E_src2 <= R_src2;
     end
 
@@ -4200,7 +4200,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           E_invert_arith_src_msb <= 0;
-      else
+      else 
         E_invert_arith_src_msb <= D_ctrl_alu_signed_comparison & R_valid;
     end
 
@@ -4209,17 +4209,17 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           E_alu_sub <= 0;
-      else
+      else 
         E_alu_sub <= D_ctrl_alu_subtract & R_valid;
     end
 
 
   assign E_valid = E_valid_from_R & ~E_rf_ecc_valid_any;
   assign E_stall = (E_shift_rot_stall | E_ld_stall | E_st_stall | E_ci_multi_stall) & ~(E_rf_ecc_valid_any|W_rf_ecc_valid_any|W1_rf_ecc_recoverable_valid);
-  assign E_arith_src1 = { E_src1[31] ^ E_invert_arith_src_msb,
+  assign E_arith_src1 = { E_src1[31] ^ E_invert_arith_src_msb, 
     E_src1[30 : 0]};
 
-  assign E_arith_src2 = { E_src2[31] ^ E_invert_arith_src_msb,
+  assign E_arith_src2 = { E_src2[31] ^ E_invert_arith_src_msb, 
     E_src2[30 : 0]};
 
   assign E_arith_result = E_alu_sub ?
@@ -4245,7 +4245,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
   assign E_shift_rot_done = (E_shift_rot_cnt == 0) & ~E_new_inst;
   assign E_shift_rot_stall = R_ctrl_shift_rot & E_valid & ~E_shift_rot_done;
   assign E_shift_rot_fill_bit = R_ctrl_shift_logical ? 1'b0 :
-    (R_ctrl_rot_right ? E_shift_rot_result[0] :
+    (R_ctrl_rot_right ? E_shift_rot_result[0] : 
     E_shift_rot_result[31]);
 
   assign E_shift_rot_result_nxt = (E_new_inst)? E_src1 :
@@ -4256,7 +4256,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           E_shift_rot_result <= 0;
-      else
+      else 
         E_shift_rot_result <= E_shift_rot_result_nxt;
     end
 
@@ -4265,7 +4265,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           E_shift_rot_cnt <= 0;
-      else
+      else 
         E_shift_rot_cnt <= E_shift_rot_cnt_nxt;
     end
 
@@ -4311,7 +4311,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           d_read <= 0;
-      else
+      else 
         d_read <= d_read_nxt;
     end
 
@@ -4320,7 +4320,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           d_writedata <= 0;
-      else
+      else 
         d_writedata <= E_st_data;
     end
 
@@ -4329,23 +4329,23 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           d_byteenable <= 0;
-      else
+      else 
         d_byteenable <= E_mem_byte_en;
     end
 
 
   assign av_ld_align_cycle_nxt = av_ld_getting_data ? 0 : (av_ld_align_cycle+1);
   assign av_ld_align_one_more_cycle = av_ld_align_cycle == (D_ctrl_mem16 ? 2 : 3);
-  assign av_ld_aligning_data_nxt = av_ld_aligning_data ?
-    ~av_ld_align_one_more_cycle :
+  assign av_ld_aligning_data_nxt = av_ld_aligning_data ? 
+    ~av_ld_align_one_more_cycle : 
     (~D_ctrl_mem32 & av_ld_getting_data);
 
-  assign av_ld_waiting_for_data_nxt = av_ld_waiting_for_data ?
-    ~av_ld_getting_data :
+  assign av_ld_waiting_for_data_nxt = av_ld_waiting_for_data ? 
+    ~av_ld_getting_data : 
     (R_ctrl_ld & E_new_inst);
 
   assign av_ld_done = ~av_ld_waiting_for_data_nxt & (D_ctrl_mem32 | ~av_ld_aligning_data_nxt);
-  assign av_ld_rshift8 = av_ld_aligning_data &
+  assign av_ld_rshift8 = av_ld_aligning_data & 
     (av_ld_align_cycle < (W_mem_baddr[1 : 0]));
 
   assign av_ld_extend = av_ld_aligning_data;
@@ -4362,7 +4362,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     av_ld_extend       ? {8 {av_fill_bit}} :d_readdata[31 : 24];
 
   assign av_ld_byte1_data_en = ~(av_ld_extend & D_ctrl_mem16 & ~av_ld_rshift8);
-  assign av_ld_data_aligned_unfiltered = {av_ld_byte3_data, av_ld_byte2_data,
+  assign av_ld_data_aligned_unfiltered = {av_ld_byte3_data, av_ld_byte2_data, 
     av_ld_byte1_data, av_ld_byte0_data};
 
   assign av_sign_bit = D_ctrl_mem16 ? av_ld_byte1_data[7] : av_ld_byte0_data[7];
@@ -4371,7 +4371,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           av_ld_align_cycle <= 0;
-      else
+      else 
         av_ld_align_cycle <= av_ld_align_cycle_nxt;
     end
 
@@ -4380,7 +4380,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           av_ld_waiting_for_data <= 0;
-      else
+      else 
         av_ld_waiting_for_data <= av_ld_waiting_for_data_nxt;
     end
 
@@ -4389,7 +4389,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           av_ld_aligning_data <= 0;
-      else
+      else 
         av_ld_aligning_data <= av_ld_aligning_data_nxt;
     end
 
@@ -4398,7 +4398,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           av_ld_byte0_data <= 0;
-      else
+      else 
         av_ld_byte0_data <= av_ld_byte0_data_nxt;
     end
 
@@ -4416,7 +4416,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           av_ld_byte2_data <= 0;
-      else
+      else 
         av_ld_byte2_data <= av_ld_byte2_data_nxt;
     end
 
@@ -4425,7 +4425,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           av_ld_byte3_data <= 0;
-      else
+      else 
         av_ld_byte3_data <= av_ld_byte3_data_nxt;
     end
 
@@ -4436,7 +4436,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
           W_up_ex_mon_state <= 0;
       else if (R_en)
           W_up_ex_mon_state <= (R_ctrl_ld_ex & W_valid) ? 1'b1 :
-                    ((D_op_eret & W_valid) | (R_ctrl_st_ex & W_valid)) ? 1'b0 :
+                    ((D_op_eret & W_valid) | (R_ctrl_st_ex & W_valid)) ? 1'b0 : 
                     W_up_ex_mon_state;
 
     end
@@ -4447,7 +4447,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           W_valid <= 0;
-      else
+      else 
         W_valid <= E_valid & ~E_stall;
     end
 
@@ -4456,7 +4456,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           A_valid_from_M <= 0;
-      else
+      else 
         A_valid_from_M <= E_valid & ~E_stall;
     end
 
@@ -4465,7 +4465,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           W_control_rd_data <= 0;
-      else
+      else 
         W_control_rd_data <= D_ctrl_intr_inst ? W_status_reg : E_control_rd_data;
     end
 
@@ -4474,7 +4474,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           W_cmp_result <= 0;
-      else
+      else 
         W_cmp_result <= E_cmp_result;
     end
 
@@ -4483,7 +4483,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           W_alu_result <= 0;
-      else
+      else 
         W_alu_result <= E_alu_result;
     end
 
@@ -4492,7 +4492,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           W_status_reg_pie <= 0;
-      else
+      else 
         W_status_reg_pie <= W_status_reg_pie_nxt;
     end
 
@@ -4501,7 +4501,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           W_estatus_reg <= 0;
-      else
+      else 
         W_estatus_reg <= W_estatus_reg_nxt;
     end
 
@@ -4510,7 +4510,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           W_bstatus_reg <= 0;
-      else
+      else 
         W_bstatus_reg <= W_bstatus_reg_nxt;
     end
 
@@ -4519,7 +4519,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           W_ienable_reg <= 0;
-      else
+      else 
         W_ienable_reg <= W_ienable_reg_nxt;
     end
 
@@ -4528,7 +4528,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           W_ipending_reg <= 0;
-      else
+      else 
         W_ipending_reg <= W_ipending_reg_nxt;
     end
 
@@ -4537,7 +4537,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           W_cdsr_reg <= 0;
-      else
+      else 
         W_cdsr_reg <= 0;
     end
 
@@ -4551,16 +4551,16 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
   assign W_br_taken = R_ctrl_br_uncond | (R_ctrl_br & W_cmp_result);
   assign W_mem_baddr = W_alu_result[21 : 0];
   assign W_status_reg = W_status_reg_pie;
-  assign E_wrctl_status = R_ctrl_wrctl_inst &
+  assign E_wrctl_status = R_ctrl_wrctl_inst & 
     (D_iw_control_regnum == 5'd0);
 
-  assign E_wrctl_estatus = R_ctrl_wrctl_inst &
+  assign E_wrctl_estatus = R_ctrl_wrctl_inst & 
     (D_iw_control_regnum == 5'd1);
 
-  assign E_wrctl_bstatus = R_ctrl_wrctl_inst &
+  assign E_wrctl_bstatus = R_ctrl_wrctl_inst & 
     (D_iw_control_regnum == 5'd2);
 
-  assign E_wrctl_ienable = R_ctrl_wrctl_inst &
+  assign E_wrctl_ienable = R_ctrl_wrctl_inst & 
     (D_iw_control_regnum == 5'd3);
 
   assign W_status_reg_pie_inst_nxt = (R_ctrl_exception | R_ctrl_break | R_ctrl_crst | W_rf_ecc_unrecoverable_valid) ? 1'b0 :
@@ -4581,7 +4581,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     W_bstatus_reg;
 
   assign W_bstatus_reg_nxt = E_valid ? W_bstatus_reg_inst_nxt : W_bstatus_reg;
-  assign W_ienable_reg_nxt = ((E_wrctl_ienable & E_valid) ?
+  assign W_ienable_reg_nxt = ((E_wrctl_ienable & E_valid) ? 
     E_src1[31 : 0] : W_ienable_reg) & 32'b00000000000000000000000000011111;
 
   assign W_ipending_reg_nxt = iactive & W_ienable_reg & oci_ienable & 32'b00000000000000000000000000011111;
@@ -4598,7 +4598,7 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
     begin
       if (reset_n == 0)
           d_write <= 0;
-      else
+      else 
         d_write <= d_write_nxt;
     end
 
@@ -5717,3 +5717,4 @@ defparam lms_ctr_nios2_cpu_cpu_register_bank_b.lpm_file = "lms_ctr_nios2_cpu_cpu
 //synthesis translate_on
 
 endmodule
+

@@ -1,13 +1,13 @@
 -- (C) 2001-2018 Intel Corporation. All rights reserved.
--- Your use of Intel Corporation's design tools, logic functions and other
--- software and tools, and its AMPP partner logic functions, and any output
--- files from any of the foregoing (including device programming or simulation
--- files), and any associated documentation or information are expressly subject
--- to the terms and conditions of the Intel Program License Subscription
--- Agreement, Intel FPGA IP License Agreement, or other applicable
--- license agreement, including, without limitation, that your use is for the
--- sole purpose of programming logic devices manufactured by Intel and sold by
--- Intel or its authorized distributors.  Please refer to the applicable
+-- Your use of Intel Corporation's design tools, logic functions and other 
+-- software and tools, and its AMPP partner logic functions, and any output 
+-- files from any of the foregoing (including device programming or simulation 
+-- files), and any associated documentation or information are expressly subject 
+-- to the terms and conditions of the Intel Program License Subscription 
+-- Agreement, Intel FPGA IP License Agreement, or other applicable 
+-- license agreement, including, without limitation, that your use is for the 
+-- sole purpose of programming logic devices manufactured by Intel and sold by 
+-- Intel or its authorized distributors.  Please refer to the applicable 
 -- agreement for further details.
 
 
@@ -22,9 +22,9 @@
 -- $Date: 2010/08/19 $
 -- Check in by     : $Author: max $
 --
--- Description :
+-- Description : 
 -- Implement output options for HP-FIR
---
+-- 
 -- ALTERA Confidential and Proprietary
 -- Copyright 2006 (c) Altera Corporation
 -- All rights reserved
@@ -116,7 +116,7 @@ begin  -- architecture beh
       end process round_up_sym_p;
     end generate rndup_lsb;
   end generate remove_lsb;
-
+  
   -----------------------------------------------------------------------------
   -- keep lsb
   -----------------------------------------------------------------------------
@@ -125,7 +125,7 @@ begin  -- architecture beh
     data_lsb <= datain;
     valid_lsb <= enable;
   end generate keep_lsb;
-
+  
   -----------------------------------------------------------------------------
   -- msb : trunc/saturation
   -----------------------------------------------------------------------------
@@ -159,9 +159,9 @@ begin  -- architecture beh
           valid <= valid_lsb;
         end if;
       end process msb_p;
-    end generate sat_msb;
+    end generate sat_msb; 
   end generate remove_msb;
-
+  
   -----------------------------------------------------------------------------
   -- keep msb
   -----------------------------------------------------------------------------
@@ -171,7 +171,7 @@ begin  -- architecture beh
     dataout  <= data_msb;
     valid    <= valid_lsb;
   end generate keep_msb;
-
+  
   -----------------------------------------------------------------------------
   -- error checking:
   --   Have we got a valid round mode?

@@ -33,8 +33,8 @@
 #include "system.h"
 #include "alt_types.h"
 
-/*
- * Instructions that might mean something special to a simulator.
+/* 
+ * Instructions that might mean something special to a simulator. 
  * These have no special effect on real hardware (they are just nops).
  */
 #define ALT_SIM_FAIL() \

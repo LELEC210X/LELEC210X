@@ -35,21 +35,21 @@
 #include "os/alt_syscall.h"
 
 /*
- * unlink() is used by newlib to delete an existing link to a file. This is
- * unsupported in the HAL environment. However a "do-nothing" implementation
+ * unlink() is used by newlib to delete an existing link to a file. This is 
+ * unsupported in the HAL environment. However a "do-nothing" implementation 
  * is still provied for newlib compatability.
  *
  * ALT_UNLINK is mapped onto the unlink() system call in alt_syscall.h
  */
-
+ 
 int ALT_UNLINK (char *name)
 {
   /* Generate a link time warning, should this function ever be called. */
-
+  
   ALT_STUB_WARNING(unlink);
-
+  
   /* Indicate an error */
-
+  
   ALT_ERRNO = ENOSYS;
   return -1;
 }

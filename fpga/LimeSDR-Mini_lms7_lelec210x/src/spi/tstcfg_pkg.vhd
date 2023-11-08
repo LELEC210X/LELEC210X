@@ -17,8 +17,8 @@ use ieee.numeric_std.all;
 -- Package declaration
 -- ----------------------------------------------------------------------------
 package tstcfg_pkg is
-
-   -- Outputs from the
+   
+   -- Outputs from the 
    type t_FROM_TSTCFG is record
       TEST_EN              : std_logic_vector(5 downto 0);
       TEST_FRC_ERR         : std_logic_vector(5 downto 0);
@@ -26,7 +26,7 @@ package tstcfg_pkg is
       TX_TST_Q             : std_logic_vector(15 downto 0);
       BOOT_EN              : std_logic;
    end record t_FROM_TSTCFG;
-
+  
    -- Inputs to the .
    type t_TO_TSTCFG is record
       TEST_CMPLT           : std_logic_vector(5 downto 0);
@@ -44,11 +44,11 @@ package tstcfg_pkg is
       DDR2_2_STATUS        : std_logic_vector(2 downto 0);
       DDR2_2_pnf_per_bit   : std_logic_vector(31 downto 0);
    end record t_TO_TSTCFG;
-
+   
    type t_TO_TSTCFG_FROM_RXTX is record
       DDR2_1_STATUS        : std_logic_vector(2 downto 0);
       DDR2_1_pnf_per_bit   : std_logic_vector(31 downto 0);
    end record t_TO_TSTCFG_FROM_RXTX;
-
+   
 
 end package tstcfg_pkg;

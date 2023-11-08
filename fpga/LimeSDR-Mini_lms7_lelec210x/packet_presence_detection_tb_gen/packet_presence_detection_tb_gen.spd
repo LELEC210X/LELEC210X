@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simPackage>
+ <file
+   path="simulation/submodules/verbosity_pkg.sv"
+   type="SYSTEM_VERILOG"
+   library="altera_common_sv_packages"
+   systemVerilogPackageName="avalon_vip_verbosity_pkg" />
+ <file
+   path="simulation/submodules/packet_presence_detection.sv"
+   type="SYSTEM_VERILOG"
+   library="packet_presence_detection_0" />
+ <file
+   path="simulation/submodules/short_shift.v"
+   type="VERILOG"
+   library="packet_presence_detection_0" />
+ <file
+   path="simulation/submodules/long_shift.v"
+   type="VERILOG"
+   library="packet_presence_detection_0" />
+ <file
+   path="simulation/submodules/packet_presence_detection_tb_gen_conduit_bfm_0.sv"
+   type="SYSTEM_VERILOG"
+   library="conduit_bfm_0" />
+ <file path="simulation/packet_presence_detection_tb_gen.v" type="VERILOG" />
+ <topLevel name="packet_presence_detection_tb_gen" />
+ <deviceFamily name="max10" />
+</simPackage>

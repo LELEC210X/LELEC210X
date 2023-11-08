@@ -31,7 +31,7 @@
 ******************************************************************************/
 
 /*
- * This file defines the alt_errno global variable. See comments in
+ * This file defines the alt_errno global variable. See comments in 
  * alt_errno.h for the use of this variable.
  */
 

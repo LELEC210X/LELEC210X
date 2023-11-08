@@ -51,9 +51,9 @@ extern "C"
 #define ALTERA_NIOS2_GEN2_IRQ_INSTANCE(name, state)
 
 /*
- * altera_nios2_gen2_irq_init() is called by the auto-generated function
+ * altera_nios2_gen2_irq_init() is called by the auto-generated function 
  * alt_irq_init() once for the Nios II if it contains an interrupt controller.
- * The altera_nios2_gen2_irq_init() routine is called using the
+ * The altera_nios2_gen2_irq_init() routine is called using the 
  * ALTERA_NIOS2_GEN2_IRQ_INIT macro given below.
  *
  * This function initializes the internal interrupt controller
@@ -77,3 +77,4 @@ extern void altera_nios2_gen2_irq_init( void );
 #endif /* __cplusplus */
 
 #endif /* __ALT_NIOS2_ULTRA_IRQ_H__ */
+

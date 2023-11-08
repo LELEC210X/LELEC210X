@@ -56,11 +56,6 @@ set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
-set_global_assignment -name ADV_NETLIST_OPT_SYNTH_WYSIWYG_REMAP ON
-set_global_assignment -name ALLOW_SHIFT_REGISTER_MERGING_ACROSS_HIERARCHIES ALWAYS
-set_global_assignment -name PLACEMENT_EFFORT_MULTIPLIER 5.0
-set_global_assignment -name ALM_REGISTER_PACKING_EFFORT HIGH
-set_global_assignment -name ROUTER_CLOCKING_TOPOLOGY_ANALYSIS ON
 set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "NO HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
@@ -243,8 +238,6 @@ set_instance_assignment -name IO_STANDARD "2.5 V" -to LMS_DIQ1_D[11]
 set_location_assignment PIN_B9 -to FPGA_LED_R
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to FPGA_LED_R
 set_global_assignment -name POST_FLOW_SCRIPT_FILE "quartus_sh:gen_prg_files.tcl"
-set_global_assignment -name AUTO_MERGE_PLLS OFF
-set_global_assignment -name AUTO_GLOBAL_REGISTER_CONTROLS OFF
 set_global_assignment -name OPTIMIZATION_MODE "HIGH PERFORMANCE EFFORT"
 set_instance_assignment -name IO_STANDARD "2.5 V" -to altera_reserved_tms
 set_instance_assignment -name IO_STANDARD "2.5 V" -to LMS_TXNRX2
@@ -307,7 +300,6 @@ set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to FT_D[3]
 set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to FT_D[2]
 set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to FT_D[1]
 set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to FT_D[0]
-set_global_assignment -name FITTER_EFFORT "AUTO FIT"
 set_location_assignment PIN_G5 -to LMS_MCLK1
 set_instance_assignment -name IO_STANDARD "2.5 V" -to LMS_MCLK1
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to LMS_DIQ1_D[0]
@@ -371,7 +363,6 @@ set_instance_assignment -name IO_STANDARD "1.8 V" -to FPGA_QSPI_IO1
 set_instance_assignment -name IO_STANDARD "1.8 V" -to FPGA_QSPI_IO2
 set_instance_assignment -name IO_STANDARD "1.8 V" -to FPGA_QSPI_IO3
 set_instance_assignment -name IO_STANDARD "1.8 V" -to FPGA_QSPI_SCLK
-set_global_assignment -name ALLOW_REGISTER_MERGING ON
 set_global_assignment -name ALLOW_REGISTER_RETIMING OFF
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to BOM_VER[2]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to BOM_VER[1]
@@ -380,10 +371,8 @@ set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to HW_VER[0]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to HW_VER[1]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to HW_VER[2]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to HW_VER[3]
-set_global_assignment -name INFER_RAMS_FROM_RAW_LOGIC ON
-set_global_assignment -name AUTO_RAM_RECOGNITION ON
-set_global_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION OFF
 set_global_assignment -name DEVICE_MIGRATION_LIST 10M16SAU169C8G
+set_global_assignment -name QIP_FILE lms_auto_dsp/synthesis/lms_auto_dsp.qip
 set_global_assignment -name QIP_FILE lms_dsp/synthesis/lms_dsp.qip
 set_global_assignment -name VHDL_FILE src/rx_path_top/delay_chain/delay_chain.vhd
 set_global_assignment -name VHDL_FILE src/tx_path_top/pct_separate/synth/pct_separate_fsm.vhd
@@ -468,6 +457,7 @@ set_global_assignment -name VHDL_FILE src/rx_path_top/smpl_cnt/synth/smpl_cnt.vh
 set_global_assignment -name VHDL_FILE src/rx_path_top/rx_path/synth/rx_path_top.vhd
 set_global_assignment -name SDC_FILE Clock_groups.sdc
 set_global_assignment -name SIGNALTAP_FILE ../stp1.stp
-set_global_assignment -name OPTIMIZE_POWER_DURING_SYNTHESIS "EXTRA EFFORT"
-set_global_assignment -name PHYSICAL_SYNTHESIS_EFFORT EXTRA
+set_global_assignment -name QIP_FILE ip/short_shift/short_shift.qip
+set_global_assignment -name QIP_FILE ip/long_shift/long_shift.qip
+set_global_assignment -name SOURCE_FILE "db/LimeSDR-Mini_lms7_lelec210x.cmp.rdb"
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

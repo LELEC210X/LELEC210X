@@ -66,3 +66,4 @@ void alt_flash_close_dev(alt_flash_fd* fd)
   }
   return;
 }
+

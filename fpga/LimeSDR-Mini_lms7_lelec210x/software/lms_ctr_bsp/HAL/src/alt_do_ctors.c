@@ -44,7 +44,7 @@
 ******************************************************************************/
 
 /*
- *
+ * 
  */
 
 typedef void (*constructor) (void);
@@ -60,5 +60,5 @@ void _do_ctors(void)
   constructor* ctor;
 
   for (ctor = &__CTOR_END__[-1]; ctor >= __CTOR_LIST__; ctor--)
-        (*ctor) ();
+        (*ctor) (); 
 }

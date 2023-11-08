@@ -1,13 +1,13 @@
 -- (C) 2001-2018 Intel Corporation. All rights reserved.
--- Your use of Intel Corporation's design tools, logic functions and other
--- software and tools, and its AMPP partner logic functions, and any output
--- files from any of the foregoing (including device programming or simulation
--- files), and any associated documentation or information are expressly subject
--- to the terms and conditions of the Intel Program License Subscription
--- Agreement, Intel FPGA IP License Agreement, or other applicable
--- license agreement, including, without limitation, that your use is for the
--- sole purpose of programming logic devices manufactured by Intel and sold by
--- Intel or its authorized distributors.  Please refer to the applicable
+-- Your use of Intel Corporation's design tools, logic functions and other 
+-- software and tools, and its AMPP partner logic functions, and any output 
+-- files from any of the foregoing (including device programming or simulation 
+-- files), and any associated documentation or information are expressly subject 
+-- to the terms and conditions of the Intel Program License Subscription 
+-- Agreement, Intel FPGA IP License Agreement, or other applicable 
+-- license agreement, including, without limitation, that your use is for the 
+-- sole purpose of programming logic devices manufactured by Intel and sold by 
+-- Intel or its authorized distributors.  Please refer to the applicable 
 -- agreement for further details.
 
 
@@ -20,7 +20,7 @@
 --
 -- Project : Avalon Streaming Wrapper for HP FIR
 --
--- Description :
+-- Description : 
 --
 -- This file is the Interface controller for the Avalon Streaming Wrapper.
 -- The control signals between sink, core, and source modules are communicated
@@ -68,11 +68,11 @@ architecture struct of auk_dspip_avalon_streaming_controller_hpfir is
 
 --  attribute maxfan              : integer;
 --  attribute maxfan of stall_reg : signal is 500;
-
+  
 begin
 
   reset_design <= not reset_n;
-
+  
   --should not stop sending data to source module when the sink module is stalled
   --should only stop sending when the source module is stalled
 
@@ -83,6 +83,6 @@ begin
   -- Sink FIFO and FIR core are disabled at the same time
   sink_ready_ctrl <= not(source_stall);
 
-  source_packet_error <= sink_packet_error;
-
+  source_packet_error <= sink_packet_error;  
+  
 end struct;

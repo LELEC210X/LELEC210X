@@ -38,14 +38,14 @@
 /*
  * "_alt_tick_rate" is used to store the value of the system clock frequency
  * in ticks per second. It is initialised to zero, which corresponds to there
- * being no system clock facility available.
+ * being no system clock facility available. 
  */
 
 alt_u32 _alt_tick_rate = 0;
 
 /*
  * "_alt_nticks" is the number of system clock ticks that have elapsed since
- * reset.
+ * reset. 
  */
 
 volatile alt_u32 _alt_nticks = 0;
@@ -58,8 +58,8 @@ volatile alt_u32 _alt_nticks = 0;
 ALT_LLIST_HEAD(alt_alarm_list);
 
 /*
- * alt_alarm_stop() is called to remove an alarm from the list of registered
- * alarms. Alternatively an alarm can unregister itself by returning zero when
+ * alt_alarm_stop() is called to remove an alarm from the list of registered 
+ * alarms. Alternatively an alarm can unregister itself by returning zero when 
  * the alarm executes.
  */
 
@@ -75,12 +75,12 @@ void alt_alarm_stop (alt_alarm* alarm)
 /*
  * alt_tick() is periodically called by the system clock driver in order to
  * process the registered list of alarms. Each alarm is registed with a
- * callback interval, and a callback function, "callback".
+ * callback interval, and a callback function, "callback". 
  *
  * The return value of the callback function indicates how many ticks are to
  * elapse until the next callback. A return value of zero indicates that the
- * alarm should be deactivated.
- *
+ * alarm should be deactivated. 
+ * 
  * alt_tick() is expected to run at interrupt level.
  */
 
@@ -101,17 +101,17 @@ void alt_tick (void)
   {
     next = (alt_alarm*) alarm->llist.next;
 
-    /*
-     * Upon the tick-counter rolling over it is safe to clear the
+    /* 
+     * Upon the tick-counter rolling over it is safe to clear the 
      * roll-over flag; once the flag is cleared this (or subsequnt)
-     * tick events are enabled to generate an alarm event.
+     * tick events are enabled to generate an alarm event. 
      */
     if ((alarm->rollover) && (_alt_nticks == 0))
     {
       alarm->rollover = 0;
     }
-
-    /* if the alarm period has expired, make the callback */
+    
+    /* if the alarm period has expired, make the callback */    
     if ((alarm->time <= _alt_nticks) && (alarm->rollover == 0))
     {
       next_callback = alarm->callback (alarm->context);
@@ -125,8 +125,8 @@ void alt_tick (void)
       else
       {
         alarm->time += next_callback;
-
-        /*
+        
+        /* 
          * If the desired alarm time causes a roll-over, set the rollover
          * flag. This will prevent the subsequent tick event from causing
          * an alarm too early.
@@ -140,9 +140,10 @@ void alt_tick (void)
     alarm = next;
   }
 
-  /*
+  /* 
    * Update the operating system specific timer facilities.
    */
 
   ALT_OS_TIME_TICK();
 }
+

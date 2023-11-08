@@ -40,10 +40,10 @@
 ******************************************************************************/
 
 /*
- * This header provides "do-nothing" macro definitions for operating system
- * hooks within the HAL. The O/S component can override these to provide it's
+ * This header provides "do-nothing" macro definitions for operating system 
+ * hooks within the HAL. The O/S component can override these to provide it's 
  * own implementation.
- */
+ */ 
 
 #define ALT_OS_TIME_TICK() while(0)
 #define ALT_OS_INIT()      while(0)

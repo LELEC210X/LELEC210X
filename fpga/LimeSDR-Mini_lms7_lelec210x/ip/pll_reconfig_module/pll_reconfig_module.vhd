@@ -1,7 +1,7 @@
 -- megafunction wizard: %ALTPLL_RECONFIG%
 -- GENERATION: STANDARD
 -- VERSION: WM1.0
--- MODULE: altpll_reconfig
+-- MODULE: altpll_reconfig 
 
 -- ============================================================
 -- File Name: pll_reconfig_module.vhd
@@ -19,18 +19,18 @@
 
 
 --Copyright (C) 1991-2016 Altera Corporation. All rights reserved.
---Your use of Altera Corporation's design tools, logic functions
---and other software and tools, and its AMPP partner logic
---functions, and any output files from any of the foregoing
---(including device programming or simulation files), and any
---associated documentation or information are expressly subject
---to the terms and conditions of the Altera Program License
+--Your use of Altera Corporation's design tools, logic functions 
+--and other software and tools, and its AMPP partner logic 
+--functions, and any output files from any of the foregoing 
+--(including device programming or simulation files), and any 
+--associated documentation or information are expressly subject 
+--to the terms and conditions of the Altera Program License 
 --Subscription Agreement, the Altera Quartus Prime License Agreement,
---the Altera MegaCore Function License Agreement, or other
---applicable license agreement, including, without limitation,
---that your use is for the sole purpose of programming logic
---devices manufactured by Altera and sold by Altera or its
---authorized distributors.  Please refer to the applicable
+--the Altera MegaCore Function License Agreement, or other 
+--applicable license agreement, including, without limitation, 
+--that your use is for the sole purpose of programming logic 
+--devices manufactured by Altera and sold by Altera or its 
+--authorized distributors.  Please refer to the applicable 
 --agreement for further details.
 
 
@@ -46,13 +46,13 @@
  LIBRARY lpm;
  USE lpm.all;
 
---synthesis_resources = altsyncram 1 lpm_add_sub 2 lpm_compare 1 lpm_counter 8 lpm_decode 1 lut 3 reg 102
+--synthesis_resources = altsyncram 1 lpm_add_sub 2 lpm_compare 1 lpm_counter 8 lpm_decode 1 lut 3 reg 102 
  LIBRARY ieee;
  USE ieee.std_logic_1164.all;
 
- ENTITY  pll_reconfig_module_pllrcfg_ev01 IS
-	 PORT
-	 (
+ ENTITY  pll_reconfig_module_pllrcfg_ev01 IS 
+	 PORT 
+	 ( 
 		 busy	:	OUT  STD_LOGIC;
 		 clock	:	IN  STD_LOGIC;
 		 counter_param	:	IN  STD_LOGIC_VECTOR (2 DOWNTO 0) := (OTHERS => '0');
@@ -76,7 +76,7 @@
 		 write_from_rom	:	IN  STD_LOGIC := '0';
 		 write_param	:	IN  STD_LOGIC := '0';
 		 write_rom_ena	:	OUT  STD_LOGIC
-	 );
+	 ); 
  END pll_reconfig_module_pllrcfg_ev01;
 
  ARCHITECTURE RTL OF pll_reconfig_module_pllrcfg_ev01 IS
@@ -919,7 +919,7 @@
 	 SIGNAL  wire_w_shift_reg_width_select_range278w	:	STD_LOGIC_VECTOR (0 DOWNTO 0);
 	 SIGNAL  wire_w_shift_reg_width_select_range281w	:	STD_LOGIC_VECTOR (0 DOWNTO 0);
 	 COMPONENT  altsyncram
-	 GENERIC
+	 GENERIC 
 	 (
 		ADDRESS_ACLR_A	:	STRING := "UNUSED";
 		ADDRESS_ACLR_B	:	STRING := "NONE";
@@ -972,7 +972,7 @@
 		lpm_type	:	STRING := "altsyncram"
 	 );
 	 PORT
-	 (
+	 ( 
 		aclr0	:	IN STD_LOGIC := '0';
 		aclr1	:	IN STD_LOGIC := '0';
 		address_a	:	IN STD_LOGIC_VECTOR(WIDTHAD_A-1 DOWNTO 0);
@@ -996,10 +996,10 @@
 		rden_b	:	IN STD_LOGIC := '1';
 		wren_a	:	IN STD_LOGIC := '0';
 		wren_b	:	IN STD_LOGIC := '0'
-	 );
+	 ); 
 	 END COMPONENT;
 	 COMPONENT  fiftyfivenm_lcell_comb
-	 GENERIC
+	 GENERIC 
 	 (
 		DONT_TOUCH	:	STRING := "off";
 		LUT_MASK	:	STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
@@ -1007,7 +1007,7 @@
 		lpm_type	:	STRING := "fiftyfivenm_lcell_comb"
 	 );
 	 PORT
-	 (
+	 ( 
 		cin	:	IN STD_LOGIC := '0';
 		combout	:	OUT STD_LOGIC;
 		cout	:	OUT STD_LOGIC;
@@ -1015,10 +1015,10 @@
 		datab	:	IN STD_LOGIC := '0';
 		datac	:	IN STD_LOGIC := '0';
 		datad	:	IN STD_LOGIC := '0'
-	 );
+	 ); 
 	 END COMPONENT;
 	 COMPONENT  lpm_add_sub
-	 GENERIC
+	 GENERIC 
 	 (
 		LPM_DIRECTION	:	STRING := "DEFAULT";
 		LPM_PIPELINE	:	NATURAL := 0;
@@ -1028,7 +1028,7 @@
 		lpm_type	:	STRING := "lpm_add_sub"
 	 );
 	 PORT
-	 (
+	 ( 
 		aclr	:	IN STD_LOGIC := '0';
 		add_sub	:	IN STD_LOGIC := '1';
 		cin	:	IN STD_LOGIC := 'Z';
@@ -1039,10 +1039,10 @@
 		datab	:	IN STD_LOGIC_VECTOR(LPM_WIDTH-1 DOWNTO 0) := (OTHERS => '0');
 		overflow	:	OUT STD_LOGIC;
 		result	:	OUT STD_LOGIC_VECTOR(LPM_WIDTH-1 DOWNTO 0)
-	 );
+	 ); 
 	 END COMPONENT;
 	 COMPONENT  lpm_compare
-	 GENERIC
+	 GENERIC 
 	 (
 		LPM_PIPELINE	:	NATURAL := 0;
 		LPM_REPRESENTATION	:	STRING := "UNSIGNED";
@@ -1051,7 +1051,7 @@
 		lpm_type	:	STRING := "lpm_compare"
 	 );
 	 PORT
-	 (
+	 ( 
 		aclr	:	IN STD_LOGIC := '0';
 		aeb	:	OUT STD_LOGIC;
 		agb	:	OUT STD_LOGIC;
@@ -1063,10 +1063,10 @@
 		clock	:	IN STD_LOGIC := '0';
 		dataa	:	IN STD_LOGIC_VECTOR(LPM_WIDTH-1 DOWNTO 0) := (OTHERS => '0');
 		datab	:	IN STD_LOGIC_VECTOR(LPM_WIDTH-1 DOWNTO 0) := (OTHERS => '0')
-	 );
+	 ); 
 	 END COMPONENT;
 	 COMPONENT  lpm_counter
-	 GENERIC
+	 GENERIC 
 	 (
 		lpm_avalue	:	STRING := "0";
 		lpm_direction	:	STRING := "DEFAULT";
@@ -1078,7 +1078,7 @@
 		lpm_type	:	STRING := "lpm_counter"
 	 );
 	 PORT
-	 (
+	 ( 
 		aclr	:	IN STD_LOGIC := '0';
 		aload	:	IN STD_LOGIC := '0';
 		aset	:	IN STD_LOGIC := '0';
@@ -1094,10 +1094,10 @@
 		sload	:	IN STD_LOGIC := '0';
 		sset	:	IN STD_LOGIC := '0';
 		updown	:	IN STD_LOGIC := '1'
-	 );
+	 ); 
 	 END COMPONENT;
 	 COMPONENT  lpm_decode
-	 GENERIC
+	 GENERIC 
 	 (
 		LPM_DECODES	:	NATURAL;
 		LPM_PIPELINE	:	NATURAL := 0;
@@ -1106,60 +1106,60 @@
 		lpm_type	:	STRING := "lpm_decode"
 	 );
 	 PORT
-	 (
+	 ( 
 		aclr	:	IN STD_LOGIC := '0';
 		clken	:	IN STD_LOGIC := '1';
 		clock	:	IN STD_LOGIC := '0';
 		data	:	IN STD_LOGIC_VECTOR(LPM_WIDTH-1 DOWNTO 0) := (OTHERS => '0');
 		enable	:	IN STD_LOGIC := '1';
 		eq	:	OUT STD_LOGIC_VECTOR(LPM_DECODES-1 DOWNTO 0)
-	 );
+	 ); 
 	 END COMPONENT;
  BEGIN
 
 	wire_gnd <= '0';
-	loop0 : FOR i IN 0 TO 7 GENERATE
+	loop0 : FOR i IN 0 TO 7 GENERATE 
 		wire_w_lg_w_lg_read_addr_counter_out1934w1935w(i) <= wire_w_lg_read_addr_counter_out1934w(i) AND wire_rom_data_state_w_lg_w_lg_q1897w1933w(0);
 	END GENERATE loop0;
-	loop1 : FOR i IN 0 TO 7 GENERATE
+	loop1 : FOR i IN 0 TO 7 GENERATE 
 		wire_w_lg_w_lg_rom_width_counter_enable1931w1932w(i) <= wire_w_lg_rom_width_counter_enable1931w(0) AND addr_from_rom2(i);
 	END GENERATE loop1;
-	loop2 : FOR i IN 0 TO 7 GENERATE
+	loop2 : FOR i IN 0 TO 7 GENERATE 
 		wire_w_lg_addr_counter_out1938w(i) <= addr_counter_out(i) AND addr_counter_enable;
 	END GENERATE loop2;
-	loop3 : FOR i IN 0 TO 7 GENERATE
+	loop3 : FOR i IN 0 TO 7 GENERATE 
 		wire_w_lg_addr_decoder_out1901w(i) <= addr_decoder_out(i) AND wire_write_init_state_w_lg_q1900w(0);
 	END GENERATE loop3;
-	loop4 : FOR i IN 0 TO 7 GENERATE
+	loop4 : FOR i IN 0 TO 7 GENERATE 
 		wire_w_lg_c0_wire1828w(i) <= c0_wire(i) AND wire_w_rotate_decoder_wires_range1823w(0);
 	END GENERATE loop4;
-	loop5 : FOR i IN 0 TO 7 GENERATE
+	loop5 : FOR i IN 0 TO 7 GENERATE 
 		wire_w_lg_c1_wire1827w(i) <= c1_wire(i) AND wire_w_rotate_decoder_wires_range1822w(0);
 	END GENERATE loop5;
-	loop6 : FOR i IN 0 TO 7 GENERATE
+	loop6 : FOR i IN 0 TO 7 GENERATE 
 		wire_w_lg_c2_wire1826w(i) <= c2_wire(i) AND wire_w_rotate_decoder_wires_range1821w(0);
 	END GENERATE loop6;
-	loop7 : FOR i IN 0 TO 7 GENERATE
+	loop7 : FOR i IN 0 TO 7 GENERATE 
 		wire_w_lg_c3_wire1825w(i) <= c3_wire(i) AND wire_w_rotate_decoder_wires_range1820w(0);
 	END GENERATE loop7;
-	loop8 : FOR i IN 0 TO 7 GENERATE
+	loop8 : FOR i IN 0 TO 7 GENERATE 
 		wire_w_lg_c4_wire1824w(i) <= c4_wire(i) AND wire_w_rotate_decoder_wires_range1819w(0);
 	END GENERATE loop8;
-	loop9 : FOR i IN 0 TO 7 GENERATE
+	loop9 : FOR i IN 0 TO 7 GENERATE 
 		wire_w_lg_read_addr_counter_out1887w(i) <= read_addr_counter_out(i) AND wire_rom_first_state_w_lg_w_lg_q1885w1886w(0);
 	END GENERATE loop9;
-	loop10 : FOR i IN 0 TO 7 GENERATE
+	loop10 : FOR i IN 0 TO 7 GENERATE 
 		wire_w_lg_read_addr_counter_out1934w(i) <= read_addr_counter_out(i) AND read_addr_counter_enable;
 	END GENERATE loop10;
-	loop11 : FOR i IN 0 TO 7 GENERATE
+	loop11 : FOR i IN 0 TO 7 GENERATE 
 		wire_w_lg_read_addr_decoder_out1893w(i) <= read_addr_decoder_out(i) AND wire_read_init_state_w_lg_q1891w(0);
 	END GENERATE loop11;
-	loop12 : FOR i IN 0 TO 7 GENERATE
+	loop12 : FOR i IN 0 TO 7 GENERATE 
 		wire_w_lg_reconfig_addr_counter_out1936w(i) <= reconfig_addr_counter_out(i) AND reconfig_addr_counter_enable;
 	END GENERATE loop12;
 	wire_w_lg_rom_data_in1946w(0) <= rom_data_in AND wire_rom_first_state_w_lg_w_lg_w_lg_q1943w1944w1945w(0);
 	wire_w_lg_rom_width_counter_enable1931w(0) <= rom_width_counter_enable AND wire_rom_data_state_w_lg_w_lg_q1929w1930w(0);
-	loop13 : FOR i IN 0 TO 7 GENERATE
+	loop13 : FOR i IN 0 TO 7 GENERATE 
 		wire_w_lg_rotate_addr_counter_out1937w(i) <= rotate_addr_counter_out(i) AND rotate_addr_counter_enable;
 	END GENERATE loop13;
 	wire_w_lg_shift_reg_load_enable187w(0) <= shift_reg_load_enable AND wire_w_data_in_range184w(0);
@@ -1396,7 +1396,7 @@
 		WIDTHAD_A => 8,
 		INTENDED_DEVICE_FAMILY => "MAX 10"
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		address_a => scan_cache_address,
 		clock0 => clock,
 		data_a => wire_altsyncram4_data_a,
@@ -1409,7 +1409,7 @@
 		LUT_MASK => "1111000011110000",
 		SUM_LUTC_INPUT => "datac"
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		combout => wire_le_comb10_combout,
 		dataa => encode_out(0),
 		datab => encode_out(1),
@@ -1421,7 +1421,7 @@
 		LUT_MASK => "1010101010101010",
 		SUM_LUTC_INPUT => "datac"
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		combout => wire_le_comb8_combout,
 		dataa => encode_out(0),
 		datab => encode_out(1),
@@ -1433,7 +1433,7 @@
 		LUT_MASK => "1100110011001100",
 		SUM_LUTC_INPUT => "datac"
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		combout => wire_le_comb9_combout,
 		dataa => encode_out(0),
 		datab => encode_out(1),
@@ -1530,7 +1530,7 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN counter_param_latch_reg <= (OTHERS => '0');
-		ELSIF (clock = '1' AND clock'event) THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
 			IF (input_latch_enable = '1') THEN counter_param_latch_reg <= counter_param;
 			END IF;
 		END IF;
@@ -1538,7 +1538,7 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN counter_type_latch_reg <= (OTHERS => '0');
-		ELSIF (clock = '1' AND clock'event) THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
 			IF (input_latch_enable = '1') THEN counter_type_latch_reg <= counter_type;
 			END IF;
 		END IF;
@@ -1766,10 +1766,10 @@
 		ELSIF (clock = '1' AND clock'event) THEN reconfig_seq_ena_state <= tmp_seq_ena_state;
 		END IF;
 	END PROCESS;
-	loop14 : FOR i IN 0 TO 7 GENERATE
+	loop14 : FOR i IN 0 TO 7 GENERATE 
 		wire_reconfig_seq_ena_state_w_lg_q1903w(i) <= reconfig_seq_ena_state AND seq_addr_wire(i);
 	END GENERATE loop14;
-	loop15 : FOR i IN 0 TO 5 GENERATE
+	loop15 : FOR i IN 0 TO 5 GENERATE 
 		wire_reconfig_seq_ena_state_w_lg_q1904w(i) <= reconfig_seq_ena_state AND seq_sload_value(i);
 	END GENERATE loop15;
 	wire_reconfig_seq_ena_state_w_lg_q1702w(0) <= NOT reconfig_seq_ena_state;
@@ -1848,8 +1848,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg0 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(0) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(0) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg0 <= '0';
 				ELSE shift_reg0 <= ((((shift_reg_load_nominal_enable AND nominal_data17) OR (shift_reg_load_enable AND w64w)) OR (shift_reg_shift_enable AND shift_reg_serial_in)) OR (shift_reg_shift_nominal_enable AND shift_reg_serial_in));
 				END IF;
@@ -1861,8 +1861,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg1 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(1) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(1) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg1 <= '0';
 				ELSE shift_reg1 <= ((((shift_reg_load_nominal_enable AND nominal_data16) OR (shift_reg_load_enable AND w64w)) OR (shift_reg_shift_enable AND shift_reg0)) OR (shift_reg_shift_nominal_enable AND shift_reg0));
 				END IF;
@@ -1874,8 +1874,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg2 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(2) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(2) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg2 <= '0';
 				ELSE shift_reg2 <= ((((shift_reg_load_nominal_enable AND nominal_data15) OR (shift_reg_load_enable AND w64w)) OR (shift_reg_shift_enable AND shift_reg1)) OR (shift_reg_shift_nominal_enable AND shift_reg1));
 				END IF;
@@ -1887,8 +1887,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg3 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(3) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(3) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg3 <= '0';
 				ELSE shift_reg3 <= ((((shift_reg_load_nominal_enable AND nominal_data14) OR (shift_reg_load_enable AND w64w)) OR (shift_reg_shift_enable AND shift_reg2)) OR (shift_reg_shift_nominal_enable AND shift_reg2));
 				END IF;
@@ -1900,8 +1900,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg4 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(4) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(4) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg4 <= '0';
 				ELSE shift_reg4 <= ((((shift_reg_load_nominal_enable AND nominal_data13) OR (shift_reg_load_enable AND w64w)) OR (shift_reg_shift_enable AND shift_reg3)) OR (shift_reg_shift_nominal_enable AND shift_reg3));
 				END IF;
@@ -1913,8 +1913,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg5 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(5) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(5) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg5 <= '0';
 				ELSE shift_reg5 <= ((((shift_reg_load_nominal_enable AND nominal_data12) OR (shift_reg_load_enable AND w64w)) OR (shift_reg_shift_enable AND shift_reg4)) OR (shift_reg_shift_nominal_enable AND shift_reg4));
 				END IF;
@@ -1926,8 +1926,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg6 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(6) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(6) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg6 <= '0';
 				ELSE shift_reg6 <= ((((shift_reg_load_nominal_enable AND nominal_data11) OR (shift_reg_load_enable AND w64w)) OR (shift_reg_shift_enable AND shift_reg5)) OR (shift_reg_shift_nominal_enable AND shift_reg5));
 				END IF;
@@ -1939,8 +1939,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg7 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(7) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(7) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg7 <= '0';
 				ELSE shift_reg7 <= ((((shift_reg_load_nominal_enable AND nominal_data10) OR (shift_reg_load_enable AND w64w)) OR (shift_reg_shift_enable AND shift_reg6)) OR (shift_reg_shift_nominal_enable AND shift_reg6));
 				END IF;
@@ -1952,8 +1952,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg8 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(8) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(8) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg8 <= '0';
 				ELSE shift_reg8 <= ((((shift_reg_load_nominal_enable AND nominal_data9) OR (shift_reg_load_enable AND w64w)) OR (shift_reg_shift_enable AND shift_reg7)) OR (shift_reg_shift_nominal_enable AND shift_reg7));
 				END IF;
@@ -1965,8 +1965,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg9 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(9) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(9) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg9 <= '0';
 				ELSE shift_reg9 <= ((((shift_reg_load_nominal_enable AND nominal_data8) OR wire_w_lg_shift_reg_load_enable123w(0)) OR (shift_reg_shift_enable AND shift_reg8)) OR (shift_reg_shift_nominal_enable AND shift_reg8));
 				END IF;
@@ -1976,8 +1976,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg10 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(10) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(10) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg10 <= '0';
 				ELSE shift_reg10 <= ((((shift_reg_load_nominal_enable AND nominal_data7) OR wire_w_lg_shift_reg_load_enable131w(0)) OR (shift_reg_shift_enable AND shift_reg9)) OR (shift_reg_shift_nominal_enable AND shift_reg9));
 				END IF;
@@ -1987,8 +1987,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg11 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(11) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(11) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg11 <= '0';
 				ELSE shift_reg11 <= ((((shift_reg_load_nominal_enable AND nominal_data6) OR wire_w_lg_shift_reg_load_enable139w(0)) OR (shift_reg_shift_enable AND shift_reg10)) OR (shift_reg_shift_nominal_enable AND shift_reg10));
 				END IF;
@@ -1998,8 +1998,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg12 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(12) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(12) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg12 <= '0';
 				ELSE shift_reg12 <= ((((shift_reg_load_nominal_enable AND nominal_data5) OR wire_w_lg_shift_reg_load_enable147w(0)) OR (shift_reg_shift_enable AND shift_reg11)) OR (shift_reg_shift_nominal_enable AND shift_reg11));
 				END IF;
@@ -2009,8 +2009,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg13 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(13) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(13) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg13 <= '0';
 				ELSE shift_reg13 <= ((((shift_reg_load_nominal_enable AND nominal_data4) OR wire_w_lg_shift_reg_load_enable155w(0)) OR (shift_reg_shift_enable AND shift_reg12)) OR (shift_reg_shift_nominal_enable AND shift_reg12));
 				END IF;
@@ -2020,8 +2020,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg14 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(14) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(14) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg14 <= '0';
 				ELSE shift_reg14 <= ((((shift_reg_load_nominal_enable AND nominal_data3) OR wire_w_lg_shift_reg_load_enable163w(0)) OR (shift_reg_shift_enable AND shift_reg13)) OR (shift_reg_shift_nominal_enable AND shift_reg13));
 				END IF;
@@ -2031,8 +2031,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg15 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(15) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(15) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg15 <= '0';
 				ELSE shift_reg15 <= ((((shift_reg_load_nominal_enable AND nominal_data2) OR wire_w_lg_shift_reg_load_enable171w(0)) OR (shift_reg_shift_enable AND shift_reg14)) OR (shift_reg_shift_nominal_enable AND shift_reg14));
 				END IF;
@@ -2042,8 +2042,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg16 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(16) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(16) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg16 <= '0';
 				ELSE shift_reg16 <= ((((shift_reg_load_nominal_enable AND nominal_data1) OR wire_w_lg_shift_reg_load_enable179w(0)) OR (shift_reg_shift_enable AND shift_reg15)) OR (shift_reg_shift_nominal_enable AND shift_reg15));
 				END IF;
@@ -2053,8 +2053,8 @@
 	PROCESS (clock, reset)
 	BEGIN
 		IF (reset = '1') THEN shift_reg17 <= '0';
-		ELSIF (clock = '1' AND clock'event) THEN
-			IF (wire_shift_reg_ena(17) = '1') THEN
+		ELSIF (clock = '1' AND clock'event) THEN 
+			IF (wire_shift_reg_ena(17) = '1') THEN 
 				IF (shift_reg_clear = '1') THEN shift_reg17 <= '0';
 				ELSE shift_reg17 <= ((((shift_reg_load_nominal_enable AND nominal_data0) OR wire_w_lg_shift_reg_load_enable187w(0)) OR (shift_reg_shift_enable AND shift_reg16)) OR (shift_reg_shift_nominal_enable AND shift_reg16));
 				END IF;
@@ -2137,7 +2137,7 @@
 	  GENERIC MAP (
 		LPM_WIDTH => 9
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		cin => wire_gnd,
 		dataa => wire_add_sub5_dataa,
 		datab => wire_add_sub5_datab,
@@ -2148,7 +2148,7 @@
 	  GENERIC MAP (
 		LPM_WIDTH => 8
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		cin => data_in(0),
 		dataa => wire_add_sub6_dataa,
 		result => wire_add_sub6_result
@@ -2159,7 +2159,7 @@
 	  GENERIC MAP (
 		LPM_WIDTH => 8
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		aeb => wire_cmpr7_aeb,
 		dataa => wire_cmpr7_dataa,
 		datab => wire_cmpr7_datab
@@ -2171,7 +2171,7 @@
 		lpm_port_updown => "PORT_UNUSED",
 		lpm_width => 8
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		clock => clock,
 		cnt_en => addr_counter_enable,
 		data => addr_counter_sload_value,
@@ -2185,7 +2185,7 @@
 		lpm_port_updown => "PORT_UNUSED",
 		lpm_width => 8
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		clock => clock,
 		cnt_en => reconfig_addr_counter_enable,
 		data => reconfig_addr_counter_sload_value,
@@ -2198,7 +2198,7 @@
 		lpm_port_updown => "PORT_UNUSED",
 		lpm_width => 6
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		clock => clock,
 		cnt_en => reconfig_width_counter_enable,
 		data => reconfig_width_counter_sload_value,
@@ -2211,7 +2211,7 @@
 		lpm_port_updown => "PORT_UNUSED",
 		lpm_width => 8
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		clock => clock,
 		cnt_en => rom_width_counter_enable,
 		data => rom_width_counter_sload_value,
@@ -2224,7 +2224,7 @@
 		lpm_port_updown => "PORT_UNUSED",
 		lpm_width => 5
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		clock => clock,
 		cnt_en => rotate_width_counter_enable,
 		data => rotate_width_counter_sload_value,
@@ -2238,7 +2238,7 @@
 		lpm_port_updown => "PORT_UNUSED",
 		lpm_width => 8
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		clock => clock,
 		cnt_en => rotate_addr_counter_enable,
 		data => rotate_addr_counter_sload_value,
@@ -2251,7 +2251,7 @@
 		lpm_port_updown => "PORT_UNUSED",
 		lpm_width => 8
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		clock => clock,
 		cnt_en => read_addr_counter_enable,
 		data => read_addr_counter_sload_value,
@@ -2264,7 +2264,7 @@
 		lpm_port_updown => "PORT_UNUSED",
 		lpm_width => 5
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		clock => clock,
 		cnt_en => width_counter_enable,
 		data => width_counter_sload_value,
@@ -2276,7 +2276,7 @@
 		LPM_DECODES => 5,
 		LPM_WIDTH => 3
 	  )
-	  PORT MAP (
+	  PORT MAP ( 
 		data => cuda_combout_wire,
 		eq => wire_decode11_eq
 	  );
@@ -2313,7 +2313,7 @@ ENTITY pll_reconfig_module IS
 		pll_scanclkena		: OUT STD_LOGIC ;
 		pll_scandata		: OUT STD_LOGIC ;
 		rom_address_out		: OUT STD_LOGIC_VECTOR (7 DOWNTO 0);
-		write_rom_ena		: OUT STD_LOGIC
+		write_rom_ena		: OUT STD_LOGIC 
 	);
 END pll_reconfig_module;
 
@@ -2362,7 +2362,7 @@ ARCHITECTURE RTL OF pll_reconfig_module IS
 			pll_scanclkena	: OUT STD_LOGIC ;
 			pll_scandata	: OUT STD_LOGIC ;
 			rom_address_out	: OUT STD_LOGIC_VECTOR (7 DOWNTO 0);
-			write_rom_ena	: OUT STD_LOGIC
+			write_rom_ena	: OUT STD_LOGIC 
 	);
 	END COMPONENT;
 

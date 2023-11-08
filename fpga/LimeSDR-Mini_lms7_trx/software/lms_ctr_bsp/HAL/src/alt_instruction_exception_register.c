@@ -50,8 +50,8 @@
 #include "priv/alt_exception_handler_registry.h"
 
 /*
- * Pull in the exception entry assembly code. This will not be linked in
- * unless this object is linked into the executable (i.e. only if
+ * Pull in the exception entry assembly code. This will not be linked in 
+ * unless this object is linked into the executable (i.e. only if 
  * alt_instruction_exception_register() is called).
  */
 __asm__( "\n\t.globl alt_exception" );
@@ -60,8 +60,8 @@ __asm__( "\n\t.globl alt_exception" );
  * alt_instruction_exception_register() is called to register a handler to
  * service instruction-generated exceptions that are not handled by the
  * default exception handler code (interrupts, and optionally unimplemented
- * instructions and traps).
- *
+ * instructions and traps). 
+ * 
  * Passing null (0x0) in the handler argument will disable a previously-
  * registered handler.
  *

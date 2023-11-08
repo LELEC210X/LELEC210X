@@ -1,10 +1,10 @@
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------	
 -- FILE:    delay_chain.vhd
 -- DESCRIPTION:   describe file
 -- DATE: April 27, 2021
 -- AUTHOR(s):  Lime Microsystems, Julien Verecken
 -- REVISIONS:
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------	
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -13,7 +13,7 @@ use ieee.numeric_std.all;
 -- Entity declaration
 -- ----------------------------------------------------------------------------
 entity delay_chain is
-   generic(
+   generic( 
 		data_width : integer := 64; --data width
       delay      : integer := 6   --delay in clock cycles
       );
@@ -39,22 +39,22 @@ begin
 -- ----------------------------------------------------------------------------
 -- There is 6 clock cycle latency from smpl_fifo_inst1 to packet formation
 -- and smpl_cnt has to be delayed 6 cycles
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------        
 delay_registers : process(clk, reset_n)
 begin
-   if reset_n = '0' then
+   if reset_n = '0' then 
       delay_chain <= (others=>(others=>'0'));
-   elsif (clk'event AND clk='1') then
+   elsif (clk'event AND clk='1') then 
       for i in 0 to 5 loop
-         if i=0 then
+         if i=0 then 
             delay_chain(i) <= data_in;
-         else
+         else 
             delay_chain(i) <= delay_chain(i-1);
          end if;
       end loop;
    end if;
 end process;
-
-data_out <=  delay_chain(5);
-
+        
+data_out <=  delay_chain(5);      
+  
 end arch;

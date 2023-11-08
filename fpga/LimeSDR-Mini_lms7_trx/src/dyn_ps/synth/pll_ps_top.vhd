@@ -8,7 +8,7 @@
 
 -- ----------------------------------------------------------------------------
 --NOTES: in auto mode pll_ps_fsm automatically adjust C1 output clock phase
--- to get correct samples from external interface (checking is done trough
+-- to get correct samples from external interface (checking is done trough 
 -- smpl_cmp module)
 -- ----------------------------------------------------------------------------
 library ieee;
@@ -27,16 +27,16 @@ entity pll_ps_top is
       ps_en                         : in std_logic; -- rising edge triggers dynamic phase shift
       ps_mode                       : in std_logic; -- 0 - manual, 1 - auto
       ps_tst                        : in std_logic;
-      ps_cnt                        : in std_logic_vector(2 downto 0);
+      ps_cnt                        : in std_logic_vector(2 downto 0); 
                                                    -- 000 - ALL, 001 -   M, 010 - C0,
                                                    -- 011 -  C1, 100 -  C2, 101 - C3,
                                                    -- 110 -  C4
-      ps_updwn                      : in std_logic; -- 1- UP, 0 - DOWN
+      ps_updwn                      : in std_logic; -- 1- UP, 0 - DOWN 
       ps_phase                      : in std_logic_vector(9 downto 0); -- phase value in steps
       ps_step_size                  : in std_logic_vector(9 downto 0);
       ps_busy                       : out std_logic;
       ps_done                       : out std_logic;
-      ps_status                     : out std_logic;
+      ps_status                     : out std_logic;     
       --pll ports
       pll_phasecounterselect        : out std_logic_vector(2 downto 0);
       pll_phaseupdown               : out std_logic;
@@ -49,7 +49,7 @@ entity pll_ps_top is
       smpl_cmp_en                   : out std_logic;
       smpl_cmp_done                 : in std_logic;
       smpl_cmp_error                : in std_logic
-
+            
       );
 end pll_ps_top;
 
@@ -80,13 +80,13 @@ signal inst1_ps_reset_at_start: std_logic;
 
 signal ps_en_tst              : std_logic;
 signal ps_disable_cnt         : unsigned(7 downto 0);
-
-
+   
+   
 type state_type is (idle, check_mode, ps_enable, ps_disable);
 signal current_state, next_state : state_type;
 
 
-
+  
 begin
 
 -- ----------------------------------------------------------------------------
@@ -94,25 +94,25 @@ begin
 -- ----------------------------------------------------------------------------
    process(clk, reset_n)
    begin
-      if reset_n = '0' then
+      if reset_n = '0' then 
          ps_tst_reg  <= '0';
          ps_en_reg   <= '0';
-      elsif (clk'event AND clk='1') then
+      elsif (clk'event AND clk='1') then 
          ps_tst_reg  <= ps_tst;
          ps_en_reg   <= ps_en;
       end if;
    end process;
-
-
+   
+   
 -- ----------------------------------------------------------------------------
 -- state machine for testing
 -- ----------------------------------------------------------------------------
 fsm_f : process(clk, reset_n)begin
    if(reset_n = '0')then
       current_state  <= idle;
-   elsif(clk'event and clk = '1')then
+   elsif(clk'event and clk = '1')then 
       current_state <= next_state;
-   end if;
+   end if;	
 end process;
 
 -- ----------------------------------------------------------------------------
@@ -122,45 +122,45 @@ fsm : process(current_state, ps_tst, ps_en_reg, ps_en, inst1_ps_done, ps_disable
                inst1_ps_status) begin
    next_state <= current_state;
    case current_state is
-
+   
       when idle =>                     -- wait for start
-         if ps_en = '1' AND ps_en_reg = '0' then
+         if ps_en = '1' AND ps_en_reg = '0' then 
             next_state <= check_mode;
-         else
+         else 
             next_state <= idle;
          end if;
-
+         
       when check_mode =>               --check if this is test mode
-         if ps_tst = '1' then
+         if ps_tst = '1' then 
             next_state <= ps_enable;
-         else
+         else 
             next_state <= idle;
          end if;
-
+      
       when ps_enable =>                -- enable and wait for done
-         if inst1_ps_done = '1' then
-            if inst1_ps_status = '1' then
+         if inst1_ps_done = '1' then 
+            if inst1_ps_status = '1' then 
                next_state <= idle;
-            else
+            else 
                next_state <= ps_disable;
             end if;
-         else
+         else 
             next_state <= ps_enable;
          end if;
-
+         
       when ps_disable =>               -- diable and go to idle or enable again
-         if ps_disable_cnt > 7 then
-            if ps_en = '1' then
+         if ps_disable_cnt > 7 then 
+            if ps_en = '1' then 
                next_state <= ps_enable;
-            else
+            else 
                next_state <= idle;
             end if;
-         else
+         else 
             next_state <= ps_disable;
          end if;
 
-
-      when others =>
+         
+      when others => 
          next_state <= idle;
    end case;
 end process;
@@ -172,12 +172,12 @@ end process;
 -- ----------------------------------------------------------------------------
    process(clk, reset_n)
    begin
-      if reset_n = '0' then
+      if reset_n = '0' then 
          ps_disable_cnt  <= (others=> '0');
-      elsif (clk'event AND clk='1') then
-         if current_state = ps_disable then
+      elsif (clk'event AND clk='1') then 
+         if current_state = ps_disable then 
             ps_disable_cnt <= ps_disable_cnt + 1;
-         else
+         else 
             ps_disable_cnt  <= (others=> '0');
          end if;
       end if;
@@ -185,15 +185,15 @@ end process;
 
    process(clk, reset_n)
    begin
-      if reset_n = '0' then
+      if reset_n = '0' then 
          inst1_ps_en  <= '0';
-      elsif (clk'event AND clk='1') then
-         if ps_tst = '0' then
+      elsif (clk'event AND clk='1') then 
+         if ps_tst = '0' then 
             inst1_ps_en <= ps_en;
-         else
-            if current_state = ps_enable then
+         else 
+            if current_state = ps_enable then 
                inst1_ps_en <= '1';
-            else
+            else 
                inst1_ps_en <= '0';
             end if;
          end if;
@@ -202,7 +202,7 @@ end process;
 
 -- ----------------------------------------------------------------------------
 -- lower level instances
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------   
 pll_ps_inst0 : entity work.pll_ps
    port map(
       clk                     => clk,
@@ -211,7 +211,7 @@ pll_ps_inst0 : entity work.pll_ps
       en                      => inst1_ps_ctrl_en,
       phase                   => inst1_ps_ctrl_phase,
       cnt                     => inst1_ps_ctrl_cnt,
-      updown                  => inst1_ps_ctrl_updown,
+      updown                  => inst1_ps_ctrl_updown,    
       --pll ports
       pll_phasecounterselect  => pll_phasecounterselect,
       pll_phaseupdown         => pll_phaseupdown,
@@ -219,13 +219,13 @@ pll_ps_inst0 : entity work.pll_ps
       pll_phasedone           => pll_phasedone
 
       );
+   
 
 
-
--- C3 counter (RX interface) is configured first with PLL reset,
+-- C3 counter (RX interface) is configured first with PLL reset, 
 -- C1 counter (TX interface) is configured later without PLL reset.
 inst1_ps_reset_at_start <= '0' when ps_cnt = "011" else '1';
-
+   
 pll_ps_fsm_inst1 : entity work.pll_ps_fsm
    port map(
       clk               => clk,
@@ -255,15 +255,17 @@ pll_ps_fsm_inst1 : entity work.pll_ps_fsm
       smpl_cmp_done     => smpl_cmp_done,
       smpl_cmp_error    => smpl_cmp_error
       );
-
-
-
+      
+   
+   
    --output ports
    ps_done        <= inst1_ps_done;
    ps_status      <= inst1_ps_status;
    smpl_cmp_en    <= inst1_smpl_cmp_en;
    pll_reset_req  <= inst1_pll_reset_req;
+   
+
+  
+end arch;   
 
 
-
-end arch;

@@ -1,4 +1,4 @@
-# ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------	
 # FILE: 	compile.tcl
 # DESCRIPTION:	General compile script for ModelSim - Altera
 # DATE:	Jan 19, 2017
@@ -6,7 +6,7 @@
 # REVISIONS: 1.0
 # ----------------------------------------------------------------------------
 
-#This line is useful when Notepad++ text editor is used instead of default
+#This line is useful when Notepad++ text editor is used instead of default 
 #ModelSim text editor
 #Set in ModelSim console (Needs to be done once)
 #set PrefSource(altEditor) external_editor
@@ -17,7 +17,7 @@ proc external_editor {filename linenumber} { exec Notepad++.exe -n$linenumber $f
 
 
 puts {
- ----------------------------------------------------------------------------
+ ----------------------------------------------------------------------------	
  FILE: 	compile.tcl
  DESCRIPTION:	General compile script for ModelSim - Altera
  DATE:	Jan 19, 2017
@@ -57,10 +57,10 @@ set library_file_list {
                                             ../pulse_gen/synth/pulse_gen.vhd
                                             synth/tx_path_top.vhd
                                             sim/tx_path_top_tb.vhd
-
-
-
-
+                                            
+                                            
+                                            
+                                            
                            }
 }
 
@@ -110,3 +110,7 @@ puts {
  rr = Recompile everything
   q = Quit without confirmation
 }
+
+
+
+

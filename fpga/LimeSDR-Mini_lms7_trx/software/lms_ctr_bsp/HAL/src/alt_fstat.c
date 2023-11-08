@@ -41,13 +41,13 @@
 
 /*
  * The fstat() system call is used to obtain information about the capabilities
- * of an open file descriptor. By default file descriptors are marked as
- * being character devices. If a device or file system wishes to advertise
+ * of an open file descriptor. By default file descriptors are marked as 
+ * being character devices. If a device or file system wishes to advertise 
  * alternative capabilities then they can register an fstat() function within
  * their associated alt_dev structure. This will be called to fill in the
  * entries in the imput "st" structure.
  *
- * This function is provided for compatability with newlib.
+ * This function is provided for compatability with newlib. 
  *
  * ALT_FSTAT is mapped onto the fstat() system call in alt_syscall.h
  */
@@ -57,7 +57,7 @@
 #include "system.h"
 
 /*
- * Provide minimal version that just describes all file descriptors
+ * Provide minimal version that just describes all file descriptors 
  * as character devices for provided stdio devices.
  */
 int ALT_FSTAT (int file, struct stat *st)
@@ -97,7 +97,7 @@ int ALT_FSTAT (int file, struct stat *st)
    */
 
   fd = (file < 0) ? NULL : &alt_fd_list[file];
-
+  
   if (fd)
   {
     /* Call the drivers fstat() function to fill out the "st" structure. */
@@ -107,11 +107,11 @@ int ALT_FSTAT (int file, struct stat *st)
       return fd->dev->fstat(fd, st);
     }
 
-    /*
-     * If no function is provided, mark the fd as belonging to a character
+    /* 
+     * If no function is provided, mark the fd as belonging to a character 
      * device.
      */
-
+ 
     else
     {
       st->st_mode = _IFCHR;

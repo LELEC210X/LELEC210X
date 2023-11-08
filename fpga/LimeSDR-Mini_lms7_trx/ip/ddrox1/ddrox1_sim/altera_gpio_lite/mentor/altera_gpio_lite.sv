@@ -11,9 +11,9 @@
 // documentation or information are expressly subject to the
 // terms and conditions of the Altera Program License Subscription
 // Agreement, the Altera Quartus Prime License Agreement, the Altera
-// MegaCore Function License Agreement, or other applicable
+// MegaCore Function License Agreement, or other applicable 
 // license agreement, including, without limitation, that your
-// use is for the sole purpose of simulating designs for use
+// use is for the sole purpose of simulating designs for use 
 // exclusively in logic devices manufactured by Altera and sold
 // by Altera or its authorized distributors. Please refer to the
 // applicable agreement for further details. Altera products and

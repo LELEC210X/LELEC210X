@@ -1,0 +1,57 @@
+# system info fir_tb_gen_tb on 2023.11.01.09:14:38
+system_info:
+name,value
+DEVICE,10M16SAU169C8G
+DEVICE_FAMILY,MAX 10
+GENERATION_ID,1698826472
+#
+#
+# Files generated for fir_tb_gen_tb on 2023.11.01.09:14:38
+files:
+filepath,kind,attributes,module,is_top
+ip/fir/testbench/fir_tb_gen_tb/simulation/fir_tb_gen_tb.v,VERILOG,,fir_tb_gen_tb,true
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/fir_tb_gen.v,VERILOG,,fir_tb_gen,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/verbosity_pkg.sv,SYSTEM_VERILOG, COMMON_SYSTEMVERILOG_PACKAGE=avalon_vip_verbosity_pkg,altera_avalon_clock_source,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/altera_avalon_clock_source.sv,SYSTEM_VERILOG,,altera_avalon_clock_source,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/verbosity_pkg.sv,SYSTEM_VERILOG, COMMON_SYSTEMVERILOG_PACKAGE=avalon_vip_verbosity_pkg,altera_avalon_st_source_bfm,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv,SYSTEM_VERILOG, COMMON_SYSTEMVERILOG_PACKAGE=avalon_vip_avalon_utilities_pkg,altera_avalon_st_source_bfm,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/altera_avalon_st_source_bfm.sv,SYSTEM_VERILOG,,altera_avalon_st_source_bfm,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/verbosity_pkg.sv,SYSTEM_VERILOG, COMMON_SYSTEMVERILOG_PACKAGE=avalon_vip_verbosity_pkg,altera_avalon_st_sink_bfm,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv,SYSTEM_VERILOG, COMMON_SYSTEMVERILOG_PACKAGE=avalon_vip_avalon_utilities_pkg,altera_avalon_st_sink_bfm,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/altera_avalon_st_sink_bfm.sv,SYSTEM_VERILOG,,altera_avalon_st_sink_bfm,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/verbosity_pkg.sv,SYSTEM_VERILOG, COMMON_SYSTEMVERILOG_PACKAGE=avalon_vip_verbosity_pkg,altera_avalon_reset_source,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/altera_avalon_reset_source.sv,SYSTEM_VERILOG,,altera_avalon_reset_source,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/dspba_library_package.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/dspba_library.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/auk_dspip_math_pkg_hpfir.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/auk_dspip_lib_pkg_hpfir.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/auk_dspip_avalon_streaming_controller_hpfir.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/auk_dspip_avalon_streaming_sink_hpfir.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/auk_dspip_avalon_streaming_source_hpfir.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/auk_dspip_roundsat_hpfir.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/altera_avalon_sc_fifo.v,VERILOG,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/fir_tb_gen_fir_compiler_ii_0_rtl_core.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/fir_tb_gen_fir_compiler_ii_0_ast.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/fir_tb_gen_fir_compiler_ii_0.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/fir_tb_gen_fir_compiler_ii_0_nativelink.tcl,OTHER,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/fir_tb_gen_fir_compiler_ii_0_msim.tcl,OTHER,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/fir_tb_gen_fir_compiler_ii_0_tb.vhd,VHDL,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/fir_tb_gen_fir_compiler_ii_0_mlab.m,OTHER,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/fir_tb_gen_fir_compiler_ii_0_model.m,OTHER,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/fir_tb_gen_fir_compiler_ii_0_coef_int.txt,OTHER,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/fir_tb_gen_fir_compiler_ii_0_input.txt,OTHER,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/fir_tb_gen_fir_compiler_ii_0_param.txt,OTHER,,fir_tb_gen_fir_compiler_ii_0,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/altera_reset_controller.v,VERILOG,,altera_reset_controller,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/altera_reset_synchronizer.v,VERILOG,,altera_reset_controller,false
+ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/altera_reset_controller.sdc,SDC,,altera_reset_controller,false
+#
+# Map from instance-path to kind of module
+instances:
+instancePath,module
+fir_tb_gen_tb.fir_tb_gen_inst,fir_tb_gen
+fir_tb_gen_tb.fir_tb_gen_inst.fir_compiler_ii_0,fir_tb_gen_fir_compiler_ii_0
+fir_tb_gen_tb.fir_tb_gen_inst.rst_controller,altera_reset_controller
+fir_tb_gen_tb.fir_tb_gen_inst_clk_bfm,altera_avalon_clock_source
+fir_tb_gen_tb.fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm,altera_avalon_st_source_bfm
+fir_tb_gen_tb.fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm,altera_avalon_st_sink_bfm
+fir_tb_gen_tb.fir_tb_gen_inst_reset_bfm,altera_avalon_reset_source

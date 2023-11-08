@@ -42,11 +42,11 @@
 int ALT_CLOSE (int fildes)
 {
   /* Generate a link time warning, should this function ever be called. */
-
+  
   ALT_STUB_WARNING(close);
-
+  
   /* Indicate an error */
-
+  
   ALT_ERRNO = ENOSYS;
   return -1;
 }
@@ -55,12 +55,12 @@ int ALT_CLOSE (int fildes)
 
 /*
  * close() is called by an application to release a file descriptor. If the
- * associated file system/device has a close() callback function registered
+ * associated file system/device has a close() callback function registered 
  * then this called. The file descriptor is then marked as free.
  *
  * ALT_CLOSE is mapped onto the close() system call in alt_syscall.h
  */
-
+ 
 int ALT_CLOSE (int fildes)
 {
   alt_fd* fd;
@@ -77,7 +77,7 @@ int ALT_CLOSE (int fildes)
   if (fd)
   {
     /*
-     * If the associated file system/device has a close function, call it so
+     * If the associated file system/device has a close function, call it so 
      * that any necessary cleanup code can run.
      */
 

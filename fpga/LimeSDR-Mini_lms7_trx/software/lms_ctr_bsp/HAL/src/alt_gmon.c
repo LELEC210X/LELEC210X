@@ -215,7 +215,7 @@ void __mcount_record(void * self_pc, void * from_pc, struct mcount_fn_entry * fn
  */
 static int nios2_pcsample_init(void)
 {
-  unsigned int pcsamples_size;
+  unsigned int pcsamples_size; 
 
   /* We sample the PC every tick */
   unsigned int prof_rate = alt_ticks_per_second();
@@ -269,3 +269,4 @@ static alt_u32 nios2_pcsample(void* context)
   /* Sample every tick */
   return 1;
 }
+

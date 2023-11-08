@@ -30,7 +30,7 @@
 
         /*
          * This is the software multiply/divide handler for Nios2.
-         */
+         */ 
 
         /*
          * Provide a label which can be used to pull this file in.
@@ -97,8 +97,8 @@ alt_exception_muldiv:
         *
         * R-type AAAAA,BBBBB,CCCCC,XXXXXX,NNNNN,-0x3a-
         *           27    22    17     11     6      0  <-- LSB of field
-        *
-        *
+        * 
+        * 
         */
 
 
@@ -357,7 +357,7 @@ alt_exception_muldiv:
         * r17 = MSB contains sign of quotient
         */
 
-
+    
         /*
         *  Conditionally negate signed quotient.  If quotient is unsigned,
         *  the sign already is initialized to 0.
@@ -580,3 +580,4 @@ alt_exception_muldiv:
 
         .section .exceptions.exit.label
 .Lexception_exit:
+

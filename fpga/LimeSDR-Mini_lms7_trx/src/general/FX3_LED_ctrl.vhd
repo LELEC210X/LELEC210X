@@ -18,12 +18,12 @@ use ieee.numeric_std.all;
 -- ----------------------------------------------------------------------------
 entity FX3_LED_ctrl is
    port (
-      --input ports
+      --input ports 
       ctrl_led_g     : in std_logic;
       ctrl_led_r     : in std_logic;
       HW_VER         : in std_logic_vector(3 downto 0);
       led_ctrl       : in std_logic_vector(2 downto 0);
-      --output ports
+      --output ports 
       led_g          : out std_logic;
       led_r          : out std_logic
    );
@@ -36,12 +36,12 @@ architecture arch of FX3_LED_ctrl is
 --declare signals,  components here
    signal led_g_def  : std_logic;
    signal led_r_def  : std_logic;
-
+   
    signal led_g_ovr  : std_logic;
    signal led_r_ovr  : std_logic;
 
 
-
+  
 begin
 
    led_g_ovr <= '1' when led_ctrl(2)='1' and led_ctrl(1)='0' else '0';
@@ -52,5 +52,7 @@ begin
 
    led_g <= led_g_def when unsigned(HW_VER)>=3 and unsigned(HW_VER)< 15 else '0';
    led_r <= led_r_def when unsigned(HW_VER)>=3 and unsigned(HW_VER)< 15 else '0';
-
+  
 end arch;
+
+

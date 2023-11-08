@@ -33,11 +33,11 @@
 
 /*
  * This file provides prototypes and inline implementations of certain routines
- * used by the legacy interrupt API. Do not include this in your driver or
+ * used by the legacy interrupt API. Do not include this in your driver or 
  * application source files, use "sys/alt_irq.h" instead to access the proper
  * public API.
  */
-
+ 
 #include <errno.h>
 #include "system.h"
 
@@ -54,12 +54,12 @@ extern "C"
 #endif /* __cplusplus */
 
 /*
- * alt_irq_register() can be used to register an interrupt handler. If the
- * function is succesful, then the requested interrupt will be enabled upon
+ * alt_irq_register() can be used to register an interrupt handler. If the 
+ * function is succesful, then the requested interrupt will be enabled upon 
  * return.
  */
-extern int alt_irq_register (alt_u32 id,
-                             void*   context,
+extern int alt_irq_register (alt_u32 id, 
+                             void*   context, 
                              alt_isr_func handler);
 
 /*
@@ -129,7 +129,7 @@ static ALT_INLINE alt_u32 ALT_ALWAYS_INLINE alt_irq_interruptible (alt_u32 prior
 
   NIOS2_WRITE_STATUS (1);
 
-  return old_priority;
+  return old_priority; 
 }
 
 /*
@@ -141,11 +141,11 @@ static ALT_INLINE void ALT_ALWAYS_INLINE alt_irq_non_interruptible (alt_u32 mask
   extern volatile alt_u32 alt_priority_mask;
   extern volatile alt_u32 alt_irq_active;
 
-  NIOS2_WRITE_STATUS (0);
+  NIOS2_WRITE_STATUS (0);  
 
   alt_priority_mask = mask;
 
-  NIOS2_WRITE_IENABLE (mask & alt_irq_active);
+  NIOS2_WRITE_IENABLE (mask & alt_irq_active);  
 }
 #endif /* ALT_EXCEPTION_STACK */
 

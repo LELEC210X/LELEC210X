@@ -44,10 +44,10 @@
 #ifdef ALT_SEMIHOSTING
 #define alt_putchar(x) alt_putcharbuf(x)
 #endif
-/*
- * ALT printf function
+/* 
+ * ALT printf function 
  */
-void
+void 
 alt_printf(const char* fmt, ... )
 {
 	va_list args;
@@ -75,7 +75,7 @@ alt_printf(const char* fmt, ... )
                 {
                     /* Process "%" escape sequence. */
                     alt_putchar(c);
-                }
+                } 
                 else if (c == 'c')
                 {
                     int v = va_arg(args, int);

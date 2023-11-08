@@ -41,7 +41,7 @@
  * ioctl (fd, TIOCEXCL, NULL);
  *
  * If there are no other open file descriptors which reference the same
- * device, then alt_fd_lock() will grant the lock. Further calls to open()
+ * device, then alt_fd_lock() will grant the lock. Further calls to open() 
  * for this device will fail until the lock is released.
  *
  * This is done by calling close() for this file descriptor, or by calling:

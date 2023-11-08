@@ -73,7 +73,7 @@ alt_irq_entry:
         blt r4, r0, .Lnot_irq
 #else
         /*
-         * Test to see if the exception was a software exception or caused
+         * Test to see if the exception was a software exception or caused 
          * by an external interrupt, and vector accordingly.
          */
         rdctl r4, ipending
@@ -84,7 +84,7 @@ alt_irq_entry:
 
         .section .exceptions.irqhandler, "xa"
         /*
-         * Now that all necessary registers have been preserved, call
+         * Now that all necessary registers have been preserved, call 
          * alt_irq_handler() to process the interrupts.
          */
 
@@ -105,3 +105,4 @@ alt_irq_entry:
 
         .section .exceptions.exit.label
 .Lexception_exit:
+

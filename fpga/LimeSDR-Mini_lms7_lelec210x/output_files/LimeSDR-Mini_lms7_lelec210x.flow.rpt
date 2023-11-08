@@ -1,0 +1,192 @@
+Flow report for LimeSDR-Mini_lms7_lelec210x
+Wed Nov 08 03:16:41 2023
+Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Standard Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Flow Summary
+  3. Flow Settings
+  4. Flow Non-Default Global Settings
+  5. Flow Elapsed Time
+  6. Flow OS Summary
+  7. Flow Log
+  8. Flow Messages
+  9. Flow Suppressed Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++--------------------------------------------------------------------------------------+
+; Flow Summary                                                                         ;
++------------------------------------+-------------------------------------------------+
+; Flow Status                        ; Successful - Wed Nov 08 03:16:41 2023           ;
+; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Standard Edition ;
+; Revision Name                      ; LimeSDR-Mini_lms7_lelec210x                     ;
+; Top-level Entity Name              ; lms7_trx_top                                    ;
+; Family                             ; MAX 10                                          ;
+; Device                             ; 10M16SAU169C8G                                  ;
+; Timing Models                      ; Final                                           ;
+; Total logic elements               ; 13,530 / 15,840 ( 85 % )                        ;
+;     Total combinational functions  ; 9,314 / 15,840 ( 59 % )                         ;
+;     Dedicated logic registers      ; 10,619 / 15,840 ( 67 % )                        ;
+; Total registers                    ; 10691                                           ;
+; Total pins                         ; 117 / 130 ( 90 % )                              ;
+; Total virtual pins                 ; 0                                               ;
+; Total memory bits                  ; 244,624 / 562,176 ( 44 % )                      ;
+; Embedded Multiplier 9-bit elements ; 0 / 90 ( 0 % )                                  ;
+; Total PLLs                         ; 1 / 1 ( 100 % )                                 ;
+; UFM blocks                         ; 1 / 1 ( 100 % )                                 ;
+; ADC blocks                         ; 0 / 1 ( 0 % )                                   ;
++------------------------------------+-------------------------------------------------+
+
+
++-------------------------------------------------+
+; Flow Settings                                   ;
++-------------------+-----------------------------+
+; Option            ; Setting                     ;
++-------------------+-----------------------------+
+; Start date & time ; 11/08/2023 03:07:47         ;
+; Main task         ; Compilation                 ;
+; Revision Name     ; LimeSDR-Mini_lms7_lelec210x ;
++-------------------+-----------------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                                                                            ;
++-------------------------------------+------------------------------------------------------------------+-----------------------------+---------------------+----------------+
+; Assignment Name                     ; Value                                                            ; Default Value               ; Entity Name         ; Section Id     ;
++-------------------------------------+------------------------------------------------------------------+-----------------------------+---------------------+----------------+
+; ALLOW_REGISTER_RETIMING             ; Off                                                              ; On                          ; --                  ; --             ;
+; COMPILER_SIGNATURE_ID               ; 1096826009345.169940926745152                                    ; --                          ; --                  ; --             ;
+; EDA_OUTPUT_DATA_FORMAT              ; Vhdl                                                             ; --                          ; --                  ; eda_simulation ;
+; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (VHDL)                                           ; <None>                      ; --                  ; --             ;
+; ENABLE_SIGNALTAP                    ; Off                                                              ; --                          ; --                  ; --             ;
+; FITTER_EFFORT                       ; Standard Fit                                                     ; Auto Fit                    ; --                  ; --             ;
+; FLOW_ENABLE_POWER_ANALYZER          ; On                                                               ; Off                         ; --                  ; --             ;
+; MAX_CORE_JUNCTION_TEMP              ; 85                                                               ; --                          ; --                  ; --             ;
+; MESSAGE_DISABLE                     ; 332060                                                           ; --                          ; altera_onchip_flash ; --             ;
+; MIN_CORE_JUNCTION_TEMP              ; 0                                                                ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; lms_dsp/synthesis/../lms_dsp.cmp                                 ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; lms_dsp/synthesis/../../lms_dsp.qsys                             ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; lms_ctr/synthesis/../lms_ctr.cmp                                 ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; lms_ctr/synthesis/../../lms_ctr.qsys                             ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/clkctrl/clkctrl/synthesis/../clkctrl.cmp                      ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/clkctrl/clkctrl/synthesis/../../clkctrl.qsys                  ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/pll/pll.bsf                                                   ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/pll/pll.cmp                                                   ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/pll/pll.ppf                                                   ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/pll_reconfig_module/pll_reconfig_module.bsf                   ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/pll_reconfig_module/pll_reconfig_module.cmp                   ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/ddrox1/ddrox1.cmp                                             ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/ddrox1/ddrox1_sim/ddrox1.vhd                                  ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/ddrox1/ddrox1_sim/altera_gpio_lite/altera_gpio_lite.sv        ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/ddrox1/ddrox1_sim/altera_gpio_lite/mentor/altera_gpio_lite.sv ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/short_shift/short_shift.bsf                                   ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/short_shift/short_shift_inst.v                                ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/short_shift/short_shift_bb.v                                  ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/long_shift/long_shift.bsf                                     ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/long_shift/long_shift_inst.v                                  ; --                          ; --                  ; --             ;
+; MISC_FILE                           ; ip/long_shift/long_shift_bb.v                                    ; --                          ; --                  ; --             ;
+; NUM_PARALLEL_PROCESSORS             ; All                                                              ; --                          ; --                  ; --             ;
+; OPTIMIZATION_MODE                   ; High Performance Effort                                          ; Balanced                    ; --                  ; --             ;
+; OUTPUT_IO_TIMING_FAR_END_VMEAS      ; Half Signal Swing                                                ; --                          ; --                  ; --             ;
+; OUTPUT_IO_TIMING_FAR_END_VMEAS      ; Half Signal Swing                                                ; --                          ; --                  ; --             ;
+; OUTPUT_IO_TIMING_NEAR_END_VMEAS     ; Half Vccio                                                       ; --                          ; --                  ; --             ;
+; OUTPUT_IO_TIMING_NEAR_END_VMEAS     ; Half Vccio                                                       ; --                          ; --                  ; --             ;
+; PARTITION_COLOR                     ; -- (Not supported for targeted family)                           ; --                          ; lms7_trx_top        ; Top            ;
+; PARTITION_FITTER_PRESERVATION_LEVEL ; -- (Not supported for targeted family)                           ; --                          ; lms7_trx_top        ; Top            ;
+; PARTITION_NETLIST_TYPE              ; -- (Not supported for targeted family)                           ; --                          ; lms7_trx_top        ; Top            ;
+; PHYSICAL_SYNTHESIS_COMBO_LOGIC      ; On                                                               ; Off                         ; --                  ; --             ;
+; PLACEMENT_EFFORT_MULTIPLIER         ; 4.0                                                              ; 1.0                         ; --                  ; --             ;
+; POST_FLOW_SCRIPT_FILE               ; quartus_sh:gen_prg_files.tcl                                     ; --                          ; --                  ; --             ;
+; POWER_BOARD_THERMAL_MODEL           ; None (CONSERVATIVE)                                              ; --                          ; --                  ; --             ;
+; POWER_DEFAULT_INPUT_IO_TOGGLE_RATE  ; 50 %                                                             ; 12.5%                       ; --                  ; --             ;
+; POWER_DEFAULT_TOGGLE_RATE           ; 12.5 %                                                           ; 12.5%                       ; --                  ; --             ;
+; POWER_PRESET_COOLING_SOLUTION       ; No Heat Sink With 200 Lfpm Airflow                               ; --                          ; --                  ; --             ;
+; POWER_USE_PVA                       ; Off                                                              ; On                          ; --                  ; --             ;
+; PRE_FLOW_SCRIPT_FILE                ; quartus_sh:gui.tcl                                               ; --                          ; --                  ; --             ;
+; PROJECT_OUTPUT_DIRECTORY            ; output_files                                                     ; --                          ; --                  ; --             ;
+; ROUTER_TIMING_OPTIMIZATION_LEVEL    ; MAXIMUM                                                          ; Normal                      ; --                  ; --             ;
+; SEARCH_PATH                         ; software/lms_ctr_app/mem_init/                                   ; --                          ; --                  ; --             ;
+; SLD_FILE                            ; lms_dsp/synthesis/lms_dsp.debuginfo                              ; --                          ; --                  ; --             ;
+; SLD_FILE                            ; lms_ctr/synthesis/lms_ctr.regmap                                 ; --                          ; --                  ; --             ;
+; SLD_FILE                            ; lms_ctr/synthesis/lms_ctr.debuginfo                              ; --                          ; --                  ; --             ;
+; SLD_FILE                            ; ip/clkctrl/clkctrl/synthesis/clkctrl.debuginfo                   ; --                          ; --                  ; --             ;
+; SLD_INFO                            ; QSYS_NAME clkctrl HAS_SOPCINFO 1 GENERATION_ID 1618509941        ; --                          ; clkctrl             ; --             ;
+; SLD_INFO                            ; QSYS_NAME lms_ctr HAS_SOPCINFO 1 GENERATION_ID 1633259245        ; --                          ; lms_ctr             ; --             ;
+; SLD_INFO                            ; QSYS_NAME lms_dsp HAS_SOPCINFO 1 GENERATION_ID 1699409035        ; --                          ; lms_dsp             ; --             ;
+; SOPCINFO_FILE                       ; lms_dsp/synthesis/../../lms_dsp.sopcinfo                         ; --                          ; --                  ; --             ;
+; SOPCINFO_FILE                       ; lms_ctr/synthesis/../../lms_ctr.sopcinfo                         ; --                          ; --                  ; --             ;
+; SOPCINFO_FILE                       ; ip/clkctrl/clkctrl/synthesis/../../clkctrl.sopcinfo              ; --                          ; --                  ; --             ;
+; SPD_FILE                            ; ip/ddrox1/ddrox1.spd                                             ; --                          ; --                  ; --             ;
+; SYNTHESIS_ONLY_QIP                  ; On                                                               ; --                          ; --                  ; --             ;
+; SYNTHESIS_ONLY_QIP                  ; On                                                               ; --                          ; --                  ; --             ;
+; SYNTHESIS_ONLY_QIP                  ; On                                                               ; --                          ; --                  ; --             ;
+; SYNTHESIS_ONLY_QIP                  ; On                                                               ; --                          ; --                  ; --             ;
+; TOP_LEVEL_ENTITY                    ; lms7_trx_top                                                     ; LimeSDR-Mini_lms7_lelec210x ; --                  ; --             ;
+; USE_SIGNALTAP_FILE                  ; ../stp1.stp                                                      ; --                          ; --                  ; --             ;
++-------------------------------------+------------------------------------------------------------------+-----------------------------+---------------------+----------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------+
+; Flow Elapsed Time                                                                                                        ;
++----------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
++----------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Analysis & Synthesis ; 00:02:17     ; 1.0                     ; 5156 MB             ; 00:00:27                           ;
+; Fitter               ; 00:02:38     ; 1.3                     ; 5874 MB             ; 00:00:51                           ;
+; Assembler            ; 00:01:37     ; 1.0                     ; 4741 MB             ; 00:00:01                           ;
+; Power Analyzer       ; 00:00:47     ; 2.0                     ; 4975 MB             ; 00:00:07                           ;
+; Timing Analyzer      ; 00:00:49     ; 2.2                     ; 4980 MB             ; 00:00:06                           ;
+; EDA Netlist Writer   ; 00:01:01     ; 1.0                     ; 4825 MB             ; 00:00:01                           ;
+; Total                ; 00:09:09     ; --                      ; --                  ; 00:01:33                           ;
++----------------------+--------------+-------------------------+---------------------+------------------------------------+
+
+
++------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                    ;
++----------------------+------------------+------------+------------+----------------+
+; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
++----------------------+------------------+------------+------------+----------------+
+; Analysis & Synthesis ; Heisenberg       ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; Heisenberg       ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; Heisenberg       ; Windows 10 ; 10.0       ; x86_64         ;
+; Power Analyzer       ; Heisenberg       ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; Heisenberg       ; Windows 10 ; 10.0       ; x86_64         ;
+; EDA Netlist Writer   ; Heisenberg       ; Windows 10 ; 10.0       ; x86_64         ;
++----------------------+------------------+------------+------------+----------------+
+
+
+------------
+; Flow Log ;
+------------
+quartus_map --read_settings_files=on --write_settings_files=off LimeSDR-Mini_lms7_lelec210x -c LimeSDR-Mini_lms7_lelec210x
+quartus_fit --read_settings_files=off --write_settings_files=off LimeSDR-Mini_lms7_lelec210x -c LimeSDR-Mini_lms7_lelec210x
+quartus_asm --read_settings_files=off --write_settings_files=off LimeSDR-Mini_lms7_lelec210x -c LimeSDR-Mini_lms7_lelec210x
+quartus_pow --read_settings_files=off --write_settings_files=off LimeSDR-Mini_lms7_lelec210x -c LimeSDR-Mini_lms7_lelec210x
+quartus_sta LimeSDR-Mini_lms7_lelec210x -c LimeSDR-Mini_lms7_lelec210x
+quartus_eda --read_settings_files=off --write_settings_files=off LimeSDR-Mini_lms7_lelec210x -c LimeSDR-Mini_lms7_lelec210x
+
+
+

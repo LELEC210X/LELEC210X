@@ -26,12 +26,7 @@ tex/pdfs.zip
 _minted-*/
 tex/hands_on_wireless_simulation/modulate.py
 
-# FPGA
 
-fpga/LimeSDR-Mini_bitstreams/*.map
-fpga/LimeSDR-Mini_bitstreams/*.pof
-fpga/LimeSDR-Mini_bitstreams/*.sof
-fpga/LimeSDR-Mini_bitstreams/*.rpd
 
 # MCU
 
@@ -43,5 +38,50 @@ mcu/*.launch
 # Telecom
 
 telecom/hands_on_simulation/test.csv
+telecom/gr-limesdr/build/
 telecom/hands_on_measurements/gr-fsk/build/
 telecom/hands_on_measurements/gr-fsk/apps/*.py
+
+
+# FPGA
+#Bitstreams
+fpga/LimeSDR-Mini_bitstreams/*.map
+fpga/LimeSDR-Mini_bitstreams/*.pof
+fpga/LimeSDR-Mini_bitstreams/*.sof
+fpga/LimeSDR-Mini_bitstreams/*.rpd
+
+# ignore Quartus II generated files
+fpga/*_generation_script*
+fpga/*_inst.vhd
+fpga/*.bak
+fpga/*.cmp
+fpga/*.done
+fpga/*.eqn
+fpga/*.hex
+fpga/*.html
+fpga/*.jdi
+fpga/*.jpg
+fpga/# *.mif
+fpga/*.pin
+fpga/*.pof
+fpga/*.ptf.*
+fpga/*.qar
+fpga/*.qarlog
+fpga/*.qws
+fpga/*.rpt
+fpga/*.smsg
+fpga/*.sof
+fpga/*.sopc_builder
+fpga/*.summary
+fpga/*.txt # Explicitly add any text files used
+fpga/*~
+fpga/*example*
+fpga/*sopc_*
+
+# ignore Quartus II generated folders
+fpga/*/db/
+fpga/*/incremental_db/
+fpga/*/simulation/
+fpga/*/timing/
+fpga/*/*_sim/
+fpga/incremental_db/

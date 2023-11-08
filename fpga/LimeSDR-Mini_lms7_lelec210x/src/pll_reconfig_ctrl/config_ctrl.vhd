@@ -1,4 +1,4 @@
--- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------	
 -- FILE: 	config_ctrl.vhd
 -- DESCRIPTION:	controls altpll_reconfig module
 -- DATE:	April 6, 2015
@@ -14,7 +14,7 @@ port(
 	clk 	: in std_logic;
 	rst 	: in std_logic;
 	busy 	: in std_logic;
-
+	
 	addr 			: in std_logic_vector(7 downto 0);
 	rd_data 		: in std_logic;
 	spi_data		: in std_logic_vector(143 downto 0);
@@ -28,13 +28,13 @@ end config_ctrl;
 
 architecture arch of config_ctrl is
 	type fsm_type is (idle, s0, w0, s1, w1);
-
+	
 	signal state_r, state_n : fsm_type;
 	signal fall_r, fall_n : std_logic_vector(1 downto 0);
 	signal q_r, q_n : std_logic;
 	signal addr_r, addr_n : std_logic_vector(7 downto 0);
 	signal clk_ctrl_r, clk_ctrl_n : std_logic;
-
+	
 	signal config 	 : std_logic;
 	signal stop_clk : std_logic;
 begin
@@ -53,15 +53,15 @@ begin
 			addr_r		<= addr_n;
 			q_r			<= q_n;
 			fall_r		<= fall_n;
-		end if;
+		end if;	
 	end process;
-
+	
 	addr_n <= addr;
 	fall_n <= fall_r(0) & en_config;
-
+	
 	config 	<= '1' when fall_r = "01" else '0';	-- detect config. signal change from '0' to '1'
 	stop_clk <= '1' when fall_r = "10" else '0';	-- detect config. signal change from '1' to '0'
-
+	
 	data_proc : process(spi_data, q_r, rd_data, addr_r)
 	begin
 		q_n <= q_r;
@@ -69,10 +69,10 @@ begin
 			q_n <= spi_data(to_integer(unsigned(addr_r)));
 		end if;
 	end process;
-
+	
 	config_data <= q_r;
 	en_clk <= clk_ctrl_r;
-
+	
 	ctrl_proc : process(busy, state_r, config, clk_ctrl_r, stop_clk)
 	begin
 		state_n    <= state_r;
@@ -108,7 +108,7 @@ begin
 				else
 					state_n <= state_r;
 				end if;
-			when others =>
+			when others => 
 				state_n <= idle;
 		end case;
 	end process;

@@ -49,15 +49,15 @@ extern "C"
 #endif /* __cplusplus */
 
 /*
- * This header contains the device driver interface for accessing DMA
+ * This header contains the device driver interface for accessing DMA 
  * resources. See alt_dma.h for the DMA application side interface.
  *
- * The interface model treats a DMA transaction as being composed of two
- * halves (read and write).
+ * The interface model treats a DMA transaction as being composed of two 
+ * halves (read and write). 
  *
  * An "alt_dma_txchan_dev" is used to describe the device associated with a
  * DMA transmit channel. An "alt_dma_rxchan_dev" is used to describe the
- * device associated with a DMA receive channel.
+ * device associated with a DMA receive channel. 
  */
 
 /*
@@ -88,7 +88,7 @@ extern "C"
  *
  * The use of the macros: ALT_DMA_TX_STREAM_ON, ALT_DMA_TX_STREAM_OFF
  * ALT_DMA_RX_STREAM_OFF and ALT_DMA_RX_STREAM_ON are depreciated. You should
- * instead use the macros: ALT_DMA_RX_ONLY_ON, ALT_DMA_RX_ONLY_OFF,
+ * instead use the macros: ALT_DMA_RX_ONLY_ON, ALT_DMA_RX_ONLY_OFF, 
  * ALT_DMA_TX_ONLY_ON and ALT_DMA_TX_ONLY_OFF.
  */
 
@@ -123,48 +123,48 @@ typedef void (alt_rxchan_done)(void* handle, void* data);
 
 /*
  * devices that provide a DMA transmit channel are required to provide an
- * instance of the "alt_dma_txchan_dev" structure.
+ * instance of the "alt_dma_txchan_dev" structure. 
  */
 
 struct alt_dma_txchan_dev_s {
   alt_llist  llist;                  /* for internal use */
-  const char* name;                  /* name of the device instance
-                                      * (e.g. "/dev/dma_0").
+  const char* name;                  /* name of the device instance 
+                                      * (e.g. "/dev/dma_0"). 
                                       */
-  int (*space) (alt_dma_txchan dma); /* returns the maximum number of
+  int (*space) (alt_dma_txchan dma); /* returns the maximum number of 
                                       * transmit requests that can be posted
               */
-  int (*dma_send) (alt_dma_txchan dma,
-         const void* from,
+  int (*dma_send) (alt_dma_txchan dma,   
+         const void* from, 
          alt_u32 len,
-         alt_txchan_done* done,
+         alt_txchan_done* done, 
          void* handle);        /* post a transmit request */
   int (*ioctl) (alt_dma_txchan dma, int req, void* arg); /* perform device
               * specific I/O control.
-                                      */
+                                      */ 
 };
 
 /*
  * devices that provide a DMA receive channel are required to provide an
- * instance of the "alt_dma_rxchan_dev" structure.
+ * instance of the "alt_dma_rxchan_dev" structure. 
  */
 
 struct alt_dma_rxchan_dev_s {
   alt_llist list;                    /* for internal use */
-  const char* name;                  /* name of the device instance
-                                      * (e.g. "/dev/dma_0").
+  const char* name;                  /* name of the device instance 
+                                      * (e.g. "/dev/dma_0"). 
                                       */
   alt_u32        depth;              /* maximum number of receive requests that
                                       * can be posted.
                                       */
-  int (*prepare) (alt_dma_rxchan   dma,
+  int (*prepare) (alt_dma_rxchan   dma, 
                   void*            data,
                   alt_u32          len,
-                  alt_rxchan_done* done,
+                  alt_rxchan_done* done,  
                   void*            handle); /* post a receive request */
   int (*ioctl) (alt_dma_rxchan dma, int req, void* arg);  /* perform device
               * specific I/O control.
-                                      */
+                                      */ 
 };
 
 /*

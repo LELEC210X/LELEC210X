@@ -7,7 +7,7 @@
    description=""
    tags=""
    categories="System" />
- <parameter name="bonusData"><![CDATA[bonusData
+ <parameter name="bonusData"><![CDATA[bonusData 
 {
    element clk_0
    {
@@ -76,14 +76,14 @@
   <parameter name="bankDisplay" value="0" />
   <parameter name="baseAddress" value="0" />
   <parameter name="channelModes" value="0,1,2,3" />
-  <parameter name="clockRate" value="125" />
+  <parameter name="clockRate" value="0.4" />
   <parameter name="clockSlack" value="0" />
   <parameter name="coeffBitWidth" value="8" />
   <parameter name="coeffComplex" value="false" />
   <parameter name="coeffFracBitWidth" value="7" />
   <parameter name="coeffReload" value="false" />
   <parameter name="coeffScaling" value="auto" />
-  <parameter name="coeffSetRealValue">-0.0017003969036736089,1.7580300581294008E-18,0.0029373315708906816,-3.27687161443337E-18,-0.006730091366404413,6.051933223713989E-18,0.014093887903991936,-9.603381523083373E-18,-0.026785035820053857,1.3317138837685634E-17,0.04909896059357541,-1.6551062789400004E-17,-0.0969383327763008,1.8745978547698297E-17,0.31561956332448227,0.5008082269469846,0.31561956332448227,1.8745978547698297E-17,-0.0969383327763008,-1.6551062789400007E-17,0.04909896059357542,1.3317138837685634E-17,-0.026785035820053864,-9.603381523083378E-18,0.014093887903991936,6.0519332237139965E-18,-0.006730091366404419,-3.27687161443337E-18,0.002937331570890683,1.7580300581294008E-18,-0.0017003969036736089</parameter>
+  <parameter name="coeffSetRealValue">-0.001201261290430126,0.0020488944185569607,-0.0020751053507837938,4.910806933254215E-18,0.004754535968663148,-0.00987450755161552,0.00995675888032359,-1.4391882903962387E-17,-0.018922538981281996,0.036214375130954504,-0.03468641976116993,2.4803862788187382E-17,0.06848299151299582,-0.15293237705130486,0.22297239138994396,0.7505245253702963,0.22297239138994396,-0.15293237705130486,0.06848299151299582,2.4803862788187385E-17,-0.034686419761169936,0.036214375130954504,-0.018922538981282003,-1.4391882903962393E-17,0.00995675888032359,-0.009874507551615532,0.004754535968663151,4.910806933254215E-18,-0.0020751053507837946,0.0020488944185569607,-0.001201261290430126</parameter>
   <parameter name="coeffSetRealValueImag">0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0530093, -0.04498, 0.0, 0.0749693, 0.159034, 0.224907, 0.249809, 0.224907, 0.159034, 0.0749693, 0.0, -0.04498, -0.0530093, -0.0321283, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0</parameter>
   <parameter name="coeffType" value="frac" />
   <parameter name="decimFactor" value="1" />
@@ -95,7 +95,7 @@
   <parameter name="inputBitWidth" value="12" />
   <parameter name="inputChannelNum" value="2" />
   <parameter name="inputFracBitWidth" value="11" />
-  <parameter name="inputRate" value="125" />
+  <parameter name="inputRate" value="0.4" />
   <parameter name="inputType" value="frac" />
   <parameter name="interpFactor" value="1" />
   <parameter name="karatsuba" value="false" />
