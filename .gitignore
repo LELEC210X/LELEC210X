@@ -1,5 +1,5 @@
+# Python
 
-<<<<<<< Updated upstream
 __pycache__/
 .mypy_cache/
 .ipynb_checkpoints
@@ -89,6 +89,3 @@ fpga/*/simulation/
 fpga/*/timing/
 fpga/*/*_sim/
 fpga/incremental_db/
-=======
-.metadata/version.ini
->>>>>>> Stashed changes
