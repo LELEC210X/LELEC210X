@@ -15,6 +15,6 @@ tags: # Tags are arbitrary, but look at CGRAN what other authors are using
 
 ---
 
-A longer, multi-line description of gr-limesdr_fpga.
-You may use some _basic_ Markdown here.
+A longer, multi-line description of gr-limesdr*fpga.
+You may use some \_basic* Markdown here.
 If left empty, it will try to find a README file instead.

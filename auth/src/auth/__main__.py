@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Iterator, Optional
 
 import click
 import serial
@@ -9,7 +9,8 @@ from . import packet
 PRINT_PREFIX = "DF:HEX:"
 
 
-def parse_packet(line):
+def parse_packet(line: str) -> bytes:
+    """Parse a line into a packet."""
     line = line.strip()
     if line.startswith(PRINT_PREFIX):
         return bytes.fromhex(line[len(PRINT_PREFIX) :])
@@ -18,10 +19,11 @@ def parse_packet(line):
 
 
 def hex_to_bytes(ctx: click.Context, param: click.Parameter, value: str) -> bytes:
+    """Convert a hex string into bytes."""
     return bytes.fromhex(value)
 
 
-@click.group()
+@click.command()
 @click.option(
     "-i",
     "--input",
@@ -36,6 +38,13 @@ def hex_to_bytes(ctx: click.Context, param: click.Parameter, value: str) -> byte
     default="-",
     type=click.File("w"),
     help="Where to read the input stream. Default to '-', a.k.a. stdout.",
+)
+@click.option(
+    "--serial-port",
+    default=None,
+    envvar="SERIAL_PORT",
+    show_envvar=True,
+    help="If specified, read the packet from the given serial port. E.g., '/dev/tty0'. This takes precedence of `--input` and `--tcp-address` options.",
 )
 @click.option(
     "--tcp-address",
@@ -58,7 +67,7 @@ def hex_to_bytes(ctx: click.Context, param: click.Parameter, value: str) -> byte
 @click.option(
     "-l",
     "--melvec-len",
-    default=32,
+    default=20,
     envvar="MELVEC_LEN",
     type=click.IntRange(min=0),
     show_default=True,
@@ -67,8 +76,8 @@ def hex_to_bytes(ctx: click.Context, param: click.Parameter, value: str) -> byte
 )
 @click.option(
     "-n",
-    "--nul-melvecs",
-    default=32,
+    "--num-melvecs",
+    default=10,
     envvar="NUM_MELVECS",
     type=click.IntRange(min=0),
     show_default=True,
@@ -79,6 +88,7 @@ def hex_to_bytes(ctx: click.Context, param: click.Parameter, value: str) -> byte
 def main(
     _input: Optional[click.File],
     output: Optional[click.File],
+    serial_port: Optional[str],
     tcp_address: str,
     auth_key: bytes,
     melvec_len: int,
@@ -88,7 +98,12 @@ def main(
     """
     Parse packets from the MCU and perform authentication.
     """
-    print("key:", auth_key.hex())
+    if not quiet:
+        click.echo(
+            "Unwrapping packets with auth. key: "
+            + click.style(auth_key.hex(), fg="green")
+        )
+
     unwrapper = packet.PacketUnwrapper(
         key=auth_key,
         allowed_senders=[
@@ -97,68 +112,77 @@ def main(
         authenticate=True,
     )
 
-    if args.output:
-        f_out = open(args.output, "w")
+    if serial_port:  # Read from serial port
 
-    if args.input == None:
-        # Read messages from zmq GNU Radio interface
-        def reader():
+        def reader() -> Iterator[str]:
+            ser = serial.Serial(port=_input, baudrate=115200)
+            ser.reset_input_buffer()
+            ser.read_until(b"\n")
+
+            if not quiet:
+                click.echo(
+                    "Reading packets from serial port: "
+                    + click.style(serial_port, fg="green")
+                )
+                click.echo("Use Ctrl-C (or Ctrl-D) to terminate.")
+
+            while True:
+                line = ser.read_until(b"\n").decode("ascii").strip()
+                output.write(line + "\n")
+                packet = parse_packet(line)
+                if packet is not None:
+                    yield packet
+
+    elif _input:  # Read from file-like
+
+        def reader() -> Iterator[str]:
+            if not quiet:
+                click.echo(
+                    "Reading packets from input: "
+                    + click.style(str(_input), fg="green")
+                )
+                click.echo("Use Ctrl-C (or Ctrl-D) to terminate.")
+
+            for line in _input.readlines():
+                line = line.strip()
+                output.write(line + "\n")
+                packet = parse_packet(line)
+                if packet is not None:
+                    yield packet
+
+    else:  # Read from zmq GNU Radio interface
+
+        def reader() -> Iterator[str]:
             context = zmq.Context()
             socket = context.socket(zmq.SUB)
 
             socket.setsockopt(zmq.SUBSCRIBE, b"")
             socket.setsockopt(zmq.CONFLATE, 1)  # last msg only.
 
-            socket.connect("tcp://127.0.0.1:10000")
+            socket.connect(tcp_address)
+
+            if not quiet:
+                click.echo(
+                    "Reading packets from TCP address: "
+                    + click.style(tcp_address, fg="green")
+                )
+                click.echo("Use Ctrl-C (or Ctrl-D) to terminate.")
+
             while True:
                 msg = socket.recv(2 * melvec_len * num_melvecs)
-                if args.output:
-                    f_out.write(PRINT_PREFIX + msg.hex() + "\n")
+                output.write(PRINT_PREFIX + msg.hex() + "\n")
                 yield msg
-
-    elif args.input.startswith("/dev/tty"):
-        # Read messages from serial interface
-        def reader():
-            ser = serial.Serial(port=_input, baudrate=115200)
-            ser.reset_input_buffer()
-            ser.read_until(b"\n")
-            while True:
-                line = ser.read_until(b"\n").decode("ascii").strip()
-                if args.output:
-                    f_out.write(line + "\n")
-                if not args.quiet:
-                    print("#", line)
-                try:
-                    packet = parse_packet(line)
-                except ValueError:
-                    print("Warning: invalid packet line:", line)
-                else:
-                    if packet is not None:
-                        yield packet
-
-    else:
-        # Read messages from file
-        def reader():
-            f = open(args.input)
-            for line in f.readlines():
-                line = line.strip()
-                if args.output:
-                    f_out.write(line + "\n")
-                if not args.quiet:
-                    print("#", line)
-                packet = parse_packet(line)
-                if packet is not None:
-                    yield packet
-                    if args.display:
-                        input("Press ENTER to process next packet")
 
     input_stream = reader()
     for msg in input_stream:
         try:
             sender, payload = unwrapper.unwrap_packet(msg)
+            click.echo(
+                f"From {sender}, received packet: "
+                + click.style(payload.hex(), fg="green")
+            )
         except packet.InvalidPacket as e:
-            print("Invalid packet received:", e.args[0])
-            print("\t", PRINT_PREFIX + msg.hex())
-            continue
-
-        print(f"From {sender}, received packet {payload.hex()}")
+            click.secho(
+                f"Invalid packet error: {e.args[0]}\n\t {PRINT_PREFIX}{payload.hex()}",
+                fg="red",
+            )

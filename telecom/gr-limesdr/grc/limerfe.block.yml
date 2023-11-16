@@ -154,8 +154,9 @@ parameters:
     label: AM FM Notch Filter
     dtype: int
     options: ["0", "1"]
-    option_labels: [Disabled, Enabled]
-    #hide: ${ rx_channel.hide_notch }
+    option_labels:
+      [Disabled, Enabled]
+      #hide: ${ rx_channel.hide_notch }
     hide: part
     default: 1
     category: General
