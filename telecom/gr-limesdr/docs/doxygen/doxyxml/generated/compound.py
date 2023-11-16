@@ -16,7 +16,6 @@ class DoxygenTypeSub(supermod.DoxygenType):
         supermod.DoxygenType.__init__(self, version, compounddef)
 
     def find(self, details):
-
         return self.compounddef.find(details)
 
 
@@ -85,7 +84,6 @@ class compounddefTypeSub(supermod.compounddefType):
         )
 
     def find(self, details):
-
         if self.id == details.refid:
             return self
 
@@ -191,7 +189,6 @@ class sectiondefTypeSub(supermod.sectiondefType):
         supermod.sectiondefType.__init__(self, kind, header, description, memberdef)
 
     def find(self, details):
-
         for memberdef in self.memberdef:
             if memberdef.id == details.refid:
                 return memberdef

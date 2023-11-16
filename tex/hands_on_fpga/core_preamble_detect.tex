@@ -22,7 +22,7 @@ In Figure \ref{fig:pd_schematic} below you can find a schematic of the different
         |z| = \frac{min(|I|,|Q|)}{4} + max(|I|,|Q|)
         \label{eq:1norm}
     \end{equation}
-    
+
     \begin{figure}[h]
         \centering
         \includegraphics[width=0.45\linewidth]{figures/trigo.png}
@@ -31,19 +31,19 @@ In Figure \ref{fig:pd_schematic} below you can find a schematic of the different
         \label{fig:cmplx2mag}
     \end{figure}
 
-    \item \textbf{Dual running sum: } The estimated complex magnitude is then averaged over multiple samples by two moving average filter of different length in series, a short-term sum and long-term one. They are implemented by forwarding input samples in  memory-based \textit{delay lines}, developped by Altera. 
+    \item \textbf{Dual running sum: } The estimated complex magnitude is then averaged over multiple samples by two moving average filter of different length in series, a short-term sum and long-term one. They are implemented by forwarding input samples in  memory-based \textit{delay lines}, developped by Altera.
 
     \begin{align}
             y[n] = \sum_{k=0}^{N-1}\left|x[n-k]\right|
     \end{align}
 
-    At each clock cycle an accumulator adds and substracts the first and last magnitudes stored in the delay line to its content. This structure is more efficient than the general FIR because we know each tap is equal to one, we therefore only need two adders. 
+    At each clock cycle an accumulator adds and substracts the first and last magnitudes stored in the delay line to its content. This structure is more efficient than the general FIR because we know each tap is equal to one, we therefore only need two adders.
 
     \begin{align}
             y[n+1] = y[n] + \left|x[n]\right| - \left|x[n-N+1]\right|
     \end{align}
 
-    The two moving average filters have two different functions. The first one, the short-term sum, receives the sample magnitudes first and its delayed output value are then forwarded to the long-term sum. It uses a longer delay line and is used to evaluate the noise power. 
+    The two moving average filters have two different functions. The first one, the short-term sum, receives the sample magnitudes first and its delayed output value are then forwarded to the long-term sum. It uses a longer delay line and is used to evaluate the noise power.
 
     \begin{figure}[h]
         \centering
@@ -51,8 +51,8 @@ In Figure \ref{fig:pd_schematic} below you can find a schematic of the different
         \caption{Architecture of the dual running sum}
         \label{fig:dual_runnign_sum}
     \end{figure}
-    
-    The overall architecture of the dual running sum is shown in Fig. \ref{fig:dual_runnign_sum}. When packet samples arrive, possibly with  higher energy than the noise, they first enter the first delay line. Its accumulator value therefore increases and might at one point exceed the accumulator value of the second line, which contains only noise sample. At this point, a packet is considered present and a launch signal is triggered. 
+
+    The overall architecture of the dual running sum is shown in Fig. \ref{fig:dual_runnign_sum}. When packet samples arrive, possibly with  higher energy than the noise, they first enter the first delay line. Its accumulator value therefore increases and might at one point exceed the accumulator value of the second line, which contains only noise sample. At this point, a packet is considered present and a launch signal is triggered.
 
     To be noted, when a packet is detected and the counter (next block) is enabled, we clear the short-term sum and disable the long-term one, to avoid any retriggering or corruption of our noise evaluation by packet samples.
 
@@ -93,7 +93,7 @@ Once you have implemented this function, we should now test the PPD. We have dev
 
 \begin{enumerate}
     \item \texttt{1\_input\_gen.py} : generates input vectors and export them as input vector of the PPD HDL implementation.
-    
+
     \item To generate the testbench, we will use the \textit{Platform Designer}. It allows the interconnection of multiple blocks of a digital design with a more intuitive user interface. Open the \textit{Platform Design} using the shortcut highlighted in Figure \ref{fig:quartus_platform_designer}. Open the \texttt{packet\_presence\_detection\_tb\_gen}, and go in \textit{Generate} in the upper left corner, then \textit{Generate Testbench System}. Change the path to \texttt{LimeSDR-Mini\_lms7\_lelec210x/ip/packet\_presence\_detection/} and click on \textit{Generate}. To execute the testbench, open ModelSim and change the working directory to\\ \texttt{ip/packet\_presence\_detection/testbench}. Then run \texttt{do run\_sim.tcl} in order to compile and launch the simulation.
 
 \begin{figure}[H]
@@ -118,7 +118,7 @@ You can now compile your design and observe the resource and timing report. Be c
 
 \subsection{Timing and ressource analysis}
 
-As you have seen in course, an important aspect of digital design is to ensure that your design meet both the resource and timing requirements. Indeed, long combinatorial logic path can lead to setup or hold constraints violations. Now that the design has been compiled, you can check the compilation report using the shortcut highlighted in Figure \ref{fig:compilation_report_button}. 
+As you have seen in course, an important aspect of digital design is to ensure that your design meet both the resource and timing requirements. Indeed, long combinatorial logic path can lead to setup or hold constraints violations. Now that the design has been compiled, you can check the compilation report using the shortcut highlighted in Figure \ref{fig:compilation_report_button}.
 
 \begin{figure}[h]
     \centering
@@ -128,7 +128,7 @@ As you have seen in course, an important aspect of digital design is to ensure t
 \end{figure}
 
 
-In the \textit{"Flow Summary"} tab, the resource utilisation is reported. Observe for instance the number of embedded multipliers that are employed. Moreover, in the \textit{"Analysis \& Synthesis/Timing Analyzer"} tab, you can see the results for the different corners, constraints violations being highlighted in red. Try to identify the faulty clock involved. In the different summary proposed, you can right click on a clock and select \textit{"Report Timing... (In Timing Analyzer UI)"}. In the opened window, just press \textit{"Report Timing"} at the bottom. Those steps are depicted in Figure \ref{fig:report_timing_analyzer}. You can now analyze the most critical path implying the selected clock, as well as the logic cells involved. Try to link the critical path to the RTL design. It should involve a signal starting in the dual running sum module. An easy fix is here to add a register in the path to break in two. This will delay the launch signal by one clock cycle, which is not problematic. 
+In the \textit{"Flow Summary"} tab, the resource utilisation is reported. Observe for instance the number of embedded multipliers that are employed. Moreover, in the \textit{"Analysis \& Synthesis/Timing Analyzer"} tab, you can see the results for the different corners, constraints violations being highlighted in red. Try to identify the faulty clock involved. In the different summary proposed, you can right click on a clock and select \textit{"Report Timing... (In Timing Analyzer UI)"}. In the opened window, just press \textit{"Report Timing"} at the bottom. Those steps are depicted in Figure \ref{fig:report_timing_analyzer}. You can now analyze the most critical path implying the selected clock, as well as the logic cells involved. Try to link the critical path to the RTL design. It should involve a signal starting in the dual running sum module. An easy fix is here to add a register in the path to break in two. This will delay the launch signal by one clock cycle, which is not problematic.
 
 \begin{figure}[h]
     \centering

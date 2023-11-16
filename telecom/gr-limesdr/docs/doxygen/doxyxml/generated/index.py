@@ -67,7 +67,6 @@ supermod.MemberType.subclass = MemberTypeSub
 
 
 def parse(inFilename):
-
     doc = minidom.parse(inFilename)
     rootNode = doc.documentElement
     rootObj = supermod.DoxygenType.factory()

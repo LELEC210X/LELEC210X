@@ -4,21 +4,21 @@ Package includes GNU Radio blocks for various LimeSDR boards.
 
 ## Documentation
 
-* [MyriadRF Wiki page](https://wiki.myriadrf.org/Gr-limesdr_Plugin_for_GNURadio)
+- [MyriadRF Wiki page](https://wiki.myriadrf.org/Gr-limesdr_Plugin_for_GNURadio)
 
 ## Dependencies
 
-* GNU Radio (>=3.8)
-* BOOST
-* SWIG
-* LimeSuite
+- GNU Radio (>=3.8)
+- BOOST
+- SWIG
+- LimeSuite
 
 ## Installation process
 
-* Installing GNURadio
-To install GNURadio3.8 please follow this guide [Installing GNURadio](https://wiki.gnuradio.org/index.php/InstallingGR)
+- Installing GNURadio
+  To install GNURadio3.8 please follow this guide [Installing GNURadio](https://wiki.gnuradio.org/index.php/InstallingGR)
 
-* Installing via PPA
+- Installing via PPA
 Only available for Ubuntu 20.04
 <pre>
 sudo add-apt-repository -y ppa:myriadrf/drivers
@@ -27,7 +27,7 @@ sudo apt update
 sudo apt install gr-limesdr
 </pre>
 
-* Building from source
+- Building from source
 <pre>
 git clone https://github.com/myriadrf/gr-limesdr.git
 cd gr-limesdr

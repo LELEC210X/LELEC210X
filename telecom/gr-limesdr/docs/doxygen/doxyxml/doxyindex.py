@@ -69,7 +69,6 @@ def generate_swig_doc_i(self):
 
 
 class DoxyCompMem(Base):
-
     kind = None
 
     def __init__(self, *args, **kwargs):
@@ -111,7 +110,6 @@ class DoxyMember(DoxyCompMem):
 
 
 class DoxyFunction(DoxyMember):
-
     __module__ = "gnuradio.utils.doxyxml"
 
     kind = "function"
@@ -138,7 +136,6 @@ Base.mem_classes.append(DoxyFunction)
 
 
 class DoxyParam(DoxyMember):
-
     __module__ = "gnuradio.utils.doxyxml"
 
     def _parse(self):
@@ -184,7 +181,6 @@ class DoxyParameterItem(DoxyMember):
 
 
 class DoxyClass(DoxyCompound):
-
     __module__ = "gnuradio.utils.doxyxml"
 
     kind = "class"
@@ -211,7 +207,6 @@ Base.mem_classes.append(DoxyClass)
 
 
 class DoxyFile(DoxyCompound):
-
     __module__ = "gnuradio.utils.doxyxml"
 
     kind = "file"
@@ -234,7 +229,6 @@ Base.mem_classes.append(DoxyFile)
 
 
 class DoxyNamespace(DoxyCompound):
-
     __module__ = "gnuradio.utils.doxyxml"
 
     kind = "namespace"
@@ -254,7 +248,6 @@ Base.mem_classes.append(DoxyNamespace)
 
 
 class DoxyGroup(DoxyCompound):
-
     __module__ = "gnuradio.utils.doxyxml"
 
     kind = "group"
@@ -288,7 +281,6 @@ Base.mem_classes.append(DoxyGroup)
 
 
 class DoxyFriend(DoxyMember):
-
     __module__ = "gnuradio.utils.doxyxml"
 
     kind = "friend"
@@ -298,7 +290,6 @@ Base.mem_classes.append(DoxyFriend)
 
 
 class DoxyOther(Base):
-
     __module__ = "gnuradio.utils.doxyxml"
 
     kinds = set(

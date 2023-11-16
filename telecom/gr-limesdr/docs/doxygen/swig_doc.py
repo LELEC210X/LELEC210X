@@ -268,7 +268,6 @@ def make_block2_entry(di, block):
 
 
 def make_swig_interface_file(di, swigdocfilename, custom_output=None):
-
     output = [
         """
 /*
