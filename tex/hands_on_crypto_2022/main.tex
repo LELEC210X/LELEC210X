@@ -1,0 +1,129 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{float}
+\usepackage{epstopdf}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{gensymb}
+\usepackage[bottom]{footmisc}
+\usepackage{appendix}
+\usepackage{pdfpages}
+\usepackage{todonotes}
+\usepackage{mathpazo}
+\usepackage{titleps}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{siunitx}
+\usepackage{pdflscape}
+\usepackage{cancel}
+
+\usepackage[skins]{tcolorbox}
+\usepackage{sectsty}
+\usepackage[arrowmos]{circuitikz}
+\usepackage{pgfplots}
+\usepackage{blindtext}
+\usepackage[inner=2cm,outer=2cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{todonotes}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{adjustbox}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{fancybox}
+\usepackage[tikz]{bclogo}
+
+\newcommand{\algorithmautorefname}{Algorithm}
+
+
+%For code insertion
+\usepackage{listings}
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+\lstdefinestyle{customasm}{
+  belowcaptionskip=1\baselineskip,
+  frame=L,
+  xleftmargin=\parindent,
+  language=[x86masm]Assembler,
+  basicstyle=\footnotesize\ttfamily,
+  commentstyle=\itshape\color{purple!40!black},
+}
+
+\lstset{escapechar=@,style=customc}
+%End for code insertion
+
+
+\graphicspath{{figures/}}
+\sectionfont{\large}
+\subsectionfont{\normalsize}
+
+%%%%%%%%%%%%%%%%%%%
+% HANDS-ON NUMBER
+\newcommand\handsOnN{5}
+% WEEK NUMBER
+\newcommand\weekN{9}
+%%%%%%%%%%%%%%%%%%%
+
+\newpagestyle{main}{
+	\sethead[LELEC2102: Hands-on \handsOnN][][Week \weekN]{LELEC2102: Hands-on \handsOnN}{}{Week \weekN}
+	\headrule
+    \setfoot[][\thepage][]{}{\thepage}{}
+}
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\renewcommand{\figurename}{Fig.}
+
+\renewcommand{\thepage}{\arabic{page}}
+\setcounter{page}{1}
+\pagestyle{main}
+\newpage \clearpage
+
+\begin{center}
+\begin{huge}
+Hands-On \handsOnN: Authenticated communication with AES-based CBC-MAC\\
+\end{huge}
+\vspace{0.3cm}
+%\textit{TA 1, TA 2}
+\end{center}
+
+\input{introduction}
+\input{objectives}
+\input{material}
+\input{core}
+\input{demo}
+%\input{report} %Report guidelines are moved to Moodle only
+
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
