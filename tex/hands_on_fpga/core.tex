@@ -21,6 +21,3 @@ Then, go into the \texttt{./telecom/gr-limesdr} directory and install it:
 \end{lstlisting}
 
 Finally, you may now open in the GNU Radio Companion the application \texttt{eval\_limesdr\_fpga.grc}. Do not forget to change the carrier frequency in the design. Observe that the low-pass filter block is no longer present, since it is accelerated in hardware. The software preamble detection has been replaced by a much more simple Flag detector. Using the MCU code from the hands-on last week, try to receive 5 packets over the air with this new GRC application. Do not hesitate to change the RX gain to receive the packets. You may want to adapt the K factor of the threshold if needed. However, your main tuning knob should be the gain.
-
-
-

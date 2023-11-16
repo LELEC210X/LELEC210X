@@ -20,11 +20,8 @@
 #
 
 
-import numpy
 import numpy as np
 from gnuradio import gr
-
-
 
 
 class flag_detector(gr.basic_block):
@@ -74,17 +71,16 @@ class flag_detector(gr.basic_block):
             self.rem_samples -= n_out
             return n_out
         else:
-            N = len(output_items[0]) 
-            y = input_items[0][: N ]
+            N = len(output_items[0])
+            y = input_items[0][:N]
 
-            if self.enable ==1 : 
+            if self.enable == 1:
                 pos = None
-                for i,Y in enumerate(y):
-                    if (np.real(Y) == self.flag and np.imag(Y)== self.flag):
-                        pos = i+1
-            else : 
+                for i, Y in enumerate(y):
+                    if np.real(Y) == self.flag and np.imag(Y) == self.flag:
+                        pos = i + 1
+            else:
                 pos = 0
-
 
             if (
                 pos is None
@@ -96,8 +92,8 @@ class flag_detector(gr.basic_block):
             # is transferred to the output
             self.rem_samples = 8 * self.osr * (self.packet_len + 1) + self.osr
 
-            n_out = min(N - pos,  self.rem_samples)
-            output_items[0][:n_out] = input_items[0][pos:(pos+n_out)]
+            n_out = min(N - pos, self.rem_samples)
+            output_items[0][:n_out] = input_items[0][pos : (pos + n_out)]
             self.consume_each(N)
 
             self.rem_samples -= n_out

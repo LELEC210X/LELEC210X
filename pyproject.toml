@@ -13,12 +13,18 @@ py_version = 38
 authors = ["LELEC210X teaching assistants"]
 description = ""
 name = "LELEC210X"
-packages = [{include = "classification", from = "classification/src"}, {include = "leaderboard", from = "leaderboard/src"}]
+packages = [{include = "auth", from = "auth/src"}, {include = "classification", from = "classification/src"}, {include = "leaderboard", from = "leaderboard/src"}]
 readme = "README.md"
 version = "0.1.0"
 
 [tool.poetry.dependencies]
 python = "^3.8"
+
+[tool.poetry.group.auth.dependencies]
+click = "^8.1.7"
+cryptography = "^41.0.5"
+pyserial = "^3.5"
+pyzmq = "^25.1.1"
 
 [tool.poetry.group.classification.dependencies]
 librosa = "^0.10.1"
@@ -51,6 +57,11 @@ requests = "^2.28.2"
 
 [tool.poetry.group.tex.dependencies]
 pygments = "^2.16.1"
+
+[tool.poetry.plugins]
+
+[tool.poetry.plugins."console_scripts"]
+auth = "auth.__main__:main"
 
 [tool.ruff]
 ignore = [
