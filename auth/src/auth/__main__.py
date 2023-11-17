@@ -1,3 +1,4 @@
+import os
 from typing import Iterator, Optional
 
 import click
@@ -104,6 +105,12 @@ def main(
             + click.style(auth_key.hex(), fg="green")
         )
 
+    how_to_kill = (
+        "Use Ctrl-C (or Ctrl-D) to terminate.\nIf that does not work, execute `"
+        + click.style(f"kill {os.getpid()}", fg="blue")
+        + "` in a separate terminal."
+    )
+
     unwrapper = packet.PacketUnwrapper(
         key=auth_key,
         allowed_senders=[
@@ -124,7 +131,7 @@ def main(
                     "Reading packets from serial port: "
                     + click.style(serial_port, fg="green")
                 )
-                click.echo("Use Ctrl-C (or Ctrl-D) to terminate.")
+                click.echo(how_to_kill)
 
             while True:
                 line = ser.read_until(b"\n").decode("ascii").strip()
@@ -141,7 +148,7 @@ def main(
                     "Reading packets from input: "
                     + click.style(str(_input), fg="green")
                 )
-                click.echo("Use Ctrl-C (or Ctrl-D) to terminate.")
+                click.echo(how_to_kill)
 
             for line in _input.readlines():
                 line = line.strip()
@@ -166,7 +173,7 @@ def main(
                     "Reading packets from TCP address: "
                     + click.style(tcp_address, fg="green")
                 )
-                click.echo("Use Ctrl-C (or Ctrl-D) to terminate.")
+                click.echo(how_to_kill)
 
             while True:
                 msg = socket.recv(2 * melvec_len * num_melvecs)
