@@ -24,6 +24,7 @@ tex/*/*.pdf
 !tex/*/figures/*.pdf
 tex/*/*.toc
 tex/*/*.synctex.gz
+tex/*/*.synctex(busy)
 tex/pdfs.zip
 _minted-*/
 tex/hands_on_wireless_simulation/modulate.py
