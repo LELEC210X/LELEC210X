@@ -21,6 +21,7 @@ tex/*/*.fls
 tex/*/*.log
 tex/*/*.out
 tex/*/*.pdf
+!tex/*/figures/*.pdf
 tex/*/*.toc
 tex/pdfs.zip
 _minted-*/
