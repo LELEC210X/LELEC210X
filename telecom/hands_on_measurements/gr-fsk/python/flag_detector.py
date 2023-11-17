@@ -35,7 +35,7 @@ class flag_detector(gr.basic_block):
         self.packet_len = packet_len  # in bytes
         self.osr = int(fsamp / drate)
         self.rem_samples = 0
-        self.flag = 0.9995422363281250
+        self.flag = 0.95
         self.enable = enable
 
         self.filter_len = (
@@ -77,7 +77,7 @@ class flag_detector(gr.basic_block):
             if self.enable == 1:
                 pos = None
                 for i, Y in enumerate(y):
-                    if np.real(Y) == self.flag and np.imag(Y) == self.flag:
+                    if np.real(Y) > self.flag and np.imag(Y) > self.flag:
                         pos = i + 1
             else:
                 pos = 0

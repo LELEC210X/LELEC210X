@@ -183,6 +183,6 @@ def main(
             )
         except packet.InvalidPacket as e:
             click.secho(
-                f"Invalid packet error: {e.args[0]}\n\t {PRINT_PREFIX}{payload.hex()}",
+                f"Invalid packet error: {e.args[0]}",
                 fg="red",
             )
