@@ -58,7 +58,7 @@ def hex_to_bytes(ctx: click.Context, param: click.Parameter, value: str) -> byte
 @click.option(
     "-k",
     "--auth-key",
-    default=32 * "0",
+    default=16 * "00",
     envvar="AUTH_KEY",
     callback=hex_to_bytes,
     show_default=True,
