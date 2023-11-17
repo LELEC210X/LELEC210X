@@ -1,6 +1,5 @@
 import argparse
 import struct
-import sys
 
 import serial
 from cryptography.hazmat.backends import default_backend

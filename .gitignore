@@ -21,7 +21,9 @@ tex/*/*.fls
 tex/*/*.log
 tex/*/*.out
 tex/*/*.pdf
+!tex/*/figures/*.pdf
 tex/*/*.toc
+tex/*/*.synctex.gz
 tex/pdfs.zip
 _minted-*/
 tex/hands_on_wireless_simulation/modulate.py
