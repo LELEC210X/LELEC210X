@@ -27,6 +27,7 @@ pyserial = "^3.5"
 pyzmq = "^25.1.1"
 
 [tool.poetry.group.classification.dependencies]
+click = "^8.1.7"
 librosa = "^0.10.1"
 notebook = "^7.0.4"
 scipy = "^1.09"
@@ -62,6 +63,7 @@ pygments = "^2.16.1"
 
 [tool.poetry.plugins."console_scripts"]
 auth = "auth.__main__:main"
+classify = "classification.__main__:main"
 
 [tool.ruff]
 ignore = [

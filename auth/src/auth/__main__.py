@@ -5,9 +5,7 @@ import click
 import serial
 import zmq
 
-from . import packet
-
-PRINT_PREFIX = "DF:HEX:"
+from . import PRINT_PREFIX, packet
 
 
 def parse_packet(line: str) -> bytes:
@@ -135,7 +133,6 @@ def main(
 
             while True:
                 line = ser.read_until(b"\n").decode("ascii").strip()
-                output.write(line + "\n")
                 packet = parse_packet(line)
                 if packet is not None:
                     yield packet
@@ -150,9 +147,7 @@ def main(
                 )
                 click.echo(how_to_kill)
 
-            for line in _input.readlines():
-                line = line.strip()
-                output.write(line + "\n")
+            for line in _input:
                 packet = parse_packet(line)
                 if packet is not None:
                     yield packet
@@ -177,17 +172,20 @@ def main(
 
             while True:
                 msg = socket.recv(2 * melvec_len * num_melvecs)
-                output.write(PRINT_PREFIX + msg.hex() + "\n")
                 yield msg
 
     input_stream = reader()
     for msg in input_stream:
         try:
             sender, payload = unwrapper.unwrap_packet(msg)
-            click.echo(
-                f"From {sender}, received packet: "
-                + click.style(payload.hex(), fg="green")
-            )
+            if not quiet:
+                click.echo(
+                    f"From {sender}, received packet: "
+                    + click.style(payload.hex(), fg="green")
+                )
+            output.write(PRINT_PREFIX + payload.hex() + "\n")
+            output.flush()
+
         except packet.InvalidPacket as e:
             click.secho(
                 f"Invalid packet error: {e.args[0]}",
