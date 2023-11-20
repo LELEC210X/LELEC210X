@@ -33,3 +33,14 @@ poetry run jupyter notebook --no-browser
 
 If Jupter does not launch a browser Windows, you can scroll the terminal
 and click (<kbd>CTRL</kbd>+<kbd>LEFT CLICK</kbd>) on one of the HTTP links displayed.
+
+To run the `classify script`, it is recommended to pipe it with the `auth` script, so that the output of `auth` is
+directly streamed to `classify`:
+
+```bash
+poetry run auth | poetry run classify
+```
+
+Of course, you can pass any argument you like to the first or the second command.
+Note that changing the output `-o` option from `auth` or the input `-i` option from `classify`
+will mean that process piping (`|` is a pipe) will not be possibly anymore.
