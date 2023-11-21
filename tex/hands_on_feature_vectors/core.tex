@@ -1,9 +1,17 @@
 \section{Practical part}
 %
-You are now ready to dive into a new embedded programming project. As you did for H2, git pull the following repository: \\
-\url{https://forge.uclouvain.be/lelec2102-2103/h3b_code_package/}. \\
-\\
-We restart from the end of H2b, i.e. where you implemented the double buffering for sampling your signal with the ADC. What is new in this project is the content of the function called when you press the \textcolor{blue}{User blue button}: \\
+Similarly \emph{hands\_on\_mcu.pdf}, you can run the code by:
+\begin{itemize}
+	\item Flashing the MCU with the code by clicking on the green run button.
+	\item Launching the script reading the content of the uart printed by the MCU with \texttt{python uart-rader.py -p PORTNAME}. 
+\end{itemize}
+If your python script runs, pressing the \textcolor{blue}{User blue button} on the Nucleo board should launch an audio acquisition with the microphone. A figure should open, showing the acquired melspectrogram. To stop your script, click on \texttt{CLTR+C} in the command prompt then press the \textcolor{blue}{User blue button} again.  Remember how to switch to an audio acquisition with the jack cable by changing the \texttt{SEL\_SOUND} pin connection on the Nucleo board as explained in \emph{hands\_on\_audio\_acquisition.pdf}. 
+%
+%%%%
+\subsection{Embedded computations and complexities}
+%
+You are now ready to dive into a new embedded programming project. 
+We restart from the end of \emph{hands\_on\_audio\_acquisition.pdf}, i.e. where you implemented the double buffering for sampling your signal with the ADC. What is new in this project is the content of the function called when you press the \textcolor{blue}{User blue button}: \\
 %
 \begin{lstlisting}
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
@@ -43,7 +51,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
 \end{lstlisting}
 %
 Which compute one feature vector each time the button is pressed. \\
-You can find a new file \emph{spectrogram.c} which details exactly how we do the computations, which functions are used and why. We left lots of comments with some questions to ensure you follow it. Note you can vary the parameters in \emph{config.h}.  \\
+You can find a new file \emph{spectrogram.c} which details exactly how we do the computations, which functions are used and why. We left lots of comments with some questions to ensure you follow it. Note you can vary the parameters in \emph{config.h}. \\
 \\
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Casting data}
@@ -62,16 +70,30 @@ In this line, the (q15$\_$t) and two (q31$\_$t) are called \textbf{casting}. Thi
 The content of \emph{spectrogram$\_$tables.h} and \emph{spectrogram.h} has been hardcoded using the files in \textbf{Python2C$\_$conversion}. These notebooks could be useful for you during the second semester if you want to apply your feature vector computations on a perfect signal, i.e. an audio signal from the Dataset which has directly been hardcoded in C. This is optional, but you can already take a look at how this is done.
 \end{bclogo}
 %
-When you read and try to understand the code (remember this is equivalent to what you did during H1 in Python), \textbf{evaluate the complexity of the different functions involved}, this will help you to identify the \emph{bottlenecks} (worst parts in a computational point of view). Each time you have a pipeline with different computations where the efficiency is critical, you should work on improving your bottlenecks. Think about it and \textbf{discuss with the TA's your ideas to improve} what we propose. \\
+When you read and try to understand the code (remember this is equivalent to what you did during H1 in Python), \textbf{evaluate the theoretical complexity of the different functions involved} ($\mathcal O(n^2)$, $\mathcal O(\sin (n))$,\ldots), this will help you to identify the \emph{bottlenecks} (worst parts in a computational point of view). Each time you have a pipeline with different computations where the efficiency is critical, you should work on improving your bottlenecks. Confirm your evaluations of the computational complexities by \textbf{measuring the cycle counts of all intermediate computations in spectrogram.c} as explained in \emph{hands\_on\_authentication.pdf}.
+Think about it and \textbf{discuss with the TA's your ideas to improve} what we propose. \\
 \\
-We are not far from the true chain where we will still need to authenticate it then build a packet to be transmitted wirelessly. Removing the need to press the button is piece of cake. \\
-\\
-For now, the feature vector content is printed on the UART and displayed on the console (e.g. Putty). The function which reads the printed content (in \emph{hex}) is \textbf{uart$\_$reader.py}. It is fairly short. Understand what it does and add your functionalities from H2a to \textbf{apply a classification on the feature vector}. \\
+For now, the feature vector content is printed on the UART and displayed on the console (e.g. Putty). The function which reads the printed content (in \emph{hex}) is \textbf{uart$\_$reader.py}. It is fairly short. Understand what it does and add your functionalities from what you have done for the hands-on session on the classification aspects to \textbf{apply a classification on the feature vector}. \\
 \\
 %
-\noindent To summarize, all you have to do is:
+\noindent To summarize, you have to:
 \begin{enumerate}
-    \item Understand the provided code.
+    \item Be able to run and understand the provided code.
     \item Check the consistency between a melspectrogram obtained only in simulation (as in H1) and obtained through the jack cable. Except for a random scaling, they should be almost identical.
-    \item Modify \emph{uart$\_$reader.py} to test your classifier from H3a on the computed feature vector.
+    \item Evaluate the theoretical complexities and measure the cycle counts of the operations made in \emph{spectrogram.c}.
+    \item Modify \emph{uart$\_$reader.py} to test your trained classifier on the computed feature vector.
 \end{enumerate}
+%
+%%%%
+\subsection{Calibrated dataset}
+%
+You should have noticed that the performances of your trained classifier on audio signals acquired with the microphone are very poor. Indeed, there are many differences between a nice feature vector computation made from a registered audio file in Python and a real computation made from an acquired signal in fixed-point format in C.
+
+To take these imperfections into account, you will create training data using your own device. It implicitely takes the acquisition non idealities into account, and gives you the possibility to truly augment the data increasining the distance between the sound source and microphone, or adding background sound by yourself.
+%
+\noindent To summarize, you have to:
+\begin{enumerate}
+    \item Modify \emph{uart\_reader.py} to save the computed feature vectors in your system and create a new dataset of feature vectors.
+    \item Train a classifier on this new dataset.
+\end{enumerate}
+

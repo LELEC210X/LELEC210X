@@ -37,6 +37,15 @@ class Dataset:
             files.setdefault(cls, []).append(file)
 
         self.files = files
+        self.nclass = len(files)
+        self.naudio = len(files[list(files.keys())[0]])
+        self.size = self.nclass * self.naudio
+
+    def __len__(self) -> int:
+        """
+        Returns the number of sounds in the dataset.
+        """
+        return self.size
 
     def __getitem__(self, cls_index: Tuple[str, int]) -> Path:
         """
@@ -48,6 +57,17 @@ class Dataset:
         """
         cls, index = cls_index
         return self.files[cls][index]
+    
+    def __getname__(self, cls_index: Tuple[str, int]) -> str:
+        """
+        Return the name of the sound selected.
+
+        :cls_index: Class name and index.
+        :return: The name of the sound.
+        """
+
+        cls, index = cls_index
+        return self.files[cls][index].stem
 
     def list_classes(self) -> List[str]:
         """

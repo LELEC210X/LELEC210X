@@ -12,7 +12,7 @@
 // Spectrogram parameters
 #define SAMPLES_PER_MELVEC 512
 #define MELVEC_LENGTH 20
-#define N_MELVECS 10
+#define N_MELVECS 20
 
 
 #endif /* INC_CONFIG_H_ */

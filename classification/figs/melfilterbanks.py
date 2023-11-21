@@ -8,13 +8,9 @@
 
 """
 
-import os
-
 import librosa
 import matplotlib.pyplot as plt
 import numpy as np
-
-os.chdir(os.path.dirname(__file__))  # go to current file directory
 
 Nft = 512
 fs = 11025  # Hz
@@ -31,5 +27,5 @@ colors = plt.cm.jet(np.linspace(0, 1, mel.shape[0]))
 for line in range(mel.shape[0]):
     ax.plot(mel[line, :], color=colors[line])
 plt.title("Mel filterbanks")
-plt.savefig("images/mel_filterbanks.svg")
+plt.savefig("mel_filterbanks.svg")
 plt.show()
