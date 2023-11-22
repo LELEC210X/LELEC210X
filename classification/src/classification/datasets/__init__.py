@@ -37,7 +37,6 @@ class Dataset:
             files.setdefault(cls, []).append(file)
 
         self.files = files
-<<<<<<< refs/remotes/upstream/main
         self.nclass = len(files)
         self.naudio = len(files[list(files.keys())[0]])
         self.size = self.nclass * self.naudio
@@ -47,8 +46,6 @@ class Dataset:
         Returns the number of sounds in the dataset.
         """
         return self.size
-=======
->>>>>>> Revert "enlever le chain de argu"
 
     def __getitem__(self, cls_index: Tuple[str, int]) -> Path:
         """
@@ -60,7 +57,6 @@ class Dataset:
         """
         cls, index = cls_index
         return self.files[cls][index]
-<<<<<<< refs/remotes/upstream/main
     
     def __getname__(self, cls_index: Tuple[str, int]) -> str:
         """
@@ -72,8 +68,6 @@ class Dataset:
 
         cls, index = cls_index
         return self.files[cls][index].stem
-=======
->>>>>>> Revert "enlever le chain de argu"
 
     def list_classes(self) -> List[str]:
         """
@@ -84,6 +78,3 @@ class Dataset:
         """
 <<<<<<< refs/remotes/upstream/main
         return list(self.files.keys())
-=======
-        return list(self.files.keys())
->>>>>>> Revert "enlever le chain de argu"

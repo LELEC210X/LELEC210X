@@ -4157,8 +4157,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-<<<<<<< refs/remotes/upstream/main
 content-hash = "b197e381b2dfce0ea1371f782cd71178201616ed25cbe10dc01a47b9b9e52dd6"
-=======
-content-hash = "2e5a7506ccec025e254738ed1a433a41d522d00fa35d0d09af697caa5264dc1a"
->>>>>>> Revert "enlever le chain de argu"
