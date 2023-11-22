@@ -1,0 +1,197 @@
+
+State Machine - |lms7_trx_top|rx_path_top:inst6_rx_path_top|data2packets_top:data2packets_top_inst2|data2packets:data2packets_inst2|current_state
+Name current_state.s3 current_state.s2 current_state.s1 current_state.s0 current_state.idle 
+current_state.idle 0 0 0 0 0 
+current_state.s0 0 0 0 1 1 
+current_state.s1 0 0 1 0 1 
+current_state.s2 0 1 0 0 1 
+current_state.s3 1 0 0 0 1 
+
+State Machine - |lms7_trx_top|rx_path_top:inst6_rx_path_top|data2packets_top:data2packets_top_inst2|data2packets_fsm:data2packets_fsm_inst0|current_state
+Name current_state.wait_data2packets_done current_state.rd_smpl_buff current_state.check_pct_buff current_state.idle 
+current_state.idle 0 0 0 0 
+current_state.check_pct_buff 0 0 1 1 
+current_state.rd_smpl_buff 0 1 0 1 
+current_state.wait_data2packets_done 1 0 0 1 
+
+State Machine - |lms7_trx_top|rx_path_top:inst6_rx_path_top|lms_dsp:dspcfg_subsystem_inst11|lms_dsp_fir_compiler_ii_0:fir_compiler_ii_0|lms_dsp_fir_compiler_ii_0_ast:lms_dsp_fir_compiler_ii_0_ast_inst|auk_dspip_avalon_streaming_sink_hpfir:sink|sink_state
+Name sink_state.end1 sink_state.st_err sink_state.run1 sink_state.stall sink_state.start 
+sink_state.start 0 0 0 0 0 
+sink_state.stall 0 0 0 1 1 
+sink_state.run1 0 0 1 0 1 
+sink_state.st_err 0 1 0 0 1 
+sink_state.end1 1 0 0 0 1 
+
+State Machine - |lms7_trx_top|rx_path_top:inst6_rx_path_top|diq2fifo:diq2fifo_inst0|smpl_cmp:inst3_smpl_cmp|current_state
+Name current_state.compare_done current_state.compare current_state.wait_cyc current_state.idle 
+current_state.idle 0 0 0 0 
+current_state.wait_cyc 0 0 1 1 
+current_state.compare 0 1 0 1 
+current_state.compare_done 1 0 0 1 
+
+State Machine - |lms7_trx_top|tst_top:inst3_tst_top|clock_test:clock_test_inst0|singl_clk_with_ref_test:LML_CLK_test|current_state
+Name current_state.count_end current_state.count current_state.idle 
+current_state.idle 0 0 0 
+current_state.count 0 1 1 
+current_state.count_end 1 0 1 
+
+State Machine - |lms7_trx_top|tst_top:inst3_tst_top|clock_test:clock_test_inst0|clk_with_ref_test:Si5351C_test|current_state
+Name current_state.count_end current_state.count current_state.idle 
+current_state.idle 0 0 0 
+current_state.count 0 1 1 
+current_state.count_end 1 0 1 
+
+State Machine - |lms7_trx_top|tst_top:inst3_tst_top|clock_test:clock_test_inst0|clk_no_ref_test:FX3_clk_test|current_state
+Name current_state.count_end current_state.count current_state.idle 
+current_state.idle 0 0 0 
+current_state.count 0 1 1 
+current_state.count_end 1 0 1 
+
+State Machine - |lms7_trx_top|FT601_top:inst2_FT601_top|FT601:ft_fsm|current_state
+Name current_state.data_trnsf current_state.bus_turn2 current_state.bus_turn1 current_state.bus_turn0 current_state.rd_ch2 current_state.rd_ch1 current_state.command current_state.master_wr current_state.master_rd current_state.cmd current_state.prep_cmd current_state.idle 
+current_state.idle 0 0 0 0 0 0 0 0 0 0 0 0 
+current_state.prep_cmd 0 0 0 0 0 0 0 0 0 0 1 1 
+current_state.cmd 0 0 0 0 0 0 0 0 0 1 0 1 
+current_state.master_rd 0 0 0 0 0 0 0 0 1 0 0 1 
+current_state.master_wr 0 0 0 0 0 0 0 1 0 0 0 1 
+current_state.command 0 0 0 0 0 0 1 0 0 0 0 1 
+current_state.rd_ch1 0 0 0 0 0 1 0 0 0 0 0 1 
+current_state.rd_ch2 0 0 0 0 1 0 0 0 0 0 0 1 
+current_state.bus_turn0 0 0 0 1 0 0 0 0 0 0 0 1 
+current_state.bus_turn1 0 0 1 0 0 0 0 0 0 0 0 1 
+current_state.bus_turn2 0 1 0 0 0 0 0 0 0 0 0 1 
+current_state.data_trnsf 1 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |lms7_trx_top|FT601_top:inst2_FT601_top|FT601_arb:ftdi_arbiter|current_state
+Name current_state.go_ep83 current_state.go_ep82 current_state.go_ep02 current_state.check_ep83 current_state.check_ep82 current_state.check_ep02 current_state.check_priority current_state.idle 
+current_state.idle 0 0 0 0 0 0 0 0 
+current_state.check_priority 0 0 0 0 0 0 1 1 
+current_state.check_ep02 0 0 0 0 0 1 0 1 
+current_state.check_ep82 0 0 0 0 1 0 0 1 
+current_state.check_ep83 0 0 0 1 0 0 0 1 
+current_state.go_ep02 0 0 1 0 0 0 0 1 
+current_state.go_ep82 0 1 0 0 0 0 0 1 
+current_state.go_ep83 1 0 0 0 0 0 0 1 
+
+State Machine - |lms7_trx_top|pll_top:inst1_pll_top|rxtx_pll:rxtx_pll_inst0|pll_reconfig_status:pll_reconfig_status_inst4|current_state
+Name current_state.reconfig_complete current_state.ps_begin current_state.wait_ps_begin current_state.reconfig_begin current_state.idle 
+current_state.idle 0 0 0 0 0 
+current_state.reconfig_begin 0 0 0 1 1 
+current_state.wait_ps_begin 0 0 1 0 1 
+current_state.ps_begin 0 1 0 0 1 
+current_state.reconfig_complete 1 0 0 0 1 
+
+State Machine - |lms7_trx_top|pll_top:inst1_pll_top|rxtx_pll:rxtx_pll_inst0|pll_ps_top:pll_ps_top_inst2|current_state
+Name current_state.ps_disable current_state.ps_enable current_state.check_mode current_state.idle 
+current_state.idle 0 0 0 0 
+current_state.check_mode 0 0 1 1 
+current_state.ps_enable 0 1 0 1 
+current_state.ps_disable 1 0 0 1 
+
+State Machine - |lms7_trx_top|pll_top:inst1_pll_top|rxtx_pll:rxtx_pll_inst0|pll_ps_top:pll_ps_top_inst2|pll_ps_fsm:pll_ps_fsm_inst1|current_state
+Name current_state.prep_phase current_state.end_srch current_state.wait_after_ph_shift current_state.ph_shift current_state.check_max_steps current_state.max_found current_state.min_found current_state.cmp_smpls current_state.check_cmp_status current_state.wait_pll_lock current_state.rst_pll current_state.idle 
+current_state.idle 0 0 0 0 0 0 0 0 0 0 0 0 
+current_state.rst_pll 0 0 0 0 0 0 0 0 0 0 1 1 
+current_state.wait_pll_lock 0 0 0 0 0 0 0 0 0 1 0 1 
+current_state.check_cmp_status 0 0 0 0 0 0 0 0 1 0 0 1 
+current_state.cmp_smpls 0 0 0 0 0 0 0 1 0 0 0 1 
+current_state.min_found 0 0 0 0 0 0 1 0 0 0 0 1 
+current_state.max_found 0 0 0 0 0 1 0 0 0 0 0 1 
+current_state.check_max_steps 0 0 0 0 1 0 0 0 0 0 0 1 
+current_state.ph_shift 0 0 0 1 0 0 0 0 0 0 0 1 
+current_state.wait_after_ph_shift 0 0 1 0 0 0 0 0 0 0 0 1 
+current_state.end_srch 0 1 0 0 0 0 0 0 0 0 0 1 
+current_state.prep_phase 1 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |lms7_trx_top|pll_top:inst1_pll_top|rxtx_pll:rxtx_pll_inst0|pll_ps_top:pll_ps_top_inst2|pll_ps:pll_ps_inst0|current_state
+Name current_state.end_phase current_state.check_phase_done current_state.phase_step current_state.check_phase_step current_state.idle 
+current_state.idle 0 0 0 0 0 
+current_state.check_phase_step 0 0 0 1 1 
+current_state.phase_step 0 0 1 0 1 
+current_state.check_phase_done 0 1 0 0 1 
+current_state.end_phase 1 0 0 0 1 
+
+State Machine - |lms7_trx_top|pll_top:inst1_pll_top|rxtx_pll:rxtx_pll_inst0|config_ctrl:config_ctrl_inst0|state_r
+Name state_r.w1 state_r.s1 state_r.w0 state_r.s0 state_r.idle 
+state_r.idle 0 0 0 0 0 
+state_r.s0 0 0 0 1 1 
+state_r.w0 0 0 1 0 1 
+state_r.s1 0 1 0 0 1 
+state_r.w1 1 0 0 0 1 
+
+State Machine - |lms7_trx_top|nios_cpu:inst0_nios_cpu|lms_ctr:lms_ctr_inst0|altera_onchip_flash:onchip_flash_0|altera_onchip_flash_avmm_data_controller:avmm_data_controller|avmm_read_valid_state
+Name avmm_read_valid_state.READ_VALID_IDLE avmm_read_valid_state.READ_VALID_PRE_READING avmm_read_valid_state.READ_VALID_READING 
+avmm_read_valid_state.READ_VALID_IDLE 0 0 0 
+avmm_read_valid_state.READ_VALID_READING 1 0 1 
+avmm_read_valid_state.READ_VALID_PRE_READING 1 1 0 
+
+State Machine - |lms7_trx_top|nios_cpu:inst0_nios_cpu|lms_ctr:lms_ctr_inst0|altera_onchip_flash:onchip_flash_0|altera_onchip_flash_avmm_data_controller:avmm_data_controller|read_state
+Name read_state.READ_STATE_PULSE_SE read_state.READ_STATE_CLEAR read_state.READ_STATE_FINAL read_state.READ_STATE_READY read_state.READ_STATE_DUMMY read_state.READ_STATE_SETUP read_state.READ_STATE_ADDR read_state.READ_STATE_IDLE 
+read_state.READ_STATE_IDLE 0 0 0 0 0 0 0 0 
+read_state.READ_STATE_ADDR 0 0 0 0 0 0 1 1 
+read_state.READ_STATE_SETUP 0 0 0 0 0 1 0 1 
+read_state.READ_STATE_DUMMY 0 0 0 0 1 0 0 1 
+read_state.READ_STATE_READY 0 0 0 1 0 0 0 1 
+read_state.READ_STATE_FINAL 0 0 1 0 0 0 0 1 
+read_state.READ_STATE_CLEAR 0 1 0 0 0 0 0 1 
+read_state.READ_STATE_PULSE_SE 1 0 0 0 0 0 0 1 
+
+State Machine - |lms7_trx_top|nios_cpu:inst0_nios_cpu|lms_ctr:lms_ctr_inst0|altera_onchip_flash:onchip_flash_0|altera_onchip_flash_avmm_data_controller:avmm_data_controller|erase_state
+Name erase_state.ERASE_STATE_ERROR erase_state.ERASE_STATE_RESET erase_state.ERASE_STATE_WAIT_DONE erase_state.ERASE_STATE_WAIT_BUSY erase_state.ERASE_STATE_ADDR erase_state.ERASE_STATE_IDLE 
+erase_state.ERASE_STATE_IDLE 0 0 0 0 0 0 
+erase_state.ERASE_STATE_ADDR 0 0 0 0 1 1 
+erase_state.ERASE_STATE_WAIT_BUSY 0 0 0 1 0 1 
+erase_state.ERASE_STATE_WAIT_DONE 0 0 1 0 0 1 
+erase_state.ERASE_STATE_RESET 0 1 0 0 0 1 
+erase_state.ERASE_STATE_ERROR 1 0 0 0 0 1 
+
+State Machine - |lms7_trx_top|nios_cpu:inst0_nios_cpu|lms_ctr:lms_ctr_inst0|altera_onchip_flash:onchip_flash_0|altera_onchip_flash_avmm_data_controller:avmm_data_controller|write_state
+Name write_state.WRITE_STATE_ERROR write_state.WRITE_STATE_RESET write_state.WRITE_STATE_WAIT_DONE write_state.WRITE_STATE_WAIT_BUSY write_state.WRITE_STATE_WRITE write_state.WRITE_STATE_ADDR write_state.WRITE_STATE_IDLE 
+write_state.WRITE_STATE_IDLE 0 0 0 0 0 0 0 
+write_state.WRITE_STATE_ADDR 0 0 0 0 0 1 1 
+write_state.WRITE_STATE_WRITE 0 0 0 0 1 0 1 
+write_state.WRITE_STATE_WAIT_BUSY 0 0 0 1 0 0 1 
+write_state.WRITE_STATE_WAIT_DONE 0 0 1 0 0 0 1 
+write_state.WRITE_STATE_RESET 0 1 0 0 0 0 1 
+write_state.WRITE_STATE_ERROR 1 0 0 0 0 0 1 
+
+State Machine - |lms7_trx_top|nios_cpu:inst0_nios_cpu|lms_ctr:lms_ctr_inst0|lms_ctr_nios2_cpu:nios2_cpu|lms_ctr_nios2_cpu_cpu:cpu|lms_ctr_nios2_cpu_cpu_nios2_oci:the_lms_ctr_nios2_cpu_cpu_nios2_oci|lms_ctr_nios2_cpu_cpu_debug_slave_wrapper:the_lms_ctr_nios2_cpu_cpu_debug_slave_wrapper|lms_ctr_nios2_cpu_cpu_debug_slave_tck:the_lms_ctr_nios2_cpu_cpu_debug_slave_tck|DRsize
+Name DRsize.101 DRsize.100 DRsize.011 DRsize.010 DRsize.001 DRsize.000 
+DRsize.000 0 0 0 0 0 0 
+DRsize.001 0 0 0 0 1 1 
+DRsize.010 0 0 0 1 0 1 
+DRsize.011 0 0 1 0 0 1 
+DRsize.100 0 1 0 0 0 1 
+DRsize.101 1 0 0 0 0 1 
+
+State Machine - |lms7_trx_top|nios_cpu:inst0_nios_cpu|lms_ctr:lms_ctr_inst0|i2c_opencores:i2c_opencores_0|i2c_master_top:i2c_master_top_inst|i2c_master_byte_ctrl:byte_controller|c_state
+Name c_state.ST_IDLE c_state.ST_STOP c_state.ST_ACK c_state.ST_WRITE c_state.ST_READ c_state.ST_START 
+c_state.ST_IDLE 0 0 0 0 0 0 
+c_state.ST_START 1 0 0 0 0 1 
+c_state.ST_READ 1 0 0 0 1 0 
+c_state.ST_WRITE 1 0 0 1 0 0 
+c_state.ST_ACK 1 0 1 0 0 0 
+c_state.ST_STOP 1 1 0 0 0 0 
+
+State Machine - |lms7_trx_top|nios_cpu:inst0_nios_cpu|lms_ctr:lms_ctr_inst0|altera_dual_boot:dual_boot_0|alt_dual_boot_avmm:alt_dual_boot_avmm_comp|alt_dual_boot:alt_dual_boot|current_state
+Name current_state.STATE_CLR_BUSY current_state.STATE_CLR_END current_state.STATE_CLR_WR_INREG current_state.STATE_CLR_RD_INREG current_state.STATE_CLR_RD_APP2 current_state.STATE_CLR_RD_APP1 current_state.STATE_CLR_RD_WD current_state.STATE_CLR current_state.STATE_WRITE_UPDATE current_state.STATE_WRITE current_state.STATE_WRITE_SETUP current_state.STATE_READ_UPDATE current_state.STATE_READ_EXTRA current_state.STATE_READ current_state.STATE_READ_CAPTURE current_state.STATE_READ_DUMMY current_state.STATE_READ_WRITE current_state.STATE_READ_SETUP current_state.STATE_SAME current_state.STATE_INIT 
+current_state.STATE_INIT 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+current_state.STATE_SAME 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+current_state.STATE_READ_SETUP 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+current_state.STATE_READ_WRITE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+current_state.STATE_READ_DUMMY 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+current_state.STATE_READ_CAPTURE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+current_state.STATE_READ 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+current_state.STATE_READ_EXTRA 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+current_state.STATE_READ_UPDATE 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+current_state.STATE_WRITE_SETUP 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+current_state.STATE_WRITE 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+current_state.STATE_WRITE_UPDATE 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+current_state.STATE_CLR 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.STATE_CLR_RD_WD 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.STATE_CLR_RD_APP1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.STATE_CLR_RD_APP2 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.STATE_CLR_RD_INREG 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.STATE_CLR_WR_INREG 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.STATE_CLR_END 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.STATE_CLR_BUSY 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
