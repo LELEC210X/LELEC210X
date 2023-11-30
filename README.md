@@ -13,15 +13,15 @@ The current directory, which we will refer to as **root**, contains instructions
 3. how to keep your code clean;
 4. and how to build the whole project.
 
-> **NOTE**: part 3 will only be useful once you have read and worked through all
+> Note: part 3 will only be useful once you have read and worked through all
 > the intermediate hands-on sessions.
 
 Subdirectories are organized as follows:
 
+- [`auth/`](auth/):
+  hands-on related to the authentification part.
 - [`classification/`](classification/):
   hands-on related to the classification part.
-- [`contest/`](contest/):
-  poster of the teaching team and code used during the contest.
 - [`fpga`](fpga/):
   hands-on related to the FPGA part and Quartus project for the LimeSDR Mini.
 - [`leaderboard/`](leaderboard/):
@@ -29,7 +29,6 @@ Subdirectories are organized as follows:
   setup before the contest.
 - [`mcu/`](mcu/):
   hands-on related to the MCU part and STM32CubeIDE project for the Nucleo board.
-- [`scripts/`](scripts/): general purpose routines.
 - [`telecom/`](telecom/): hands-on related to the telecom part,
   simulation framework and GNU Radio modules.
 - [`tex/`](tex/): LaTeX projects for this courses.
