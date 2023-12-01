@@ -68,9 +68,11 @@ class AudioUtil:
         """
         sig, sr = audio
 
-        ### TO COMPLETE
+        ### TO COMPLETE -> DONE
+        samp = signal.resample(sig, newsr)
+        
 
-        return (resig, newsr)
+        return (samp, newsr)
 
     def pad_trunc(audio, max_ms) -> Tuple[ndarray, int]:
         """
@@ -125,8 +127,8 @@ class AudioUtil:
         sig, sr = audio
 
         ### TO COMPLETE
-
-        return audio
+        scale_amt = random.random() * scaling_limit
+        return (sig*scale_amt, sr)
 
     def add_noise(audio, sigma=0.05) -> Tuple[ndarray, int]:
         """
@@ -138,8 +140,8 @@ class AudioUtil:
         sig, sr = audio
 
         ### TO COMPLETE
-
-        return audio
+        noise = np.random.normal(0, sigma, len(sig))
+        return (sig + noise, sr)
 
     def echo(audio, nechos=2) -> Tuple[ndarray, int]:
         """
@@ -198,9 +200,20 @@ class AudioUtil:
         :param fs2: The sampling frequency.
         """
 
-        ### TO COMPLETE
-        # stft /= float(2**8)
+        ### TO COMPLETE ok
+        sig, sr = audio
+        L = len(sig)
+        sig = sig[: L - L % Nft]
+        audiomat = np.reshape(sig, (L // Nft, Nft))
+        audioham = audiomat * np.hamming(Nft) 
+        stft = np.fft.fft(audioham, axis=1)
+        stft = np.abs(stft[:, : Nft // 2].T) 
+
+        
+        #stft = librosa.stft(sig, n_fft=Nft, hop_length=Nft, window="hamm", center=False)
+        
         return stft
+        
 
     def get_hz2mel(fs2=11025, Nft=512, Nmel=20) -> ndarray:
         """
@@ -211,7 +224,7 @@ class AudioUtil:
         :param Nmel: The number of mel bands.
         """
         mels = librosa.filters.mel(sr=fs2, n_fft=Nft, n_mels=Nmel)
-        mels = mels[:, :-1]
+        mels = mels[:, : -1]
         mels = mels / np.max(mels)
 
         return mels
@@ -227,8 +240,10 @@ class AudioUtil:
         """
 
         ### TO COMPLETE
+        stft = AudioUtil.specgram(audio, Nft, fs2)
+        mels = AudioUtil.get_hz2mel(fs2, Nft, Nmel)
 
-        return melspec
+        return mels@stft
 
     def spectro_aug_timefreq_masking(
         spec, max_mask_pct=0.1, n_freq_masks=1, n_time_masks=1
