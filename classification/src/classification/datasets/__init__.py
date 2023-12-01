@@ -76,5 +76,5 @@ class Dataset:
 
         :return: The list of classes.
         """
-<<<<<<< refs/remotes/upstream/main
+
         return list(self.files.keys())
