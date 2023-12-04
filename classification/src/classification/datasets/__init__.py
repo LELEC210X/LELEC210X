@@ -61,7 +61,7 @@ class Dataset:
         """
         cls, index = cls_index
         return self.files[cls][index]
-    
+
     def __getname__(self, cls_index: Tuple[str, int]) -> str:
         """
         Return the name of the sound selected.
