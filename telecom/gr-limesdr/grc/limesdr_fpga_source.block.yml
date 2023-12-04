@@ -1,183 +1,183 @@
 id: limesdr_fpga_source
 label: LimeSDR FPGA Source (RX)
-category: "[LimeSDR FPGA]"
+category: '[LimeSDR FPGA]'
 flags: throttle
 
 parameters:
-  - id: serial
-    label: Device serial
-    dtype: string
-    hide: part
-    category: General
+- id: serial
+  label: Device serial
+  dtype: string
+  hide: part
+  category: General
 
-  - id: filename
-    label: File
-    dtype: file_open
-    hide: part
-    category: Advanced
+- id: filename
+  label: File
+  dtype: file_open
+  hide: part
+  category: Advanced
 
-  - id: channel_mode
-    label: Channel
-    dtype: enum
-    options: ["0", "1", "2"]
-    option_labels: [A, B, A+B]
-    default: 0
-    hide: part
-    category: General
+- id: channel_mode
+  label: Channel
+  dtype: enum
+  options: ['0', '1', '2']
+  option_labels: [A, B, A+B]
+  default: 0
+  hide: part
+  category: General
 
-  - id: rf_freq
-    label: RF frequency
-    dtype: float
-    default: 100e6
-    category: General
+- id: rf_freq
+  label: RF frequency
+  dtype: float
+  default: 100e6
+  category: General
 
-  - id: samp_rate
-    label: Sample rate
-    dtype: float
-    default: samp_rate
-    category: General
+- id: samp_rate
+  label: Sample rate
+  dtype: float
+  default: samp_rate
+  category: General
 
-  - id: oversample
-    label: Oversample
-    dtype: enum
-    options: ["0", "1", "2", "4", "8", "16", "32"]
-    option_labels: [Default, "1", "2", "4", "8", "16", "32"]
-    default: 0
-    category: General
+- id: oversample
+  label: Oversample
+  dtype: enum
+  options: ['0', '1', '2', '4', '8', '16', '32']
+  option_labels: [Default, '1', '2', '4', '8', '16', '32']
+  default: 0
+  category: General
 
-  - id: ch_align
-    label: MIMO phase align
-    dtype: enum
-    options: ["False", "True"]
-    option_labels: [Disabled, Enabled]
-    default: 0
-    category: General
+- id: ch_align
+  label: MIMO phase align
+  dtype: enum
+  options: ['False', 'True']
+  option_labels: [Disabled, Enabled]
+  default: 0
+  category: General
 
-  - id: nco_freq_ch0
-    label: NCO frequency
-    dtype: float
-    default: 0
-    hide: part
-    category: Channel A
+- id: nco_freq_ch0
+  label: NCO frequency
+  dtype: float
+  default: 0
+  hide: part
+  category: Channel A
 
-  - id: calibr_bandw_ch0
-    label: Calibration bandwidth
-    dtype: float
-    default: 2.5e6
-    hide: part
-    category: Channel A
+- id: calibr_bandw_ch0
+  label: Calibration bandwidth
+  dtype: float
+  default: 2.5e6
+  hide: part
+  category: Channel A
 
-  - id: lna_path_ch0
-    label: LNA path
-    dtype: int
-    options: ["1", "2", "3", "255"]
-    option_labels: [H, L, W, Auto]
-    default: "255"
-    hide: part
-    category: Channel A
+- id: lna_path_ch0
+  label: LNA path
+  dtype: int
+  options: ['1', '2', '3', '255']
+  option_labels: [H, L, W, Auto]
+  default: '255'
+  hide: part
+  category: Channel A
 
-  - id: analog_bandw_ch0
-    label: Analog filter bandwidth
-    dtype: float
-    default: 1.5e6
-    hide: part
-    category: Channel A
+- id: analog_bandw_ch0
+  label: Analog filter bandwidth
+  dtype: float
+  default: 1.5e6
+  hide: part
+  category: Channel A
 
-  - id: digital_bandw_ch0
-    label: Digital filter bandwidth
-    dtype: float
-    default: samp_rate
-    hide: part
-    category: Channel A
+- id: digital_bandw_ch0
+  label: Digital filter bandwidth
+  dtype: float
+  default: samp_rate
+  hide: part
+  category: Channel A
 
-  - id: gain_dB_ch0
-    label: Gain (dB)
-    dtype: int
-    default: 1
-    hide: part
-    category: Channel A
+- id: gain_dB_ch0
+  label: Gain (dB)
+  dtype: int
+  default: 1
+  hide: part
+  category: Channel A
 
-  - id: nco_freq_ch1
-    label: NCO frequency
-    dtype: float
-    default: 0
-    hide: part
-    category: Channel B
+- id: nco_freq_ch1
+  label: NCO frequency
+  dtype: float
+  default: 0
+  hide: part
+  category: Channel B
 
-  - id: calibr_bandw_ch1
-    label: Calibration bandwidth
-    dtype: float
-    default: 2.5e6
-    hide: part
-    category: Channel B
+- id: calibr_bandw_ch1
+  label: Calibration bandwidth
+  dtype: float
+  default: 2.5e6
+  hide: part
+  category: Channel B
 
-  - id: lna_path_ch1
-    label: LNA path
-    dtype: int
-    options: ["1", "2", "3"]
-    option_labels: [H, L, W]
-    default: 2
-    hide: part
-    category: Channel B
+- id: lna_path_ch1
+  label: LNA path
+  dtype: int
+  options: ['1', '2', '3']
+  option_labels: [H, L, W]
+  default: 2
+  hide: part
+  category: Channel B
 
-  - id: analog_bandw_ch1
-    label: Analog filter bandwidth
-    dtype: float
-    default: 1.5e6
-    hide: part
-    category: Channel B
+- id: analog_bandw_ch1
+  label: Analog filter bandwidth
+  dtype: float
+  default: 1.5e6
+  hide: part
+  category: Channel B
 
-  - id: digital_bandw_ch1
-    label: Digital filter bandwidth
-    dtype: float
-    default: samp_rate
-    hide: part
-    category: Channel B
+- id: digital_bandw_ch1
+  label: Digital filter bandwidth
+  dtype: float
+  default: samp_rate
+  hide: part
+  category: Channel B
 
-  - id: gain_dB_ch1
-    label: Gain (dB)
-    dtype: int
-    default: 1
-    hide: part
-    category: Channel B
+- id: gain_dB_ch1
+  label: Gain (dB)
+  dtype: int
+  default: 1
+  hide: part
+  category: Channel B
 
-  - id: allow_tcxo_dac
-    label: Allow TCXO DAC control
-    dtype: enum
-    options: ["0", "1"]
-    option_labels: [No, Yes]
-    default: 0
-    hide: part
-    category: Advanced
+- id: allow_tcxo_dac
+  label: Allow TCXO DAC control
+  dtype: enum
+  options: ['0', '1']
+  option_labels: [No, Yes]
+  default: 0
+  hide: part
+  category: Advanced
 
-  - id: dacVal
-    label: TCX0:DAC val
-    dtype: int
-    default: 180
-    hide: part
-    category: Advanced
+- id: dacVal
+  label: TCX0:DAC val
+  dtype: int
+  default: 180
+  hide: part
+  category: Advanced
 
-  - id: dspcfg_preamble_en
-    label: Enable Packet Presence Detector
-    dtype: enum
-    options: ["1", "0"]
-    option_labels: [Yes, No]
-    hide: part
-    category: Custom FPGA
+- id: dspcfg_preamble_en
+  label: Enable Packet Presence Detector
+  dtype: enum
+  options: ['1', '0']
+  option_labels: [Yes, No]
+  hide: part
+  category: Custom FPGA
 
-  - id: dspcfg_PASSTHROUGH_LEN
-    label: Passthrough Limit
-    dtype: int
-    default: 100
-    hide: part
-    category: Custom FPGA
+- id: dspcfg_PASSTHROUGH_LEN
+  label: Passthrough Limit
+  dtype: int
+  default: 100
+  hide: part
+  category: Custom FPGA
 
-  - id: dspcfg_THRESHOLD
-    label: Detection Threshold
-    dtype: int
-    default: 15
-    hide: part
-    category: Custom FPGA
+- id: dspcfg_THRESHOLD
+  label: Detection Threshold
+  dtype: int
+  default: 15
+  hide: part
+  category: Custom FPGA
 
 templates:
   imports: import limesdr_fpga
@@ -251,61 +251,61 @@ templates:
     self.${id}.set_dspcfg_preamble(${dspcfg_PASSTHROUGH_LEN}, ${dspcfg_THRESHOLD}, ${dspcfg_preamble_en})
 
   callbacks:
-    - set_center_freq(${rf_freq}, 0)
-    - set_antenna(${lna_path_ch0}, 0)
-    - set_antenna(${lna_path_ch1}, 1)
-    - set_nco(${nco_freq_ch0}, 0)
-    - set_nco(${nco_freq_ch1}, 1)
-    - set_bandwidth(${analog_bandw_ch0}, 0)
-    - set_bandwidth(${analog_bandw_ch1}, 1)
-    - set_digital_filter(${digital_bandw_ch0}, 0)
-    - set_digital_filter(${digital_bandw_ch1}, 1)
-    - set_gain(${gain_dB_ch0}, 0)
-    - set_gain(${gain_dB_ch1}, 1)
-    - set_tcxo_dac(${dacVal})
-    - set_dspcfg_preamble(${dspcfg_PASSTHROUGH_LEN}, ${dspcfg_THRESHOLD}, ${dspcfg_preamble_en})
+  - set_center_freq(${rf_freq}, 0)
+  - set_antenna(${lna_path_ch0}, 0)
+  - set_antenna(${lna_path_ch1}, 1)
+  - set_nco(${nco_freq_ch0}, 0)
+  - set_nco(${nco_freq_ch1}, 1)
+  - set_bandwidth(${analog_bandw_ch0}, 0)
+  - set_bandwidth(${analog_bandw_ch1}, 1)
+  - set_digital_filter(${digital_bandw_ch0}, 0)
+  - set_digital_filter(${digital_bandw_ch1}, 1)
+  - set_gain(${gain_dB_ch0}, 0)
+  - set_gain(${gain_dB_ch1}, 1)
+  - set_tcxo_dac(${dacVal})
+  - set_dspcfg_preamble(${dspcfg_PASSTHROUGH_LEN}, ${dspcfg_THRESHOLD}, ${dspcfg_preamble_en})
 
 asserts:
-  - ${ int(channel_mode) >= 0 }
-  - ${ 2 >= int(channel_mode) }
+- ${ int(channel_mode) >= 0 }
+- ${ 2 >= int(channel_mode) }
 
-  - ${ rf_freq > 0 }
+- ${ rf_freq > 0 }
 
-  - ${ calibr_bandw_ch0 >= 2.5e6 or calibr_bandw_ch0 == 0 }
-  - ${ 120e6 >= calibr_bandw_ch0 }
+- ${ calibr_bandw_ch0 >= 2.5e6 or calibr_bandw_ch0 == 0 }
+- ${ 120e6 >= calibr_bandw_ch0 }
 
-  - ${ calibr_bandw_ch1 >= 2.5e6 or calibr_bandw_ch1 == 0 }
-  - ${ 120e6 >= calibr_bandw_ch1 }
+- ${ calibr_bandw_ch1 >= 2.5e6 or calibr_bandw_ch1 == 0 }
+- ${ 120e6 >= calibr_bandw_ch1 }
 
-  - ${ analog_bandw_ch0 >= 1.5e6 or analog_bandw_ch0 == 0 }
-  - ${ 130e6 >= analog_bandw_ch0 }
+- ${ analog_bandw_ch0 >= 1.5e6 or analog_bandw_ch0 == 0 }
+- ${ 130e6 >= analog_bandw_ch0 }
 
-  - ${ analog_bandw_ch1 >= 1.5e6 or analog_bandw_ch1 == 0 }
-  - ${ 130e6 >= analog_bandw_ch1 }
+- ${ analog_bandw_ch1 >= 1.5e6 or analog_bandw_ch1 == 0 }
+- ${ 130e6 >= analog_bandw_ch1 }
 
-  - ${ digital_bandw_ch0 >= 0 }
-  - ${ samp_rate >= digital_bandw_ch0 or digital_bandw_ch0 == 0 }
+- ${ digital_bandw_ch0 >= 0 }
+- ${ samp_rate >= digital_bandw_ch0 or digital_bandw_ch0 == 0 }
 
-  - ${ digital_bandw_ch1 >= 0 }
-  - ${ samp_rate >= digital_bandw_ch1 or digital_bandw_ch0 == 0 }
+- ${ digital_bandw_ch1 >= 0 }
+- ${ samp_rate >= digital_bandw_ch1 or digital_bandw_ch0 == 0 }
 
-  - ${ gain_dB_ch0 >= 0 }
-  - ${ 73 >= gain_dB_ch0 }
+- ${ gain_dB_ch0 >= 0 }
+- ${ 73 >= gain_dB_ch0 }
 
-  - ${ gain_dB_ch1 >= 0 }
-  - ${ 73 >= gain_dB_ch1 }
+- ${ gain_dB_ch1 >= 0 }
+- ${ 73 >= gain_dB_ch1 }
 
-  - ${ samp_rate > 0 }
-  - ${ 61.44e6 >= samp_rate }
+- ${ samp_rate > 0 }
+- ${ 61.44e6 >= samp_rate }
 
-  - ${ dspcfg_PASSTHROUGH_LEN > 0 and dspcfg_PASSTHROUGH_LEN < 65535 }
-  - ${ dspcfg_THRESHOLD > 0 and dspcfg_THRESHOLD < 255 }
+- ${ dspcfg_PASSTHROUGH_LEN > 0 and dspcfg_PASSTHROUGH_LEN < 65535 }
+- ${ dspcfg_THRESHOLD > 0 and dspcfg_THRESHOLD < 255 }
 
 outputs:
-  - label: out
-    domain: stream
-    dtype: complex
-    multiplicity: ${ (2 if int(channel_mode) == 2 else 1) }
+- label: out
+  domain: stream
+  dtype: complex
+  multiplicity: ${ (2 if int(channel_mode) == 2 else 1) }
 
 file_format: 1
 

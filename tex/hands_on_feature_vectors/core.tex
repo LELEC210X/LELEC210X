@@ -3,14 +3,14 @@
 Similarly \emph{hands\_on\_mcu.pdf}, you can run the code by:
 \begin{itemize}
 	\item Flashing the MCU with the code by clicking on the green run button.
-	\item Launching the script reading the content of the uart printed by the MCU with \texttt{python uart-rader.py -p PORTNAME}. 
+	\item Launching the script reading the content of the uart printed by the MCU with \texttt{python uart-rader.py -p PORTNAME}.
 \end{itemize}
-If your python script runs, pressing the \textcolor{blue}{User blue button} on the Nucleo board should launch an audio acquisition with the microphone. A figure should open, showing the acquired melspectrogram. To stop your script, click on \texttt{CLTR+C} in the command prompt then press the \textcolor{blue}{User blue button} again.  Remember how to switch to an audio acquisition with the jack cable by changing the \texttt{SEL\_SOUND} pin connection on the Nucleo board as explained in \emph{hands\_on\_audio\_acquisition.pdf}. 
+If your python script runs, pressing the \textcolor{blue}{User blue button} on the Nucleo board should launch an audio acquisition with the microphone. A figure should open, showing the acquired melspectrogram. To stop your script, click on \texttt{CLTR+C} in the command prompt then press the \textcolor{blue}{User blue button} again.  Remember how to switch to an audio acquisition with the jack cable by changing the \texttt{SEL\_SOUND} pin connection on the Nucleo board as explained in \emph{hands\_on\_audio\_acquisition.pdf}.
 %
 %%%%
 \subsection{Embedded computations and complexities}
 %
-You are now ready to dive into a new embedded programming project. 
+You are now ready to dive into a new embedded programming project.
 We restart from the end of \emph{hands\_on\_audio\_acquisition.pdf}, i.e. where you implemented the double buffering for sampling your signal with the ADC. What is new in this project is the content of the function called when you press the \textcolor{blue}{User blue button}: \\
 %
 \begin{lstlisting}
@@ -96,4 +96,3 @@ To take these imperfections into account, you will create training data using yo
     \item Modify \emph{uart\_reader.py} to save the computed feature vectors in your system and create a new dataset of feature vectors.
     \item Train a classifier on this new dataset.
 \end{enumerate}
-

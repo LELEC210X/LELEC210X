@@ -1,6 +1,6 @@
 id: fsk_noise_estimation
 label: Noise Estimation
-category: "[FSK]"
+category: '[FSK]'
 
 templates:
   imports: import fsk
@@ -12,9 +12,9 @@ templates:
 #     * label (label shown in the GUI)
 #     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
 parameters:
-  - id: n_samples
-    label: Samples Number
-    dtype: int
+- id: n_samples
+  label: Samples Number
+  dtype: int
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
@@ -24,8 +24,8 @@ parameters:
 #      * vlen (optional - data stream vector length. Default is 1)
 #      * optional (optional - set to 1 for optional inputs. Default is 0)
 inputs:
-  - label: Input
-    dtype: complex
+- label: Input
+  dtype: complex
 
 outputs:
 
