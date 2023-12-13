@@ -30,7 +30,7 @@ The time consuming part lies in the analysis using the full chain. We suggest yo
 %
 \begin{itemize}
     \item Write a Python file which browses the dataset and plays each sound one by one sequentially. It would still require you to push the acquisition button for each sound on a row ($500$s$\approx 8$min$20$s).
-    \item Modify your python script receiving the packets accordingly to output a classification result each time a new sound is played. 
+    \item Modify your python script receiving the packets accordingly to output a classification result each time a new sound is played.
     An easy way is to make a prediction every 5s as your sounds last 5s, but you have the risk to have a drift between the sound playing and the acquisitions if one sound is shorter/longer or the acquisition is shorter/longer.
     Another is to synchronize the sound playing with the acquisition (probably difficult).
     \item Each sound will have to be associated to a ground truth class and a class predicted by your model. If you want to avoid writing this by hand, you could also fill automatically a .txt (or any other format) file as the acquisition goes on.
