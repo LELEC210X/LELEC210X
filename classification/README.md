@@ -44,3 +44,6 @@ poetry run auth | poetry run classify
 Of course, you can pass any argument you like to the first or the second command.
 Note that changing the output `-o` option from `auth` or the input `-i` option from `classify`
 will mean that process piping (`|` is a pipe) will not be possibly anymore.
+
+:warning: Please make sure to use the correct number of Mel vectors and the correct length. A default value is automatically set, but you change it
+to match the one you are using! See `poetry run classify --help`.
