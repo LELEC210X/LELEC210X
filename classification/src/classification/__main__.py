@@ -4,6 +4,7 @@ from typing import Optional
 
 import click
 
+import common
 from auth import PRINT_PREFIX
 
 from .utils import payload_to_melvecs
@@ -25,31 +26,13 @@ from .utils import payload_to_melvecs
     type=click.Path(exists=True, dir_okay=False, path_type=Path),
     help="Path to the trained classification model.",
 )
-@click.option(
-    "-l",
-    "--melvec-len",
-    default=20,
-    envvar="MELVEC_LEN",
-    type=click.IntRange(min=0),
-    show_default=True,
-    show_envvar=True,
-    help="Length of one Mel vector.",
-)
-@click.option(
-    "-n",
-    "--num-melvecs",
-    default=10,
-    envvar="NUM_MELVECS",
-    type=click.IntRange(min=0),
-    show_default=True,
-    show_envvar=True,
-    help="Number of Mel vectors per packet.",
-)
+@common.click.melvec_length
+@common.click.n_melvecs
 def main(
     _input: Optional[click.File],
     model: Optional[Path],
-    melvec_len: int,
-    num_melvecs: int,
+    melvec_length: int,
+    n_melvecs: int,
 ) -> None:
     """
     Extract Mel vectors from payloads and perform classification on them.
@@ -65,8 +48,9 @@ def main(
         if PRINT_PREFIX in payload:
             payload = payload[len(PRINT_PREFIX) :]
 
-            melvecs = payload_to_melvecs(payload)
+            melvecs = payload_to_melvecs(payload, melvec_length, n_melvecs)
 
             if m:
                 # TODO: perform classification
+                print(melvecs)
                 pass

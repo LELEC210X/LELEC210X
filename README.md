@@ -20,6 +20,8 @@ Subdirectories are organized as follows:
 
 - [`auth/`](auth/):
   hands-on related to the authentification part.
+- [`common/`](common/):
+  shared tools across different parts.
 - [`classification/`](classification/):
   hands-on related to the classification part.
 - [`fpga`](fpga/):

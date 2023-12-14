@@ -5,6 +5,8 @@ import click
 import serial
 import zmq
 
+import common
+
 from . import PRINT_PREFIX, packet
 
 
@@ -63,26 +65,8 @@ def hex_to_bytes(ctx: click.Context, param: click.Parameter, value: str) -> byte
     show_envvar=True,
     help="Authentification key (hex string).",
 )
-@click.option(
-    "-l",
-    "--melvec-len",
-    default=20,
-    envvar="MELVEC_LEN",
-    type=click.IntRange(min=0),
-    show_default=True,
-    show_envvar=True,
-    help="Length of one Mel vector.",
-)
-@click.option(
-    "-n",
-    "--num-melvecs",
-    default=10,
-    envvar="NUM_MELVECS",
-    type=click.IntRange(min=0),
-    show_default=True,
-    show_envvar=True,
-    help="Number of Mel vectors per packet.",
-)
+@common.click.melvec_length
+@common.click.n_melvecs
 @click.option("-q", "--quiet", is_flag=True, help="Whether output should be quiet.")
 def main(
     _input: Optional[click.File],
@@ -90,8 +74,8 @@ def main(
     serial_port: Optional[str],
     tcp_address: str,
     auth_key: bytes,
-    melvec_len: int,
-    num_melvecs: int,
+    melvec_length: int,
+    n_melvecs: int,
     quiet: bool,
 ) -> None:
     """
@@ -171,7 +155,7 @@ def main(
                 click.echo(how_to_kill)
 
             while True:
-                msg = socket.recv(2 * melvec_len * num_melvecs)
+                msg = socket.recv(2 * melvec_length * n_melvecs)
                 yield msg
 
     input_stream = reader()
