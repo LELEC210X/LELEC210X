@@ -5,6 +5,7 @@ from typing import Optional
 import click
 
 import common
+from common.logging import logger
 from auth import PRINT_PREFIX
 
 from .utils import payload_to_melvecs
@@ -28,6 +29,7 @@ from .utils import payload_to_melvecs
 )
 @common.click.melvec_length
 @common.click.n_melvecs
+@common.click.verbosity
 def main(
     _input: Optional[click.File],
     model: Optional[Path],
@@ -49,8 +51,8 @@ def main(
             payload = payload[len(PRINT_PREFIX) :]
 
             melvecs = payload_to_melvecs(payload, melvec_length, n_melvecs)
+            logger.info(f"Parsed payload into Mel vectors: {melvecs}")
 
             if m:
                 # TODO: perform classification
-                print(melvecs)
                 pass

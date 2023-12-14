@@ -1,9 +1,15 @@
 """
 Common wrapper for click applications.
 """
+from typing import Any, Callable
+
 import click
 
 from .defaults import MELVEC_LENGTH, N_MELVECS
+from .logging import logger
+
+F = Callable[..., Any]
+Wrapper = Callable[[F], F]
 
 melvec_length = click.option(
     "-l",
@@ -26,3 +32,30 @@ n_melvecs = click.option(
     show_envvar=True,
     help="Number of Mel vectors per packet.",
 )
+
+
+def verbosity(function: F) -> F:
+    """Wrap a function to add verbosity option."""
+
+    def callback(ctx: click.Context, param: click.Parameter, value: str) -> None:
+        if not value or ctx.resilient_parsing:
+            return
+
+        logger.setLevel(value)
+
+    wrapper: Wrapper = click.option(
+        "-v",
+        "--verbosity",
+        type=click.Choice(
+            ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+            case_sensitive=False,
+        ),
+        help="Verbosity of CLI output.",
+        default=None,
+        expose_value=False,
+        envvar="LELEC210X_VERBOSITY",
+        show_envvar=True,
+        callback=callback,
+    )
+
+    return wrapper(function)
