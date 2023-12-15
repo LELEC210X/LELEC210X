@@ -39,6 +39,14 @@ def main(
     """
     Extract Mel vectors from payloads and perform classification on them.
     Classify MELVECs contained in payloads (from packets).
+
+    Most likely, you want to pipe this script after running authentification
+    on the packets:
+
+        flask run auth | flask run classify
+
+    This way, you will directly receive the authentified packets from STDIN
+    (standard input, i.e., the terminal).
     """
     if model:
         with open(model, "rb") as file:
