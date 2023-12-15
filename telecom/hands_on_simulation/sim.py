@@ -14,7 +14,9 @@ def add_delay(chain, x, tau):
     sto_frac = tau * fs - sto_int  # Fractional delay, remaining
 
     R = int(chain.osr_tx / chain.osr_rx)
-    idx = np.floor(sto_frac * R).astype(
+    idx = np.floor(
+        sto_frac * R
+    ).astype(
         int
     )  # Index of best sample (available in transmitted signal oversampled at TX) depicting the fractional delay
 

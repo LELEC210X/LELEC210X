@@ -69,6 +69,7 @@ pygments = "^2.16.1"
 [tool.poetry.plugins."console_scripts"]
 auth = "auth.__main__:main"
 classify = "classification.__main__:main"
+leaderboard = "leaderboard.__main__:main"
 
 [tool.ruff]
 extend-ignore = [
