@@ -44,7 +44,7 @@ blocks:
     start: '1'
     step: '1'
     stop: '254'
-    value: '12'
+    value: '7'
     widget: counter_slider
   states:
     bus_sink: false
@@ -57,7 +57,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '20000'
+    value: '7'
   states:
     bus_sink: false
     bus_source: false
@@ -105,7 +105,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.1'
+    value: '0.001'
   states:
     bus_sink: false
     bus_source: false
@@ -185,7 +185,7 @@ blocks:
     start: '0'
     step: '1'
     stop: '70'
-    value: '10'
+    value: '16'
     widget: counter_slider
   states:
     bus_sink: false
@@ -198,7 +198,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '70'
+    value: '15'
   states:
     bus_sink: false
     bus_source: false
@@ -235,7 +235,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [672, 348.0]
+    coordinate: [880, 268.0]
     rotation: 0
     state: enabled
 - name: fsk_flag_detector_0
@@ -254,9 +254,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [288, 204.0]
+    coordinate: [320, 204.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: fsk_packet_parser_0
   id: fsk_packet_parser
   parameters:
@@ -273,9 +273,29 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [944, 356.0]
+    coordinate: [1152, 276.0]
     rotation: 0
     state: enabled
+- name: fsk_preamble_detect_0
+  id: fsk_preamble_detect
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    drate: data_rate
+    fdev: fdev
+    fsamp: samp_rate
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packet_len: packet_len
+    threshold: detect_threshold
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [320, 380.0]
+    rotation: 0
+    state: disabled
 - name: fsk_synchronization_0
   id: fsk_synchronization
   parameters:
@@ -294,7 +314,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [408, 340.0]
+    coordinate: [616, 260.0]
     rotation: 0
     state: enabled
 - name: limesdr_fpga_source_0
@@ -363,7 +383,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [160, 340.0]
+    coordinate: [64, 356.0]
     rotation: 0
     state: enabled
 - name: zeromq_pub_sink_0
@@ -382,7 +402,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1088, 492.0]
+    coordinate: [1296, 412.0]
     rotation: 0
     state: enabled
 
@@ -390,8 +410,10 @@ connections:
 - [fsk_demodulation_0, '0', fsk_packet_parser_0, '0']
 - [fsk_flag_detector_0, '0', fsk_synchronization_0, '0']
 - [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
+- [fsk_preamble_detect_0, '0', fsk_synchronization_0, '0']
 - [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
 - [limesdr_fpga_source_0, '0', fsk_flag_detector_0, '0']
+- [limesdr_fpga_source_0, '0', fsk_preamble_detect_0, '0']
 - [limesdr_fpga_source_0, '0', qtgui_sink_x_0, '0']
 
 metadata:
