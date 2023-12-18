@@ -16,10 +16,10 @@ The gateware can be built with the free version of the Altera Quartus tools.
 
 ## Programming
   1. If it is the first time you are going to program the FPGA, first do an autoprogramming.
-  1. Connect the LimeSDR-Mini to an USB port, open LimeSuite GUI and go to Options >> ConnectionSettings. You should see the LimeSDR Mini banner, click on it and then on Connect.
-  ![Step 1](LimeSDR-Mini_lms7_lelec210x/doc/readme_programming_1.png)
-  1. Go to Modules >> Programming. Once the window open, switch the Programming mode to FPGA FLASH. Click Open and find the stream file named `LimeSDR-Mini_bitstreams/LimeSDR-Mini_lms7_lelec210x_HW_1.2_auto.rpd`. Click Program and wait for the completion and the "Programming Completed!" message.
-  ![Step 2](LimeSDR-Mini_lms7_lelec210x/doc/readme_programming_2.png)
+  1. Connect the LimeSDR-Mini to an USB port, open LimeSuite GUI and go to `Options > ConnectionSettings`. You should see the LimeSDR Mini banner, click on it and then on Connect.
+  ![Step 1](LimeSDR-Mini_lms7_lelec210x/doc/readme_programming_1.PNG)
+  1. Go to `Modules > Programming`. Once the window open, switch the Programming mode to FPGA FLASH. Click Open and find the stream file named `LimeSDR-Mini_bitstreams/LimeSDR-Mini_lms7_lelec210x_HW_1.2_auto.rpd`. Click Program and wait for the completion and the "Programming Completed!" message.
+  ![Step 2](LimeSDR-Mini_lms7_lelec210x/doc/readme_programming_2.PNG)
 
 ## Custom gr-limesdr Installation
 
@@ -61,7 +61,9 @@ The gateware can be built with the free version of the Altera Quartus tools.
 | 0x001f  | 0xD090             |  16  |                                                                         |
 
 ## Callstack when writing to Registers (GNURadio --> LimeSuite --> Nios)
+
 ### Write to LMS7002 Registers
+
 #### Host:
   - `LMS_WriteParam(lms_device_t *device, struct LMS7Parameter param, uint16_t val)`
   - `LMS7_Device::WriteParam(const struct LMS7Parameter& param, uint16_t val, int chan)`
@@ -80,6 +82,7 @@ The gateware can be built with the free version of the Altera Quartus tools.
     - `PGA_SPI_BASE, SPI_NR_LMS7002M(0)`
 
 ### Write to FPGA Registers
+
 #### Host:
   - `API_EXPORT int CALL_CONV LMS_WriteFPGAReg(lms_device_t *device, uint32_t address, uint16_t val)`
   - `int LMS7_Device::WriteFPGAReg(uint16_t address, uint16_t val) const`
@@ -87,7 +90,7 @@ The gateware can be built with the free version of the Altera Quartus tools.
     - `cnt=1`
   - `int FPGA::WriteRegisters(const uint32_t *addrs, const uint32_t *data, unsigned cnt)`
   - `int LMS64CProtocol::WriteRegisters(const uint32_t *addrs, const uint32_t *data, const size_t size)`
-    - `CMD_BRDSPI_WR in packet for NIOS
+    - `CMD_BRDSPI_WR` in packet for NIOS
   - `virtual int TransactSPI(const int addr, const uint32_t *writeData, uint32_t *readData, const size_t size)`
   - `int Write(const unsigned char *buffer, int length, int timeout_ms = 100)`
 
