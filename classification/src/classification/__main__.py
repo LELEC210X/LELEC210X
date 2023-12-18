@@ -43,7 +43,7 @@ def main(
     Most likely, you want to pipe this script after running authentification
     on the packets:
 
-        flask run auth | flask run classify
+        poetry run auth | poetry run classify
 
     This way, you will directly receive the authentified packets from STDIN
     (standard input, i.e., the terminal).
