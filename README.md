@@ -1,7 +1,3 @@
-> **IMPORTANT:** this README (and repository) is currently "work in progress",
-> so some information might not be up to date, or some files might still need
-> to be pushed to this repository.
-
 # LELEC210x project
 
 This repository contains every thing you (student) need for the LELEC210x project.
@@ -25,6 +21,8 @@ Subdirectories are organized as follows:
 <<<<<<< refs/remotes/upstream/main
 - [`auth/`](auth/):
   hands-on related to the authentification part.
+- [`common/`](common/):
+  shared tools across different parts.
 - [`classification/`](classification/):
   hands-on related to the classification part.
 =======
@@ -46,7 +44,7 @@ Subdirectories are organized as follows:
 >>>>>>> Revert "enlever le chain de argu"
 - [`telecom/`](telecom/): hands-on related to the telecom part,
   simulation framework and GNU Radio modules.
-- [`tex/`](tex/): LaTeX projects for this courses.
+- [`tex/`](tex/): LaTeX projects for this course.
   PDFs are provided on [Moodle](https://moodle.uclouvain.be/course/view.php?id=4829),
   but you can build them from source, see [`tex/README.md`](tex/README.md).
 
@@ -180,4 +178,4 @@ to format staged files, before committing them.
 
 ## 4. Building the whole project
 
-TODO
+See [INTEGRATION](INTEGRATION.md).

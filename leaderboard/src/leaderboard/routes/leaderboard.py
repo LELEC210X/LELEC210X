@@ -1,7 +1,7 @@
 import urllib
 
 import flask
-from backend.models import Guess, Submission
+from ..backend.models import Guess, Submission
 from flask import Blueprint
 from flask import current_app as app
 from flask import jsonify, make_response, render_template

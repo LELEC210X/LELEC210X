@@ -13,11 +13,7 @@ py_version = 38
 authors = ["LELEC210X teaching assistants"]
 description = ""
 name = "LELEC210X"
-<<<<<<< refs/remotes/upstream/main
-packages = [{include = "auth", from = "auth/src"}, {include = "classification", from = "classification/src"}, {include = "leaderboard", from = "leaderboard/src"}]
-=======
-packages = [{include = "classification", from = "classification/src"}, {include = "leaderboard", from = "leaderboard/src"}]
->>>>>>> Revert "enlever le chain de argu"
+packages = [{include = "auth", from = "auth/src"}, {include = "classification", from = "classification/src"}, {include = "common", from = "common/src"}, {include = "leaderboard", from = "leaderboard/src"}]
 readme = "README.md"
 version = "0.1.0"
 
@@ -40,11 +36,16 @@ seaborn = "^0.12.2"
 sounddevice = "^0.4.6"
 soundfile = "^0.12.1"
 
+[tool.poetry.group.common.dependencies]
+click = "^8.1.7"
+rich = "^13.7.0"
+
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.0.4"
+pytest = "^7.4.3"
 
 [tool.poetry.group.leaderboard.dependencies]
-click = "^8.1.3"
+click = "^8.1.7"
 eventlet = "^0.33.3"
 flask = "^2.2.2"
 flask-apscheduler = "^1.12.4"
@@ -70,11 +71,15 @@ pygments = "^2.16.1"
 [tool.poetry.plugins."console_scripts"]
 auth = "auth.__main__:main"
 classify = "classification.__main__:main"
+leaderboard = "leaderboard.__main__:main"
 
 =======
 >>>>>>> Revert "enlever le chain de argu"
 [tool.ruff]
-ignore = [
+extend-ignore = [
   "E501"
 ]
+# extend-select = ["B", "C90", "D", "I", "N", "RUF", "UP", "T"]
+isort = {known-first-party = ['auth', 'classification', 'common', 'leaderboard']}
+line-length = 88
 target-version = "py38"

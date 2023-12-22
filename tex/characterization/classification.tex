@@ -15,40 +15,26 @@ The most important aspect is that we still expect you to provide classification 
 
 To summarise:
 \begin{itemize}
-    % \item Consider the feature as fixed, don't characterise it.
-    \item Characterise your model in simulation on the $5$ classes of ESC-50 dataset (crackling fire, chirping bird, chainsaw, helicopter and handsaw) and study its robustness to transformations.
-    \item Always output a prediction, either raw or vector of probability. Don't consider outputting no class for now, this will be for Q2.
-    \item Provide the evaluation of your model with the chosen metrics using the full chain (hardware, embedded, crypto, telecom and signal processing). You should do so on at least 50\% of the sounds for each class ($5 \times 20=100$ sounds).
+    \item Characterise your model in simulation on the $5$ classes of the provided dataset (crackling fire, chirping bird, chainsaw, helicopter and handsaw) and study its robustness to transformations.
+    % \item Always output a prediction, either raw or vector of probability. Don't consider outputting no class for now, this will be for Q2.
+    \item Provide the evaluation of your model with the chosen metrics using the full chain (hardware, embedded, telecom and signal processing). You should do so on at least 50\% of the sounds for each class ($5 \times 20=100$ sounds).
 \end{itemize}
 
-To further help you writing this report, you are encouraged to read the
-related questions anyone should be able to answer indirectly from its understanding of your report in the \emph{sample questions} pdf available on Moodle.
+To further help you writing this report, you are encouraged to read the related questions anyone should be able to answer indirectly from its understanding of your report in the \emph{sample questions} pdf available on Moodle.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Practical measurements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-The time consuming part is located in the analysis using the full chain.
-We suggest you different gradual steps to speed up the process:
+The time consuming part lies in the analysis using the full chain. We suggest you different gradual steps to speed up the process:
 %
 \begin{itemize}
-    \item Write a Python file which browses the dataset and plays each sound one by
-    one sequentially.
-    It would still require you to push the acquisition button for each sound on a
-    row ($500$s$\approx 8$min$20$s).
-    \item Modify \emph{auth\_and\_classify} accordingly to output a classification
-    result each time a new sound is played.
-    An easy way is to make a prediction every 5s as your sounds last 5s,
-    but you have the risk to have a drift between the sound playing and the
-    acquisitions if one sound is shorter/longer or the acquisition is shorter/longer.
-    Another is to synchronize the sound playing with the acquisition
-    (probably difficult).
-    \item Each sound will have to be associated to a ground truth class and a class predicted by your model.
-    If you want to avoid writing this by hand, you could also fill automatically a
-    .txt (or any other format) file as the acquisition goes on.
+    \item Write a Python file which browses the dataset and plays each sound one by one sequentially. It would still require you to push the acquisition button for each sound on a row ($500$s$\approx 8$min$20$s).
+    \item Modify your python script receiving the packets accordingly to output a classification result each time a new sound is played.
+    An easy way is to make a prediction every 5s as your sounds last 5s, but you have the risk to have a drift between the sound playing and the acquisitions if one sound is shorter/longer or the acquisition is shorter/longer.
+    Another is to synchronize the sound playing with the acquisition (probably difficult).
+    \item Each sound will have to be associated to a ground truth class and a class predicted by your model. If you want to avoid writing this by hand, you could also fill automatically a .txt (or any other format) file as the acquisition goes on.
     For the ground truth it would be related to the first file which automatically
-    plays the sound. For the acquisition, it would require a small modification
-    in \emph{auth\_and\_classify}.
-    You finally have to write a Python file which reads your results and displays
-    the metrics performances in a figure.
+    plays the sound. For the acquisition, it would require a small modification of your python script.
+    You finally have to write a Python file which reads your results and displays the metrics performances in a figure.
 \end{itemize}

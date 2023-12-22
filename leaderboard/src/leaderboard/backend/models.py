@@ -516,9 +516,7 @@ class Config(BaseModel):
                     group_config.key, current_round, lap
                 )
 
-                if (
-                    self.rounds_config.get_current_round_config().only_check_for_presence
-                ):
+                if self.rounds_config.get_current_round_config().only_check_for_presence:
                     if guess != Guess.nothing:
                         guess = Guess.received
                         correct = True

@@ -5,6 +5,10 @@ import click
 import serial
 import zmq
 
+import common
+
+from common.logging import logger
+
 from . import PRINT_PREFIX, packet
 
 
@@ -63,50 +67,26 @@ def hex_to_bytes(ctx: click.Context, param: click.Parameter, value: str) -> byte
     show_envvar=True,
     help="Authentification key (hex string).",
 )
-@click.option(
-    "-l",
-    "--melvec-len",
-    default=20,
-    envvar="MELVEC_LEN",
-    type=click.IntRange(min=0),
-    show_default=True,
-    show_envvar=True,
-    help="Length of one Mel vector.",
-)
-@click.option(
-    "-n",
-    "--num-melvecs",
-    default=10,
-    envvar="NUM_MELVECS",
-    type=click.IntRange(min=0),
-    show_default=True,
-    show_envvar=True,
-    help="Number of Mel vectors per packet.",
-)
-@click.option("-q", "--quiet", is_flag=True, help="Whether output should be quiet.")
+@common.click.melvec_length
+@common.click.n_melvecs
+@common.click.verbosity
 def main(
     _input: Optional[click.File],
-    output: Optional[click.File],
+    output: click.File,
     serial_port: Optional[str],
     tcp_address: str,
     auth_key: bytes,
-    melvec_len: int,
-    num_melvecs: int,
-    quiet: bool,
+    melvec_length: int,
+    n_melvecs: int,
 ) -> None:
     """
     Parse packets from the MCU and perform authentication.
     """
-    if not quiet:
-        click.echo(
-            "Unwrapping packets with auth. key: "
-            + click.style(auth_key.hex(), fg="green")
-        )
+    logger.debug(f"Unwrapping packets with auth. key: {auth_key.hex()}")
 
     how_to_kill = (
         "Use Ctrl-C (or Ctrl-D) to terminate.\nIf that does not work, execute `"
-        + click.style(f"kill {os.getpid()}", fg="blue")
-        + "` in a separate terminal."
+        f"kill {os.getpid()}` in a separate terminal."
     )
 
     unwrapper = packet.PacketUnwrapper(
@@ -124,12 +104,8 @@ def main(
             ser.reset_input_buffer()
             ser.read_until(b"\n")
 
-            if not quiet:
-                click.echo(
-                    "Reading packets from serial port: "
-                    + click.style(serial_port, fg="green")
-                )
-                click.echo(how_to_kill)
+            logger.debug(f"Reading packets from serial port: {serial_port}")
+            logger.info(how_to_kill)
 
             while True:
                 line = ser.read_until(b"\n").decode("ascii").strip()
@@ -140,12 +116,8 @@ def main(
     elif _input:  # Read from file-like
 
         def reader() -> Iterator[str]:
-            if not quiet:
-                click.echo(
-                    "Reading packets from input: "
-                    + click.style(str(_input), fg="green")
-                )
-                click.echo(how_to_kill)
+            logger.debug(f"Reading packets from input: {str(_input)}")
+            logger.info(how_to_kill)
 
             for line in _input:
                 packet = parse_packet(line)
@@ -163,31 +135,22 @@ def main(
 
             socket.connect(tcp_address)
 
-            if not quiet:
-                click.echo(
-                    "Reading packets from TCP address: "
-                    + click.style(tcp_address, fg="green")
-                )
-                click.echo(how_to_kill)
+            logger.debug(f"Reading packets from TCP address: {tcp_address}")
+            logger.info(how_to_kill)
 
             while True:
-                msg = socket.recv(2 * melvec_len * num_melvecs)
+                msg = socket.recv(2 * melvec_length * n_melvecs)
                 yield msg
 
     input_stream = reader()
     for msg in input_stream:
         try:
             sender, payload = unwrapper.unwrap_packet(msg)
-            if not quiet:
-                click.echo(
-                    f"From {sender}, received packet: "
-                    + click.style(payload.hex(), fg="green")
-                )
+            logger.debug(f"From {sender}, received packet: {payload.hex()}")
             output.write(PRINT_PREFIX + payload.hex() + "\n")
             output.flush()
 
         except packet.InvalidPacket as e:
-            click.secho(
+            logger.error(
                 f"Invalid packet error: {e.args[0]}",
-                fg="red",
             )

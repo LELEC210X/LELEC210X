@@ -203,17 +203,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '16'
-=======
-    coordinate: [394, 15]
-    rotation: 0
-    state: true
-- name: hdr_len
-  id: variable
-  parameters:
-    comment: ''
-    value: '8'
->>>>>>> Revert "enlever le chain de argu"
+    value: '20'
   states:
     bus_sink: false
     bus_source: false

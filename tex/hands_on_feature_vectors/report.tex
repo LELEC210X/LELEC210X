@@ -14,7 +14,7 @@ The report R5 (due on \textbf{Dec 4, Monday 23.55 PM}) focuses on the characteri
     In short, we ask a paragraph explaining why you chose your model, the used metrics, and validation methods, then one figure with its performances on the testing set. We also ask a figure showing the influence of potential hyperparameters of your model and a discussion on what you observe from it. You won't be evaluated on the performances of the chosen classification model, we are only interested in the quality of your analysis.
     \item (H5b) \textbf{Provide a table giving the computational complexities and cycle counts of the feature extraction pipeline on the MCU} written in \emph{spectrogram.c}. Which transformation requires the most computations? \\
 The feature vector computation simply consists in a chain of well-known mathematical operations with given computational complexity. We ask you to compute the overall complexity when putting it all together.
-\item (H5a+H5b) \textbf{Observe and discuss qualitatively the difference observed between melspectrograms:} 
+\item (H5a+H5b) \textbf{Observe and discuss qualitatively the difference observed between melspectrograms:}
 \begin{enumerate}
     \item of the original dataset
     \item acquired via a jack cable on the MCU
@@ -24,7 +24,7 @@ The feature vector computation simply consists in a chain of well-known mathemat
    %
      Use \textbf{a few} representative samples of the dataset to conduct your experiments.
        We ask, for each sample, a (1,3) subplot showing the melspectrograms for cases 1,2,3 from left to right. Please make it clear with titles or captions in your figures.
-    \item (H5a+H5b) \textbf{Explain how you created a new dataset of acquired feature vectors.} What data augmentation techniques did you consider in this calibrated dataset? Train a classification model on this dataset. 
+    \item (H5a+H5b) \textbf{Explain how you created a new dataset of acquired feature vectors.} What data augmentation techniques did you consider in this calibrated dataset? Train a classification model on this dataset.
     \item (H5a+H5b) \textbf{Demonstrate the performance of your classification model on feature vectors acquired with the microphone on the MCU.}
     Make this evaluation with a few samples of your choice. We ask at least 3 sounds from each of the 5 classes (crackling fire, chirping bird, chainsaw, helicopter and handsaw) in order to see something.
     \item (H5a+H5b) \textbf{Discuss the effect of exploiting memory effect for your classification model in the context of environmental monitoring. Why will it be useful in practice? Implement a combination of consecutive probability vectors.} We ask you to exploit the memory effect of consecutive feature vectors coming from the same class. You are free to choose any combination of these feature vectors discussed in \emph{hands\_on\_classif3\_trust\_and\_memory.ipynb}. We ask at least one sound from 2 out of the 5 classes (crackling fire, chirping bird, chainsaw, helicopter and handsaw).

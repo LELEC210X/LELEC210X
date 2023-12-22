@@ -26,13 +26,17 @@ class Dataset:
         subfolders. Uses :func:`get_cls_from_path` to determine
         the sound class of each file.
 
+        Note: we sort files because directory traversal is
+        not consistent accross OSes, and returning different
+        file orderings may confuse students :'-).
+
         :param folder: Where to find the soundfiles.
         :param format: The sound files format, use
             `'*'` to include all formats.
         """
         files = {}
 
-        for file in folder.glob("**/*." + format):
+        for file in sorted(folder.glob("**/*." + format)):
             cls = get_cls_from_path(file)
             files.setdefault(cls, []).append(file)
 
@@ -57,7 +61,7 @@ class Dataset:
         """
         cls, index = cls_index
         return self.files[cls][index]
-    
+
     def __getname__(self, cls_index: Tuple[str, int]) -> str:
         """
         Return the name of the sound selected.
