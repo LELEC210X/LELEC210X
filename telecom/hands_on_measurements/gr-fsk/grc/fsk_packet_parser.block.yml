@@ -1,6 +1,6 @@
 id: fsk_packet_parser
 label: Packet Parser
-category: '[FSK]'
+category: "[FSK]"
 
 templates:
   imports: import fsk
@@ -12,18 +12,18 @@ templates:
 #     * label (label shown in the GUI)
 #     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
 parameters:
-- id: hdr_len
-  label: Header Length (# bytes)
-  dtype: int
-- id: payload_len
-  label: Payload Length (# bytes)
-  dtype: int
-- id: crc_len
-  label: CRC Length (# bytes)
-  dtype: int
-- id: address
-  label: Address (bits)
-  dtype: int_vector
+  - id: hdr_len
+    label: Header Length (# bytes)
+    dtype: int
+  - id: payload_len
+    label: Payload Length (# bytes)
+    dtype: int
+  - id: crc_len
+    label: CRC Length (# bytes)
+    dtype: int
+  - id: address
+    label: Address (bits)
+    dtype: int_vector
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
@@ -33,13 +33,13 @@ parameters:
 #      * vlen (optional - data stream vector length. Default is 1)
 #      * optional (optional - set to 1 for optional inputs. Default is 0)
 inputs:
-- label: Input
-  dtype: byte
+  - label: Input
+    dtype: byte
 
 outputs:
-- label: Output
-  dtype: byte
-  vlen: ${payload_len}
+  - label: Output
+    dtype: byte
+    vlen: ${payload_len}
 
 #  'file_format' specifies the version of the GRC yml format used in the file
 #  and should usually not be changed.

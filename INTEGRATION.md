@@ -20,18 +20,19 @@ poetry install
 Setting-up a working telecommunication chain can be performed with
 the following steps[^1]:
 
-1. *(Any)* program your LimeSDR-Mini with Quartus,
+1. _(Any)_ program your LimeSDR-Mini with Quartus,
    using the following project: <TODO>;
-2. *(Any)* program your Nucleo board with STM32CubeIDE,
+2. _(Any)_ program your Nucleo board with STM32CubeIDE,
    using the following project: <TODO>;
-3. *(Linux)* open the <TODO> project file with GNU Radio,
+3. _(Linux)_ open the <TODO> project file with GNU Radio,
    and generate the Python script(s);
-4. *(Linux)* run your GNU Radio script either from GNU Radio or from the terminal;
-5. *(Any)* in another terminal window, run `poetry run auth | poetry run classify`;
+4. _(Linux)_ run your GNU Radio script either from GNU Radio or from the terminal;
+5. _(Any)_ in another terminal window, run `poetry run auth | poetry run classify`;
 6. and that all!
 
-[^1]: in parentheses, the host / guest OS that is needed to run the commands.
-  Any refers to any OS (best to use your host OS here).
+[^1]:
+    in parentheses, the host / guest OS that is needed to run the commands.
+    Any refers to any OS (best to use your host OS here).
 
 ## Customizing
 
