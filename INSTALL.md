@@ -144,10 +144,11 @@ want to use Linux later-on, and have at least 60 Go of free memory.
 
 ## Installation steps
 
-https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/
-
 The following steps will either need to be performed on your host system, or on the Ubuntu system on which GNU Radio is installed (either a VM, WSL, or your host if it is Ubuntu-20.04).
-The subsection titles will therefore include an annotation **Host**, if the steps must be performed on your host system (Windows, MacOS, or Linux), or **Ubuntu**, if they refer to your Ubuntu-20.04 installation. If your host system is Ubuntu-20.04, perform them in both cases.Additionnally, some steps might be only required for some specific OSs, in which case it will be specified.
+The subsection titles will therefore include an annotation **Host**,
+if the steps must be performed on your host system (Windows, MacOS, or Linux), or **Ubuntu**,
+if they refer to your Ubuntu-20.04 installation. If your host system is Ubuntu-20.04, perform them in both cases.
+Additionnally, some steps might be only required for some specific OSs, in which case it will be specified.
 
 Quick tips : Ubuntu terminal windows can be launched via the Ubuntu Launchpad, or with
 <kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>T</kbd>.
@@ -219,7 +220,8 @@ In the Powershell:
 (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
 ```
 
-Do not close the terminal, it will probably ask you to add the poetry installation path to your PATH environment variable. To do so, follow [this guide](https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/).
+Do not close the terminal, it will probably ask you to add the poetry installation path to your PATH environment variable.
+To do so, follow [this guide](https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/).
 
 ### Ubuntu : Installing CMake and Make
 
