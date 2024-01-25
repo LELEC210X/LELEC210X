@@ -112,6 +112,9 @@ see [INSTALL.md](./INSTALL.md).
 
 ## 3. Keeping your code clean
 
+> [!NOTE]
+> Please follow the [install guide](INSTALL.md) first.
+
 A good rule when programming in a team is to follow the same formatting rules.
 
 Since it can become tedious to manually format all codes to match a given set
@@ -122,24 +125,18 @@ the formatter will automatically edit your code to fix those problems.
 Note that using a linter is still useful since the range of rules covered by
 linters is usually much larger than those of a formatter.
 
-To this end, you can use `pre-commit`. Its installation is very simple:
+To this end, we use `pre-commit`. It can be used as follows:
 
 ```bash
-pip install pre-commit
-```
-
-and can be used as follows:
-
-```bash
-pre-commit run --all-files
+poetry run pre-commit run --all-files
 ```
 
 If you want to run `pre-commit` on a subset of your files, use the following:
 
 ```bash
-pre-commit run --files file1 file2 ...
+poetry pre-commit run --files file1 file2 ...
 # E.g., on all files in `tex/`
-find tex/ | xargs pre-commit run --files
+find tex/ | xargs poetry run pre-commit run --files
 ```
 
 If you want to disallow you from pushing unformatted code,
@@ -150,13 +147,13 @@ and check wether you passe or not the format rules.
 To this end, please run:
 
 ```bash
-pre-commit install
+poetry run pre-commit install
 ```
 
 After this, you should always run:
 
 ```bash
-pre-commit run
+poetry pre-commit run
 ```
 
 to format staged files, before committing them.
