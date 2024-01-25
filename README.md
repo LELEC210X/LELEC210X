@@ -9,7 +9,8 @@ The current directory, which we will refer to as **root**, contains instructions
 3. how to keep your code clean;
 4. and how to build the whole project.
 
-> Note: part 3 will only be useful once you have read and worked through all
+> [!NOTE]
+> Part 3 will only be useful once you have read and worked through all
 > the intermediate hands-on sessions.
 
 Subdirectories are organized as follows:
@@ -89,7 +90,8 @@ providing a [VirtualBox](https://www.virtualbox.org/) (VB) image. Put simply,
 VB is a free tool that a allows to run the same set of software, thanks to
 **virtualization**, regardless of your computer.
 
-> **NOTE**: Quartus is not part of the software installed,
+> [!NOTE]
+> Quartus is not part of the software installed,
 > and we assume you have it installed it from a previous class.
 
 ### 2.1 Dealing with a slow VB
