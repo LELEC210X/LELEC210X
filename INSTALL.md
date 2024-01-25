@@ -72,7 +72,7 @@ of Ubuntu Desktop 20.04.5 LTS:
 - [x] password set to faraday;
 - [x] automatically log in.
 
-> [!NOTE] 
+> [!NOTE]
 > After first logging, the French Azerty layout was also added, and should be
 > the default one. To switch between the two layouts,
 > you can use <kbd>SHIFT</kbd>+<kbd>SUPER</kbd>+<kbd>SPACE</kbd>,
@@ -408,7 +408,7 @@ poetry run install
 
 You should only perform this once.
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > Note that, in order to work, `poetry` commands
 > must be done in a terminal session **from inside**
 > the root directory of this project, or any of its

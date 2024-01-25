@@ -2,20 +2,22 @@
 
 This folder contains everything you need to run a local version of the leadeboard.
 
-> **NOTE**: if you are a student and your are reading this online,
+> [!NOTE]
+> If you are a student and your are reading this online,
 > you are most probably just interested in reading **Submitting a guess**
 > (see below).
 
 ## Installation
 
-This project uses [`Poetry`](https://python-poetry.org/docs/) to install
-dependencies and command-line tools. For this, you need to run:
+All dependencies should be installed with the following command:
 
 ```bash
 poetry install
 ```
 
-the first time you use this server, you must create a config file:
+## Setup
+
+The first time you use this server, you must create a config file:
 
 ```bash
 poetry run flask config init
