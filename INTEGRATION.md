@@ -47,7 +47,5 @@ project parts. For those, it is better to use an environ variable,
 e.g., `MELVEC_LENGTH=20`.
 
 To setup environ variables, the easiest is to populate the [`.env`](.env) file with
-the environ variables. Then, if you run the script from the root directory,
-Python will automatically read the file and assign environ variables accordingly.
-
-<TODO>
+the environ variables. This file is automatically loaded when calling
+`flask run auth` or `flask run classify`.

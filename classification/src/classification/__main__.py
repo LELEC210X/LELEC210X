@@ -6,8 +6,8 @@ import click
 
 import common
 from common.logging import logger
+from common.env import load_dotenv
 from auth import PRINT_PREFIX
-from dotenv import load_dotenv
 
 from .utils import payload_to_melvecs
 

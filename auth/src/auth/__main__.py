@@ -5,10 +5,9 @@ import click
 import serial
 import zmq
 
-from dotenv import load_dotenv
-
 import common
 
+from common.env import load_dotenv
 from common.logging import logger
 
 from . import PRINT_PREFIX, packet

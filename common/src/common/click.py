@@ -4,7 +4,6 @@ Common wrapper for click applications.
 from typing import Any, Callable
 
 import click
-import dotenv
 
 from .defaults import MELVEC_LENGTH, N_MELVECS
 from .logging import logger

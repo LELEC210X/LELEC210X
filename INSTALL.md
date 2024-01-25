@@ -392,6 +392,35 @@ intelFPGA/18.1/quartus/common/devinfo/dev\_install
 The programm will ask you to select the folder in which the downloaded file is located,
 it will then automatically detect the MAX 10 device support file. You can proceed to the installation.
 
+### Install Python dependencies
+
+To install the Python dependencies, you can simply run:
+
+```bash
+poetry run install
+```
+
+You should only perform this once.
+
+> [!IMPORTANT]  
+> Note that, in order to work, `poetry` commands
+> must be done in a terminal session **from inside**
+> the root directory of this project, or any of its
+> subdirectories.
+
+If you modify any of the packages listed in the `[tool.poetry]` section
+of [`pyproject.toml`](pyproject.toml), the changes will directly apply
+to your installation.
+
+To add new Python dependencies to your project, you can use
+
+```bash
+poetry add package_name
+```
+
+and Poetry will do the rest for you! For other use cases, please
+check out their documentation.
+
 ## Tips for a Better Environment
 
 By default, we **did not install** git and any specific code editor **on purpose**.
