@@ -37,6 +37,7 @@ soundfile = "^0.12.1"
 
 [tool.poetry.group.common.dependencies]
 click = "^8.1.7"
+python-dotenv = "^0.21.1"
 rich = "^13.7.0"
 
 [tool.poetry.group.dev.dependencies]

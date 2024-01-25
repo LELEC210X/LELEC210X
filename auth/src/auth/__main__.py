@@ -5,11 +5,15 @@ import click
 import serial
 import zmq
 
+from dotenv import load_dotenv
+
 import common
 
 from common.logging import logger
 
 from . import PRINT_PREFIX, packet
+
+load_dotenv()
 
 
 def parse_packet(line: str) -> bytes:
