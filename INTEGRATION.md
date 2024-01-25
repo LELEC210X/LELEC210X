@@ -11,6 +11,8 @@ and that missing code fragments have been successfully filled.
 Make sure that your repository is up-to-date with our main branch, and
 that you installed the latest Python dependencies with:
 
+<!-- tell users to run commands from within the root directory or subdirectories -->
+
 ```
 poetry install
 ```
