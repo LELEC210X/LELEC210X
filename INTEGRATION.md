@@ -28,7 +28,7 @@ the following steps[^1]:
    and generate the Python script(s);
 4. _(Linux)_ run your GNU Radio script either from GNU Radio or from the terminal;
 5. _(Any)_ in another terminal window, run `poetry run auth | poetry run classify`;
-6. and that all!
+6. and that's all!
 
 [^1]:
     in parentheses, the host / guest OS that is needed to run the commands.
