@@ -72,7 +72,8 @@ of Ubuntu Desktop 20.04.5 LTS:
 - [x] password set to faraday;
 - [x] automatically log in.
 
-> Note: after first logging, the French Azerty layout was also added, and should be
+> [!NOTE] 
+> After first logging, the French Azerty layout was also added, and should be
 > the default one. To switch between the two layouts,
 > you can use <kbd>SHIFT</kbd>+<kbd>SUPER</kbd>+<kbd>SPACE</kbd>,
 > where <kbd>SUPER</kbd> is usually the Windows key.
@@ -205,7 +206,8 @@ exec bash
 
 to apply changes.
 
-> Note: using `>>` automatically appends to the file, so that you don't have anything
+> [!TIP]
+> Using `>>` automatically appends to the file, so that you don't have anything
 > to do. If you prefer, you can edit the files from the terminal using programs
 > like `nano` or `vim`.
 
@@ -245,6 +247,7 @@ gnuradio-companion
 
 To kill GNU Radio, either press the exit button, or press <kbd>CTRL</kbd>+<kbd>C</kbd>.
 
+> [!TIP]
 > On Linux, you can launch processes in the background by appending `&` at the end
 > of some command. E.g., `gnuradio-companion &`. To later terminate the process,
 > you can use the `pkill` command. E.g., `pkill gnuradio-compagnion`.
@@ -341,7 +344,8 @@ usbipd wsl attach --busid <busid>
 usbipd wsl detach --busid <busid>
 ```
 
-> Note: if you have `error: Access denied; this operation requires administrator privileges`, you should
+> [!NOTE]
+> If you have `error: Access denied; this operation requires administrator privileges`, you should
 > run the same commands but in a administrator terminal. Do forget that `wsl` must be running in a separate
 > Windows shell.
 >
@@ -477,7 +481,8 @@ chsh -s $(which zsh)
 sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-> Important: re-run all the `export ...=...` commands but
+> [!IMPORTANT]
+> Re-run all the `export ...=...` commands but
 > **change** the output file to `>> ~/.zshrc`.
 
 Then, you can add plugins to your Zsh shell,
@@ -494,6 +499,7 @@ the code editor for real programmers:
 sudo apt-get install neovim
 ```
 
+> [!NOTE]
 > Jokes aside, NeoVim is a very nice editor, but also quite hard to use, mainly because
 > you can only use your keyboard (you are in the terminal!). Learning NeoVim is good if
 > you plan on regularly connecting to remote machines (e.g., you train a ML model on a
