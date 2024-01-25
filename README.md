@@ -141,6 +141,9 @@ poetry pre-commit run --files file1 file2 ...
 find tex/ | xargs poetry run pre-commit run --files
 ```
 
+> [!NOTE]
+> The above command will likely only work on Linux or macOS.
+
 If you want to disallow you from pushing unformatted code,
 you can install a git hook.
 A git hook is simply an action that will run every time you try to commit
