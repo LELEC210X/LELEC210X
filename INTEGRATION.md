@@ -43,4 +43,11 @@ files, via command-line options, or via environ variables.
 
 For parameters that are use in multiple places, like `melvec_length`,
 it is very important to use the same values all across your different
-project parts.
+project parts. For those, it is better to use an environ variable,
+e.g., `MELVEC_LENGTH=20`.
+
+To setup environ variables, the easiest is to populate the [`.env`](.env) file with
+the environ variables. Then, if you run the script from the root directory,
+Python will automatically read the file and assign environ variables accordingly.
+
+<TODO>
