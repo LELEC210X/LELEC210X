@@ -427,6 +427,16 @@ poetry add package_name
 and Poetry will do the rest for you! For other use cases, please
 check out their documentation.
 
+> [!NOTE]
+> Later in the project, you will install Python packages from
+> GNU Radio projects. Those packets are **not installed**
+> in the virtual environment created by Poetry.
+> To use those packages (e.g., `fsk`), you should
+> then use your system Python.
+>
+> We already considered that in the hands-on sessions,
+> and the commands we provide should work as expected.
+
 ## Tips for a Better Environment
 
 By default, we **did not install** git and any specific code editor **on purpose**.

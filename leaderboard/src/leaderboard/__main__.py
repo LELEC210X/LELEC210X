@@ -2,6 +2,7 @@ import os
 
 import webbrowser
 from pathlib import Path
+from threading import Timer
 
 import click
 import eventlet
@@ -114,7 +115,7 @@ def create_app() -> Flask:
     @scheduler.task("interval", id="update_client", seconds=1.0)
     def update_leaderboard():
         """Updates periodically the leaderboard by fetching data from the submissions."""
-        with scheduler.app.app_context():
+        with app.app_context():
             socketio.emit(
                 "update_leaderboard",
                 app.config["CONFIG"].get_leaderboard_status().dict(),
@@ -123,7 +124,7 @@ def create_app() -> Flask:
     @scheduler.task("interval", id="save_config", seconds=5.0)
     def save_config():
         """Saves periodically the config, if needed."""
-        with scheduler.app.app_context():
+        with app.app_context():
             if app.config["CONFIG_NEEDS_SAVE"]:
                 app.config["CONFIG"].save_to(app.config["CONFIG_PATH"])
                 app.config["CONFIG_NEEDS_SAVE"] = False
@@ -136,27 +137,34 @@ def create_app() -> Flask:
 def main():
     pass
 
-
 @main.command()
 @click.option(
     "--open/--no-open",
     "_open",
     default=True,
     is_flag=True,
-    help="Open landing page in a web browser",
+    help="Open landing page in a web browser, only when serving on localhost.",
 )
-def run(_open):
+def serve(_open):
     """Run a leaderboard server."""
     app = create_app()
-    app.apscheduler.start()
 
-    if _open and False:  # TODO
-        webbrowser.open(app.hostname + "/lelec2103/leaderboard")
+    if len(app.config["CONFIG"].group_configs) == 0:
+        raise ValueError("Cannot run server without at least one group, see README.md.")
+
+    app.apscheduler.start()
+    host = os.environ["FLASK_RUN_HOST"].lower()
+    port = os.environ["FLASK_RUN_PORT"]
+
+    if _open and host == "localhost":
+        Timer(1, lambda: webbrowser.open(f"http://{host}:{port}/lelec210x/leaderboard")).start()
 
     app.extensions["socketio"].run(app, port=os.environ["FLASK_RUN_PORT"])
 
 
 main.add_command(config)
+
+del main.commands["run"]
 
 if __name__ == "__main__":
     main()

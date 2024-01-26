@@ -20,7 +20,7 @@ poetry install
 The first time you use this server, you must create a config file:
 
 ```bash
-poetry run flask config init
+poetry run leaderboard config init
 ```
 
 and populate it when some group(s):
@@ -34,7 +34,7 @@ The key will be useful to send your guesses to the server.
 Then, the server must be launched with:
 
 ```bash
-poetry run python app.py
+poetry run leaderboard serve
 ```
 
 For other commands, see:
@@ -77,7 +77,7 @@ hostname = "http://localhost:5000"
 key = "aqH27o66E8xz-IotBk11ZZo1ix7Vbs5H2pTXlSra"
 guess = "fire"
 
-response = requests.patch(f"{hostname}/leaderboard/submit/{key}/{guess}")
+response = requests.patch(f"{hostname}/lelec210x/leaderboard/submit/{key}/{guess}")
 
 import json
 
@@ -87,13 +87,13 @@ response_as_dict = json.loads(response.text)
 
 Many more requests are possible!
 Please go to the
-[API docs](https://perceval.elen.ucl.ac.be/lelec2103/leaderboard/doc/)
+[API docs](http:localhost:5000/lelec210x/leaderboard/doc/)
 for more details.
 
 > **NOTE**: `http:localhost:5000` is the default hostname (and port)
 > that is used if you run the server on your computer.
 > For the contest, please use
-> `hostname = "https://perceval.elen.ucl.ac.be/lelec2103"`.
+> `hostname = "https://perceval.elen.ucl.ac.be/lelec210x"`.
 
 ## Deploying on perceval
 

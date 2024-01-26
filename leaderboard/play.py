@@ -72,7 +72,7 @@ def main(url, key, random_key):
     # Wait for server to be up
     # and checks if admin rights
     while True:
-        response = requests.get(f"{url}/lelec2103/leaderboard/check/{key}")
+        response = requests.get(f"{url}/lelec210x/leaderboard/check/{key}")
 
         code = response.status_code
 
@@ -81,7 +81,7 @@ def main(url, key, random_key):
 
             if random_key:
                 response = requests.get(
-                    f"{url}/lelec2103/leaderboard/check/{random_key}"
+                    f"{url}/lelec210x/leaderboard/check/{random_key}"
                 )
 
                 if response.status_code != 200:
@@ -98,7 +98,7 @@ def main(url, key, random_key):
 
     while True:
         start = time.time()
-        json = requests.get(f"{url}/lelec2103/leaderboard/status/{key}").json()
+        json = requests.get(f"{url}/lelec210x/leaderboard/status/{key}").json()
         delay = time.time() - start
         info(f"Took {delay:.4f}s for the status request")
 
@@ -154,11 +154,11 @@ def main(url, key, random_key):
         info(f"Playing sound now: {sound_file}")
 
         # Admins are always correct :-)
-        requests.post(f"{url}/lelec2103/leaderboard/submit/{key}/{category}")
+        requests.post(f"{url}/lelec210x/leaderboard/submit/{key}/{category}")
 
         if random_key:  # Random player
             guess = random.choice(CATEGORIES)
-            requests.post(f"{url}/lelec2103/leaderboard/submit/{random_key}/{guess}")
+            requests.post(f"{url}/lelec210x/leaderboard/submit/{random_key}/{guess}")
 
         thread.join()
 

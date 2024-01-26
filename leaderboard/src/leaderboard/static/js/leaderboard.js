@@ -10,7 +10,7 @@ const destination = document.getElementsByTagName("body")[0];
 // Uncomment this on the server
 /*
 const socket = io("wss://perceval.elen.ucl.ac.be", {
-  path: "/lelec2103/socket.io",
+  path: "/lelec210x/socket.io",
 });
 */
 

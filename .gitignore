@@ -11,7 +11,7 @@ __pycache__/
 leaderboard/.config.json
 leaderboard/instance/database.db
 leaderboard/package.json
-leaderboard/node_modules/
+node_modules/
 
 # TeX
 
