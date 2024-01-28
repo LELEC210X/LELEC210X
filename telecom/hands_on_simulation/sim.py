@@ -353,7 +353,7 @@ def run_sim(chain):
             preamble_false,
         )
     )
-    np.savetxt("{}.csv".format(test_name), save_var, delimiter="\t")
+    np.savetxt(f"{test_name}.csv", save_var, delimiter="\t")
     # Read file:
     # data = np.loadtxt('test.csv')
     # SNRs_dB = data[:,0]

@@ -30,7 +30,6 @@ class AudioUtil:
         :param audio_file: The path to the audio file.
         :return: The audio signal as a tuple (signal, sample_rate).
         """
-
         sig, sr = sf.read(audio_file)
         if sig.ndim > 1:
             sig = sig[:, 0]
@@ -183,7 +182,6 @@ class AudioUtil:
         :param max_ms: The maximum duration of the sounds to add.
         :param amplitude_limit: The maximum amplitude of the added sounds.
         """
-
         sig, sr = audio
 
         ### TO COMPLETE
@@ -198,7 +196,6 @@ class AudioUtil:
         :param Nft: The number of points of the FFT.
         :param fs2: The sampling frequency.
         """
-
         ### TO COMPLETE
         # stft /= float(2**8)
         return stft
@@ -226,7 +223,6 @@ class AudioUtil:
         :param Nft: The number of points of the FFT.
         :param fs2: The sampling frequency.
         """
-
         ### TO COMPLETE
 
         return melspec
@@ -308,7 +304,6 @@ class Feature_vector_DS:
 
         :param cls_index: Class name and index.
         """
-
         audio_file = self.dataset[cls_index]
         aud = AudioUtil.open(audio_file)
         aud = AudioUtil.resample(aud, self.sr)
@@ -340,7 +335,6 @@ class Feature_vector_DS:
 
         :param cls_index: Class name and index.
         """
-
         aud = self.get_audiosignal(cls_index)
         sgram = AudioUtil.melspectrogram(aud, Nmel=self.nmel, Nft=self.Nft)
         if self.data_aug is not None:

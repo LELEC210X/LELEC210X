@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 uart-reader.py
 ELEC PROJECT - 210x
@@ -70,14 +69,14 @@ if __name__ == "__main__":
         for melvec in input_stream:
             msg_counter += 1
 
-            print("MEL Spectrogram #{}".format(msg_counter))
+            print(f"MEL Spectrogram #{msg_counter}")
 
             plt.figure()
             plot_specgram(
                 melvec.reshape((N_MELVECS, MELVEC_LENGTH)).T,
                 ax=plt.gca(),
                 is_mel=True,
-                title="MEL Spectrogram #{}".format(msg_counter),
+                title=f"MEL Spectrogram #{msg_counter}",
                 xlabel="Mel vector",
             )
             plt.draw()

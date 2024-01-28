@@ -1,10 +1,10 @@
 """
-    Author : Olivier Leblanc - UCLouvain
-    Date : 26/09/2022
+Author : Olivier Leblanc - UCLouvain
+Date : 26/09/2022
 
-    Code description :
-    __________________
-    Show mel filterbanks.
+Code description :
+__________________
+Show mel filterbanks.
 
 """
 

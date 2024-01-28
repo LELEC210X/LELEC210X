@@ -108,7 +108,8 @@ def plot_specgram(
     tf=None,
     invert=True,
 ):
-    """Plot a spectrogram (2D matrix) in a chosen axis of a figure.
+    """
+    Plot a spectrogram (2D matrix) in a chosen axis of a figure.
     Inputs:
         - specgram = spectrogram (2D array)
         - ax       = current axis in figure

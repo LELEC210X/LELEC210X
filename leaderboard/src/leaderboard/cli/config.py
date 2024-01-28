@@ -2,6 +2,7 @@ import secrets
 from pathlib import Path
 
 import click
+
 from ..backend.models import DEFAULT_CONFIG_PATH, Config, GroupConfig
 
 
@@ -60,7 +61,6 @@ def init(config_path: Path, force: bool):
 @click.help_option("-h", "--help")
 def generate_key(name: str, config_path: Path, size: int, admin: bool, force: bool):
     """Generate a key for a given group NAME."""
-
     if not config_path.exists():
         raise click.UsageError(
             f"config file `{config_path}` does not exist. "

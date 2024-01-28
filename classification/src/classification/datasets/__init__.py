@@ -69,7 +69,6 @@ class Dataset:
         :cls_index: Class name and index.
         :return: The name of the sound.
         """
-
         cls, index = cls_index
         return self.files[cls][index].stem
 

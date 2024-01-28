@@ -152,7 +152,7 @@ if __name__ == "__main__":
 
     args = global_args = parser.parse_args()
 
-    with open(args.file, "r") as file:
+    with open(args.file) as file:
         notebook_code = file.read()
     nb = json.loads(notebook_code)
     nb["cells"] = list(handle_cells(nb["cells"]))

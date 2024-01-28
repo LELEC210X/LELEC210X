@@ -6,7 +6,6 @@ import serial
 import zmq
 
 import common
-
 from common.env import load_dotenv
 from common.logging import logger
 
@@ -119,7 +118,7 @@ def main(
     elif _input:  # Read from file-like
 
         def reader() -> Iterator[str]:
-            logger.debug(f"Reading packets from input: {str(_input)}")
+            logger.debug(f"Reading packets from input: {_input!s}")
             logger.info(how_to_kill)
 
             for line in _input:

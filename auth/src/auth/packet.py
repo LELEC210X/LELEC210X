@@ -35,7 +35,8 @@ class InvalidPacket(ValueError):
 
 
 class PacketUnwrapper:
-    """Verify packet wire format, validate security properties and extract the
+    """
+    Verify packet wire format, validate security properties and extract the
     payload.
 
     :param allowed_sender_ids: list of id of allowed senders

@@ -29,7 +29,6 @@ def accuracy(prediction, target):
     """
     Compute the accuracy between prediction and ground truth.
     """
-
     return np.sum(prediction == target) / len(prediction)
 
 
@@ -48,7 +47,8 @@ def fixed_to_float(x, e):
 
 
 def float2fixed(audio, maxval=1, q=15):
-    """Convert signal from float format to integer fixed point, here q15_t.
+    """
+    Convert signal from float format to integer fixed point, here q15_t.
     Divide by this maximal value to increase range.
     In q15_t, the first bit is for the sign and the 15 others are for quantization of the signal from 0 to 1
     """
@@ -73,7 +73,8 @@ def fixed_to_binary(sig, q=15):
 
 
 def resize_and_fix_origin(sig, L):
-    """Pads sig to reach length `L`, and shift it in order to cancel phase.
+    """
+    Pads sig to reach length `L`, and shift it in order to cancel phase.
     This is based on the assumption that the sig is centered in space.
     """
     pad = L - len(sig)
@@ -119,7 +120,6 @@ def threshold(sig, thres=8, Nft=512):
     Output:
         - thresholded : the thresholded signal
     """
-
     "Crop the signal"
     inddiff = len(sig) % Nft
     if inddiff != 0:
@@ -133,7 +133,8 @@ def threshold(sig, thres=8, Nft=512):
 
 
 def quantize(sig, n=8):
-    """Quantize a signal with n bits.
+    """
+    Quantize a signal with n bits.
     Inputs :
         - sig = signal, 1D or 2D array
         - n   = number of bits for quantization
@@ -214,7 +215,6 @@ def STFT(sig, L=8, L2=10, window="hanning"):
               window : the window used for reducing spectrum artifacts
         Outputs : mat : the STFT matrix
     """
-
     N = len(sig)
     # Pad signal s.t. its length N is a multiple of L*L2
     sig = np.pad(sig, (0, L * L2 - N % (L * L2)), "constant", constant_values=0)
@@ -250,7 +250,6 @@ def load_model(model_path):
         Inputs : model_path : string
         Outputs : myModel
     """
-
     myModel = torch.load(model_path)
     # myModel.float()
     myModel.eval()
@@ -271,5 +270,5 @@ def eval_model(model, fv, gt=0):
 
     y_predict, y_true = inference(model, dl, batch_size=1)
 
-    print("Prediction : {} ".format(y_predict))
-    print("Ground truth : {}".format(y_true))
+    print(f"Prediction : {y_predict} ")
+    print(f"Ground truth : {y_true}")

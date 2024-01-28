@@ -3,7 +3,6 @@ from pathlib import Path
 
 import dotenv
 
-
 repository_dir = Path(__file__).parents[3]
 
 

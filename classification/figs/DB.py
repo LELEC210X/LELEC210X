@@ -1,10 +1,10 @@
 """
-    Author : Olivier Leblanc - UCLouvain
-    Date : 19/09/2022
+Author : Olivier Leblanc - UCLouvain
+Date : 19/09/2022
 
-    Code description :
-    __________________
-    Show spectrogram of a noise.
+Code description :
+__________________
+Show spectrogram of a noise.
 
 """
 import matplotlib.pyplot as plt

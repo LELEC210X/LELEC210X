@@ -1,5 +1,4 @@
 import os
-
 import time
 import webbrowser
 from pathlib import Path
@@ -10,7 +9,7 @@ import eventlet
 import markdown
 import requests
 from flask import Flask
-from flask.cli import load_dotenv, FlaskGroup
+from flask.cli import FlaskGroup, load_dotenv
 from flask_apscheduler import APScheduler
 from flask_socketio import SocketIO
 
@@ -19,17 +18,17 @@ from common.logging import logger
 
 from .backend.models import DEFAULT_CONFIG_PATH, Config
 from .cli.config import config
+from .play_sound import play_sound
 from .routes.index import index
 from .routes.leaderboard import leaderboard, limiter
 from .utils import get_url
-from .play_sound import play_sound
 
 eventlet.monkey_patch(thread=True, time=True)
 
 load_dotenv((Path(__file__).parents[2] / ".flaskenv").resolve(strict=True))
 
 
-class PrefixMiddleware(object):
+class PrefixMiddleware:
     def __init__(self, app, prefix=""):
         self.app = app
         self.prefix = prefix
@@ -41,7 +40,7 @@ class PrefixMiddleware(object):
             return self.app(environ, start_response)
         else:
             start_response("404", [("Content-Type", "text/plain")])
-            return ["This url does not belong to the app.".encode()]
+            return [b"This url does not belong to the app."]
 
 
 def create_app() -> Flask:
@@ -92,7 +91,7 @@ def create_app() -> Flask:
 
     @app.route("/")
     def _index():
-        readme_file = open("README.md", "r")
+        readme_file = open("README.md")
         md_template_string = markdown.markdown(
             readme_file.read(), extensions=["fenced_code"]
         )
@@ -148,7 +147,6 @@ def main():
 @main.command()
 def ping():
     """Ping the leaderboard server and return round-trip time in ms."""
-
     url = f"{get_url()}/lelec210x/leaderboard/status"
 
     while True:
