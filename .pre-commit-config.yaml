@@ -44,7 +44,7 @@ repos:
     exclude: .*poetry.lock
     args: [--autofix]
 - repo: https://github.com/pre-commit/mirrors-prettier
-  rev: v4.0.0-alpha.8   # Use the sha or tag you want to point at
+  rev: v4.0.0-alpha.8
   hooks:
   - id: prettier
 - repo: https://github.com/tcort/markdown-link-check

@@ -14,7 +14,8 @@ leaderboard = Blueprint("leaderboard", __name__, static_folder="../static")
 api = Api(
     leaderboard,
     title="Leaderboard API",
-    description="The API documentation. Please click on **default** to show all the possible endpoints.",
+    description="The API documentation. "
+    "Please click on **default** to show all the possible endpoints.",
     doc="/doc/",
 )
 
