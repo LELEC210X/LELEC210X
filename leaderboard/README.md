@@ -181,7 +181,7 @@ screen -d -m poetry run leaderboard serve
 
 > [!IMPORTANT]
 > Starting 2023-2024, the cryptographic part of this project
-> was removed, so information below are outdated.
+> was removed, so information below is outdated.
 
 The security round takes place in parallel to all the other rounds,
 and submission is therefore always open.
