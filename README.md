@@ -10,7 +10,7 @@ The current directory, which we will refer to as **root**, contains instructions
 4. and how to build the whole project.
 
 > [!NOTE]
-> Part 3 will only be useful once you have read and worked through all
+> Part 4 will only be useful once you have read and worked through all
 > the intermediate hands-on sessions.
 
 Subdirectories are organized as follows:
