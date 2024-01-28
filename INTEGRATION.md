@@ -41,7 +41,7 @@ the following steps[^1]:
 > lines of codes, see the corresponding [README](leaderboard/README.md).
 
 [^1]:
-    in parentheses, the host / guest OS that is needed to run the commands.
+    In parentheses, the host / guest OS that is needed to run the commands.
     Any refers to any OS (best to use your host OS here).
 
 ## Customizing
