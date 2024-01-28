@@ -133,6 +133,14 @@ To this end, we use `pre-commit`. It can be used as follows:
 poetry run pre-commit run --all-files
 ```
 
+> [!TIP]
+> After running `pre-commit`, you will likely see **many** error messages:
+> do not run away! Most of them are just good tips to help you
+> improving your coding practices, and fixing all of them takes quite some time!
+>
+> If you want to help us improve this repository, you can do so by
+> fixing a few error messages here and there ;-)
+
 If you want to run `pre-commit` on a subset of your files, use the following:
 
 ```bash
