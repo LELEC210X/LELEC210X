@@ -20,7 +20,7 @@ from pydantic import (
     validator,
 )
 
-DEFAULT_CONFIG_PATH = Path(".config.json")
+DEFAULT_CONFIG_PATH = Path(__file__).parents[3] / ".config.json"
 
 
 class GroupConfig(BaseModel):

@@ -69,6 +69,9 @@ def create_app() -> Flask:
     try:
         app.config["CONFIG"] = Config.parse_file(config_path)
     except FileNotFoundError:
+        logger.warn(
+            f"No config file found at '{config_path}', using default config values."
+        )
         app.config["CONFIG"] = Config()
 
     app.config["CONFIG_PATH"] = config_path

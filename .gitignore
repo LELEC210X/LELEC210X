@@ -8,7 +8,7 @@ __pycache__/
 # Leaderboard
 
 !leaderboard/**/*.html
-.config.json
+leaderboard/.config.json
 database.db
 package.json
 node_modules/
