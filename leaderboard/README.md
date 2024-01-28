@@ -119,7 +119,7 @@ for more details.
 >
 > So you can have computer A running the leaderboard server,
 > and compute B receiving packets through the air and sending
-> guesses via the local network.
+> guesses to computer A via the local network.
 >
 > To do this, you need to find the IP address of computer A
 > on the local network. On Linux, you can run `ifconfig`,
