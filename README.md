@@ -91,7 +91,7 @@ VB is a free tool that a allows to run the same set of software, thanks to
 **virtualization**, regardless of your computer.
 
 > [!NOTE]
-> Quartus is not part of the software installed,
+> Quartus is not part of the installed softwares,
 > and we assume you have it installed it from a previous class.
 
 ### 2.1 Dealing with a slow VB
