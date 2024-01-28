@@ -29,8 +29,6 @@ tex/pdfs.zip
 _minted-*/
 tex/hands_on_wireless_simulation/modulate.py
 
-
-
 # MCU
 
 mcu/Debug/
@@ -45,9 +43,9 @@ telecom/gr-limesdr/build/
 telecom/hands_on_measurements/gr-fsk/build/
 telecom/hands_on_measurements/gr-fsk/apps/*.py
 
-
 # FPGA
-#Bitstreams
+
+# Bitstreams
 fpga/LimeSDR-Mini_bitstreams/*.map
 fpga/LimeSDR-Mini_bitstreams/*.pof
 fpga/LimeSDR-Mini_bitstreams/*.sof
