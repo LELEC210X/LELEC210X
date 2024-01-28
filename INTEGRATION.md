@@ -17,6 +17,9 @@ that you installed the latest Python dependencies with:
 poetry install
 ```
 
+Make sure to run the above command from the repository directory, or from
+any of its subdirectories. The same applies for all `poetry` commands.
+
 ## Steps
 
 Setting-up a working telecommunication chain can be performed with
@@ -31,6 +34,11 @@ the following steps[^1]:
 4. _(Linux)_ run your GNU Radio script either from GNU Radio or from the terminal;
 5. _(Any)_ in another terminal window, run `poetry run auth | poetry run classify`;
 6. and that's all!
+
+> [!IMPORTANT]
+> Running `poetry run classify` does not actually submit your classification
+> guesses to the leaderboard server. To do so, you will need to add a few
+> lines of codes, see the corresponding [README](leaderboard/README.md).
 
 [^1]:
     in parentheses, the host / guest OS that is needed to run the commands.
