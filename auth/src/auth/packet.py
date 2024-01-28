@@ -55,7 +55,7 @@ class PacketUnwrapper:
         }
 
     def unwrap_packet(self, packet):
-        """Returns (sender, payload), or None if packet is not valid."""
+        """Return (sender, payload), or None if packet is not valid."""
         # Version check, we only know version 0
         if len(packet) < 1 or packet[0] != 0:
             raise InvalidPacket("Packet empty or wrong version.")
