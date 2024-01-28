@@ -3,9 +3,15 @@
 This folder contains everything you need to run a local version of the leadeboard.
 
 > [!NOTE]
-> If you are a student and your are reading this online,
-> you are most probably just interested in reading **Submitting a guess**
+> If you are a student,
+> the most important section for the contest is **Submitting a guess**
 > (see below).
+>
+> **However**, we will not run the public server every hour
+> of every day until the contest. So you are encouraged
+> to do all your testing on a local server, deployed on
+> your computer. For that purpose, read the sections
+> below.
 
 ## Installation
 
