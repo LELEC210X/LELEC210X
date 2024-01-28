@@ -26,7 +26,7 @@ poetry run leaderboard config init
 and populate it when some group(s):
 
 ```bash
-poetry run flask config generate-key "Teaching Assistants"
+poetry run leaderboard config generate-key "Teaching Assistants"
 ```
 
 The key will be useful to send your guesses to the server.
@@ -40,10 +40,8 @@ poetry run leaderboard serve
 For other commands, see:
 
 ```bash
-poetry run flask --help
+poetry run leaderboard --help
 ```
-
-> **WARNING:** using `flask run` will not work properly, do not use it.
 
 ## Usage
 
@@ -62,9 +60,22 @@ The simplest way to do so is to use the `requests` library, see the example belo
 ### (Optional) If you run your own server
 
 ```bash
-> poetry run flask config generate-key "Teaching Assistants"
-Group Teaching Assistants now has key: aqH27o66E8xz-IotBk11ZZo1ix7Vbs5H2pTXlSra
+> poetry run leaderboard config generate-key "The Besties"
+Group The Besties now has key: aqH27o66E8xz-IotBk11ZZo1ix7Vbs5H2pTXlSra
 ```
+
+To test everything locally, you also need to create a group with admin rights:
+
+```bash
+> poetry run leaderboard config generate-key --admin "Teaching Assistants"
+Group Teaching Assistants now has key: EdY7unM6C6ZFwt9uTjmaMv6eX9nM7pljGADmcudJ
+```
+
+The first key will be used to submit guesses, while the second will
+be used to play to sound files, and also let you control the leaderboard
+(see API docs below).
+
+For the contest, you will only have a non-admin key :-)
 
 ### Submitting a guess
 
@@ -90,10 +101,26 @@ Please go to the
 [API docs](http:localhost:5000/lelec210x/leaderboard/doc/)
 for more details.
 
-> **NOTE**: `http:localhost:5000` is the default hostname (and port)
+> [!NOTE]
+> `http:localhost:5000` is the default hostname (and port)
 > that is used if you run the server on your computer.
 > For the contest, please use
 > `hostname = "https://perceval.elen.ucl.ac.be/lelec210x"`.
+
+### Playing sound files
+
+The leaderboard server does not actually play the soundfiles,
+because the actual computer does not have access to any speaker.
+
+To play sound files, a group with admin rights, i.e., the teaching
+assistants during the contest, need to connect to the leaderboard remotely,
+and receiving leaderboard statuses to play the right sound files.
+
+This is done with this command:
+
+```bash
+poetry run leaderboard play-sound --key EdY7unM6C6ZFwt9uTjmaMv6eX9nM7pljGADmcudJ
+```
 
 ## Deploying on perceval
 
@@ -103,7 +130,8 @@ First, connect to the server via SSH:
 ssh lelec2103@perceval.elen.ucl.ac.be -p 22
 ```
 
-> **NOTE**: this requires a valid SSH public key of yours to be on the server.
+> [!NOTE]
+> This requires a valid SSH public key of yours to be on the server.
 
 Next, download the latest changes:
 
@@ -123,10 +151,14 @@ Next, everything should run as expected.
 A simple way to run the server in background is with `screen`:
 
 ```bash
-screen -d -m poetry run python app.py
+screen -d -m poetry run leaderboard serve
 ```
 
 ## Submitting a Key for the Security Round
+
+> [!IMPORTANT]
+> Starting 2023-2024, the cryptographic part of this project
+> was removed, so information below are outdated.
 
 The security round takes place in parallel to all the other rounds,
 and submission is therefore always open.

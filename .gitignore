@@ -8,9 +8,9 @@ __pycache__/
 # Leaderboard
 
 !leaderboard/**/*.html
-leaderboard/.config.json
-leaderboard/instance/database.db
-leaderboard/package.json
+.config.json
+database.db
+package.json
 node_modules/
 
 # TeX

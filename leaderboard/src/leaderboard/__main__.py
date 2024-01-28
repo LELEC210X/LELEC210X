@@ -1,5 +1,6 @@
 import os
 
+import time
 import webbrowser
 from pathlib import Path
 from threading import Timer
@@ -7,6 +8,7 @@ from threading import Timer
 import click
 import eventlet
 import markdown
+import requests
 from flask import Flask
 from flask.cli import load_dotenv, FlaskGroup
 from flask_apscheduler import APScheduler
@@ -19,6 +21,8 @@ from .backend.models import DEFAULT_CONFIG_PATH, Config
 from .cli.config import config
 from .routes.index import index
 from .routes.leaderboard import leaderboard, limiter
+from .utils import get_url
+from .play_sound import play_sound
 
 eventlet.monkey_patch(thread=True, time=True)
 
@@ -137,15 +141,35 @@ def create_app() -> Flask:
 def main():
     pass
 
+
+@main.command()
+def ping():
+    """Ping the leaderboard server and return round-trip time in ms."""
+
+    url = f"{get_url()}/lelec210x/leaderboard/status"
+
+    while True:
+        t = time.time()
+        response = requests.get(url)
+        elapsed = 1000 * (time.time() - t)
+        click.echo(f"[{response.status_code}] Took {elapsed:.2f} milliseconds")
+        time.sleep(0.5)
+
+
 @main.command()
 @click.option(
-    "--open/--no-open",
+    "--open",
     "_open",
-    default=True,
     is_flag=True,
     help="Open landing page in a web browser, only when serving on localhost.",
 )
-def serve(_open):
+@click.option(
+    "--open-doc",
+    "_open_doc",
+    is_flag=True,
+    help="Open documentation page in a web browser, only when serving on localhost.",
+)
+def serve(_open, _open_doc):
     """Run a leaderboard server."""
     app = create_app()
 
@@ -157,12 +181,21 @@ def serve(_open):
     port = os.environ["FLASK_RUN_PORT"]
 
     if _open and host == "localhost":
-        Timer(1, lambda: webbrowser.open(f"http://{host}:{port}/lelec210x/leaderboard")).start()
+        Timer(
+            1, lambda: webbrowser.open(f"http://{host}:{port}/lelec210x/leaderboard")
+        ).start()
+
+    if _open_doc and host == "localhost":
+        Timer(
+            1,
+            lambda: webbrowser.open(f"http://{host}:{port}/lelec210x/leaderboard/doc"),
+        ).start()
 
     app.extensions["socketio"].run(app, port=os.environ["FLASK_RUN_PORT"])
 
 
 main.add_command(config)
+main.add_command(play_sound)
 
 del main.commands["run"]
 

@@ -73,6 +73,15 @@ class Dataset:
         cls, index = cls_index
         return self.files[cls][index].stem
 
+    def get_class_files(self, cls_name: str) -> List[Path]:
+        """
+        Return the list of files of a given class.
+
+        :cls_name: Class name.
+        :return: The list of file paths.
+        """
+        return self.files[cls_name]
+
     def list_classes(self) -> List[str]:
         """
         Return the list of classes

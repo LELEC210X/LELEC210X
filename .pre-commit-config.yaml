@@ -52,4 +52,4 @@ repos:
   hooks:
   - id: markdown-link-check
     args: [-q]
-exclude: ((fpga/.*)|(.*\.(c|h|mxproject|s)))
+exclude: ((fpga/.*)|(.*\.(c|h|mxproject|s))|(.*/grc/.*.block.yml))
