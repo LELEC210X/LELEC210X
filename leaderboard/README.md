@@ -107,6 +107,23 @@ for more details.
 > For the contest, please use
 > `hostname = "https://perceval.elen.ucl.ac.be/lelec210x"`.
 
+> [!TIP]
+> If you want to access the server from another computer, on the
+> same local network, it is possible (but not needed)!
+>
+> So you can have computer A running the leaderboard server,
+> and compute B receiving packets through the air and sending
+> guesses via the local network.
+>
+> To do this, you need to find the IP address of computer A
+> on the local network. On Linux, you can run `ifconfig`,
+> and search for the IP address next to `inet`.
+> For example, you could have `192.168.1.132`.
+>
+> Then, just change `FLASK_RUN_HOST = localhost` to
+> `FLASK_RUN_HOST = 192.168.1.132` in
+> [`.flaskenv`](.flaskenv).
+
 ### Playing sound files
 
 The leaderboard server does not actually play the soundfiles,

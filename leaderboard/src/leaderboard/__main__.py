@@ -191,7 +191,7 @@ def serve(_open, _open_doc):
             lambda: webbrowser.open(f"http://{host}:{port}/lelec210x/leaderboard/doc"),
         ).start()
 
-    app.extensions["socketio"].run(app, port=os.environ["FLASK_RUN_PORT"])
+    app.extensions["socketio"].run(app, host=host, port=port)
 
 
 main.add_command(config)
