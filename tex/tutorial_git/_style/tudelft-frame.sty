@@ -1,0 +1,285 @@
+\setlength{\parskip}{1.2ex plus0.7ex}%
+
+\newlength{\splitpos}
+\setlength{\splitpos}{0\paperwidth}
+
+\newcounter{tudcolumn}[framenumber]
+\newlength{\grosscolwidth}
+\newcommand{\updatecolwidth}{%
+  \ifcase\thetudcolumn% zero
+    \PackageError{tudelft-frame}{counter 'tudcolumn' is zero}{did you use 'updatecolwidth' outside of a column?}%
+  \or% one
+    \ifdim\splitpos>0pt%
+      \grosscolwidth=\dimexpr\splitpos
+    \else%
+      \grosscolwidth=\dimexpr\paperwidth+\splitpos
+    \fi%
+  \or% two
+    \ifdim\splitpos>0pt%
+      \grosscolwidth=\dimexpr\paperwidth-\splitpos
+    \else%
+      \ifdim\splitpos=0pt%
+        \PackageError{tudelft-frame}{counter 'tudcolumn' is two, while 'splitpos'=0}{did you try to add a second column without setting 'splitpos'?}%
+      \fi%
+      \grosscolwidth=-\splitpos
+    \fi%
+  \else% three or higher
+    \PackageError{tudelft-frame}{counter 'tudcolumn' is greater than two}{did you try to add more than two columns?}%
+  \fi%
+}
+
+\newenvironment{textcolumn}{%
+  \stepcounter{tudcolumn}%
+  \updatecolwidth
+  \begin{column}{\dimexpr\grosscolwidth-1.5\meanmargin}%
+    \setlength{\parskip}{1.2ex plus0.7ex}%
+}{%
+  \end{column}%
+}
+
+\newenvironment{abstikz}[1][]{%
+  \textblock{1}[0.5, 0.5](0.5, 0.5)%
+    \tikzpicture[x=\paperwidth, y=\paperheight, #1]
+      \path[use as bounding box]
+        (0, 0) rectangle (1, 1);
+}{
+    \endtikzpicture%
+  \endtextblock
+}
+
+\newenvironment{tikzcolumn}[1][]{%
+  \begin{textcolumn}
+    \begin{abstikz}[#1]
+      \ifdim\splitpos>0mm
+        \clip (0, 0) rectangle ++(\splitpos, 1);
+      \else
+        \clip (1, 0) rectangle ++(\splitpos, 1);
+      \fi;
+}{%
+    \end{abstikz}%
+  \end{textcolumn}%
+}
+
+
+\newcommand{\zerorule}{\rule{0ex}{0ex}}
+\newcommand{\bginsert}{}
+\usebackgroundtemplate{\usebeamercolor{background canvas}%
+  \ifdim\splitpos>0pt
+    \rlap{\textcolor{bg}{\rule{\splitpos}{\paperheight}}}%
+    \smash{\rlap{\parbox[b]{\paperwidth}{\zerorule\bginsert\zerorule}}}%
+    \hspace{\splitpos}\rule{\dimexpr\paperwidth-\splitpos}{\paperheight}%
+  \else
+    \rlap{\hspace{\paperwidth}\llap{\textcolor{bg}{\rule{-\splitpos}{\paperheight}}}}%
+    \smash{\rlap{\parbox[b]{\paperwidth}{\zerorule\bginsert\zerorule}}}%
+    \rule{\dimexpr\paperwidth+\splitpos}{\paperheight}\hspace{-\splitpos}%
+  \fi
+}
+
+\newlength{\meanmargin}
+\meanmargin=\dimexpr0.5\beamer@leftmargin+0.5\beamer@rightmargin
+% based on /usr/local/texlive/2023/texmf-dist/tex/latex/beamer/beamerouterthemedefault.sty
+\setbeamertemplate{frametitle}{%
+  \ifbeamercolorempty[bg]{frametitle}{}{\nointerlineskip}%
+  \@tempdima=\paperwidth%
+  \@tempdimb=0.5\beamer@leftmargin%
+  \@tempdimc=0.5\beamer@leftmargin%
+  \ifdim\splitpos>0pt%
+    \@tempdimb=0pt%
+    \advance\@tempdima by-\splitpos%
+    \hfill%
+  \fi%
+  \ifdim\splitpos<0pt%
+    \@tempdimc=0pt%
+    \advance\@tempdima by\splitpos%
+    \hspace{-\beamer@leftmargin}%
+  \fi%
+  %\advance\@tempdima by\beamer@leftmargin%
+  %\advance\@tempdima by\beamer@rightmargin%
+  % see \S 12.5 Framed and Boxed Text in beameruserguide.pdf
+  \mbox{\begin{beamercolorbox}[left,sep=0.5\beamer@leftmargin,
+    leftskip=\the\@tempdimb,rightskip=\the\@tempdimc,wd=\the\@tempdima]{frametitle}
+    \usebeamerfont{frametitle}%
+    \vbox{}\vskip-1ex%
+    \if@tempswa\else\csname beamer@fteleft\endcsname\fi%
+    \strut\insertframetitle\strut\par%
+    {%
+      \ifx\insertframesubtitle\@empty%
+      \else%
+      {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\strut\insertframesubtitle\strut\par}%
+      \fi%
+    }%
+    \vskip-1ex%
+    \if@tempswa\else\vskip-.3cm\fi% set inside beamercolorbox... evil here...
+  \end{beamercolorbox}%
+  \ifdim\splitpos>0pt%
+    \hspace{-\beamer@leftmargin}%
+  \fi}%
+  \vspace*{-1ex}%
+}
+
+\newif\ifleftfooterwhite
+\newif\ifrightfooterwhite
+\newif\iffootnotesright
+\newif\iffooterinfootnotes
+\footerinfootnotesfalse
+\leftfooterwhitefalse
+\rightfooterwhitefalse
+\footnotesrightfalse
+\newlength{\footermargin}
+\setlength{\footermargin}{0.05\paperheight}
+
+%\newif\iffooterprinted
+%\footerprintedfalse
+%\addtobeamertemplate{footnote}{%
+%  \rlap{\smash{\raisebox{3ex}{%
+%    \rlap{\normalsize\leftfooter}%
+%    \hspace{\textwidth}\llap{\scriptsize\rightfooter}%
+%  }}}%
+%  \global\footerprintedtrue%
+%}{}
+\renewcommand{\footnoterule}{%
+  \tikz[overlay, x=\paperwidth]{\draw (0, 1ex) -- ++(0.1, 0);}
+  \iffooterinfootnotes
+  \rlap{\smash{\raisebox{3ex}{%
+    \rlap{\normalsize\leftfooter}%
+    \hspace{\textwidth}\llap{\scriptsize\rightfooter}%
+  }}}%
+  \fi%
+  %\global\footerprintedtrue%
+}
+
+
+\defbeamertemplate*{footline}{}{%
+  \iffooterinfootnotes\else%
+  % \iffooterprinted\else%
+    \begin{textblock}{1}[0.5,1](0.5,1)%
+      \hspace*{\meanmargin}%
+      \raisebox{\footermargin}{\normalsize\leftfooter}%
+      \hfill
+      \raisebox{\footermargin}{\scriptsize\rightfooter}%
+      \hspace*{\meanmargin}%
+    \end{textblock}
+  \fi%\global\footerprintedfalse%
+  %\global\footerinfootnotesfalse%
+}
+
+\newcommand{\leftfooter}{%
+  \ifleftfooterwhite%
+    \textcolor{white}{\tudlogo}%
+  \else%
+    \tudlogo[tud topaz]%
+  \fi%
+}
+
+\newcommand{\rightfooter}{{%
+  \ifrightfooterwhite\color{white}\fi%
+  \insertshortdate\qquad\llap{\thepage}%
+}}
+
+\newlength{\titlesplitpos}
+\setlength{\titlesplitpos}{-0.4\paperwidth}
+\newcommand{\titleframe}{{
+  \setlength{\splitpos}{\titlesplitpos}
+  \setbeamercolor{background canvas}{bg=white,fg=primary}
+  \leftfooterwhitetrue
+  \begin{frame}
+    \leftfooterwhitetrue
+    \def\titlepageformat{\color{white}}
+    \begin{columns}
+      \begin{textcolumn}
+        \titlepage
+      \end{textcolumn}
+      \begin{tikzcolumn}
+        \ifdim\splitpos<0pt
+          \node[anchor=center, inner sep=0] at (\paperwidth+0.5\splitpos, 0.5)
+            {\ifx\inserttitlegraphic\@empty\else\inserttitlegraphic\fi};
+        \else
+          \ifdim\splitpos>0pt
+            \node[anchor=center, inner sep=0] at (0.5\splitpos, 0.5)
+              {\ifx\inserttitlegraphic\@empty\else\inserttitlegraphic\fi};
+          \else[anchor=center]
+            \node[anchor=center, inner sep=0] at (0.5\paperwidth, 0.5)
+              {\ifx\inserttitlegraphic\@empty\else\inserttitlegraphic\fi};
+          \fi
+        \fi
+      \end{tikzcolumn}
+    \end{columns}
+  \end{frame}
+}}
+
+\setbeamertemplate{title}{\titlepageformat\inserttitle}
+\setbeamertemplate{subtitle}{\titlepageformat\insertsubtitle}
+\setbeamertemplate{author}{\titlepageformat\insertauthor}\par
+\setbeamertemplate{date}{\titlepageformat\insertdate}\par
+% line spacing would be inconsistent without final `\\'
+\setbeamertemplate{institute}{\titlepageformat\hfill\begin{minipage}{\linewidth-1em}\insertinstitute\inst{}\\\end{minipage}}
+
+\def\titlepageformat{}
+\setbeamertemplate{title page}{%
+  \titlepageformat%
+  \setlength{\parskip}{.5ex plus1ex}%
+  \vfill\vfill%
+  \ifx\inserttitle\@empty\else\usebeamertemplate*{title}\fi\par
+  \ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi\par\medskip
+  \ifx\beamer@author\@empty\else\usebeamertemplate*{author}\fi\par
+  \ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi\par\medskip
+  \ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi\par
+  \tikz{\draw[thick] (0,0) -- (8em,0);}\par\medskip
+}
+
+\newcommand{\sectionsubtitle}{}
+\setbeamercolor{sectionboxcolor}{fg=white,bg=primary}
+\colorlet{sectionboxedge}{tud grapefruit}
+\AtBeginSection[]{{% definitions should be local
+  \setlength{\splitpos}{\paperwidth}
+  \begin{frame}
+    \begin{textblock}{1}[0, 1](0.5, 1)%
+      \strut\clap{\textcolor{white}{\rule{1\paperwidth}{0.2\paperheight}}}%
+      \clap{%
+        \usebeamercolor{sectionboxcolor}\textcolor{bg}{\rule[0.1\paperheight]{0.49\paperwidth}{0.35\paperheight}}%
+        \textcolor{sectionboxedge}{\rule[0.1\paperheight]{0.01\paperwidth}{0.35\paperheight}}%
+      }%
+    \end{textblock}
+    \begin{textblock}{1}[0.5,0.5](0.5,0.64)\center\strut%
+      \usebeamercolor{sectionboxcolor}%
+        \center
+        \usebeamerfont{title}\ifnum\thesection<10 0\fi\thesection\\[-1ex]%
+        \rule{2em}{.15ex}\\
+        \usebeamerfont{title}\insertsectionhead
+        \ifx\sectionsubtitle\@empty\else\\[1ex]\normalfont\small\textbf{\sectionsubtitle}\fi
+    \end{textblock}
+  \end{frame}
+}}
+
+\setbeamertemplate{enumerate item}{\alph{enumi}.}
+\setbeamertemplate{enumerate subitem}{\arabic{enumii}.}
+\setbeamertemplate{enumerate subsubitem}{\roman{enumiii}.}
+
+\setbeamertemplate{itemize/enumerate body begin}{%
+  \renewcommand\theenumi{\alph{enumi}}%
+  \renewcommand\theenumii{\theenumi.\arabic{enumii}}%
+  \renewcommand\theenumiii{\theenumii.\roman{enumiii}}}
+
+\newcommand\itemlabel{\tikz[baseline, x=1ex, y=1ex]{\fill (0, 0.5) rectangle (0.5, 1)}}
+\setbeamertemplate{itemize item}{\itemlabel}
+\setbeamertemplate{itemize subitem}{\itemlabel}
+\setbeamertemplate{itemize subsubitem}{\itemlabel}
+
+\setbeamerfont{itemize/enumerate body}{size=\normalsize}
+\setbeamerfont{itemize/enumerate subbody}{size=\normalsize}
+\setbeamerfont{itemize/enumerate subsubbody}{size=\normalsize}
+\setbeamertemplate{itemize/enumerate body begin}{\setlength{\leftmargini}{5mm}}
+\setbeamertemplate{itemize/enumerate subbody begin}{\setlength{\leftmargini}{5mm}}
+\setbeamertemplate{itemize/enumerate subsubbody begin}{\setlength{\leftmargini}{5mm}}
+
+\setlength{\leftmargini}{0.5cm}
+\setlength{\leftmarginii}{0.5cm}
+\setlength{\leftmarginiii}{0.5cm}
+\setlength{\itemindent}{0cm}
+
+\setbeamercolor{block title}{bg=tud primary, fg=white}
+\setbeamercolor{block body}{bg=tud primary!10}
+\setbeamercolor{block title alerted}{bg=tud grapefruit, fg=white}
+\setbeamercolor{block body alerted}{bg=tud grapefruit!10}
+\setbeamercolor{block title example}{bg=tud green, fg=white}
+\setbeamercolor{block body example}{bg=tud green!10}

@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+% https://tex.stackexchange.com/questions/41608/draw-mechanical-springs-in-tikz
+
+\usetikzlibrary{decorations.pathmorphing,patterns}
+\usetikzlibrary{calc,patterns,decorations.markings}
+\usetikzlibrary{positioning}
+
+\draw[thick] (-2, 2.5) -- (2, 2.5);
+\foreach \x in {-1.8,-1.5,...,1.8}{\draw (\x, 2.5) -- ++(.3, .3);}
+
+\begin{scope}[thick,decoration={
+	coil, pre length=1.5mm, post length=1.5mm, segment length=2mm, amplitude=10,aspect=.3
+}]
+	\draw[decorate] (-1,2.5) -- ++(0,-1.5) node[pos=.5, left=4mm] {$k$};
+	\draw[decorate] (1, 2.5) -- ++(0, -1.5) node[pos=.5, left=4mm] {$k$};
+\end{scope}
+
+\node[blue, very thick, draw=orange, fill=yellow,
+	minimum height=14mm, minimum width=32mm] at (0, 3mm) {\qty{100}{kg}};
+
+\end{tikzpicture}
+    

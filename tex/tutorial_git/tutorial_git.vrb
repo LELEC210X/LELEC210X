@@ -1,0 +1,9 @@
+\frametitle{Welcome!}
+\frametitle{TU Delft presentation template}
+  \framesubtitle{In \LaTeX\ using the package Beamer}
+
+  This template can be used to make a presentation in the 2022 version of the TU Delft style described here:
+  \url{https://www.tudelft.nl/huisstijl/middelen/presentaties}
+
+  The icons have been converted to pdf, so they can be included crisply against a colored background:
+

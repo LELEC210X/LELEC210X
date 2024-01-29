@@ -1,0 +1,68 @@
+% arara: pdflatex: { interaction : nonstopmode }
+% arara: biber: { options: ['--isbn-normalise'] }
+\documentclass[t, aspectratio=169, english, table]{_style/tudelft-beamer}
+% \includeonlyframes{current}% beamer documentation \S 4.3.3
+
+\title[Git Tutorial]{How to use Git for the LELEC210X project}
+\subtitle{About how Git can be your best friend}
+\author[Assistants Team\inst{1}]{The LELEC210X Assistants\inst{1}.}
+\date{29-01-2024}
+% define a graphic to be shown next to the title
+\titlegraphic{\includegraphics[width=0.35\paperwidth]{figures/git.pdf}}
+
+% optional:
+% \setlength{\titlesplitpos}{-0.5\paperwidth}
+% mind that in this case, the white pane is the background, and the blue one on top.
+
+\institute[Universities of Somewhere and Elsewhere]{
+  \strut\llap{\inst{1}\,}UCLouvain}
+\date[LELEC210X]{Project in Electrical Engineering, LELEC210X}
+
+\newcommand{\absimage}[4][0.5,0.5]{%
+	\begin{textblock}{#3}%width
+		[#1]% alignment anchor within image (centered by default)
+		(#2)% position on the page (origin is top left)
+		\includegraphics[width=#3\paperwidth]{#4}%
+\end{textblock}}
+
+
+\begin{document}
+
+
+\titleframe
+
+
+\begin{frame}[fragile]{Welcome!} % some commands, e.g. \verb require [fragile]
+  \frametitle{TU Delft presentation template}
+  \framesubtitle{In \LaTeX\ using the package Beamer}
+  
+  This template can be used to make a presentation in the 2022 version of the TU Delft style described here:
+  \url{https://www.tudelft.nl/huisstijl/middelen/presentaties}
+  
+  The icons have been converted to pdf, so they can be included crisply against a colored background:
+  
+\end{frame}
+
+
+\begin{frame}
+  A digital version of this presentation can be found at \url{https://gitlab.com/novanext/tudelft-beamer}.
+
+  Here's a QR code made by \LaTeX, pointing to the same link:
+
+  \begin{center}  
+    \qrcode{https://gitlab.com/novanext/tudelft-beamer}
+  \end{center}
+
+  Slides like these are straightforward to make, the following contains more fancy examples. Using all of these slide options in one presentation is probably too much for your audience\ldots
+\end{frame}
+
+
+{
+  \renewcommand{\bginsert}{\hfill\raisebox{0.45\paperheight}{\color{tud purple}%
+    \clap{\includegraphics[width=1.1\paperwidth]{uclouvain-logo.pdf}}}\hfill}
+  \setbeamercolor{background canvas}{bg=tud pink}
+  \renewcommand{\sectionsubtitle}{Hope you will be inspired!}
+  \section{Random Subset\\of Features}
+}
+
+\end{document}

@@ -1,0 +1,4 @@
+[0] Config.pm:307> INFO - This is Biber 2.17
+[0] Config.pm:310> INFO - Logfile is 'tutorial_git.blg'
+[42] biber:340> INFO - === Mon Jan 29, 2024, 17:24:40
+[50] Biber.pm:418> INFO - Reading 'tutorial_git.bcf'
