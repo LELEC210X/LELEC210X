@@ -42,46 +42,79 @@ For this course, we have a "**no git, no help**" policy.
 That means that, if you ever need help from a professor or a teaching assistant,
 you **must** be able to provide a **git diff** view of your most recent changes.
 
-### 1.1 I am new to Git
+### 1.1 Understanding Git
 
-You have never used Git? Or your skills are limited to _pushing_ and _pulling_
-commits? Then it's worth consedering to follow a few tutorials!
+For this project, you will need to know more than just the **basic knowledge**
+about Git.
 
-The Internet is full of guides about Git, but we can recommend the following tutorial:
+You need to make sure to understand the following concepts:
 
-- [What is Git?](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F);
-- [How to use Git and GitHub introduction (video)](https://www.youtube.com/watch?v=HkdAHXoRtos&ab_channel=Fireship);
-- [Git, Github, and GitHub desktop for beginners (video)](https://www.youtube.com/watch?v=8Dd7KRpKeaE&ab_channel=CoderCoder);
-- or [GitHub's Hello World](https://docs.github.com/en/get-started/quickstart/hello-world).
+- Staging and committing files;
+- Pulling and pushing changes;
+- Git branches;
+- Remotes;
+- Merge and rebase.
+
+To this end, we recommend the excellent
+[Git Tutorial from W3schools](https://www.w3schools.com/git/),
+and more specifically the following sections:
+
+- Git Tutorial
+  - Git Intro
+  - Git Get Started
+  - Git New Files
+  - Git Staging Environment
+  - Git Commit
+  - Git Branch
+  - Git Branch Merge
+- Git and GitHub
+  - GitHub Get Started
+  - Pull from GitHub
+  - Push to GitHub
+- Git Contribute
+  - GitHub Fork
+  - Git Clone from GitHub
+
+> [!NOTE]
+> The above tutorial assumes a Unix (e.g., Ubuntu / macOS)
+> terminal, so some commands like `ls` may not
+> work on Windows.
+
+You are still encouraged to read through all the other sections!
 
 ### 1.2 Hosting your code
 
-You are free to use [GitHub](https://github.com/),
-[UCLouvain's Forge](https://forge.uclouvain.be/),
-[GitLab](https://about.gitlab.com/) or any other platform to host your code, as long as you use Git. You do not need to give access to your code to the teaching staff.
+As mentioned in the tutorial, you can host your Git repository
+on any platform you would like, as long as we can have access
+to it if needed.
 
-See the [Clone or Work](/wiki/Clone-or-Fork) wiki.
+We decided to go for [GitHub](https://github.com/), but
+you can also choose [UCLouvain's Forge](https://forge.uclouvain.be/),
+or any other platform (each platform has its specific free features).
+
+See the [Clone or Work](/wiki/Clone-or-Fork) wiki to understand how to
+get create your copy of this project, while maintaining it synchronized
+with potential updates.
 
 ### 1.3 Recommended Git tools
 
 Advanced Git users may prefer to use it via the terminal (i.e., command-line),
-but people may prefer to use a more classical application.
+but using a graphical interface can be way more convenient to visual to current
+status of your different branches, or to resolve conflicts easily.
+
+There exist plently of applications, but we recommend:
+
 There are plenty of them, and here are a few we recommend:
 
-- [Git's Visual Studio Code extension](https://code.visualstudio.com/docs/sourcecontrol/overview),
-  which offers everything you need inside the Visual Studio Code editor;
-- [GitHub Desktop](https://desktop.github.com/),
-  a very simple but good Git application;
-- and [GitKraken](https://www.gitkraken.com/),
-  a Git tool for advanced usage,
+- [GitKraken](https://www.gitkraken.com/),
+  a Git tool for basic and advanced usage,
   with
   [pro-version for free for students](https://www.gitkraken.com/github-student-developer-pack).
-
----
-
-We **highly recommend** you to start your work from this repository,
-to take the benefits of using git!
-Feel free the modify the code, commit changes, create branches, etc.
+  This is maybe the **best solution** for beginners;
+- [Git's Visual Studio Code extension](https://code.visualstudio.com/docs/sourcecontrol/overview),
+  which offers everything you need inside the Visual Studio Code editor;
+- and [GitHub Desktop](https://desktop.github.com/),
+  a very simple but good Git application.
 
 ## 2. Installing dependencies
 
