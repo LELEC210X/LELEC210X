@@ -38,7 +38,7 @@ jobs:
       with:
         run: |
           cd tex/
-          make pdf
+          make pdf -j$(nproc)
 
     - name: Archive exercise files
       uses: actions/upload-artifact@v3

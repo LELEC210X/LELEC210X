@@ -21,6 +21,12 @@ tex/*/*.fls
 tex/*/*.log
 tex/*/*.out
 tex/*/*.pdf
+tex/*/*.nav
+tex/*/*.bbl
+tex/*/*.blg
+tex/*/*.bcf
+tex/*/*.run.xml
+tex/*/*.snm
 !tex/*/figures/*.pdf
 tex/*/*.toc
 tex/*/*.synctex.gz

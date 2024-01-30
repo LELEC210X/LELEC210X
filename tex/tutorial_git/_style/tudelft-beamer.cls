@@ -52,18 +52,18 @@
 \newcommand{\tudlogo}[1][]{\begin{tikzpicture}[even odd rule, x=1ex, y=1ex, baseline=0.088ex]
 	\begin{scope}
 	  %\clip (0, -.04) rectangle (7.356, 2.9) (1.4, -0.01) rectangle (3, 1.6);
-	  \includegraphics[height=2.939ex]{uclouvain-logo};
+	  \includegraphics[height=2.939ex]{figures/uclouvain-logo};
 	\end{scope}
 	\begin{scope}[fill=#1]
 	  %\clip (1.4, -0.01) rectangle (3, 1.6);
-	  \includegraphics[height=2.939ex]{uclouvain-logo};
+	  \includegraphics[height=2.939ex]{figures/uclouvain-logo};
 	\end{scope}
   \end{tikzpicture}}
   
   \newcommand{\tudflame}[1][1ex]{%
   \begin{tikzpicture}[x=#1, y=#1]
 	  \clip (-2.435, 0) rectangle ++(1, 1);
-	  \node[anchor=base] at (0, -1.17) {\scalebox{2.2}{\includegraphics[height=#1]{tud-logo}}};
+	  \node[anchor=base] at (0, -1.17) {\scalebox{2.2}{\includegraphics[height=#1]{figures/uclouvain-logo}}};
   \end{tikzpicture}}
 
   \newcommand{\grid}{%

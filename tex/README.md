@@ -10,4 +10,9 @@ Namely:
 - `make clean` removes all build artifacts
 - `make zip` creates one zip file with all PDFs
 
-> NOTE: `wireless_*` projects use the `minted` package for code highlighting, which requires `Pygments` to be installed. Read how to install `minted`'s dependencies [here](https://texdoc.org/serve/minted.pdf/0).
+> [!TIP]
+> To speed-up the compilation process, run
+> `make pdf -j$(nproc)` to use all cores/threads.
+
+> [!NOTE]
+> The `wireless_*` projects use the `minted` package for code highlighting, which requires `Pygments` to be installed. Read how to install `minted`'s dependencies [here](https://texdoc.org/serve/minted.pdf/0).
