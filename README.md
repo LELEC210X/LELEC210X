@@ -83,6 +83,12 @@ and more specifically the following sections:
 
 You are still encouraged to read through all the other sections!
 
+Then, we recommend you to read the excellent
+[Mergin vs. rebasing](https://www.atlassian.com/git/tutorials/merging-vs-rebasing)
+([French version](https://www.atlassian.com/fr/git/tutorials/merging-vs-rebasing))
+guide from Atlassian. This will be important when you will need to synchronize changes
+from different people.
+
 ### 1.2 Hosting your code
 
 As mentioned in the tutorial, you can host your Git repository
