@@ -52,6 +52,7 @@ You need to make sure to understand the following concepts:
 - Staging and committing files;
 - Pulling and pushing changes;
 - Git branches;
+- Clone and Fork;
 - Remotes;
 - Merge and rebase.
 
