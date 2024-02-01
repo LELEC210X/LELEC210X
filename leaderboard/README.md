@@ -43,6 +43,8 @@ Then, the server must be launched with:
 poetry run leaderboard serve
 ```
 
+You can now access the leaderboard interface by clicking: http://localhost:5000/lelec210x/leaderboard. 
+
 For other commands, see:
 
 ```bash
