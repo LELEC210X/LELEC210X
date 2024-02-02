@@ -30,7 +30,7 @@ poetry run jupyter notebook --no-browser
 
 > [!NOTE]
 > You habe to select the `LELEC210X` kernel prior to running any cell,
-> otherwise it will probably not work! If you are using  VSCode, please
+> otherwise it will probably not work! If you are using VSCode, please
 > refer to their documentation.
 
 If Jupter does not launch a browser Windows, you can scroll the terminal
@@ -88,7 +88,17 @@ Then, use to URL to download the audio file directly from your terminal:
 poetry run youtube-dl -x --audio-format=wav "<path-to-video>"
 ```
 
+#### YouTube playlist
+
+The Teaching Assistants created a 
+[YouTube playlist](https://youtube.com/playlist?list=PLK2PsMuicSN8Y7ovsXjypFADW5EeGVn36&si=SKMsifoMk8CKnWet)
+with (**very**) long videos from which you can download audio files,
+and split them in a dataset (see below).
+
+If you discover an new YouTube video that you feel could be added to this playlist,
+please contact us!
+
 ### Splitting one large audio file into many
 
 If soundfiles are long enough, it may be intersting to split large audio file into many audio samples,
-we provide tools to perform that automatically: <TODO>.
+we provide tools to perform that automatically: `poetry run split-audio "<my_audio_file>"`.

@@ -34,6 +34,7 @@ scipy = "^1.09"
 seaborn = "^0.12.2"
 sounddevice = "^0.4.6"
 soundfile = "^0.12.1"
+tqdm = "^4.66.1"
 
 [tool.poetry.group.common.dependencies]
 click = "^8.1.7"

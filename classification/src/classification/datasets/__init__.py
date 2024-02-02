@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import List, Tuple
 
-SOUND_DURATION: float = 0.5
+SOUND_DURATION: float = 5.0
 
 
 def get_cls_from_path(file: Path) -> str:
