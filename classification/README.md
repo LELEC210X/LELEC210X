@@ -71,8 +71,8 @@ The easiest way to download audio files from Youtube videos is probably with
 poetry install
 ```
 
-You also need to install FFMPEG, see install instructions for
-your specific OS.
+You also need to [install FFMPEG](https://ffmpeg.org/download.html),
+see install instructions for your specific OS.
 
 #### Usage
 
