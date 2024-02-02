@@ -29,7 +29,7 @@ poetry run jupyter notebook --no-browser
 ```
 
 > [!NOTE]
-> You habe to select the `LELEC210X` kernel prior to running any cell,
+> You have to select the `LELEC210X` kernel prior to running any cell,
 > otherwise it will probably not work! If you are using VSCode, please
 > refer to their documentation.
 
