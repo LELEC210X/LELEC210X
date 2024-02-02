@@ -21,6 +21,7 @@ from .cli.config import config
 from .play_sound import play_sound
 from .routes.index import index
 from .routes.leaderboard import leaderboard, limiter
+from .submit import submit
 from .utils import get_url
 
 eventlet.monkey_patch(thread=True, time=True)
@@ -197,6 +198,7 @@ def serve(_open, _open_doc):
 
 main.add_command(config)
 main.add_command(play_sound)
+main.add_command(submit)
 
 del main.commands["run"]
 

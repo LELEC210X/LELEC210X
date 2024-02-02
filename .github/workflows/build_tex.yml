@@ -18,7 +18,7 @@ jobs:
     steps:
     - name: Set up Git repository
       uses: actions/checkout@v4
-      
+
     - name: Install Poetry
       run: pipx install poetry
 
@@ -43,8 +43,8 @@ jobs:
 
     - name: Zip files
       run: |
-          cd tex/
-          make zip
+        cd tex/
+        make zip
 
     - name: Archive exercise files
       uses: actions/upload-artifact@v4

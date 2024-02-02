@@ -15,8 +15,6 @@ from common.logging import logger
 
 from .utils import get_url
 
-SOUND_DURATION = 5.0
-
 
 @click.command()
 @click.option(
@@ -180,7 +178,3 @@ def play_sound(
             requests.post(f"{url}/lelec210x/leaderboard/submit/{random_key}/{guess}")
 
         thread.join()
-
-
-if __name__ == "__main__":
-    main()

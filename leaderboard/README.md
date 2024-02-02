@@ -43,7 +43,15 @@ Then, the server must be launched with:
 poetry run leaderboard serve
 ```
 
-You can now access the leaderboard interface by clicking: http://localhost:5000/lelec210x/leaderboard. 
+Alernatively, you can open the server in webbrowser window with:
+
+```bash
+poetry run leaderboard serve --open
+```
+
+> [!TIP]
+> There also exists `--open-docs` to open to
+> API documentation page, see below.
 
 For other commands, see:
 
@@ -58,7 +66,7 @@ so make sure to update it before.
 
 To submit a guess, you need to do a HTTP request.
 There exists many HTTP methods,
-but this project only uses `POST` (posting a value), `PATCH` (editing),
+but this project only uses `POST` (posting a value),
 `GET` (getting), and `DELETE` (deleting).
 
 The simplest way to do so is to use the `requests` library, see the example below.
@@ -96,7 +104,7 @@ hostname = "http://localhost:5000"
 key = "aqH27o66E8xz-IotBk11ZZo1ix7Vbs5H2pTXlSra"
 guess = "fire"
 
-response = requests.patch(f"{hostname}/lelec210x/leaderboard/submit/{key}/{guess}")
+response = requests.post(f"{hostname}/lelec210x/leaderboard/submit/{key}/{guess}")
 
 import json
 
@@ -104,13 +112,20 @@ import json
 response_as_dict = json.loads(response.text)
 ```
 
+This is also possible to submit a guess with:
+
+```bash
+poetry run leaderboard submit fire --key="aqH27o66E8xz-IotBk11ZZo1ix7Vbs5H2pTXlSra"
+```
+
+Please only use this command for testing purposes.
+
 Many more requests are possible!
 Please go to the
 [API docs](http:localhost:5000/lelec210x/leaderboard/doc/)
 for more details.
 
-> [!NOTE]
-> `http:localhost:5000` is the default hostname (and port)
+> [!NOTE] > `http:localhost:5000` is the default hostname (and port)
 > that is used if you run the server on your computer.
 > For the contest, please use
 > `hostname = "https://perceval.elen.ucl.ac.be/lelec210x"`.
