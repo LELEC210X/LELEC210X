@@ -43,6 +43,7 @@ rich = "^13.7.0"
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.0.4"
 pytest = "^7.4.3"
+youtube-dl = {git = "https://github.com/ytdl-org/youtube-dl.git"}
 
 [tool.poetry.group.leaderboard.dependencies]
 click = "^8.1.7"
@@ -71,6 +72,7 @@ pygments = "^2.16.1"
 auth = "auth.__main__:main"
 classify = "classification.__main__:main"
 leaderboard = "leaderboard.__main__:main"
+split-audio = "classification.utils.split_audio:main"
 
 [tool.ruff]
 extend-exclude = ["**/doxygen/**/*.py"]

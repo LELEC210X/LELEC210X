@@ -28,8 +28,10 @@ poetry run jupyter notebook --no-browser
 # and open one of the links manually (see below).
 ```
 
-> **WARNING:** you should select the `LELEC210X` kernel prior to running any cell,
-> otherwise it will probably not work!
+> [!NOTE]
+> You habe to select the `LELEC210X` kernel prior to running any cell,
+> otherwise it will probably not work! If you are using  VSCode, please
+> refer to their documentation.
 
 If Jupter does not launch a browser Windows, you can scroll the terminal
 and click (<kbd>CTRL</kbd>+<kbd>LEFT CLICK</kbd>) on one of the HTTP links displayed.
@@ -66,7 +68,7 @@ The easiest way to download audio files from Youtube videos is probably with
 #### Install
 
 ```bash
-pip install 'git+https://github.com/ytdl-org/youtube-dl.git'
+poetry install
 ```
 
 You also need to install FFMPEG, see install instructions for
@@ -76,10 +78,14 @@ your specific OS.
 
 Obtain the link to the video (do not take the one in the URL bar!):
 
-![image](https://github.com/LELEC210X/LELEC210X/assets/27275099/a561bf41-98fe-41b3-9844-cd33470c517b)
+<div align="center">
+<img src="https://github.com/LELEC210X/LELEC210X/assets/27275099/a561bf41-98fe-41b3-9844-cd33470c517b" alt="How to get video link from Youtube">
+</div>
+
+Then, use to URL to download the audio file directly from your terminal:
 
 ```bash
-youtube-dl -x '<path-to-video>`
+poetry run youtube-dl -x --audio-format=wav "<path-to-video>"
 ```
 
 ### Splitting one large audio file into many

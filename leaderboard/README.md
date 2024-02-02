@@ -125,7 +125,8 @@ Please go to the
 [API docs](http:localhost:5000/lelec210x/leaderboard/doc/)
 for more details.
 
-> [!NOTE] > `http:localhost:5000` is the default hostname (and port)
+> [!NOTE]
+> `http:localhost:5000` is the default hostname (and port)
 > that is used if you run the server on your computer.
 > For the contest, please use
 > `hostname = "https://perceval.elen.ucl.ac.be/lelec210x"`.
