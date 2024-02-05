@@ -141,10 +141,10 @@ To cope with this issue, there exist multiple solutions (from easiest for hardes
 
 1. Increase the resources allocated to VB (in `Settings->System`): either the
    memory or the number of CPUs;
-2. _Debian-only_ Manually install the software listed on the install page;
-3. _Windows-only_ Install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
+2. _(Debian only)_ Manually install the software listed on the install page;
+3. _(Windows only)_ Install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
    and refer to 2;
-4. _Windows-or-macOS-only_ Install Ubuntu in dual-boot and refer to 2.
+4. _(Windows or macOS only)_ Install Ubuntu in dual-boot and refer to 2.
 
 Note that the last two steps require the most disk memory, but will most
 probably produce that fastest experience in the end.
