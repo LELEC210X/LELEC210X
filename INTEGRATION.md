@@ -22,13 +22,13 @@ any of its subdirectories. The same applies for all `poetry` commands.
 
 ## Steps
 
-Setting-up a working telecommunication chain can be performed with
-the following steps[^1]:
 
-1. _(Any)_ program your LimeSDR-Mini with Quartus,
-   using your project;
-2. _(Any)_ program your Nucleo board with STM32CubeIDE,
-   using your project;
+![Alt text](./How_To_Run_The_Full_Project.png)
+
+A working telecommunication chain can be set up by following the steps summarised in the figure above or explained hereafter[^1]:
+
+1. _(Any)_ synthesize your RTL design with Quartus and program your LimeSDR-Mini LimeSuite;
+2. _(Any)_ program your Nucleo board with STM32CubeIDE, using the MAIN_APP config.;
 3. _(Linux)_ open the project files with GNU Radio,
    and generate the Python script(s);
 4. _(Linux)_ run your GNU Radio script either from GNU Radio or from the terminal;
