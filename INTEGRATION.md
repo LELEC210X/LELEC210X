@@ -17,15 +17,15 @@ that you installed the latest Python dependencies with:
 poetry install
 ```
 
-Make sure to run the above command from the repository directory, or from
+Also, make sure to run the above command from the repository directory, or from
 any of its subdirectories. The same applies for all `poetry` commands.
 
 ## Steps
 
+![How to run the full project](./integration.png)
 
-![Alt text](./How_To_Run_The_Full_Project.png)
-
-A working telecommunication chain can be set up by following the steps summarised in the figure above or explained hereafter[^1]:
+A working telecommunication chain can be set up by following the steps
+summarized in the figure above, and explained hereafter[^1]:
 
 1. _(Any)_ synthesize your RTL design with Quartus and program your LimeSDR-Mini LimeSuite;
 2. _(Any)_ program your Nucleo board with STM32CubeIDE, using the MAIN_APP config.;
