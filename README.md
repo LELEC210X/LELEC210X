@@ -1,6 +1,6 @@
-# LELEC210x project
+# LELEC210X project
 
-This repository contains every thing you (student) need for the LELEC210x project.
+This repository contains every thing you (student) need for the LELEC210X project.
 
 The current directory, which we will refer to as **root**, contains instructions for:
 
