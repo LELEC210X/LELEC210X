@@ -322,6 +322,24 @@ sudo apt-get update
 sudo apt-get install gr-limesdr
 ```
 
+#### (After H4) Ubuntu - Installing Gr-LimeSDR custom components
+
+First you need to install the following components :
+
+```bash
+sudo apt install liblimesuite-dev swig4.0 liborc-0.4-dev
+```
+
+Then, go into the `./telecom/gr-limesdr` directory and install:
+
+```bash
+mkdir build
+cd build /
+cmake ..
+sudo make install
+sudo ldconfig
+```
+
 #### Ubuntu - Testing the installation of LimeSDR
 
 You can launch GNU Radio companion. On the right part of the window, at the end of the list,
