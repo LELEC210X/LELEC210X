@@ -69,6 +69,12 @@ def hex_to_bytes(ctx: click.Context, param: click.Parameter, value: str) -> byte
     show_envvar=True,
     help="Authentification key (hex string).",
 )
+@click.option(
+    "--authenticate/--no-authenticate",
+    default=True,
+    is_flag=True,
+    help="Enable / disable authentication, useful for skipping authentication step.",
+)
 @common.click.melvec_length
 @common.click.n_melvecs
 @common.click.verbosity
@@ -78,6 +84,7 @@ def main(
     serial_port: Optional[str],
     tcp_address: str,
     auth_key: bytes,
+    authenticate: bool,
     melvec_length: int,
     n_melvecs: int,
 ) -> None:
@@ -96,7 +103,7 @@ def main(
         allowed_senders=[
             0,
         ],
-        authenticate=True,
+        authenticate=authenticate,
     )
 
     if serial_port:  # Read from serial port
