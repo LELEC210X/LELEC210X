@@ -92,7 +92,7 @@ def create_app() -> Flask:
 
     @app.route("/")
     def _index():
-        readme_file = open("README.md")
+        readme_file = open(Path(__file__).parents[2].joinpath("README.md"))
         md_template_string = markdown.markdown(
             readme_file.read(), extensions=["fenced_code"]
         )
