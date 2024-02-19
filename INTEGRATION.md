@@ -57,3 +57,23 @@ e.g., `MELVEC_LENGTH=20`.
 To setup environ variables, the easiest is to populate the [`.env`](.env) file with
 the environ variables. This file is automatically loaded when calling
 `flask run auth` or `flask run classify`.
+
+## How the complete chain works
+
+The chain is made of multiple consecutive blocks, that need to communicate with each other.
+
+1. The Nucleo board listens to sound events, processes the raw audio data and sends packets
+   through the air using the TX antenna;
+2. The LimeSDR receives the packets via its RX antenna, performs some processing on the packets, and
+   send them through the USB-driver to GNU Radio for further processing;
+3. GNU Radio receives packets from the USB, and publishes the decoded packets to some TCP address, using
+   the ZMQ message passing protocol;
+4. `flask run auth` reads packets published at the provided TCP address, performs authentification on them,
+   and extracts the payload, containing the useful information, and print each payload on a new line;
+5. `flask run classify` reads the consecutive payloads from an input and performs a classification on each of them (e.g.,
+    by predicting a `fire` event). Using `flask run auth | flask run classify` allows to run both commands simultaneously,
+   while redirecting the output of authentification to the input of classification.decodes the packets and 
+
+During the contest, guesses must be sent to the leaderboard. Hence, one should modify the
+[`classify` script](./classification/src/classification/__main__.py) to send guesses to the leaderboard using
+HTTP requests.
