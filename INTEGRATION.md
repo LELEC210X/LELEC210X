@@ -71,8 +71,8 @@ The chain is made of multiple consecutive blocks, that need to communicate with 
 4. `flask run auth` reads packets published at the provided TCP address, performs authentification on them,
    and extracts the payload, containing the useful information, and print each payload on a new line;
 5. `flask run classify` reads the consecutive payloads from an input and performs a classification on each of them (e.g.,
-    by predicting a `fire` event). Using `flask run auth | flask run classify` allows to run both commands simultaneously,
-   while redirecting the output of authentification to the input of classification.decodes the packets and 
+   by predicting a `fire` event). Using `flask run auth | flask run classify` allows to run both commands simultaneously,
+   while redirecting the output of authentification to the input of classification.decodes the packets and
 
 During the contest, guesses must be sent to the leaderboard. Hence, one should modify the
 [`classify` script](./classification/src/classification/__main__.py) to send guesses to the leaderboard using

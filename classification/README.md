@@ -90,7 +90,7 @@ poetry run youtube-dl -x --audio-format=wav "<path-to-video>"
 
 #### YouTube playlist
 
-The Teaching Assistants created a 
+The Teaching Assistants created a
 [YouTube playlist](https://youtube.com/playlist?list=PLK2PsMuicSN8Y7ovsXjypFADW5EeGVn36&si=SKMsifoMk8CKnWet)
 with (**very**) long videos from which you can download audio files,
 and split them in a dataset (see below).
