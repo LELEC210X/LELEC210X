@@ -9,12 +9,12 @@ const destination = document.getElementsByTagName("body")[0];
 
 // Uncomment this on the server
 /*
-const socket = io("wss://perceval.elen.ucl.ac.be", {
+const socket = io("wss://lelec210x.sipr.ucl.ac.be", {
   path: "/lelec210x/socket.io",
 });
 */
 
-// Command this on the server
+// Comment this on the server
 const socket = io();
 
 const scrollAmount = 100;
