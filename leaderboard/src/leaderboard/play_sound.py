@@ -6,9 +6,6 @@ from typing import Optional
 
 import click
 import requests
-from pydub import AudioSegment
-from pydub.generators import WhiteNoise
-from pydub.playback import play
 
 from classification.datasets import Dataset
 from common.logging import logger
@@ -77,6 +74,10 @@ def play_sound(
     Both groups always submit guesses during the valid timing window,
     so they never have any penalty on that regard.
     """
+    from pydub import AudioSegment
+    from pydub.generators import WhiteNoise
+    from pydub.playback import play
+    
     url = url or get_url()
 
     dataset_kwargs = {}
