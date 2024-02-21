@@ -128,7 +128,7 @@ for more details.
 > [!NOTE] > `http:localhost:5000` is the default hostname (and port)
 > that is used if you run the server on your computer.
 > For the contest, please use
-> `hostname = "https://perceval.elen.ucl.ac.be/lelec210x"`.
+> `hostname = "https://lelec210x.sipr.ucl.ac.be/lelec210x"`.
 
 > [!TIP]
 > If you want to access the server from another computer, on the
@@ -162,38 +162,6 @@ This is done with this command:
 poetry run leaderboard play-sound --key EdY7unM6C6ZFwt9uTjmaMv6eX9nM7pljGADmcudJ
 ```
 
-## Deploying on perceval
-
-First, connect to the server via SSH:
-
-```bash
-ssh lelec2103@perceval.elen.ucl.ac.be -p 22
-```
-
-> [!NOTE]
-> This requires a valid SSH public key of yours to be on the server.
-
-Next, download the latest changes:
-
-```bash
-git pull
-```
-
-Note that deploying on perceval requires a few changes:
-
-- one in `.faskenv`;
-- and a second in `static/js/leadeboard`;
-
-where you need to (un)comment some lines.
-
-Next, everything should run as expected.
-
-A simple way to run the server in background is with `screen`:
-
-```bash
-screen -d -m poetry run leaderboard serve
-```
-
 ## Submitting a Key for the Security Round
 
 > [!IMPORTANT]
@@ -221,4 +189,95 @@ guess_bytes = bytes(guess)
 
 # Then, encode this as an url-safe string:
 guess_str = urllib.parse.quote_from_bytes(guess_bytes, safe="")
+```
+
+## Server setup
+
+> [!IMPORTANT]
+> This part is only for the teaching assistants that want to deploy the server
+> online, such that students can access it remotely.
+>
+> I.T. staff contact points are Rémi Dekimpe or Rémi Rossi.
+
+### Server access
+
+The server address is `lelec210x.sipr.ucl.ac.be` (`130.104.12.28`).
+
+The server access is only possible via SSH, from a specific set of IP addresses.
+If you do not have access, you need to ask the I.T. staff (or one of the member
+that already has such access).
+
+In the terminal:
+
+```bash
+ssh -p 22 username@130.104.12.28
+```
+
+where `username` is your username. You will be prompted to enter your password.
+
+Here, for simplicity, the useful folders are placed in a root-owned directory[^1].
+So, you need to elevate your privileges with:
+
+```bash
+sudo su
+```
+
+[^1]: In theory, this would be better to create a user group, e.g., "TAs", and add all users 
+  that need such access to that group.
+
+### First setup
+
+> [!IMPORTANT]
+> Only one person needs to do it once. This is kept here for documentation purposes.
+
+Fist, go into super-user mode and clone the repository.
+
+```bash
+cd /home
+git https://github.com/LELEC210X/LELEC210X.git
+```
+
+You will only have `pull` rights to the repository, so do not make important changes
+because you will not be able to push them.
+
+Install Python3.8 and Poetry:
+
+```bash
+sudo apt update
+sudo apt upgrade
+sudo add-apt-repository ppa:deadsnakes/ppa -y
+sudo apt update
+sudo apt install python3.8-venv
+curl -sSL https://install.python-poetry.org | python3.8 -
+echo 'export PATH="/root/.local/bin:$PATH"' >> /root/.bashrc
+source /root/.bashrc
+```
+
+### Update installation
+
+Before starting the server, this is always good to do the following commands:
+
+```bash
+cd /home/LELEC210X
+git pull
+poetry install
+```
+
+This will download the latest changes and update the packages (if needed).
+
+### Deploying the server
+
+Note that deploying on requires a few changes:
+
+- one in `.faskenv`;
+- and a second in `static/js/leadeboard`;
+
+where you need to (un)comment some lines.
+
+Next, everything should run as expected.
+
+A simple way to run the server in background is with `screen`:
+
+```bash
+screen -d -m poetry run leaderboard serve
 ```
