@@ -32,6 +32,7 @@ endif()
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
+    utils.py
     preamble_detect.py
     flag_detector.py
     synchronization.py
