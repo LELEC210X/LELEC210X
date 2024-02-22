@@ -74,10 +74,13 @@ class flag_detector(gr.basic_block):
             y = input_items[0][:N]
 
             if self.enable == 1:
-                pos = None
-                for i, Y in enumerate(y):
-                    if np.real(Y) > self.flag and np.imag(Y) > self.flag:
-                        pos = i + 1
+
+                pos = np.argmax(np.real(y))
+                if np.real(y[pos]) < self.flag or  np.imag(y[pos]) <  self.flag :
+                    pos = None
+                else : 
+                    pos = pos+1
+                    
             else:
                 pos = 0
 

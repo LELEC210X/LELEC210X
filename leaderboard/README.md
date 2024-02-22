@@ -125,7 +125,9 @@ Please go to the
 [API docs](http:localhost:5000/lelec210x/leaderboard/doc/)
 for more details.
 
-> [!NOTE] > `http:localhost:5000` is the default hostname (and port)
+<!-- prettier-ignore -->
+> [!NOTE]
+> `http:localhost:5000` is the default hostname (and port)
 > that is used if you run the server on your computer.
 > For the contest, please use
 > `hostname = "https://lelec210x.sipr.ucl.ac.be/lelec210x"`.
@@ -197,7 +199,9 @@ guess_str = urllib.parse.quote_from_bytes(guess_bytes, safe="")
 > This part is only for the teaching assistants that want to deploy the server
 > online, such that students can access it remotely.
 >
-> I.T. staff contact points are Rémi Dekimpe or Rémi Rossi.
+> If you have any issue, contact the UCLouvain desk service
+> (https://uclouvain.be/8282) and specify the server adress
+> (lelec210x.sipr.ucl.ac.be) in your message.
 
 ### Server access
 
