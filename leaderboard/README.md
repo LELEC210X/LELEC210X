@@ -197,7 +197,9 @@ guess_str = urllib.parse.quote_from_bytes(guess_bytes, safe="")
 > This part is only for the teaching assistants that want to deploy the server
 > online, such that students can access it remotely.
 >
-> I.T. staff contact points are Rémi Dekimpe or Rémi Rossi.
+> If you have any issue, contact the UCLouvain desk service
+> (https://uclouvain.be/8282) and specify the server adress
+> (lelec210x.sipr.ucl.ac.be) in your message.
 
 ### Server access
 
