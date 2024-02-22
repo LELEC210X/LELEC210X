@@ -171,7 +171,7 @@ def ping():
     is_flag=True,
     help="Open documentation page in a web browser, only when serving on localhost.",
 )
-def serve(_open, _open_doc):
+def serve(_open: bool = False, _open_doc: bool = False):
     """Run a leaderboard server."""
     app = create_app()
 

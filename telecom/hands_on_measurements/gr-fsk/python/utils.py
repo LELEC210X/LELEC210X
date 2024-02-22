@@ -1,6 +1,5 @@
 import atexit
 import statistics as stats
-
 from functools import wraps
 from time import time
 from typing import Any, Callable, List
@@ -36,7 +35,9 @@ def timeit(fun: Callable[..., Any]) -> Callable[..., Any]:
     def print_stats() -> None:
         mean = stats.mean(data)
         std = stats.stdev(data)
-        print(f"{f_name} statistics: mean execution time of {mean:.2}s. (std: {std:.2}s.)")
+        print(
+            f"{f_name} statistics: mean execution time of {mean:.2}s. (std: {std:.2}s.)"
+        )
 
     @wraps(fun)
     def wrapper(*args, **kwargs):

@@ -1,7 +1,8 @@
 # LaTeX document compilation
 
+<!-- prettier-ignore -->
 > [!TIP]
-> [*You can __download__ the latest version of the PDF here.*][latest-pdf-url]
+> [_You can **download** the latest version of the PDF here._][latest-pdf-url]
 
 Each subdirectory contains a LaTeX project, where the main file is `main.tex`.
 

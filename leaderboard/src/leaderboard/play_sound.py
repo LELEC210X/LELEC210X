@@ -77,7 +77,7 @@ def play_sound(
     from pydub import AudioSegment
     from pydub.generators import WhiteNoise
     from pydub.playback import play
-    
+
     url = url or get_url()
 
     dataset_kwargs = {}

@@ -222,8 +222,9 @@ So, you need to elevate your privileges with:
 sudo su
 ```
 
-[^1]: In theory, this would be better to create a user group, e.g., "TAs", and add all users 
-  that need such access to that group.
+[^1]:
+    In theory, this would be better to create a user group, e.g., "TAs", and add all users
+    that need such access to that group.
 
 ### First setup
 
