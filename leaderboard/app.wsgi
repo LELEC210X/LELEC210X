@@ -1,5 +1,5 @@
 #! /var/www/LELEC210X/.venv/bin/python
 
-from leaderboard.__main__ import serve
+from leaderboard.__main__ import main
 
-serve(False, False)
+main(["serve"])

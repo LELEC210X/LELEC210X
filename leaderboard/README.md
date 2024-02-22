@@ -238,7 +238,7 @@ sudo su
 Fist, go into super-user mode and clone the repository.
 
 ```bash
-cd /home
+cd /var/www
 git https://github.com/LELEC210X/LELEC210X.git
 ```
 
@@ -258,12 +258,32 @@ echo 'export PATH="/root/.local/bin:$PATH"' >> /root/.bashrc
 source /root/.bashrc
 ```
 
+#### Apache2 server
+
+*Work in progress*
+
+Create `/etc/apache2/sites-available/LELEC210X.conf`:
+
+```conf
+<VirtualHost *:80>
+        ServerName http://lelec210x.sipr.ucl.ac.be/
+        WSGIScriptAlias /lelec210x /var/www/LELEC210X/leaderboard/app.wsgi
+        <Directory /var/www/LELEC210X/>
+                Options FollowSymLinks
+                AllowOverride None
+                Require all granted
+        </Directory>
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
+
 ### Update installation
 
 Before starting the server, this is always good to do the following commands:
 
 ```bash
-cd /home/LELEC210X
+cd /var/www/LELEC210X
 git pull
 poetry install
 ```
