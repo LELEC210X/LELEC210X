@@ -1,6 +1,7 @@
 """
 Common wrapper for click applications.
 """
+
 from typing import Any, Callable
 
 import click
