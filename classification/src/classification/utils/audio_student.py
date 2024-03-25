@@ -1,6 +1,20 @@
-import random
-from typing import Tuple
+"""
+Synthesis of the classes in :
+- AudioUtil : util functions to process an audio signal.
+- Feature_vector_DS : Create a dataset class for the feature vectors.
 
+# TODOS:
+
+- remove pydub from deps
+- update notebooks to only use Audio (not AudioUtil)
+- implement whiteNoise (either TA solution or by default)
+"""
+
+
+import random
+from typing import Any, Iterator, NameTuple, Tuple
+
+from dataclasses import dataclass
 import librosa
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,75 +23,78 @@ import soundfile as sf
 from numpy import ndarray
 from scipy.signal import fftconvolve
 
-# -----------------------------------------------------------------------------
-"""
-Synthesis of the classes in :
-- AudioUtil : util functions to process an audio signal.
-- Feature_vector_DS : Create a dataset class for the feature vectors.
-"""
-# -----------------------------------------------------------------------------
 
-
-class AudioUtil:
+class Audio(NamedTuple):
     """
-    Define a new class with util functions to process an audio signal.
+    A single channel audio signal.
+    """
+    signal: ndarray
+    """
+    The raw signal.
+    """
+    sample_rate: float
+    """
+    The sample rate of the signal.
     """
 
-    def open(audio_file) -> Tuple[ndarray, int]:
+    @classmethod
+    def open(cls, audio_file: str, channel: int = -1) -> 'Audio':
         """
-        Load an audio file.
+        Read an audio file and extract the signal for a given channel.
+
+        If channel is negative, the sum of all channels will be returned.
+
 
         :param audio_file: The path to the audio file.
         :return: The audio signal as a tuple (signal, sample_rate).
         """
         sig, sr = sf.read(audio_file)
         if sig.ndim > 1:
-            sig = sig[:, 0]
-        return (sig, sr)
+            if channel >= 0:
+                sig = sig[:, channel]
+            else:
+                sig = sig.sum(axis=1)
 
-    def play(audio):
+        return cls(sig, sr)
+
+    def play(self) -> None:
         """
         Play an audio file.
-
-        :param audio: The audio signal as a tuple (signal, sample_rate).
         """
-        sig, sr = audio
+        sig, sr = self
         sd.play(sig, sr)
 
-    def normalize(audio, target_dB=52) -> Tuple[ndarray, int]:
+    def normalize(self, target_dB: float=52) -> 'Audio':
         """
         Normalize the energy of the signal.
 
-        :param audio: The audio signal as a tuple (signal, sample_rate).
         :param target_dB: The target energy in dB.
         """
-        sig, sr = audio
+        sig, sr = self
         sign = sig / np.sqrt(np.sum(np.abs(sig) ** 2))
         C = np.sqrt(10 ** (target_dB / 10))
         sign *= C
-        return (sign, sr)
+        return Audio(sign, sr)
 
-    def resample(audio, newsr=11025) -> Tuple[ndarray, int]:
+    def resample(self, newsr: int=11025) -> 'Audio':
         """
         Resample to target sampling frequency.
 
-        :param audio: The audio signal as a tuple (signal, sample_rate).
         :param newsr: The target sampling frequency.
         """
-        sig, sr = audio
+        sig, sr = self
 
         ### TO COMPLETE
 
-        return (resig, newsr)
+        return Audio(sig, newsr)
 
-    def pad_trunc(audio, max_ms) -> Tuple[ndarray, int]:
+    def pad_trunc(self, max_ms: float) -> 'Audio':
         """
         Pad (or truncate) the signal to a fixed length 'max_ms' in milliseconds.
 
-        :param audio: The audio signal as a tuple (signal, sample_rate).
         :param max_ms: The target length in milliseconds.
         """
-        sig, sr = audio
+        sig, sr = self
         sig_len = len(sig)
         max_len = int(sr * max_ms / 1000)
 
@@ -99,54 +116,50 @@ class AudioUtil:
             # sig = np.append([pad_begin, sig, pad_end])
             sig = np.concatenate((pad_begin, sig, pad_end))
 
-        return (sig, sr)
+        return Audio(sig, sr)
 
-    def time_shift(audio, shift_limit=0.4) -> Tuple[ndarray, int]:
+    def time_shift(self, shift_limit: float=0.4) -> 'Audio'
         """
         Shifts the signal to the left or right by some percent. Values at the end are 'wrapped around' to the start of the transformed signal.
 
-        :param audio: The audio signal as a tuple (signal, sample_rate).
         :param shift_limit: The percentage (between 0.0 and 1.0) by which to circularly shift the signal.
         """
-        sig, sr = audio
+        sig, sr = self
         sig_len = len(sig)
         shift_amt = int(random.random() * shift_limit * sig_len)
-        return (np.roll(sig, shift_amt), sr)
+        return Audio(np.roll(sig, shift_amt), sr)
 
-    def scaling(audio, scaling_limit=5) -> Tuple[ndarray, int]:
+    def scaling(self, scaling_limit: float =5) -> 'Audio'
         """
         Augment the audio signal by scaling it by a random factor.
 
-        :param audio: The audio signal as a tuple (signal, sample_rate).
         :param scaling_limit: The maximum scaling factor.
         """
-        sig, sr = audio
+        sig, sr = self
 
         ### TO COMPLETE
 
-        return audio
+        return Audio(sig, sr)
 
-    def add_noise(audio, sigma=0.05) -> Tuple[ndarray, int]:
+    def add_noise(self, sigma: float = 0.05) -> 'Audio'
         """
         Augment the audio signal by adding gaussian noise.
 
-        :param audio: The audio signal as a tuple (signal, sample_rate).
         :param sigma: Standard deviation of the gaussian noise.
         """
-        sig, sr = audio
+        sig, sr = self
 
         ### TO COMPLETE
 
-        return audio
+        return Audio(sig, sr)
 
-    def echo(audio, nechos=2) -> Tuple[ndarray, int]:
+    def echo(self, nechos: int=2) -> 'Audio'
         """
         Add echo to the audio signal by convolving it with an impulse response. The taps are regularly spaced in time and each is twice smaller than the previous one.
 
-        :param audio: The audio signal as a tuple (signal, sample_rate).
         :param nechos: The number of echoes.
         """
-        sig, sr = audio
+        sig, sr = self
         sig_len = len(sig)
         echo_sig = np.zeros(sig_len)
         echo_sig[0] = 1
@@ -155,44 +168,41 @@ class AudioUtil:
         ) ** np.arange(nechos)
 
         sig = fftconvolve(sig, echo_sig, mode="full")[:sig_len]
-        return (sig, sr)
+        return Audio(sig, sr)
 
-    def filter(audio, filt) -> Tuple[ndarray, int]:
+    def filter(self, filt) -> 'Audio'
         """
         Filter the audio signal with a provided filter. Note the filter is given for positive frequencies only and is thus symmetrized in the function.
 
-        :param audio: The audio signal as a tuple (signal, sample_rate).
         :param filt: The filter to apply.
         """
-        sig, sr = audio
+        sig, sr = self
 
         ### TO COMPLETE
 
-        return (sig, sr)
+        return Audio(sig, sr)
 
     def add_bg(
-        audio, dataset, num_sources=1, max_ms=5000, amplitude_limit=0.1
-    ) -> Tuple[ndarray, int]:
+            self, dataset, num_sources: int=1, max_ms: float=5000, amplitude_limit: float=0.1
+    ) -> 'Audio'
         """
         Adds up sounds uniformly chosen at random to audio.
 
-        :param audio: The audio signal as a tuple (signal, sample_rate).
         :param dataset: The dataset to sample from.
         :param num_sources: The number of sounds to add.
         :param max_ms: The maximum duration of the sounds to add.
         :param amplitude_limit: The maximum amplitude of the added sounds.
         """
-        sig, sr = audio
+        sig, sr = self
 
         ### TO COMPLETE
 
-        return audio
+        return Audio(audio)
 
-    def specgram(audio, Nft=512, fs2=11025) -> ndarray:
+    def specgram(self, Nft: int=512, fs2: int =11025) -> ndarray:
         """
         Compute a Spectrogram.
 
-        :param aud: The audio signal as a tuple (signal, sample_rate).
         :param Nft: The number of points of the FFT.
         :param fs2: The sampling frequency.
         """
@@ -200,7 +210,8 @@ class AudioUtil:
         # stft /= float(2**8)
         return stft
 
-    def get_hz2mel(fs2=11025, Nft=512, Nmel=20) -> ndarray:
+    @staticmethod
+    def get_hz2mel(fs2: int=11025, Nft: int=512, Nmel: int=20) -> ndarray:
         """
         Get the hz2mel conversion matrix.
 
@@ -214,11 +225,10 @@ class AudioUtil:
 
         return mels
 
-    def melspectrogram(audio, Nmel=20, Nft=512, fs2=11025) -> ndarray:
+    def melspectrogram(self, Nmel: int=20, Nft: int=512, fs2: int=11025) -> ndarray:
         """
         Generate a Melspectrogram.
 
-        :param audio: The audio signal as a tuple (signal, sample_rate).
         :param Nmel: The number of mel bands.
         :param Nft: The number of points of the FFT.
         :param fs2: The sampling frequency.
@@ -227,8 +237,9 @@ class AudioUtil:
 
         return melspec
 
+    @staticmethod
     def spectro_aug_timefreq_masking(
-        spec, max_mask_pct=0.1, n_freq_masks=1, n_time_masks=1
+            spec: np.ndarray, max_mask_pct: float=0.1, n_freq_masks: int=1, n_time_masks: int=1
     ) -> ndarray:
         """
         Augment the Spectrogram by masking out some sections of it in both the frequency dimension (ie. horizontal bars) and the time dimension (vertical bars) to prevent overfitting and to help the model generalise better. The masked sections are replaced with the mean value.
@@ -256,6 +267,9 @@ class AudioUtil:
             aug_spec[:, pos_t : pos_t + width] = mask_value
 
         return aug_spec
+
+
+AudioUtil = Audio  # DO NOT USE, TO BE REMOVE (TODO)
 
 
 class Feature_vector_DS:
