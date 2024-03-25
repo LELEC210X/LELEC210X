@@ -2,6 +2,7 @@
 uart-reader.py
 ELEC PROJECT - 210x
 """
+
 import argparse
 
 import serial

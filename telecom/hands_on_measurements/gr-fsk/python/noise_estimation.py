@@ -47,9 +47,7 @@ class noise_estimation(gr.basic_block):
         if time.time() - self.last_print >= 1.0:
             self.noise_est = np.mean(np.abs(y) ** 2)
             print(
-                "[NOISE] Estimated noise power: {} ({}dB, {} samples)".format(
-                    self.noise_est, 10 * np.log10(self.noise_est), len(y)
-                )
+                f"[NOISE] Estimated noise power: {self.noise_est} ({10 * np.log10(self.noise_est)}dB, {len(y)} samples)"
             )
             self.last_print = time.time()
 

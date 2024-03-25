@@ -13,7 +13,6 @@ from common.logging import logger
 
 from .utils import get_url
 
-
 session = requests.Session()
 
 
@@ -129,7 +128,9 @@ def play_sound(
 
     while True:
         start = time.time()
-        json = session.get(f"{url}/lelec210x/leaderboard/status/{key}", timeout=1).json()
+        json = session.get(
+            f"{url}/lelec210x/leaderboard/status/{key}", timeout=1
+        ).json()
         delay = time.time() - start
         logger.info(f"Took {delay:.4f}s for the status request")
 
@@ -166,7 +167,9 @@ def play_sound(
         logger.info(f"Playing sound in {time_before_playing}")
 
         start = time.time()
-        sound = AudioSegment.from_file(sound_file, format="wav").normalize()#.set_channels(1)
+        sound = AudioSegment.from_file(
+            sound_file, format="wav"
+        ).normalize()  # .set_channels(1)
 
         if with_noise:
             sound = sound.overlay(
@@ -186,6 +189,8 @@ def play_sound(
 
         if random_key:  # Random player
             guess = random.choice(dataset.list_classes())
-            session.post(f"{url}/lelec210x/leaderboard/submit/{random_key}/{guess}", timeout=1)
+            session.post(
+                f"{url}/lelec210x/leaderboard/submit/{random_key}/{guess}", timeout=1
+            )
 
         thread.join()
