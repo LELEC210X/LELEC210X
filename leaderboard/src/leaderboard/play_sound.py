@@ -8,7 +8,6 @@ import click
 import requests
 
 from classification.datasets import Dataset
-from classification.utils.audio_student import Audio
 from common.click import verbosity
 from common.logging import logger
 
@@ -79,6 +78,10 @@ def play_sound(
     Both groups always submit guesses during the valid timing window,
     so they never have any penalty on that regard.
     """
+    from pydub import AudioSegment
+    from pydub.generators import WhiteNoise
+    from pydub.playback import play
+
     url = url or get_url()
 
     dataset_kwargs = {}
@@ -164,16 +167,23 @@ def play_sound(
         logger.info(f"Playing sound in {time_before_playing}")
 
         start = time.time()
-        sound = Audio.open(sound_file).normalize()
+        sound = (
+            AudioSegment.from_file(sound_file, format="wav")
+            .set_channels(1)
+            .fade_in(500)
+            .fade_out(500)
+        )
 
         if with_noise:
-            sound = sound.add_noise(
-                sigma=0.05 * current_lap
-            )  # TODO: check actual sigma value
+            sound = sound.overlay(
+                WhiteNoise().to_audio_segment(
+                    duration=len(sound), volume=-40.0 + 2.0 * current_lap
+                )
+            )
 
         time.sleep(time_before_playing - max(0, time.time() - start))
 
-        thread = Thread(target=sound.play)
+        thread = Thread(target=play, args=(sound,))
         thread.start()
         logger.info(f"Playing sound now: {sound_file}")
 
