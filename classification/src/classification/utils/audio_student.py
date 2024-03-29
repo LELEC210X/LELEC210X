@@ -12,7 +12,7 @@ Synthesis of the classes in :
 
 
 import random
-from typing import Any, Iterator, NameTuple, Tuple
+from typing import Any, Iterator, NamedTuple, Tuple
 
 from dataclasses import dataclass
 import librosa
@@ -118,7 +118,7 @@ class Audio(NamedTuple):
 
         return Audio(sig, sr)
 
-    def time_shift(self, shift_limit: float=0.4) -> 'Audio'
+    def time_shift(self, shift_limit: float=0.4) -> 'Audio':
         """
         Shifts the signal to the left or right by some percent. Values at the end are 'wrapped around' to the start of the transformed signal.
 
@@ -129,7 +129,7 @@ class Audio(NamedTuple):
         shift_amt = int(random.random() * shift_limit * sig_len)
         return Audio(np.roll(sig, shift_amt), sr)
 
-    def scaling(self, scaling_limit: float =5) -> 'Audio'
+    def scaling(self, scaling_limit: float =5) -> 'Audio':
         """
         Augment the audio signal by scaling it by a random factor.
 
@@ -141,7 +141,7 @@ class Audio(NamedTuple):
 
         return Audio(sig, sr)
 
-    def add_noise(self, sigma: float = 0.05) -> 'Audio'
+    def add_noise(self, sigma: float = 0.05) -> 'Audio':
         """
         Augment the audio signal by adding gaussian noise.
 
@@ -153,7 +153,7 @@ class Audio(NamedTuple):
 
         return Audio(sig, sr)
 
-    def echo(self, nechos: int=2) -> 'Audio'
+    def echo(self, nechos: int=2) -> 'Audio':
         """
         Add echo to the audio signal by convolving it with an impulse response. The taps are regularly spaced in time and each is twice smaller than the previous one.
 
@@ -170,7 +170,7 @@ class Audio(NamedTuple):
         sig = fftconvolve(sig, echo_sig, mode="full")[:sig_len]
         return Audio(sig, sr)
 
-    def filter(self, filt) -> 'Audio'
+    def filter(self, filt) -> 'Audio':
         """
         Filter the audio signal with a provided filter. Note the filter is given for positive frequencies only and is thus symmetrized in the function.
 
@@ -184,7 +184,7 @@ class Audio(NamedTuple):
 
     def add_bg(
             self, dataset, num_sources: int=1, max_ms: float=5000, amplitude_limit: float=0.1
-    ) -> 'Audio'
+    ) -> 'Audio':
         """
         Adds up sounds uniformly chosen at random to audio.
 
