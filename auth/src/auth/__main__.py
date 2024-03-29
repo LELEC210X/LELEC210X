@@ -109,7 +109,7 @@ def main(
     if serial_port:  # Read from serial port
 
         def reader() -> Iterator[str]:
-            ser = serial.Serial(port=_input, baudrate=115200)
+            ser = serial.Serial(port=serial_port, baudrate=115200)
             ser.reset_input_buffer()
             ser.read_until(b"\n")
 
