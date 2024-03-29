@@ -8,9 +8,13 @@ import click
 import requests
 
 from classification.datasets import Dataset
+from common.click import verbosity
 from common.logging import logger
 
 from .utils import get_url
+
+
+session = requests.Session()
 
 
 @click.command()
@@ -57,6 +61,7 @@ from .utils import get_url
     show_envvar=True,
     help="The sound files format to include, use '*' to include all formats.",
 )
+@verbosity
 def play_sound(
     url: Optional[str],
     key: str,
@@ -93,7 +98,10 @@ def play_sound(
     # Wait for server to be up
     # and checks if admin rights
     while True:
-        response = requests.get(f"{url}/lelec210x/leaderboard/check/{key}")
+        logger.debug("Checking if the server is up and the admin key is valid.")
+        # Timeout issue?
+        # https://stackoverflow.com/questions/70917108/python-requests-get-only-responds-if-adding-a-time-out
+        response = session.get(f"{url}/lelec210x/leaderboard/check/{key}", timeout=1)
 
         code = response.status_code
 
@@ -101,8 +109,10 @@ def play_sound(
             assert response.json()["admin"], "key must belong to an admin!"
 
             if random_key:
-                response = requests.get(
-                    f"{url}/lelec210x/leaderboard/check/{random_key}"
+                logger.debug("Checking if the server is up and the 'random' is valid.")
+                response = session.get(
+                    f"{url}/lelec210x/leaderboard/check/{random_key}",
+                    timeout=1,
                 )
 
                 if response.status_code != 200:
@@ -119,7 +129,7 @@ def play_sound(
 
     while True:
         start = time.time()
-        json = requests.get(f"{url}/lelec210x/leaderboard/status/{key}").json()
+        json = session.get(f"{url}/lelec210x/leaderboard/status/{key}", timeout=1).json()
         delay = time.time() - start
         logger.info(f"Took {delay:.4f}s for the status request")
 
@@ -156,7 +166,7 @@ def play_sound(
         logger.info(f"Playing sound in {time_before_playing}")
 
         start = time.time()
-        sound = AudioSegment.from_file(sound_file, format="wav").normalize()
+        sound = AudioSegment.from_file(sound_file, format="wav").normalize()#.set_channels(1)
 
         if with_noise:
             sound = sound.overlay(
@@ -172,10 +182,10 @@ def play_sound(
         logger.info(f"Playing sound now: {sound_file}")
 
         # Admins are always correct :-)
-        requests.post(f"{url}/lelec210x/leaderboard/submit/{key}/{category}")
+        session.post(f"{url}/lelec210x/leaderboard/submit/{key}/{category}", timeout=1)
 
         if random_key:  # Random player
             guess = random.choice(dataset.list_classes())
-            requests.post(f"{url}/lelec210x/leaderboard/submit/{random_key}/{guess}")
+            session.post(f"{url}/lelec210x/leaderboard/submit/{random_key}/{guess}", timeout=1)
 
         thread.join()

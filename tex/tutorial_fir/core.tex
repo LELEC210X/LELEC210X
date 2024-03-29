@@ -1,16 +1,16 @@
 
 
 The low-pass filter (LPF) is the first block from the SDR receiver to be accelerated in hardware, even before the preamble detection. To avoid rewriting an entire filter implementation from scratch, we here use an IP (\textit{Intellectual Property}) block provided by Altera\footnote{See \texttt{ug\_fir\_compiler\_ii.pdf} on Moodle for details.}. The FPGA project provided by the teaching team already instantiates a LPF using the FIR Compiler II IP. This finite-impulse-response (FIR) filter\footnote{FIR filters
-have already been introduced in LEPL1106. We assume in this document that the basic concepts of FIR filters are well-known by the reader.} is implemented using fixed point arithmetic and has its cut-off frequency set at a quarter of the sampling frequency $f_s$, i.e., $f_c = \frac{f_s}{4} = 2B$, with the default data rate of $B = 50$ kbps. This is the case both for the \textit{integration} version and for the one of the Hands-on 4. In this additional tutorial, you will learn how to modify the different parameters of the FIR. We will especially show you how to increase the number of taps and decrease the cut-off frequency from $2B$ to $B$, reducing the integrated noise further in the receiver chain.
+have already been introduced in LEPL1106. We assume in this document that the basic concepts of FIR filters are well-known by the reader.} is implemented using fixed point arithmetic. In this additional tutorial, you will learn how to modify the different parameters of the FIR to properly filter the transmitted signal. We will especially show you how to increase the number of taps and decrease the cut-off frequency, reducing the integrated noise further in the receiver chain.
 
 \section{Computing the coefficients of the LPF}
 
-Beside the FPGA project, the teaching team also designed a suite of Python scripts to configure and verify the configuration of the LPF. These scripts are all located in the folder \\ \texttt{LimeSDR-Mini\_lms7\_lelec210x/ip/fir/testbench/python/} and \textbf{need to be executed from the parent directory of} \texttt{LimeSDR-Mini\_lms7\_lelec210x/}. \\
+Beside the FPGA project, the teaching team also designed a suite of Python scripts to configure and verify the configuration of the LPF. These scripts are all located in the folder \\ \texttt{LimeSDR-Mini\_lms7\_lelec210x/ip/fir/testbench/python/} and \textbf{need to be executed from the the top level directory of the Git}. \\
 
-To obtain a new frequency response of the FIR filter, one needs to modify its coefficients. We here want to design a \textit{low-pass filter} with a cut-off frequency of $f_c = \frac{f_s}{8} = B$.
+To obtain a new frequency response of the FIR filter, one needs to modify its coefficients. First, you need to select a cut-off frequency $f_c$ based on the transmitted signal specifications, more specifically its bandwidth.
 The script \texttt{1\_taps\_gen.py} computes the coefficients of a FIR LPF using the \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.firwin.html}{\texttt{firwin} function of scipy}. The parameters of the function are the number of coefficients, the cut-off frequency and the sampling rate. The impulse and frequency responses are subsequently displayed, and the computed coefficients are saved \textbf{in floating point format} to the file \\ \texttt{LimeSDR-Mini\_lms7\_lelec210x/ip/fir/testbench/mentor/coefficients\_float.txt}. \\
 
-Modify the parameters \texttt{cutoff} of the script to $B$ and launch it with \texttt{numtaps = 15}. Observe the slope of the magnitude of the frequency response. Then, relaunch the script with \texttt{numtaps = 31}. How does the number of coefficients of a FIR filter affect its frequency response? In the remainder of this tutorial, we keep \texttt{numtaps = 31}.
+Modify the parameter \texttt{cutoff} of the script to the desired one and launch it. Observe the slope of the magnitude of the frequency response. You can now modify the number of taps, i.e., \texttt{numtaps}, by increasing or decreasing it. How does the number of coefficients of a FIR filter affect its frequency response? How many coefficients are used in your current design? You can look for this information in the FIR description of the \texttt{lms\_dsp} module in the \textit{Platform Designer}. Please note that increasing the number of taps will require more resource to be implemented.
 
 \section{Converting floating-point coefficients to fixed-point representation}
 
@@ -98,7 +98,7 @@ To this end, execute the following operations:
     \texttt{LimeSDR-Mini\_lms7\_lelec210x/lms\_dsp/}. Once the generation is completed, close the window using the "Finish" button.
 \end{enumerate}
 
-You can now synthesize the new design and flash it to the FPGA using LimeSuiteGUI. Refer to the Hands-on 4 for more detailed explanations. Be careful to always analyse the timing reports after the synthesis to ensure you have no timing violations. \\
+You can now synthesize the new design and flash it to the FPGA using LimeSuiteGUI. Refer to the Hands-on related to the FPGA for more detailed explanations. Be careful to always analyse the timing reports after the synthesis to ensure you have no timing violations. \\
 
 
-When launching a GNU Radio application, you should now observe that the noise is effectively filtered outside the frequency band $[-B, B]$. You can apply the different steps of this tutorial to adapt the frequency response of the filter to your specifications.
+When launching a GNU Radio application, you should now observe that the noise is effectively filtered outside the selected frequency band. You can apply the different steps of this tutorial to adapt the frequency response of the filter to your specifications.
