@@ -5,6 +5,7 @@ from threading import Thread
 from typing import Optional
 
 import click
+import numpy as np
 import requests
 
 from classification.datasets import Dataset
@@ -14,6 +15,33 @@ from common.logging import logger
 from .utils import get_url
 
 session = requests.Session()
+
+from pydub.utils import db_to_float, ratio_to_db, register_pydub_effect
+
+
+@register_pydub_effect
+def normalize_energy(seg, energy_per_sec=-20):
+    """
+    Normalize the energy of a mono audio segment.
+
+    The target energy is in dB.
+    """
+    assert (
+        seg.channels == 1
+    ), "Only mono is supported. Please call `.set_channels(1)` first."
+
+    if seg.max == 0:  # Avoid division by zero
+        return seg
+
+    seconds = seg.frame_count() / seg.frame_rate
+    array = (
+        np.array(seg.get_array_of_samples()).astype(float) / seg.max_possible_amplitude
+    )
+    energy = (array**2).mean()
+    gain = db_to_float(energy_per_sec, using_amplitude=False) * seconds / energy
+    gain_db = ratio_to_db(gain, using_amplitude=False)
+
+    return seg.apply_gain(gain_db)
 
 
 @click.command()
@@ -170,14 +198,15 @@ def play_sound(
         sound = (
             AudioSegment.from_file(sound_file, format="wav")
             .set_channels(1)
-            .fade_in(500)
-            .fade_out(500)
+            .normalize_energy()
+            .fade_in(250)
+            .fade_out(250)
         )
 
-        if with_noise:
+        if with_noise and current_lap >= 8:
             sound = sound.overlay(
                 WhiteNoise().to_audio_segment(
-                    duration=len(sound), volume=-40.0 + 2.0 * current_lap
+                    duration=len(sound), volume=-40.0 + 4.0 * (current_lap - 8)
                 )
             )
 

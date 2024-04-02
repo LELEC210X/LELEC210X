@@ -4,7 +4,10 @@ import logging
 
 from rich.logging import RichHandler
 
-handler = RichHandler()
+handler = RichHandler(
+    keywords=RichHandler.KEYWORDS
+    + ["birds", "chainsaw", "fire", "handsaw", "helicopter"]
+)
 
 logging.basicConfig(
     level="INFO", format="%(message)s", datefmt="[%X]", handlers=[handler]
