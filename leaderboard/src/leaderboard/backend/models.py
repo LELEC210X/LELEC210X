@@ -75,7 +75,7 @@ class Submission(BaseModel):
 class RoundConfig(BaseModel):
     name: str = ""
     lap_count: PositiveInt = 16
-    lap_duration: PositiveFloat = 13.0
+    lap_duration: PositiveFloat = 10.0
     only_check_for_presence: bool = False
     with_noise: bool = False
 
