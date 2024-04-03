@@ -139,7 +139,7 @@ def play_sound(
         elif code == 401:
             raise ValueError(response.json())
         else:
-            logger.info("Waiting server to be ready")
+            logger.info("Waiting server to be ready...")
             time.sleep(0.2)
 
     played_sounds = set()
@@ -150,10 +150,10 @@ def play_sound(
             f"{url}/lelec210x/leaderboard/status/{key}", timeout=1
         ).json()
         delay = time.time() - start
-        logger.info(f"Took {delay:.4f}s for the status request")
+        logger.info(f"Took {delay:.4f}s for the status request.")
 
         if json["paused"]:
-            logger.info("Leaderboard is paused")
+            logger.info("Leaderboard is paused...")
             time.sleep(0.2)
             continue
 
@@ -169,7 +169,7 @@ def play_sound(
         sound_key = (current_round + 1, current_lap + 1)
 
         if sound_key in played_sounds:
-            logger.info(f"A song has already been played for round, lap: {sound_key}")
+            logger.info(f"A song has already been played for round, lap: {sound_key}.")
             time.sleep(time_before_next_lap)
             continue
 
@@ -178,11 +178,11 @@ def play_sound(
         sound_file = random.choice(dataset.get_class_files(category))
 
         if time_before_playing < 0:
-            logger.info(f"Too late for playing: {category}")
+            logger.info(f"Too late for playing: {category}.")
             time.sleep(time_before_next_lap)
             continue
 
-        logger.info(f"Playing sound in {time_before_playing}")
+        logger.info(f"Playing sound in {time_before_playing}.")
 
         start = time.time()
         sound = (
@@ -194,9 +194,12 @@ def play_sound(
         )
 
         if with_noise and current_lap >= 8:
+            relative_gain = -16 + 4 * (current_lap - 8)
+            logger.info("Adding random noise on top of audio segment "
+            f"with a relative volume gain of {relative_gain} dB.")
             sound = sound.overlay(
                 WhiteNoise().to_audio_segment(
-                    duration=len(sound), volume=-40.0 + 4.0 * (current_lap - 8)
+                    duration=len(sound), volume=sound.dBFS + relative_gain 
                 )
             )
 
@@ -204,7 +207,7 @@ def play_sound(
 
         thread = Thread(target=play, args=(sound,))
         thread.start()
-        logger.info(f"Playing sound now: {sound_file}")
+        logger.info(f"Playing sound now: {sound_file}.")
 
         # Admins are always correct :-)
         session.post(f"{url}/lelec210x/leaderboard/submit/{key}/{category}", timeout=1)
