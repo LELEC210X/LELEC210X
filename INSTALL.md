@@ -16,7 +16,7 @@ All commands are assumed to be run inside a terminal / command prompt.
 
 ## Tools Used for This Project
 
-In this project, will you have to use different software and tools.
+In this project, will you have to use different softwares and tools.
 
 - **Python**: employed for various tasks, e.g., classification, modeling;
 - **STM32CubeIDE**: used to program the microcontroller;
@@ -150,10 +150,10 @@ if the steps must be performed on your host system (Windows, MacOS, or Linux), o
 if they refer to your Ubuntu-20.04 installation. If your host system is Ubuntu-20.04, perform them in both cases.
 Additionnally, some steps might be only required for some specific OSs, in which case it will be specified.
 
-Quick tips : Ubuntu terminal windows can be launched via the Ubuntu Launchpad, or with
+Quick tips: Ubuntu terminal windows can be launched via the Ubuntu Launchpad, or with
 <kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>T</kbd>.
 
-### Ubuntu : Install Pip
+### Ubuntu - Install Pip
 
 Sometimes, Python is not shipped with its package installer, pip.
 
@@ -163,7 +163,7 @@ Please make sure pip is installed by running:
 sudo apt-get install python3-pip
 ```
 
-### Host AND Ubuntu : Installing Poetry
+### Host or Ubuntu - Install Poetry
 
 Usually, installing Python packages to the global Python environment is a bad idea,
 mainly because you can have conflicts with packages that require differention versions
@@ -179,9 +179,18 @@ some script
 before you can work with them, and it's also possible to have an arbitrary number of nested
 venvs, which makes it hard to know which environment is activated.
 To avoid this issue, we use
-[Poetry](https://python-poetry.org/), which can be installed with the commands below, depending if you are on Mac/Linux or Windows. Poetry works in pair with `pyproject.toml` file, so that you can specify requirements for your project, and much more!
+[Poetry](https://python-poetry.org/),
+which can be installed with the commands below, 
+depending if you are on Linux, macOS or Windows.
+Poetry works in pair with `pyproject.toml` file,
+so that you can specify requirements for your project, and much more!
 
-#### Linux/MAC
+> [!IMPORTANT]
+> While Poetry should work fine on any OS, we highly recommend to
+> install it on Ubuntu too, because it is easier for teaching
+> assistants to debug.
+
+#### Linux/macOS
 
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
@@ -223,13 +232,49 @@ In the Powershell:
 Do not close the terminal, it will probably ask you to add the poetry installation path to your PATH environment variable.
 To do so, follow [this guide](https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/).
 
-### Ubuntu : Installing CMake and Make
+### Host or Ubuntu - Install FFmpeg
+
+Depending on whether you installed Poetry on your host machine,
+or on Ubuntu (via WSL/dual bool/VM/...), you need to also install FFmpeg.
+
+[FFmpeg](https://ffmpeg.org/) is a **very comprehensive** toolbox for manipulating
+audio and video files.
+
+For this projet, this will by used to read and write audio files (via Python modules),
+and it must then be installed on the same OS as Poetry.
+
+#### Linux
+
+On Ubuntu:
+
+```bash
+sudo apt install ffmpeg
+```
+
+For other Linux distros, see the [download page](https://ffmpeg.org/download.html).
+
+#### macOS
+
+On macOS, either use [Homebrew](https://brew.sh/)
+(if installed, which is recommend):
+
+```bash
+brew install ffmpeg
+```
+
+or download it from the [download page](https://ffmpeg.org/download.html).
+
+#### Windows
+
+Please download it from the [download page](https://ffmpeg.org/download.html).
+
+### Ubuntu - Install CMake and Make
 
 ```bash
 sudo apt-get install cmake
 ```
 
-### Ubuntu : Installing GNU Radio
+### Ubuntu - Install GNU Radio
 
 For the LimeSDR to work, we need to install GNU Radio **3.8** and no any version higher.
 To do so:
@@ -292,13 +337,13 @@ echo "export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/
 echo "export LIBGL_ALWAYS_INDIRECT=1" >> ~/.bashrc
 ```
 
-### Ubuntu - Installing the different LimeSDR components
+### Ubuntu - Install the different LimeSDR components
 
 We can now install the different components required to use the LimeSDR with GNU Radio.
 We follow the information provided [here](https://wiki.myriadrf.org/Lime_Suite)
 by the company who sells the LimeSDR, _Myriad-RF_.
 
-#### Ubuntu - Installing LimeSuite
+#### Ubuntu - Install LimeSuite
 
 We start by installing _LimeSuite_, i.e.,
 a collection of softwares supporting several hardware platforms including the LimeSDR.
@@ -310,7 +355,7 @@ sudo apt-get install limesuite liblimesuite-dev limesuite-udev limesuite-images
 sudo apt-get install soapysdr-tools soapysdr-module-lms7
 ```
 
-#### Ubuntu - Installing Gr-LimeSDR
+#### Ubuntu - Install Gr-LimeSDR
 
 Finally, we need to install _Gr-LimeSDR_ which is a low cost, open source software defined radio (SDR) platform.
 To do so, we use the following command,
@@ -322,9 +367,9 @@ sudo apt-get update
 sudo apt-get install gr-limesdr
 ```
 
-#### (After H4) Ubuntu - Installing Gr-LimeSDR custom components
+#### (After H4) Ubuntu - Install Gr-LimeSDR custom components
 
-First you need to install the following components :
+First you need to install the following components:
 
 ```bash
 sudo apt install liblimesuite-dev swig4.0 liborc-0.4-dev
@@ -395,7 +440,7 @@ You might be asked to create an account. You can then proceed to the download an
 
 ### Ubuntu - STM32Cube IDE additional package
 
-If Ubuntu-20.04 is your host system and thus STM32CubeIDE is installed on it, you might need to install a package in order to flash the MCU. To do so :
+If Ubuntu-20.04 is your host system and thus STM32CubeIDE is installed on it, you might need to install a package in order to flash the MCU. To do so:
 
 ```bash
 sudo apt-get install libncurses5
@@ -435,7 +480,7 @@ To install the Python dependencies, you can simply run:
 poetry run install
 ```
 
-You should only perform this once.
+You should only perform this once (if `pyproject.toml does not change).
 
 > [!IMPORTANT]
 > Note that, in order to work, `poetry` commands
