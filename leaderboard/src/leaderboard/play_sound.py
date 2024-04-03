@@ -5,8 +5,9 @@ from threading import Thread
 from typing import Optional
 
 import click
-import numpy as np
 import requests
+from pydub import AudioSegment
+from pydub.utils import register_pydub_effect
 
 from classification.datasets import Dataset
 from common.click import verbosity
@@ -16,32 +17,21 @@ from .utils import get_url
 
 session = requests.Session()
 
-from pydub.utils import db_to_float, ratio_to_db, register_pydub_effect
-
 
 @register_pydub_effect
-def normalize_energy(seg, energy_per_sec=-20):
+def normalize_dBFS(  # noqa: N802
+    seg: AudioSegment,
+    target_dBFS: float = -20,  # noqa: N803
+) -> AudioSegment:
     """
-    Normalize the energy of a mono audio segment.
+    Normalize an audio segment to a given loudness (dBFS).
 
-    The target energy is in dB.
+    The loudness of the audio segment is determined by the
+    average energy of each audio sample.
     """
-    assert (
-        seg.channels == 1
-    ), "Only mono is supported. Please call `.set_channels(1)` first."
+    gain = target_dBFS - seg.dBFS
 
-    if seg.max == 0:  # Avoid division by zero
-        return seg
-
-    seconds = seg.frame_count() / seg.frame_rate
-    array = (
-        np.array(seg.get_array_of_samples()).astype(float) / seg.max_possible_amplitude
-    )
-    energy = (array**2).mean()
-    gain = db_to_float(energy_per_sec, using_amplitude=False) * seconds / energy
-    gain_db = ratio_to_db(gain, using_amplitude=False)
-
-    return seg.apply_gain(gain_db)
+    return seg.apply_gain(gain)
 
 
 @click.command()
@@ -198,7 +188,7 @@ def play_sound(
         sound = (
             AudioSegment.from_file(sound_file, format="wav")
             .set_channels(1)
-            .normalize_energy()
+            .normalize_dBFS()
             .fade_in(250)
             .fade_out(250)
         )
