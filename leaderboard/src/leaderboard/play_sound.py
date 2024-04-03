@@ -186,7 +186,7 @@ def play_sound(
 
         start = time.time()
         sound = (
-            AudioSegment.from_file(sound_file, format="wav")
+            AudioSegment.from_file(sound_file, format=_format)
             .set_channels(1)
             .normalize_dBFS()
             .fade_in(250)
