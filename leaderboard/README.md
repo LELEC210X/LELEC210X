@@ -264,7 +264,7 @@ source /root/.bashrc
 
 #### Apache2 server
 
-*Work in progress*
+_Work in progress_
 
 Create `/etc/apache2/sites-available/LELEC210X.conf`:
 

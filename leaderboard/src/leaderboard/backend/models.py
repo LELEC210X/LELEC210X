@@ -111,8 +111,7 @@ class RoundsConfig(BaseModel):
         RoundConfig(name="Functionality", only_check_for_presence=True),
         RoundConfig(name="Communication range", only_check_for_presence=True),
         RoundConfig(name="Power consumption", only_check_for_presence=True),
-        RoundConfig(name="Classification accuracy"),
-        RoundConfig(name="Classification robustness", with_noise=True),
+        RoundConfig(name="Classification accuracy", with_noise=True),
     ]
     security_round: SecurityRound = SecurityRound()
     seed: PositiveInt = 1234
@@ -534,7 +533,7 @@ class Config(BaseModel):
                 if self.rounds_config.is_penalized(
                     group_config.key, current_round, lap
                 ):
-                    score -= 0.5
+                    score -= 0.25
 
                     if correct:
                         status = Status.correct_penalized

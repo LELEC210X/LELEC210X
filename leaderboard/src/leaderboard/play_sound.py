@@ -6,6 +6,8 @@ from typing import Optional
 
 import click
 import requests
+from pydub import AudioSegment
+from pydub.utils import register_pydub_effect
 
 from classification.datasets import Dataset
 from common.click import verbosity
@@ -13,8 +15,23 @@ from common.logging import logger
 
 from .utils import get_url
 
-
 session = requests.Session()
+
+
+@register_pydub_effect
+def normalize_dBFS(  # noqa: N802
+    seg: AudioSegment,
+    target_dBFS: float = -20,  # noqa: N803
+) -> AudioSegment:
+    """
+    Normalize an audio segment to a given loudness (dBFS).
+
+    The loudness of the audio segment is determined by the
+    average energy of each audio sample.
+    """
+    gain = target_dBFS - seg.dBFS
+
+    return seg.apply_gain(gain)
 
 
 @click.command()
@@ -129,7 +146,9 @@ def play_sound(
 
     while True:
         start = time.time()
-        json = session.get(f"{url}/lelec210x/leaderboard/status/{key}", timeout=1).json()
+        json = session.get(
+            f"{url}/lelec210x/leaderboard/status/{key}", timeout=1
+        ).json()
         delay = time.time() - start
         logger.info(f"Took {delay:.4f}s for the status request")
 
@@ -166,12 +185,18 @@ def play_sound(
         logger.info(f"Playing sound in {time_before_playing}")
 
         start = time.time()
-        sound = AudioSegment.from_file(sound_file, format="wav").normalize()#.set_channels(1)
+        sound = (
+            AudioSegment.from_file(sound_file, format="wav")
+            .set_channels(1)
+            .normalize_dBFS()
+            .fade_in(250)
+            .fade_out(250)
+        )
 
-        if with_noise:
+        if with_noise and current_lap >= 8:
             sound = sound.overlay(
                 WhiteNoise().to_audio_segment(
-                    duration=len(sound), volume=-40.0 + 2.0 * current_lap
+                    duration=len(sound), volume=-40.0 + 4.0 * (current_lap - 8)
                 )
             )
 
@@ -186,6 +211,8 @@ def play_sound(
 
         if random_key:  # Random player
             guess = random.choice(dataset.list_classes())
-            session.post(f"{url}/lelec210x/leaderboard/submit/{random_key}/{guess}", timeout=1)
+            session.post(
+                f"{url}/lelec210x/leaderboard/submit/{random_key}/{guess}", timeout=1
+            )
 
         thread.join()
