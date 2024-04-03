@@ -195,11 +195,13 @@ def play_sound(
 
         if with_noise and current_lap >= 8:
             relative_gain = -16 + 4 * (current_lap - 8)
-            logger.info("Adding random noise on top of audio segment "
-            f"with a relative volume gain of {relative_gain} dB.")
+            logger.info(
+                "Adding random noise on top of audio segment "
+                f"with a relative volume gain of {relative_gain} dB."
+            )
             sound = sound.overlay(
                 WhiteNoise().to_audio_segment(
-                    duration=len(sound), volume=sound.dBFS + relative_gain 
+                    duration=len(sound), volume=sound.dBFS + relative_gain
                 )
             )
 

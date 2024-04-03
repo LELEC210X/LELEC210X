@@ -180,7 +180,7 @@ before you can work with them, and it's also possible to have an arbitrary numbe
 venvs, which makes it hard to know which environment is activated.
 To avoid this issue, we use
 [Poetry](https://python-poetry.org/),
-which can be installed with the commands below, 
+which can be installed with the commands below,
 depending if you are on Linux, macOS or Windows.
 Poetry works in pair with `pyproject.toml` file,
 so that you can specify requirements for your project, and much more!

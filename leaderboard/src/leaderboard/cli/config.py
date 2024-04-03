@@ -3,7 +3,7 @@ from pathlib import Path
 
 import click
 
-from ..backend.models import DEFAULT_CONFIG_PATH, Config, GroupConfig
+from ..backend.models import DEFAULT_CONFIG_PATH, Config, GroupConfig, RoundsConfig
 
 
 @click.group()
@@ -25,7 +25,7 @@ def config():
 @click.option(
     "-f", "--force", is_flag=True, help="If set, will overwrite any existing config."
 )
-def init(config_path: Path, force: bool):
+def init(config_path: Path, force: bool) -> None:
     """Initialize a new config."""
     if config_path.exists() and not force:
         raise click.UsageError(
@@ -59,7 +59,9 @@ def init(config_path: Path, force: bool):
     "-f", "--force", is_flag=True, help="If set, will overwrite any existing key."
 )
 @click.help_option("-h", "--help")
-def generate_key(name: str, config_path: Path, size: int, admin: bool, force: bool):
+def generate_key(
+    name: str, config_path: Path, size: int, admin: bool, force: bool
+) -> None:
     """Generate a key for a given group NAME."""
     if not config_path.exists():
         raise click.UsageError(
@@ -90,4 +92,22 @@ def generate_key(name: str, config_path: Path, size: int, admin: bool, force: bo
 
     click.echo(f"Group {name} now has key: {key}")
 
+    config.save_to(config_path)
+
+
+@config.command()
+@click.option(
+    "-c",
+    "--config",
+    "config_path",
+    default=DEFAULT_CONFIG_PATH,
+    type=click.Path(exists=True, dir_okay=False),
+    help="JSON file where the config is saved.",
+    show_default=True,
+)
+@click.help_option("-h", "--help")
+def reset_rounds_config(config_path: Path) -> None:
+    """Overwrite an existing config by resetting the rounds config to default."""
+    config = Config.parse_file(config_path)
+    config.rounds_config = RoundsConfig()
     config.save_to(config_path)

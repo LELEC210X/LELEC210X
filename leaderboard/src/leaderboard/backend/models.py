@@ -114,7 +114,7 @@ class RoundsConfig(BaseModel):
         RoundConfig(name="Classification accuracy", with_noise=True),
     ]
     security_round: SecurityRound = SecurityRound()
-    seed: PositiveInt = 1234
+    seed: Optional[PositiveInt] = None
     start_paused: bool = True
     restart_when_finished: bool = False
     pause_between_rounds = True
