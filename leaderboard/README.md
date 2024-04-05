@@ -211,17 +211,23 @@ guess_str = urllib.parse.quote_from_bytes(guess_bytes, safe="")
 
 The server address is `lelec210x.sipr.ucl.ac.be` (`130.104.12.28`).
 
-The server access is only possible via SSH, from a specific set of IP addresses.
+The server access is only possible via SSH, from a specific set of IP addresses,
+specified in `/etc/iptables/rules.v4`.
 If you do not have access, you need to ask the I.T. staff (or one of the member
 that already has such access).
 
 In the terminal:
 
 ```bash
-ssh -p 22 username@130.104.12.28
+ssh -4 -p 22 username@lelec210x.sipr.ucl.ac.be
 ```
 
 where `username` is your username. You will be prompted to enter your password.
+
+> [!NOTE]
+> The `-4` flag is to force IPv4. While this may work without explicitely specifying it,
+> it has been observed that using the VPN (with `openvpn3`) uses IPv6 for SSH by default,
+> which will fail to connect properly.
 
 Here, for simplicity, the useful folders are placed in a root-owned directory[^1].
 So, you need to elevate your privileges with:

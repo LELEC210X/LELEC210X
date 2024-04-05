@@ -480,7 +480,7 @@ To install the Python dependencies, you can simply run:
 poetry run install
 ```
 
-You should only perform this once (if `pyproject.toml does not change).
+You should only perform this once (if `pyproject.toml` does not change).
 
 > [!IMPORTANT]
 > Note that, in order to work, `poetry` commands
