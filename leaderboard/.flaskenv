@@ -1,7 +1,7 @@
 FLASK_DATABASE_URI = sqlite:///database.db
 FLASK_DEBUG = 1
-FLASK_RUN_HOST = https://lelec210x.sipr.ucl.ac.be
-FLASK_RUN_PORT = 8800
+FLASK_RUN_HOST = 130.104.12.28
+FLASK_RUN_PORT = 80
 FLASK_STATIC_PATH = /lelec210x
 
 # Comment the two next lines on the server

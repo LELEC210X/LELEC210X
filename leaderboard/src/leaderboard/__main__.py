@@ -113,7 +113,6 @@ def create_app() -> Flask:
     else:
         socketio = SocketIO(
             app,
-            cors_allowed_origins=os.environ["FLASK_RUN_HOST"],
             path=os.environ["FLASK_STATIC_PATH"] + "/socket.io/",
             **socketio_kwargs,
         )

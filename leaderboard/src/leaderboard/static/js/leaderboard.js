@@ -11,7 +11,7 @@ const destination = document.getElementsByTagName("body")[0];
 // TODO: fix Socketio issue in "production" server
 // It is this: https://github.com/miguelgrinberg/Flask-SocketIO/issues/1501
 /*
-const socket = io("wss://lelec210x.sipr.ucl.ac.be", {
+const socket = io("http://lelec210x.sipr.ucl.ac.be", {
   path: "/lelec210x/socket.io",
 });
 */
