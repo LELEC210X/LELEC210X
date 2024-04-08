@@ -109,6 +109,7 @@ class SecurityGuess(BaseModel):
 class RoundsConfig(BaseModel):
     rounds: List[RoundConfig] = [
         RoundConfig(name="Functionality", only_check_for_presence=True),
+        RoundConfig(name="Robustness", only_check_for_presence=True),
         RoundConfig(name="Communication range", only_check_for_presence=True),
         RoundConfig(name="Power consumption", only_check_for_presence=True),
         RoundConfig(name="Classification accuracy", with_noise=True),
