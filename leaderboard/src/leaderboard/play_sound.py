@@ -194,7 +194,7 @@ def play_sound(
         )
 
         if with_noise and current_lap >= 8:
-            relative_gain = -16 + 4 * (current_lap - 8)
+            relative_gain = -16 + 2 * (current_lap - 8)  # TODO: find better value
             logger.info(
                 "Adding random noise on top of audio segment "
                 f"with a relative volume gain of {relative_gain} dB."
