@@ -27,6 +27,7 @@ class GroupConfig(BaseModel):
     key: constr(min_length=1, max_length=128)
     name: constr(min_length=1, max_length=128)
     admin: bool = False
+    hidden: bool = False
 
 
 class Status(str, Enum):
@@ -109,7 +110,7 @@ class SecurityGuess(BaseModel):
 class RoundsConfig(BaseModel):
     rounds: List[RoundConfig] = [
         RoundConfig(name="Functionality", only_check_for_presence=True),
-        RoundConfig(name="Robustness", only_check_for_presence=True),
+        RoundConfig(name="Robustness of detection", only_check_for_presence=True),
         RoundConfig(name="Communication range", only_check_for_presence=True),
         RoundConfig(name="Power consumption", only_check_for_presence=True),
         RoundConfig(name="Classification accuracy", with_noise=True),
@@ -508,6 +509,9 @@ class Config(BaseModel):
 
         rows = []
         for group_config in self.group_configs:
+            if group_config.hidden:
+                continue
+
             answers = []
             score = 0.0
             for lap, correct_answer in enumerate(correct_answers):

@@ -61,7 +61,7 @@ socket.on("update_leaderboard", (message) => {
     number_of_rounds: state.client.number_of_rounds,
     number_of_laps: state.client.number_of_laps,
     paused: state.client.paused,
-    time_before_next_lap: state.client.time_before_next_lap.toFixed(1),
+    time_before_next_lap: state.client.time_before_next_lap.toFixed(0),
     laps: Array.from({ length: state.client.number_of_laps }, (_, i) => i + 1),
     leaderboard: state.client.leaderboard,
   });

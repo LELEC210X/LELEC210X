@@ -12,7 +12,7 @@ html {
   --table-header-background-color: #8ecae6;
   --table-border-width: 2px;
   --table-border-color: #023047;
-  --table-fixed-width: 130px;
+  /*--table-fixed-width: 130px;*/
   --table-fixed-padding: 12px;
   --table-width: 70px;
   --table-n-visible: 5;
@@ -75,10 +75,11 @@ body {
           var(--table-fixed-padding)
       ) + var(--table-n-visible) * var(--table-width)
   );
+  /*
   overflow-x: scroll;
   scrollbar-color: var(--table-header-background-color)
     var(--table-border-color);
-  scrollbar-width: thin;
+  scrollbar-width: thin;*/
   border-collapse: collapse;
   border: var(--table-border-width) solid var(--table-border-color);
   border-radius: 10px 10px 10px 10px;
