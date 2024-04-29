@@ -105,7 +105,7 @@ def play_sound(
     dataset_kwargs = {}
 
     if soundfiles:
-        dataset_kwargs["soundfiles"] = soundfiles
+        dataset_kwargs["folder"] = soundfiles
 
     if soundfiles:
         dataset_kwargs["format"] = _format
