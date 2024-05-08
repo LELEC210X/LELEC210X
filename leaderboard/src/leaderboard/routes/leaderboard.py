@@ -486,6 +486,43 @@ class Rename(Resource):
             )
 
 
+@api.route(
+    "/results/<path:key>",
+    methods=["POST"],
+)
+@api.param("key", "Your key, only admin allowed")
+class Results(Resource):
+    @api.response(200, "Success")
+    @api.response(401, "Invalid key")
+    @api.response(403, "Unauthorized user")
+    def post(self, key):
+        """
+        Get the contest results.
+        """
+        try:
+            if not app.config["CONFIG"].get_group_by_key(key).admin:
+                return make_response(
+                    jsonify({"error": "the provided key has no admin rights"}), 403
+                )
+
+            results = app.config["CONFIG"].get_results()
+
+            return make_response(
+                jsonify(results),
+                200,
+            )
+        except IndexError:
+            return make_response(
+                jsonify(
+                    {
+                        "error": "the provided key does not match any group name",
+                        "key": key,
+                    }
+                ),
+                401,
+            )
+
+
 @api.route("", doc=False)
 @api.route("/index", doc=False)
 class Index(Resource):

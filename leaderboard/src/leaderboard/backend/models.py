@@ -22,6 +22,7 @@ from pydantic import (
 
 DEFAULT_CONFIG_PATH = Path(__file__).parents[3] / ".config.json"
 
+CONTEST_RESULTS = dict()
 
 class GroupConfig(BaseModel):
     key: constr(min_length=1, max_length=128)
@@ -295,6 +296,8 @@ class RoundsConfig(BaseModel):
         self.__current_round = 0
         self.__finished = False
 
+        CONTEST_RESULTS.clear()
+
         if not self.start_paused:
             self.play()
 
@@ -560,6 +563,11 @@ class Config(BaseModel):
                 )
             )
 
+        current_round_name = self.rounds_config.get_current_round_config().name
+        CONTEST_RESULTS[current_round_name] = dict()
+        for row in rows:
+            CONTEST_RESULTS[current_round_name][row.name] = row.score
+
         return LeaderboardStatus(
             round_name=self.rounds_config.get_current_round_config().name,
             current_correct_guess=current_correct_guess,
@@ -574,3 +582,9 @@ class Config(BaseModel):
             finished=finished,
             leaderboard=rows,
         )
+
+    def get_results(self) -> dict:
+        """
+        Returns the results of the rounds and the total score as a dictionary, only if the contest is finished.
+        """
+        return CONTEST_RESULTS
