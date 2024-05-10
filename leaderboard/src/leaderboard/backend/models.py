@@ -24,6 +24,7 @@ DEFAULT_CONFIG_PATH = Path(__file__).parents[3] / ".config.json"
 
 CONTEST_RESULTS = dict()
 
+
 class GroupConfig(BaseModel):
     key: constr(min_length=1, max_length=128)
     name: constr(min_length=1, max_length=128)
@@ -114,7 +115,7 @@ class RoundsConfig(BaseModel):
         RoundConfig(name="Robustness of detection", only_check_for_presence=True),
         RoundConfig(name="Communication range", only_check_for_presence=True),
         RoundConfig(name="Power consumption", only_check_for_presence=True),
-        RoundConfig(name="Classification accuracy", with_noise=True),
+        RoundConfig(name="Classification accuracy", lap_count=20, with_noise=True),
     ]
     security_round: SecurityRound = SecurityRound()
     seed: Optional[PositiveInt] = None
