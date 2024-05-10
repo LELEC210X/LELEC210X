@@ -134,7 +134,7 @@ for more details.
 > `http:localhost:5000` is the default hostname (and port)
 > that is used if you run the server on your computer.
 > For the contest, please use
-> `hostname = "https://lelec210x.sipr.ucl.ac.be/lelec210x"`.
+> `hostname = "http://lelec210x.sipr.ucl.ac.be/lelec210x"`.
 
 > [!TIP]
 > If you want to access the server from another computer, on the
