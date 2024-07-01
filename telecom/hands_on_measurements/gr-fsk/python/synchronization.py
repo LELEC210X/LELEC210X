@@ -85,9 +85,9 @@ class synchronization(gr.basic_block):
                 self.hdr_len * 8 * self.osr
             )  # enough samples to find a header inside
         else:  # processing a previously found packet
-            ninput_items_required[
-                0
-            ] = noutput_items  # pass remaining samples in packet to next block
+            ninput_items_required[0] = (
+                noutput_items  # pass remaining samples in packet to next block
+            )
 
     def general_work(self, input_items, output_items):
         if self.rem_samples == 0:  # new packet to process, compute the CFO and STO
@@ -105,9 +105,7 @@ class synchronization(gr.basic_block):
             self.power_est = None
             self.rem_samples = (self.packet_len + 1) * 8 * self.osr
             print(
-                "[SYNC] New preamble detected @ {} (CFO {:.2f} Hz, STO {})".format(
-                    self.nitems_read(0) + sto, self.cfo, sto
-                )
+                f"[SYNC] New preamble detected @ {self.nitems_read(0) + sto} (CFO {self.cfo:.2f} Hz, STO {sto})"
             )
 
             self.consume_each(sto)  # drop *sto* samples to align the buffer
@@ -122,9 +120,7 @@ class synchronization(gr.basic_block):
                     self.power_est - self.estimated_noise_power
                 ) / self.estimated_noise_power
                 print(
-                    "[SYNC] Estimated SNR: {:.2f} dB ({} samples)".format(
-                        10 * np.log10(SNR_est), len(y)
-                    )
+                    f"[SYNC] Estimated SNR: {10 * np.log10(SNR_est):.2f} dB ({len(y)} samples)"
                 )
 
             # Correct CFO before transferring samples to demodulation stage
