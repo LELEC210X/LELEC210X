@@ -6,10 +6,10 @@ as this OS is similar to that of UCLouvain's computers.
 > [!NOTE]
 > The computers are based on [Fedora EPEL 8](https://docs.fedoraproject.org/en-US/epel/getting-started/),
 > that happens to ship [GNU Radio 3.8](https://packages.fedoraproject.org/pkgs/gnuradio/gnuradio/epel-8.html).
-> 
+>
 > However, [it looks impossible (?)](https://stackoverflow.com/a/57317248/14968272)
 > to install packages from the EPEL 8 repository, on Fedora 40 OSes...
-> 
+>
 > Therefore, this tutorial is incomplete.
 
 ## Install Python 3.8
@@ -28,6 +28,7 @@ Then, install Python 3.8 and pip:
 sudo dnf install -y python3.8
 sudo dfn install -y python3-pip
 ```
+
 Finally, register the new version as a second alternative (i.e., number `2`) and
 switch Python versions:
 

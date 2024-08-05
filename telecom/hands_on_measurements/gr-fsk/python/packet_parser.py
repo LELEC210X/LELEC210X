@@ -136,17 +136,13 @@ class packet_parser(gr.basic_block):
             print("[MAC] Packet demodulated: ", payload, crc)
             output_items[0][: self.payload_len] = payload
             print(
-                "--- {} packets received with {} error(s) ---".format(
-                    self.nb_packet, self.nb_error
-                )
+                f"--- {self.nb_packet} packets received with {self.nb_error} error(s) ---"
             )
             return 1
         else:
             print("[MAC] Error in CRC, packet dropped", payload, crc)
             self.nb_error += 1
             print(
-                "--- {} packets received with {} error(s) ---".format(
-                    self.nb_packet, self.nb_error
-                )
+                f"--- {self.nb_packet} packets received with {self.nb_error} error(s) ---"
             )
             return 0
