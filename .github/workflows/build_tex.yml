@@ -41,7 +41,7 @@ jobs:
           cd tex/
           make pdf -j$(nproc)
 
-    - name: Nove files
+    - name: Move files
       run: |
         cd tex/
         mkdir archive
