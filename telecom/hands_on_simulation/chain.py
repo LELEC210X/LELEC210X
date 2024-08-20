@@ -8,37 +8,39 @@ SYNC_WORD = np.array([int(bit) for bit in f"{0x3E2A54B7:0>32b}"])
 
 
 class Chain:
-    name = ""
+    name: str = ""
 
-    ## Communication parameters
-    bit_rate = BIT_RATE
-    freq_dev = BIT_RATE / 4
+    # Communication parameters
+    bit_rate: float = BIT_RATE
+    freq_dev: float = BIT_RATE / 4
 
-    osr_tx = 64
-    osr_rx = 8
+    osr_tx: int = 64
+    osr_rx: int = 8
 
-    preamble = PREAMBLE
-    sync_word = SYNC_WORD
+    preamble: np.ndarray = PREAMBLE
+    sync_word: np.ndarray = SYNC_WORD
 
-    payload_len = 50  # Number of bits per packet
+    payload_len: int = 50  # Number of bits per packet
 
-    ## Simulation parameters
-    n_packets = 100  # Number of sent packets
+    # Simulation parameters
+    n_packets: int = 100  # Number of sent packets
 
-    ## Channel parameters
-    sto_val = 0
-    sto_range = 10 / BIT_RATE  # defines the delay range when random
+    # Channel parameters
+    sto_val: float = 0
+    sto_range: float = 10 / BIT_RATE  # defines the delay range when random
 
-    cfo_val = 0
-    cfo_range = 10000  # defines the CFO range when random (in Hz) #(1000 in old repo)
+    cfo_val: float = 0
+    cfo_range: float = (
+        10000  # defines the CFO range when random (in Hz) #(1000 in old repo)
+    )
 
-    snr_range = np.arange(-10, 25)
+    snr_range: np.ndarray = np.arange(-10, 25)
 
-    ## Lowpass filter parameters
-    numtaps = 100
-    cutoff = BIT_RATE * osr_rx / 2.0001  # or 2*BIT_RATE,...
+    # Lowpass filter parameters
+    numtaps: int = 100
+    cutoff: float = BIT_RATE * osr_rx / 2.0001  # or 2*BIT_RATE,...
 
-    ## Tx methods
+    # Tx methods
 
     def modulate(self, bits: np.array) -> np.array:
         """
@@ -73,8 +75,8 @@ class Chain:
 
         return x
 
-    ## Rx methods
-    bypass_preamble_detect = False
+    # Rx methods
+    bypass_preamble_detect: bool = False
 
     def preamble_detect(self, y: np.array) -> Optional[int]:
         """
@@ -86,7 +88,7 @@ class Chain:
         """
         raise NotImplementedError
 
-    bypass_cfo_estimation = False
+    bypass_cfo_estimation: bool = False
 
     def cfo_estimation(self, y: np.array) -> float:
         """
@@ -97,7 +99,7 @@ class Chain:
         """
         raise NotImplementedError
 
-    bypass_sto_estimation = False
+    bypass_sto_estimation: bool = False
 
     def sto_estimation(self, y: np.array) -> float:
         """
