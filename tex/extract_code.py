@@ -10,6 +10,7 @@ to be re-generated each time.
 Usage:
     python extract_code.py "file.py::path:to:function"
 """
+
 import ast
 import sys
 import textwrap
