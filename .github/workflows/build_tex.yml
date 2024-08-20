@@ -41,8 +41,14 @@ jobs:
           cd tex/
           make pdf -j$(nproc)
 
+    - name: Nove files
+      run: |
+        cd tex/
+        mkdir archive
+        find -type f -regex '\./[0-9a-zA-Z_]+/[0-9a-zA-Z_]+.pdf' | xargs -I{} mv {} archive/
+
     - name: Archive exercise files
       uses: actions/upload-artifact@v4
       with:
         name: tex-documents
-        path: tex/*/*.pdf
+        path: tex/archive/*.pdf
