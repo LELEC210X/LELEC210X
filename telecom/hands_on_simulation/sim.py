@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from chain import Chain
 from scipy.signal import firwin
 from scipy.special import erfc
 
 
-def add_delay(chain, x, tau):
+def add_delay(chain: Chain, x: np.ndarray, tau: float):
     """
     Apply the channel between TX and RX, handling the different oversampling factors
     and the addition of a delay.
@@ -27,7 +28,7 @@ def add_delay(chain, x, tau):
     return y, np.mod(sto_int, chain.osr_rx)
 
 
-def add_cfo(chain, x, cfo):
+def add_cfo(chain: Chain, x: np.ndarray, cfo: float):
     """
     Add a frequency offset on the signal x.
     """
@@ -38,10 +39,10 @@ def add_cfo(chain, x, cfo):
     return y
 
 
-def run_sim(chain):
+def run_sim(chain: Chain):
     """
     Main function, running the simulations of the communication chain provided, for several SNRs.
-    Computes and displays the different metrics to evaluate the performances.
+    Compute and display the different metrics to evaluate the performances.
     """
     SNRs_dB = chain.snr_range
     R = chain.osr_rx

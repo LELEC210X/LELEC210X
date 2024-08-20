@@ -41,13 +41,8 @@ jobs:
           cd tex/
           make pdf -j$(nproc)
 
-    - name: Zip files
-      run: |
-        cd tex/
-        make zip
-
     - name: Archive exercise files
       uses: actions/upload-artifact@v4
       with:
         name: tex-documents
-        path: tex/pdfs.zip
+        path: tex/*/*.pdf
