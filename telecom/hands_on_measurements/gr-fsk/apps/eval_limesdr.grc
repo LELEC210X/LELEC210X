@@ -168,7 +168,7 @@ blocks:
     rangeType: int
     start: '0'
     step: '1'
-    stop: '70'
+    stop: '73'
     value: '10'
     widget: counter_slider
   states:
@@ -221,6 +221,24 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1120, 20.0]
+    rotation: 0
+    state: enabled
+- name: dc_blocker_xx_0
+  id: dc_blocker_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    length: '1024'
+    long_form: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: cc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [208, 356.0]
     rotation: 0
     state: enabled
 - name: fsk_demodulation_0
@@ -362,7 +380,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [269, 177]
+    coordinate: [344, 180.0]
     rotation: 0
     state: enabled
 - name: qtgui_sink_x_0
@@ -415,11 +433,12 @@ blocks:
     state: enabled
 
 connections:
+- [dc_blocker_xx_0, '0', low_pass_filter_0, '0']
 - [fsk_demodulation_0, '0', fsk_packet_parser_0, '0']
 - [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
 - [fsk_preamble_detect_0, '0', fsk_synchronization_0, '0']
 - [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
-- [limesdr_source_0, '0', low_pass_filter_0, '0']
+- [limesdr_source_0, '0', dc_blocker_xx_0, '0']
 - [low_pass_filter_0, '0', fsk_preamble_detect_0, '0']
 - [low_pass_filter_0, '0', qtgui_sink_x_0, '0']
 

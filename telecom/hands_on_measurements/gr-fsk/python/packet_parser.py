@@ -140,14 +140,14 @@ class packet_parser(gr.basic_block):
             "Here are some information from the measurements logger inside parser"
         )
         if is_correct:
-            self.logger.info("[MAC] Packet demodulated: ", payload, crc)
+            self.logger.info("[MAC] Packet demodulated: {payload}, {crc}")
             output_items[0][: self.payload_len] = payload
             self.logger.info(
                 f"--- {self.nb_packet} packets received with {self.nb_error} error(s) ---"
             )
             return 1
         else:
-            self.logger.error("[MAC] Error in CRC, packet dropped", payload, crc)
+            self.logger.error("[MAC] Error in CRC, packet dropped: {payload}, {crc}")
             self.nb_error += 1
             self.logger.info(
                 f"--- {self.nb_packet} packets received with {self.nb_error} error(s) ---"

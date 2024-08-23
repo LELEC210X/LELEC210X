@@ -79,7 +79,7 @@ blocks:
     rangeType: int
     start: '0'
     step: '1'
-    stop: '70'
+    stop: '73'
     value: '70'
     widget: counter_slider
   states:
@@ -101,6 +101,24 @@ blocks:
     coordinate: [225, 29]
     rotation: 0
     state: enabled
+- name: dc_blocker_xx_0
+  id: dc_blocker_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    length: '1024'
+    long_form: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: cc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [320, 268.0]
+    rotation: 0
+    state: disabled
 - name: fsk_noise_estimation_0
   id: fsk_noise_estimation
   parameters:
@@ -112,7 +130,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [586, 309]
+    coordinate: [920, 308.0]
     rotation: 0
     state: true
 - name: limesdr_source_0
@@ -172,7 +190,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [356, 261]
+    coordinate: [696, 260.0]
     rotation: 0
     state: enabled
 - name: qtgui_sink_x_0
@@ -192,20 +210,23 @@ blocks:
     plotfreq: 'True'
     plottime: 'True'
     plotwaterfall: 'True'
-    rate: '10'
+    rate: '33'
     showports: 'False'
-    showrf: 'False'
+    showrf: 'True'
     type: complex
     wintype: firdes.WIN_BLACKMAN_hARRIS
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [350, 447]
+    coordinate: [600, 428.0]
     rotation: 0
     state: true
 
 connections:
+- [dc_blocker_xx_0, '0', low_pass_filter_0, '0']
+- [dc_blocker_xx_0, '0', qtgui_sink_x_0, '0']
+- [limesdr_source_0, '0', dc_blocker_xx_0, '0']
 - [limesdr_source_0, '0', low_pass_filter_0, '0']
 - [limesdr_source_0, '0', qtgui_sink_x_0, '0']
 - [low_pass_filter_0, '0', fsk_noise_estimation_0, '0']

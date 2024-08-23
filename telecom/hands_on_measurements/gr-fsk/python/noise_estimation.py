@@ -45,9 +45,10 @@ class noise_estimation(gr.basic_block):
     def general_work(self, input_items, output_items):
         y = input_items[0]
         if time.time() - self.last_print >= 1.0:
-            self.noise_est = np.mean(np.abs(y) ** 2)
+            dc_offset = np.mean(y)
+            self.noise_est = np.mean(np.abs(y - dc_offset) ** 2)
             print(
-                f"[NOISE] Estimated noise power: {self.noise_est} ({10 * np.log10(self.noise_est)}dB, {len(y)} samples)"
+                f"[NOISE] Estimated noise power: {self.noise_est} ({10 * np.log10(self.noise_est)}dB, {len(y)} samples, DC offset is {dc_offset})"
             )
             self.last_print = time.time()
 

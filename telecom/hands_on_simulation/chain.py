@@ -12,7 +12,7 @@ class Chain:
 
     ## Communication parameters
     bit_rate = BIT_RATE
-    freq_dev = BIT_RATE / 4
+    freq_dev = BIT_RATE / 2
 
     osr_tx = 64
     osr_rx = 8
@@ -23,7 +23,7 @@ class Chain:
     payload_len = 50  # Number of bits per packet
 
     ## Simulation parameters
-    n_packets = 100  # Number of sent packets
+    n_packets = 1000  # Number of sent packets
 
     ## Channel parameters
     sto_val = 0
@@ -36,7 +36,8 @@ class Chain:
 
     ## Lowpass filter parameters
     numtaps = 100
-    cutoff = BIT_RATE * osr_rx / 2.0001  # or 2*BIT_RATE,...
+    cutoff =  freq_dev + BIT_RATE
+    #cutoff = BIT_RATE * osr_rx / 2.0001  # or 2*BIT_RATE,...
 
     ## Tx methods
 
@@ -86,7 +87,7 @@ class Chain:
         """
         raise NotImplementedError
 
-    bypass_cfo_estimation = False
+    bypass_cfo_estimation = True
 
     def cfo_estimation(self, y: np.array) -> float:
         """
@@ -97,7 +98,7 @@ class Chain:
         """
         raise NotImplementedError
 
-    bypass_sto_estimation = False
+    bypass_sto_estimation = True
 
     def sto_estimation(self, y: np.array) -> float:
         """
@@ -123,7 +124,7 @@ class BasicChain(Chain):
 
     cfo_val, sto_val = np.nan, np.nan  # CFO and STO are random
 
-    bypass_preamble_detect = True
+    bypass_preamble_detect = False
 
     def preamble_detect(self, y):
         """
@@ -139,21 +140,24 @@ class BasicChain(Chain):
 
         return None
 
-    bypass_cfo_estimation = True
+    bypass_cfo_estimation = False
 
     def cfo_estimation(self, y):
         """
         Estimates CFO using Moose algorithm, on first samples of preamble.
         """
         # TO DO: extract 2 blocks of size N*R at the start of y
+        R = self.osr_rx
+        N = 2
+        b1, b2 = y[0 : N * R], y[N * R : 2 * N * R]
 
         # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
-
-        cfo_est = 0  # Default value, to change
+        r = np.sum(b2 * np.conj(b1)) / (N * R)
+        cfo_est = np.angle(r) / (2 * np.pi * N * R) * (self.bit_rate * R)
 
         return cfo_est
 
-    bypass_sto_estimation = True
+    bypass_sto_estimation = False
 
     def sto_estimation(self, y):
         """
@@ -189,11 +193,78 @@ class BasicChain(Chain):
 
         # TO DO: generate the reference waveforms used for the correlation
         # hint: look at what is done in modulate() in chain.py
+        f = self.freq_dev / self.bit_rate
+        ph = 2 * np.pi * np.arange(R) / R * f
+        exp_f1 = np.conj(np.exp(+1j * ph))
+        exp_f2 = np.conj(np.exp(-1j * ph))
 
         # TO DO: compute the correlations with the two reference waveforms (r0 and r1)
+        r1 = np.abs(np.sum(y * exp_f1, 1) / R)
+        r2 = np.abs(np.sum(y * exp_f2, 1) / R)
 
         # TO DO: performs the decision based on r0 and r1
+        r = r1 - r2
 
-        bits_hat = np.zeros(nb_syms, dtype=int)  # Default value, all bits=0. TO CHANGE!
+        s_hat = np.sign(r)
+
+        bits_hat = s_hat.astype(int)
+        bits_hat[s_hat < 0] = 0
 
         return bits_hat
+
+
+class TeachingChain(BasicChain):
+    name = "Teaching Tx/Rx Chain"
+
+    bypass_cfo_estimation = True
+
+    def preamble_detect(self, y):
+        """
+        Detect a preamble using its temporal properties (repetition [1,0,1,0,...]).
+        """
+        N = 4
+        R = self.osr_rx
+
+        for i in range(0, int(len(y) / R) - 2 * N):
+            b1 = y[i * R : (i + N) * R]
+            b2 = y[(i + N) * R : (i + 2 * N) * R]
+
+            r = np.sum(b2 * np.conj(b1)) / (N * R)
+            if np.abs(r) > 0.9:
+                return i * R
+        return None
+
+    bypass_cfo_estimation = True
+
+    def cfo_estimation(self, y):
+        """
+        Estimates CFO using Moose algorithm, averaged on several estimations.
+        """
+
+        N = 4
+        R = self.osr_rx
+
+        b1, b2 = y[0 : N * R], y[N * R : 2 * N * R]
+        r = np.sum(b2 * np.conj(b1)) / (N * R)
+        cfo_1 = np.angle(r) / (2 * np.pi * N * R) * (self.bit_rate * R)
+
+        b1, b2 = y[2 * N * R : 3 * N * R], y[3 * N * R : 4 * N * R]
+        r = np.sum(b2 * np.conj(b1)) / (N * R)
+        cfo_2 = np.angle(r) / (2 * np.pi * N * R) * (self.bit_rate * R)
+
+        b1, b2 = y[4 * N * R : 5 * N * R], y[5 * N * R : 6 * N * R]
+        r = np.sum(b2 * np.conj(b1)) / (N * R)
+        cfo_3 = np.angle(r) / (2 * np.pi * N * R) * (self.bit_rate * R)
+
+        return (cfo_1 + cfo_2 + cfo_3) / 3
+
+    bypass_sto_estimation = True
+
+    def sto_estimation(self, y):
+        """
+        Estimates symbol timing based on correlation with expected modulated sync word.
+        """
+        x_addr = self.modulate(self.sync_word, self.osr_rx)
+
+        v = np.abs(np.correlate(y, x_addr, mode="full"))
+        return np.argmax(v) - len(x_addr) + 1
