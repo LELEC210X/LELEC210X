@@ -22,6 +22,9 @@ import numpy as np
 from gnuradio import gr
 
 
+measurements_logger = gr.logger("measurements")
+
+
 def cfo_estimation(y, B, R, Fdev):
     """
     Estimates CFO using Moose algorithm, on first samples of preamble.
@@ -87,6 +90,7 @@ class synchronization(gr.basic_block):
         gr.basic_block.__init__(
             self, name="Synchronization", in_sig=[np.complex64], out_sig=[np.complex64]
         )
+        self.logger = gr.logger(self.alias())
 
     def set_tx_power(self,tx_power):
         self.tx_power = tx_power
@@ -101,9 +105,9 @@ class synchronization(gr.basic_block):
                 self.hdr_len * 8 * self.osr
             )  # enough samples to find a header inside
         else:  # processing a previously found packet
-            ninput_items_required[
-                0
-            ] = noutput_items  # pass remaining samples in packet to next block
+            ninput_items_required[0] = (
+                noutput_items  # pass remaining samples in packet to next block
+            )
 
     def general_work(self, input_items, output_items):
         if self.rem_samples == 0:  # new packet to process, compute the CFO and STO
@@ -120,10 +124,8 @@ class synchronization(gr.basic_block):
             self.init_sto = sto
             self.power_est = None
             self.rem_samples = (self.packet_len + 1) * 8 * self.osr
-            print(
-                "[SYNC] New preamble detected @ {} (CFO {:.2f} Hz, STO {}, TXP {} dBm)".format(
-                    self.nitems_read(0) + sto, self.cfo, sto,self.tx_power
-                )
+            self.logger.info(
+                f"[SYNC] New preamble detected @ {self.nitems_read(0) + sto} (CFO {self.cfo:.2f} Hz, STO {sto})"
             )
 
             self.consume_each(sto)  # drop *sto* samples to align the buffer
@@ -137,10 +139,8 @@ class synchronization(gr.basic_block):
                 SNR_est = (
                     self.power_est - self.estimated_noise_power
                 ) / self.estimated_noise_power
-                print(
-                    "[SYNC] Estimated SNR: {:.2f} dB ({} samples)".format(
-                        10 * np.log10(SNR_est), len(y)
-                    )
+                self.logger.info(
+                    f"[SYNC] Estimated SNR: {10 * np.log10(SNR_est):.2f} dB ({len(y)} samples)"
                 )
 
             # Correct CFO before transferring samples to demodulation stage
@@ -159,5 +159,7 @@ class synchronization(gr.basic_block):
                 self.consume_each(win_size + self.osr - self.init_sto)
             else:
                 self.consume_each(win_size)
+
+        measurements_logger.info("Here are some information from the measurements logger inside sync")
 
             return win_size

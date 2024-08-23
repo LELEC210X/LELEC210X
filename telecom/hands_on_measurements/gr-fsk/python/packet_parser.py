@@ -21,6 +21,8 @@
 import numpy as np
 from gnuradio import gr
 
+measurements_logger = gr.logger("measurements")
+
 
 def reflect_data(x, width):
     # See: https://stackoverflow.com/a/20918545
@@ -95,6 +97,7 @@ class packet_parser(gr.basic_block):
             in_sig=[np.uint8],
             out_sig=[(np.uint8, self.payload_len)],
         )
+        self.logger = gr.logger(self.alias())
 
     def forecast(self, noutput_items, ninput_items_required):
         ninput_items_required[0] = self.packet_len + 1  # in bytes
@@ -132,21 +135,21 @@ class packet_parser(gr.basic_block):
             xor_out=0,
         )
         self.nb_packet += 1
-        if all(crc == crc_verif):
-            print("[MAC] Packet demodulated: ", payload, crc)
+        is_correct = all(crc == crc_verif)
+        measurements_logger.info(
+            "Here are some information from the measurements logger inside parser"
+        )
+        if is_correct:
+            self.logger.info("[MAC] Packet demodulated: ", payload, crc)
             output_items[0][: self.payload_len] = payload
-            print(
-                "--- {} packets received with {} error(s) ---".format(
-                    self.nb_packet, self.nb_error
-                )
+            self.logger.info(
+                f"--- {self.nb_packet} packets received with {self.nb_error} error(s) ---"
             )
             return 1
         else:
-            print("[MAC] Error in CRC, packet dropped", payload, crc)
+            self.logger.error("[MAC] Error in CRC, packet dropped", payload, crc)
             self.nb_error += 1
-            print(
-                "--- {} packets received with {} error(s) ---".format(
-                    self.nb_packet, self.nb_error
-                )
+            self.logger.info(
+                f"--- {self.nb_packet} packets received with {self.nb_error} error(s) ---"
             )
             return 0
