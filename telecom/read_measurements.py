@@ -4,27 +4,33 @@ and plots the PER/SNR curve, plus CFO values.
 """
 
 import sys
+from collections import defaultdict
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 
 if __name__ == "__main__":
-    prefix = "[DATA]"
-    data = {"snr": [], "cfo": [], "sto": [], "txp": []}
+    expected_payload = np.arange(100, dtype=int)
+
+    data = defaultdict(list)
     with open(sys.argv[1]) as f:
-        for line in f.readlines():
-            if not line.startswith(prefix):
-                continue
+        lines = f.readlines()
 
-            line = line[len(prefix) :]
-            values = line.split(",")
+        for i in range(0, len(lines), 3):
+            cfo, sto = lines[i].split(",")
+            data["cfo"].append(float(cfo.split("=")[1]))
+            data["sto"].append(int(sto.split("=")[1]))
+            
+            snr, txp = lines[i+1].split(",")
+            data["snr"].append(float(snr.split("=")[1]))
+            data["txp"].append(int(txp.split("=")[1]))
 
-            for key, tup in zip(data, values):
-                name, value, _unit = tup.split(":")
-                assert (
-                    key == name.strip().lower()
-                ), f"Expected {key}, got {name.lower()}"
-                data[key].append(float(value))
+            *_, payload = lines[i+2].split(",")
+            print("Payload", payload)
+            payload = np.fromstring(payload.split("=")[1], dtype=int)
+            per = 1 - np.mean(expected_payload ^ np.array(payload))
+            data["per"].append(per)
 
         df = pd.DataFrame.from_dict(data)
 

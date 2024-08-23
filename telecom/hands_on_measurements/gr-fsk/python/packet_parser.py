@@ -137,7 +137,7 @@ class packet_parser(gr.basic_block):
         self.nb_packet += 1
         is_correct = all(crc == crc_verif)
         measurements_logger.info(
-            f"packet_number={self.nb_packet},correct={is_correct},payload={payload}"
+            f"packet_number={self.nb_packet},correct={is_correct},payload=[{','.join(payload)}]"
         )
         if is_correct:
             self.logger.info(f"packet successfully demodulated: {payload} (CRC: {crc})")
