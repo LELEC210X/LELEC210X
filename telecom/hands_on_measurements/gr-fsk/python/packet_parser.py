@@ -97,7 +97,7 @@ class packet_parser(gr.basic_block):
             in_sig=[np.uint8],
             out_sig=[(np.uint8, self.payload_len)],
         )
-        self.logger = logging.getLogger(self.alias())
+        self.logger = logging.getLogger("parser")
 
     def forecast(self, noutput_items, ninput_items_required):
         ninput_items_required[0] = self.packet_len + 1  # in bytes

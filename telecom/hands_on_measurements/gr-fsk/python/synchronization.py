@@ -90,7 +90,7 @@ class synchronization(gr.basic_block):
         gr.basic_block.__init__(
             self, name="Synchronization", in_sig=[np.complex64], out_sig=[np.complex64]
         )
-        self.logger = logging.getLogger(self.alias())
+        self.logger = logging.getLogger("sync")
 
     def set_tx_power(self, tx_power):
         self.tx_power = tx_power
@@ -140,9 +140,9 @@ class synchronization(gr.basic_block):
                     self.power_est - self.estimated_noise_power
                 ) / self.estimated_noise_power
                 self.logger.info(
-                    f"estimated SNR: {10 * np.log10(SNR_est):.2f} dB ({len(y)} samples)"
+                    f"estimated SNR: {10 * np.log10(SNR_est):.2f} dB ({len(y)} samples) (TX Power: {self.tx_power} dB)"
                 )
-                measurements_logger.info(f"SNRdB={10 * np.log10(SNR_est):.2f}")
+                measurements_logger.info(f"SNRdB={10 * np.log10(SNR_est):.2f},TXPdB={self.tx_power}")
 
             # Correct CFO before transferring samples to demodulation stage
             t = self.t0 + np.arange(1, len(y) + 1) / (self.drate * self.osr)

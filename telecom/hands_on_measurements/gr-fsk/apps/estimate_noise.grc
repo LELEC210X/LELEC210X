@@ -118,7 +118,7 @@ blocks:
     bus_structure: null
     coordinate: [320, 268.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: fsk_noise_estimation_0
   id: fsk_noise_estimation
   parameters:
@@ -190,7 +190,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [696, 260.0]
+    coordinate: [576, 228.0]
     rotation: 0
     state: enabled
 - name: qtgui_sink_x_0
@@ -227,8 +227,6 @@ connections:
 - [dc_blocker_xx_0, '0', low_pass_filter_0, '0']
 - [dc_blocker_xx_0, '0', qtgui_sink_x_0, '0']
 - [limesdr_source_0, '0', dc_blocker_xx_0, '0']
-- [limesdr_source_0, '0', low_pass_filter_0, '0']
-- [limesdr_source_0, '0', qtgui_sink_x_0, '0']
 - [low_pass_filter_0, '0', fsk_noise_estimation_0, '0']
 
 metadata:

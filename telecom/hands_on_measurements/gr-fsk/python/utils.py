@@ -2,16 +2,14 @@ import atexit
 import logging
 import statistics as stats
 from functools import wraps
-from pathlib import Path
 from time import time
 from typing import Any, Callable, List
 
 logging.basicConfig(level=logging.INFO)
 
-filename = Path(__name__).parents[2] / "measurements.txt"
-
 measurements_logger = logging.getLogger("measurements")
-measurements_logger.addHandler(logging.FileHandler(filename=filename))
+measurements_logger.propagate=False
+measurements_logger.addHandler(logging.FileHandler(filename="measurements.txt", mode="w"))
 
 
 def timeit(fun: Callable[..., Any]) -> Callable[..., Any]:
