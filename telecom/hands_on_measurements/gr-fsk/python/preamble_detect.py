@@ -21,6 +21,7 @@
 
 import numpy as np
 from gnuradio import gr
+import pmt 
 
 
 def preamble_detect_energy(y, L, threshold):
@@ -57,12 +58,18 @@ class preamble_detect(gr.basic_block):
         # transparent (i.e., when a preamble is detected)
         self.rem_samples = 0
 
+        #self.message_port_register_out(pmt.intern('messss'))
         gr.basic_block.__init__(
             self,
             name="Preamble detection",
             in_sig=[np.complex64],
             out_sig=[np.complex64],
         )
+        #self.message_port_register_out(pmt.intern('msg_out'))
+        #self.message_port_register_in(pmt.intern('msg_in'))
+
+    def handle_msg(self, msg):
+         self.message_port_pub(pmt.intern('msg_out'), pmt.intern('message received!'))
 
     def forecast(self, noutput_items, ninput_items_required):
         """

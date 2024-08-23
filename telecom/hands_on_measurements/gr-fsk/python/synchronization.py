@@ -20,6 +20,7 @@
 
 import numpy as np
 from gnuradio import gr
+import pmt
 
 from .utils import logging, measurements_logger
 

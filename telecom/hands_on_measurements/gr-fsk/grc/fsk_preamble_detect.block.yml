@@ -47,6 +47,9 @@ inputs:
 outputs:
   - label: Output
     dtype: complex
+#-   domain: message
+#    id: msg_out
+#    optional: true
 
 #  'file_format' specifies the version of the GRC yml format used in the file
 #  and should usually not be changed.
