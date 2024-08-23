@@ -22,6 +22,9 @@ import numpy as np
 from gnuradio import gr
 
 
+measurements_logger = gr.logger("measurements")
+
+
 def cfo_estimation(y, B, R, Fdev):
     """
     Estimate CFO using Moose algorithm, on first samples of preamble
@@ -74,6 +77,7 @@ class synchronization(gr.basic_block):
         gr.basic_block.__init__(
             self, name="Synchronization", in_sig=[np.complex64], out_sig=[np.complex64]
         )
+        self.logger = gr.logger(self.alias())
 
     def forecast(self, noutput_items, ninput_items_required):
         """
@@ -104,7 +108,7 @@ class synchronization(gr.basic_block):
             self.init_sto = sto
             self.power_est = None
             self.rem_samples = (self.packet_len + 1) * 8 * self.osr
-            print(
+            self.logger.info(
                 f"[SYNC] New preamble detected @ {self.nitems_read(0) + sto} (CFO {self.cfo:.2f} Hz, STO {sto})"
             )
 
@@ -119,7 +123,7 @@ class synchronization(gr.basic_block):
                 SNR_est = (
                     self.power_est - self.estimated_noise_power
                 ) / self.estimated_noise_power
-                print(
+                self.logger.info(
                     f"[SYNC] Estimated SNR: {10 * np.log10(SNR_est):.2f} dB ({len(y)} samples)"
                 )
 
@@ -139,5 +143,7 @@ class synchronization(gr.basic_block):
                 self.consume_each(win_size + self.osr - self.init_sto)
             else:
                 self.consume_each(win_size)
+
+        measurements_logger.info("Here are some information from the measurements logger inside sync")
 
             return win_size
