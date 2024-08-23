@@ -56,7 +56,7 @@ handles the buffers inside GNU Radio. On the contrary, the operations that are s
 to external functions. These functions have almost similar prototypes to the corresponding functions of the simulation framework.
 \textbf{You may hence validate your signal processing functions in the simulation framework before inserting them in GNU Radio.}
 
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Remark on writing code that is \textif{fast enough}}
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Remark on writing code that is \textit{fast enough}}
     In the simulation framework, your code did not have to be fast to work.
     \textbf{For the measurements}, however, the code should run in \textit{real-time},
     meaning that, if your code is too slow, the packet will arrive faster
