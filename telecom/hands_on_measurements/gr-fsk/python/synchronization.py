@@ -18,14 +18,10 @@
 # Boston, MA 02110-1301, USA.
 #
 
-import logging
+import .utils import logging, measurements_logger
 
 import numpy as np
 from gnuradio import gr
-
-
-logging.basicConfig(level=logging.INFO)
-measurements_logger = logging.getLogger("measurements")
 
 
 def cfo_estimation(y, B, R, Fdev):
@@ -64,7 +60,7 @@ def sto_estimation(y, B, R, Fdev):
             save_i = i
 
     return np.mod(save_i + 1, R)
-    
+
 
 
 class synchronization(gr.basic_block):
@@ -128,10 +124,9 @@ class synchronization(gr.basic_block):
             self.power_est = None
             self.rem_samples = (self.packet_len + 1) * 8 * self.osr
             self.logger.info(
-                f"[SYNC] New preamble detected @ {self.nitems_read(0) + sto} (CFO {self.cfo:.2f} Hz, STO {sto})"
+                f"new preamble detected @ {self.nitems_read(0) + sto} (CFO {self.cfo:.2f} Hz, STO {sto})"
             )
-
-            measurements_logger.info("Here are some information from the measurements logger inside sync")
+            measurements_logger.info(f"CFO={self.cfo},STO={sto}")
             self.consume_each(sto)  # drop *sto* samples to align the buffer
             return 0  # ... but we do not transmit data to the demodulation stage
         else:
@@ -144,7 +139,10 @@ class synchronization(gr.basic_block):
                     self.power_est - self.estimated_noise_power
                 ) / self.estimated_noise_power
                 self.logger.info(
-                    f"[SYNC] Estimated SNR: {10 * np.log10(SNR_est):.2f} dB ({len(y)} samples)"
+                    f"estimated SNR: {10 * np.log10(SNR_est):.2f} dB ({len(y)} samples)"
+                )
+                measurements_logger.info(
+                    f"SNRdB={10 * np.log10(SNR_est):.2f}"
                 )
 
             # Correct CFO before transferring samples to demodulation stage
@@ -163,7 +161,5 @@ class synchronization(gr.basic_block):
                 self.consume_each(win_size + self.osr - self.init_sto)
             else:
                 self.consume_each(win_size)
-
-            measurements_logger.info("Here are some information from the measurements logger inside sync")
 
             return win_size

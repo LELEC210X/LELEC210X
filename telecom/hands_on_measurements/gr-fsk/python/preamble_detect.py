@@ -73,7 +73,7 @@ class preamble_detect(gr.basic_block):
             noutput_items + self.filter_len, 2 * self.filter_len
         )
 
-    def set_enable(self,enable):
+    def set_enable(self, enable):
         self.enable = enable
 
     def general_work(self, input_items, output_items):
@@ -87,9 +87,9 @@ class preamble_detect(gr.basic_block):
 
             self.rem_samples -= n_out
             return n_out
-        else :
+        else:
             N = len(output_items[0]) - len(output_items[0]) % self.filter_len
-            if self.enable ==1:
+            if self.enable == 1:
                 y = input_items[0][: N + self.filter_len]
                 pos = preamble_detect_energy(y, self.filter_len, self.threshold)
 
@@ -99,23 +99,23 @@ class preamble_detect(gr.basic_block):
                     self.consume_each(N)
                     return 0
                 if (
-                    (pos > N) 
+                    pos > N
                 ):  # in this case, n_out below is < 0. Consume samples and recompute later
                     self.consume_each(N)
                     return 0
-                
+
                 # A window corresponding to the length of a full packet + 1 byte + 1 symbol
                 # is transferred to the output
                 self.rem_samples = 8 * self.osr * (self.packet_len + 1) + self.osr
 
                 n_out = N - pos
-                
+
                 output_items[0][:n_out] = input_items[0][pos:N]
                 self.consume_each(N)
 
                 self.rem_samples -= n_out
                 return n_out
-            
-            else : 
+
+            else:
                 self.consume_each(N)
                 return 0

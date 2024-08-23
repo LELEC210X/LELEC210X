@@ -18,6 +18,7 @@
 # Boston, MA 02110-1301, USA.
 #
 
+import .utils import logging, measurements_logger
 
 import time
 
@@ -38,6 +39,7 @@ class noise_estimation(gr.basic_block):
         gr.basic_block.__init__(
             self, name="Noise Estimation", in_sig=[np.complex64], out_sig=None
         )
+        self.logger = logging.getLogger(self.alias())
 
     def forecast(self, noutput_items, ninput_items_required):
         ninput_items_required[0] = self.n_samples
@@ -47,8 +49,8 @@ class noise_estimation(gr.basic_block):
         if time.time() - self.last_print >= 1.0:
             dc_offset = np.mean(y)
             self.noise_est = np.mean(np.abs(y - dc_offset) ** 2)
-            print(
-                f"[NOISE] Estimated noise power: {self.noise_est} ({10 * np.log10(self.noise_est)}dB, {len(y)} samples, DC offset is {dc_offset})"
+            self.logger.info(
+                f"estimated noise power: {self.noise_est} ({10 * np.log10(self.noise_est)}dB, {len(y)} samples, DC offset is {dc_offset})"
             )
             self.last_print = time.time()
 

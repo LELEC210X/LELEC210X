@@ -33,7 +33,7 @@ def demodulate(y, B, R, Fdev):
 
     # TO DO: generate the reference waveforms used for the correlation
     # hint: look at what is done in modulate() in chain.py
-    f =Fdev / B
+    f = Fdev / B
     ph = 2 * np.pi * np.arange(R) / R * f
     exp_f1 = np.conj(np.exp(+1j * ph))
     exp_f2 = np.conj(np.exp(-1j * ph))
@@ -51,6 +51,7 @@ def demodulate(y, B, R, Fdev):
     bits_hat[s_hat < 0] = 0
 
     return bits_hat
+
 
 class demodulation(gr.basic_block):
     """

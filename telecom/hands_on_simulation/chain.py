@@ -36,8 +36,8 @@ class Chain:
 
     ## Lowpass filter parameters
     numtaps = 100
-    cutoff =  freq_dev + BIT_RATE
-    #cutoff = BIT_RATE * osr_rx / 2.0001  # or 2*BIT_RATE,...
+    cutoff = freq_dev + BIT_RATE
+    # cutoff = BIT_RATE * osr_rx / 2.0001  # or 2*BIT_RATE,...
 
     ## Tx methods
 
@@ -240,7 +240,6 @@ class TeachingChain(BasicChain):
         """
         Estimates CFO using Moose algorithm, averaged on several estimations.
         """
-
         N = 4
         R = self.osr_rx
 
