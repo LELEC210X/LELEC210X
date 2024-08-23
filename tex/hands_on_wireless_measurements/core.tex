@@ -56,6 +56,21 @@ handles the buffers inside GNU Radio. On the contrary, the operations that are s
 to external functions. These functions have almost similar prototypes to the corresponding functions of the simulation framework.
 \textbf{You may hence validate your signal processing functions in the simulation framework before inserting them in GNU Radio.}
 
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Remark on writing code that is \textit{fast enough}}
+    In the simulation framework, your code did not have to be fast to work.
+    \textbf{For the measurements}, however, the code should run in \textit{real-time},
+    meaning that, if your code is too slow, the packet will arrive faster
+    than they are decoded, eventually leading to errors.
+
+    If your code did work in the simulation tests, but not in GNU Radio, please
+    be careful to avoid too many for-loops, and prefer using array operations
+    directly.
+
+    You can use the \texttt{timeit} Python decorator from
+    \texttt{gr-fsk/python/utils} to measure how much time each function takes,
+    and identify the ones that are important to optimize.
+\end{bclogo}
+
 Nonetheless, it is important that you gain some understanding of how custom GNU Radio blocks are written.
 Please take some time to dive into \texttt{demodulation.py}. The functions \texttt{\_\_init\_\_} (initialization of the block with the specified parameters),
 \texttt{forecast} (indicates to GNU Radio how many input samples are needed to provide $N$ output samples) and \texttt{general\_work} (actual function that performs the processing) are common to all GNU Radio blocks.
