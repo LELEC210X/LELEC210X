@@ -56,6 +56,18 @@ blocks:
     coordinate: [226, 103]
     rotation: 0
     state: true
+- name: fdev
+  id: variable
+  parameters:
+    comment: ''
+    value: data_rate/2
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 52.0]
+    rotation: 0
+    state: true
 - name: rx_gain
   id: variable_qtgui_range
   parameters:
@@ -113,6 +125,7 @@ blocks:
     analog_bandw_ch1: ''
     calibr_bandw_ch0: ''
     calibr_bandw_ch1: ''
+    ch_align: 'False'
     channel_mode: '0'
     comment: ''
     dacVal: '180'
@@ -145,7 +158,7 @@ blocks:
     alias: ''
     beta: '6.76'
     comment: ''
-    cutoff_freq: data_rate
+    cutoff_freq: data_rate+fdev
     decim: '1'
     gain: '1'
     interp: '1'

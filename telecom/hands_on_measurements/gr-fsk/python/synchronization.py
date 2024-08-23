@@ -24,9 +24,19 @@ from gnuradio import gr
 
 def cfo_estimation(y, B, R, Fdev):
     """
-    Estimate CFO using Moose algorithm, on first samples of preamble
+    Estimates CFO using Moose algorithm, on first samples of preamble.
     """
-    return 0.0  # TODO
+    # TO DO: extract 2 blocks of size N*R at the start of y
+    N = 2
+    b1, b2 = y[0 : N * R], y[N * R : 2 * N * R]
+
+    # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
+    r = np.sum(b2 * np.conj(b1)) / (N * R)
+    cfo_est = np.angle(r) / (2 * np.pi * N * R) * (B* R)
+
+    return cfo_est
+
+    bypass_sto_estimation = False
 
 
 def sto_estimation(y, B, R, Fdev):
@@ -48,6 +58,7 @@ def sto_estimation(y, B, R, Fdev):
             save_i = i
 
     return np.mod(save_i + 1, R)
+    
 
 
 class synchronization(gr.basic_block):
@@ -55,7 +66,7 @@ class synchronization(gr.basic_block):
     docstring for block synchronization
     """
 
-    def __init__(self, drate, fdev, fsamp, hdr_len, packet_len, estimated_noise_power):
+    def __init__(self, drate, fdev, fsamp, hdr_len, packet_len, estimated_noise_power,tx_power):
         self.drate = drate
         self.fdev = fdev
         self.fsamp = fsamp
@@ -63,6 +74,7 @@ class synchronization(gr.basic_block):
         self.hdr_len = hdr_len
         self.packet_len = packet_len  # in bytes
         self.estimated_noise_power = estimated_noise_power
+        self.tx_power = tx_power
 
         # Remaining number of samples in the current packet
         self.rem_samples = 0
@@ -70,10 +82,14 @@ class synchronization(gr.basic_block):
         self.cfo = 0.0
         self.t0 = 0.0
         self.power_est = None
+        self.power_est = None
 
         gr.basic_block.__init__(
             self, name="Synchronization", in_sig=[np.complex64], out_sig=[np.complex64]
         )
+
+    def set_tx_power(self,tx_power):
+        self.tx_power = tx_power
 
     def forecast(self, noutput_items, ninput_items_required):
         """
@@ -105,8 +121,8 @@ class synchronization(gr.basic_block):
             self.power_est = None
             self.rem_samples = (self.packet_len + 1) * 8 * self.osr
             print(
-                "[SYNC] New preamble detected @ {} (CFO {:.2f} Hz, STO {})".format(
-                    self.nitems_read(0) + sto, self.cfo, sto
+                "[SYNC] New preamble detected @ {} (CFO {:.2f} Hz, STO {}, TXP {} dBm)".format(
+                    self.nitems_read(0) + sto, self.cfo, sto,self.tx_power
                 )
             )
 

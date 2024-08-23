@@ -32,6 +32,23 @@ options:
     state: enabled
 
 blocks:
+- name: Enable_chain
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: ''
+    label: ''
+    'true': '1'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1360, 28.0]
+    rotation: 0
+    state: true
 - name: carrier_freq
   id: variable
   parameters:
@@ -72,7 +89,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.1'
+    value: '0.002'
   states:
     bus_sink: false
     bus_source: false
@@ -84,7 +101,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 3e-06
+    value: 5e-07
   states:
     bus_sink: false
     bus_source: false
@@ -96,7 +113,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: data_rate/4
+    value: data_rate/2
   states:
     bus_sink: false
     bus_source: false
@@ -185,6 +202,27 @@ blocks:
     coordinate: [202, 15]
     rotation: 0
     state: enabled
+- name: tx_power
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: Qt.Horizontal
+    rangeType: int
+    start: '-30'
+    step: '1'
+    stop: '30'
+    value: '10'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1120, 20.0]
+    rotation: 0
+    state: enabled
 - name: fsk_demodulation_0
   id: fsk_demodulation
   parameters:
@@ -231,6 +269,7 @@ blocks:
     alias: ''
     comment: ''
     drate: data_rate
+    enable: Enable_chain
     fdev: fdev
     fsamp: samp_rate
     maxoutbuf: '0'
@@ -258,6 +297,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     packet_len: packet_len
+    tx_power: tx_power
   states:
     bus_sink: false
     bus_source: false
@@ -275,6 +315,7 @@ blocks:
     analog_bandw_ch1: 1.5e6
     calibr_bandw_ch0: ''
     calibr_bandw_ch1: 2.5e6
+    ch_align: 'False'
     channel_mode: '0'
     comment: ''
     dacVal: '180'
@@ -307,7 +348,7 @@ blocks:
     alias: ''
     beta: '6.76'
     comment: ''
-    cutoff_freq: data_rate
+    cutoff_freq: data_rate+fdev
     decim: '1'
     gain: '1'
     interp: '1'

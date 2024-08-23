@@ -26,10 +26,31 @@ def demodulate(y, B, R, Fdev):
     """
     Non-coherent demodulator.
     """
-    nb_syms = int(len(y) / R)
-    bits_hat = np.zeros(nb_syms, dtype=int)
-    return bits_hat  # TODO
+    nb_syms = len(y) // R  # Number of CPFSK symbols in y
 
+    # Group symbols together, in a matrix. Each row contains the R samples over one symbol period
+    y = np.resize(y, (nb_syms, R))
+
+    # TO DO: generate the reference waveforms used for the correlation
+    # hint: look at what is done in modulate() in chain.py
+    f =Fdev / B
+    ph = 2 * np.pi * np.arange(R) / R * f
+    exp_f1 = np.conj(np.exp(+1j * ph))
+    exp_f2 = np.conj(np.exp(-1j * ph))
+
+    # TO DO: compute the correlations with the two reference waveforms (r0 and r1)
+    r1 = np.abs(np.sum(y * exp_f1, 1) / R)
+    r2 = np.abs(np.sum(y * exp_f2, 1) / R)
+
+    # TO DO: performs the decision based on r0 and r1
+    r = r1 - r2
+
+    s_hat = np.sign(r)
+
+    bits_hat = s_hat.astype(int)
+    bits_hat[s_hat < 0] = 0
+
+    return bits_hat
 
 class demodulation(gr.basic_block):
     """

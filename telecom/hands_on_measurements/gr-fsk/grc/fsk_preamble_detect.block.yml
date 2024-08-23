@@ -4,7 +4,9 @@ category: "[FSK]"
 
 templates:
   imports: import fsk
-  make: fsk.preamble_detect(${drate}, ${fdev}, ${fsamp}, ${packet_len}, ${threshold})
+  make: fsk.preamble_detect(${drate}, ${fdev}, ${fsamp}, ${packet_len}, ${threshold}, ${enable})
+  callbacks:
+  - set_enable(${enable})
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
@@ -27,6 +29,9 @@ parameters:
   - id: threshold
     label: Detection Threshold
     dtype: float
+  - id: enable
+    label: Enable detection
+    dtype: int
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
