@@ -18,12 +18,12 @@
 # Boston, MA 02110-1301, USA.
 #
 
-import .utils import logging, measurements_logger
-
 import time
 
 import numpy as np
 from gnuradio import gr
+
+from .utils import logging
 
 
 class noise_estimation(gr.basic_block):

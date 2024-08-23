@@ -18,10 +18,10 @@
 # Boston, MA 02110-1301, USA.
 #
 
-import .utils import logging, measurements_logger
-
 import numpy as np
 from gnuradio import gr
+
+from .utils import logging, measurements_logger
 
 
 def cfo_estimation(y, B, R, Fdev):
@@ -34,7 +34,7 @@ def cfo_estimation(y, B, R, Fdev):
 
     # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
     r = np.sum(b2 * np.conj(b1)) / (N * R)
-    cfo_est = np.angle(r) / (2 * np.pi * N * R) * (B* R)
+    cfo_est = np.angle(r) / (2 * np.pi * N * R) * (B * R)
 
     return cfo_est
 
@@ -62,13 +62,14 @@ def sto_estimation(y, B, R, Fdev):
     return np.mod(save_i + 1, R)
 
 
-
 class synchronization(gr.basic_block):
     """
     docstring for block synchronization
     """
 
-    def __init__(self, drate, fdev, fsamp, hdr_len, packet_len, estimated_noise_power,tx_power):
+    def __init__(
+        self, drate, fdev, fsamp, hdr_len, packet_len, estimated_noise_power, tx_power
+    ):
         self.drate = drate
         self.fdev = fdev
         self.fsamp = fsamp
@@ -91,7 +92,7 @@ class synchronization(gr.basic_block):
         )
         self.logger = logging.getLogger(self.alias())
 
-    def set_tx_power(self,tx_power):
+    def set_tx_power(self, tx_power):
         self.tx_power = tx_power
 
     def forecast(self, noutput_items, ninput_items_required):
@@ -141,9 +142,7 @@ class synchronization(gr.basic_block):
                 self.logger.info(
                     f"estimated SNR: {10 * np.log10(SNR_est):.2f} dB ({len(y)} samples)"
                 )
-                measurements_logger.info(
-                    f"SNRdB={10 * np.log10(SNR_est):.2f}"
-                )
+                measurements_logger.info(f"SNRdB={10 * np.log10(SNR_est):.2f}")
 
             # Correct CFO before transferring samples to demodulation stage
             t = self.t0 + np.arange(1, len(y) + 1) / (self.drate * self.osr)

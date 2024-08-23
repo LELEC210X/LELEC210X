@@ -18,10 +18,10 @@
 # Boston, MA 02110-1301, USA.
 #
 
-import .utils import logging, measurements_logger
-
 import numpy as np
 from gnuradio import gr
+
+from .utils import logging, measurements_logger
 
 
 def reflect_data(x, width):
