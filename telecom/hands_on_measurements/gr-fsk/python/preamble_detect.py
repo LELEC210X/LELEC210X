@@ -64,9 +64,6 @@ class preamble_detect(gr.basic_block):
             in_sig=[np.complex64],
             out_sig=[np.complex64],
         )
-        self.message_port_register_out(pmt.intern('NoisePow'))
-
-
 
     def forecast(self, noutput_items, ninput_items_required):
         """
@@ -118,9 +115,6 @@ class preamble_detect(gr.basic_block):
                 self.consume_each(N)
 
                 self.rem_samples -= n_out
-
-                PMT_msg = pmt.from_double(1.215)
-                self.message_port_pub(pmt.intern('NoisePow'), PMT_msg)
 
                 return n_out
 

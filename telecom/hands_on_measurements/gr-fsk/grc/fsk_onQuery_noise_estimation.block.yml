@@ -4,7 +4,7 @@ category: "[FSK]"
 
 templates:
   imports: import fsk
-  make: fsk.onQuery_noise_estimation(${n_samples},${query})
+  make: fsk.onQuery_noise_estimation(${n_samples},${n_est},${query})
   callbacks:
   - query_estimation(${query})
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
@@ -15,6 +15,9 @@ templates:
 parameters:
   - id: n_samples
     label: Samples Number
+    dtype: int
+  - id: n_est
+    label: Number of consecutive estimation
     dtype: int
   - id: query
     label: Query
@@ -32,6 +35,9 @@ inputs:
     dtype: complex
 
 outputs:
+  - domain: message
+    label: NoisePow
+    id: noisePow
 
 #  'file_format' specifies the version of the GRC yml format used in the file
 #  and should usually not be changed.

@@ -4,7 +4,7 @@ category: "[FSK]"
 
 templates:
   imports: import fsk
-  make: fsk.synchronization(${drate}, ${fdev}, ${fsamp}, ${hdr_len}, ${packet_len}, ${estimated_noise_power}, ${tx_power})
+  make: fsk.synchronization(${drate}, ${fdev}, ${fsamp}, ${hdr_len}, ${packet_len}, ${tx_power})
   callbacks:
   - set_tx_power(${tx_power})
 
@@ -29,12 +29,12 @@ parameters:
   - id: packet_len
     label: Packet Length (bytes)
     dtype: int
-  - id: estimated_noise_power
-    label: Estimated Noise Power
-    dtype: float
   - id: tx_power
     label: TX power used in S2LP transceiver
     dtype: float
+#  - id: estimated_noise_power
+#    label: Estimated Noise Power
+#    dtype: float
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:

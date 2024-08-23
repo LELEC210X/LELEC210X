@@ -22,8 +22,10 @@ import time
 
 import numpy as np
 from gnuradio import gr
+import pmt
 
 from .utils import logging
+
 
 
 class onQuery_noise_estimation(gr.basic_block):
@@ -32,10 +34,16 @@ class onQuery_noise_estimation(gr.basic_block):
     """
 
     def query_estimation(self,query):
-        self.do_a_query = query
+        if query == 1:
+            self.est_counter = 1
+            self.mean_noise_est = 0
+            self.do_a_query = 1
 
-    def __init__(self, n_samples, query):
+    def __init__(self, n_samples, n_est, query):
         self.n_samples = n_samples
+        self.n_est = n_est
+        self.mean_noise_est = 0
+        self.est_counter = 1
         self.noise_est = None
         self.do_a_query = 0
         self.last_print = 0.0
@@ -44,22 +52,37 @@ class onQuery_noise_estimation(gr.basic_block):
             self, name="Noise Estimation", in_sig=[np.complex64], out_sig=None
         )
         self.logger = logging.getLogger("noise")
+        self.message_port_register_out(pmt.intern('NoisePow'))
 
     def forecast(self, noutput_items, ninput_items_required):
         ninput_items_required[0] = self.n_samples 
 
     def general_work(self, input_items, output_items):
-        if (not self.do_a_query) : 
+        if (self.do_a_query == 0) : 
             self.consume_each(len(input_items[0]))
         else : 
             y = input_items[0]
-            self.do_a_query = 0
             dc_offset = np.mean(y)
             self.noise_est = np.mean(np.abs(y - dc_offset) ** 2)
             self.consume_each(len(y))
-
+            self.mean_noise_est =  self.mean_noise_est + self.noise_est
             self.logger.info(
                 f"estimated noise power: {self.noise_est:.2e} ({10 * np.log10(self.noise_est):.2f}dB, Noise std : {np.sqrt(self.noise_est):.2e},  DC offset: {np.abs(dc_offset):.2e}, calc. on {len(y)} samples)"
             )
+
+            if (self.est_counter == self.n_est) : 
+                mean_noisP = self.mean_noise_est/self.est_counter
+                PMT_msg = pmt.from_double(mean_noisP)
+                self.message_port_pub(pmt.intern('NoisePow'), PMT_msg)
+
+                self.logger.info(
+                    f"===== > Final estimated noise power: {mean_noisP:.2e} ({10 * np.log10(mean_noisP):.2f}dB, Noise std : {np.sqrt(mean_noisP):.2e}"
+                )
+                self.est_counter = 1
+                self.mean_noise_est = 0
+                self.do_a_query = 0
+
+            else : 
+                self.est_counter = self.est_counter +1
 
         return 0

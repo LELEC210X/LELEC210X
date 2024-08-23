@@ -69,7 +69,7 @@ class synchronization(gr.basic_block):
     """
 
     def __init__(
-        self, drate, fdev, fsamp, hdr_len, packet_len, estimated_noise_power, tx_power
+        self, drate, fdev, fsamp, hdr_len, packet_len, tx_power
     ):
         self.drate = drate
         self.fdev = fdev
@@ -77,7 +77,7 @@ class synchronization(gr.basic_block):
         self.osr = int(fsamp / drate)
         self.hdr_len = hdr_len
         self.packet_len = packet_len  # in bytes
-        self.estimated_noise_power = estimated_noise_power
+        self.estimated_noise_power = 0
         self.tx_power = tx_power
 
         # Remaining number of samples in the current packet
@@ -87,7 +87,7 @@ class synchronization(gr.basic_block):
         self.t0 = 0.0
         self.power_est = None
         self.power_est = None
-        self.noise_est_message = 0
+        self.estimated_noise_power = 0
 
         gr.basic_block.__init__(
             self, name="Synchronization", in_sig=[np.complex64], out_sig=[np.complex64]
@@ -97,10 +97,7 @@ class synchronization(gr.basic_block):
         self.set_msg_handler(pmt.intern('NoisePow'), self.handle_msg)
 
     def handle_msg(self, msg):
-        self.noise_est_message = pmt.to_double(msg)
-        self.logger.info(
-                    f"=================================== Message received with : {self.noise_est_message}"
-                )
+        self.estimated_noise_power = pmt.to_double(msg)
 
 
     def set_tx_power(self, tx_power):

@@ -97,18 +97,6 @@ blocks:
     coordinate: [799, 21]
     rotation: 0
     state: true
-- name: estimated_noise_power
-  id: variable
-  parameters:
-    comment: ''
-    value: 5e-07
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [784, 95]
-    rotation: 0
-    state: true
 - name: fdev
   id: variable
   parameters:
@@ -147,7 +135,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1408, 180.0]
+    coordinate: [1104, 508.0]
     rotation: 0
     state: true
 - name: packet_len
@@ -240,29 +228,6 @@ blocks:
     coordinate: [1120, 20.0]
     rotation: 0
     state: enabled
-- name: blocks_selector_0
-  id: blocks_selector
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    enabled: 'True'
-    input_index: '0'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_inputs: '1'
-    num_outputs: '1'
-    output_index: '0'
-    showports: 'False'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [904, 484.0]
-    rotation: 0
-    state: true
 - name: dc_blocker_xx_0
   id: dc_blocker_xx
   parameters:
@@ -298,7 +263,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [607, 347]
+    coordinate: [600, 348.0]
     rotation: 0
     state: enabled
 - name: fsk_onQuery_noise_estimation_0
@@ -307,13 +272,16 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    n_est: '10'
     n_samples: '1024'
     query: noiseQuery
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [200, 476.0]
+    coordinate: [480, 628.0]
     rotation: 0
     state: true
 - name: fsk_packet_parser_0
@@ -363,7 +331,6 @@ blocks:
     alias: ''
     comment: ''
     drate: data_rate
-    estimated_noise_power: estimated_noise_power
     fdev: fdev
     fsamp: samp_rate
     hdr_len: hdr_len
@@ -490,14 +457,14 @@ blocks:
 connections:
 - [dc_blocker_xx_0, '0', fsk_onQuery_noise_estimation_0, '0']
 - [dc_blocker_xx_0, '0', low_pass_filter_0, '0']
+- [dc_blocker_xx_0, '0', qtgui_sink_x_0, '0']
 - [fsk_demodulation_0, '0', fsk_packet_parser_0, '0']
+- [fsk_onQuery_noise_estimation_0, NoisePow, fsk_synchronization_0, NoisePow]
 - [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
 - [fsk_preamble_detect_0, '0', fsk_synchronization_0, '0']
-- [fsk_preamble_detect_0, NoisePow, fsk_synchronization_0, NoisePow]
 - [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
 - [limesdr_source_0, '0', dc_blocker_xx_0, '0']
 - [low_pass_filter_0, '0', fsk_preamble_detect_0, '0']
-- [low_pass_filter_0, '0', qtgui_sink_x_0, '0']
 
 metadata:
   file_format: 1
