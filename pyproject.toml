@@ -2,13 +2,6 @@
 build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core"]
 
-[tool.black]
-target-version = ["py38"]
-
-[tool.isort]
-profile = "black"
-py_version = 38
-
 [tool.poetry]
 authors = ["LELEC210X teaching assistants"]
 description = ""
@@ -77,6 +70,10 @@ split-audio = "classification.utils.split_audio:main"
 
 [tool.ruff]
 extend-exclude = ["**/doxygen/**/*.py"]
+line-length = 88
+target-version = "py38"
+
+[tool.ruff.lint]
 extend-ignore = [
   "D100",
   "D101",
@@ -93,5 +90,3 @@ extend-ignore = [
 ]
 extend-select = ["B", "C90", "D", "I", "N", "RUF", "UP", "T"]
 isort = {known-first-party = ["auth", "classification", "common", "leaderboard"]}
-line-length = 88
-target-version = "py38"

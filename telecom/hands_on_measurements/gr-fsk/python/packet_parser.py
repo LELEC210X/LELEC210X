@@ -18,14 +18,10 @@
 # Boston, MA 02110-1301, USA.
 #
 
-import logging
-
 import numpy as np
 from gnuradio import gr
 
-
-logging.basicConfig(level=logging.INFO)
-measurements_logger = logging.getLogger("measurements")
+from .utils import logging, measurements_logger
 
 
 def reflect_data(x, width):
@@ -101,7 +97,7 @@ class packet_parser(gr.basic_block):
             in_sig=[np.uint8],
             out_sig=[(np.uint8, self.payload_len)],
         )
-        self.logger = logging.getLogger(self.alias())
+        self.logger = logging.getLogger("parser")
 
     def forecast(self, noutput_items, ninput_items_required):
         ninput_items_required[0] = self.packet_len + 1  # in bytes
@@ -141,19 +137,19 @@ class packet_parser(gr.basic_block):
         self.nb_packet += 1
         is_correct = all(crc == crc_verif)
         measurements_logger.info(
-            "Here are some information from the measurements logger inside parser"
+            f"packet_number={self.nb_packet},correct={is_correct},payload={payload}"
         )
         if is_correct:
-            self.logger.info("[MAC] Packet demodulated: {payload}, {crc}")
+            self.logger.info(f"packet successfully demodulated: {payload} (CRC: {crc})")
             output_items[0][: self.payload_len] = payload
             self.logger.info(
-                f"--- {self.nb_packet} packets received with {self.nb_error} error(s) ---"
+                f"{self.nb_packet} packets received with {self.nb_error} error(s)"
             )
             return 1
         else:
-            self.logger.error("[MAC] Error in CRC, packet dropped: {payload}, {crc}")
+            self.logger.error(f"incorrect CRC, packet dropped: {payload} (CRC: {crc})")
             self.nb_error += 1
             self.logger.info(
-                f"--- {self.nb_packet} packets received with {self.nb_error} error(s) ---"
+                f"{self.nb_packet} packets received with {self.nb_error} error(s)"
             )
             return 0
