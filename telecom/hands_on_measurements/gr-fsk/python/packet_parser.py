@@ -21,7 +21,6 @@
 import numpy as np
 from gnuradio import gr
 
-
 measurements_logger = gr.logger("measurements")
 
 
@@ -137,7 +136,9 @@ class packet_parser(gr.basic_block):
         )
         self.nb_packet += 1
         is_correct = all(crc == crc_verif)
-        measurements_logger.info("Here are some information from the measurements logger inside parser")
+        measurements_logger.info(
+            "Here are some information from the measurements logger inside parser"
+        )
         if is_correct:
             self.logger.info("[MAC] Packet demodulated: ", payload, crc)
             output_items[0][: self.payload_len] = payload
