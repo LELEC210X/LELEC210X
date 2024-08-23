@@ -11,102 +11,31 @@ import numpy as np
 import pandas as pd
 
 if __name__ == "__main__":
-    expected_payload = np.arange(100, dtype=int)
+    expected_payload = np.arange(100, dtype=np.uint8)
+    num_bits = len(expected_payload) * 8
 
     data = defaultdict(list)
     with open(sys.argv[1]) as f:
-        lines = f.readlines()
-
-        for i in range(0, len(lines), 3):
-            cfo, sto = lines[i].split(",")
-            data["cfo"].append(float(cfo.split("=")[1]))
-            data["sto"].append(int(sto.split("=")[1]))
-            
-            snr, txp = lines[i+1].split(",")
-            data["snr"].append(float(snr.split("=")[1]))
-            data["txp"].append(int(txp.split("=")[1]))
-
-            *_, payload = lines[i+2].split(",")
-            print("Payload", payload)
-            payload = np.fromstring(payload.split("=")[1], dtype=int)
-            per = 1 - np.mean(expected_payload ^ np.array(payload))
-            data["per"].append(per)
+        for line in f.read().splitlines():
+            if line.startswith("CFO"):
+                cfo, sto = line.split(",")
+                data["cfo"].append(float(cfo.split("=")[1]))
+                data["sto"].append(int(sto.split("=")[1]))
+            elif line.startswith("SNR"):
+                snr, txp = line.split(",")
+                data["snr"].append(float(snr.split("=")[1]))
+                data["txp"].append(int(txp.split("=")[1]))
+            elif line.startswith("packet"):
+                *_, payload = line.split(",", maxsplit=2)
+                payload = list(map(int, payload.split("=")[1][1:-1].split(",")))
+                ber = np.unpackbits(expected_payload ^ np.array(payload, dtype=np.uint8)).sum() / num_bits
+                invalid = 1 if ber > 0 else 0
+                data["ber"].append(ber)
+                data["invalid"].append(invalid)
 
         df = pd.DataFrame.from_dict(data)
 
         print(df)
 
-    # TODO: handle PER and change [SYNC] line to [DATA] (with resetted PER count)
-
-    fig = df.plot(x="snr").hist(column="cfo")
     fig = df.groupby("txp").hist(column="cfo")
     plt.show()
-
-
-"""
-import sys
-
-import matplotlib.pyplot as plt
-import numpy as np
-
-filename = str(sys.argv[1])
-
-SNR_list = []
-packet_received_list = []
-packet_error_list = []
-CFO_list = []
-
-static_CFO_corr = 6000
-
-with open(filename, encoding="ISO-8859-1") as openfileobject:
-    for line in openfileobject:
-        # SYNCHRONIZATION MESSAGE
-        if line[0:6] == "[SYNC]":
-            # print(line)
-            if line[0:21] == "[SYNC] Estimated SNR:":  # recover estimated SNR
-                try:
-                    SNR = float(line[22:28])
-                except:
-                    SNR = float(line[22:26])
-                # print(SNR)
-                SNR_list.append(SNR)
-
-            elif line[0:28] == "[SYNC] New preamble detected":  # recover estimated CFO
-                possibility_prev = ""
-                for possibility in line.split():
-                    try:
-                        number = float(possibility.replace(",", "."))
-                        if not (
-                            possibility_prev == "@"
-                        ):  # since several numbers in the same line, make sure extract CFO
-                            CFO_list.append(number)
-                            # print(number)
-                    except ValueError:
-                        pass
-                    possibility_prev = possibility
-
-        # PER MESSAGE
-        elif line[0:4] == "--- ":
-            # print(line)
-            list_int = [int(s) for s in line.split() if s.isdigit()]
-            packet_received_list.append(list_int[0])
-            packet_error_list.append(list_int[1])
-            # PER = list_int[1]/list_int[0]
-            # print(PER)
-            # PER_list.append(PER)
-
-
-CFO_list = np.array(CFO_list) + static_CFO_corr
-
-SNR_mean = np.mean(SNR_list)
-SNR_std = np.std(SNR_list)
-
-print("SNR mean", SNR_mean)
-print("SNR std", SNR_std)
-print("Packets received", packet_received_list[-1])
-print("Packet errors", packet_error_list[-1])
-
-
-plt.figure()
-plt.hist(CFO_list, 50)
-"""
