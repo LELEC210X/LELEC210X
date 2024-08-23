@@ -128,6 +128,7 @@ class synchronization(gr.basic_block):
                 f"[SYNC] New preamble detected @ {self.nitems_read(0) + sto} (CFO {self.cfo:.2f} Hz, STO {sto})"
             )
 
+            measurements_logger.info("Here are some information from the measurements logger inside sync")
             self.consume_each(sto)  # drop *sto* samples to align the buffer
             return 0  # ... but we do not transmit data to the demodulation stage
         else:
@@ -160,6 +161,6 @@ class synchronization(gr.basic_block):
             else:
                 self.consume_each(win_size)
 
-        measurements_logger.info("Here are some information from the measurements logger inside sync")
+            measurements_logger.info("Here are some information from the measurements logger inside sync")
 
             return win_size
