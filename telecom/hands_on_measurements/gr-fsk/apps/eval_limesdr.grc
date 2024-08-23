@@ -133,6 +133,23 @@ blocks:
     coordinate: [500, 17]
     rotation: 0
     state: true
+- name: noiseQuery
+  id: variable_qtgui_push_button
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Noise estimation query
+    pressed: '1'
+    released: '0'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1408, 180.0]
+    rotation: 0
+    state: true
 - name: packet_len
   id: variable
   parameters:
@@ -223,6 +240,29 @@ blocks:
     coordinate: [1120, 20.0]
     rotation: 0
     state: enabled
+- name: blocks_selector_0
+  id: blocks_selector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    enabled: 'True'
+    input_index: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '1'
+    num_outputs: '1'
+    output_index: '0'
+    showports: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [904, 484.0]
+    rotation: 0
+    state: true
 - name: dc_blocker_xx_0
   id: dc_blocker_xx
   parameters:
@@ -261,6 +301,21 @@ blocks:
     coordinate: [607, 347]
     rotation: 0
     state: enabled
+- name: fsk_onQuery_noise_estimation_0
+  id: fsk_onQuery_noise_estimation
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    n_samples: '1024'
+    query: noiseQuery
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 476.0]
+    rotation: 0
+    state: true
 - name: fsk_packet_parser_0
   id: fsk_packet_parser
   parameters:
@@ -320,7 +375,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [896, 184]
+    coordinate: [1040, 172.0]
     rotation: 0
     state: enabled
 - name: limesdr_source_0
@@ -433,10 +488,12 @@ blocks:
     state: enabled
 
 connections:
+- [dc_blocker_xx_0, '0', fsk_onQuery_noise_estimation_0, '0']
 - [dc_blocker_xx_0, '0', low_pass_filter_0, '0']
 - [fsk_demodulation_0, '0', fsk_packet_parser_0, '0']
 - [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
 - [fsk_preamble_detect_0, '0', fsk_synchronization_0, '0']
+- [fsk_preamble_detect_0, NoisePow, fsk_synchronization_0, NoisePow]
 - [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
 - [limesdr_source_0, '0', dc_blocker_xx_0, '0']
 - [low_pass_filter_0, '0', fsk_preamble_detect_0, '0']

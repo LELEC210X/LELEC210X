@@ -58,18 +58,15 @@ class preamble_detect(gr.basic_block):
         # transparent (i.e., when a preamble is detected)
         self.rem_samples = 0
 
-        #self.message_port_register_out(pmt.intern('messss'))
         gr.basic_block.__init__(
             self,
             name="Preamble detection",
             in_sig=[np.complex64],
             out_sig=[np.complex64],
         )
-        #self.message_port_register_out(pmt.intern('msg_out'))
-        #self.message_port_register_in(pmt.intern('msg_in'))
+        self.message_port_register_out(pmt.intern('NoisePow'))
 
-    def handle_msg(self, msg):
-         self.message_port_pub(pmt.intern('msg_out'), pmt.intern('message received!'))
+
 
     def forecast(self, noutput_items, ninput_items_required):
         """
@@ -121,6 +118,10 @@ class preamble_detect(gr.basic_block):
                 self.consume_each(N)
 
                 self.rem_samples -= n_out
+
+                PMT_msg = pmt.from_double(1.215)
+                self.message_port_pub(pmt.intern('NoisePow'), PMT_msg)
+
                 return n_out
 
             else:

@@ -87,11 +87,21 @@ class synchronization(gr.basic_block):
         self.t0 = 0.0
         self.power_est = None
         self.power_est = None
+        self.noise_est_message = 0
 
         gr.basic_block.__init__(
             self, name="Synchronization", in_sig=[np.complex64], out_sig=[np.complex64]
         )
         self.logger = logging.getLogger("sync")
+        self.message_port_register_in(pmt.intern('NoisePow'))
+        self.set_msg_handler(pmt.intern('NoisePow'), self.handle_msg)
+
+    def handle_msg(self, msg):
+        self.noise_est_message = pmt.to_double(msg)
+        self.logger.info(
+                    f"=================================== Message received with : {self.noise_est_message}"
+                )
+
 
     def set_tx_power(self, tx_power):
         self.tx_power = tx_power

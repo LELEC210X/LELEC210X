@@ -46,6 +46,9 @@ parameters:
 inputs:
   - label: Input
     dtype: complex
+  - domain: message
+    label: NoisePow
+    id: noisePow
 
 outputs:
   - label: Output
