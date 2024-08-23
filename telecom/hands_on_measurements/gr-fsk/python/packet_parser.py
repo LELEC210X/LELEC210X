@@ -18,11 +18,14 @@
 # Boston, MA 02110-1301, USA.
 #
 
+import logging
+
 import numpy as np
 from gnuradio import gr
 
-measurements_logger = gr.logger("measurements")
-measurements_logger.setLevel("INFO")
+
+logging.basicConfig(level=logging.INFO)
+measurements_logger = logging.getLogger("measurements")
 
 
 def reflect_data(x, width):
@@ -98,8 +101,7 @@ class packet_parser(gr.basic_block):
             in_sig=[np.uint8],
             out_sig=[(np.uint8, self.payload_len)],
         )
-        self.logger = gr.logger(self.alias())
-        self.logger.setLevel("INFO")
+        self.logger = logging.getLogger(self.alias())
 
     def forecast(self, noutput_items, ninput_items_required):
         ninput_items_required[0] = self.packet_len + 1  # in bytes

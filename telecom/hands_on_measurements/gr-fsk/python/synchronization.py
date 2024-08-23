@@ -18,12 +18,14 @@
 # Boston, MA 02110-1301, USA.
 #
 
+import logging
+
 import numpy as np
 from gnuradio import gr
 
 
-measurements_logger = gr.logger("measurements")
-measurements_logger.setLevel("INFO")
+logging.basicConfig(level=logging.INFO)
+measurements_logger = logging.getLogger("measurements")
 
 
 def cfo_estimation(y, B, R, Fdev):
@@ -91,8 +93,7 @@ class synchronization(gr.basic_block):
         gr.basic_block.__init__(
             self, name="Synchronization", in_sig=[np.complex64], out_sig=[np.complex64]
         )
-        self.logger = gr.logger(self.alias())
-        self.logger.setLevel("INFO")
+        self.logger = logging.getLogger(self.alias())
 
     def set_tx_power(self,tx_power):
         self.tx_power = tx_power
