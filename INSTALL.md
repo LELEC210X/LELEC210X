@@ -192,7 +192,7 @@ so that you can specify requirements for your project, and much more!
 
 **Please** read the
 [detailed installation guide](https://rye.astral.sh/guide/installation/),
-as well as the section on "*Add Shims to Path*".
+as well as the section on "_Add Shims to Path_".
 
 ### Host or Ubuntu - Install FFmpeg
 
