@@ -14,11 +14,11 @@ that you installed the latest Python dependencies with:
 <!-- tell users to run commands from within the root directory or subdirectories -->
 
 ```
-poetry install
+rye sync
 ```
 
 Also, make sure to run the above command from the repository directory, or from
-any of its subdirectories. The same applies for all `poetry` commands.
+any of its subdirectories. The same applies for all `rye` commands.
 
 ## Steps
 
@@ -32,11 +32,11 @@ summarized in the figure above, and explained hereafter[^1]:
 3. _(Linux)_ open the project files with GNU Radio,
    and generate the Python script(s);
 4. _(Linux)_ run your GNU Radio script either from GNU Radio or from the terminal;
-5. _(Any)_ in another terminal window, run `poetry run auth | poetry run classify`;
+5. _(Any)_ in another terminal window, run `rye run auth | rye run classify`;
 6. and that's all!
 
 > [!IMPORTANT]
-> Running `poetry run classify` does not actually submit your classification
+> Running `rye run classify` does not actually submit your classification
 > guesses to the leaderboard server. To do so, you will need to add a few
 > lines of codes, see the corresponding [README](leaderboard/README.md).
 

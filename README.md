@@ -170,7 +170,7 @@ linters is usually much larger than those of a formatter.
 To this end, we use `pre-commit`. It can be used as follows:
 
 ```bash
-poetry run pre-commit run --all-files
+rye run pre-commit run --all-files
 ```
 
 > [!TIP]
@@ -184,9 +184,9 @@ poetry run pre-commit run --all-files
 If you want to run `pre-commit` on a subset of your files, use the following:
 
 ```bash
-poetry pre-commit run --files file1 file2 ...
+rye pre-commit run --files file1 file2 ...
 # E.g., on all files in `tex/`
-find tex/ | xargs poetry run pre-commit run --files
+find tex/ | xargs rye run pre-commit run --files
 ```
 
 > [!NOTE]
@@ -200,13 +200,13 @@ and check wether you passe or not the format rules.
 To this end, please run:
 
 ```bash
-poetry run pre-commit install
+rye run pre-commit install
 ```
 
 After this, you should always run:
 
 ```bash
-poetry pre-commit run
+rye pre-commit run
 ```
 
 to format staged files, before committing them.

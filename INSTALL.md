@@ -163,12 +163,12 @@ Please make sure pip is installed by running:
 sudo apt-get install python3-pip
 ```
 
-### Host or Ubuntu - Install Poetry
+### Host or Ubuntu - Install Rye
 
 Usually, installing Python packages to the global Python environment is a bad idea,
 mainly because you can have conflicts with packages that require differention versions
 of some shared dependencies, and rapidly loose track of what packages are actually
-installed on your computer...
+installed on your computer.
 
 A solution to this is to use
 [virtual environments (venvs)](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#installing-packages-using-pip-and-virtual-environments),
@@ -179,69 +179,31 @@ some script
 before you can work with them, and it's also possible to have an arbitrary number of nested
 venvs, which makes it hard to know which environment is activated.
 To avoid this issue, we use
-[Poetry](https://python-poetry.org/),
+[Rye](https://rye.astral.sh),
 which can be installed with the commands below,
 depending if you are on Linux, macOS or Windows.
-Poetry works in pair with `pyproject.toml` file,
+Rye works in pair with `pyproject.toml` file,
 so that you can specify requirements for your project, and much more!
 
 > [!IMPORTANT]
-> While Poetry should work fine on any OS, we highly recommend to
+> While Rye should work fine on any OS, we highly recommend to
 > install it on Ubuntu too, because it is easier for teaching
 > assistants to debug.
 
-#### Linux/macOS
-
-```bash
-curl -sSL https://install.python-poetry.org | python3 -
-```
-
-Note that the previous command might require installing `curl`:
-
-```bash
-sudo apt-get install curl
-```
-
-As probably displayed during the installation, you might need to add `~/.local/bin` to your `PATH`:
-
-```bash
-echo "export PATH='~/.local/bin:$PATH'" >> ~/.bashrc
-```
-
-Then, execute:
-
-```bash
-exec bash
-```
-
-to apply changes.
-
-> [!TIP]
-> Using `>>` automatically appends to the file, so that you don't have anything
-> to do. If you prefer, you can edit the files from the terminal using programs
-> like `nano` or `vim`.
-
-#### Windows
-
-In the Powershell:
-
-```bash
-(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
-```
-
-Do not close the terminal, it will probably ask you to add the poetry installation path to your PATH environment variable.
-To do so, follow [this guide](https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/).
+**Please** read the
+[detailed installation guide](https://rye.astral.sh/guide/installation/),
+as well as the section on "*Add Shims to Path*".
 
 ### Host or Ubuntu - Install FFmpeg
 
-Depending on whether you installed Poetry on your host machine,
+Depending on whether you installed Rye on your host machine,
 or on Ubuntu (via WSL/dual bool/VM/...), you need to also install FFmpeg.
 
 [FFmpeg](https://ffmpeg.org/) is a **very comprehensive** toolbox for manipulating
 audio and video files.
 
 For this projet, this will by used to read and write audio files (via Python modules),
-and it must then be installed on the same OS as Poetry.
+and it must then be installed on the same OS as Rye.
 
 #### Linux
 
@@ -323,6 +285,11 @@ the following lines should be added to the _.bashrc_ file of your Ubuntu distrib
 echo "export DISPLAY=:0.0" >> ~/.bashrc
 echo "export LIBGL_ALWAYS_INDIRECT=1" >> ~/.bashrc
 ```
+
+> [!TIP]
+> Using `>>` automatically appends to the file, so that you don't have anything
+> to do. If you prefer, you can edit the files from the terminal using programs
+> like `nano` or `vim`.
 
 Restart the WSL and you should now be able to launch GNU Radio's GUI as follows:
 
@@ -477,36 +444,36 @@ it will then automatically detect the MAX 10 device support file. You can procee
 To install the Python dependencies, you can simply run:
 
 ```bash
-poetry run install
+rye sync run
 ```
 
 You should only perform this once (if `pyproject.toml` does not change).
 
 > [!IMPORTANT]
-> Note that, in order to work, `poetry` commands
+> Note that, in order to work, `rye` commands
 > must be done in a terminal session **from inside**
 > the root directory of this project, or any of its
 > subdirectories.
 
-If you modify any of the packages listed in the `[tool.poetry]` section
+If you modify any of the packages listed in the `[project]` section
 of [`pyproject.toml`](pyproject.toml), the changes will directly apply
 to your installation.
 
 To add new Python dependencies to your project, you can use
 
 ```bash
-poetry add package_name
+rye add package_name
 ```
 
-and Poetry will do the rest for you! For other use cases, please
+and Rye will do the rest for you! For other use cases, please
 check out their documentation.
 
 > [!NOTE]
 > Later in the project, you will install Python packages from
 > GNU Radio projects. Those packets are **not installed**
-> in the virtual environment created by Poetry.
+> in the virtual environment created by Rye.
 > To use those packages (e.g., `fsk`), you should
-> then use your system Python.
+> then use your system Python (version 3.8!).
 >
 > We already considered that in the hands-on sessions,
 > and the commands we provide should work as expected.
