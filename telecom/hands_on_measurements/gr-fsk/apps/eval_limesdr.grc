@@ -281,7 +281,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [480, 628.0]
+    coordinate: [384, 564.0]
     rotation: 0
     state: true
 - name: fsk_packet_parser_0
@@ -431,7 +431,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [498, 492]
+    coordinate: [392, 436.0]
     rotation: 0
     state: enabled
 - name: zeromq_pub_sink_0
