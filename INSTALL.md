@@ -47,8 +47,8 @@ requires Python 3.8.
 of Python above 3.8. Moreover, Rye, the tool you will need
 to install later, automatically installs Python 3.9, so you
 don't need to bother about that.
-*Only the few Python files that are used by GNU Radio need to
-be executed with PYthon 3.8.*
+_Only the few Python files that are used by GNU Radio need to
+be executed with PYthon 3.8._
 
 Hence, it is only required to have Python 3.8 installed on
 WSL, VB, or your Linux dual-boot, as this will be the place
@@ -162,8 +162,8 @@ want to use Linux later-on, and have at least 60 Go of free memory.
 
 ## Installation steps
 
-The following steps will either need to be performed on your host system, 
-or on the Ubuntu system on which GNU Radio is installed 
+The following steps will either need to be performed on your host system,
+or on the Ubuntu system on which GNU Radio is installed
 (either a VM, WSL, or your host if it is Ubuntu-20.04).
 The subsection titles will therefore include an annotation **Host**,
 if the steps must be performed on your host system (Windows, MacOS, or Linux), or **Ubuntu**,
