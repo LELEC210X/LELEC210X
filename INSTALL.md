@@ -27,22 +27,40 @@ If possible, every software tool used should be installed and used,
 on your host system, i.e., your every-day OS. Moreover,
 the Git associated with the project should be cloned on your host system.
 Python and STM32CubeIDE are supported on every common OS,
-but GNU Radio is only properly supported on Linux distributions.
+**but GNU Radio is only properly supported on Linux distributions**.
 Additionnally, the libraries for the LimeSDR are maintained on Ubuntu-20.04
 and not above.
 We therefore ask you to have Ubuntu-20.04 installed on your computer,
 using one of the methods presented in the following sections.
 
+> [!TIP]
+> We strongly recommend students with a Windows OS to only
+> run GNU Radio inside WSL, and to have all the other softwares
+> installed on their Windows OS.
+
 ## Prerequisites
 
-As explained above, to run this project entirely,
-you will need an Ubuntu-20.04 installation with Python3.8 installed.
+This project only works with GNU Radio 3.8, which in turn
+requires Python 3.8.
+
+**However**, the rest of the project works with any version
+of Python above 3.8. Moreover, Rye, the tool you will need
+to install later, automatically installs Python 3.9, so you
+don't need to bother about that.
+*Only the few Python files that are used by GNU Radio need to
+be executed with PYthon 3.8.*
+
+Hence, it is only required to have Python 3.8 installed on
+WSL, VB, or your Linux dual-boot, as this will be the place
+where GNU Radio will be executed.
+
+If you installed Ubuntu-20.04, it comes with Python 3.8 pre-installed,
+so you actually don't have to do anything.
+
 Using a different Ubuntu or Python version _might_ work,
 but **we cannot guarantee** that
 everything will work out-of-the-box, and **you may need**
 to adapt some commands[^1].
-
-By default, Python3.8 is automatically bundled with Ubuntu-20.04.
 
 If you do not have Ubuntu-20.04 at your disposal,
 please follow one of next sub-sections.
@@ -144,11 +162,13 @@ want to use Linux later-on, and have at least 60 Go of free memory.
 
 ## Installation steps
 
-The following steps will either need to be performed on your host system, or on the Ubuntu system on which GNU Radio is installed (either a VM, WSL, or your host if it is Ubuntu-20.04).
+The following steps will either need to be performed on your host system, 
+or on the Ubuntu system on which GNU Radio is installed 
+(either a VM, WSL, or your host if it is Ubuntu-20.04).
 The subsection titles will therefore include an annotation **Host**,
 if the steps must be performed on your host system (Windows, MacOS, or Linux), or **Ubuntu**,
 if they refer to your Ubuntu-20.04 installation. If your host system is Ubuntu-20.04, perform them in both cases.
-Additionnally, some steps might be only required for some specific OSs, in which case it will be specified.
+Additionnally, some steps might be only required for some specific OSes, in which case it will be specified.
 
 Quick tips: Ubuntu terminal windows can be launched via the Ubuntu Launchpad, or with
 <kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>T</kbd>.
@@ -179,10 +199,8 @@ some script
 before you can work with them, and it's also possible to have an arbitrary number of nested
 venvs, which makes it hard to know which environment is activated.
 To avoid this issue, we use
-[Rye](https://rye.astral.sh),
-which can be installed with the commands below,
-depending if you are on Linux, macOS or Windows.
-Rye works in pair with `pyproject.toml` file,
+[Rye](https://rye.astral.sh).
+Rye works in pair with `pyproject.toml` files,
 so that you can specify requirements for your project, and much more!
 
 > [!IMPORTANT]
@@ -196,8 +214,9 @@ as well as the section on "_Add Shims to Path_".
 
 ### Host or Ubuntu - Install FFmpeg
 
-Depending on whether you installed Rye on your host machine,
-or on Ubuntu (via WSL/dual bool/VM/...), you need to also install FFmpeg.
+Later in the project, if you want the manipulate audio files,
+you need to install FFmpeg.
+Otherwise, you might encounter some errors.
 
 [FFmpeg](https://ffmpeg.org/) is a **very comprehensive** toolbox for manipulating
 audio and video files.
