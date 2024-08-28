@@ -40,7 +40,8 @@ This project is fully contained within one single git repository.
 
 For this course, we have a "**no git, no help**" policy.
 That means that, if you ever need help from a professor or a teaching assistant,
-you **must** be able to provide a **git diff** view of your most recent changes.
+you **must** be able to provide a **git diff** view of your most recent changes
+(see [recommended git tools](#13-recommended-git-tools)).
 
 ### 1.1 Understanding Git
 
@@ -83,7 +84,7 @@ and more specifically the following sections:
 
 You are still encouraged to read through all the other sections!
 
-Then, we recommend you to read the excellent
+Then, we also recommend you to read the excellent
 [Mergin vs. rebasing](https://www.atlassian.com/git/tutorials/merging-vs-rebasing)
 ([French version](https://www.atlassian.com/fr/git/tutorials/merging-vs-rebasing))
 guide from Atlassian. This will be important when you will need to synchronize changes
@@ -106,12 +107,10 @@ with potential updates.
 ### 1.3 Recommended Git tools
 
 Advanced Git users may prefer to use it via the terminal (i.e., command-line),
-but using a graphical interface can be way more convenient to visual to current
+but using a graphical interface can be way more convenient to visualize the current
 status of your different branches, or to resolve conflicts easily.
 
-There exist plently of applications, but we recommend:
-
-There are plenty of them, and here are a few we recommend:
+There exists plently of applications, but we recommend:
 
 - [GitKraken](https://www.gitkraken.com/),
   a Git tool for basic and advanced usage,
@@ -133,6 +132,11 @@ VB is a free tool that a allows to run the same set of software, thanks to
 > [!NOTE]
 > Quartus is not part of the installed softwares,
 > and we assume you have it installed it from a previous class.
+
+> [!WARNING]
+> As the VB was developed for an older version of the project,
+> Rye is not yet installed, and must be
+> [installed](https://rye.astral.sh/guide/installation/) manually.
 
 ### 2.1 Dealing with a slow VB
 
@@ -184,7 +188,7 @@ rye run pre-commit run --all-files
 If you want to run `pre-commit` on a subset of your files, use the following:
 
 ```bash
-rye pre-commit run --files file1 file2 ...
+rye run pre-commit run --files file1 file2 ...
 # E.g., on all files in `tex/`
 find tex/ | xargs rye run pre-commit run --files
 ```
