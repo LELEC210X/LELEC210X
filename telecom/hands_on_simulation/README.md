@@ -2,16 +2,16 @@
 
 Only the `sim.py` and `test.py` files should be executed.
 
-When doing so, make sure to run them with Poetry, e.g., do:
+When doing so, make sure to run them with Rye, e.g., do:
 
 ```bash
-poetry run python sim.py
+rye run python sim.py
 ```
 
 to run the simulation or:
 
 ```bash
-poetry run pytest test.py
+rye run pytest test.py
 ```
 
 to the your chain implementation.
