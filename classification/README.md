@@ -17,6 +17,13 @@ within your notebooks:
 rye run python -m ipykernel install --user --name LELEC210X
 ```
 
+> [!WARNING]
+> On some platforms, it is possible that your OS is missing the
+> necessart packages to play audio, and it will raise
+> and an error when trying to do so. If that is the case,
+> please read [#27](https://github.com/LELEC210X/LELEC210X/issues/27)
+> as it possibly contains a solution to your problem.
+
 ## Usage
 
 Notebooks should accessed by running:
@@ -31,7 +38,8 @@ rye run jupyter notebook --no-browser
 > [!NOTE]
 > You have to select the `LELEC210X` kernel prior to running any cell,
 > otherwise it will probably not work! If you are using VSCode, please
-> refer to their documentation.
+> refer to their documentation, to ensure you are using the correct
+> virtual environment or kernel.
 
 If Jupter does not launch a browser Windows, you can scroll the terminal
 and click (<kbd>CTRL</kbd>+<kbd>LEFT CLICK</kbd>) on one of the HTTP links displayed.
