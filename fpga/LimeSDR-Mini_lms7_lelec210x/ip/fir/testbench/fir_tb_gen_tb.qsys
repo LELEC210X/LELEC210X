@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system name="$${FILENAME}">
+ <component
+   name="$${FILENAME}"
+   displayName="$${FILENAME}"
+   version="1.0"
+   description=""
+   tags=""
+   categories="" />
+ <parameter name="bonusData"><![CDATA[bonusData 
+{
+   element fir_tb_gen_inst
+   {
+      datum _sortIndex
+      {
+         value = "0";
+         type = "int";
+      }
+   }
+   element fir_tb_gen_inst_clk_bfm
+   {
+      datum _sortIndex
+      {
+         value = "1";
+         type = "int";
+      }
+   }
+   element fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm
+   {
+      datum _sortIndex
+      {
+         value = "3";
+         type = "int";
+      }
+   }
+   element fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm
+   {
+      datum _sortIndex
+      {
+         value = "4";
+         type = "int";
+      }
+   }
+   element fir_tb_gen_inst_reset_bfm
+   {
+      datum _sortIndex
+      {
+         value = "2";
+         type = "int";
+      }
+   }
+}
+]]></parameter>
+ <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
+ <parameter name="device" value="10M16SAU169C8G" />
+ <parameter name="deviceFamily" value="MAX 10" />
+ <parameter name="deviceSpeedGrade" value="8" />
+ <parameter name="fabricMode" value="QSYS" />
+ <parameter name="generateLegacySim" value="false" />
+ <parameter name="generationId" value="0" />
+ <parameter name="globalResetBus" value="false" />
+ <parameter name="hdlLanguage" value="VERILOG" />
+ <parameter name="hideFromIPCatalog" value="false" />
+ <parameter name="lockedInterfaceDefinition" value="" />
+ <parameter name="maxAdditionalLatency" value="1" />
+ <parameter name="projectName">LimeSDR-Mini_lms7_lelec210x.qpf</parameter>
+ <parameter name="sopcBorderPoints" value="false" />
+ <parameter name="systemHash" value="0" />
+ <parameter name="testBenchDutName" value="fir_tb_gen" />
+ <parameter name="timeStamp" value="0" />
+ <parameter name="useTestBenchNamingPattern" value="true" />
+ <instanceScript></instanceScript>
+ <module name="fir_tb_gen_inst" kind="fir_tb_gen" version="1.0" enabled="1">
+  <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_DEVICE" value="10M16SAU169C8G" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="MAX 10" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="8" />
+  <parameter name="AUTO_GENERATION_ID" value="0" />
+  <parameter name="AUTO_UNIQUE_ID" value="fir_tb_gen" />
+ </module>
+ <module
+   name="fir_tb_gen_inst_clk_bfm"
+   kind="altera_avalon_clock_source"
+   version="18.1"
+   enabled="1">
+  <parameter name="CLOCK_RATE" value="125000000" />
+  <parameter name="CLOCK_UNIT" value="1" />
+ </module>
+ <module
+   name="fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm"
+   kind="altera_avalon_st_source_bfm"
+   version="18.1"
+   enabled="1">
+  <parameter name="ST_BEATSPERCYCLE" value="1" />
+  <parameter name="ST_CHANNEL_W" value="1" />
+  <parameter name="ST_ERROR_DESCRIPTOR" value="" />
+  <parameter name="ST_ERROR_W" value="2" />
+  <parameter name="ST_MAX_CHANNELS" value="0" />
+  <parameter name="ST_NUMSYMBOLS" value="2" />
+  <parameter name="ST_READY_LATENCY" value="0" />
+  <parameter name="ST_SYMBOL_W" value="12" />
+  <parameter name="USE_CHANNEL" value="0" />
+  <parameter name="USE_EMPTY" value="0" />
+  <parameter name="USE_ERROR" value="1" />
+  <parameter name="USE_PACKET" value="0" />
+  <parameter name="USE_READY" value="0" />
+  <parameter name="USE_VALID" value="1" />
+  <parameter name="VHDL_ID" value="0" />
+ </module>
+ <module
+   name="fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm"
+   kind="altera_avalon_st_sink_bfm"
+   version="18.1"
+   enabled="1">
+  <parameter name="ST_BEATSPERCYCLE" value="1" />
+  <parameter name="ST_CHANNEL_W" value="1" />
+  <parameter name="ST_ERROR_DESCRIPTOR" value="" />
+  <parameter name="ST_ERROR_W" value="2" />
+  <parameter name="ST_MAX_CHANNELS" value="0" />
+  <parameter name="ST_NUMSYMBOLS" value="2" />
+  <parameter name="ST_READY_LATENCY" value="0" />
+  <parameter name="ST_SYMBOL_W" value="12" />
+  <parameter name="USE_CHANNEL" value="0" />
+  <parameter name="USE_EMPTY" value="0" />
+  <parameter name="USE_ERROR" value="1" />
+  <parameter name="USE_PACKET" value="0" />
+  <parameter name="USE_READY" value="0" />
+  <parameter name="USE_VALID" value="1" />
+  <parameter name="VHDL_ID" value="0" />
+ </module>
+ <module
+   name="fir_tb_gen_inst_reset_bfm"
+   kind="altera_avalon_reset_source"
+   version="18.1"
+   enabled="1">
+  <parameter name="ASSERT_HIGH_RESET" value="0" />
+  <parameter name="INITIAL_RESET_CYCLES" value="50" />
+ </module>
+ <connection
+   kind="avalon_streaming"
+   version="18.1"
+   start="fir_tb_gen_inst.fir_compiler_ii_0_avalon_streaming_source"
+   end="fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm.sink" />
+ <connection
+   kind="avalon_streaming"
+   version="18.1"
+   start="fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm.src"
+   end="fir_tb_gen_inst.fir_compiler_ii_0_avalon_streaming_sink" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="fir_tb_gen_inst_clk_bfm.clk"
+   end="fir_tb_gen_inst.clk" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="fir_tb_gen_inst_clk_bfm.clk"
+   end="fir_tb_gen_inst_reset_bfm.clk" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="fir_tb_gen_inst_clk_bfm.clk"
+   end="fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm.clk" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="fir_tb_gen_inst_clk_bfm.clk"
+   end="fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm.clk" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="fir_tb_gen_inst_reset_bfm.reset"
+   end="fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm.clk_reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="fir_tb_gen_inst_reset_bfm.reset"
+   end="fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm.clk_reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="fir_tb_gen_inst_reset_bfm.reset"
+   end="fir_tb_gen_inst.reset" />
+ <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
+ <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
+</system>

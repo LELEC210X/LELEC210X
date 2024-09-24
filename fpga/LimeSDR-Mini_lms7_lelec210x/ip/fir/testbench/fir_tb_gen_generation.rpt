@@ -1,0 +1,358 @@
+Info: Starting: Create testbench Platform Designer system
+Info: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/fir_tb_gen.ipx
+Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\fir_tb_gen.qsys --testbench=STANDARD --output-directory=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x --family="MAX 10" --part=10M16SAU169C8G
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/fir_tb_gen.qsys
+Progress: Reading input file
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
+Progress: Adding fir_compiler_ii_0 [altera_fir_compiler_ii 18.1]
+Progress: Parameterizing module fir_compiler_ii_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: fir_tb_gen.fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 25, Bankcount 1, CoefBitWidth 8
+Info: qsys-generate succeeded.
+Info: Loading IP catalog for testbench.
+Progress: 
+Progress: 
+Progress: 
+Progress: (2) searching C:/intelfpga/18.1/quartus/sopc_builder/bin/root_components.ipx (ipx file)
+Info: Reading index C:\intelfpga\18.1\quartus\sopc_builder\bin\root_components.ipx
+Info: C:\intelfpga\18.1\quartus\sopc_builder\bin\root_components.ipx: Loading now from components.ipx
+Info: Reading index C:\intelfpga\18.1\quartus\sopc_builder\bin\ip_component_categories.ipx
+Info: C:\intelfpga\18.1\quartus\sopc_builder\bin\ip_component_categories.ipx described 0 plugins, 0 paths, in 0.01 seconds
+Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/ip_component_categories.ipx matched 1 files in 0.01 seconds
+Info: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/ip/**/* matched 0 files in 0.00 seconds
+Info: Reading index D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\fir\testbench\fir_tb_gen.ipx
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/AVS2FIFO_hw.tcl
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/Av_FIFO_Int_hw.tcl
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/FIFO2AVS_hw.tcl
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/fir_tb_gen.qsys
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/lms_auto_dsp.qsys
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/lms_auto_dsp_rx.qsys
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/lms_ctr.qsys
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/lms_dsp.qsys
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_hw.tcl
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/preamble_detect_hw.tcl
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/preamble_detect_tb_gen.qsys
+Info: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/* matched 50 files in 0.24 seconds
+Progress: Loading clkctrl/clkctrl.qsys
+Info: Reading index D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\fir\testbench\fir_tb_gen.ipx
+Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*
+Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/*
+Info: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/* matched 1732 files in 0.07 seconds
+Info: D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\fir\testbench\fir_tb_gen.ipx described 0 plugins, 3 paths, in 0.07 seconds
+Progress: Loading testbench/fir_tb_gen_tb.qsys
+Progress: Loading i2c_opencores_v13/i2c_opencores_hw.tcl
+Progress: Loading i2c_opencores_v13/i2c_opencores_sw.tcl
+Progress: Loading i2c_opencores_v13_v0/i2c_opencores_hw.tcl
+Progress: Loading i2c_opencores_v13_v0/i2c_opencores_sw.tcl
+Info: Reading index D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\automatic_preamble_tb_gen.ipx
+Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*
+Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/*
+Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/*
+Info: D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\automatic_preamble_tb_gen.ipx described 0 plugins, 3 paths, in 0.01 seconds
+Progress: Loading testbench/automatic_preamble_tb_gen_tb.qsys
+Info: Reading index D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\preamble_detect\testbench\preamble_detect_tb_gen.ipx
+Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*
+Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/*
+Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/*
+Info: D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\preamble_detect\testbench\preamble_detect_tb_gen.ipx described 0 plugins, 3 paths, in 0.01 seconds
+Progress: Loading testbench/preamble_detect_tb_gen_tb.qsys
+Info: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/* matched 109 files in 0.25 seconds
+Warning: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/*/*
+Info: D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\fir\testbench\fir_tb_gen.ipx described 0 plugins, 3 paths, in 0.51 seconds
+Progress: Loading testbench/fir_tb_gen_tb.qsys
+Info: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/* matched 8 files in 0.51 seconds
+Info: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/*/* matched 18 files in 0.00 seconds
+Info: Reading index C:\Users\maistriauxp\.altera.quartus\ip\18.1\ip_search_path\user_components.ipx
+Info: C:\Users\maistriauxp\.altera.quartus\ip\18.1\ip_search_path\user_components.ipx described 0 plugins, 0 paths, in 0.01 seconds
+Info: C:/Users/maistriauxp/.altera.quartus/ip/18.1/**/* matched 2 files in 0.01 seconds
+Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/$$QUARTUS_IP_PROJECTDIR/* matched 0 files in 0.00 seconds
+Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/$$QUARTUS_IP_USERDIR/* matched 0 files in 0.00 seconds
+Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/$$QUARTUS_IP_GLOBALDIR/* matched 0 files in 0.00 seconds
+Info: Reading index C:\intelfpga\18.1\ip\altera\altera_components.ipx
+Info: C:\intelfpga\18.1\ip\altera\altera_components.ipx described 2035 plugins, 0 paths, in 0.12 seconds
+Info: C:/intelfpga/18.1/ip/**/* matched 139 files in 0.13 seconds
+Info: C:/intelfpga/ip/**/* matched 0 files in 0.00 seconds
+Info: Reading index C:\intelfpga\18.1\quartus\sopc_builder\builtin.ipx
+Info: C:\intelfpga\18.1\quartus\sopc_builder\builtin.ipx described 83 plugins, 0 paths, in 0.01 seconds
+Info: C:/intelfpga/18.1/quartus/sopc_builder/**/* matched 8 files in 0.01 seconds
+Info: Reading index C:\intelfpga\18.1\quartus\common\librarian\factories\index.ipx
+Info: C:\intelfpga\18.1\quartus\common\librarian\factories\index.ipx described 151 plugins, 0 paths, in 0.02 seconds
+Info: C:/intelfpga/18.1/quartus/common/librarian/factories/**/* matched 4 files in 0.02 seconds
+Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/$IP_IPX_PATH matched 1 files in 0.00 seconds
+Info: C:\intelfpga\18.1\quartus\sopc_builder\bin\root_components.ipx described 0 plugins, 13 paths, in 0.71 seconds
+Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/root_components.ipx matched 1 files in 0.71 seconds
+Progress: 
+Progress: 
+Progress: 
+Info: Running script C:/intelfpga/18.1/quartus/sopc_builder/bin/tbgen.tcl
+Info: send_message Info TB_Gen: QSYS Testbench Generator Rev: $Revision: #1 $
+Info: TB_Gen: QSYS Testbench Generator Rev: $Revision: #1 $
+Info: get_module_property NAME
+Info: send_message Info TB_Gen: System design is: fir_tb_gen
+Info: TB_Gen: System design is: fir_tb_gen
+Info: get_interfaces 
+Info: get_connections 
+Info: get_interface_property clk EXPORT_OF
+Info: get_instance_property clk_0 CLASS_NAME
+Info: get_instance_assignment clk_0 testbench.partner.map.clk_in
+Info: get_interface_property fir_compiler_ii_0_avalon_streaming_sink EXPORT_OF
+Info: get_instance_property fir_compiler_ii_0 CLASS_NAME
+Info: get_instance_assignment fir_compiler_ii_0 testbench.partner.map.avalon_streaming_sink
+Info: get_interface_property fir_compiler_ii_0_avalon_streaming_source EXPORT_OF
+Info: get_instance_property fir_compiler_ii_0 CLASS_NAME
+Info: get_instance_assignment fir_compiler_ii_0 testbench.partner.map.avalon_streaming_source
+Info: get_interface_property reset EXPORT_OF
+Info: get_instance_property clk_0 CLASS_NAME
+Info: get_instance_assignment clk_0 testbench.partner.map.clk_in_reset
+Info: send_message Info TB_Gen: Creating testbench system : fir_tb_gen_tb with all standard BFMs
+Info: TB_Gen: Creating testbench system : fir_tb_gen_tb with all standard BFMs
+Info: create_system fir_tb_gen_tb
+Info: add_instance fir_tb_gen_inst fir_tb_gen 
+Info: set_use_testbench_naming_pattern true fir_tb_gen
+Info: get_instance_interfaces fir_tb_gen_inst
+Info: get_instance_interface_property fir_tb_gen_inst clk CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst reset CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst clk CLASS_NAME
+Info: send_message Info TB_Gen: clock_sink found: clk
+Info: TB_Gen: clock_sink found: clk
+Info: get_instance_interface_property fir_tb_gen_inst clk CLASS_NAME
+Info: add_instance fir_tb_gen_inst_clk_bfm altera_avalon_clock_source 
+Info: get_instance_property fir_tb_gen_inst_clk_bfm CLASS_NAME
+Info: get_instance_interface_parameter_value fir_tb_gen_inst clk clockRate
+Info: set_instance_parameter_value fir_tb_gen_inst_clk_bfm CLOCK_RATE 125000000.0
+Info: set_instance_parameter_value fir_tb_gen_inst_clk_bfm CLOCK_UNIT 1
+Info: get_instance_property fir_tb_gen_inst_clk_bfm CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst clk CLASS_NAME
+Info: get_instance_interfaces fir_tb_gen_inst_clk_bfm
+Info: get_instance_interface_property fir_tb_gen_inst_clk_bfm clk CLASS_NAME
+Info: add_connection fir_tb_gen_inst_clk_bfm.clk fir_tb_gen_inst.clk
+Info: get_instance_interface_property fir_tb_gen_inst reset CLASS_NAME
+Info: send_message Info TB_Gen: reset_sink found: reset
+Info: TB_Gen: reset_sink found: reset
+Info: get_instance_interface_property fir_tb_gen_inst reset CLASS_NAME
+Info: add_instance fir_tb_gen_inst_reset_bfm altera_avalon_reset_source 
+Info: get_instance_property fir_tb_gen_inst_reset_bfm CLASS_NAME
+Info: get_instance_interface_ports fir_tb_gen_inst reset
+Info: get_instance_interface_port_property fir_tb_gen_inst reset reset_reset_n ROLE
+Info: get_instance_interface_port_property fir_tb_gen_inst reset reset_reset_n ROLE
+Info: set_instance_parameter_value fir_tb_gen_inst_reset_bfm ASSERT_HIGH_RESET 0
+Info: set_instance_parameter_value fir_tb_gen_inst_reset_bfm INITIAL_RESET_CYCLES 50
+Info: get_instance_property fir_tb_gen_inst_reset_bfm CLASS_NAME
+Info: get_instance_interfaces fir_tb_gen_inst_reset_bfm
+Info: get_instance_interface_property fir_tb_gen_inst_reset_bfm clk CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_reset_bfm reset CLASS_NAME
+Info: get_instance_property fir_tb_gen_inst_reset_bfm CLASS_NAME
+Info: get_instance_interface_parameter_value fir_tb_gen_inst reset associatedClock
+Info: get_instance_interfaces fir_tb_gen_inst_clk_bfm
+Info: get_instance_interface_property fir_tb_gen_inst_clk_bfm clk CLASS_NAME
+Info: send_message Warning TB_Gen: fir_tb_gen_inst_reset_bfm is not associated to any clock; connecting fir_tb_gen_inst_reset_bfm to 'fir_tb_gen_inst_clk_bfm.clk'
+Warning: TB_Gen: fir_tb_gen_inst_reset_bfm is not associated to any clock; connecting fir_tb_gen_inst_reset_bfm to 'fir_tb_gen_inst_clk_bfm.clk'
+Info: add_connection fir_tb_gen_inst_clk_bfm.clk fir_tb_gen_inst_reset_bfm.clk
+Info: get_instance_interface_property fir_tb_gen_inst reset CLASS_NAME
+Info: get_instance_interfaces fir_tb_gen_inst_reset_bfm
+Info: get_instance_interface_property fir_tb_gen_inst_reset_bfm clk CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_reset_bfm reset CLASS_NAME
+Info: add_connection fir_tb_gen_inst_reset_bfm.reset fir_tb_gen_inst.reset
+Info: get_instance_interface_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink CLASS_NAME
+Info: send_message Info TB_Gen: avalon_streaming_sink found: fir_compiler_ii_0_avalon_streaming_sink
+Info: TB_Gen: avalon_streaming_sink found: fir_compiler_ii_0_avalon_streaming_sink
+Info: get_instance_interface_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink CLASS_NAME
+Info: add_instance fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm altera_avalon_st_source_bfm 
+Info: get_instance_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm CLASS_NAME
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink dataBitsPerSymbol
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink beatsPerCycle
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink symbolsPerBeat
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink maxChannel
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink readyLatency
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink errorDescriptor
+Info: get_instance_interface_ports fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink
+Info: get_instance_interface_port_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink fir_compiler_ii_0_avalon_streaming_sink_data ROLE
+Info: get_instance_interface_port_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink fir_compiler_ii_0_avalon_streaming_sink_data WIDTH
+Info: get_instance_interface_port_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink fir_compiler_ii_0_avalon_streaming_sink_error ROLE
+Info: get_instance_interface_port_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink fir_compiler_ii_0_avalon_streaming_sink_error WIDTH
+Info: get_instance_interface_port_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink fir_compiler_ii_0_avalon_streaming_sink_valid ROLE
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm ST_NUMSYMBOLS 2
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm ST_SYMBOL_W 12
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm ST_MAX_CHANNELS 0
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm ST_BEATSPERCYCLE 1
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm ST_READY_LATENCY 0
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm ST_ERROR_DESCRIPTOR 
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm ST_CHANNEL_W 1
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm ST_EMPTY_W 1
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm ST_ERROR_W 2
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm USE_PACKET 0
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm USE_CHANNEL 0
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm USE_ERROR 1
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm USE_READY 0
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm USE_VALID 1
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm USE_EMPTY 0
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm VHDL_ID 0
+Info: get_instance_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm CLASS_NAME
+Info: get_instance_interfaces fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm clk CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm clk_reset CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm src CLASS_NAME
+Info: get_instance_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm CLASS_NAME
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink associatedClock
+Info: get_instance_interface_property fir_tb_gen_inst clk CLASS_NAME
+Info: get_instance_interfaces fir_tb_gen_inst_clk_bfm
+Info: get_instance_interface_property fir_tb_gen_inst_clk_bfm clk CLASS_NAME
+Info: add_connection fir_tb_gen_inst_clk_bfm.clk fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm.clk
+Info: get_instance_interfaces fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm clk CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm clk_reset CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm src CLASS_NAME
+Info: get_instance_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm CLASS_NAME
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink associatedReset
+Info: get_instance_interface_property fir_tb_gen_inst reset CLASS_NAME
+Info: get_instance_interfaces fir_tb_gen_inst_reset_bfm
+Info: get_instance_interface_property fir_tb_gen_inst_reset_bfm clk CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_reset_bfm reset CLASS_NAME
+Info: add_connection fir_tb_gen_inst_reset_bfm.reset fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm.clk_reset
+Info: get_instance_interface_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_sink CLASS_NAME
+Info: get_instance_interfaces fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm clk CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm clk_reset CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm src CLASS_NAME
+Info: add_connection fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm.src fir_tb_gen_inst.fir_compiler_ii_0_avalon_streaming_sink
+Info: get_instance_interface_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source CLASS_NAME
+Info: send_message Info TB_Gen: avalon_streaming_source found: fir_compiler_ii_0_avalon_streaming_source
+Info: TB_Gen: avalon_streaming_source found: fir_compiler_ii_0_avalon_streaming_source
+Info: get_instance_interface_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source CLASS_NAME
+Info: add_instance fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm altera_avalon_st_sink_bfm 
+Info: get_instance_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm CLASS_NAME
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source dataBitsPerSymbol
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source beatsPerCycle
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source symbolsPerBeat
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source maxChannel
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source readyLatency
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source errorDescriptor
+Info: get_instance_interface_ports fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source
+Info: get_instance_interface_port_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source fir_compiler_ii_0_avalon_streaming_source_data ROLE
+Info: get_instance_interface_port_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source fir_compiler_ii_0_avalon_streaming_source_data WIDTH
+Info: get_instance_interface_port_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source fir_compiler_ii_0_avalon_streaming_source_error ROLE
+Info: get_instance_interface_port_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source fir_compiler_ii_0_avalon_streaming_source_error WIDTH
+Info: get_instance_interface_port_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source fir_compiler_ii_0_avalon_streaming_source_valid ROLE
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm ST_NUMSYMBOLS 2
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm ST_SYMBOL_W 12
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm ST_MAX_CHANNELS 0
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm ST_BEATSPERCYCLE 1
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm ST_READY_LATENCY 0
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm ST_ERROR_DESCRIPTOR 
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm ST_CHANNEL_W 1
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm ST_EMPTY_W 1
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm ST_ERROR_W 2
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm USE_PACKET 0
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm USE_CHANNEL 0
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm USE_ERROR 1
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm USE_READY 0
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm USE_VALID 1
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm USE_EMPTY 0
+Info: set_instance_parameter_value fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm VHDL_ID 0
+Info: get_instance_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm CLASS_NAME
+Info: get_instance_interfaces fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm clk CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm clk_reset CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm sink CLASS_NAME
+Info: get_instance_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm CLASS_NAME
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source associatedClock
+Info: get_instance_interface_property fir_tb_gen_inst clk CLASS_NAME
+Info: get_instance_interfaces fir_tb_gen_inst_clk_bfm
+Info: get_instance_interface_property fir_tb_gen_inst_clk_bfm clk CLASS_NAME
+Info: add_connection fir_tb_gen_inst_clk_bfm.clk fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm.clk
+Info: get_instance_interfaces fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm clk CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm clk_reset CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm sink CLASS_NAME
+Info: get_instance_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm CLASS_NAME
+Info: get_instance_interface_parameter_value fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source associatedReset
+Info: get_instance_interface_property fir_tb_gen_inst reset CLASS_NAME
+Info: get_instance_interfaces fir_tb_gen_inst_reset_bfm
+Info: get_instance_interface_property fir_tb_gen_inst_reset_bfm clk CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_reset_bfm reset CLASS_NAME
+Info: add_connection fir_tb_gen_inst_reset_bfm.reset fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm.clk_reset
+Info: get_instance_interface_property fir_tb_gen_inst fir_compiler_ii_0_avalon_streaming_source CLASS_NAME
+Info: get_instance_interfaces fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm clk CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm clk_reset CLASS_NAME
+Info: get_instance_interface_property fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm sink CLASS_NAME
+Info: add_connection fir_tb_gen_inst.fir_compiler_ii_0_avalon_streaming_source fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm.sink
+Info: send_message Info TB_Gen: Saving testbench system: fir_tb_gen_tb.qsys
+Info: TB_Gen: Saving testbench system: fir_tb_gen_tb.qsys
+Info: save_system fir_tb_gen_tb.qsys
+Info: send_message Info TB_Gen: TBGEN SUCCESSFUL
+Info: TB_Gen: TBGEN SUCCESSFUL
+Info: Testbench system: D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/fir_tb_gen_tb.qsys
+Info: Done
+Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\fir_tb_gen.qsys --simulation=VERILOG --allow-mixed-language-simulation --testbench=STANDARD --testbench-simulation=VERILOG --allow-mixed-language-testbench-simulation --output-directory=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\ip\fir\testbench\fir_tb_gen_tb\simulation --family="MAX 10" --part=10M16SAU169C8G
+Progress: Loading testbench/fir_tb_gen_tb.qsys
+Progress: Reading input file
+Progress: Adding fir_tb_gen_inst [fir_tb_gen 1.0]
+Progress: Parameterizing module fir_tb_gen_inst
+Progress: Adding fir_tb_gen_inst_clk_bfm [altera_avalon_clock_source 18.1]
+Progress: Parameterizing module fir_tb_gen_inst_clk_bfm
+Progress: Adding fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm [altera_avalon_st_source_bfm 18.1]
+Progress: Parameterizing module fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm
+Progress: Adding fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm [altera_avalon_st_sink_bfm 18.1]
+Progress: Parameterizing module fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm
+Progress: Adding fir_tb_gen_inst_reset_bfm [altera_avalon_reset_source 18.1]
+Progress: Parameterizing module fir_tb_gen_inst_reset_bfm
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: fir_tb_gen_tb.fir_tb_gen_inst.fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 25, Bankcount 1, CoefBitWidth 8
+Info: fir_tb_gen_tb.fir_tb_gen_inst_clk_bfm: Elaborate: altera_clock_source
+Info: fir_tb_gen_tb.fir_tb_gen_inst_clk_bfm:            $Revision: #1 $
+Info: fir_tb_gen_tb.fir_tb_gen_inst_clk_bfm:            $Date: 2018/07/18 $
+Info: fir_tb_gen_tb.fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm: Use Ready set to zero - omitting src_ready port
+Info: fir_tb_gen_tb.fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm: Use Packets set to zero - omitting src_startofpacket, src_endofpacket and src_empty ports
+Info: fir_tb_gen_tb.fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm: Use Empty set to zero - omitting src_empty port
+Info: fir_tb_gen_tb.fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm: Use Channels set to zero - omitting src_channel port
+Info: fir_tb_gen_tb.fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm: Use Ready set to zero - omitting sink_ready port
+Info: fir_tb_gen_tb.fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm: Use Packets set to zero - omitting sink_startofpacket, sink_endofpacket and sink_empty ports
+Info: fir_tb_gen_tb.fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm: Use Empty set to zero - omitting sink_empty port
+Info: fir_tb_gen_tb.fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm: Use Channels set to zero - omitting sink_channel port
+Info: fir_tb_gen_tb.fir_tb_gen_inst_reset_bfm: Elaborate: altera_reset_source
+Info: fir_tb_gen_tb.fir_tb_gen_inst_reset_bfm:            $Revision: #1 $
+Info: fir_tb_gen_tb.fir_tb_gen_inst_reset_bfm:            $Date: 2018/07/18 $
+Info: fir_tb_gen_tb.fir_tb_gen_inst_reset_bfm: Reset is negatively asserted.
+Info: fir_tb_gen_tb: Generating fir_tb_gen_tb "fir_tb_gen_tb" for SIM_VERILOG
+Info: fir_tb_gen_inst: "fir_tb_gen_tb" instantiated fir_tb_gen "fir_tb_gen_inst"
+Info: fir_tb_gen_inst_clk_bfm: "fir_tb_gen_tb" instantiated altera_avalon_clock_source "fir_tb_gen_inst_clk_bfm"
+Info: fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm: "fir_tb_gen_tb" instantiated altera_avalon_st_source_bfm "fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm"
+Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
+Info: fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm: "fir_tb_gen_tb" instantiated altera_avalon_st_sink_bfm "fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm"
+Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
+Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv
+Info: fir_tb_gen_inst_reset_bfm: "fir_tb_gen_tb" instantiated altera_avalon_reset_source "fir_tb_gen_inst_reset_bfm"
+Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/fir_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
+Info: fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 25, Bankcount 1, Latency 17, CoefBitWidth 8
+Info: fir_compiler_ii_0: "fir_tb_gen_inst" instantiated altera_fir_compiler_ii "fir_compiler_ii_0"
+Info: rst_controller: "fir_tb_gen_inst" instantiated altera_reset_controller "rst_controller"
+Info: fir_tb_gen_tb: Done "fir_tb_gen_tb" with 8 modules, 31 files
+Info: qsys-generate succeeded.
+Info: sim-script-gen --spd=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\fir_tb_gen_tb.spd --output-directory=D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/ --use-relative-paths=true
+Info: Doing: ip-make-simscript --spd=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\fir_tb_gen_tb.spd --output-directory=D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/ --use-relative-paths=true
+Info: Generating the following file(s) for MODELSIM simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/ directory:
+Info: 	mentor/msim_setup.tcl
+Info: Skipping VCS script generation since VHDL file $QUARTUS_INSTALL_DIR/eda/sim_lib/altera_syn_attributes.vhd is required for simulation
+Info: Generating the following file(s) for VCSMX simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/ directory:
+Info: 	synopsys/vcsmx/synopsys_sim.setup
+Info: 	synopsys/vcsmx/vcsmx_setup.sh
+Info: Generating the following file(s) for NCSIM simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/ directory:
+Info: 	cadence/cds.lib
+Info: 	cadence/hdl.var
+Info: 	cadence/ncsim_setup.sh
+Info: 	8 .cds.lib files in cadence/cds_libs/ directory
+Info: Generating the following file(s) for RIVIERA simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/ directory:
+Info: 	aldec/rivierapro_setup.tcl
+Info: For information on how to simulate your IP, see the explanatory comments in the simulator-specific subdirectories under D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/.
+Info: Regenerate these scripts whenever you make any change to any Quartus-generated IP in your project.
+Info: Finished: Create testbench Platform Designer system

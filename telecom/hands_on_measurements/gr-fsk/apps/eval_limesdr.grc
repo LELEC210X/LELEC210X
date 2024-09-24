@@ -1,0 +1,386 @@
+options:
+  parameters:
+    author: UCLouvain
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: eval_limesdr
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: LELEC2102 - Decode SDR
+    window_size: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: carrier_freq
+  id: variable
+  parameters:
+    comment: ''
+    value: 868e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [202, 87]
+    rotation: 0
+    state: enabled
+- name: crc_len
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [682, 18]
+    rotation: 0
+    state: true
+- name: data_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: 50e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [301, 15]
+    rotation: 0
+    state: true
+- name: detect_threshold
+  id: variable
+  parameters:
+    comment: ''
+    value: '0.1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [799, 21]
+    rotation: 0
+    state: true
+- name: estimated_noise_power
+  id: variable
+  parameters:
+    comment: ''
+    value: 3e-06
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [784, 95]
+    rotation: 0
+    state: true
+- name: fdev
+  id: variable
+  parameters:
+    comment: ''
+    value: data_rate/4
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [394, 15]
+    rotation: 0
+    state: true
+- name: hdr_len
+  id: variable
+  parameters:
+    comment: ''
+    value: '8'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [500, 17]
+    rotation: 0
+    state: true
+- name: packet_len
+  id: variable
+  parameters:
+    comment: ''
+    value: hdr_len+payload_len+crc_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [582, 96]
+    rotation: 0
+    state: true
+- name: payload_len
+  id: variable
+  parameters:
+    comment: ''
+    value: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [580, 18]
+    rotation: 0
+    state: true
+- name: rx_gain
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: Qt.Horizontal
+    rangeType: int
+    start: '0'
+    step: '1'
+    stop: '70'
+    value: '10'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [984, 20]
+    rotation: 0
+    state: enabled
+- name: rx_gain
+  id: variable
+  parameters:
+    comment: ''
+    value: '70'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1260, 50]
+    rotation: 0
+    state: disabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: data_rate*8
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [202, 15]
+    rotation: 0
+    state: enabled
+- name: fsk_demodulation_0
+  id: fsk_demodulation
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    crc_len: crc_len
+    drate: data_rate
+    fdev: fdev
+    fsamp: samp_rate
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    payload_len: payload_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [607, 347]
+    rotation: 0
+    state: enabled
+- name: fsk_packet_parser_0
+  id: fsk_packet_parser
+  parameters:
+    address: '[0,0,1,1,1,1,1,0,0,0,1,0,1,0,1,0,0,1,0,1,0,1,0,0,1,0,1,1,0,1,1,1]'
+    affinity: ''
+    alias: ''
+    comment: ''
+    crc_len: crc_len
+    hdr_len: hdr_len
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    payload_len: payload_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [882, 355]
+    rotation: 0
+    state: enabled
+- name: fsk_preamble_detect_0
+  id: fsk_preamble_detect
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    drate: data_rate
+    fdev: fdev
+    fsamp: samp_rate
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packet_len: packet_len
+    threshold: detect_threshold
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [615, 192]
+    rotation: 0
+    state: enabled
+- name: fsk_synchronization_0
+  id: fsk_synchronization
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    drate: data_rate
+    estimated_noise_power: estimated_noise_power
+    fdev: fdev
+    fsamp: samp_rate
+    hdr_len: hdr_len
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packet_len: packet_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [896, 184]
+    rotation: 0
+    state: enabled
+- name: limesdr_source_0
+  id: limesdr_source
+  parameters:
+    affinity: ''
+    alias: ''
+    allow_tcxo_dac: '0'
+    analog_bandw_ch0: ''
+    analog_bandw_ch1: 1.5e6
+    calibr_bandw_ch0: ''
+    calibr_bandw_ch1: 2.5e6
+    channel_mode: '0'
+    comment: ''
+    dacVal: '180'
+    digital_bandw_ch0: samp_rate
+    digital_bandw_ch1: samp_rate
+    filename: ''
+    gain_dB_ch0: rx_gain
+    gain_dB_ch1: '1'
+    lna_path_ch0: '255'
+    lna_path_ch1: '2'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nco_freq_ch0: '0'
+    nco_freq_ch1: '0'
+    oversample: '0'
+    rf_freq: carrier_freq
+    samp_rate: samp_rate
+    serial: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [36, 209]
+    rotation: 0
+    state: enabled
+- name: low_pass_filter_0
+  id: low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: data_rate
+    decim: '1'
+    gain: '1'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    type: fir_filter_ccf
+    width: data_rate*1
+    win: firdes.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [269, 177]
+    rotation: 0
+    state: enabled
+- name: qtgui_sink_x_0
+  id: qtgui_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    bw: samp_rate
+    comment: ''
+    fc: '0'
+    fftsize: '1024'
+    gui_hint: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: SDR signal
+    plotconst: 'True'
+    plotfreq: 'True'
+    plottime: 'True'
+    plotwaterfall: 'True'
+    rate: '10'
+    showports: 'False'
+    showrf: 'False'
+    type: complex
+    wintype: firdes.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [498, 492]
+    rotation: 0
+    state: enabled
+- name: zeromq_pub_sink_0
+  id: zeromq_pub_sink
+  parameters:
+    address: tcp://127.0.0.1:10000
+    affinity: ''
+    alias: ''
+    comment: ''
+    hwm: '-1'
+    pass_tags: 'False'
+    timeout: '100'
+    type: byte
+    vlen: payload_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1166, 355]
+    rotation: 0
+    state: enabled
+
+connections:
+- [fsk_demodulation_0, '0', fsk_packet_parser_0, '0']
+- [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
+- [fsk_preamble_detect_0, '0', fsk_synchronization_0, '0']
+- [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
+- [limesdr_source_0, '0', low_pass_filter_0, '0']
+- [low_pass_filter_0, '0', fsk_preamble_detect_0, '0']
+- [low_pass_filter_0, '0', qtgui_sink_x_0, '0']
+
+metadata:
+  file_format: 1

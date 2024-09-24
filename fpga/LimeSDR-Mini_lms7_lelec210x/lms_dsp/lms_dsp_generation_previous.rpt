@@ -1,0 +1,160 @@
+Info: Starting: Create simulation model
+Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\lms_dsp.qsys --simulation=VERILOG --allow-mixed-language-simulation --output-directory=D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\lms_dsp\simulation --family="MAX 10" --part=10M16SAU169C8G
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/lms_dsp.qsys
+Progress: Reading input file
+Progress: Adding AVS2FIFO_0 [AVS2FIFO 1.0]
+Progress: Parameterizing module AVS2FIFO_0
+Progress: Adding FIFO2AVS_0 [FIFO2AVS 1.0]
+Progress: Parameterizing module FIFO2AVS_0
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
+Progress: Adding fir_compiler_ii_0 [altera_fir_compiler_ii 18.1]
+Progress: Parameterizing module fir_compiler_ii_0
+Progress: Adding packet_presence_detection_0 [packet_presence_detection 1.0]
+Progress: Parameterizing module packet_presence_detection_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Warning: lms_dsp.AVS2FIFO: The SIM_VERILOG fileset must specify the top-level module name.
+Warning: lms_dsp.AVS2FIFO: The SIM_VHDL fileset must specify the top-level module name.
+Info: lms_dsp.fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 25, Bankcount 1, CoefBitWidth 8
+Info: lms_dsp.packet_presence_detection_0.avalon_streaming_source/AVS2FIFO_0.avalon_streaming_sink: The source data signal is 24 bits, but the sink is 48 bits. Avalon-ST Adapter will be inserted.
+Info: lms_dsp.FIFO2AVS_0.avalon_streaming_source/fir_compiler_ii_0.avalon_streaming_sink: The sink has a error signal of 2 bits, but the source does not. Avalon-ST Adapter will be inserted.
+Info: lms_dsp.FIFO2AVS_0.avalon_streaming_source/fir_compiler_ii_0.avalon_streaming_sink: The source data signal is 48 bits, but the sink is 24 bits. Avalon-ST Adapter will be inserted.
+Info: lms_dsp.fir_compiler_ii_0.avalon_streaming_source/packet_presence_detection_0.avalon_streaming_sink: The source has a error signal of 2 bits, but the sink does not. Avalon-ST Adapter will be inserted.
+Warning: lms_dsp.clk_0.clk/packet_presence_detection_0.clock_sink: packet_presence_detection_0.clock_sink requires 100000000Hz, but source has frequency of 125000000Hz
+Info: lms_dsp: Generating lms_dsp "lms_dsp" for SIM_VERILOG
+Info: avalon_st_adapter: Inserting data_format_adapter: data_format_adapter_0
+Info: avalon_st_adapter: Inserting timing_adapter: timing_adapter_0
+Info: avalon_st_adapter: Inserting timing_adapter: timing_adapter_1
+Info: avalon_st_adapter_001: Inserting data_format_adapter: data_format_adapter_0
+Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_001: Inserting timing_adapter: timing_adapter_0
+Info: avalon_st_adapter_001: Inserting timing_adapter: timing_adapter_1
+Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
+Info: AVS2FIFO_0: "lms_dsp" instantiated AVS2FIFO "AVS2FIFO_0"
+Info: FIFO2AVS_0: "lms_dsp" instantiated FIFO2AVS "FIFO2AVS_0"
+Info: fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 25, Bankcount 1, Latency 17, CoefBitWidth 8
+Info: fir_compiler_ii_0: "lms_dsp" instantiated altera_fir_compiler_ii "fir_compiler_ii_0"
+Info: packet_presence_detection_0: "lms_dsp" instantiated packet_presence_detection "packet_presence_detection_0"
+Info: avalon_st_adapter: "lms_dsp" instantiated altera_avalon_st_adapter "avalon_st_adapter"
+Info: avalon_st_adapter_001: "lms_dsp" instantiated altera_avalon_st_adapter "avalon_st_adapter_001"
+Info: avalon_st_adapter_002: "lms_dsp" instantiated altera_avalon_st_adapter "avalon_st_adapter_002"
+Info: rst_controller: "lms_dsp" instantiated altera_reset_controller "rst_controller"
+Info: data_format_adapter_0: "avalon_st_adapter" instantiated data_format_adapter "data_format_adapter_0"
+Info: timing_adapter_0: "avalon_st_adapter" instantiated timing_adapter "timing_adapter_0"
+Info: timing_adapter_1: "avalon_st_adapter" instantiated timing_adapter "timing_adapter_1"
+Info: data_format_adapter_0: "avalon_st_adapter_001" instantiated data_format_adapter "data_format_adapter_0"
+Info: error_adapter_0: "avalon_st_adapter_001" instantiated error_adapter "error_adapter_0"
+Info: timing_adapter_0: "avalon_st_adapter_001" instantiated timing_adapter "timing_adapter_0"
+Info: timing_adapter_1: "avalon_st_adapter_001" instantiated timing_adapter "timing_adapter_1"
+Info: error_adapter_0: "avalon_st_adapter_002" instantiated error_adapter "error_adapter_0"
+Info: lms_dsp: Done "lms_dsp" with 17 modules, 44 files
+Info: qsys-generate succeeded.
+Info: Finished: Create simulation model
+Info: Starting: Create Modelsim Project.
+Info: sim-script-gen --spd=D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\lms_dsp\lms_dsp.spd --output-directory=D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/simulation/ --use-relative-paths=true
+Info: Doing: ip-make-simscript --spd=D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\lms_dsp\lms_dsp.spd --output-directory=D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/simulation/ --use-relative-paths=true
+Info: Generating the following file(s) for MODELSIM simulator in D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/simulation/ directory:
+Info: 	mentor/msim_setup.tcl
+Info: Skipping VCS script generation since VHDL file $QUARTUS_INSTALL_DIR/eda/sim_lib/altera_syn_attributes.vhd is required for simulation
+Info: Generating the following file(s) for VCSMX simulator in D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/simulation/ directory:
+Info: 	synopsys/vcsmx/synopsys_sim.setup
+Info: 	synopsys/vcsmx/vcsmx_setup.sh
+Info: Generating the following file(s) for NCSIM simulator in D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/simulation/ directory:
+Info: 	cadence/cds.lib
+Info: 	cadence/hdl.var
+Info: 	cadence/ncsim_setup.sh
+Info: 	12 .cds.lib files in cadence/cds_libs/ directory
+Info: Generating the following file(s) for RIVIERA simulator in D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/simulation/ directory:
+Info: 	aldec/rivierapro_setup.tcl
+Info: For information on how to simulate your IP, see the explanatory comments in the simulator-specific subdirectories under D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/simulation/.
+Info: Regenerate these scripts whenever you make any change to any Quartus-generated IP in your project.
+Info: Finished: Create Modelsim Project.
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\lms_dsp.qsys --block-symbol-file --output-directory=D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\lms_dsp --family="MAX 10" --part=10M16SAU169C8G
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/lms_dsp.qsys
+Progress: Reading input file
+Progress: Adding AVS2FIFO_0 [AVS2FIFO 1.0]
+Progress: Parameterizing module AVS2FIFO_0
+Progress: Adding FIFO2AVS_0 [FIFO2AVS 1.0]
+Progress: Parameterizing module FIFO2AVS_0
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
+Progress: Adding fir_compiler_ii_0 [altera_fir_compiler_ii 18.1]
+Progress: Parameterizing module fir_compiler_ii_0
+Progress: Adding packet_presence_detection_0 [packet_presence_detection 1.0]
+Progress: Parameterizing module packet_presence_detection_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Warning: lms_dsp.AVS2FIFO: The SIM_VERILOG fileset must specify the top-level module name.
+Warning: lms_dsp.AVS2FIFO: The SIM_VHDL fileset must specify the top-level module name.
+Info: lms_dsp.fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 25, Bankcount 1, CoefBitWidth 8
+Info: lms_dsp.packet_presence_detection_0.avalon_streaming_source/AVS2FIFO_0.avalon_streaming_sink: The source data signal is 24 bits, but the sink is 48 bits. Avalon-ST Adapter will be inserted.
+Info: lms_dsp.FIFO2AVS_0.avalon_streaming_source/fir_compiler_ii_0.avalon_streaming_sink: The sink has a error signal of 2 bits, but the source does not. Avalon-ST Adapter will be inserted.
+Info: lms_dsp.FIFO2AVS_0.avalon_streaming_source/fir_compiler_ii_0.avalon_streaming_sink: The source data signal is 48 bits, but the sink is 24 bits. Avalon-ST Adapter will be inserted.
+Info: lms_dsp.fir_compiler_ii_0.avalon_streaming_source/packet_presence_detection_0.avalon_streaming_sink: The source has a error signal of 2 bits, but the sink does not. Avalon-ST Adapter will be inserted.
+Warning: lms_dsp.clk_0.clk/packet_presence_detection_0.clock_sink: packet_presence_detection_0.clock_sink requires 100000000Hz, but source has frequency of 125000000Hz
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\lms_dsp.qsys --synthesis=VERILOG --greybox --output-directory=D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\lms_dsp\synthesis --family="MAX 10" --part=10M16SAU169C8G
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/lms_dsp.qsys
+Progress: Reading input file
+Progress: Adding AVS2FIFO_0 [AVS2FIFO 1.0]
+Progress: Parameterizing module AVS2FIFO_0
+Progress: Adding FIFO2AVS_0 [FIFO2AVS 1.0]
+Progress: Parameterizing module FIFO2AVS_0
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
+Progress: Adding fir_compiler_ii_0 [altera_fir_compiler_ii 18.1]
+Progress: Parameterizing module fir_compiler_ii_0
+Progress: Adding packet_presence_detection_0 [packet_presence_detection 1.0]
+Progress: Parameterizing module packet_presence_detection_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Warning: lms_dsp.AVS2FIFO: The SIM_VERILOG fileset must specify the top-level module name.
+Warning: lms_dsp.AVS2FIFO: The SIM_VHDL fileset must specify the top-level module name.
+Info: lms_dsp.fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 25, Bankcount 1, CoefBitWidth 8
+Info: lms_dsp.packet_presence_detection_0.avalon_streaming_source/AVS2FIFO_0.avalon_streaming_sink: The source data signal is 24 bits, but the sink is 48 bits. Avalon-ST Adapter will be inserted.
+Info: lms_dsp.FIFO2AVS_0.avalon_streaming_source/fir_compiler_ii_0.avalon_streaming_sink: The sink has a error signal of 2 bits, but the source does not. Avalon-ST Adapter will be inserted.
+Info: lms_dsp.FIFO2AVS_0.avalon_streaming_source/fir_compiler_ii_0.avalon_streaming_sink: The source data signal is 48 bits, but the sink is 24 bits. Avalon-ST Adapter will be inserted.
+Info: lms_dsp.fir_compiler_ii_0.avalon_streaming_source/packet_presence_detection_0.avalon_streaming_sink: The source has a error signal of 2 bits, but the sink does not. Avalon-ST Adapter will be inserted.
+Warning: lms_dsp.clk_0.clk/packet_presence_detection_0.clock_sink: packet_presence_detection_0.clock_sink requires 100000000Hz, but source has frequency of 125000000Hz
+Info: lms_dsp: Generating lms_dsp "lms_dsp" for QUARTUS_SYNTH
+Info: avalon_st_adapter: Inserting data_format_adapter: data_format_adapter_0
+Info: avalon_st_adapter: Inserting timing_adapter: timing_adapter_0
+Info: avalon_st_adapter: Inserting timing_adapter: timing_adapter_1
+Info: avalon_st_adapter_001: Inserting data_format_adapter: data_format_adapter_0
+Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_001: Inserting timing_adapter: timing_adapter_0
+Info: avalon_st_adapter_001: Inserting timing_adapter: timing_adapter_1
+Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
+Info: AVS2FIFO_0: "lms_dsp" instantiated AVS2FIFO "AVS2FIFO_0"
+Info: FIFO2AVS_0: "lms_dsp" instantiated FIFO2AVS "FIFO2AVS_0"
+Info: fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 25, Bankcount 1, Latency 17, CoefBitWidth 8
+Info: fir_compiler_ii_0: "lms_dsp" instantiated altera_fir_compiler_ii "fir_compiler_ii_0"
+Info: packet_presence_detection_0: "lms_dsp" instantiated packet_presence_detection "packet_presence_detection_0"
+Info: avalon_st_adapter: "lms_dsp" instantiated altera_avalon_st_adapter "avalon_st_adapter"
+Info: avalon_st_adapter_001: "lms_dsp" instantiated altera_avalon_st_adapter "avalon_st_adapter_001"
+Info: avalon_st_adapter_002: "lms_dsp" instantiated altera_avalon_st_adapter "avalon_st_adapter_002"
+Info: rst_controller: "lms_dsp" instantiated altera_reset_controller "rst_controller"
+Info: data_format_adapter_0: "avalon_st_adapter" instantiated data_format_adapter "data_format_adapter_0"
+Info: timing_adapter_0: "avalon_st_adapter" instantiated timing_adapter "timing_adapter_0"
+Info: timing_adapter_1: "avalon_st_adapter" instantiated timing_adapter "timing_adapter_1"
+Info: data_format_adapter_0: "avalon_st_adapter_001" instantiated data_format_adapter "data_format_adapter_0"
+Info: error_adapter_0: "avalon_st_adapter_001" instantiated error_adapter "error_adapter_0"
+Info: timing_adapter_0: "avalon_st_adapter_001" instantiated timing_adapter "timing_adapter_0"
+Info: timing_adapter_1: "avalon_st_adapter_001" instantiated timing_adapter "timing_adapter_1"
+Info: error_adapter_0: "avalon_st_adapter_002" instantiated error_adapter "error_adapter_0"
+Info: lms_dsp: Done "lms_dsp" with 17 modules, 36 files
+Info: Generating third-party timing and resource estimation model ...
+Info: Done generating third-party timing and resource estimation model.
+Info: qsys-generate succeeded.
+Info: Stopping: Create HDL design files for synthesis

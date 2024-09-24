@@ -1,0 +1,238 @@
+ -- Copyright (C) 2018  Intel Corporation. All rights reserved.
+ -- Your use of Intel Corporation's design tools, logic functions 
+ -- and other software and tools, and its AMPP partner logic 
+ -- functions, and any output files from any of the foregoing 
+ -- (including device programming or simulation files), and any 
+ -- associated documentation or information are expressly subject 
+ -- to the terms and conditions of the Intel Program License 
+ -- Subscription Agreement, the Intel Quartus Prime License Agreement,
+ -- the Intel FPGA IP License Agreement, or other applicable license
+ -- agreement, including, without limitation, that your use is for
+ -- the sole purpose of programming logic devices manufactured by
+ -- Intel and sold by Intel or its authorized distributors.  Please
+ -- refer to the applicable agreement for further details.
+ -- 
+ -- This is a Quartus Prime output file. It is for reporting purposes only, and is
+ -- not intended for use as a Quartus Prime input file. This file cannot be used
+ -- to make Quartus Prime pin assignments - for instructions on how to make pin
+ -- assignments, please see Quartus Prime help.
+ ---------------------------------------------------------------------------------
+
+
+
+ ---------------------------------------------------------------------------------
+ -- NC            : No Connect. This pin has no internal connection to the device.
+ -- DNU           : Do Not Use. This pin MUST NOT be connected.
+ -- VCCINT        : Dedicated power pin, which MUST be connected to VCC  (1.2V).
+ -- VCCIO         : Dedicated power pin, which MUST be connected to VCC
+ --                 of its bank.
+ --                  Bank 1A:       1.8V
+ --                  Bank 1B:       1.8V
+ --                  Bank 2:       2.5V
+ --                  Bank 3:       2.5V
+ --                  Bank 5:       3.3V
+ --                  Bank 6:       3.3V
+ --                  Bank 8:       3.3V
+ -- GND           : Dedicated ground pin. Dedicated GND pins MUST be connected to GND.
+ --                  It can also be used to report unused dedicated pins. The connection
+ --                  on the board for unused dedicated pins depends on whether this will
+ --                  be used in a future design. One example is device migration. When
+ --                  using device migration, refer to the device pin-tables. If it is a
+ --                  GND pin in the pin table or if it will not be used in a future design
+ --                  for another purpose the it MUST be connected to GND. If it is an unused
+ --                  dedicated pin, then it can be connected to a valid signal on the board
+ --                  (low, high, or toggling) if that signal is required for a different
+ --                  revision of the design.
+ -- GND+          : Unused input pin. It can also be used to report unused dual-purpose pins.
+ --                  This pin should be connected to GND. It may also be connected  to a
+ --                  valid signal  on the board  (low, high, or toggling)  if that signal
+ --                  is required for a different revision of the design.
+ -- GND*          : Unused  I/O  pin. Connect each pin marked GND* directly to GND
+ --                  or leave it unconnected.
+ -- RESERVED      : Unused I/O pin, which MUST be left unconnected.
+ -- RESERVED_INPUT    : Pin is tri-stated and should be connected to the board.
+ -- RESERVED_INPUT_WITH_WEAK_PULLUP    : Pin is tri-stated with internal weak pull-up resistor.
+ -- RESERVED_INPUT_WITH_BUS_HOLD       : Pin is tri-stated with bus-hold circuitry.
+ -- RESERVED_OUTPUT_DRIVEN_HIGH        : Pin is output driven high.
+ ---------------------------------------------------------------------------------
+
+
+
+ ---------------------------------------------------------------------------------
+ -- Pin directions (input, output or bidir) are based on device operating in user mode.
+ ---------------------------------------------------------------------------------
+
+Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Standard Edition
+CHIP  "LimeSDR-Mini_lms7_lelec210x"  ASSIGNED TO AN: 10M16SAU169C8G
+
+Pin Name/Usage               : Location  : Dir.   : I/O Standard      : Voltage : I/O Bank  : User Assignment
+-------------------------------------------------------------------------------------------------------------
+GND                          : A1        : gnd    :                   :         :           :                
+FT_D[0]                      : A2        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FT_D[4]                      : A3        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FT_D[7]                      : A4        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FT_D[20]                     : A5        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FT_D[18]                     : A6        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FT_D[16]                     : A7        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FT_D[23]                     : A8        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FT_D[14]                     : A9        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+RFSW_RX_V1                   : A10       : output : 3.3-V LVCMOS      :         : 8         : Y              
+FPGA_GPIO[0]                 : A11       : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FT_BE[2]                     : A12       : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+GND                          : A13       : gnd    :                   :         :           :                
+FPGA_QSPI_IO2                : B1        : output : 1.8 V             :         : 1A        : Y              
+FT_D[11]                     : B2        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FT_D[2]                      : B3        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FT_D[5]                      : B4        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FT_D[3]                      : B5        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FT_D[1]                      : B6        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FPGA_EGPIO[0]                : B7        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+GND                          : B8        : gnd    :                   :         :           :                
+FPGA_LED_R                   : B9        : output : 3.3-V LVCMOS      :         : 8         : Y              
+FPGA_GPIO[1]                 : B10       : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FT_BE[0]                     : B11       : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+FT_D[8]                      : B12       : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+FT_BE[3]                     : B13       : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+FPGA_QSPI_IO1                : C1        : input  : 1.8 V             :         : 1A        : Y              
+BOM_VER[2]                   : C2        : input  : 1.8 V             :         : 1A        : Y              
+GND                          : C3        : gnd    :                   :         :           :                
+RFSW_TX_V2                   : C4        : output : 3.3-V LVCMOS      :         : 8         : Y              
+FAN_CTRL                     : C5        : output : 3.3-V LVCMOS      :         : 8         : Y              
+VCCIO8                       : C6        : power  :                   : 3.3V    : 8         :                
+VCCIO8                       : C7        : power  :                   : 3.3V    : 8         :                
+VCCIO8                       : C8        : power  :                   : 3.3V    : 8         :                
+RFSW_RX_V2                   : C9        : output : 3.3-V LVCMOS      :         : 8         : Y              
+FPGA_GPIO[2]                 : C10       : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FT_RXFn                      : C11       : input  : 3.3-V LVCMOS      :         : 6         : Y              
+FT_BE[1]                     : C12       : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+FT_TXEn                      : C13       : input  : 3.3-V LVCMOS      :         : 6         : Y              
+FPGA_QSPI_IO0                : D1        : output : 1.8 V             :         : 1A        : Y              
+ANAIN1                       : D2        :        :                   :         :           :                
+ADC_VREF                     : D3        :        :                   :         :           :                
+VCCA3                        : D4        : power  :                   : 3.0V/3.3V :           :                
+GND                          : D5        : gnd    :                   :         :           :                
+FPGA_EGPIO[1]                : D6        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+RESERVED_INPUT               : D7        :        :                   :         : 8         :                
+FPGA_LED_G                   : D8        : output : 3.3-V LVCMOS      :         : 8         : Y              
+FT_D[12]                     : D9        : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+VCCA2                        : D10       : power  :                   : 3.0V/3.3V :           :                
+FPGA_GPIO[3]                 : D11       : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+RESERVED_INPUT               : D12       :        :                   :         : 6         :                
+FPGA_I2C_SCL                 : D13       : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+FPGA_QSPI_FLASH_SS           : E1        : output : 1.8 V             :         : 1A        : Y              
+REFGND                       : E2        :        :                   :         :           :                
+HW_VER[0]                    : E3        : input  : 1.8 V             :         : 1A        : Y              
+HW_VER[1]                    : E4        : input  : 1.8 V             :         : 1A        : Y              
+RESERVED_INPUT               : E5        :        :                   :         : 1B        :                
+FT_D[6]                      : E6        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+RESERVED_INPUT               : E7        :        :                   :         : 8         :                
+FT_D[22]                     : E8        : bidir  : 3.3-V LVCMOS      :         : 8         : Y              
+FT_D[10]                     : E9        : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+FT_D[19]                     : E10       : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+GND                          : E11       : gnd    :                   :         :           :                
+FT_WRn                       : E12       : output : 3.3-V LVCMOS      :         : 6         : Y              
+FPGA_GPIO[4]                 : E13       : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+FPGA_QSPI_SCLK               : F1        : output : 1.8 V             :         : 1A        : Y              
+VCCIO1A                      : F2        : power  :                   : 1.8V    : 1A        :                
+GND                          : F3        : gnd    :                   :         :           :                
+HW_VER[2]                    : F4        : input  : 1.8 V             :         : 1B        : Y              
+altera_reserved_tdi          : F5        : input  : 1.8 V Schmitt Trigger :         : 1B        : N              
+altera_reserved_tdo          : F6        : output : 1.8 V             :         : 1B        : N              
+VCC_ONE                      : F7        : power  :                   : 3.0V/3.3V :           :                
+FT_D[17]                     : F8        : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+FT_D[21]                     : F9        : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+FPGA_GPIO[6]                 : F10       : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+VCCIO6                       : F11       : power  :                   : 3.3V    : 6         :                
+RESERVED_INPUT               : F12       :        :                   :         : 6         :                
+FPGA_GPIO[5]                 : F13       : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+altera_reserved_tms          : G1        : input  : 1.8 V Schmitt Trigger :         : 1B        : N              
+altera_reserved_tck          : G2        : input  : 1.8 V Schmitt Trigger :         : 1B        : N              
+VCCIO1B                      : G3        : power  :                   : 1.8V    : 1B        :                
+HW_VER[3]                    : G4        : input  : 1.8 V             :         : 1B        : Y              
+LMS_MCLK1                    : G5        : input  : 2.5 V             :         : 2         : Y              
+VCC_ONE                      : G6        : power  :                   : 3.0V/3.3V :           :                
+GND                          : G7        : gnd    :                   :         :           :                
+VCC_ONE                      : G8        : power  :                   : 3.0V/3.3V :           :                
+FT_CLK                       : G9        : input  : 3.3-V LVCMOS      :         : 6         : Y              
+FPGA_GPIO[7]                 : G10       : bidir  : 3.3-V LVCMOS      :         : 6         : Y              
+VCCIO6                       : G11       : power  :                   : 3.3V    : 6         :                
+FT_D[27]                     : G12       : bidir  : 3.3-V LVCMOS      :         : 5         : Y              
+FT_D[29]                     : G13       : bidir  : 3.3-V LVCMOS      :         : 5         : Y              
+FPGA_QSPI_IO3                : H1        : output : 1.8 V             :         : 1B        : Y              
+LM75_OS                      : H2        : input  : 1.8 V             :         : 1B        : Y              
+BOM_VER[1]                   : H3        : input  : 1.8 V             :         : 1B        : Y              
+LMS_MCLK2                    : H4        : input  : 2.5 V             :         : 2         : Y              
+LMS_TXNRX2                   : H5        : output : 2.5 V             :         : 2         : Y              
+LMK_CLK                      : H6        : input  : 2.5 V             :         : 2         : Y              
+VCC_ONE                      : H7        : power  :                   : 3.0V/3.3V :           :                
+FT_D[9]                      : H8        : bidir  : 3.3-V LVCMOS      :         : 5         : Y              
+FT_D[15]                     : H9        : bidir  : 3.3-V LVCMOS      :         : 5         : Y              
+RESERVED_INPUT               : H10       :        :                   :         : 5         :                
+VCCIO5                       : H11       : power  :                   : 3.3V    : 5         :                
+GND                          : H12       : gnd    :                   :         :           :                
+FT_D[31]                     : H13       : bidir  : 3.3-V LVCMOS      :         : 5         : Y              
+LMS_DIQ2_D[3]                : J1        : input  : 2.5 V             :         : 2         : Y              
+LMS_DIQ2_D[7]                : J2        : input  : 2.5 V             :         : 2         : Y              
+VCCIO2                       : J3        : power  :                   : 2.5V    : 2         :                
+GND                          : J4        : gnd    :                   :         :           :                
+FPGA_SPI_LMS_SS              : J5        : output : 2.5 V             :         : 3         : Y              
+FPGA_SPI_MISO                : J6        : input  : 2.5 V             :         : 3         : Y              
+FPGA_SPI_MOSI                : J7        : output : 2.5 V             :         : 3         : Y              
+LMS_TXNRX1                   : J8        : output : 2.5 V             :         : 3         : Y              
+FT_D[13]                     : J9        : bidir  : 3.3-V LVCMOS      :         : 5         : Y              
+TX_LB_SH                     : J10       : output : 3.3-V LVCMOS      :         : 5         : Y              
+VCCIO5                       : J11       : power  :                   : 3.3V    : 5         :                
+FT_D[26]                     : J12       : bidir  : 3.3-V LVCMOS      :         : 5         : Y              
+FT_D[30]                     : J13       : bidir  : 3.3-V LVCMOS      :         : 5         : Y              
+LMS_DIQ2_D[5]                : K1        : input  : 2.5 V             :         : 2         : Y              
+LMS_DIQ2_D[9]                : K2        : input  : 2.5 V             :         : 2         : Y              
+VCCIO2                       : K3        : power  :                   : 2.5V    : 2         :                
+VCCA1                        : K4        : power  :                   : 3.0V/3.3V :           :                
+FPGA_SPI_SCLK                : K5        : output : 2.5 V             :         : 3         : Y              
+LMS_TXEN                     : K6        : output : 2.5 V             :         : 3         : Y              
+BOM_VER[0]                   : K7        : input  : 2.5 V             :         : 3         : Y              
+FPGA_SPI_DAC_SS              : K8        : output : 2.5 V             :         : 3         : Y              
+VCCA4                        : K9        : power  :                   : 3.0V/3.3V :           :                
+TX_LB_AT                     : K10       : output : 3.3-V LVCMOS      :         : 5         : Y              
+FT_D[24]                     : K11       : bidir  : 3.3-V LVCMOS      :         : 5         : Y              
+FT_D[25]                     : K12       : bidir  : 3.3-V LVCMOS      :         : 5         : Y              
+FPGA_I2C_SDA                 : K13       : bidir  : 3.3-V LVCMOS      :         : 5         : Y              
+LMS_RESET                    : L1        : output : 2.5 V             :         : 2         : Y              
+LMS_DIQ2_D[6]                : L2        : input  : 2.5 V             :         : 2         : Y              
+LMS_FCLK1                    : L3        : output : 2.5 V             :         : 2         : Y              
+LMS_DIQ2_D[11]               : L4        : input  : 2.5 V             :         : 3         : Y              
+LMS_DIQ2_D[10]               : L5        : input  : 2.5 V             :         : 3         : Y              
+VCCIO3                       : L6        : power  :                   : 2.5V    : 3         :                
+VCCIO3                       : L7        : power  :                   : 2.5V    : 3         :                
+VCCIO3                       : L8        : power  :                   : 2.5V    : 3         :                
+GND                          : L9        : gnd    :                   :         :           :                
+LMS_DIQ1_D[3]                : L10       : output : 2.5 V             :         : 3         : Y              
+RFSW_TX_V1                   : L11       : output : 2.5 V             :         : 3         : Y              
+RESERVED_INPUT               : L12       :        :                   :         : 5         :                
+FT_D[28]                     : L13       : bidir  : 3.3-V LVCMOS      :         : 5         : Y              
+LMS_DIQ2_D[2]                : M1        : input  : 2.5 V             :         : 2         : Y              
+LMS_DIQ2_D[0]                : M2        : input  : 2.5 V             :         : 2         : Y              
+LMS_FCLK2                    : M3        : output : 2.5 V             :         : 2         : Y              
+LMS_DIQ2_D[1]                : M4        : input  : 2.5 V             :         : 3         : Y              
+RESERVED_INPUT               : M5        :        :                   :         : 3         :                
+GND                          : M6        : gnd    :                   :         :           :                
+LMS_DIQ1_D[8]                : M7        : output : 2.5 V             :         : 3         : Y              
+LMS_ENABLE_IQSEL1            : M8        : output : 2.5 V             :         : 3         : Y              
+LMS_DIQ1_D[10]               : M9        : output : 2.5 V             :         : 3         : Y              
+LMS_DIQ1_D[4]                : M10       : output : 2.5 V             :         : 3         : Y              
+LMS_RXEN                     : M11       : output : 2.5 V             :         : 3         : Y              
+LMS_DIQ1_D[0]                : M12       : output : 2.5 V             :         : 3         : Y              
+LMS_DIQ1_D[5]                : M13       : output : 2.5 V             :         : 3         : Y              
+GND                          : N1        : gnd    :                   :         :           :                
+LMS_DIQ2_D[4]                : N2        : input  : 2.5 V             :         : 2         : Y              
+LMS_ENABLE_IQSEL2            : N3        : input  : 2.5 V             :         : 2         : Y              
+LMS_DIQ2_D[8]                : N4        : input  : 2.5 V             :         : 3         : Y              
+RESERVED_INPUT               : N5        :        :                   :         : 3         :                
+LMS_DIQ1_D[11]               : N6        : output : 2.5 V             :         : 3         : Y              
+LMS_DIQ1_D[9]                : N7        : output : 2.5 V             :         : 3         : Y              
+LMS_DIQ1_D[7]                : N8        : output : 2.5 V             :         : 3         : Y              
+LMS_DIQ1_D[6]                : N9        : output : 2.5 V             :         : 3         : Y              
+LMS_DIQ1_D[2]                : N10       : output : 2.5 V             :         : 3         : Y              
+LMS_CORE_LDO_EN              : N11       : output : 2.5 V             :         : 3         : Y              
+LMS_DIQ1_D[1]                : N12       : output : 2.5 V             :         : 3         : Y              
+GND                          : N13       : gnd    :                   :         :           :                

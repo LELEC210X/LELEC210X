@@ -1,0 +1,35 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dD:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/mentor
+valtera_avalon_reset_source
+DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+DXx25 altera_common_sv_packages 13 verbosity_pkg 0 22 W9liW@3GIm=ZJ3bLV`^^o1
+!s110 1698826576
+!i10b 1
+!s100 3a?19XA<0CCRW>1VRc_7<0
+IO2jgW^@^SCBoa@JgS<2P;1
+VDg1SIo80bB@j0V0VzS_@n1
+!s105 altera_avalon_reset_source_sv_unit
+S1
+R0
+w1698826477
+8./../fir_tb_gen_tb/simulation/submodules/altera_avalon_reset_source.sv
+F./../fir_tb_gen_tb/simulation/submodules/altera_avalon_reset_source.sv
+L0 23
+OV;L;10.5b;63
+r1
+!s85 0
+31
+!s108 1698826576.000000
+!s107 ./../fir_tb_gen_tb/simulation/submodules/altera_avalon_reset_source.sv|
+!s90 -reportprogress|300|-sv|./../fir_tb_gen_tb/simulation/submodules/altera_avalon_reset_source.sv|-L|altera_common_sv_packages|-work|fir_tb_gen_inst_reset_bfm|
+!i113 1
+o-sv -L altera_common_sv_packages -work fir_tb_gen_inst_reset_bfm
+tCvgOpt 0

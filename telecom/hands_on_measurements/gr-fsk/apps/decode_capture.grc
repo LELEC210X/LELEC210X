@@ -1,0 +1,320 @@
+options:
+  parameters:
+    author: UCLouvain
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: no_gui
+    hier_block_src_path: '.:'
+    id: decode_trace
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: run
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: LELEC2102 - Decode Capture
+    window_size: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: crc_len
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [682, 18]
+    rotation: 0
+    state: true
+- name: data_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: 50e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [301, 15]
+    rotation: 0
+    state: true
+- name: detect_threshold
+  id: variable
+  parameters:
+    comment: ''
+    value: '0.1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [808, 16]
+    rotation: 0
+    state: true
+- name: estimated_noise_power
+  id: variable
+  parameters:
+    comment: ''
+    value: '1.4e-07'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [799, 92]
+    rotation: 0
+    state: true
+- name: fdev
+  id: variable
+  parameters:
+    comment: ''
+    value: data_rate/4
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [394, 15]
+    rotation: 0
+    state: true
+- name: hdr_len
+  id: variable
+  parameters:
+    comment: ''
+    value: '8'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [500, 17]
+    rotation: 0
+    state: true
+- name: packet_len
+  id: variable
+  parameters:
+    comment: ''
+    value: hdr_len+payload_len+crc_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [582, 96]
+    rotation: 0
+    state: true
+- name: payload_len
+  id: variable
+  parameters:
+    comment: ''
+    value: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [580, 18]
+    rotation: 0
+    state: true
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: data_rate*8
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [202, 15]
+    rotation: 0
+    state: enabled
+- name: blocks_file_source_0
+  id: blocks_file_source
+  parameters:
+    affinity: ''
+    alias: ''
+    begin_tag: pmt.PMT_NIL
+    comment: ''
+    file: misc/fsk_capture.mat
+    length: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    repeat: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [20, 215]
+    rotation: 0
+    state: true
+- name: blocks_throttle_0
+  id: blocks_throttle
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: samp_rate
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [249, 247]
+    rotation: 0
+    state: true
+- name: fsk_demodulation_0
+  id: fsk_demodulation
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    crc_len: crc_len
+    drate: data_rate
+    fdev: fdev
+    fsamp: samp_rate
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    payload_len: payload_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [682, 370]
+    rotation: 0
+    state: enabled
+- name: fsk_packet_parser_0
+  id: fsk_packet_parser
+  parameters:
+    address: '[0,0,1,1,1,1,1,0,0,0,1,0,1,0,1,0,0,1,0,1,0,1,0,0,1,0,1,1,0,1,1,1]'
+    affinity: ''
+    alias: ''
+    comment: ''
+    crc_len: crc_len
+    hdr_len: hdr_len
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    payload_len: payload_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [957, 378]
+    rotation: 0
+    state: enabled
+- name: fsk_preamble_detect_0
+  id: fsk_preamble_detect
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    drate: data_rate
+    fdev: fdev
+    fsamp: samp_rate
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packet_len: packet_len
+    threshold: detect_threshold
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [683, 215]
+    rotation: 0
+    state: enabled
+- name: fsk_synchronization_0
+  id: fsk_synchronization
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    drate: data_rate
+    estimated_noise_power: estimated_noise_power
+    fdev: fdev
+    fsamp: samp_rate
+    hdr_len: hdr_len
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packet_len: packet_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [969, 207]
+    rotation: 0
+    state: enabled
+- name: low_pass_filter_0
+  id: low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: 1.5*data_rate
+    decim: '1'
+    gain: '1'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    type: fir_filter_ccf
+    width: data_rate*1
+    win: firdes.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [450, 199]
+    rotation: 0
+    state: enabled
+- name: zeromq_pub_sink_0
+  id: zeromq_pub_sink
+  parameters:
+    address: tcp://127.0.0.1:10000
+    affinity: ''
+    alias: ''
+    comment: ''
+    hwm: '-1'
+    key: ''
+    pass_tags: 'False'
+    timeout: '100'
+    type: byte
+    vlen: payload_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1223, 378]
+    rotation: 0
+    state: enabled
+
+connections:
+- [blocks_file_source_0, '0', blocks_throttle_0, '0']
+- [blocks_throttle_0, '0', low_pass_filter_0, '0']
+- [fsk_demodulation_0, '0', fsk_packet_parser_0, '0']
+- [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
+- [fsk_preamble_detect_0, '0', fsk_synchronization_0, '0']
+- [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
+- [low_pass_filter_0, '0', fsk_preamble_detect_0, '0']
+
+metadata:
+  file_format: 1

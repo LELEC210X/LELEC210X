@@ -1,0 +1,189 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+*/
+(header "symbol" (version "1.2"))
+(symbol
+	(rect 0 0 424 312)
+	(text "pll" (rect 204 0 224 20)(font "Arial" (font_size 10)))
+	(text "inst" (rect 8 294 32 308)(font "Arial" ))
+	(port
+		(pt 0 72)
+		(input)
+		(text "inclk0" (rect 0 0 42 16)(font "Arial" (font_size 8)))
+		(text "inclk0" (rect 4 56 39 71)(font "Arial" (font_size 8)))
+		(line (pt 0 72)(pt 144 72))
+	)
+	(port
+		(pt 0 96)
+		(input)
+		(text "areset" (rect 0 0 44 16)(font "Arial" (font_size 8)))
+		(text "areset" (rect 4 80 41 95)(font "Arial" (font_size 8)))
+		(line (pt 0 96)(pt 144 96))
+	)
+	(port
+		(pt 0 120)
+		(input)
+		(text "scanclk" (rect 0 0 54 16)(font "Arial" (font_size 8)))
+		(text "scanclk" (rect 4 104 50 119)(font "Arial" (font_size 8)))
+		(line (pt 0 120)(pt 144 120))
+	)
+	(port
+		(pt 0 144)
+		(input)
+		(text "scandata" (rect 0 0 67 16)(font "Arial" (font_size 8)))
+		(text "scandata" (rect 4 128 59 143)(font "Arial" (font_size 8)))
+		(line (pt 0 144)(pt 144 144))
+	)
+	(port
+		(pt 0 168)
+		(input)
+		(text "scanclkena" (rect 0 0 81 16)(font "Arial" (font_size 8)))
+		(text "scanclkena" (rect 4 152 72 167)(font "Arial" (font_size 8)))
+		(line (pt 0 168)(pt 144 168))
+	)
+	(port
+		(pt 0 192)
+		(input)
+		(text "configupdate" (rect 0 0 92 16)(font "Arial" (font_size 8)))
+		(text "configupdate" (rect 4 176 79 191)(font "Arial" (font_size 8)))
+		(line (pt 0 192)(pt 144 192))
+	)
+	(port
+		(pt 0 216)
+		(input)
+		(text "phasecounterselect[2..0]" (rect 0 0 172 16)(font "Arial" (font_size 8)))
+		(text "phasecounterselect[2..0]" (rect 4 200 147 215)(font "Arial" (font_size 8)))
+		(line (pt 0 216)(pt 144 216)(line_width 3))
+	)
+	(port
+		(pt 0 240)
+		(input)
+		(text "phaseupdown" (rect 0 0 99 16)(font "Arial" (font_size 8)))
+		(text "phaseupdown" (rect 4 224 85 239)(font "Arial" (font_size 8)))
+		(line (pt 0 240)(pt 144 240))
+	)
+	(port
+		(pt 0 264)
+		(input)
+		(text "phasestep" (rect 0 0 74 16)(font "Arial" (font_size 8)))
+		(text "phasestep" (rect 4 248 65 263)(font "Arial" (font_size 8)))
+		(line (pt 0 264)(pt 144 264))
+	)
+	(port
+		(pt 424 72)
+		(output)
+		(text "c0" (rect 0 0 18 16)(font "Arial" (font_size 8)))
+		(text "c0" (rect 406 56 421 71)(font "Arial" (font_size 8)))
+	)
+	(port
+		(pt 424 96)
+		(output)
+		(text "c1" (rect 0 0 18 16)(font "Arial" (font_size 8)))
+		(text "c1" (rect 406 80 421 95)(font "Arial" (font_size 8)))
+	)
+	(port
+		(pt 424 120)
+		(output)
+		(text "c2" (rect 0 0 18 16)(font "Arial" (font_size 8)))
+		(text "c2" (rect 406 104 421 119)(font "Arial" (font_size 8)))
+	)
+	(port
+		(pt 424 144)
+		(output)
+		(text "c3" (rect 0 0 18 16)(font "Arial" (font_size 8)))
+		(text "c3" (rect 406 128 421 143)(font "Arial" (font_size 8)))
+	)
+	(port
+		(pt 424 168)
+		(output)
+		(text "scandataout" (rect 0 0 87 16)(font "Arial" (font_size 8)))
+		(text "scandataout" (rect 347 152 419 167)(font "Arial" (font_size 8)))
+	)
+	(port
+		(pt 424 192)
+		(output)
+		(text "scandone" (rect 0 0 69 16)(font "Arial" (font_size 8)))
+		(text "scandone" (rect 362 176 419 191)(font "Arial" (font_size 8)))
+	)
+	(port
+		(pt 424 216)
+		(output)
+		(text "phasedone" (rect 0 0 79 16)(font "Arial" (font_size 8)))
+		(text "phasedone" (rect 354 200 418 215)(font "Arial" (font_size 8)))
+	)
+	(port
+		(pt 424 240)
+		(output)
+		(text "locked" (rect 0 0 47 16)(font "Arial" (font_size 8)))
+		(text "locked" (rect 382 224 421 239)(font "Arial" (font_size 8)))
+	)
+	(drawing
+		(text "MAX 10" (rect 371 294 785 601)(font "Arial" ))
+		(text "inclk0 frequency: 160.000 MHz" (rect 154 163 463 339)(font "Arial" ))
+		(text "Operation Mode: Normal" (rect 154 178 431 369)(font "Arial" ))
+		(text "Clk " (rect 155 202 328 417)(font "Arial" ))
+		(text "Ratio" (rect 179 202 385 417)(font "Arial" ))
+		(text "Ph (dg)" (rect 210 202 458 417)(font "Arial" ))
+		(text "DC (%)" (rect 252 202 542 417)(font "Arial" ))
+		(text "c0" (rect 159 218 332 449)(font "Arial" ))
+		(text "1/1" (rect 184 218 384 449)(font "Arial" ))
+		(text "0.00" (rect 218 218 459 449)(font "Arial" ))
+		(text "50.00" (rect 257 218 543 449)(font "Arial" ))
+		(text "c1" (rect 159 234 331 481)(font "Arial" ))
+		(text "1/1" (rect 184 234 384 481)(font "Arial" ))
+		(text "0.00" (rect 218 234 459 481)(font "Arial" ))
+		(text "50.00" (rect 257 234 543 481)(font "Arial" ))
+		(text "c2" (rect 159 250 331 513)(font "Arial" ))
+		(text "1/1" (rect 184 250 384 513)(font "Arial" ))
+		(text "0.00" (rect 218 250 459 513)(font "Arial" ))
+		(text "50.00" (rect 257 250 543 513)(font "Arial" ))
+		(text "c3" (rect 159 266 331 545)(font "Arial" ))
+		(text "1/1" (rect 184 266 384 545)(font "Arial" ))
+		(text "0.00" (rect 218 266 459 545)(font "Arial" ))
+		(text "50.00" (rect 257 266 543 545)(font "Arial" ))
+		(line (pt 0 0)(pt 425 0))
+		(line (pt 425 0)(pt 425 314))
+		(line (pt 0 314)(pt 425 314))
+		(line (pt 0 0)(pt 0 314))
+		(line (pt 152 200)(pt 291 200))
+		(line (pt 152 215)(pt 291 215))
+		(line (pt 152 231)(pt 291 231))
+		(line (pt 152 247)(pt 291 247))
+		(line (pt 152 263)(pt 291 263))
+		(line (pt 152 279)(pt 291 279))
+		(line (pt 152 200)(pt 152 279))
+		(line (pt 176 200)(pt 176 279)(line_width 3))
+		(line (pt 207 200)(pt 207 279)(line_width 3))
+		(line (pt 249 200)(pt 249 279)(line_width 3))
+		(line (pt 290 200)(pt 290 279))
+		(line (pt 144 56)(pt 343 56))
+		(line (pt 343 56)(pt 343 296))
+		(line (pt 144 296)(pt 343 296))
+		(line (pt 144 56)(pt 144 296))
+		(line (pt 423 72)(pt 343 72))
+		(line (pt 423 96)(pt 343 96))
+		(line (pt 423 120)(pt 343 120))
+		(line (pt 423 144)(pt 343 144))
+		(line (pt 423 168)(pt 343 168))
+		(line (pt 423 192)(pt 343 192))
+		(line (pt 423 216)(pt 343 216))
+		(line (pt 423 240)(pt 343 240))
+	)
+)

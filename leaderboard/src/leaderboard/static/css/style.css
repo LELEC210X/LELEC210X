@@ -1,0 +1,218 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  text-align: center;
+  scroll-behavior: smooth;
+  --table-header-background-color: #8ecae6;
+  --table-border-width: 2px;
+  --table-border-color: #023047;
+  /*--table-fixed-width: 130px;*/
+  --table-fixed-padding: 12px;
+  --table-width: 70px;
+  --table-n-visible: 5;
+}
+
+h1 {
+  font-size: 3rem;
+  color: white;
+}
+
+h2 {
+  font-size: 2rem;
+  padding-top: 20px;
+  color: white;
+}
+
+body {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  gap: 50px;
+  padding: 20px;
+  font-family: Poppins, sans-serif;
+  font-size: 32px;
+
+  background:
+    url("./forest-background-sunset.png") no-repeat fixed top center,
+    #281f3c;
+  background-size: 100%;
+}
+
+.security_table {
+  border-spacing: 0;
+  row-gap: 3px;
+  opacity: 0.8;
+  border: var(--table-border-width) solid var(--table-border-color);
+}
+
+.security_table th {
+  min-width: 200px;
+  background-color: #d9a820;
+  text-align: center;
+  height: 48px;
+}
+
+.security_table tr:first-child th {
+  border-bottom: var(--table-border-width) solid var(--table-border-color);
+  color: white;
+  background-image: url("./class_icons/security.png");
+  background-position: left 75% center;
+  background-size: auto 75%;
+  background-repeat: repeat;
+}
+
+.table_wrapper {
+  width: calc(
+    2 *
+      (
+        var(--table-fixed-width) + var(--table-border-width) + 2 *
+          var(--table-fixed-padding)
+      ) + var(--table-n-visible) * var(--table-width)
+  );
+  /*
+  overflow-x: scroll;
+  scrollbar-color: var(--table-header-background-color)
+    var(--table-border-color);
+  scrollbar-width: thin;*/
+  border-collapse: collapse;
+  border: var(--table-border-width) solid var(--table-border-color);
+  border-radius: 10px 10px 10px 10px;
+}
+
+.table_wrapper table {
+  border-spacing: 0;
+  row-gap: 3px;
+  opacity: 0.8;
+}
+
+.table_wrapper th {
+  position: sticky;
+  top: 0;
+  background-color: var(--table-header-background-color);
+}
+
+.table_wrapper td {
+  min-width: var(--table-width);
+}
+
+.table_wrapper th,
+.table_wrapper td {
+  text-align: center;
+  height: 48px;
+}
+
+tr:nth-child(even) {
+  filter: brightness(0.85);
+}
+
+.table_wrapper tr:first-child th {
+  border-bottom: var(--table-border-width) solid var(--table-border-color);
+}
+
+.table_wrapper th:first-child,
+.table_wrapper th:last-child {
+  position: sticky;
+  padding: 0px var(--table-fixed-padding);
+}
+
+.table_wrapper th:first-child {
+  z-index: 300;
+  min-width: 180px;
+  left: 0;
+}
+
+.table_wrapper th:last-child {
+  min-width: 50px;
+  right: 0;
+}
+
+.table_wrapper tr:not(:first-child) th:first-child {
+  box-shadow: var(--table-border-width) 0px 0px 0px var(--table-border-color);
+}
+
+.table_wrapper tr:not(:first-child) th:last-child {
+  box-shadow: calc(0px - var(--table-border-width)) 0px 0px 0px
+    var(--table-border-color);
+}
+
+/* Status class */
+.correct {
+  background-color: #77dd77;
+}
+
+.incorrect {
+  background-color: #ff6961;
+}
+
+.correct_penalized {
+  background-color: orange;
+}
+
+.incorrect_penalized {
+  background-color: grey;
+}
+
+/* Icons */
+.helicopter {
+  background-image: url("./class_icons/helicopter.png");
+  background-position: center;
+  background-size: auto 75%;
+  background-repeat: no-repeat;
+}
+
+.birds {
+  background-image: url("./class_icons/bird.png");
+  background-position: center;
+  background-size: auto 75%;
+  background-repeat: no-repeat;
+}
+
+.fire {
+  background-image: url("./class_icons/fire.png");
+  background-position: center;
+  background-size: auto 75%;
+  background-repeat: no-repeat;
+}
+
+.chainsaw {
+  background-image: url("./class_icons/chainsaw.png");
+  background-position: center;
+  background-size: auto 75%;
+  background-repeat: no-repeat;
+}
+
+.handsaw {
+  background-image: url("./class_icons/handsaw.png");
+  background-position: center;
+  background-size: auto 75%;
+  background-repeat: no-repeat;
+}
+
+.received {
+  background-image: url("./class_icons/received.png");
+  background-position: center;
+  background-size: auto 75%;
+  background-repeat: no-repeat;
+}
+
+.nothing {
+  background-image: url("./class_icons/nothing.png");
+  background-position: center;
+  background-size: auto 75%;
+  background-repeat: no-repeat;
+}
+
+.hide {
+  opacity: 0.8;
+  background-color: white;
+}
+
+.security_nothing {
+  opacity: 0.2;
+}

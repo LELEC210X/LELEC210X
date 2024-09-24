@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preferences>
+ <debug showDebugMenu="0" />
+ <systemtable filter="All Interfaces">
+  <columns>
+   <connections preferredWidth="111" />
+   <irq preferredWidth="34" />
+   <name preferredWidth="434" />
+   <inputclock preferredWidth="95" />
+   <export preferredWidth="161" />
+   <description preferredWidth="242" />
+   <baseaddress preferredWidth="56" />
+   <endaddress preferredWidth="30" />
+  </columns>
+ </systemtable>
+ <library expandedCategories="Project/LELEC2102_IPs,Library,Project" />
+ <window width="1938" height="1038" x="-9" y="-9" />
+ <generation
+   path="_PROJECT_NAME_/"
+   testbench_system="STANDARD"
+   testbench_simulation="VERILOG"
+   greybox="1"
+   simulation="VERILOG" />
+ <hdlexample language="VERILOG" />
+</preferences>

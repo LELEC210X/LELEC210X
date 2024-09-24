@@ -1,0 +1,34 @@
+\section{Report R6}
+
+The report R6 (due on \textbf{Nov 22, Monday 6.30 PM}). We expect you to:
+\begin{itemize}
+    \item Analyze with a graph, the number of cycles taken by the MAC function
+        per authenticated byte for different message lengths : 1 byte up to 200
+        bytes with steps of 1 byte. Do this for the different compiler
+        optimization levels:
+        \texttt{-O0},
+        \texttt{-O1},
+        \texttt{-O2},
+        \texttt{-O3},
+        \texttt{-Os}.\footnote{%
+            To understand what these optimization levels do (as well as
+            \texttt{-Og}), see
+            \url{https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html}.
+            The optimizations controlled by these flags happen at the compiler
+            level, and each file is compiled individually.
+
+            Since optimization is based on gathering information on the
+            code and how it is used, this limited (file-level) view may lead to
+            missed optimization opportunities.
+            Link-time optimization (LTO) is a technique that enables
+            project-level view for optimizations (see
+            \url{https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html})
+            and that you might want to use at some stage of your project.
+            To add such custom compiler and linker flags, use the
+            \textbf{Miscellaneous} section of the Compiler/Linker settings.
+        }
+    \item For the same optimization levels, analyze the code size of the
+        authentication part of the project by comparing the total code size with
+        and without authentication.
+    \item Briefly discuss your results.
+\end{itemize}

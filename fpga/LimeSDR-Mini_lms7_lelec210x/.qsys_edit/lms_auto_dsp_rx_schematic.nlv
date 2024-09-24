@@ -1,0 +1,16 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst unsaved.dsp_0.FIFO2AVS_0 -pg 1
+preplace inst unsaved.dsp_0.automatic_preamble_0 -pg 1
+preplace inst unsaved.dsp_0.clk_0 -pg 1
+preplace inst unsaved.dsp_0.fir_compiler_ii_0 -pg 1
+preplace inst unsaved.dsp_0.AVS2FIFO_0 -pg 1
+preplace inst unsaved.dsp_0 -pg 1 -lvl 1 -y 50
+preplace inst unsaved -pg 1 -lvl 1 -y 40 -regy -20
+preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.reset,(SLAVE)dsp_0.reset) 1 0 1 NJ
+preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.fifo_out,(SLAVE)dsp_0.fifo_out) 1 0 1 NJ
+preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.fifo_in,(SLAVE)dsp_0.fifo_in) 1 0 1 NJ
+preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)dsp_0.clk,(SLAVE)unsaved.clk) 1 0 1 NJ
+preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.automatic_preamble,(SLAVE)dsp_0.automatic_preamble) 1 0 1 NJ
+levelinfo -pg 1 0 120 350
+levelinfo -hier unsaved 130 260 340

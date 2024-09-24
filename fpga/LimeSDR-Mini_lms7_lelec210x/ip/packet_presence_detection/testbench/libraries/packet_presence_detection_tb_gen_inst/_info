@@ -1,0 +1,31 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dD:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench
+vpacket_presence_detection_tb_gen
+!s110 1699431422
+!i10b 1
+!s100 cO?m=6Se8Gf@;]49fFzOn3
+IAz?n?B23UlhbbLTEYK2mL3
+VDg1SIo80bB@j0V0VzS_@n1
+dD:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench
+w1699408999
+8./packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection_tb_gen.v
+F./packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection_tb_gen.v
+L0 6
+OV;L;10.5b;63
+r1
+!s85 0
+31
+!s108 1699431422.000000
+!s107 ./packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection_tb_gen.v|
+!s90 -reportprogress|300|./packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection_tb_gen.v|-work|packet_presence_detection_tb_gen_inst|
+!i113 1
+o-work packet_presence_detection_tb_gen_inst
+tCvgOpt 0

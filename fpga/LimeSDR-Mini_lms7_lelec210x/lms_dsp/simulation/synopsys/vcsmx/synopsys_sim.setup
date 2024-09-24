@@ -1,0 +1,28 @@
+
+WORK > DEFAULT
+DEFAULT:                     ./libraries/work/                       
+work:                        ./libraries/work/                       
+error_adapter_0:             ./libraries/error_adapter_0/            
+timing_adapter_1:            ./libraries/timing_adapter_1/           
+timing_adapter_0:            ./libraries/timing_adapter_0/           
+data_format_adapter_0:       ./libraries/data_format_adapter_0/      
+rst_controller:              ./libraries/rst_controller/             
+avalon_st_adapter_002:       ./libraries/avalon_st_adapter_002/      
+avalon_st_adapter_001:       ./libraries/avalon_st_adapter_001/      
+avalon_st_adapter:           ./libraries/avalon_st_adapter/          
+packet_presence_detection_0: ./libraries/packet_presence_detection_0/
+fir_compiler_ii_0:           ./libraries/fir_compiler_ii_0/          
+FIFO2AVS_0:                  ./libraries/FIFO2AVS_0/                 
+AVS2FIFO_0:                  ./libraries/AVS2FIFO_0/                 
+altera_ver:                  ./libraries/altera_ver/                 
+lpm_ver:                     ./libraries/lpm_ver/                    
+sgate_ver:                   ./libraries/sgate_ver/                  
+altera_mf_ver:               ./libraries/altera_mf_ver/              
+altera_lnsim_ver:            ./libraries/altera_lnsim_ver/           
+fiftyfivenm_ver:             ./libraries/fiftyfivenm_ver/            
+altera:                      ./libraries/altera/                     
+lpm:                         ./libraries/lpm/                        
+sgate:                       ./libraries/sgate/                      
+altera_mf:                   ./libraries/altera_mf/                  
+altera_lnsim:                ./libraries/altera_lnsim/               
+fiftyfivenm:                 ./libraries/fiftyfivenm/                
