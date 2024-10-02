@@ -1,4 +1,4 @@
-# LELEC210X project
+# LELEC210X project hello
 
 This repository contains every thing you (student) need for the LELEC210X project.
 
