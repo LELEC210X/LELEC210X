@@ -61,6 +61,7 @@ volatile int buttonPressed = 0;  // Flag to indicate button press
 
 void processButtonPress() {
     if (buttonPressed) {
+    	HAL_TIM_OC_Stop(&htim4, TIM_CHANNEL_2);
         buttonPressed = 0;  // Clear the flag
         printf("B1 Has been pressed, spamming Red light 5 times\r\n");
 
@@ -72,6 +73,7 @@ void processButtonPress() {
             HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET);  // Turn off the LED
             HAL_Delay(100);  // 100 ms delay
         }
+    	HAL_TIM_OC_Start(&htim4, TIM_CHANNEL_2);
     }
 }
 /* USER CODE END 0 */
