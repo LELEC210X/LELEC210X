@@ -62,13 +62,13 @@ volatile int buttonPressed = 0;  // Flag to indicate button press
 void processButtonPress() {
     if (buttonPressed) {
         buttonPressed = 0;  // Clear the flag
-        printf("B1 Has been pressed, spamming Red light 5 times\n");
+        printf("B1 Has been pressed, spamming Red light 5 times\r\n");
 
         for (int i = 0; i < 5; i++) {
-            printf("On %d\n", i);
+            printf("On %d\r\n", i);
             HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);  // Turn on the LED
             HAL_Delay(100);  // 100 ms delay
-            printf("Off %d\n", i);
+            printf("Off %d\r\n", i);
             HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET);  // Turn off the LED
             HAL_Delay(100);  // 100 ms delay
         }
