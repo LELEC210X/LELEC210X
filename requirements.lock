@@ -388,6 +388,10 @@ seaborn==0.13.2
     # via classification
 send2trash==1.8.3
     # via jupyter-server
+setuptools==73.0.1
+    # via jupyterlab
+    # via zope-event
+    # via zope-interface
 simple-websocket==1.0.0
     # via python-engineio
 six==1.16.0
@@ -486,7 +490,3 @@ zope-event==5.0
     # via gevent
 zope-interface==7.0.2
     # via gevent
-setuptools==73.0.1
-    # via jupyterlab
-    # via zope-event
-    # via zope-interface
