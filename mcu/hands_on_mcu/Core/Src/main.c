@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "usart.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -56,7 +57,23 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+volatile int buttonPressed = 0;  // Flag to indicate button press
 
+void processButtonPress() {
+    if (buttonPressed) {
+        buttonPressed = 0;  // Clear the flag
+        printf("B1 Has been pressed, spamming Red light 5 times\n");
+
+        for (int i = 0; i < 5; i++) {
+            printf("On %d\n", i);
+            HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);  // Turn on the LED
+            HAL_Delay(100);  // 100 ms delay
+            printf("Off %d\n", i);
+            HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET);  // Turn off the LED
+            HAL_Delay(100);  // 100 ms delay
+        }
+    }
+}
 /* USER CODE END 0 */
 
 /**
@@ -88,9 +105,13 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_LPUART1_UART_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   RetargetInit(&hlpuart1);
   printf("Hello world!\r\n");
+
+  HAL_TIM_OC_Start(&htim4, TIM_CHANNEL_2);
+  //  HAL_TIM_OC_Stop(&htim4, TIM_CHANNEL_2);
 
   /* USER CODE END 2 */
 
@@ -98,12 +119,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  if (HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == 1) {
-		  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
-		  HAL_Delay(500);
-		  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-		  HAL_Delay(500);
-	  }
+	  processButtonPress();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -156,7 +173,12 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+// HERE IS THE CODE FOR LAB2
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_pin) {
+    if (GPIO_pin == B1_Pin) {
+        buttonPressed = 1;  // Set the flag when button is pressed
+    }
+}
 /* USER CODE END 4 */
 
 /**
