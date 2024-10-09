@@ -105,8 +105,12 @@ In the second block of code, have you noticed the \texttt{"SND:HEX:"} prefix ? T
 
 Then, you need to handle the data coming from the UART interface in a controlled way and with more details than the basic python script. This is the purpose of the \texttt{uart-reader.py} that we provided you. Before running the script in the terminal, we expect you to dive into it to avoid the "black box effect" which prevents a good understanding of what is going on.
 
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcattention]{Python packages update (MANDATORY)}
-To get the script working, we need you to make some operations beforehand. This must be done only once to ensure you have the proper packages. Afterwards, the right ones will stay there. First uninstall both the \texttt{serial} and \texttt{pyserial} packages. Then, reinstall only \texttt{pyserial} and also the \texttt{soundfile} package. This must be done in this order.
+%%% Note 2024 : not needed anymore since we use Rye
+% \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcattention]{Python packages update (MANDATORY)}
+% To get the script working, we need you to make some operations beforehand. This must be done only once to ensure you have the proper packages. Afterwards, the right ones will stay there. First uninstall both the \texttt{serial} and \texttt{pyserial} packages. Then, reinstall only \texttt{pyserial} and also the \texttt{soundfile} package. This must be done in this order.
+% \end{bclogo}
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcattention]{Launching a python script with Rye}
+This new script \texttt{uart-reader.py} makes use of different python libraries, as will do many other scripts in this project. It is thus mandatory to run it with Rye, with \texttt{rye sync} then \texttt{rye run python <script>}.
 \end{bclogo}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{Handling data in the UART interface}
@@ -115,7 +119,7 @@ Did you understand how the script manages to handle new data coming from UART, e
 \noindent How are "packets" of data separated?
 \end{bclogo}
 
-\noindent When you have understood the script and updated the packages as explained here above, you can create a new folder called \texttt{audio\_files} in the same directory. It is now time to run it in the terminal by using the command \texttt{python3 uart-reader.py}. It will run until you press on \texttt{Ctrl+C}. Each time new data is coming from the UART, you should see a Figure plotting the data that has been received and an audio file should be generated in the \texttt{audio\_files} folder. The file format (\texttt{.ogg}) is the same as the one of the database you discovered during the first week. If everything worked as expected, you should see your sine wave and even be able to listen to the corresponding audio file.
+\noindent When you have understood the script, you can create a new folder called \texttt{audio\_files} in the same directory. It is now time to run it in the terminal by using the command \texttt{python3 uart-reader.py}. It will run until you press on \texttt{Ctrl+C}. Each time new data is coming from the UART, you should see a Figure plotting the data that has been received and an audio file should be generated in the \texttt{audio\_files} folder. The file format (\texttt{.ogg}) is the same as the one of the database you discovered during the first week. If everything worked as expected, you should see your sine wave and even be able to listen to the corresponding audio file.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -137,7 +141,7 @@ What happens if we want to sample audio continuously? We will have to tweak a bi
 
 %In the previous example, you might have noticed that you only used the half of the buffer available for ADC data. This is normal as you explicitly stopped the acquisition in the callback when half of the buffer is full, i.e. \texttt{void HAL\_ADC\_ConvHalfCpltCallback}. We will now introduce you to a well-known technique called the \textit{double buffering}. The concept is simple but powerful: by splitting a buffer in two parts (fixed in advance), you can acquire data on one part of the buffer while working on the other one with the CPU. This allows you to perform audio acquisition continuously, without blind spot (in theory!). It is crucial do be careful to avoid mixing up everything and polluting your acquisition. Thanks to the two IRQs sent by the DMA when it reaches a half buffer or a full buffer, we can handle this in a nice way in the respective callbacks. \\
 
-\noindent In the C code, when you call the \texttt{HAL\_ADC\_Start\_DMA} function, make sure to adjust the sampling size by doubling it. The \texttt{ADCBuffer} array is already sized for double buffering. You can also access easily the first or second buffer thanks to the ADCData1 and ADCData2 pointers.\\
+\noindent In the C code, when you call the \texttt{HAL\_ADC\_Start\_DMA} function, make sure to adjust the sampling size by doubling it. The \texttt{ADCBuffer} array is already sized for double buffering. You can also access easily the first or second buffer thanks to the \texttt{ADCData1} and \texttt{ADCData2} pointers.\\
 
 \noindent With this, the double buffering technique is ready. We expect you to program the following functionality : When you press on the button, the ADC starts in a double buffering mode, for each half buffer, calculate the power contained in the digitized signal and print its value to the UART stream, if it exceeds a threshold value of 50\footnote{This value was choosen using the mini-jack cable, you might need to update this value if you use the microphone based on the ambient noise.}, you sample one more buffer, stop the sampling and send the data through the same way as before. Use the script detailled in the previous section to save your audio files. You can adjust the buffer size easily on the MCU with the \textbf{ADC\_BUF\_SIZE} constant which corresponds to the number of samples. You can safely go up to 30000 samples($\approx$3 seconds). Finally, don't worry, the UART transfer might take several seconds to process. \\
 
