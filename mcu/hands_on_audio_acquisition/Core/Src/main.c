@@ -38,7 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define ADC_BUF_SIZE 30000
+#define ADC_BUF_SIZE 10000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -69,18 +69,8 @@ uint32_t get_signal_power(uint16_t *buffer, size_t len);
 /* USER CODE BEGIN 0 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == B1_Pin) {
-		state = 1 - state;
-		if (state) {
-			printf("State1\r\n");
-			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
-		}else {
-			printf("State2\r\n");
-			HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
-		}
 		  HAL_TIM_Base_Start(&htim3);
-		  uint16_t* buffer_adress = (state) ? ADCData1 : ADCData2;
-		  HAL_ADC_Start_DMA(&hadc1, buffer_adress, ADC_BUF_SIZE);
-
+		  HAL_ADC_Start_DMA(&hadc1, (uint32_t *)ADCBuffer, ADC_BUF_SIZE*2);
 	}
 }
 
@@ -107,12 +97,14 @@ uint32_t get_signal_power(uint16_t *buffer, size_t len){
 	return (uint32_t)(sum2/len - sum*sum/len/len);
 }
 
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
-	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET);
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc) {
+	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	printf("\nStarting Transfer\r\n");
 	print_buffer((uint16_t*) ADCBuffer);
+	printf("\nSignal Power : %d\r\n", get_signal_power(ADCBuffer, ADC_BUF_SIZE*2));
 	HAL_TIM_Base_Stop(&htim3);
 	HAL_ADC_Stop_DMA(&hadc1);
+	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 }
 
 /* USER CODE END 0 */
@@ -156,19 +148,6 @@ int main(void)
   ADCData1 = &ADCBuffer[0];
   ADCData2 = &ADCBuffer[ADC_BUF_SIZE];
 
-  state = 1 - state;
-	if (state) {
-		printf("State1\r\n");
-		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
-	}else {
-		printf("State2\r\n");
-		HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
-	}
-	  HAL_TIM_Base_Start(&htim3);
-	  uint16_t* buffer_adress = (state) ? ADCData1 : ADCData2;
-	  HAL_ADC_Start_DMA(&hadc1, buffer_adress, ADC_BUF_SIZE);
-
-	  printf("DOne\r\n");
 
   /* USER CODE END 2 */
 
