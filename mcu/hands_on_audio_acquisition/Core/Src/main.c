@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -100,6 +101,7 @@ uint32_t get_signal_power(uint16_t *buffer, size_t len){
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -123,6 +125,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_LPUART1_UART_Init();
+  MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
   RetargetInit(&hlpuart1);
   printf("Hello world!\r\n");
