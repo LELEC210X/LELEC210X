@@ -20,7 +20,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "dma.h"
 #include "usart.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -124,8 +126,10 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_LPUART1_UART_Init();
   MX_ADC1_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   RetargetInit(&hlpuart1);
   printf("Hello world!\r\n");
@@ -148,6 +152,15 @@ int main(void)
   // Convert the ADC values if button is pressed
   int index_buffer =0;
   if(state) {
+    // Using a timer
+    HAL_TIM_Base_Start(&htim3);
+    HAL_ADC_Start_DMA(&hadc1, ADCData1, 256);
+    //HAL_Delay(1000);
+    HAL_ADC_Stop_DMA(&hadc1);
+    HAL_TIM_Base_Stop(&htim3);
+    printf("ADC1: %d\r\n", ADCData1[index_buffer]);
+
+    /*
     HAL_ADC_Start(&hadc1); // Start the ADC conversion
     HAL_ADC_PollForConversion(&hadc1, 2); // Wait for the conversion to finish
 
@@ -156,9 +169,11 @@ int main(void)
     printf("ADC1: %d\r\n", ADCData1[index_buffer]);
     index_buffer++;
     HAL_ADC_Stop(&hadc1); // Stop the ADC conversion
-    state = !state;
+    
     // convert ADCData to voltage
-    //printf("ADC1 Voltage: %f\r\n", (float)ADCData1[index_buffer]*3.3/4095);// Pas bon
+    //printf("ADC1 Voltage: %f\r\n", ADCData1[index_buffer]*3.3/4095);// Pas bon
+    */
+    state = !state;
   }
   
   
