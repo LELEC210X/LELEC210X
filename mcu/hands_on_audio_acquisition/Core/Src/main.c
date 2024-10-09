@@ -138,13 +138,34 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+  /*
 	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
 	HAL_Delay(500);
 	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 	HAL_Delay(500);
+  */
+ 
+  // Convert the ADC values if button is pressed
+  int index_buffer =0;
+  if(state) {
+    HAL_ADC_Start(&hadc1); // Start the ADC conversion
+    HAL_ADC_PollForConversion(&hadc1, 2); // Wait for the conversion to finish
+
+    // Get the values from the ADC
+    ADCData1[index_buffer] = HAL_ADC_GetValue(&hadc1); // Get the value from the ADC
+    printf("ADC1: %d\r\n", ADCData1[index_buffer]);
+    index_buffer++;
+    HAL_ADC_Stop(&hadc1); // Stop the ADC conversion
+    state = !state;
+    // convert ADCData to voltage
+    //printf("ADC1 Voltage: %f\r\n", (float)ADCData1[index_buffer]*3.3/4095);// Pas bon
+  }
+  
+  
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
   }
   /* USER CODE END 3 */
 }
