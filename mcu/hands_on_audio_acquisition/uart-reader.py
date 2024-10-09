@@ -46,7 +46,7 @@ def generate_audio(buf, file_name):
     buf = np.asarray(buf, dtype=np.float64)
     buf = buf - np.mean(buf)
     buf /= max(abs(buf))
-    sf.write("audio_files/" + file_name + ".ogg", buf, FREQ_SAMPLING)
+    sf.write("audio_files/" + file_name + ".wav", buf, FREQ_SAMPLING)
 
 
 if __name__ == "__main__":
