@@ -38,7 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define ADC_BUF_SIZE 256
+#define ADC_BUF_SIZE 32000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -71,6 +71,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == B1_Pin) {
 		state = 1-state;
 	}
+}
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc){
+  print_buffer(ADCBuffer);
+  HAL_ADC_Stop_DMA(&hadc1);
+  HAL_TIM_Base_Stop(&htim3);
 }
 
 void hex_encode(char* s, const uint8_t* buf, size_t len) {
@@ -150,15 +156,10 @@ int main(void)
   */
  
   // Convert the ADC values if button is pressed
-  int index_buffer =0;
   if(state) {
     // Using a timer
     HAL_TIM_Base_Start(&htim3);
-    HAL_ADC_Start_DMA(&hadc1, ADCData1, 256);
-    //HAL_Delay(1000);
-    HAL_ADC_Stop_DMA(&hadc1);
-    HAL_TIM_Base_Stop(&htim3);
-    printf("ADC1: %d\r\n", ADCData1[index_buffer]);
+    HAL_ADC_Start_DMA(&hadc1, ADCData1, 32000);
 
     /*
     HAL_ADC_Start(&hadc1); // Start the ADC conversion
