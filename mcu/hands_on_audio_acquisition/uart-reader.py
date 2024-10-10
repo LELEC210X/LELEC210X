@@ -87,6 +87,18 @@ if __name__ == "__main__":
             plt.pause(0.001)
             plt.cla()
 
+            #Plot fft of the signal
+            fft = np.fft.fft(voltage_mV)
+            freqs = np.fft.fftfreq(buffer_size, 1 / FREQ_SAMPLING)
+            plt.plot(freqs, np.abs(fft))
+            plt.title(f"FFT of acquisition #{msg_counter}")
+            plt.xlabel("Frequency (Hz)")
+            plt.ylabel("Magnitude")
+            plt.xlim([0, 5000])
+            plt.draw()
+            plt.pause(0.001)
+            plt.cla()
+
             generate_audio(msg, f"acq-{msg_counter}")
 
             msg_counter += 1
