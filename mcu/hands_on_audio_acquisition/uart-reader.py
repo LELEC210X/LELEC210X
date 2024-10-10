@@ -78,23 +78,24 @@ if __name__ == "__main__":
             times = np.linspace(0, buffer_size - 1, buffer_size) * 1 / FREQ_SAMPLING
             voltage_mV = msg * VDD / VAL_MAX_ADC * 1e3
 
+                        #Plot fft of the signal
+            fft = np.fft.fft(voltage_mV)
+            freqs = np.fft.fftfreq(buffer_size, 1 / FREQ_SAMPLING)
+            plt.subplot(2, 1, 1)
             plt.plot(times, voltage_mV)
             plt.title(f"Acquisition #{msg_counter}")
             plt.xlabel("Time (s)")
             plt.ylabel("Voltage (mV)")
             plt.ylim([0, 3300])
-            plt.draw()
-            plt.pause(0.001)
-            plt.cla()
 
-            #Plot fft of the signal
-            fft = np.fft.fft(voltage_mV)
-            freqs = np.fft.fftfreq(buffer_size, 1 / FREQ_SAMPLING)
+            plt.subplot(2, 1, 2)
             plt.plot(freqs, np.abs(fft))
             plt.title(f"FFT of acquisition #{msg_counter}")
             plt.xlabel("Frequency (Hz)")
             plt.ylabel("Magnitude")
             plt.xlim([0, 5000])
+
+            
             plt.draw()
             plt.pause(0.001)
             plt.cla()
