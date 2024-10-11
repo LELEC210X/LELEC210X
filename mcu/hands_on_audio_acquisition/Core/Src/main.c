@@ -38,7 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define ADC_BUF_SIZE 256
+#define ADC_BUF_SIZE 10000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -68,15 +68,21 @@ uint32_t get_signal_power(uint16_t *buffer, size_t len);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+  // Bouton
 	if (GPIO_Pin == B1_Pin) {
 		state = 1-state;
 	}
 }
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc){
-  print_buffer(ADCBuffer);
+  /*Fin ADC Buffer*/
+  // Fini, allume led
+  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
   HAL_ADC_Stop_DMA(&hadc1);
   HAL_TIM_Base_Stop(&htim3);
+  print_buffer(ADCBuffer);//Envoie sur UART
+  //Etein led
+  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 }
 
 void hex_encode(char* s, const uint8_t* buf, size_t len) {
@@ -148,34 +154,14 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
-	HAL_Delay(500);
-	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-	HAL_Delay(500);
- 
-  // Convert the ADC values if button is pressed
+  __WFI(); //Sleep Mode
+
   if(state) {
-    // Using a timer
+    // Si bouton, on commence aquisition
     HAL_TIM_Base_Start(&htim3);
     HAL_ADC_Start_DMA(&hadc1, ADCData1, ADC_BUF_SIZE);
-
-    /*
-    HAL_ADC_Start(&hadc1); // Start the ADC conversion
-    HAL_ADC_PollForConversion(&hadc1, 2); // Wait for the conversion to finish
-
-    // Get the values from the ADC
-    ADCData1[index_buffer] = HAL_ADC_GetValue(&hadc1); // Get the value from the ADC
-    printf("ADC1: %d\r\n", ADCData1[index_buffer]);
-    index_buffer++;
-    HAL_ADC_Stop(&hadc1); // Stop the ADC conversion
-    
-    // convert ADCData to voltage
-    //printf("ADC1 Voltage: %f\r\n", ADCData1[index_buffer]*3.3/4095);// Pas bon
-    */
     state = !state;
   }
-  
-  
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
