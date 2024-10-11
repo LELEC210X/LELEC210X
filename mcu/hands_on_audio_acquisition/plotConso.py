@@ -13,6 +13,8 @@ conso = data[:,2]**2/27*1000
 
 ## print moyenne de la consommation entre 1.8 et 1.9s en mW
 print("Consommation moyenne entre 1.8 et 1.9s en mW:", np.mean(conso[(time>1.8) & (time<1.9)]))
+## print moyenne de la consommation entre 2 et 3d en mW
+print("Consommation moyenne entre 2 et 3s en mW:", np.mean(conso[(time>2) & (time<3)]))
 ## print moyenne de la consommation entre 3.8 et 0.19s
 print("Consommation moyenne entre 3.8 et 3.9s en mW:", np.mean(conso[(time>3.8) & (time<3.9)]))
 ## print moyenne de la consommation entre 5 et 7s
