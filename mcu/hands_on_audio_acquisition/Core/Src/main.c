@@ -19,7 +19,10 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
+#include "dma.h"
 #include "usart.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -35,7 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define ADC_BUF_SIZE 256
+#define ADC_BUF_SIZE 30000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -47,10 +50,11 @@
 
 /* USER CODE BEGIN PV */
 volatile int state;
-volatile uint16_t ADCBuffer[2*ADC_BUF_SIZE]; /* ADC group regular conversion data (array of data) */
+volatile uint16_t ADCBuffer[ADC_BUF_SIZE]; /* ADC group regular conversion data (array of data) */
 volatile uint16_t* ADCData1;
 volatile uint16_t* ADCData2;
-
+volatile uint32_t adc_value;
+volatile uint8_t sample_done = 0;               // Flag to indicate if sampling is done
 char hex_encoded_buffer[4*ADC_BUF_SIZE+1];
 /* USER CODE END PV */
 
@@ -65,11 +69,19 @@ uint32_t get_signal_power(uint16_t *buffer, size_t len);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-	if (GPIO_Pin == B1_Pin) {
-		state = 1-state;
-	}
+    if (GPIO_Pin == B1_Pin) {
+        sample_done = 0;
+        // Start Timer and ADC with DMA
+        HAL_TIM_Base_Start(&htim3);  // Start the timer TIM3
+        HAL_ADC_Start_DMA(&hadc1, (uint32_t *)ADCBuffer, ADC_BUF_SIZE);  // Start ADC in DMA mode
+    }
 }
 
+// Callback when the buffer is filled (entire acquisition done)
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
+    sample_done = 1;  // Acquisition is done
+    HAL_ADC_Stop_DMA(&hadc1);  // Stop ADC
+}
 void hex_encode(char* s, const uint8_t* buf, size_t len) {
     s[2*len] = '\0'; // A string terminated by a zero char.
     for (size_t i=0; i<len; i++) {
@@ -92,6 +104,8 @@ uint32_t get_signal_power(uint16_t *buffer, size_t len){
 	}
 	return (uint32_t)(sum2/len - sum*sum/len/len);
 }
+
+
 /* USER CODE END 0 */
 
 /**
@@ -100,6 +114,7 @@ uint32_t get_signal_power(uint16_t *buffer, size_t len){
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -122,27 +137,43 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_LPUART1_UART_Init();
+  MX_ADC1_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   RetargetInit(&hlpuart1);
   printf("Hello world!\r\n");
   state=0;
   ADCData1 = &ADCBuffer[0];
   ADCData2 = &ADCBuffer[ADC_BUF_SIZE];
+  __WFI();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
-	HAL_Delay(500);
-	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-	HAL_Delay(500);
+      if (sample_done) {
+          // Step 3: Turn on LD2 LED (data transfer in progress)
+          HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+
+          // Step 4: Transfer data via UART
+          print_buffer(ADCBuffer);
+
+          // Step 5: Turn off LD2 LED (data transfer complete)
+          HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+
+          // Step 6: Return to WFI state
+          sample_done = 0;
+          __WFI();  // Wait for the next interrupt (button press)
+      }
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
+
   /* USER CODE END 3 */
 }
 
