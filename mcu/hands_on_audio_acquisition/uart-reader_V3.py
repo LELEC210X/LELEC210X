@@ -1,17 +1,36 @@
-import argparse
-import numpy as np
-import serial
-import soundfile as sf
-from serial.tools import list_ports
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-import plotly.io as pio
-import tkinter as tk
-from tkinter import ttk, scrolledtext, messagebox
-import threading
-import os
-import sys
-import signal
+"""
+uart-reader.py
+ELEC PROJECT - 210x
+"""
+
+try:
+    import argparse
+    import numpy as np
+    import serial
+    import soundfile as sf
+    from serial.tools import list_ports
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+    import plotly.io as pio
+    import tkinter as tk
+    from tkinter import ttk, scrolledtext, messagebox
+    import threading
+    import os
+    import sys
+    import signal
+except ImportError as e:
+    print(f"Error: {e}")
+    print("Please ensure all required packages are installed. You can install them using the following commands:")
+    print(">> ./install_python_dep.bat")
+    print(">> python ./uart-reader.py")
+    print("OR")
+    print(">> python -m pip install argparse numpy pyserial soundfile plotly")
+    print(">> python ./uart-reader.py")
+    print("Be careful if you install everything manually, you need to install pyserial THEN pyaudio")
+    print("PS: You can also use 'python3' instead of 'python' in the commands above")
+    print("PPS: Why use python -m for pip ? Because then we know which python version we are using")
+    print("Exiting...")
+    sys.exit(1)
 
 ###################### MODIFY BELOW THIS LINE #####################
 ####################################################################
@@ -314,7 +333,7 @@ if __name__ == "__main__":
     parser.add_argument("-d", "--auto-delete", help="Auto delete audio files", action="store_true")
     parser.add_argument("-g", "--gui", help="Launch the GUI", action="store_true")
     args = parser.parse_args()
-    print("uart-reader launched...\n")
+    print("UART Reader Application Launching, use -h or --help for help\n")
 
     if args.port:
         # Console mode: read the serial data from the specified port
