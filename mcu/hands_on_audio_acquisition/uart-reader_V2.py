@@ -5,11 +5,13 @@ ELEC PROJECT - 210x
 
 import argparse
 
-import matplotlib.pyplot as plt
 import numpy as np
 import serial
 import soundfile as sf
 from serial.tools import list_ports
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import plotly.io as pio
 
 PRINT_PREFIX = "SND:HEX:"
 FREQ_SAMPLING = 10200
@@ -67,9 +69,11 @@ if __name__ == "__main__":
         print("Launch this script with [-p PORT_REF] to access the communication port")
 
     else:
-        plt.figure(figsize=(10, 5))
         input_stream = reader(port=args.port)
         msg_counter = 0
+
+        fig = make_subplots(rows=1, cols=1)
+        fig.update_layout(title="Real-time Acquisition", xaxis_title="Time (s)", yaxis_title="Voltage (mV)")
 
         for msg in input_stream:
             print(f"Acquisition #{msg_counter}")
@@ -78,14 +82,10 @@ if __name__ == "__main__":
             times = np.linspace(0, buffer_size - 1, buffer_size) * 1 / FREQ_SAMPLING
             voltage_mV = msg * VDD / VAL_MAX_ADC * 1e3
 
-            plt.plot(times, voltage_mV)
-            plt.title(f"Acquisition #{msg_counter}")
-            plt.xlabel("Time (s)")
-            plt.ylabel("Voltage (mV)")
-            plt.ylim([0, 3300])
-            plt.draw()
-            plt.pause(0.001)
-            plt.cla()
+            fig.data = []  # Clear previous data
+            fig.add_trace(go.Scatter(x=times, y=voltage_mV, mode='lines', name=f"Acquisition #{msg_counter}"))
+
+            pio.show(fig, renderer="browser")
 
             generate_audio(msg, f"acq-{msg_counter}")
 

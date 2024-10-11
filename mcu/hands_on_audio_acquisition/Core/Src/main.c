@@ -19,7 +19,10 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
+#include "dma.h"
 #include "usart.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -35,7 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define ADC_BUF_SIZE 256
+#define ADC_BUF_SIZE 10000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -46,7 +49,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-volatile int state;
+volatile int state = 1;
 volatile uint16_t ADCBuffer[2*ADC_BUF_SIZE]; /* ADC group regular conversion data (array of data) */
 volatile uint16_t* ADCData1;
 volatile uint16_t* ADCData2;
@@ -66,7 +69,8 @@ uint32_t get_signal_power(uint16_t *buffer, size_t len);
 /* USER CODE BEGIN 0 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == B1_Pin) {
-		state = 1-state;
+		  HAL_TIM_Base_Start(&htim3);
+		  HAL_ADC_Start_DMA(&hadc1, (uint32_t *)ADCBuffer, ADC_BUF_SIZE*2);
 	}
 }
 
@@ -92,6 +96,17 @@ uint32_t get_signal_power(uint16_t *buffer, size_t len){
 	}
 	return (uint32_t)(sum2/len - sum*sum/len/len);
 }
+
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc) {
+	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	printf("\nStarting Transfer\r\n");
+	print_buffer((uint16_t*) ADCBuffer);
+	printf("\nSignal Power : %d\r\n", get_signal_power(ADCBuffer, ADC_BUF_SIZE*2));
+	HAL_TIM_Base_Stop(&htim3);
+	HAL_ADC_Stop_DMA(&hadc1);
+	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -122,27 +137,43 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_LPUART1_UART_Init();
+  MX_ADC1_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   RetargetInit(&hlpuart1);
   printf("Hello world!\r\n");
   state=0;
   ADCData1 = &ADCBuffer[0];
   ADCData2 = &ADCBuffer[ADC_BUF_SIZE];
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  {
-	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
-	HAL_Delay(500);
-	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-	HAL_Delay(500);
+    {
+	  __WFI();
+//  	  HAL_ADC_Start(&hadc1);
+//  	  if (HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == 1){
+//  	  if (HAL_ADC_PollForConversion(&hadc1,0xFFFF) != HAL_ERROR){
+//  			  printf("The sample value is : %lu\r\n", HAL_ADC_GetValue(&hadc1));
+//  			  HAL_Delay(100);
+//  		  } else {
+//  			  printf("Error at poll\r\n");
+//  		  }
+//  	  }
+//  	  HAL_ADC_Stop(&hadc1);
+//  	  HAL_Delay(200);
+
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+    }
   /* USER CODE END 3 */
 }
 
