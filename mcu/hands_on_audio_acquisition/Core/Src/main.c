@@ -38,7 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define ADC_BUF_SIZE 32000
+#define ADC_BUF_SIZE 256
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -148,18 +148,16 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-  /*
 	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
 	HAL_Delay(500);
 	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 	HAL_Delay(500);
-  */
  
   // Convert the ADC values if button is pressed
   if(state) {
     // Using a timer
     HAL_TIM_Base_Start(&htim3);
-    HAL_ADC_Start_DMA(&hadc1, ADCData1, 32000);
+    HAL_ADC_Start_DMA(&hadc1, ADCData1, ADC_BUF_SIZE);
 
     /*
     HAL_ADC_Start(&hadc1); // Start the ADC conversion
