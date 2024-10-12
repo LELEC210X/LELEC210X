@@ -18,7 +18,6 @@ import os
 import sys
 import signal
 
-
 ###################### MODIFY BELOW THIS LINE #####################
 ####################################################################
 
@@ -81,8 +80,9 @@ def plot_signal_and_fft(signal, sampling_rate):
     msg_counter += 1
 
 def print_and_save_data(data):
-    with open("uart_reader.log", "w") as f:
-        f.write(data)
+    if LOG_ENABLED:
+        with open("uart_reader.log", "w") as f:
+            f.write(data)
     print(data)
 
 def read_serial(port, baudrate=DEFAULT_BAUDRATE):
@@ -316,47 +316,52 @@ def signal_handler(sig, frame):
 @click.option(
     "-b",
     "--baudrate",
-    default=115200,
+    default=DEFAULT_BAUDRATE,
     type=int,
     help="Baudrate for serial communication")
 @click.option(
     "-f",
     "--freq-sampling",
-    default=10200,
+    default=FREQ_SAMPLING,
     type=int,
     help="Sampling frequency")
 @click.option(
     "-m",
     "--max-adc",
-    default=4096,
+    default=VAL_MAX_ADC,
     type=int,
     help="Max ADC value")
 @click.option(
     "-v",
     "--vdd",
-    default=3.3,
+    default=VDD,
     type=float,
     help="VDD value")
 @click.option(
     "-l",
     "--log",
     is_flag=True,
+    type=bool,
+    default=False,
     help="Enable logging")
 @click.option(
     "-d",
     "--auto-delete",
     is_flag=True,
+    type=bool,
+    default=False,
     help="Auto delete audio files")
 @click.option(
     "-g",
     "--gui",
     is_flag=True,
+    type=bool,
+    default=False,
     help="Launch the GUI (overrides other options)")
 def main(port, baudrate, freq_sampling, max_adc, vdd, log, auto_delete, gui):
     # Register the signal handler (Ctrl+C)
     signal.signal(signal.SIGINT, signal_handler)
 
-    args = click.get_current_context().params
     print("UART Reader Application Launching, use --help for help\n")
 
     if port:
