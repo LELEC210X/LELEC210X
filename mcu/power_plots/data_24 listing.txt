@@ -1,0 +1,17 @@
+So for power measurements (in order) : 
+
+- No button, no wave (get noise floor)
+- No button, with wave (get noise floor)
+- Reset button, with wave (check lowest possible power fo sytem)
+- Normal operation
+- Normal operation, No LED
+- No UART, with LED
+- Spam, No UART, No LED
+- Clean Noise Recording
+- Microphone Active
+
+Oscilloscope variables :
+- 1V/div both channels
+- 0 Volts of offset
+- 10s of recording
+- 10k samples at 12 bit
