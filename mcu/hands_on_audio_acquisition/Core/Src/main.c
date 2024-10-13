@@ -38,7 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define ADC_BUF_SIZE 30000
+#define ADC_BUF_SIZE 10000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
