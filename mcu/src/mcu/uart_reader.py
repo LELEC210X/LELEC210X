@@ -26,38 +26,37 @@ DEFAULT_PORT_INDEX = 1  # Change this if the default port is not the first one
 # Global variables
 logging.basicConfig(filename="uart_reader.log", level=logging.INFO)
 logger = logging.getLogger(__name__)
-script_path = os.path.dirname(os.path.realpath(__file__))
-audio_folder = "audio_files"
+global_audio_folder = "audio_files"
 aquisition_counter = 0
 
-freq_sampling = 10200
-baudrate = 115200
-val_max_adc = 4096
-vdd = 3.3
+global_freq_sampling = 10200
+global_baudrate = 115200
+global_val_max_adc = 4096
+global_vdd = 3.3
 
 
-def write_audio(buf, file_name):
-    global audio_folder, freq_sampling, logger
+def write_audio(buf, file_name, local_logger=logger):
+    global global_audio_folder, global_freq_sampling
     buf = np.asarray(buf, dtype=np.float64)
     buf = buf - np.mean(buf)
     buf /= max(abs(buf))
     # Check if the buffer is empty, and if the folder exists
     if len(buf) == 0:
-        logger.error(
+        local_logger.error(
             "Audio buffer is empty, aborting audio file creation \n\t >>> %s", file_name
         )
         return
-    if not os.path.exists(audio_folder):
-        os.makedirs(audio_folder)
-    sf.write(f"{audio_folder}/{file_name}.wav", buf, freq_sampling)
-    logger.info("Audio file created \n\t >>> %s", file_name)
+    if not os.path.exists(global_audio_folder):
+        os.makedirs(global_audio_folder)
+    sf.write(f"{global_audio_folder}/{file_name}.wav", buf, global_freq_sampling)
+    local_logger.info("Audio file created \n\t >>> %s", file_name)
 
 
-def plot_signal_and_fft(signal, sampling_rate):
-    global aquisition_counter, vdd, val_max_adc
+def plot_signal_and_fft(signal, sampling_rate, local_logger=logger):
+    global aquisition_counter, global_vdd, global_val_max_adc
     buffer_size = len(signal)
     times = np.linspace(0, buffer_size - 1, buffer_size) * 1 / sampling_rate
-    voltage_mV = signal * vdd / val_max_adc * 1e3
+    voltage_mV = signal * global_vdd / global_val_max_adc * 1000
 
     # Calculate FFT
     n = len(voltage_mV)
@@ -110,8 +109,8 @@ def plot_signal_and_fft(signal, sampling_rate):
     aquisition_counter += 1
 
 
-def read_serial(port, baudrate=baudrate, local_logger=logger):
-    global aquisition_counter, freq_sampling
+def read_serial(port, baudrate=global_baudrate, local_logger=logger):
+    global aquisition_counter, global_freq_sampling
     """Reads the serial data and processes it for the console mode."""
     with serial.Serial(port, baudrate) as ser:
         local_logger.info(f"Connected to {port} with baudrate {baudrate}")
@@ -130,9 +129,9 @@ def read_serial(port, baudrate=baudrate, local_logger=logger):
                 local_logger.info(f">Aquisition Size  : {len(buffer_array)} samples")
 
                 # Generate audio file
-                write_audio(signal, f"acq-{aquisition_counter}")
+                write_audio(signal, f"acq-{aquisition_counter}", local_logger)
                 # Plot signal and FFT
-                plot_signal_and_fft(buffer_array, freq_sampling)
+                plot_signal_and_fft(buffer_array, global_freq_sampling, local_logger)
             else:
                 local_logger.info(f"{line}")
     # Disconnect
@@ -172,8 +171,7 @@ class TextHandler(logging.Handler):
 
 
 class UARTReaderApp:
-    def __init__(self, root, port=None, logging_enabled=False, auto_delete_audio=False):
-        global baudrate, freq_sampling, val_max_adc, vdd
+    def __init__(self, root, port=None, baudrate=global_baudrate, freq_sampling=global_freq_sampling, val_max_adc=global_val_max_adc, vdd=global_vdd, logging_enabled=False, auto_delete_audio=False):
         self.root = root
         self.root.title("UART Reader")
 
@@ -311,6 +309,7 @@ class UARTReaderApp:
         read_serial(self.port_var.get(), self.baudrate_var.get(), self.ui_logger)
 
     def connect(self):
+        global aquisition_counter
         port = self.port_var.get().split()[0]
         baudrate = self.baudrate_var.get()
 
@@ -373,10 +372,10 @@ class UARTReaderApp:
         self.root.destroy()
 
 
-def launch_gui(port=None, logging_enabled=False, auto_delete_audio=False):
+def launch_gui(port=None, baudrate=global_baudrate, freq_sampling=global_freq_sampling, val_max_adc=global_val_max_adc, vdd=global_vdd, logging_enabled=False, auto_delete_audio=False):
     logger.info("Launching GUI")
     root = tk.Tk()
-    app = UARTReaderApp(root, port, logging_enabled, auto_delete_audio)
+    app = UARTReaderApp(root, port, baudrate, freq_sampling, val_max_adc, vdd, logging_enabled, auto_delete_audio)
     root.protocol("WM_DELETE_WINDOW", app.on_closing)
     root.mainloop()
 
@@ -396,25 +395,32 @@ def signal_handler(sig, frame):
 @click.option(
     "-b",
     "--baudrate",
-    default=baudrate,
+    default=115200,
     type=int,
     help="Baudrate for serial communication",
 )
 @click.option(
-    "-f", "--freq-sampling", default=freq_sampling, type=int, help="Sampling frequency"
+    "-f", "--freq-sampling", default=10200, type=int, help="Sampling frequency"
 )
-@click.option("-m", "--max-adc", default=val_max_adc, type=int, help="Max ADC value")
-@click.option("-v", "--vdd", default=vdd, type=float, help="vdd value")
+@click.option("-m", "--max-adc", default=4096, type=int, help="Max ADC value")
+@click.option("-v", "--vdd", default=3.3, type=float, help="vdd value")
 @click.option(
     "-l", "--log", is_flag=True, type=bool, default=False, help="Enable debug logging"
 )
 @click.option(
-    "-a",
+    "-d",
     "--auto-delete",
     is_flag=True,
     type=bool,
     default=False,
     help="Auto delete audio files",
+)
+@click.option(
+    "-a",
+    "--audio-folder",
+    default="audio_files",
+    type=str,
+    help="Folder for audio files",
 )
 @click.option(
     "-g",
@@ -425,57 +431,66 @@ def signal_handler(sig, frame):
     help="Launch the GUI (overrides other options)",
 )
 def main(
-    port_cli,
-    baudrate_cli,
-    freq_sampling_cli,
-    max_adc_cli,
-    vdd_cli,
-    log_cli,
-    auto_delete_cli,
-    gui_cli,
+    port,
+    baudrate,
+    freq_sampling,
+    max_adc,
+    vdd,
+    log,
+    auto_delete,
+    audio_folder,
+    gui,
 ):
     """
     UART reader utiliy.
 
     Developed by the group E, 2024-2025.
     """
-    global baudrate, freq_sampling, val_max_adc, vdd
+    global global_freq_sampling, global_baudrate, global_val_max_adc, global_vdd, global_audio_folder
 
     # Register the signal handler (Ctrl+C)
     signal.signal(signal.SIGINT, signal_handler)
 
     logger.info("UART Reader Application Launching, use --help for help\n")
 
-    if port_cli:
+    # Set the global variables
+    global_freq_sampling = freq_sampling
+    global_baudrate = baudrate
+    global_val_max_adc = max_adc
+    global_vdd = vdd
+    global_audio_folder = audio_folder
+
+    if port:
         # Console mode: read the serial data from the specified port
         logger.info(
             "Console mode activated, to stop, press 'Ctrl+C' then wait for a new serial input to close\n"
         )
-        baudrate = baudrate_cli
-        freq_sampling = freq_sampling_cli
-        val_max_adc = max_adc_cli
-        vdd = vdd_cli
 
         # Make a audio folder if it doesn't exist
-        if auto_delete_cli:
+        if auto_delete:
             rmtree("audio_files")
 
         # Enable logging if the flag is set
-        if log_cli:
+        if log:
             logger.setLevel(logging.DEBUG)  # Enable logging
 
         # Start the GUI if the flag is set
-        if gui_cli:
+        if gui:
             launch_gui(
-                port_cli, logging_enabled=log_cli, auto_delete_audio=auto_delete_cli
+                port=port,
+                baudrate=baudrate,
+                freq_sampling=freq_sampling,
+                vdd=vdd,
+                logging_enabled=log,
+                auto_delete_audio=auto_delete,
             )
         else:
             # Console mode: start reading serial data from the specified port
-            read_serial(port_cli.strip())
+            read_serial(port.strip())
 
     else:
         # GUI mode: open the application window
-        launch_gui(logging_enabled=log_cli, auto_delete_audio=auto_delete_cli)
+        launch_gui(baudrate=baudrate, freq_sampling=freq_sampling, val_max_adc=max_adc, vdd=vdd, logging_enabled=log, auto_delete_audio=auto_delete)
 
 
 if __name__ == "__main__":
