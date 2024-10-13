@@ -1,6 +1,5 @@
 """
-uart-reader.py
-ELEC PROJECT - 210x
+UART reader utilities, developed by the group E, 2024-2025.
 """
 
 import os
@@ -9,6 +8,8 @@ import sys
 import threading
 import tkinter as tk
 from tkinter import messagebox, scrolledtext, ttk
+import logging
+from shutil import rmtree
 
 import click
 import numpy as np
@@ -19,38 +20,42 @@ import soundfile as sf
 from plotly.subplots import make_subplots
 from serial.tools import list_ports
 
-###################### MODIFY BELOW THIS LINE #####################
-####################################################################
 
 # Default values
 PRINT_PREFIX = "SND:HEX:"
-FREQ_SAMPLING = 10200
-DEFAULT_BAUDRATE = 115200
-VAL_MAX_ADC = 4096
-VDD = 3.3
-LOG_ENABLED = False
-AUTO_DELETE_AUDIO = False
 DEFAULT_PORT_INDEX = 1  # Change this if the default port is not the first one
 
-###################### DO NOT MODIFY BELOW THIS LINE #####################
-##########################################################################
+# Global variables
+logging.basicConfig(filename='uart_reader.log', level=logging.INFO)
+logger = logging.getLogger(__name__)
+script_path = os.path.dirname(os.path.realpath(__file__))
+audio_folder = "audio_files"
+aquisition_counter = 0
 
+freq_sampling = 10200
+baudrate = 115200
+val_max_adc = 4096
+vdd = 3.3
 
-def generate_audio(buf, file_name):
+def write_audio(buf, file_name):
+    global audio_folder, freq_sampling, logger
     buf = np.asarray(buf, dtype=np.float64)
     buf = buf - np.mean(buf)
     buf /= max(abs(buf))
-    sf.write("audio_files/" + file_name + ".wav", buf, FREQ_SAMPLING)
-
-
-msg_counter = 0
-
+    # Check if the buffer is empty, and if the folder exists
+    if len(buf) == 0:
+        logger.error("Audio buffer is empty, aborting audio file creation \n\t >>> %s", file_name)
+        return
+    if not os.path.exists(audio_folder):
+        os.makedirs(audio_folder)
+    sf.write(f"{audio_folder}/{file_name}.wav", buf, freq_sampling)
+    logger.info("Audio file created \n\t >>> %s", file_name)
 
 def plot_signal_and_fft(signal, sampling_rate):
-    global msg_counter
+    global aquisition_counter, vdd, val_max_adc
     buffer_size = len(signal)
     times = np.linspace(0, buffer_size - 1, buffer_size) * 1 / sampling_rate
-    voltage_mV = signal * VDD / VAL_MAX_ADC * 1e3
+    voltage_mV = signal * vdd / val_max_adc * 1e3
 
     # Calculate FFT
     n = len(voltage_mV)
@@ -80,14 +85,14 @@ def plot_signal_and_fft(signal, sampling_rate):
     # Plot time-domain signal
     fig.add_trace(
         go.Scatter(
-            x=times, y=voltage_mV, mode="lines", name=f"Acquisition #{msg_counter}"
+            x=times, y=voltage_mV, mode="lines", name=f"Acquisition #{aquisition_counter}"
         ),
         row=1,
         col=1,
     )
     # Plot FFT without DC component
     fig.add_trace(
-        go.Scatter(x=freqs, y=fft_values, mode="lines", name=f"FFT #{msg_counter}"),
+        go.Scatter(x=freqs, y=fft_values, mode="lines", name=f"FFT #{aquisition_counter}"),
         row=2,
         col=1,
     )
@@ -95,60 +100,79 @@ def plot_signal_and_fft(signal, sampling_rate):
     # Show plots
     pio.show(fig, renderer="browser")
 
-    # Generate audio file
-    generate_audio(signal, f"acq-{msg_counter}")
+    aquisition_counter += 1
 
-    msg_counter += 1
-
-
-def print_and_save_data(data):
-    if LOG_ENABLED:
-        with open("uart_reader.log", "w") as f:
-            f.write(data)
-    print(data)
-
-
-def read_serial(port, baudrate=DEFAULT_BAUDRATE):
+def read_serial(port, baudrate=baudrate, local_logger=logger):
+    global aquisition_counter, freq_sampling
     """Reads the serial data and processes it for the console mode."""
-    try:
-        with serial.Serial(port, baudrate) as ser:
-            print_and_save_data(f"Connected to {port} with baudrate {baudrate}")
-            while not stop_event.is_set():
-                line = ser.readline().decode("ascii").strip()
-                if line.startswith(PRINT_PREFIX):
-                    buffer = bytes.fromhex(line[len(PRINT_PREFIX) :])
-                    dt = np.dtype(np.uint16)
-                    dt = dt.newbyteorder("<")
-                    buffer_array = np.frombuffer(buffer, dtype=dt)
-                    print_and_save_data(f"Aquisition Number : {msg_counter}")
-                    print_and_save_data(
-                        f">Aquisition Memory: {len(line) - len(PRINT_PREFIX)} bytes"
-                    )
-                    print_and_save_data(
-                        f">Aquisition Size  : {len(buffer_array)} samples"
-                    )
-                    plot_signal_and_fft(buffer_array, FREQ_SAMPLING)
-                else:
-                    print_and_save_data(f"{line}")
-    except Exception as e:
-        print_and_save_data(f"Error: {e}")
-        sys.exit(1)
-    finally:
-        print_and_save_data("Disconnected")
+    with serial.Serial(port, baudrate) as ser:
+        local_logger.info(f"Connected to {port} with baudrate {baudrate}")
+        while not stop_event.is_set():
+            line = ser.readline().decode("ascii").strip()
+            if line.startswith(PRINT_PREFIX):
+                buffer = bytes.fromhex(line[len(PRINT_PREFIX) :])
+                dt = np.dtype(np.uint16)
+                dt = dt.newbyteorder("<")
+                buffer_array = np.frombuffer(buffer, dtype=dt)
 
+                local_logger.info(f"Aquisition Number : {aquisition_counter}")
+                local_logger.info(f">Aquisition Memory: {len(line) - len(PRINT_PREFIX)} bytes")
+                local_logger.info(f">Aquisition Size  : {len(buffer_array)} samples")
+                
+                # Generate audio file
+                write_audio(signal, f"acq-{aquisition_counter}")
+                # Plot signal and FFT
+                plot_signal_and_fft(buffer_array, freq_sampling)
+            else:
+                local_logger.info(f"{line}")
+    # Disconnect
+    local_logger.info("Disconnected")
+
+class TextHandler(logging.Handler):
+    # This class allows you to log to a Tkinter Text or ScrolledText widget
+    # Adapted from Moshe Kaplan: https://gist.github.com/moshekaplan/c425f861de7bbf28ef06
+
+    def __init__(self, ui_console):
+        # run the regular Handler __init__
+        logging.Handler.__init__(self)
+        # Store a reference to the Console it will log to
+        self.ui_console = ui_console
+
+        # Configure tags for different log levels
+        self.ui_console.tag_config('INFO', foreground='black')
+        self.ui_console.tag_config('WARNING', foreground='orange')
+        self.ui_console.tag_config('ERROR', foreground='red')
+
+    def emit(self, record):
+        msg = self.format(record)
+        def append():
+            self.ui_console.configure(state='normal')
+            if record.levelno == logging.INFO:
+                self.ui_console.insert(tk.END, msg + '\n', 'INFO')
+            elif record.levelno == logging.WARNING:
+                self.ui_console.insert(tk.END, msg + '\n', 'WARNING')
+            elif record.levelno == logging.ERROR:
+                self.ui_console.insert(tk.END, msg + '\n', 'ERROR')
+            self.ui_console.configure(state='disabled')
+        # This is necessary because we can't modify the Text from other threads
+        self.ui_console.after(0, append)
 
 class UARTReaderApp:
-    def __init__(self, root, port=None):
+    def __init__(self, root, port=None, logging_enabled=False, auto_delete_audio=False):
+        global baudrate, freq_sampling, val_max_adc, vdd
         self.root = root
         self.root.title("UART Reader")
 
         self.port_var = tk.StringVar(value="--no COM--")
-        self.baudrate_var = tk.IntVar(value=DEFAULT_BAUDRATE)
-        self.freq_sampling_var = tk.IntVar(value=FREQ_SAMPLING)
-        self.val_max_adc_var = tk.IntVar(value=VAL_MAX_ADC)
-        self.vdd_var = tk.DoubleVar(value=VDD)
-        self.log_var = tk.BooleanVar(value=LOG_ENABLED)
-        self.auto_delete_audio_var = tk.BooleanVar(value=AUTO_DELETE_AUDIO)
+        self.baudrate_var = tk.IntVar(value=baudrate)
+        self.freq_sampling_var = tk.IntVar(value=freq_sampling)
+        self.val_max_adc_var = tk.IntVar(value=val_max_adc)
+        self.vdd_var = tk.DoubleVar(value=vdd)
+        self.log_var = tk.BooleanVar(value=logging_enabled)
+        self.auto_delete_audio_var = tk.BooleanVar(value=auto_delete_audio)
+
+        self.log_var.trace_add("write", self.on_log_var_change)
+        self.auto_delete_audio_var.trace_add("write", self.on_auto_delete_audio_var_change)
 
         self.create_widgets()
         self.serial_connection = None
@@ -156,19 +180,27 @@ class UARTReaderApp:
         self.stop_thread = threading.Event()
         self.current_port = None
 
+        self.ui_console_handler = TextHandler(self.console)
+        self.ui_logger = logging.getLogger("UARTReaderApp")
+        self.ui_logger.addHandler(self.ui_console_handler)
+        
         if port:
             self.port_var.set(port)
             self.connect()
 
-        if LOG_ENABLED:
-            with open("uart_reader.log", "w") as f:
-                f.write("UART Reader Application Log\n")
+    def on_log_var_change(self, *args):
+        logging_enabled = self.log_var.get()
+        # Add the logic to handle the change in logging_enabled
+        if logging_enabled:
+            logger.setLevel(logging.DEBUG)
+        else:
+            logger.setLevel(logging.INFO)
+        logger.info(f"Logging enabled: {logging_enabled}")
 
-        if not os.path.exists("audio_files"):
-            os.makedirs("audio_files")
-        if AUTO_DELETE_AUDIO:
-            for file in os.listdir("audio_files"):
-                os.remove(os.path.join("audio_files", file))
+    def on_auto_delete_audio_var_change(self, *args):
+        auto_delete_audio = self.auto_delete_audio_var.get()
+        # Add the logic to handle the change in auto_delete_audio
+        logger.info(f"Auto delete audio: {auto_delete_audio}\n Audio files will be deleted at each connection (and names will be reset)")
 
     def create_widgets(self):
         frame = ttk.Frame(self.root, padding="10")
@@ -218,7 +250,7 @@ class UARTReaderApp:
             row=4, column=1, sticky=(tk.W, tk.E)
         )
 
-        ttk.Label(frame, text="VDD:").grid(row=5, column=0, sticky=tk.W)
+        ttk.Label(frame, text="vdd:").grid(row=5, column=0, sticky=tk.W)
         ttk.Entry(frame, textvariable=self.vdd_var).grid(
             row=5, column=1, sticky=(tk.W, tk.E)
         )
@@ -245,19 +277,6 @@ class UARTReaderApp:
         )
         self.console.grid(row=9, column=0, columnspan=2, sticky=(tk.W, tk.E))
 
-    def print_stuff(self, stuff, type="data"):
-        if type == "error":
-            self.console.insert(tk.END, stuff + "\n", "error")
-            self.console.tag_config("error", foreground="red")
-        elif type == "data":
-            self.console.insert(tk.END, stuff + "\n", "data")
-        self.console.see(tk.END)
-        # Additional print to console and log file
-        print(stuff)
-        if self.log_var.get():
-            with open("uart_reader.log", "a") as f:
-                f.write(stuff + "\n")
-
     def refresh_ports(self):
         ports = ["--no COM--"] + [
             f"{port.device} ({port.description})" for port in list_ports.comports()
@@ -270,10 +289,15 @@ class UARTReaderApp:
         else:
             self.connect()
 
+    def serial_worker(self):
+        read_serial(self.port_var.get(), self.baudrate_var.get(), self.ui_logger)
+
     def connect(self):
         port = self.port_var.get().split()[0]
+        baudrate = self.baudrate_var.get()
+
         if self.port_var.get() == "--no COM--":
-            self.print_stuff("Please select a COM port", "error")
+            self.ui_logger.error("Please select a COM port")
             return
 
         if self.current_port and self.current_port != port:
@@ -282,11 +306,11 @@ class UARTReaderApp:
             ):
                 return
 
-        baudrate = self.baudrate_var.get()
-        freq_sampling = self.freq_sampling_var.get()
-        val_max_adc = self.val_max_adc_var.get()
-        vdd = self.vdd_var.get()
-        log_enabled = self.log_var.get()
+        # Auto delete audio files if the option is enabled
+        if self.auto_delete_audio_var.get():
+            rmtree("audio_files")
+            os.makedirs("audio_files")
+            aquisition_counter = 0
 
         try:
             self.serial_connection = serial.Serial(port=port, baudrate=baudrate)
@@ -295,14 +319,14 @@ class UARTReaderApp:
             self.status_label.config(
                 text=f"Status: Connected > {port}", foreground="green"
             )
-            self.print_stuff(f"Connected to {port}")
+            self.ui_logger.info(f"Connected to {port} with baudrate {baudrate}")
             self.stop_thread.clear()
-            self.serial_thread = threading.Thread(target=self.read_serial)
+            self.serial_thread = threading.Thread(target=self.serial_worker)
             self.serial_thread.start()
-        except Exception as e:
+        except serial.SerialException as e:
             self.connect_button.config(text="Connect")
             self.status_label.config(text="Status: Disconnected", foreground="red")
-            self.print_stuff(f"Error: {e}", "error")
+            self.ui_logger.error(f"Error connecting to {port}: {e}")
 
     def disconnect(self):
         self.stop_thread.set()
@@ -312,60 +336,29 @@ class UARTReaderApp:
             try:
                 self.serial_connection.close()
             except Exception as e:
-                self.print_stuff(f"Error closing connection: {e}", "error")
+                self.ui_logger.error(f"Error closing connection: {e}")
         self.current_port = None
         self.connect_button.config(text="Connect")
         self.status_label.config(text="Status: Disconnected", foreground="red")
-        self.print_stuff("Disconnected")
-
-    def read_serial(self):
-        while not self.stop_thread.is_set():
-            if self.serial_connection and self.serial_connection.is_open:
-                try:
-                    line = self.serial_connection.readline().decode("ascii").strip()
-                    if line:
-                        buffer = self.parse_buffer(line)
-                        if buffer is not None:
-                            dt = np.dtype(np.uint16)
-                            dt = dt.newbyteorder("<")
-                            buffer_array = np.frombuffer(buffer, dtype=dt)
-                            self.print_stuff(f"Aquisition Number \t: {msg_counter}")
-                            self.print_stuff(
-                                f">Aquisition Memory\t: {len(line) - len(PRINT_PREFIX)} bytes"
-                            )
-                            self.print_stuff(
-                                f">Aquisition Size  \t: {len(buffer_array)} samples"
-                            )
-                            plot_signal_and_fft(buffer_array, FREQ_SAMPLING)
-                except Exception as e:
-                    self.print_stuff(f"Error: {e}", "error")
-                    self.disconnect()
-                    return
-            else:
-                break
-
-    def parse_buffer(self, line):
-        if line.startswith(PRINT_PREFIX):
-            return bytes.fromhex(line[len(PRINT_PREFIX) :])
-        else:
-            self.print_stuff(line)
-            return None
+        self.ui_logger.info("Disconnected")
 
     def on_closing(self):
         self.stop_thread.set()
         if self.serial_thread and self.serial_thread.is_alive():
+            # Kill the thread if it's still running
             self.serial_thread.join(timeout=1)
         if self.serial_connection and self.serial_connection.is_open:
             try:
                 self.serial_connection.close()
             except Exception as e:
-                self.print_stuff(f"Error closing connection: {e}", "error")
+                self.ui_logger.error(f"Error closing connection: {e}")
         self.root.destroy()
 
 
-def launch_gui():
+def launch_gui(port=None, logging_enabled=False, auto_delete_audio=False):
+    logger.info("Launching GUI")
     root = tk.Tk()
-    app = UARTReaderApp(root)
+    app = UARTReaderApp(root, port, logging_enabled, auto_delete_audio)
     root.protocol("WM_DELETE_WINDOW", app.on_closing)
     root.mainloop()
 
@@ -380,25 +373,25 @@ def signal_handler(sig, frame):
 
 @click.command()
 @click.option(
-    "-p", "--port", default=None, type=str, help="Port for serial communication"
+    "-p", "--port", default=None, type=int, help="Port for serial communication"
 )
 @click.option(
     "-b",
     "--baudrate",
-    default=DEFAULT_BAUDRATE,
+    default=baudrate,
     type=int,
     help="Baudrate for serial communication",
 )
 @click.option(
-    "-f", "--freq-sampling", default=FREQ_SAMPLING, type=int, help="Sampling frequency"
+    "-f", "--freq-sampling", default=freq_sampling, type=int, help="Sampling frequency"
 )
-@click.option("-m", "--max-adc", default=VAL_MAX_ADC, type=int, help="Max ADC value")
-@click.option("-v", "--vdd", default=VDD, type=float, help="VDD value")
+@click.option("-m", "--max-adc", default=val_max_adc, type=int, help="Max ADC value")
+@click.option("-v", "--vdd", default=vdd, type=float, help="vdd value")
 @click.option(
-    "-l", "--log", is_flag=True, type=bool, default=False, help="Enable logging"
+    "-l", "--log", is_flag=True, type=bool, default=False, help="Enable debug logging"
 )
 @click.option(
-    "-d",
+    "-a",
     "--auto-delete",
     is_flag=True,
     type=bool,
@@ -413,42 +406,47 @@ def signal_handler(sig, frame):
     default=False,
     help="Launch the GUI (overrides other options)",
 )
-def main(port, baudrate, freq_sampling, max_adc, vdd, log, auto_delete, gui):
+def main(port_cli, baudrate_cli, freq_sampling_cli, max_adc_cli, vdd_cli, log_cli, auto_delete_cli, gui_cli):  
+    """  
+    UART reader utiliy.  
+    
+    Developed by the group E, 2024-2025.  
+    """ 
+    global baudrate, freq_sampling, val_max_adc, vdd
+
     # Register the signal handler (Ctrl+C)
     signal.signal(signal.SIGINT, signal_handler)
 
-    print("UART Reader Application Launching, use --help for help\n")
+    logger.info("UART Reader Application Launching, use --help for help\n")
 
-    if port:
+    if port_cli:
         # Console mode: read the serial data from the specified port
-        print(
+        logger.info(
             "Console mode activated, to stop, press 'Ctrl+C' then wait for a new serial input to close\n"
         )
-        DEFAULT_BAUDRATE = baudrate
-        FREQ_SAMPLING = freq_sampling
-        VAL_MAX_ADC = max_adc
-        VDD = vdd
-        LOG_ENABLED = log
-        AUTO_DELETE_AUDIO = auto_delete
-        if gui:
-            launch_gui()
+        baudrate = baudrate_cli
+        freq_sampling = freq_sampling_cli
+        val_max_adc = max_adc_cli
+        vdd = vdd_cli
+        
+        # Make a audio folder if it doesn't exist
+        if auto_delete_cli:
+            rmtree("audio_files")
+
+        # Enable logging if the flag is set
+        if log_cli:
+            logger.setLevel(logging.DEBUG) # Enable logging
+        
+        # Start the GUI if the flag is set
+        if gui_cli:
+            launch_gui(port_cli, logging_enabled=log_cli, auto_delete_audio=auto_delete_cli)
         else:
             # Console mode: start reading serial data from the specified port
-            read_serial(port.strip())
+            read_serial(port_cli.strip())
 
-            # Make a audio folder if it doesn't exist
-            if not os.path.exists("audio_files"):
-                os.makedirs("audio_files")
-            if AUTO_DELETE_AUDIO:
-                for file in os.listdir("audio_files"):
-                    os.remove(os.path.join("audio_files", file))
-
-            if LOG_ENABLED:
-                with open("uart_reader.log", "w") as f:
-                    f.write("UART Reader Application Log\n")
     else:
         # GUI mode: open the application window
-        launch_gui()
+        launch_gui(logging_enabled=log_cli, auto_delete_audio=auto_delete_cli)
 
 
 if __name__ == "__main__":
