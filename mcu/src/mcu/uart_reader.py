@@ -390,7 +390,7 @@ def signal_handler(sig, frame):
 
 @click.command()
 @click.option(
-    "-p", "--port", default=None, type=int, help="Port for serial communication"
+    "-p", "--port", default=None, type=str, help="Port for serial communication"
 )
 @click.option(
     "-b",
