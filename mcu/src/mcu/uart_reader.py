@@ -171,7 +171,17 @@ class TextHandler(logging.Handler):
 
 
 class UARTReaderApp:
-    def __init__(self, root, port=None, baudrate=global_baudrate, freq_sampling=global_freq_sampling, val_max_adc=global_val_max_adc, vdd=global_vdd, logging_enabled=False, auto_delete_audio=False):
+    def __init__(
+        self,
+        root,
+        port=None,
+        baudrate=global_baudrate,
+        freq_sampling=global_freq_sampling,
+        val_max_adc=global_val_max_adc,
+        vdd=global_vdd,
+        logging_enabled=False,
+        auto_delete_audio=False,
+    ):
         self.root = root
         self.root.title("UART Reader")
 
@@ -372,10 +382,27 @@ class UARTReaderApp:
         self.root.destroy()
 
 
-def launch_gui(port=None, baudrate=global_baudrate, freq_sampling=global_freq_sampling, val_max_adc=global_val_max_adc, vdd=global_vdd, logging_enabled=False, auto_delete_audio=False):
+def launch_gui(
+    port=None,
+    baudrate=global_baudrate,
+    freq_sampling=global_freq_sampling,
+    val_max_adc=global_val_max_adc,
+    vdd=global_vdd,
+    logging_enabled=False,
+    auto_delete_audio=False,
+):
     logger.info("Launching GUI")
     root = tk.Tk()
-    app = UARTReaderApp(root, port, baudrate, freq_sampling, val_max_adc, vdd, logging_enabled, auto_delete_audio)
+    app = UARTReaderApp(
+        root,
+        port,
+        baudrate,
+        freq_sampling,
+        val_max_adc,
+        vdd,
+        logging_enabled,
+        auto_delete_audio,
+    )
     root.protocol("WM_DELETE_WINDOW", app.on_closing)
     root.mainloop()
 
@@ -446,7 +473,12 @@ def main(
 
     Developed by the group E, 2024-2025.
     """
-    global global_freq_sampling, global_baudrate, global_val_max_adc, global_vdd, global_audio_folder
+    global \
+        global_freq_sampling, \
+        global_baudrate, \
+        global_val_max_adc, \
+        global_vdd, \
+        global_audio_folder
 
     # Register the signal handler (Ctrl+C)
     signal.signal(signal.SIGINT, signal_handler)
@@ -490,7 +522,14 @@ def main(
 
     else:
         # GUI mode: open the application window
-        launch_gui(baudrate=baudrate, freq_sampling=freq_sampling, val_max_adc=max_adc, vdd=vdd, logging_enabled=log, auto_delete_audio=auto_delete)
+        launch_gui(
+            baudrate=baudrate,
+            freq_sampling=freq_sampling,
+            val_max_adc=max_adc,
+            vdd=vdd,
+            logging_enabled=log,
+            auto_delete_audio=auto_delete,
+        )
 
 
 if __name__ == "__main__":
