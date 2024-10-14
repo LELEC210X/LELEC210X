@@ -1,6 +1,6 @@
 #MicroXplorer Configuration settings - do not modify
 ADC1.Channel-0\#ChannelRegularConversion=ADC_CHANNEL_5
-ADC1.DMAContinuousRequests=ENABLE
+ADC1.DMAContinuousRequests=DISABLE
 ADC1.ExternalTrigConv=ADC_EXTERNALTRIG_T3_TRGO
 ADC1.IPParameters=Rank-0\#ChannelRegularConversion,master,Channel-0\#ChannelRegularConversion,SamplingTime-0\#ChannelRegularConversion,OffsetNumber-0\#ChannelRegularConversion,NbrOfConversionFlag,ExternalTrigConv,DMAContinuousRequests
 ADC1.NbrOfConversionFlag=1
@@ -15,7 +15,7 @@ Dma.ADC1.0.Direction=DMA_PERIPH_TO_MEMORY
 Dma.ADC1.0.Instance=DMA1_Channel1
 Dma.ADC1.0.MemDataAlignment=DMA_MDATAALIGN_HALFWORD
 Dma.ADC1.0.MemInc=DMA_MINC_ENABLE
-Dma.ADC1.0.Mode=DMA_CIRCULAR
+Dma.ADC1.0.Mode=DMA_NORMAL
 Dma.ADC1.0.PeriphDataAlignment=DMA_PDATAALIGN_HALFWORD
 Dma.ADC1.0.PeriphInc=DMA_PINC_DISABLE
 Dma.ADC1.0.Priority=DMA_PRIORITY_LOW
@@ -229,8 +229,9 @@ SH.ADCx_IN5.0=ADC1_IN5,IN5-Single-Ended
 SH.ADCx_IN5.ConfNb=1
 SH.GPXTI13.0=GPIO_EXTI13
 SH.GPXTI13.ConfNb=1
-TIM3.IPParameters=TIM_MasterOutputTrigger,Period
+TIM3.IPParameters=TIM_MasterOutputTrigger,Period,Prescaler
 TIM3.Period=195
+TIM3.Prescaler=15
 TIM3.TIM_MasterOutputTrigger=TIM_TRGO_UPDATE
 VP_SYS_VS_Systick.Mode=SysTick
 VP_SYS_VS_Systick.Signal=SYS_VS_Systick

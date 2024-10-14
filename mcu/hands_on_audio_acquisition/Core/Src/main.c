@@ -154,6 +154,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+      __WFI();
       if (sample_done) {
           // Step 3: Turn on LD2 LED (data transfer in progress)
           HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
@@ -166,7 +167,7 @@ int main(void)
 
           // Step 6: Return to WFI state
           sample_done = 0;
-          __WFI();  // Wait for the next interrupt (button press)
+  // Wait for the next interrupt (button press)
       }
 
     /* USER CODE END WHILE */
