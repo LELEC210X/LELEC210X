@@ -29,3 +29,21 @@ plt.ylabel('Consumption (mW)')
 plt.title('Consumption of the board depending on time')
 #plt.savefig('consommation/conso.pdf', format='pdf')
 plt.show()
+
+#Créer un pie chart pour montrer la consommation moyenne
+conso_moy = [0.1625*10**-3*0.20,  0.7688*10**-3*0.80]
+
+#On plot le pie chart
+plt.pie(conso_moy, labels=['Recording with ADC and datas going to the buffer ','LED ON and sending datas to UART'])
+plt.gca().patches[0].set_color('green')
+plt.gca().patches[1].set_color('purple')
+# afficher les pourcentages sur le pie chart
+plt.gca().patches[0].set_label('Recording with ADC and datas going to the buffer')
+plt.gca().patches[1].set_label('LED ON and sending datas to UART')
+plt.legend(loc='lower right', labels=[
+    'Recording with ADC and datas going to the buffer - {:.1f}%'.format(conso_moy[0] / sum(conso_moy) * 100),
+    'LED ON and sending datas to UART - {:.1f}%'.format(conso_moy[1] / sum(conso_moy) * 100)
+])
+plt.title('Energy consomption of the system.')
+plt.savefig('consommation/conso_moy_pie_chart.pdf', format='pdf')
+plt.show()
