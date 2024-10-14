@@ -36,7 +36,7 @@ conso_moy = [0.1625*10**-3*0.20,  0.7688*10**-3*0.80]
 #On plot le pie chart
 plt.pie(conso_moy, labels=['Recording datas into \n the buffer after the ADC','LED ON and sending \n datas to UART'])
 plt.gca().patches[0].set_color('green')
-plt.gca().patches[1].set_color('purple')
+plt.gca().patches[1].set_color('magenta')
 plt.legend(loc='lower right', labels=[
     'Recording datas into the buffer after the ADC - {:.1f}%'.format(conso_moy[0] / sum(conso_moy) * 100),
     'LED ON and sending datas to UART - {:.1f}%'.format(conso_moy[1] / sum(conso_moy) * 100)
