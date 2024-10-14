@@ -45,5 +45,5 @@ plt.legend(loc='lower right', labels=[
     'LED ON and sending datas to UART - {:.1f}%'.format(conso_moy[1] / sum(conso_moy) * 100)
 ])
 plt.title('Energy consomption of the system.')
-plt.savefig('consommation/conso_moy_pie_chart.pdf', format='pdf')
+#plt.savefig('consommation/conso_moy_pie_chart.pdf', format='pdf')
 plt.show()
