@@ -2,535 +2,515 @@
 UART reader utilities, developed by the group E, 2024-2025.
 """
 
-import logging
+# Standard Library
+import sys
 import os
-import signal
-import threading
-import tkinter as tk
+import logging
 from shutil import rmtree
-from tkinter import messagebox, scrolledtext, ttk
 
+# Installed Libraries
 import click
-import numpy as np
-import plotly.graph_objects as go
-import plotly.io as pio
 import serial
-import soundfile as sf
-from plotly.subplots import make_subplots
 from serial.tools import list_ports
+import soundfile as sf
+import numpy as np
+import plotly.subplots as plts
+import plotly.graph_objects as go
+from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton
+from PyQt6.QtWidgets import QComboBox, QLabel, QTextEdit, QLineEdit, QCheckBox, QFileDialog, QMessageBox
+from PyQt6.QtCore import QThread, pyqtSignal
 
-# Default values
+# Constants
 PRINT_PREFIX = "SND:HEX:"
-DEFAULT_PORT_INDEX = 1  # Change this if the default port is not the first one
 
-# Global variables
-logging.basicConfig(filename="uart_reader.log", level=logging.INFO)
-logger = logging.getLogger(__name__)
-global_audio_folder = "audio_files"
-aquisition_counter = 0
+# Set up logging
+def setup_logging(log_level, log_file):
+    logging.basicConfig(
+        level=getattr(logging, log_level),
+        format='[%(asctime)s] %(levelname)s: %(message)s',
+        handlers=[logging.FileHandler("uart_reader.log") if log_file else logging.StreamHandler()]
+    )
 
-global_freq_sampling = 10200
-global_baudrate = 115200
-global_val_max_adc = 4096
-global_vdd = 3.3
+# Write data to serial port
+def write_to_serial(ser: serial.Serial, data:str, logger_obj: logging.Logger):
+    ser.write(data.encode('utf-8'))
+    logger_obj.info(f"Sent data: {data}")
 
+# Read data from serial port
+def read_from_serial(ser: serial.Serial):
+    if ser.in_waiting > 0:
+        data = ser.readline().decode('utf-8').strip()
+        return data
+    return None
 
-def write_audio(buf, file_name, local_logger=logger):
-    global global_audio_folder, global_freq_sampling
-    buf = np.asarray(buf, dtype=np.float64)
-    buf = buf - np.mean(buf)
-    buf /= max(abs(buf))
-    # Check if the buffer is empty, and if the folder exists
-    if len(buf) == 0:
-        local_logger.error(
-            "Audio buffer is empty, aborting audio file creation \n\t >>> %s", file_name
-        )
+# Write audio data to file
+def write_audio(signal: np.ndarray, sampling_frequency:int, audio_output_folder:str, audio_file_name:str, audio_output_type:str, overwrite:bool, logger_obj: logging.Logger):
+    if signal is None or len(signal) == 0:
+        logger_obj.error(f"No audio data to write for file {audio_file_name}.{audio_output_type.lower()}")
         return
-    if not os.path.exists(global_audio_folder):
-        os.makedirs(global_audio_folder)
-    sf.write(f"{global_audio_folder}/{file_name}.wav", buf, global_freq_sampling)
-    local_logger.info("Audio file created \n\t >>> %s", file_name)
+    # Normalize the audio data, convert to float64 and center around 0
+    signal = np.asarray(signal, dtype=np.float64)
+    signal = signal - np.mean(signal)
+    signal /= np.max(np.abs(signal))
 
+    # Write the audio data to file (overwrite if necessary)
+    file_path = f"{audio_output_folder}/{audio_file_name}.{audio_output_type.lower()}"
+    if not overwrite and os.path.exists(file_path):
+        logger_obj.error(f"File {file_path} already exists. Set overwrite to True to overwrite the file.")
+        while not overwrite and os.path.exists(file_path):
+            audio_file_name += "_1"
+            file_path = f"{audio_output_folder}/{audio_file_name}.{audio_output_type.lower()}" 
+    elif os.path.exists(file_path):
+        os.remove(file_path)
+    sf.write(file_path, signal, sampling_frequency)
+    logger_obj.info(f">> Generated audio in {audio_output_type} format at {file_path}")
 
-def plot_signal_and_fft(signal, sampling_rate, local_logger=logger):
-    global aquisition_counter, global_vdd, global_val_max_adc
-    buffer_size = len(signal)
-    times = np.linspace(0, buffer_size - 1, buffer_size) * 1 / sampling_rate
-    voltage_mV = signal * global_vdd / global_val_max_adc * 1000
+# Plot data using Plotly
+def plot_data_and_fft(signal: np.ndarray, sampling_frequency: int, vdd:float, max_adc_value:int, plot_output_type:str, plot_name:str, logger_obj: logging.Logger):
+    if signal is None or len(signal) == 0:
+        logger_obj.error("No audio data to plot")
+        return
+    # Calculate the time and voltage values
+    signal_size = len(signal)
+    time = np.linspace(0, signal_size - 1, signal_size) * 1 / sampling_frequency
+    voltage_mV = signal * vdd / max_adc_value * 1000
 
     # Calculate FFT
     n = len(voltage_mV)
     fft_values = np.fft.fft(voltage_mV)
     fft_values = np.abs(fft_values)[: n // 2]  # Magnitude of the FFT
-    freqs = np.fft.fftfreq(n, 1 / sampling_rate)[: n // 2]  # Associated frequencies
-
+    freqs = np.fft.fftfreq(n, 1 / sampling_frequency)[: n // 2]  # Associated frequencies
     # Exclude the DC component (frequency 0)
     freqs = freqs[1:]
     fft_values = fft_values[1:]
 
-    # Create subplot with 2 graphs (time-domain + FFT)
-    fig = make_subplots(
-        rows=2, cols=1, subplot_titles=("Time-Domain Signal", "Signal FFT")
-    )
-
-    fig.update_layout(
-        title="Real-Time Acquisition",
-        xaxis_title="Time (s)",
-        yaxis_title="Voltage (mV)",
-    )
-    fig.update_yaxes(title_text="Voltage (mV)", row=1, col=1)
-    fig.update_yaxes(title_text="FFT Magnitude", row=2, col=1)
+    # Plot the data
+    fig = plts.make_subplots(rows=2, cols=1, vertical_spacing=0.02)
+    fig.add_trace(go.Scatter(x=time, y=voltage_mV, name="Voltage (mV)"), row=1, col=1)
+    fig.add_trace(go.Scatter(x=freqs, y=fft_values, name="FFT"), row=2, col=1)
+    fig.update_layout(title_text=f"Audio Data and FFT for {plot_name}")
     fig.update_xaxes(title_text="Time (s)", row=1, col=1)
     fig.update_xaxes(title_text="Frequency (Hz)", row=2, col=1)
+    fig.update_yaxes(title_text="Voltage (mV)", row=1, col=1)
+    fig.update_yaxes(title_text="Magnitude", row=2, col=1)
 
-    # Plot time-domain signal
-    fig.add_trace(
-        go.Scatter(
-            x=times,
-            y=voltage_mV,
-            mode="lines",
-            name=f"Acquisition #{aquisition_counter}",
-        ),
-        row=1,
-        col=1,
-    )
-    # Plot FFT without DC component
-    fig.add_trace(
-        go.Scatter(
-            x=freqs, y=fft_values, mode="lines", name=f"FFT #{aquisition_counter}"
-        ),
-        row=2,
-        col=1,
-    )
+    if plot_output_type == "FILE":
+        fig.write_html(f"{plot_name}.html")
+        logger_obj.info(f">> Plot saved to {plot_name}.html")
+    else:
+        fig.show()
+        logger_obj.info(">> Plot displayed in browser")
 
-    # Show plots
-    pio.show(fig, renderer="browser")
+# Process a data buffer into signal data
+def process_sound_buffer(sound_buffer: str):
+    buffer = bytes.fromhex(sound_buffer[len(PRINT_PREFIX) :])
+    dt = np.dtype(np.uint16)
+    dt = dt.newbyteorder("<")
+    return np.frombuffer(buffer, dtype=dt)
 
-    aquisition_counter += 1
+# Thread for reading serial data
+class SerialReader(QThread):
+    data_received = pyqtSignal(str)
+
+    def __init__(self, port: str, baudrate: int, logger_obj: logging.Logger):
+        super().__init__()
+        self.port = port
+        self.baudrate = baudrate
+        self.serial = None
+        self.is_running = False
+        self.logger_obj = logger_obj
+
+    def run(self):
+        try:
+            self.serial = serial.Serial(self.port, self.baudrate)
+            self.is_running = True
+            self.logger_obj.info(f"Connected to {self.port} at {self.baudrate} baud.")
+            while self.is_running:
+                if self.serial.in_waiting > 0:
+                    data = self.serial.readline().decode('ascii').strip()
+                    self.data_received.emit(data)
+
+        except serial.SerialException as e:
+            self.logger_obj.error(e)
+            self.data_received.emit(f"TERMINATE")
+            self.stop()
+        finally:
+            if self.serial:
+                self.serial.close()
+                self.logger_obj.info("Serial port closed.")
+
+    def stop(self):
+        self.is_running = False
+
+# GUI application
+class SerialGUIApp(QMainWindow):
+    def __init__(self, settings):
+        super().__init__()
+        self.settings = settings
+        self.aquisition_counter = 0
+
+        # Set up logging
+        self.logger = logging.getLogger(__name__)
+
+        self.initUI()
+
+        # Set up the logging handler for the console output
+        self.log_handler = self.GUILoggingHandler(self.console_output)
+        self.log_handler.setFormatter(logging.Formatter('%(message)s'))
+        self.logger.addHandler(self.log_handler)
 
 
-def read_serial(port, baudrate=global_baudrate, local_logger=logger):
-    global aquisition_counter, global_freq_sampling
-    """Reads the serial data and processes it for the console mode."""
-    with serial.Serial(port, baudrate) as ser:
-        local_logger.info(f"Connected to {port} with baudrate {baudrate}")
-        while not stop_event.is_set():
-            line = ser.readline().decode("ascii").strip()
-            if line.startswith(PRINT_PREFIX):
-                buffer = bytes.fromhex(line[len(PRINT_PREFIX) :])
-                dt = np.dtype(np.uint16)
-                dt = dt.newbyteorder("<")
-                buffer_array = np.frombuffer(buffer, dtype=dt)
+    class GUILoggingHandler(logging.Handler):
+        def __init__(self, console_output):
+            super().__init__()
+            self.console_output = console_output
 
-                local_logger.info(f"Aquisition Number : {aquisition_counter}")
-                local_logger.info(
-                    f">Aquisition Memory: {len(line) - len(PRINT_PREFIX)} bytes"
-                )
-                local_logger.info(f">Aquisition Size  : {len(buffer_array)} samples")
-
-                # Generate audio file
-                write_audio(signal, f"acq-{aquisition_counter}", local_logger)
-                # Plot signal and FFT
-                plot_signal_and_fft(buffer_array, global_freq_sampling, local_logger)
+        def emit(self, record):
+            exploded = self.format(record).split(": ")
+            output_message = exploded[0] if len(exploded) == 1 else "".join(exploded[1:])
+            # Make it red if its an error
+            if record.levelno >= logging.ERROR:
+                self.console_output.append(f"<font color='red'>Error: {output_message}</font>")
             else:
-                local_logger.info(f"{line}")
-    # Disconnect
-    local_logger.info("Disconnected")
+                self.console_output.append(output_message)
 
 
-class TextHandler(logging.Handler):
-    # This class allows you to log to a Tkinter Text or ScrolledText widget
-    # Adapted from Moshe Kaplan: https://gist.github.com/moshekaplan/c425f861de7bbf28ef06
+    def h_layout_box(self, layout):
+        h_layout = QHBoxLayout()
+        layout.addLayout(h_layout)
+        return h_layout
+    
+    def h_layout_stretch(self, h_layout):
+        h_layout.setStretch(0, 2)
+        h_layout.setStretch(1, 6)
+        h_layout.setStretch(2, 1) 
 
-    def __init__(self, ui_console):
-        # run the regular Handler __init__
-        logging.Handler.__init__(self)
-        # Store a reference to the Console it will log to
-        self.ui_console = ui_console
+    def initUI(self):
+        self.setWindowTitle("Serial Console App")
+        self.resize(600, 400)
 
-        # Configure tags for different log levels
-        self.ui_console.tag_config("INFO", foreground="black")
-        self.ui_console.tag_config("WARNING", foreground="orange")
-        self.ui_console.tag_config("ERROR", foreground="red")
+        # Layout
+        layout = QVBoxLayout()
+        self.central_widget = QWidget()
+        self.central_widget.setLayout(layout)
+        self.setCentralWidget(self.central_widget)
 
-    def emit(self, record):
-        msg = self.format(record)
+        # Credits and Instructions
+        self.credits_label = QLabel("UART Console App for LELEC210x")
+        self.author_label = QLabel("Developed by Group E 2024 - 2025")
+        layout.addWidget(self.credits_label)
+        layout.addWidget(self.author_label)
+        self.instructions_label = QLabel(" How to use : Select a Serial Port and press Connect")
+        layout.addWidget(self.instructions_label)
 
-        def append():
-            self.ui_console.configure(state="normal")
-            if record.levelno == logging.INFO:
-                self.ui_console.insert(tk.END, msg + "\n", "INFO")
-            elif record.levelno == logging.WARNING:
-                self.ui_console.insert(tk.END, msg + "\n", "WARNING")
-            elif record.levelno == logging.ERROR:
-                self.ui_console.insert(tk.END, msg + "\n", "ERROR")
-            self.ui_console.configure(state="disabled")
-
-        # This is necessary because we can't modify the Text from other threads
-        self.ui_console.after(0, append)
+        self.credits_label.setStyleSheet("font-size: 20px; font-weight: bold;")
+        self.author_label.setStyleSheet("font-size: 10px; font-style: italic;")
+        self.instructions_label.setStyleSheet("font-size: 14px;")
 
 
-class UARTReaderApp:
-    def __init__(
-        self,
-        root,
-        port=None,
-        baudrate=global_baudrate,
-        freq_sampling=global_freq_sampling,
-        val_max_adc=global_val_max_adc,
-        vdd=global_vdd,
-        logging_enabled=False,
-        auto_delete_audio=False,
-    ):
-        self.root = root
-        self.root.title("UART Reader")
+        # Serial Port Dropdown
+        h_serial_layout = self.h_layout_box(layout)
+        self.port_label = QLabel("Serial Port")
+        self.port_dropdown = QComboBox()
+        self.refresh_button = QPushButton("Refresh")
+        self.refresh_button.clicked.connect(self.refresh_ports)
+        h_serial_layout.addWidget(self.port_label)
+        h_serial_layout.addWidget(self.port_dropdown)
+        h_serial_layout.addWidget(self.refresh_button)
+        self.h_layout_stretch(h_serial_layout)
 
-        self.port_var = tk.StringVar(value="--no COM--")
-        self.baudrate_var = tk.IntVar(value=baudrate)
-        self.freq_sampling_var = tk.IntVar(value=freq_sampling)
-        self.val_max_adc_var = tk.IntVar(value=val_max_adc)
-        self.vdd_var = tk.DoubleVar(value=vdd)
-        self.log_var = tk.BooleanVar(value=logging_enabled)
-        self.auto_delete_audio_var = tk.BooleanVar(value=auto_delete_audio)
-
-        self.log_var.trace_add("write", self.on_log_var_change)
-        self.auto_delete_audio_var.trace_add(
-            "write", self.on_auto_delete_audio_var_change
-        )
-
-        self.create_widgets()
-        self.serial_connection = None
-        self.serial_thread = None
-        self.stop_thread = threading.Event()
-        self.current_port = None
-
-        self.ui_console_handler = TextHandler(self.console)
-        self.ui_logger = logging.getLogger("UARTReaderApp")
-        self.ui_logger.addHandler(self.ui_console_handler)
-
-        if port:
-            self.port_var.set(port)
-            self.connect()
-
-    def on_log_var_change(self, *args):
-        logging_enabled = self.log_var.get()
-        # Add the logic to handle the change in logging_enabled
-        if logging_enabled:
-            logger.setLevel(logging.DEBUG)
-        else:
-            logger.setLevel(logging.INFO)
-        logger.info(f"Logging enabled: {logging_enabled}")
-
-    def on_auto_delete_audio_var_change(self, *args):
-        auto_delete_audio = self.auto_delete_audio_var.get()
-        # Add the logic to handle the change in auto_delete_audio
-        logger.info(
-            f"Auto delete audio: {auto_delete_audio}\n Audio files will be deleted at each connection (and names will be reset)"
-        )
-
-    def create_widgets(self):
-        frame = ttk.Frame(self.root, padding="10")
-        frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
-
-        credits_frame = ttk.Frame(frame, padding="5")
-        credits_frame.grid(row=0, column=0, columnspan=2, sticky=(tk.W, tk.E))
-        ttk.Label(
-            credits_frame,
-            text="UART Reader Application for LELEC210x",
-            font=("Helvetica", 16),
-        ).grid(row=0, column=0, sticky=tk.W)
-        ttk.Label(
-            credits_frame, text="Developed by Group E 2024", font=("Helvetica", 7)
-        ).grid(row=1, column=0, sticky=tk.W)
-        ttk.Label(
-            credits_frame,
-            text="How to use: Select COM port and click Connect",
-            font=("Helvetica", 10),
-        ).grid(row=3, column=0, sticky=tk.W)
-
-        ttk.Label(frame, text="Select COM Port:").grid(row=1, column=0, sticky=tk.W)
-        self.port_combobox = ttk.Combobox(frame, textvariable=self.port_var)
+        # Select the first port by default (if available)
         self.refresh_ports()
-        self.port_combobox.grid(row=1, column=1, sticky=(tk.W, tk.E))
+        if self.port_dropdown.count() > 1:
+            self.port_dropdown.setCurrentIndex(1)
 
-        if len(self.port_combobox["values"]) > 1:
-            self.port_combobox.current(DEFAULT_PORT_INDEX)
+        # Baudrate Input
+        h_baudrate_layout = self.h_layout_box(layout)
+        h_baudrate_layout.addWidget(QLabel("Baudrate"))
+        self.baudrate_input = QLineEdit()
+        self.baudrate_input.setText(str(self.settings['baudrate']))
+        h_baudrate_layout.addWidget(self.baudrate_input)
+        h_baudrate_layout.addWidget(QLabel())
+        self.h_layout_stretch(h_baudrate_layout)
 
-        self.refresh_button = ttk.Button(
-            frame, text="Refresh", command=self.refresh_ports
-        )
-        self.refresh_button.grid(row=1, column=2, sticky=(tk.W, tk.E))
+        # Sampling Frequency Input
+        h_sampling_layout = self.h_layout_box(layout)
+        h_sampling_layout.addWidget(QLabel("Sampling Frequency"))
+        self.sampling_input = QLineEdit()
+        self.sampling_input.setText(str(self.settings['sampling_frequency']))
+        h_sampling_layout.addWidget(self.sampling_input)
+        h_sampling_layout.addWidget(QLabel("Hz"))
+        self.h_layout_stretch(h_sampling_layout)
 
-        ttk.Label(frame, text="Baudrate:").grid(row=2, column=0, sticky=tk.W)
-        ttk.Entry(frame, textvariable=self.baudrate_var).grid(
-            row=2, column=1, sticky=(tk.W, tk.E)
-        )
+        # Max ADC Value Input
+        h_max_adc_layout = self.h_layout_box(layout)
+        h_max_adc_layout.addWidget(QLabel("Max ADC Value"))
+        self.max_adc_input = QLineEdit()
+        self.max_adc_input.setText(str(self.settings['max_adc_value']))
+        h_max_adc_layout.addWidget(self.max_adc_input)
+        h_max_adc_layout.addWidget(QLabel())
+        self.h_layout_stretch(h_max_adc_layout)
 
-        ttk.Label(frame, text="Frequency Sampling:").grid(row=3, column=0, sticky=tk.W)
-        ttk.Entry(frame, textvariable=self.freq_sampling_var).grid(
-            row=3, column=1, sticky=(tk.W, tk.E)
-        )
+        # VDD Input
+        h_vdd_layout = self.h_layout_box(layout)
+        h_vdd_layout.addWidget(QLabel("VDD"))
+        self.vdd_input = QLineEdit()
+        self.vdd_input.setText(str(self.settings['vdd']))
+        h_vdd_layout.addWidget(self.vdd_input)
+        h_vdd_layout.addWidget(QLabel("V"))
+        self.h_layout_stretch(h_vdd_layout)
 
-        ttk.Label(frame, text="Max ADC Value:").grid(row=4, column=0, sticky=tk.W)
-        ttk.Entry(frame, textvariable=self.val_max_adc_var).grid(
-            row=4, column=1, sticky=(tk.W, tk.E)
-        )
+        # Plot Output Type Dropdown
+        h_plot_layout = self.h_layout_box(layout)
+        h_plot_layout.addWidget(QLabel("Plot Output Type"))
+        self.plot_dropdown = QComboBox()
+        self.plot_dropdown.addItems(["WEB", "FILE"])
+        h_plot_layout.addWidget(self.plot_dropdown)
+        h_plot_layout.addWidget(QLabel())
+        self.h_layout_stretch(h_plot_layout)
 
-        ttk.Label(frame, text="vdd:").grid(row=5, column=0, sticky=tk.W)
-        ttk.Entry(frame, textvariable=self.vdd_var).grid(
-            row=5, column=1, sticky=(tk.W, tk.E)
-        )
+        # Audio Output Type Dropdown
+        h_audio_layout = self.h_layout_box(layout)
+        h_audio_layout.addWidget(QLabel("Audio Output Type"))
+        self.audio_dropdown = QComboBox()
+        self.audio_dropdown.addItems(["WAV", "OGG"])
+        h_audio_layout.addWidget(self.audio_dropdown)
+        h_audio_layout.addWidget(QLabel())
+        self.h_layout_stretch(h_audio_layout)
 
-        ttk.Checkbutton(frame, text="Enable Logging", variable=self.log_var).grid(
-            row=6, column=0, columnspan=2, sticky=tk.W
-        )
-        ttk.Checkbutton(
-            frame, text="Auto Delete Audio Files", variable=self.auto_delete_audio_var
-        ).grid(row=6, column=1, columnspan=2, sticky=tk.W)
+        # Audio Output Folder Input
+        h_audio_folder_layout = self.h_layout_box(layout)
+        h_audio_folder_layout.addWidget(QLabel("Audio Output Folder"))
+        self.audio_folder_input = QLineEdit() 
+        self.audio_folder_input.setText(self.settings['audio_output_folder'])
+        self.audio_folder_input.setReadOnly(True)
+        h_audio_folder_layout.addWidget(self.audio_folder_input)
+        self.browse_button = QPushButton("Browse")
+        self.browse_button.clicked.connect(self.browse_folder)
+        h_audio_folder_layout.addWidget(self.browse_button)
+        self.h_layout_stretch(h_audio_folder_layout)
 
-        self.connect_button = ttk.Button(
-            frame, text="Connect", command=self.toggle_connection
-        )
-        self.connect_button.grid(row=7, column=0, columnspan=2, sticky=(tk.W, tk.E))
+        # Overwrite Audio Checkbox
+        h_overwrite_layout = self.h_layout_box(layout)
+        self.overwrite_checkbox = QCheckBox("Overwrite Audio")
+        self.overwrite_checkbox.setChecked(self.settings['overwrite_audio'])
+        h_overwrite_layout.addWidget(QLabel(""))
+        h_overwrite_layout.addWidget(self.overwrite_checkbox)
+        self.clear_audio_button = QPushButton("Clear Audio Folder")
+        self.clear_audio_button.clicked.connect(self.clear_audio_folder)
+        h_overwrite_layout.addWidget(self.clear_audio_button)
+        self.h_layout_stretch(h_overwrite_layout)
 
-        self.status_label = ttk.Label(
-            frame, text="Status: Disconnected", foreground="red"
-        )
-        self.status_label.grid(row=8, column=0, columnspan=2, sticky=(tk.W, tk.E))
+        # Connect Button
+        self.connect_button = QPushButton("Connect")
+        self.connect_button.clicked.connect(self.connect_serial)
+        layout.addWidget(self.connect_button)
 
-        self.console = scrolledtext.ScrolledText(
-            frame, wrap=tk.WORD, width=50, height=10
-        )
-        self.console.grid(row=9, column=0, columnspan=2, sticky=(tk.W, tk.E))
+        # Status Label
+        self.status_label = QLabel("Status: Disconnected")
+        self.status_label.setStyleSheet("color: red;")
+        layout.addWidget(self.status_label)
+
+        # Console Output
+        self.console_output = QTextEdit()
+        self.console_output.setReadOnly(True)
+        self.console_output.setMinimumHeight(200)
+        layout.addWidget(self.console_output)
+
+
+        # Serial Reader Thread
+        self.serial_thread = None
 
     def refresh_ports(self):
-        ports = ["--no COM--"] + [
-            f"{port.device} ({port.description})" for port in list_ports.comports()
-        ]
-        self.port_combobox["values"] = ports
+        old_port = self.port_dropdown.currentText()
+        self.port_dropdown.clear()
+        ports = ["-- No COM --"] + [f"{port.device} - {port.description}" for port in list_ports.comports()]
+        self.port_dropdown.addItems(ports)
+        if old_port == "-- No COM --" and len(ports) > 1:
+            self.port_dropdown.setCurrentIndex(1)
+        elif old_port in ports:
+            self.port_dropdown.setCurrentText(old_port)
 
-    def toggle_connection(self):
-        if self.serial_connection and self.serial_connection.is_open:
-            self.disconnect()
+    def browse_folder(self):
+        folder = QFileDialog.getExistingDirectory(self, "Select Folder", self.settings['audio_output_folder'])
+        if folder:
+            self.audio_folder_input.setText(folder)
+            self.settings['audio_output_folder'] = folder
+            # Create the audio output folder if it doesn't exist
+            if not os.path.exists(folder):
+                os.makedirs(folder)
+        else :
+            self.logger.error("No folder selected")
+
+    def clear_audio_folder(self):
+        # Make a verification dialog
+        dialog = QMessageBox()
+        dialog.setWindowTitle("Clear Audio Folder")
+        dialog.setText("Are you sure you want to clear the audio folder?")
+        dialog.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        dialog.setDefaultButton(QMessageBox.StandardButton.No)
+        if dialog.exec() == QMessageBox.StandardButton.Yes:
+            rmtree(self.settings['audio_output_folder'])
+            self.logger.info("Audio folder cleared.")
         else:
-            self.connect()
-
-    def serial_worker(self):
-        read_serial(self.port_var.get(), self.baudrate_var.get(), self.ui_logger)
-
-    def connect(self):
-        global aquisition_counter
-        port = self.port_var.get().split()[0]
-        baudrate = self.baudrate_var.get()
-
-        if self.port_var.get() == "--no COM--":
-            self.ui_logger.error("Please select a COM port")
+            self.logger.info("Audio folder not cleared.")
             return
+        # Recreate the audio folder
+        os.makedirs(self.settings['audio_output_folder'])
 
-        if self.current_port and self.current_port != port:
-            if not messagebox.askyesno(
-                "Switch Connection", f"Do you want to switch connection to {port}?"
-            ):
-                return
-
-        # Auto delete audio files if the option is enabled
-        if self.auto_delete_audio_var.get():
-            rmtree("audio_files")
-            os.makedirs("audio_files")
-            aquisition_counter = 0
-
+    def connect_serial(self):
+        port = self.port_dropdown.currentText()
+        # Check if a port is selected
+        if port == "-- No COM --":
+            self.logger.error("No COM port selected, please select a COM port (refreshed).")
+            self.refresh_ports()
+            return
+        else:
+            port = port.split(" - ")[0]
+        # If the port is already connected, disconnect it
+        if self.serial_thread:
+            self.disconnect_serial()
+        # Create a new serial thread
+        baudrate = int(self.baudrate_input.text())
+        self.serial_thread = SerialReader(port, baudrate, self.logger)
+        self.serial_thread.data_received.connect(self.update_console)  #HACK here is where the data is reflected
+        self.status_label.setText(f"Status: Connected > {port}")
+        self.status_label.setStyleSheet("color: green;")
+        self.connect_button.setText("Disconnect")
         try:
-            self.serial_connection = serial.Serial(port=port, baudrate=baudrate)
-            self.current_port = port
-            self.connect_button.config(text="Disconnect")
-            self.status_label.config(
-                text=f"Status: Connected > {port}", foreground="green"
-            )
-            self.ui_logger.info(f"Connected to {port} with baudrate {baudrate}")
-            self.stop_thread.clear()
-            self.serial_thread = threading.Thread(target=self.serial_worker)
-            self.serial_thread.start()
-        except serial.SerialException as e:
-            self.connect_button.config(text="Connect")
-            self.status_label.config(text="Status: Disconnected", foreground="red")
-            self.ui_logger.error(f"Error connecting to {port}: {e}")
+            self.connect_button.clicked.disconnect(self.connect_serial)
+            self.connect_button.clicked.disconnect(self.disconnect_serial)
+        except TypeError:
+            pass
+        self.connect_button.clicked.connect(self.disconnect_serial)
+        # Start reading data
+        self.serial_thread.start()
 
-    def disconnect(self):
-        self.stop_thread.set()
-        if self.serial_thread and self.serial_thread.is_alive():
-            self.serial_thread.join(timeout=1)
-        if self.serial_connection and self.serial_connection.is_open:
-            try:
-                self.serial_connection.close()
-            except Exception as e:
-                self.ui_logger.error(f"Error closing connection: {e}")
-        self.current_port = None
-        self.connect_button.config(text="Connect")
-        self.status_label.config(text="Status: Disconnected", foreground="red")
-        self.ui_logger.info("Disconnected")
+    def disconnect_serial(self):
+        # Check if the serial thread is running
+        if not self.serial_thread:
+            self.logger.error("No serial thread running.")
+            return
+        # Disconnect the serial port
+        try:
+            self.connect_button.clicked.disconnect(self.disconnect_serial)
+            self.connect_button.clicked.disconnect(self.connect_serial)
+        except TypeError:
+            pass
+        self.connect_button.setDisabled(True)
+        # Stop the serial thread
+        self.serial_thread.stop()
+        self.serial_thread.wait()
+        # Update the UI
+        self.status_label.setText("Status: Disconnected")
+        self.status_label.setStyleSheet("color: red;")
+        self.connect_button.setText("Connect")
+        self.connect_button.clicked.connect(self.connect_serial)
+        self.connect_button.setEnabled(True)
 
-    def on_closing(self):
-        self.stop_thread.set()
-        if self.serial_thread and self.serial_thread.is_alive():
-            # Kill the thread if it's still running
-            self.serial_thread.join(timeout=1)
-        if self.serial_connection and self.serial_connection.is_open:
-            try:
-                self.serial_connection.close()
-            except Exception as e:
-                self.ui_logger.error(f"Error closing connection: {e}")
-        self.root.destroy()
+    # Update the console output, process the sound buffer and write the audio
+    def update_console(self, message):   
+        if message == "TERMINATE":
+            self.disconnect_serial()
+            self.refresh_ports()
+        elif message.startswith(PRINT_PREFIX):
+            # Process the sound buffer
+            data = process_sound_buffer(message)
+            self.aquisition_counter += 1
+            plot_name = f"Audio Plot {self.aquisition_counter}"
 
+            # Log general information
+            self.logger.info(f">> Aquisition {self.aquisition_counter} completed")
+            self.logger.info(f">> Aquisition size of {len(data)} samples encoded in {len(message) - len(PRINT_PREFIX)} bytes")
 
-def launch_gui(
-    port=None,
-    baudrate=global_baudrate,
-    freq_sampling=global_freq_sampling,
-    val_max_adc=global_val_max_adc,
-    vdd=global_vdd,
-    logging_enabled=False,
-    auto_delete_audio=False,
-):
-    logger.info("Launching GUI")
-    root = tk.Tk()
-    app = UARTReaderApp(
-        root,
-        port,
-        baudrate,
-        freq_sampling,
-        val_max_adc,
-        vdd,
-        logging_enabled,
-        auto_delete_audio,
-    )
-    root.protocol("WM_DELETE_WINDOW", app.on_closing)
-    root.mainloop()
+            # Plot and write audio
+            plot_data_and_fft(data, self.settings['sampling_frequency'], self.settings['vdd'], self.settings['max_adc_value'], self.settings['plot_output_type'], plot_name, self.logger)
+            write_audio(data, self.settings['sampling_frequency'], self.settings['audio_output_folder'], f"audio_{self.aquisition_counter}", self.settings['audio_output_type'], self.settings['overwrite_audio'], self.logger)
+        else:
+            #self.console_output.append(message)  #HACK Covered by the custom handler
+            self.logger.info(f"Received data: {message}")
 
+# CLI application logic
+def run_cli(settings):
+    # Set up logging
+    logger = logging.getLogger(__name__)
 
-stop_event = threading.Event()
+    # Console information
+    logger.info("\033[92mUART Console App for LELEC210x\033[m")
+    logger.info("\033[32mDeveloped by Group E 2024 - 2025\033[m")
+    logger.info("\033[36mTo exit the application, press Ctrl+C\033[m")
 
+    # Connect to the serial port
+    port = settings["port"]
+    baudrate = settings["baudrate"]
+    try:
+        ser = serial.Serial(port, baudrate)
+        logger.info(f"Connected to {port} at {baudrate} baud.")
+    except serial.SerialException as e:
+        logger.error(e)
+        return
 
-def signal_handler(sig, frame):
-    print("Interrupt received, stopping...")
-    stop_event.set()
+    # Read data from the serial port
+    while True:
+        data = read_from_serial(ser)
+        if data:
+            if data.startswith(PRINT_PREFIX):
+                # Process the sound buffer
+                sound_data = process_sound_buffer(data)
+                plot_name = f"Audio Plot {settings['sampling_frequency']}Hz"
+                # Log general information
+                logger.info(f">> Aquisition size of {len(sound_data)} samples encoded in {len(data) - len(PRINT_PREFIX)} bytes")
+                # Plot and write audio
+                plot_data_and_fft(sound_data, settings['sampling_frequency'], settings['vdd'], settings['max_adc_value'], settings['plot_output_type'], plot_name, logger)
+                write_audio(sound_data, settings['sampling_frequency'], settings['audio_output_folder'], f"audio_{settings['sampling_frequency']}Hz", settings['audio_output_type'], settings['overwrite_audio'], logger)
+            else:
+                logger.info(f"{data}")
 
 
 @click.command()
-@click.option(
-    "-p", "--port", default=None, type=str, help="Port for serial communication"
-)
-@click.option(
-    "-b",
-    "--baudrate",
-    default=115200,
-    type=int,
-    help="Baudrate for serial communication",
-)
-@click.option(
-    "-f", "--freq-sampling", default=10200, type=int, help="Sampling frequency"
-)
-@click.option("-m", "--max-adc", default=4096, type=int, help="Max ADC value")
-@click.option("-v", "--vdd", default=3.3, type=float, help="vdd value")
-@click.option(
-    "-l", "--log", is_flag=True, type=bool, default=False, help="Enable debug logging"
-)
-@click.option(
-    "-d",
-    "--auto-delete",
-    is_flag=True,
-    type=bool,
-    default=False,
-    help="Auto delete audio files",
-)
-@click.option(
-    "-a",
-    "--audio-folder",
-    default="audio_files",
-    type=str,
-    help="Folder for audio files",
-)
-@click.option(
-    "-g",
-    "--gui",
-    is_flag=True,
-    type=bool,
-    default=False,
-    help="Launch the GUI (overrides other options)",
-)
-def main(
-    port,
-    baudrate,
-    freq_sampling,
-    max_adc,
-    vdd,
-    log,
-    auto_delete,
-    audio_folder,
-    gui,
-):
-    """
-    UART reader utiliy.
+@click.option("-p", "--port", default="-- No COM --", help="The serial port to read data from.")
+@click.option("-b", "--baudrate", default=115200, help="The baudrate of the serial port.")
+@click.option("-s", "--sampling-frequency", default=10200, help="The sampling frequency of the ADC.")
+@click.option("-m", "--max-adc-value", default=4096, help="The maximum value of the ADC.")
+@click.option("-v", "--vdd", default=3.3, help="The voltage of the power supply.")
+@click.option("-o", "--plot-output-type", default="WEB", type=click.Choice(["WEB", "FILE"]), help="The type of output for the plot.")
+@click.option("-l", "--log-level", default="INFO", type=click.Choice(["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]), help="The level of logging.")
+@click.option("-f", "--log-file", is_flag=True, help="Whether to log to a file (Not modifiable at runtime).")
+@click.option("-w", "--overwrite-audio", is_flag=True, help="Whether to overwrite the audio folder.")
+@click.option("-a", "--audio-output-type", default="WAV", type=click.Choice(["WAV", "OGG"]), help="The type of output for the audio.")
+@click.option("-d", "--audio-output-folder", default="audio_files", help="The folder to save the audio files.")
+@click.option("-c", "--cli", is_flag=True, help="Whether to run the CLI application.")
+def main(port, baudrate, sampling_frequency, max_adc_value, vdd, plot_output_type, log_level, log_file, overwrite_audio, audio_output_type, audio_output_folder, cli):
+    settings = {
+        "port": port,
+        "baudrate": baudrate,
+        "sampling_frequency": sampling_frequency,
+        "max_adc_value": max_adc_value,
+        "vdd": vdd,
+        "plot_output_type": plot_output_type,
+        "log_level": log_level,
+        "log_file": log_file,
+        "overwrite_audio": overwrite_audio,
+        "audio_output_type": audio_output_type,
+        "audio_output_folder": audio_output_folder,
+    }
 
-    Developed by the group E, 2024-2025.
-    """
-    global \
-        global_freq_sampling, \
-        global_baudrate, \
-        global_val_max_adc, \
-        global_vdd, \
-        global_audio_folder
+    # Create the audio output folder if it doesn't exist
+    settings["audio_output_folder"] = os.path.abspath(audio_output_folder)
+    if not os.path.exists(audio_output_folder):
+        os.makedirs(audio_output_folder)
 
-    # Register the signal handler (Ctrl+C)
-    signal.signal(signal.SIGINT, signal_handler)
+    # Create the logger
+    setup_logging(log_level, log_file)
 
-    logger.info("UART Reader Application Launching, use --help for help\n")
-
-    # Set the global variables
-    global_freq_sampling = freq_sampling
-    global_baudrate = baudrate
-    global_val_max_adc = max_adc
-    global_vdd = vdd
-    global_audio_folder = audio_folder
-
-    if port:
-        # Console mode: read the serial data from the specified port
-        logger.info(
-            "Console mode activated, to stop, press 'Ctrl+C' then wait for a new serial input to close\n"
-        )
-
-        # Make a audio folder if it doesn't exist
-        if auto_delete:
-            rmtree("audio_files")
-
-        # Enable logging if the flag is set
-        if log:
-            logger.setLevel(logging.DEBUG)  # Enable logging
-
-        # Start the GUI if the flag is set
-        if gui:
-            launch_gui(
-                port=port,
-                baudrate=baudrate,
-                freq_sampling=freq_sampling,
-                vdd=vdd,
-                logging_enabled=log,
-                auto_delete_audio=auto_delete,
-            )
-        else:
-            # Console mode: start reading serial data from the specified port
-            read_serial(port.strip())
-
+    # Run the GUI or CLI application
+    if not cli:
+        app = QApplication(sys.argv)
+        window = SerialGUIApp(settings)
+        window.show()
+        sys.exit(app.exec())
     else:
-        # GUI mode: open the application window
-        launch_gui(
-            baudrate=baudrate,
-            freq_sampling=freq_sampling,
-            val_max_adc=max_adc,
-            vdd=vdd,
-            logging_enabled=log,
-            auto_delete_audio=auto_delete,
-        )
-
+        run_cli(settings)
 
 if __name__ == "__main__":
     main()
