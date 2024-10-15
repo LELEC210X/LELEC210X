@@ -651,7 +651,7 @@ def main(
     }
 
     # Create the audio output folder if it doesn't exist
-    settings["audio_output_folder"] = os.path.abspath(audio_output_folder)
+    settings["audio_output_folder"] = os.path.join(os.path.dirname(__file__), audio_output_folder)
     if not os.path.exists(audio_output_folder):
         os.makedirs(audio_output_folder)
 
