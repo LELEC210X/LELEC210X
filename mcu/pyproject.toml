@@ -1,0 +1,29 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[project]
+dependencies = [
+  "click>=8.1.7",
+  "scipy>=1.13.1",
+  "numpy>=1.21.2",
+  "plotly>=5.3.1",
+  "pyserial>=3.5",
+  "soundfile>=0.12.1",
+  "PyQt6>=6.0.0",
+]
+name = "mcu"
+requires-python = ">= 3.9"
+version = "0.1.0"
+
+[project.scripts]
+uart_reader = "mcu.uart_reader:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcu"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.rye]
+managed = true
