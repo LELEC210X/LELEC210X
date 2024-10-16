@@ -97,7 +97,6 @@ class Chain:
         :param y: The received signal, (N * R,).
         :return: The estimated CFO.
         """
-        
         raise NotImplementedError
 
     bypass_sto_estimation: bool = False
@@ -126,7 +125,7 @@ class BasicChain(Chain):
 
     cfo_val, sto_val = np.nan, np.nan  # CFO and STO are random
 
-    bypass_preamble_detect = True
+    bypass_preamble_detect = False
 
     def preamble_detect(self, y):
         """
@@ -142,21 +141,30 @@ class BasicChain(Chain):
 
         return None
 
-    bypass_cfo_estimation = True
+    bypass_cfo_estimation = False
 
     def cfo_estimation(self, y):
         """
         Estimates CFO using Moose algorithm, on first samples of preamble.
         """
         # TO DO: extract 2 blocks of size N*R at the start of y
+        N = 4
+        R = self.osr_rx
+        y1 = y[:N*R]
+        y2 = y[N*R:2*N*R]
 
         # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
+        Nt = N*R
+        alpha = 0
+        for i in range(0,Nt):
+            alpha += y2[i]* np.conjugate(y1[i])
+        argalpha = np.angle(alpha)
 
-        cfo_est = 0  # Default value, to change
+        cfo_est = argalpha/(2*np.pi*Nt* 1/self.bit_rate /self.osr_rx)
 
         return cfo_est
 
-    bypass_sto_estimation = True
+    bypass_sto_estimation = False
 
     def sto_estimation(self, y):
         """
