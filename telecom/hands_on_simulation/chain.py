@@ -125,7 +125,7 @@ class BasicChain(Chain):
 
     cfo_val, sto_val = np.nan, np.nan  # CFO and STO are random
 
-    bypass_preamble_detect = True
+    bypass_preamble_detect = False
 
     def preamble_detect(self, y):
         """
@@ -141,17 +141,24 @@ class BasicChain(Chain):
 
         return None
 
-    bypass_cfo_estimation = True
+    bypass_cfo_estimation = False
 
     def cfo_estimation(self, y):
         """
-        Estimates CFO using Moose algorithm, on first samples of preamble.
+        Estimates CFO (Carrier Frequency Offset) using Moose algorithm, on first samples of preamble.
         """
         # TO DO: extract 2 blocks of size N*R at the start of y
 
-        # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
+        N = self.payload_len
+        R = self.osr_rx
+        Nt = N * R
 
-        cfo_est = 0  # Default value, to change
+        block1 = y[:Nt]
+        block2 = y[Nt:2*Nt]
+
+        # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
+        
+        cfo_est = np.angle(np.sum(block1 * np.conj(block2))) / (2 * np.pi * Nt / R)
 
         return cfo_est
 
@@ -192,10 +199,16 @@ class BasicChain(Chain):
         # TO DO: generate the reference waveforms used for the correlation
         # hint: look at what is done in modulate() in chain.py
 
+        e_0 = np.exp(1j * 2 * np.pi * self.freq_dev * np.arange(R) / self.bit_rate)
+        e_1 = np.exp(-1j * 2 * np.pi * self.freq_dev * np.arange(R) / self.bit_rate)
+
         # TO DO: compute the correlations with the two reference waveforms (r0 and r1)
+
+        r0 = np.abs(np.sum(y * e_0, axis=1))
+        r1 = np.abs(np.sum(y * e_1, axis=1))
 
         # TO DO: performs the decision based on r0 and r1
 
-        bits_hat = np.zeros(nb_syms, dtype=int)  # Default value, all bits=0. TO CHANGE!
+        bits_hat = r1 > r0
 
         return bits_hat

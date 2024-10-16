@@ -260,6 +260,7 @@ def run_sim(chain: Chain):
     ax2.set_ylabel("Angle (radians)", color="g")
     ax2.grid(True)
     ax2.axis("tight")
+    plt.savefig("fir.png")  
     plt.show()
 
     # Bit error rate
@@ -327,6 +328,8 @@ def run_sim(chain: Chain):
         ax2.set_xlim(ax.get_xlim())
         ax2.xaxis.label.set_color("b")
         ax2.tick_params(axis="x", colors="b")
+    
+    plt.savefig("ber_per.png")
 
     # Preamble metrics
     plt.figure()
@@ -338,6 +341,7 @@ def run_sim(chain: Chain):
     plt.ylim([-1, 101])
     plt.grid()
     plt.legend()
+    plt.savefig("preamble.png")
     plt.show()
 
     # RMSE CFO
@@ -347,6 +351,7 @@ def run_sim(chain: Chain):
     plt.ylabel("RMSE [-]")
     plt.xlabel("SNR [dB]")
     plt.grid()
+    plt.savefig("cfo.png")
     plt.show()
 
     # RMSE STO
@@ -356,6 +361,7 @@ def run_sim(chain: Chain):
     plt.ylabel("RMSE [-]")
     plt.xlabel("SNR [dB]")
     plt.grid()
+    plt.savefig("sto.png")  
     plt.show()
 
     # Save simulation outputs (for later post-processing, building new figures,...)
