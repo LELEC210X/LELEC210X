@@ -225,6 +225,8 @@ class SerialGUIApp(QMainWindow):
                 )
             else:
                 self.console_output.append(output_message)
+            # Scroll to the bottom
+            self.console_output.ensureCursorVisible()
 
     def h_layout_box(self, layout):
         h_layout = QHBoxLayout()
@@ -516,9 +518,11 @@ def run_cli(settings):
     logger = logging.getLogger(__name__)
 
     # Console information
-    logger.info("\033[92mUART Console App for LELEC210x\033[m")
-    logger.info("\033[32mDeveloped by Group E 2024 - 2025\033[m")
-    logger.info("\033[36mTo exit the application, press Ctrl+C\033[m")
+    logger.info("===============================================")
+    logger.info("         UART Console App for LELEC210x         ")
+    logger.info("      ~ Developed by Group E 2024 - 2025 ~     ")
+    logger.info("   ~ To exit the application, press Ctrl+C ~   ")
+    logger.info("===============================================")
 
     # Connect to the serial port
     port = settings["port"]
@@ -567,10 +571,10 @@ def run_cli(settings):
 
 @click.command()
 @click.option(
-    "-p", "--port", default="-- No COM --", help="The serial port to read data from."
+    "-p", "--port", default="-- No COM --", type=str, help="The serial port to read data from."
 )
 @click.option(
-    "-b", "--baudrate", default=115200, help="The baudrate of the serial port."
+    "-b", "--baudrate", default=115200, type=int, help="The baudrate of the serial port."
 )
 @click.option(
     "-s",
@@ -579,9 +583,9 @@ def run_cli(settings):
     help="The sampling frequency of the ADC.",
 )
 @click.option(
-    "-m", "--max-adc-value", default=4096, help="The maximum value of the ADC."
+    "-m", "--max-adc-value", default=4096, type=int, help="The maximum value of the ADC."
 )
-@click.option("-v", "--vdd", default=3.3, help="The voltage of the power supply.")
+@click.option("-v", "--vdd", default=3.3, type=float, help="The voltage of the power supply.")
 @click.option(
     "-o",
     "--plot-output-type",
@@ -619,22 +623,23 @@ def run_cli(settings):
     "-d",
     "--audio-output-folder",
     default="audio_files",
+    type=str,
     help="The folder to save the audio files.",
 )
 @click.option("-c", "--cli", is_flag=True, help="Whether to run the CLI application.")
 def main(
-    port,
-    baudrate,
-    sampling_frequency,
-    max_adc_value,
-    vdd,
-    plot_output_type,
-    log_level,
-    log_file,
-    overwrite_audio,
-    audio_output_type,
-    audio_output_folder,
-    cli,
+    port: str,
+    baudrate: int,
+    sampling_frequency: int,
+    max_adc_value: int,
+    vdd: float,
+    plot_output_type: str,
+    log_level: str,
+    log_file: bool,
+    overwrite_audio: bool,
+    audio_output_type: str,
+    audio_output_folder: str,
+    cli: bool,
 ):
     settings = {
         "port": port,
@@ -650,12 +655,12 @@ def main(
         "audio_output_folder": audio_output_folder,
     }
 
-    # Create the audio output folder if it doesn't exist
+    # Create the audio output folder where the script is if it doesn't exist
     settings["audio_output_folder"] = os.path.join(
-        os.path.dirname(__file__), audio_output_folder
+        os.path.dirname(os.path.realpath(__file__)), settings["audio_output_folder"]
     )
-    if not os.path.exists(audio_output_folder):
-        os.makedirs(audio_output_folder)
+    if not os.path.exists(settings["audio_output_folder"]):
+        os.makedirs(settings["audio_output_folder"])
 
     # Create the logger
     setup_logging(log_level, log_file)
