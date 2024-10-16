@@ -20,7 +20,7 @@ class Chain:
     preamble: np.ndarray = PREAMBLE
     sync_word: np.ndarray = SYNC_WORD
 
-    payload_len: int = 50  # Number of bits per packet
+    packet_len: int = 50  # Number of bits per packet, "N"
 
     # Simulation parameters
     n_packets: int = 100  # Number of sent packets
@@ -66,7 +66,7 @@ class Chain:
         phase_shifts[0] = 0  # Initial phase
 
         for i, b in enumerate(bits):
-            x[i * R : (i + 1) * R] = np.exp(1j * phase_shifts[i]) * np.exp(
+            x[i * R: (i + 1) * R] = np.exp(1j * phase_shifts[i]) * np.exp(
                 1j * (1 if b else -1) * ph
             )  # Sent waveforms, with starting phase coming from previous symbol
             phase_shifts[i + 1] = phase_shifts[i] + h * np.pi * (
@@ -135,7 +135,7 @@ class BasicChain(Chain):
         y_abs = np.abs(y)
 
         for i in range(0, int(len(y) / L)):
-            sum_abs = np.sum(y_abs[i * L : (i + 1) * L])
+            sum_abs = np.sum(y_abs[i * L: (i + 1) * L])
             if sum_abs > (L - 1):  # fix threshold
                 return i * L
 
@@ -189,13 +189,22 @@ class BasicChain(Chain):
         # Group symbols together, in a matrix. Each row contains the R samples over one symbol period
         y = np.resize(y, (nb_syms, R))
 
-        # TO DO: generate the reference waveforms used for the correlation
+        # generate the reference waveforms used for the correlation
         # hint: look at what is done in modulate() in chain.py
+        exp_plus = np.array([np.exp(+1j * 2 * np.pi * self.freq_dev *
+                            (n / (self.bit_rate * R))) for n in range(R)])
+        exp_minus = np.array([np.exp(-1j * 2 * np.pi * self.freq_dev *
+                                     (n / (self.bit_rate * R))) for n in range(R)])
 
-        # TO DO: compute the correlations with the two reference waveforms (r0 and r1)
+        # compute the correlations with the two reference waveforms (r0 and r1)
+        bits_hat: np.array = np.zeros(nb_syms, dtype=int)
 
-        # TO DO: performs the decision based on r0 and r1
+        for k in range(nb_syms):
+            r0 = np.abs(np.dot(y[k], exp_plus))
+            r1 = np.abs(np.dot(y[k], exp_minus))
 
-        bits_hat = np.zeros(nb_syms, dtype=int)  # Default value, all bits=0. TO CHANGE!
+            # performs the decision based on r0 and r1
+
+            bits_hat[k] = 0 if r0 > r1 else 1
 
         return bits_hat
