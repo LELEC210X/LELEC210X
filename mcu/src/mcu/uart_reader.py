@@ -571,10 +571,18 @@ def run_cli(settings):
 
 @click.command()
 @click.option(
-    "-p", "--port", default="-- No COM --", type=str, help="The serial port to read data from."
+    "-p",
+    "--port",
+    default="-- No COM --",
+    type=str,
+    help="The serial port to read data from.",
 )
 @click.option(
-    "-b", "--baudrate", default=115200, type=int, help="The baudrate of the serial port."
+    "-b",
+    "--baudrate",
+    default=115200,
+    type=int,
+    help="The baudrate of the serial port.",
 )
 @click.option(
     "-s",
@@ -583,9 +591,15 @@ def run_cli(settings):
     help="The sampling frequency of the ADC.",
 )
 @click.option(
-    "-m", "--max-adc-value", default=4096, type=int, help="The maximum value of the ADC."
+    "-m",
+    "--max-adc-value",
+    default=4096,
+    type=int,
+    help="The maximum value of the ADC.",
 )
-@click.option("-v", "--vdd", default=3.3, type=float, help="The voltage of the power supply.")
+@click.option(
+    "-v", "--vdd", default=3.3, type=float, help="The voltage of the power supply."
+)
 @click.option(
     "-o",
     "--plot-output-type",
