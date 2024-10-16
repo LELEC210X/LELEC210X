@@ -97,6 +97,7 @@ class Chain:
         :param y: The received signal, (N * R,).
         :return: The estimated CFO.
         """
+        
         raise NotImplementedError
 
     bypass_sto_estimation: bool = False
@@ -197,5 +198,10 @@ class BasicChain(Chain):
         # TO DO: performs the decision based on r0 and r1
 
         bits_hat = np.zeros(nb_syms, dtype=int)  # Default value, all bits=0. TO CHANGE!
+
+        for i in range(nb_syms):
+            r1 = 1 / R * np.exp(-2j * np.pi * self.freq_dev * (np.arange(R) / R) / self.bit_rate) @ y[i]
+            r0 = 1 / R * np.exp(+2j * np.pi * self.freq_dev * (np.arange(R) / R) / self.bit_rate) @ y[i]
+            bits_hat[i] = 1 if np.abs(r1) > np.abs(r0) else 0
 
         return bits_hat

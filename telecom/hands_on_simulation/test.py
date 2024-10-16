@@ -49,3 +49,5 @@ class TestBasicChain:
         cfo_hat = self.chain.cfo_estimation(y_cfo)
 
         np.testing.assert_allclose(cfo_hat, cfo_val)
+
+pytest.main(["-v", "test.py"])
