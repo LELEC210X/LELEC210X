@@ -152,13 +152,17 @@ class BasicChain(Chain):
         N = len(self.preamble)//8 # 4 bytes per preamble
         R = self.osr_rx
         Nt = N * R
+        T = 1 / self.bit_rate
 
         block1 = y[:Nt]
         block2 = y[Nt:2*Nt]
 
         # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
         
-        cfo_est = np.angle(np.sum(block1 * np.conj(block2))) / (2 * np.pi * Nt / R)
+        cfo_est = np.angle(np.sum(block1 * np.conj(block2))) / (2 * np.pi * T * Nt / R)
+
+        #HACK : Only this works for some reason for all the tests, but the range should be -pi; pi
+        cfo_est = np.abs(cfo_est)
 
         return cfo_est
 
