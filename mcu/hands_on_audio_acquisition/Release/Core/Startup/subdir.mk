@@ -3,15 +3,15 @@
 # Toolchain: GNU Tools for STM32 (12.3.rel1)
 ################################################################################
 
-# Add inputs and outputs from these tool invocations to the build variables 
+# Add inputs and outputs from these tool invocations to the build variables
 S_SRCS += \
-../Core/Startup/startup_stm32l4a6zgtx.s 
+../Core/Startup/startup_stm32l4a6zgtx.s
 
 OBJS += \
-./Core/Startup/startup_stm32l4a6zgtx.o 
+./Core/Startup/startup_stm32l4a6zgtx.o
 
 S_DEPS += \
-./Core/Startup/startup_stm32l4a6zgtx.d 
+./Core/Startup/startup_stm32l4a6zgtx.d
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -24,4 +24,3 @@ clean-Core-2f-Startup:
 	-$(RM) ./Core/Startup/startup_stm32l4a6zgtx.d ./Core/Startup/startup_stm32l4a6zgtx.o
 
 .PHONY: clean-Core-2f-Startup
-

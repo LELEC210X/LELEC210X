@@ -3,7 +3,7 @@
 # Toolchain: GNU Tools for STM32 (12.3.rel1)
 ################################################################################
 
-# Add inputs and outputs from these tool invocations to the build variables 
+# Add inputs and outputs from these tool invocations to the build variables
 C_SRCS += \
 ../Core/Src/gpio.c \
 ../Core/Src/main.c \
@@ -13,7 +13,7 @@ C_SRCS += \
 ../Core/Src/syscalls.c \
 ../Core/Src/sysmem.c \
 ../Core/Src/system_stm32l4xx.c \
-../Core/Src/usart.c 
+../Core/Src/usart.c
 
 OBJS += \
 ./Core/Src/gpio.o \
@@ -24,7 +24,7 @@ OBJS += \
 ./Core/Src/syscalls.o \
 ./Core/Src/sysmem.o \
 ./Core/Src/system_stm32l4xx.o \
-./Core/Src/usart.o 
+./Core/Src/usart.o
 
 C_DEPS += \
 ./Core/Src/gpio.d \
@@ -35,7 +35,7 @@ C_DEPS += \
 ./Core/Src/syscalls.d \
 ./Core/Src/sysmem.d \
 ./Core/Src/system_stm32l4xx.d \
-./Core/Src/usart.d 
+./Core/Src/usart.d
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -48,4 +48,3 @@ clean-Core-2f-Src:
 	-$(RM) ./Core/Src/gpio.cyclo ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/gpio.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/retarget.cyclo ./Core/Src/retarget.d ./Core/Src/retarget.o ./Core/Src/retarget.su ./Core/Src/stm32l4xx_hal_msp.cyclo ./Core/Src/stm32l4xx_hal_msp.d ./Core/Src/stm32l4xx_hal_msp.o ./Core/Src/stm32l4xx_hal_msp.su ./Core/Src/stm32l4xx_it.cyclo ./Core/Src/stm32l4xx_it.d ./Core/Src/stm32l4xx_it.o ./Core/Src/stm32l4xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32l4xx.cyclo ./Core/Src/system_stm32l4xx.d ./Core/Src/system_stm32l4xx.o ./Core/Src/system_stm32l4xx.su ./Core/Src/usart.cyclo ./Core/Src/usart.d ./Core/Src/usart.o ./Core/Src/usart.su
 
 .PHONY: clean-Core-2f-Src
-
