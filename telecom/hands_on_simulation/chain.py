@@ -52,6 +52,11 @@ class Chain:
         :param bits: The bit stream, (N,).
         :return: The modulates bit sequence, (N * R,).
         """
+        
+        print_TX = True
+        if print_TX:
+            print(f"bits at transmitter : {bits}\n")
+        
         fd = self.freq_dev  # Frequency deviation, Delta_f
         B = self.bit_rate  # B=1/T
         h = 2 * fd / B  # Modulation index
@@ -72,7 +77,12 @@ class Chain:
             phase_shifts[i + 1] = phase_shifts[i] + h * np.pi * (
                 1 if b else -1
             )  # Update phase to start with for next symbol
-
+            
+            print_x_k = True # change this to print or not the x[k] array in polar representation
+            if print_x_k:
+                print(f"bit [{i}] : {b}")
+                print("--> x[{i}] : {np.abs(x[i * R]):.2f}∠{np.angle(x[i * R])/np.pi*180:.2f}°  ...  {np.abs(x[(i + 1) * R - 1]):.2f}∠{np.angle(x[(i + 1) * R - 1])/np.pi*180:.2f}°\n")
+            
         return x
 
     # Rx methods
@@ -197,5 +207,24 @@ class BasicChain(Chain):
         # TO DO: performs the decision based on r0 and r1
 
         bits_hat = np.zeros(nb_syms, dtype=int)  # Default value, all bits=0. TO CHANGE!
-
+        
+        for k in range(nb_syms):
+            r0 = 0.0
+            r1 = 0.0
+            for n in range(R):
+                r0 += y[k][n] * np.exp(1j * np.pi / 2 * n / R) / R
+                r1 += y[k][n] * np.exp(-1j * np.pi / 2 * n / R) / R
+            
+            bits_hat[k] = int(abs(r1)>abs(r0))
+            
+            print_y_k = True # change this to print or not the y[k] array in polar representation
+            if print_y_k:
+                print(f"y[{k}] : {np.abs(y[k][0]):.2f}∠{np.angle(y[k][0])/np.pi*180:.2f}°  ...  {np.abs(y[k][R-1]):.2f}∠{np.angle(y[k][R-1])/np.pi*180:.2f}°")
+                print(f"--> r0 = {np.abs(r0):.2f}∠{np.angle(r0)/np.pi*180:.2f}°, r1 = {np.abs(r1):.2f}∠{np.angle(r1)/np.pi*180:.2f}°\n")
+                print(f"--> bit [{k}] : {bits_hat[k]}")
+        
+        print_RX = True # change this to print or not the received bit array
+        if print_RX:
+            print(f"bits at receiver : {bits_hat}\n")
+        
         return bits_hat
