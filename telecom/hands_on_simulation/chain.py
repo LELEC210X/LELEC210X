@@ -149,7 +149,7 @@ class BasicChain(Chain):
         """
         # TO DO: extract 2 blocks of size N*R at the start of y
 
-        N = self.payload_len
+        N = len(self.preamble)//8 # 4 bytes per preamble
         R = self.osr_rx
         Nt = N * R
 
