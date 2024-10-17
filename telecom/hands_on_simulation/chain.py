@@ -20,10 +20,10 @@ class Chain:
     preamble: np.ndarray = PREAMBLE
     sync_word: np.ndarray = SYNC_WORD
 
-    payload_len: int = 50  # Number of bits per packet
+    payload_len: int = 500  # Number of bits per packet
 
     # Simulation parameters
-    n_packets: int = 100  # Number of sent packets
+    n_packets: int = 1000  # Number of sent packets
 
     # Channel parameters
     sto_val: float = 0
@@ -31,7 +31,7 @@ class Chain:
 
     cfo_val: float = 0
     cfo_range: float = (
-        10000  # defines the CFO range when random (in Hz) #(1000 in old repo)
+        1000  # defines the CFO range when random (in Hz) #(1000 in old repo)
     )
 
     snr_range: np.ndarray = np.arange(-10, 25)
@@ -42,7 +42,7 @@ class Chain:
 
     # Tx methods
 
-    def modulate(self, bits: np.array) -> np.array:
+    def modulate(self, bits: np.array, print_TX=False, print_x_k=False) -> np.array:
         """
         Modulates a stream of bits of size N
         with a given TX oversampling factor R (osr_tx).
@@ -50,20 +50,22 @@ class Chain:
         Uses Continuous-Phase FSK modulation.
 
         :param bits: The bit stream, (N,).
+        :param print_TX: If True, prints the transmitted bit array.
+        :param print_x_k: If True, prints the x[k] array in polar representation.
         :return: The modulates bit sequence, (N * R,).
         """
-        
-        print_TX = True
+
         if print_TX:
             print(f"bits at transmitter : {bits}\n")
-        
+
         fd = self.freq_dev  # Frequency deviation, Delta_f
         B = self.bit_rate  # B=1/T
         h = 2 * fd / B  # Modulation index
         R = self.osr_tx  # Oversampling factor
 
         x = np.zeros(len(bits) * R, dtype=np.complex64)
-        ph = 2 * np.pi * fd * (np.arange(R) / R) / B  # Phase of reference waveform
+        ph = 2 * np.pi * fd * (np.arange(R) / R) / \
+            B  # Phase of reference waveform
 
         phase_shifts = np.zeros(
             len(bits) + 1
@@ -71,18 +73,17 @@ class Chain:
         phase_shifts[0] = 0  # Initial phase
 
         for i, b in enumerate(bits):
-            x[i * R : (i + 1) * R] = np.exp(1j * phase_shifts[i]) * np.exp(
+            x[i * R: (i + 1) * R] = np.exp(1j * phase_shifts[i]) * np.exp(
                 1j * (1 if b else -1) * ph
             )  # Sent waveforms, with starting phase coming from previous symbol
             phase_shifts[i + 1] = phase_shifts[i] + h * np.pi * (
                 1 if b else -1
             )  # Update phase to start with for next symbol
-            
-            print_x_k = True # change this to print or not the x[k] array in polar representation
+
             if print_x_k:
                 print(f"bit [{i}] : {b}")
-                print("--> x[{i}] : {np.abs(x[i * R]):.2f}∠{np.angle(x[i * R])/np.pi*180:.2f}°  ...  {np.abs(x[(i + 1) * R - 1]):.2f}∠{np.angle(x[(i + 1) * R - 1])/np.pi*180:.2f}°\n")
-            
+                print("--> x[{i}] : {np.abs(x[i * R]):.2f}∠{np.angle(x[i * R]) / np.pi * 180:.2f}°  ...  {np.abs(x[(i + 1) * R - 1]):.2f}∠{np.angle(x[(i + 1) * R - 1]) / np.pi * 180:.2f}°\n")
+
         return x
 
     # Rx methods
@@ -120,11 +121,13 @@ class Chain:
         """
         raise NotImplementedError
 
-    def demodulate(self, y: np.array) -> np.array:
+    def demodulate(self, y: np.array, print_RX=False, print_y_k=False) -> np.array:
         """
         Demodulates the received signal.
-
+        
         :param y: The received signal, (N * R,).
+        :param print_RX: If True, prints the received bit array.
+        :param print_y_k: If True, prints the y[k] array in polar representation.
         :return: The signal, after demodulation.
         """
         raise NotImplementedError
@@ -135,48 +138,70 @@ class BasicChain(Chain):
 
     cfo_val, sto_val = np.nan, np.nan  # CFO and STO are random
 
-    bypass_preamble_detect = True
+    bypass_preamble_detect = False
 
-    def preamble_detect(self, y):
+    def preamble_detect(self, y: np.array) -> Optional[int]:
         """
-        Detect a preamble computing the received energy (average on a window).
+        Detects the preamble in a given received signal.
+        Detects a preamble computing the received energy (average on a window).
+
+        :param y: The received signal, (N * R,).
+        :return: The index where the preamble starts,
+            or None if not found.
         """
         L = 4 * self.osr_rx
         y_abs = np.abs(y)
 
         for i in range(0, int(len(y) / L)):
-            sum_abs = np.sum(y_abs[i * L : (i + 1) * L])
+            sum_abs = np.sum(y_abs[i * L: (i + 1) * L])
             if sum_abs > (L - 1):  # fix threshold
                 return i * L
 
         return None
 
-    bypass_cfo_estimation = True
+    bypass_cfo_estimation = False
 
-    def cfo_estimation(self, y):
+    def cfo_estimation(self, y: np.array) -> float:
         """
+        Estimates the CFO based on the received signal.
         Estimates CFO using Moose algorithm, on first samples of preamble.
+
+        :param y: The received signal, (N * R,).
+        :return: The estimated CFO.
         """
         # TO DO: extract 2 blocks of size N*R at the start of y
 
         # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
-
-        cfo_est = 0  # Default value, to change
+        
+        alpha_est_num = 0
+        alpha_est_den = 0
+        N_t = 4 * self.osr_rx
+        for l in range(N_t):
+            alpha_est_num += y[l + N_t] * np.conj(y[l])
+            alpha_est_den += np.abs(y[l]) ** 2
+        alpha_est = alpha_est_num / alpha_est_den
+        
+        cfo_est = np.angle(alpha_est) / (2 * np.pi * N_t) * (self.bit_rate * self.osr_rx) # Default value, to change
 
         return cfo_est
 
-    bypass_sto_estimation = True
+    bypass_sto_estimation = False
 
-    def sto_estimation(self, y):
+    def sto_estimation(self, y: np.array) -> float:
         """
+        Estimates the STO based on the received signal.
         Estimates symbol timing (fractional) based on phase shifts.
+
+        :param y: The received signal, (N * R,).
+        :return: The estimated STO.
         """
         R = self.osr_rx
 
         # Computation of derivatives of phase function
         phase_function = np.unwrap(np.angle(y))
         phase_derivative_1 = phase_function[1:] - phase_function[:-1]
-        phase_derivative_2 = np.abs(phase_derivative_1[1:] - phase_derivative_1[:-1])
+        phase_derivative_2 = np.abs(
+            phase_derivative_1[1:] - phase_derivative_1[:-1])
 
         sum_der_saved = -np.inf
         save_i = 0
@@ -189,9 +214,15 @@ class BasicChain(Chain):
 
         return np.mod(save_i + 1, R)
 
-    def demodulate(self, y):
+    def demodulate(self, y: np.array, print_RX=False, print_y_k=False) -> np.array:
         """
+        Demodulates the received signal.
         Non-coherent demodulator.
+        
+        :param y: The received signal, (N * R,).
+        :param print_RX: If True, prints the received bit array.
+        :param print_y_k: If True, prints the y[k] array in polar representation.
+        :return: The signal, after demodulation.
         """
         R = self.osr_rx  # Receiver oversampling factor
         nb_syms = len(y) // R  # Number of CPFSK symbols in y
@@ -206,25 +237,24 @@ class BasicChain(Chain):
 
         # TO DO: performs the decision based on r0 and r1
 
-        bits_hat = np.zeros(nb_syms, dtype=int)  # Default value, all bits=0. TO CHANGE!
-        
+        # Default value, all bits=0. TO CHANGE!
+        bits_hat = np.zeros(nb_syms, dtype=int)
+
         for k in range(nb_syms):
             r0 = 0.0
             r1 = 0.0
             for n in range(R):
                 r0 += y[k][n] * np.exp(1j * np.pi / 2 * n / R) / R
                 r1 += y[k][n] * np.exp(-1j * np.pi / 2 * n / R) / R
-            
-            bits_hat[k] = int(abs(r1)>abs(r0))
-            
-            print_y_k = True # change this to print or not the y[k] array in polar representation
+
+            bits_hat[k] = int(abs(r1) > abs(r0))
+
             if print_y_k:
-                print(f"y[{k}] : {np.abs(y[k][0]):.2f}∠{np.angle(y[k][0])/np.pi*180:.2f}°  ...  {np.abs(y[k][R-1]):.2f}∠{np.angle(y[k][R-1])/np.pi*180:.2f}°")
-                print(f"--> r0 = {np.abs(r0):.2f}∠{np.angle(r0)/np.pi*180:.2f}°, r1 = {np.abs(r1):.2f}∠{np.angle(r1)/np.pi*180:.2f}°\n")
+                print(f"y[{k}] : {np.abs(y[k][0]):.2f}∠{np.angle(y[k][0]) / np.pi * 180:.2f}°  ...  {np.abs(y[k][R - 1]):.2f}∠{np.angle(y[k][R - 1]) / np.pi * 180:.2f}°")
+                print(f"--> r0 = {np.abs(r0):.2f}∠{np.angle(r0) / np.pi * 180:.2f}°, r1 = {np.abs(r1):.2f}∠{np.angle(r1) / np.pi * 180:.2f}°\n")
                 print(f"--> bit [{k}] : {bits_hat[k]}")
-        
-        print_RX = True # change this to print or not the received bit array
+
         if print_RX:
             print(f"bits at receiver : {bits_hat}\n")
-        
+
         return bits_hat

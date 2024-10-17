@@ -3,6 +3,7 @@ import numpy as np
 from chain import Chain
 from scipy.signal import firwin, freqz
 from scipy.special import erfc
+from tqdm import tqdm
 
 
 def add_delay(chain: Chain, x: np.ndarray, tau: float):
@@ -73,7 +74,7 @@ def run_sim(chain: Chain):
     rng = np.random.default_rng()
 
     # For loop on the number of packets to send
-    for n in range(chain.n_packets):
+    for n in tqdm(range(chain.n_packets)):
         # Random generation of payload bits
         bits = rng.integers(2, size=chain.payload_len)
 
