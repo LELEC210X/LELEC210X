@@ -146,12 +146,27 @@ class BasicChain(Chain):
     def cfo_estimation(self, y):
         """
         Estimates CFO using Moose algorithm, on first samples of preamble.
+        The input y contains the received samples.
+
+        :param y: The received signal, (N * R,).
+        :return: The estimated CFO.
         """
-        # TO DO: extract 2 blocks of size N*R at the start of y
+        R = self.osr_rx
+        N = 4
+        Nt = N * R
+        T = 1 / self.bit_rate
 
-        # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
+        blockL = y[:Nt]
+        blockNT = y[Nt:2*Nt]
 
-        cfo_est = 0  # Default value, to change
+        numerator = np.sum(blockNT * np.conjugate(blockL))
+        denominator = np.sum(np.abs(blockL)**2)
+
+        alpha_hat = numerator / denominator
+        phase_difference = np.angle(alpha_hat)
+
+  
+        cfo_est = phase_difference / ((2 * np.pi * Nt * T) / self.bit_rate)
 
         return cfo_est
 
