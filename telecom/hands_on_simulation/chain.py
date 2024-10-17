@@ -20,10 +20,10 @@ class Chain:
     preamble: np.ndarray = PREAMBLE
     sync_word: np.ndarray = SYNC_WORD
 
-    payload_len: int = 500  # Number of bits per packet
+    payload_len: int = 50  # Number of bits per packet
 
     # Simulation parameters
-    n_packets: int = 1000  # Number of sent packets
+    n_packets: int = 100  # Number of sent packets
 
     # Channel parameters
     sto_val: float = 0
