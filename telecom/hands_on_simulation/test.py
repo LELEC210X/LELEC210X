@@ -19,14 +19,14 @@ class TestBasicChain:
     @pytest.mark.parametrize("size", (1, 10, 100))
     def test_demodulate(self, rng: np.random.Generator, size: int):
         bits = rng.integers(2, size=size)  # choice of bits to send
-        x_pay = self.chain.modulate(bits)  # modulated signal with payload
+        x_pay = self.chain.modulate(bits, print_TX=True, print_x_k=(size<=10))  # modulated signal with payload
         x = x_pay
 
         y, delay = add_delay(
             self.chain, x, 0
         )  # application of ideal channel (if TX and RX oversampling factors are different)
 
-        bits_hat = self.chain.demodulate(y)  # call to demodulation function
+        bits_hat = self.chain.demodulate(y, print_RX=True, print_y_k=(size<=10))  # call to demodulation function
 
         np.testing.assert_equal(bits_hat, bits)
 

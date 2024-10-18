@@ -61,7 +61,7 @@ mcu/*.launch
 
 # Telecom
 
-telecom/hands_on_simulation/test.csv
+telecom/hands_on_simulation/*.csv
 telecom/gr-limesdr/build/
 telecom/hands_on_measurements/gr-fsk/build/
 telecom/hands_on_measurements/gr-fsk/apps/*.py
