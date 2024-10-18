@@ -46,7 +46,7 @@ def main(
     Most likely, you want to pipe this script after running authentification
     on the packets:
 
-        poetry run auth | poetry run classify
+        rye run auth | rye run classify
 
     This way, you will directly receive the authentified packets from STDIN
     (standard input, i.e., the terminal).

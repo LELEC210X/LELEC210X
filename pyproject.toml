@@ -1,72 +1,12 @@
-[build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core"]
-
-[tool.poetry]
-authors = ["LELEC210X teaching assistants"]
-description = ""
+[project]
+authors = [
+  {name = "LELEC210X teaching assistants"},
+]
+description = "The best project for the best students"
 name = "LELEC210X"
-packages = [{include = "auth", from = "auth/src"}, {include = "classification", from = "classification/src"}, {include = "common", from = "common/src"}, {include = "leaderboard", from = "leaderboard/src"}]
 readme = "README.md"
+requires-python = ">=3.9"
 version = "0.1.0"
-
-[tool.poetry.dependencies]
-python = "^3.8"
-
-[tool.poetry.group.auth.dependencies]
-click = "^8.1.7"
-cryptography = "^41.0.5"
-pyserial = "^3.5"
-pyzmq = "^25.1.1"
-
-[tool.poetry.group.classification.dependencies]
-click = "^8.1.7"
-librosa = "^0.10.1"
-notebook = "^7.0.4"
-scipy = "^1.09"
-seaborn = "^0.12.2"
-sounddevice = "^0.4.6"
-soundfile = "^0.12.1"
-tqdm = "^4.66.1"
-
-[tool.poetry.group.common.dependencies]
-click = "^8.1.7"
-python-dotenv = "^0.21.1"
-rich = "^13.7.0"
-
-[tool.poetry.group.dev.dependencies]
-pre-commit = "^3.0.4"
-pytest = "^7.4.3"
-youtube-dl = {git = "https://github.com/ytdl-org/youtube-dl.git"}
-
-[tool.poetry.group.leaderboard.dependencies]
-click = "^8.1.7"
-eventlet = "^0.33.3"
-flask = "^2.2.2"
-flask-apscheduler = "^1.12.4"
-flask-limiter = "^3.3.0"
-flask-restx = "^1.0.6"
-flask-socketio = "^5.3.2"
-flask-swagger = "^0.2.14"
-flask-swagger-ui = "^4.11.1"
-flask-wtf = "^1.1.1"
-gevent-websocket = "^0.10.1"
-markdown = "^3.4.1"
-pydantic = "^1.10.5"
-pydub = "^0.25.1"
-python-dotenv = "^0.21.1"
-requests = "^2.28.2"
-
-[tool.poetry.group.tex.dependencies]
-pygments = "^2.16.1"
-
-[tool.poetry.plugins]
-
-[tool.poetry.plugins."console_scripts"]
-auth = "auth.__main__:main"
-classify = "classification.__main__:main"
-leaderboard = "leaderboard.__main__:main"
-split-audio = "classification.utils.split_audio:main"
 
 [tool.ruff]
 extend-exclude = ["**/doxygen/**/*.py"]
@@ -90,3 +30,17 @@ extend-ignore = [
 ]
 extend-select = ["B", "C90", "D", "I", "N", "RUF", "UP", "T"]
 isort = {known-first-party = ["auth", "classification", "common", "leaderboard"]}
+line-length = 88
+
+[tool.rye]
+dev-dependencies = [
+  "pre-commit>=3.5.0",
+  "pygments>=2.18.0",
+  "pytest>=7.4.3",
+  "youtube-dl @ git+https://github.com/ytdl-org/youtube-dl.git",
+]
+managed = true
+virtual = true
+
+[tool.rye.workspace]
+members = ["auth", "classification", "common", "leaderboard"]

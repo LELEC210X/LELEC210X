@@ -19,19 +19,15 @@ jobs:
     - name: Set up Git repository
       uses: actions/checkout@v4
 
-    - name: Install Poetry
-      run: pipx install poetry
-
-    - name: Setup python
-      uses: actions/setup-python@v4
+    - name: Setup Rye
+      uses: eifinger/setup-rye@v4
       with:
-        python-version: '3.8'
-        cache: poetry
+        enable-cache: true
 
-    - name: Install local package
+    - name: Install local packages
       run: |
-        poetry install
-        source $(poetry env info --path)/bin/activate
+        rye sync
+        source .venv/bin/activate
 
     - name: Compile LaTeX documents
       uses: xu-cheng/texlive-action@v2
@@ -41,13 +37,14 @@ jobs:
           cd tex/
           make pdf -j$(nproc)
 
-    - name: Zip files
+    - name: Move files
       run: |
         cd tex/
-        make zip
+        mkdir archive
+        find -type f -regex '\./[0-9a-zA-Z_]+/[0-9a-zA-Z_]+.pdf' | xargs -I{} mv {} archive/
 
     - name: Archive exercise files
       uses: actions/upload-artifact@v4
       with:
         name: tex-documents
-        path: tex/pdfs.zip
+        path: tex/archive/*.pdf

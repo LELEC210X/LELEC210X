@@ -1,0 +1,26 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[project]
+dependencies = [
+  "click>=8.1.7",
+  "cryptography>=43.0.0",
+  "pyserial>=3.5",
+  "pyzmq>=26.2.0",
+]
+name = "auth"
+requires-python = ">= 3.9"
+version = "0.1.0"
+
+[project.scripts]
+auth = "auth.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/auth"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.rye]
+managed = true

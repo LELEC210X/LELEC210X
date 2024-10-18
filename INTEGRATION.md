@@ -14,11 +14,11 @@ that you installed the latest Python dependencies with:
 <!-- tell users to run commands from within the root directory or subdirectories -->
 
 ```
-poetry install
+rye sync
 ```
 
 Also, make sure to run the above command from the repository directory, or from
-any of its subdirectories. The same applies for all `poetry` commands.
+any of its subdirectories. The same applies for all `rye` commands.
 
 ## Steps
 
@@ -32,11 +32,11 @@ summarized in the figure above, and explained hereafter[^1]:
 3. _(Linux)_ open the project files with GNU Radio,
    and generate the Python script(s);
 4. _(Linux)_ run your GNU Radio script either from GNU Radio or from the terminal;
-5. _(Any)_ in another terminal window, run `poetry run auth | poetry run classify`;
+5. _(Any)_ in another terminal window, run `rye run auth | rye run classify`;
 6. and that's all!
 
 > [!IMPORTANT]
-> Running `poetry run classify` does not actually submit your classification
+> Running `rye run classify` does not actually submit your classification
 > guesses to the leaderboard server. To do so, you will need to add a few
 > lines of codes, see the corresponding [README](leaderboard/README.md).
 
@@ -56,7 +56,7 @@ e.g., `MELVEC_LENGTH=20`.
 
 To setup environ variables, the easiest is to populate the [`.env`](.env) file with
 the environ variables. This file is automatically loaded when calling
-`flask run auth` or `flask run classify`.
+`rye run auth` or `rye run classify`.
 
 ## How the complete chain works
 
@@ -68,10 +68,10 @@ The chain is made of multiple consecutive blocks, that need to communicate with 
    send them through the USB-driver to GNU Radio for further processing;
 3. GNU Radio receives packets from the USB, and publishes the decoded packets to some TCP address, using
    the ZMQ message passing protocol;
-4. `flask run auth` reads packets published at the provided TCP address, performs authentification on them,
+4. `rye run auth` reads packets published at the provided TCP address, performs authentification on them,
    and extracts the payload, containing the useful information, and print each payload on a new line;
-5. `flask run classify` reads the consecutive payloads from an input and performs a classification on each of them (e.g.,
-   by predicting a `fire` event). Using `flask run auth | flask run classify` allows to run both commands simultaneously,
+5. `rye run classify` reads the consecutive payloads from an input and performs a classification on each of them (e.g.,
+   by predicting a `fire` event). Using `rye run auth | rye run classify` allows to run both commands simultaneously,
    while redirecting the output of authentification to the input of classification.decodes the packets and
 
 During the contest, guesses must be sent to the leaderboard. Hence, one should modify the

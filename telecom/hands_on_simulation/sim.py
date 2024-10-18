@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.signal import firwin
+from chain import Chain
+from scipy.signal import firwin, freqz
 from scipy.special import erfc
 
 
-def add_delay(chain, x, tau):
+def add_delay(chain: Chain, x: np.ndarray, tau: float):
     """
     Apply the channel between TX and RX, handling the different oversampling factors
     and the addition of a delay.
@@ -27,7 +28,7 @@ def add_delay(chain, x, tau):
     return y, np.mod(sto_int, chain.osr_rx)
 
 
-def add_cfo(chain, x, cfo):
+def add_cfo(chain: Chain, x: np.ndarray, cfo: float):
     """
     Add a frequency offset on the signal x.
     """
@@ -38,14 +39,15 @@ def add_cfo(chain, x, cfo):
     return y
 
 
-def run_sim(chain):
+def run_sim(chain: Chain):
     """
     Main function, running the simulations of the communication chain provided, for several SNRs.
-    Computes and displays the different metrics to evaluate the performances.
+    Compute and display the different metrics to evaluate the performances.
     """
     SNRs_dB = chain.snr_range
     R = chain.osr_rx
     B = chain.bit_rate
+    fs = B * R
 
     # Error counters/metric initialisation
     bit_errors = np.zeros(len(SNRs_dB))
@@ -66,12 +68,14 @@ def run_sim(chain):
     )  # Padding some zeros before the packets
 
     # Lowpass filter taps
-    taps = firwin(chain.numtaps, chain.cutoff, fs=B * R)
+    taps = firwin(chain.numtaps, chain.cutoff, fs=fs)
+
+    rng = np.random.default_rng()
 
     # For loop on the number of packets to send
     for n in range(chain.n_packets):
         # Random generation of payload bits
-        bits = np.random.randint(0, 2, size=chain.payload_len)
+        bits = rng.integers(2, size=chain.payload_len)
 
         # Transmitted signal
         x_pay = chain.modulate(bits)  # Modulated signal with payload
@@ -79,7 +83,7 @@ def run_sim(chain):
 
         # Channel application (without noise addition): delay and frequency offset
         if np.isnan(chain.sto_val):  # STO should be random
-            tau = np.random.rand() * chain.sto_range
+            tau = rng.random() * chain.sto_range
         else:
             tau = chain.sto_val
 
@@ -89,13 +93,13 @@ def run_sim(chain):
         )  # Delay + noise in beginning, for STO metric
 
         if np.isnan(chain.cfo_val):  # CFO should be random
-            cfo = np.random.uniform(low=-chain.cfo_range, high=chain.cfo_range)
+            cfo = rng.uniform(low=-chain.cfo_range, high=chain.cfo_range)
         else:
             cfo = chain.cfo_val
         y_cfo = add_cfo(chain, y, cfo)  # Frequency offset addition
 
         # Normalized noise generation
-        w = (np.random.randn(y.size) + 1j * np.random.randn(y.size)) / np.sqrt(
+        w = (rng.normal(size=y.size) + 1j * rng.normal(size=y.size)) / np.sqrt(
             2
         )  # Normalized complex normal vector CN(0, 1)
 
@@ -258,6 +262,21 @@ def run_sim(chain):
     print(shift_SNR_out)
     print(shift_SNR_filter)
     ### Plot dashboard
+
+    fig, ax1 = plt.subplots()
+    w, h = freqz(taps)
+    f = w * fs * 0.5 / np.pi
+    ax1.set_title("FIR response")
+    ax1.plot(f, 20 * np.log10(abs(h)), "b")
+    ax1.set_ylabel("Amplitude (dB)", color="b")
+    ax1.set_xlabel("Frequency (Hz)")
+    ax2 = ax1.twinx()
+    angles = np.unwrap(np.angle(h))
+    ax2.plot(f, angles, "g")
+    ax2.set_ylabel("Angle (radians)", color="g")
+    ax2.grid(True)
+    ax2.axis("tight")
+    plt.show()
 
     # Bit error rate
     fig, ax = plt.subplots(constrained_layout=True)
