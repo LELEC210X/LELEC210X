@@ -103,19 +103,38 @@ class synchronization(gr.basic_block):
     def set_tx_power(self, tx_power):
         self.tx_power = tx_power
 
-    def forecast(self, noutput_items, ninput_items_required):
+    #def forecast(self, noutput_items, ninput_items_required):
+    #    """
+    #    input items are samples (with oversampling factor)
+    #    output items are samples (with oversampling factor)
+    #    """
+    #    if self.rem_samples == 0:  # looking for a new packet
+    #        ninput_items_required[0] = (
+    #            self.hdr_len * 8 * self.osr
+    #        )  # enough samples to find a header inside
+    #    else:  # processing a previously found packet
+    #        ninput_items_required[0] = (
+    #            noutput_items  # pass remaining samples in packet to next block
+    #        )
+
+    def forecast(self, noutput_items, ninputs):
         """
-        input items are samples (with oversampling factor)
-        output items are samples (with oversampling factor)
+        forecast is only called from a general block
+        this is the default implementation
         """
-        if self.rem_samples == 0:  # looking for a new packet
-            ninput_items_required[0] = (
-                self.hdr_len * 8 * self.osr
-            )  # enough samples to find a header inside
-        else:  # processing a previously found packet
-            ninput_items_required[0] = (
-                noutput_items  # pass remaining samples in packet to next block
-            )
+        ninput_items_required = [0] * ninputs
+        for i in range(ninputs):
+            if self.rem_samples == 0:  # looking for a new packet
+                ninput_items_required[i] = (
+                        self.hdr_len * 8 * self.osr
+                    )  # enough samples to find a header inside
+            else:  # processing a previously found packet
+                ninput_items_required[i] = (
+                    noutput_items  # pass remaining samples in packet to next block
+                )
+
+        return ninput_items_required
+    
 
     def general_work(self, input_items, output_items):
         if self.rem_samples == 0:  # new packet to process, compute the CFO and STO

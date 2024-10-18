@@ -99,8 +99,19 @@ class packet_parser(gr.basic_block):
         )
         self.logger = logging.getLogger("parser")
 
-    def forecast(self, noutput_items, ninput_items_required):
-        ninput_items_required[0] = self.packet_len + 1  # in bytes
+    #def forecast(self, noutput_items, ninput_items_required):
+    #    ninput_items_required[0] = self.packet_len + 1  # in bytes
+
+    def forecast(self, noutput_items, ninputs):
+        """
+        forecast is only called from a general block
+        this is the default implementation
+        """
+        ninput_items_required = [0] * ninputs
+        for i in range(ninputs):
+            ninput_items_required[i] = self.packet_len + 1  # in bytes
+
+        return ninput_items_required
 
     def general_work(self, input_items, output_items):
         # we process maximum one packet at a time

@@ -32,6 +32,23 @@ options:
     state: enabled
 
 blocks:
+- name: Enable_chain
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: ''
+    label: ''
+    'true': '1'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1368, 172.0]
+    rotation: 0
+    state: true
 - name: K_threshold
   id: variable_qtgui_range
   parameters:
@@ -149,6 +166,23 @@ blocks:
     coordinate: [500, 17]
     rotation: 0
     state: true
+- name: noiseQuery
+  id: variable_qtgui_push_button
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Noise estimation query
+    pressed: '1'
+    released: '0'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1024, 436.0]
+    rotation: 0
+    state: true
 - name: packet_len
   id: variable
   parameters:
@@ -218,6 +252,27 @@ blocks:
     coordinate: [202, 15]
     rotation: 0
     state: enabled
+- name: tx_power
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: Qt.Horizontal
+    rangeType: int
+    start: '-30'
+    step: '1'
+    stop: '30'
+    value: '10'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1128, 156.0]
+    rotation: 0
+    state: enabled
 - name: fsk_demodulation_0
   id: fsk_demodulation
   parameters:
@@ -245,7 +300,7 @@ blocks:
     alias: ''
     comment: ''
     drate: data_rate
-    enable: '1'
+    enable: '0'
     fsamp: samp_rate
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -257,6 +312,24 @@ blocks:
     coordinate: [320, 204.0]
     rotation: 0
     state: enabled
+- name: fsk_onQuery_noise_estimation_0
+  id: fsk_onQuery_noise_estimation
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    n_est: '10'
+    n_samples: '1024'
+    query: noiseQuery
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [296, 516.0]
+    rotation: 0
+    state: true
 - name: fsk_packet_parser_0
   id: fsk_packet_parser
   parameters:
@@ -283,6 +356,7 @@ blocks:
     alias: ''
     comment: ''
     drate: data_rate
+    enable: ''
     fdev: fdev
     fsamp: samp_rate
     maxoutbuf: '0'
@@ -303,13 +377,13 @@ blocks:
     alias: ''
     comment: ''
     drate: data_rate
-    estimated_noise_power: estimated_noise_power
     fdev: fdev
     fsamp: samp_rate
     hdr_len: hdr_len
     maxoutbuf: '0'
     minoutbuf: '0'
     packet_len: packet_len
+    tx_power: tx_power
   states:
     bus_sink: false
     bus_source: false
@@ -409,10 +483,12 @@ blocks:
 connections:
 - [fsk_demodulation_0, '0', fsk_packet_parser_0, '0']
 - [fsk_flag_detector_0, '0', fsk_synchronization_0, '0']
+- [fsk_onQuery_noise_estimation_0, NoisePow, fsk_synchronization_0, NoisePow]
 - [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
 - [fsk_preamble_detect_0, '0', fsk_synchronization_0, '0']
 - [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
 - [limesdr_fpga_source_0, '0', fsk_flag_detector_0, '0']
+- [limesdr_fpga_source_0, '0', fsk_onQuery_noise_estimation_0, '0']
 - [limesdr_fpga_source_0, '0', fsk_preamble_detect_0, '0']
 - [limesdr_fpga_source_0, '0', qtgui_sink_x_0, '0']
 

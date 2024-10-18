@@ -54,8 +54,19 @@ class onQuery_noise_estimation(gr.basic_block):
         self.logger = logging.getLogger("noise")
         self.message_port_register_out(pmt.intern('NoisePow'))
 
-    def forecast(self, noutput_items, ninput_items_required):
-        ninput_items_required[0] = self.n_samples 
+    #def forecast(self, noutput_items, ninput_items_required):
+    #    ninput_items_required[0] = self.n_samples 
+
+    def forecast(self, noutput_items, ninputs):
+        """
+        forecast is only called from a general block
+        this is the default implementation
+        """
+        ninput_items_required = [0] * ninputs
+        for i in range(ninputs):
+            ninput_items_required[i] = self.n_samples 
+
+        return ninput_items_required
 
     def general_work(self, input_items, output_items):
         if (self.do_a_query == 0) : 

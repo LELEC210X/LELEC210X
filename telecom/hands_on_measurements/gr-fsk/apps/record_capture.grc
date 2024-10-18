@@ -1,6 +1,7 @@
 options:
   parameters:
     author: UCLouvain
+    catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
@@ -80,34 +81,17 @@ blocks:
     coordinate: [202, 15]
     rotation: 0
     state: enabled
-- name: blocks_file_sink_0
-  id: blocks_file_sink
-  parameters:
-    affinity: ''
-    alias: ''
-    append: 'False'
-    comment: ''
-    file: /home/marconi/fsk_capture.mat
-    type: complex
-    unbuffered: 'False'
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [368, 185]
-    rotation: 0
-    state: true
 - name: limesdr_source_0
   id: limesdr_source
   parameters:
     affinity: ''
     alias: ''
     allow_tcxo_dac: '0'
-    analog_bandw_ch0: ''
+    analog_bandw_ch0: 1.5e6
     analog_bandw_ch1: 1.5e6
-    calibr_bandw_ch0: ''
+    calibr_bandw_ch0: 2.5e6
     calibr_bandw_ch1: 2.5e6
+    ch_align: 'False'
     channel_mode: '0'
     comment: ''
     dacVal: '180'
@@ -154,7 +138,7 @@ blocks:
     showports: 'False'
     showrf: 'False'
     type: complex
-    wintype: firdes.WIN_BLACKMAN_hARRIS
+    wintype: window.WIN_BLACKMAN_hARRIS
   states:
     bus_sink: false
     bus_source: false
@@ -164,8 +148,8 @@ blocks:
     state: true
 
 connections:
-- [limesdr_source_0, '0', blocks_file_sink_0, '0']
 - [limesdr_source_0, '0', qtgui_sink_x_0, '0']
 
 metadata:
   file_format: 1
+  grc_version: 3.10.7.0

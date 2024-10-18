@@ -65,14 +65,24 @@ class preamble_detect(gr.basic_block):
             out_sig=[np.complex64],
         )
 
-    def forecast(self, noutput_items, ninput_items_required):
+    #def forecast(self, noutput_items, ninput_items_required):
+    #    """
+    #    input items are samples (with oversampling factor)
+    #    output items are samples (with oversampling factor)
+    #    """
+    #    ninput_items_required[0] = max(
+    #        noutput_items + self.filter_len, 2 * self.filter_len
+    #    )
+    def forecast(self, noutput_items, ninputs):
         """
-        input items are samples (with oversampling factor)
-        output items are samples (with oversampling factor)
+        forecast is only called from a general block
+        this is the default implementation
         """
-        ninput_items_required[0] = max(
-            noutput_items + self.filter_len, 2 * self.filter_len
-        )
+        ninput_items_required = [0] * ninputs
+        for i in range(ninputs):
+            ninput_items_required[i] = max(noutput_items + self.filter_len, 2 * self.filter_len )
+
+        return ninput_items_required
 
     def set_enable(self, enable):
         self.enable = enable

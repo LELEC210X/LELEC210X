@@ -86,12 +86,34 @@ class demodulation(gr.basic_block):
 
         return out
 
-    def forecast(self, noutput_items, ninput_items_required):
+    #def forecast(self, noutput_items, ninputs):
+    #    """
+    #    forecast is only called from a general block
+    #    this is the default implementation
+    #    """
+    #    ninput_items_required = [0] * ninputs
+    #    for i in range(ninputs):
+    #        ninput_items_required[i] = noutput_items + \
+    #            self.gateway.history() - 1
+    #    return ninput_items_required
+
+    def forecast(self, noutput_items, ninputs):
         """
-        input items are samples (with oversampling factor)
-        output items are bytes
+        forecast is only called from a general block
+        this is the default implementation
         """
-        ninput_items_required[0] = noutput_items * self.osr * 8
+        ninput_items_required = [0] * ninputs
+        for i in range(ninputs):
+            ninput_items_required[i] = noutput_items * self.osr * 8
+
+        return ninput_items_required
+    
+#    def forecast(self, noutput_items, ninput_items_required):
+#        """
+#        input items are samples (with oversampling factor)
+#        output items are bytes
+#        """
+#        ninput_items_required[0] = noutput_items * self.osr * 8
 
     def general_work(self, input_items, output_items):
         n_syms = len(output_items[0]) * 8
