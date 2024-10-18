@@ -110,6 +110,13 @@ public:
 
     // Read GPIO inputs, one bit per pin
     uint8_t read_gpio();
+
+    void set_dspcfg_preamble(uint16_t dspcfg_PASSTHROUGH_LEN = 100u, uint8_t dspcfg_THRESHOLD = 100u, int dspcfg_preamble_en = 0);
+
+    uint32_t get_dspcfg_short_sum() ;
+
+    uint32_t get_dspcfg_long_sum() ;
+
 };
 
 } // namespace limesdr_fpga

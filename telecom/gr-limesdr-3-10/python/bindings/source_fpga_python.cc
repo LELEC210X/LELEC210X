@@ -10,7 +10,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
 /* BINDTOOL_HEADER_FILE(source_fpga.h)                                                  */
-/* BINDTOOL_HEADER_FILE_HASH(8df3a26d7adf5ac44a5ff87bea92644a)                     */
+/* BINDTOOL_HEADER_FILE_HASH(d4c33ddd07c37d83f006e5113b417276)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -155,17 +155,31 @@ void bind_source_fpga(py::module& m)
             D(source_fpga,read_gpio)
         )
 
+
+        
+        .def("set_dspcfg_preamble",&source_fpga::set_dspcfg_preamble,       
+            py::arg("dspcfg_PASSTHROUGH_LEN"),
+            py::arg("dspcfg_THRESHOLD"),
+            py::arg("dspcfg_preamble_en"),
+            D(source_fpga,set_dspcfg_preamble)
+        )
+
+
+        
+        .def("get_dspcfg_long_sum",&source_fpga::get_dspcfg_long_sum,      
+            D(source_fpga,get_dspcfg_long_sum) 
+        )
+
+
+        
+        .def("get_dspcfg_short_sum",&source_fpga::get_dspcfg_short_sum,   
+            D(source_fpga,get_dspcfg_long_sum)    
+        )
+
         ;
 
 
-
-
 }
-
-
-
-
-
 
 
 

@@ -1,6 +1,7 @@
 options:
   parameters:
     author: UCLouvain
+    catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
@@ -56,7 +57,7 @@ blocks:
     gui_hint: ''
     label: K factor for threshold
     min_len: '200'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: int
     start: '1'
     step: '1'
@@ -128,6 +129,21 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [797, 22]
+    rotation: 0
+    state: true
+- name: detect_threshold_entry
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Detection Threshold
+    type: real
+    value: 1e-3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [880, 172.0]
     rotation: 0
     state: true
 - name: estimated_noise_power
@@ -214,7 +230,7 @@ blocks:
     gui_hint: ''
     label: ''
     min_len: '200'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: int
     start: '0'
     step: '1'
@@ -259,7 +275,7 @@ blocks:
     gui_hint: ''
     label: ''
     min_len: '200'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: int
     start: '-30'
     step: '1'
@@ -300,7 +316,7 @@ blocks:
     alias: ''
     comment: ''
     drate: data_rate
-    enable: '0'
+    enable: '1'
     fsamp: samp_rate
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -311,7 +327,7 @@ blocks:
     bus_structure: null
     coordinate: [320, 204.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: fsk_onQuery_noise_estimation_0
   id: fsk_onQuery_noise_estimation
   parameters:
@@ -356,20 +372,20 @@ blocks:
     alias: ''
     comment: ''
     drate: data_rate
-    enable: ''
+    enable: Enable_chain
     fdev: fdev
     fsamp: samp_rate
     maxoutbuf: '0'
     minoutbuf: '0'
     packet_len: packet_len
-    threshold: detect_threshold
+    threshold: detect_threshold_entry
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate: [320, 380.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: fsk_synchronization_0
   id: fsk_synchronization
   parameters:
@@ -407,8 +423,7 @@ blocks:
     dacVal: '180'
     digital_bandw_ch0: samp_rate
     digital_bandw_ch1: samp_rate
-    dspcfg_PASSTHROUGH_LEN: (packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate)
-      + 1000
+    dspcfg_PASSTHROUGH_LEN: '(packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate) '
     dspcfg_THRESHOLD: K_threshold
     dspcfg_preamble_en: '1'
     filename: ''
@@ -452,7 +467,7 @@ blocks:
     showports: 'False'
     showrf: 'False'
     type: complex
-    wintype: firdes.WIN_BLACKMAN_hARRIS
+    wintype: window.WIN_BLACKMAN_hARRIS
   states:
     bus_sink: false
     bus_source: false
@@ -466,8 +481,11 @@ blocks:
     address: tcp://127.0.0.1:10000
     affinity: ''
     alias: ''
+    bind: 'True'
     comment: ''
+    drop_on_hwm: 'True'
     hwm: '-1'
+    key: ''
     pass_tags: 'False'
     timeout: '100'
     type: byte
@@ -494,3 +512,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: 3.10.7.0

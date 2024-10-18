@@ -21,7 +21,7 @@
 import numpy as np
 from gnuradio import gr
 import pmt
-
+from distutils.version import LooseVersion
 from .utils import logging, measurements_logger
 
 
@@ -96,28 +96,29 @@ class synchronization(gr.basic_block):
         self.message_port_register_in(pmt.intern('NoisePow'))
         self.set_msg_handler(pmt.intern('NoisePow'), self.handle_msg)
 
-    def handle_msg(self, msg):
-        self.estimated_noise_power = pmt.to_double(msg)
+        self.gr_version = gr.version()
 
+        # Redefine function based on version
+        if LooseVersion(self.gr_version) < LooseVersion("3.9.0"):
+            self.forecast = self.forecast_v38
+        else:
+            self.forecast = self.forecast_v310
 
-    def set_tx_power(self, tx_power):
-        self.tx_power = tx_power
+    def forecast_v38(self, noutput_items, ninput_items_required):
+        """
+        input items are samples (with oversampling factor)
+        output items are samples (with oversampling factor)
+        """
+        if self.rem_samples == 0:  # looking for a new packet
+            ninput_items_required[0] = (
+                self.hdr_len * 8 * self.osr
+            )  # enough samples to find a header inside
+        else:  # processing a previously found packet
+            ninput_items_required[0] = (
+                noutput_items  # pass remaining samples in packet to next block
+            )
 
-    #def forecast(self, noutput_items, ninput_items_required):
-    #    """
-    #    input items are samples (with oversampling factor)
-    #    output items are samples (with oversampling factor)
-    #    """
-    #    if self.rem_samples == 0:  # looking for a new packet
-    #        ninput_items_required[0] = (
-    #            self.hdr_len * 8 * self.osr
-    #        )  # enough samples to find a header inside
-    #    else:  # processing a previously found packet
-    #        ninput_items_required[0] = (
-    #            noutput_items  # pass remaining samples in packet to next block
-    #        )
-
-    def forecast(self, noutput_items, ninputs):
+    def forecast_v310(self, noutput_items, ninputs):
         """
         forecast is only called from a general block
         this is the default implementation
@@ -134,6 +135,13 @@ class synchronization(gr.basic_block):
                 )
 
         return ninput_items_required
+
+    def handle_msg(self, msg):
+        self.estimated_noise_power = pmt.to_double(msg)
+
+
+    def set_tx_power(self, tx_power):
+        self.tx_power = tx_power
     
 
     def general_work(self, input_items, output_items):

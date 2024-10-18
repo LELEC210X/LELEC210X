@@ -23,7 +23,7 @@ import time
 import numpy as np
 from gnuradio import gr
 import pmt
-
+from distutils.version import LooseVersion
 from .utils import logging
 
 
@@ -54,10 +54,18 @@ class onQuery_noise_estimation(gr.basic_block):
         self.logger = logging.getLogger("noise")
         self.message_port_register_out(pmt.intern('NoisePow'))
 
-    #def forecast(self, noutput_items, ninput_items_required):
-    #    ninput_items_required[0] = self.n_samples 
+        self.gr_version = gr.version()
 
-    def forecast(self, noutput_items, ninputs):
+        # Redefine function based on version
+        if LooseVersion(self.gr_version) < LooseVersion("3.9.0"):
+            self.forecast = self.forecast_v38
+        else:
+            self.forecast = self.forecast_v310
+
+    def forecast_v38(self, noutput_items, ninput_items_required):
+        ninput_items_required[0] = self.n_samples 
+
+    def forecast_v310(self, noutput_items, ninputs):
         """
         forecast is only called from a general block
         this is the default implementation

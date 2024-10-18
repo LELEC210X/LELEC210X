@@ -20,7 +20,7 @@
 
 import numpy as np
 from gnuradio import gr
-
+from distutils.version import LooseVersion
 
 def demodulate(y, B, R, Fdev):
     """
@@ -69,6 +69,34 @@ class demodulation(gr.basic_block):
             self, name="Demodulation", in_sig=[np.complex64], out_sig=[np.uint8]
         )
 
+        self.gr_version = gr.version()
+
+        # Redefine function based on version
+        if LooseVersion(self.gr_version) < LooseVersion("3.9.0"):
+            print("Compiling the Python codes for GNU Radio 3.8")
+            self.forecast = self.forecast_v38
+        else:
+            print("Compiling the Python codes for GNU Radio 3.10")
+            self.forecast = self.forecast_v310
+
+    def forecast_v38(self, noutput_items, ninput_items_required):
+        """
+        input items are samples (with oversampling factor)
+        output items are bytes
+        """
+        ninput_items_required[0] = noutput_items * self.osr * 8
+           
+    def forecast_v310(self, noutput_items, ninputs):
+        """
+        forecast is only called from a general block
+        this is the default implementation
+        """
+        ninput_items_required = [0] * ninputs
+        for i in range(ninputs):
+            ninput_items_required[i] = noutput_items * self.osr * 8
+
+        return ninput_items_required
+    
     def symbols_to_bytes(self, symbols):
         """
         Converts symbols (bits here) to bytes
@@ -86,34 +114,6 @@ class demodulation(gr.basic_block):
 
         return out
 
-    #def forecast(self, noutput_items, ninputs):
-    #    """
-    #    forecast is only called from a general block
-    #    this is the default implementation
-    #    """
-    #    ninput_items_required = [0] * ninputs
-    #    for i in range(ninputs):
-    #        ninput_items_required[i] = noutput_items + \
-    #            self.gateway.history() - 1
-    #    return ninput_items_required
-
-    def forecast(self, noutput_items, ninputs):
-        """
-        forecast is only called from a general block
-        this is the default implementation
-        """
-        ninput_items_required = [0] * ninputs
-        for i in range(ninputs):
-            ninput_items_required[i] = noutput_items * self.osr * 8
-
-        return ninput_items_required
-    
-#    def forecast(self, noutput_items, ninput_items_required):
-#        """
-#        input items are samples (with oversampling factor)
-#        output items are bytes
-#        """
-#        ninput_items_required[0] = noutput_items * self.osr * 8
 
     def general_work(self, input_items, output_items):
         n_syms = len(output_items[0]) * 8

@@ -68,4 +68,13 @@
 
  static const char *__doc_gr_limesdr_fpga_source_fpga_read_gpio = R"doc()doc";
 
+ 
+ static const char *__doc_gr_limesdr_fpga_source_fpga_set_dspcfg_preamble = R"doc()doc";
+
+ 
+ static const char *__doc_gr_limesdr_fpga_source_fpga_get_dspcfg_long_sum = R"doc()doc";
+
+ 
+ static const char *__doc_gr_limesdr_fpga_source_fpga_get_dspcfg_short_sum = R"doc()doc";
+
   

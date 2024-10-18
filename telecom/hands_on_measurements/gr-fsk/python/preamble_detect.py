@@ -23,6 +23,7 @@ import numpy as np
 from gnuradio import gr
 import pmt 
 
+from distutils.version import LooseVersion
 
 def preamble_detect_energy(y, L, threshold):
     """
@@ -65,15 +66,21 @@ class preamble_detect(gr.basic_block):
             out_sig=[np.complex64],
         )
 
-    #def forecast(self, noutput_items, ninput_items_required):
-    #    """
-    #    input items are samples (with oversampling factor)
-    #    output items are samples (with oversampling factor)
-    #    """
-    #    ninput_items_required[0] = max(
-    #        noutput_items + self.filter_len, 2 * self.filter_len
-    #    )
-    def forecast(self, noutput_items, ninputs):
+        self.gr_version = gr.version()
+
+        # Redefine function based on version
+        if LooseVersion(self.gr_version) < LooseVersion("3.9.0"):
+            self.forecast = self.forecast_v38
+        else:
+            self.forecast = self.forecast_v310
+
+
+    def forecast_v38(self, noutput_items, ninput_items_required):
+        ninput_items_required[0] = max(
+            noutput_items + self.filter_len, 2 * self.filter_len
+        )
+
+    def forecast_v310(self, noutput_items, ninputs):
         """
         forecast is only called from a general block
         this is the default implementation
@@ -81,8 +88,9 @@ class preamble_detect(gr.basic_block):
         ninput_items_required = [0] * ninputs
         for i in range(ninputs):
             ninput_items_required[i] = max(noutput_items + self.filter_len, 2 * self.filter_len )
-
+         
         return ninput_items_required
+    
 
     def set_enable(self, enable):
         self.enable = enable

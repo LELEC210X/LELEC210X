@@ -181,6 +181,20 @@ public:
      */
     virtual void write_lms_reg(uint32_t address, uint16_t val) = 0;
 
+     /**
+     * Enable the Preamble Detector in the datapath.
+     *
+     * @param   device_number  Device number from the list of LMS_GetDeviceList.
+     * @param   dspcfg_preamble_en Default value is 0
+     * @param   dspcfg_PASSTHROUGH_LEN  Default value is 100 range is [1,1024]
+     * @param   dspcfg_THRESHOLD  Default value is 100 range is [1,65535]
+     */
+    virtual void set_dspcfg_preamble( uint16_t dspcfg_PASSTHROUGH_LEN = 100u, uint8_t dspcfg_THRESHOLD = 100u, int dspcfg_preamble_en = 0) = 0;
+
+    virtual uint32_t get_dspcfg_long_sum() = 0;
+
+    virtual uint32_t get_dspcfg_short_sum() = 0;
+    
     /**
      * Set GPIO direction
      *

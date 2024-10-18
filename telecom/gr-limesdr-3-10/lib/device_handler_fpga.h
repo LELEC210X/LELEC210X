@@ -31,6 +31,7 @@
 #include <mutex>
 #include <string>
 #include <vector>
+#include "fpga_register_map.h"
 
 #define LMS_CH_0 0
 #define LMS_CH_1 1
@@ -326,11 +327,57 @@ public:
      */
     void update_rfe_channels();
 
+    int read_spi_reg_bits(lms_device_t *device, const DSPCFGParameter &param);
+
+    int read_spi_reg_bits(lms_device_t *device, const uint16_t address, const uint8_t msb, const uint8_t lsb);
+
+    int modify_spi_reg_bits(lms_device_t *device, const DSPCFGParameter &param, const uint16_t value);
+
+    int modify_spi_reg_bits(lms_device_t *device, const uint16_t address, const uint8_t msb, const uint8_t lsb, const uint16_t value);
+
     /**
      * Writes an LMS register by calling LMS_WriteLMSReg()
      */
     void write_lms_reg(int device_number, uint32_t address, uint16_t val);
+     
+    /**
+     * Enable the Preamble Detector in the datapath.
+     * 
+     * @param   device_number  Device number from the list of LMS_GetDeviceList.
+     *
+     * @param   dspcfg_preamble_en Default value is 0
+     *
+     *
+     * @param   dspcfg_PASSTHROUGH_LEN  Default value is 100 range is [1,1024]
+     *
+     * @param   dspcfg_THRESHOLD  Default value is 2048 range is [1,65535]
+     */
+    void set_dspcfg_preamble(int device_number, uint16_t dspcfg_PASSTHROUGH_LEN, uint8_t dspcfg_THRESHOLD, int dspcfg_preamble_en);
 
+
+    /**
+     * Set the number of samples to let through the Preamble Detector once the threshold is reached.
+     * 
+     * @param   device_number  Device number from the list of LMS_GetDeviceList.
+     *
+     * @param   dspcfg_PASSTHROUGH_LEN  Default value is 100 range is [1,1024]
+     */
+    void set_dspcfg_PASSTHROUGH_LEN(int device_number, uint16_t dspcfg_PASSTHROUGH_LEN);
+
+    /**
+     * Set the Preamble Detector threshold.
+     * 
+     * @param   device_number  Device number from the list of LMS_GetDeviceList.
+     *
+     * @param   dspcfg_THRESHOLD  Default value is 2048 range is [1,4294967295]
+     */
+    void set_dspcfg_THRESHOLD(int device_number, uint8_t dspcfg_THRESHOLD);
+
+    void set_dspcfg_clear_rs(int device_number, int setting);
+
+    uint32_t get_dspcfg_short_sum(int device_number) ;
+
+    uint32_t get_dspcfg_long_sum(int device_number) ;
     // Set GPIO pin directions, one bit per pin
     void set_gpio_dir(int device_number, uint8_t dir);
 

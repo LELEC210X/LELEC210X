@@ -21,6 +21,8 @@
 import numpy as np
 from gnuradio import gr
 
+from distutils.version import LooseVersion
+
 from .utils import logging, measurements_logger
 
 
@@ -99,10 +101,20 @@ class packet_parser(gr.basic_block):
         )
         self.logger = logging.getLogger("parser")
 
-    #def forecast(self, noutput_items, ninput_items_required):
-    #    ninput_items_required[0] = self.packet_len + 1  # in bytes
+        self.gr_version = gr.version()
 
-    def forecast(self, noutput_items, ninputs):
+        # Redefine function based on version
+        if LooseVersion(self.gr_version) < LooseVersion("3.9.0"):
+            self.forecast = self.forecast_v38
+        else:
+            self.forecast = self.forecast_v310
+
+
+    def forecast_v38(self, noutput_items, ninput_items_required):
+    
+        ninput_items_required[0] = self.packet_len + 1  # in bytes
+
+    def forecast_v310(self, noutput_items, ninputs):
         """
         forecast is only called from a general block
         this is the default implementation
@@ -112,6 +124,7 @@ class packet_parser(gr.basic_block):
             ninput_items_required[i] = self.packet_len + 1  # in bytes
 
         return ninput_items_required
+
 
     def general_work(self, input_items, output_items):
         # we process maximum one packet at a time

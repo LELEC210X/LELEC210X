@@ -21,7 +21,7 @@
 
 import numpy as np
 from gnuradio import gr
-
+from distutils.version import LooseVersion
 
 class flag_detector(gr.basic_block):
     """
@@ -51,12 +51,31 @@ class flag_detector(gr.basic_block):
             out_sig=[np.complex64],
         )
 
-    def forecast(self, noutput_items, ninput_items_required):
+        self.gr_version = gr.version()
+
+        # Redefine function based on version
+        if LooseVersion(self.gr_version) < LooseVersion("3.9.0"):
+            self.forecast = self.forecast_v38
+        else:
+            self.forecast = self.forecast_v310
+
+    def forecast_v38(self, noutput_items, ninput_items_required):
         """
         input items are samples (with oversampling factor)
         output items are samples (with oversampling factor)
         """
         ninput_items_required[0] = noutput_items
+
+    def forecast_v310(self, noutput_items, ninputs):
+        """
+        forecast is only called from a general block
+        this is the default implementation
+        """
+        ninput_items_required = [0] * ninputs
+        for i in range(ninputs):
+            ninput_items_required[i] = noutput_items
+
+        return ninput_items_required
 
     def general_work(self, input_items, output_items):
         if self.rem_samples > 0:  # We are processing a previously detected packet

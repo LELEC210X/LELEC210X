@@ -393,5 +393,17 @@ uint8_t source_fpga_impl::read_gpio()
     return device_handler_fpga::getInstance().read_gpio(stored.device_number);
 }
 
+void source_fpga_impl::set_dspcfg_preamble(uint16_t dspcfg_PASSTHROUGH_LEN, uint8_t dspcfg_THRESHOLD, int dspcfg_preamble_en) {
+    device_handler_fpga::getInstance().set_dspcfg_preamble(stored.device_number,  dspcfg_PASSTHROUGH_LEN, dspcfg_THRESHOLD, dspcfg_preamble_en);
+}
+
+uint32_t source_fpga_impl::get_dspcfg_long_sum() {
+    return device_handler_fpga::getInstance().get_dspcfg_long_sum(stored.device_number);
+}
+
+uint32_t source_fpga_impl::get_dspcfg_short_sum() {
+    return device_handler_fpga::getInstance().get_dspcfg_short_sum(stored.device_number);
+}
+
 } /* namespace limesdr_fpga */
 } /* namespace gr */
