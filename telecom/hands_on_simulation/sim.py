@@ -4,6 +4,7 @@ from chain import Chain
 from scipy.signal import firwin, freqz
 from scipy.special import erfc
 from tqdm import tqdm
+import os
 
 
 def add_delay(chain: Chain, x: np.ndarray, tau: float):
@@ -40,7 +41,7 @@ def add_cfo(chain: Chain, x: np.ndarray, cfo: float):
     return y
 
 
-def run_sim(chain: Chain):
+def run_sim(chain: Chain, data_file="sim.csv"):
     """
     Main function, running the simulations of the communication chain provided, for several SNRs.
     Compute and display the different metrics to evaluate the performances.
@@ -223,7 +224,14 @@ def run_sim(chain: Chain):
                 / (R * B)
                 - (detect_idx + tau_hat + start_frame * chain.osr_rx) / (R * B)
             ) ** 2
-
+    
+    Cu = np.correlate(taps, taps, mode="full")  # such that Cu[len(taps)-1] = 1
+    sum_Cu = 0
+    for r in range(0, R):
+        for rt in range(0, R):
+            sum_Cu += Cu[len(taps) - 1 + r - rt]
+    shift_SNR_out = 10 * np.log10(R**2 / sum_Cu)  # 10*np.log10(chain.osr_rx)
+    
     # Metrics
     BER = bit_errors / chain.payload_len / chain.n_packets
     PER = packet_errors / chain.n_packets
@@ -231,23 +239,43 @@ def run_sim(chain: Chain):
     RMSE_sto = np.sqrt(sto_err / chain.n_packets) * B
     preamble_mis = preamble_misdetect / chain.n_packets
     preamble_false = preamble_false_detect / chain.n_packets
-
-    # Theoretical curves - normalization
-    Cu = np.correlate(taps, taps, mode="full")  # such that Cu[len(taps)-1] = 1
-    sum_Cu = 0
-    for r in range(0, R):
-        for rt in range(0, R):
-            sum_Cu += Cu[len(taps) - 1 + r - rt]
-    shift_SNR_out = 10 * np.log10(R**2 / sum_Cu)  # 10*np.log10(chain.osr_rx)
-    shift_SNR_filter = 10 * np.log10(1 / np.sum(np.abs(taps) ** 2))
-
-    SNR_th = np.arange(SNRs_dB[0], SNRs_dB[-1] + shift_SNR_out)
-    BER_th = 0.5 * erfc(np.sqrt(10 ** (SNR_th / 10.0) / 2))
-    BER_th_BPSK = 0.5 * erfc(np.sqrt(10 ** (SNR_th / 10.0)))
-    BER_th_noncoh = 0.5 * np.exp(-(10 ** (SNR_th / 10.0)) / 2)
-
+    
+    # Save simulation outputs (for later post-processing, building new figures,...)
+    save_var = np.column_stack(
+        (
+            SNRs_dB,
+            SNRs_dB + shift_SNR_out,
+            BER,
+            PER,
+            RMSE_cfo,
+            RMSE_sto,
+            preamble_mis,
+            preamble_false,
+        )
+    )
+    np.savetxt(f"{data_file}", save_var, delimiter=",")
+    
+def plot_graphs(chain, data_file="test.csv"):
+    
+    # Read file:
+    data = np.loadtxt(data_file, delimiter=",")
+    SNRs_dB = data[:,0].astype(int)
+    _ = data[:,1]
+    BER = data[:,2]
+    PER = data[:,3]
+    RMSE_cfo = data[:,4]
+    RMSE_sto = data[:,5]
+    preamble_mis = data[:,6]
+    preamble_false = data[:,7]
+    
+    R = chain.osr_rx
+    B = chain.bit_rate
+    fs = B * R
+    
+    # Lowpass filter taps
+    taps = firwin(chain.numtaps, chain.cutoff, fs=fs)
+    
     ### Plot dashboard
-
     fig, ax1 = plt.subplots()
     w, h = freqz(taps)
     f = w * fs * 0.5 / np.pi
@@ -262,6 +290,21 @@ def run_sim(chain: Chain):
     ax2.grid(True)
     ax2.axis("tight")
     plt.show()
+    
+    # Theoretical curves - normalization
+    Cu = np.correlate(taps, taps, mode="full")  # such that Cu[len(taps)-1] = 1
+    sum_Cu = 0
+    for r in range(0, R):
+        for rt in range(0, R):
+            sum_Cu += Cu[len(taps) - 1 + r - rt]
+    shift_SNR_out = 10 * np.log10(R**2 / sum_Cu)  # 10*np.log10(chain.osr_rx)
+    shift_SNR_filter = 10 * np.log10(1 / np.sum(np.abs(taps) ** 2))
+
+    SNR_th = np.arange(SNRs_dB[0], SNRs_dB[-1] + shift_SNR_out)
+    BER_th = 0.5 * erfc(np.sqrt(10 ** (SNR_th / 10.0) / 2))
+    BER_th_BPSK = 0.5 * erfc(np.sqrt(10 ** (SNR_th / 10.0)))
+    BER_th_noncoh = 0.5 * np.exp(-(10 ** (SNR_th / 10.0)) / 2)
+
 
     # Bit error rate
     fig, ax = plt.subplots(constrained_layout=True)
@@ -359,29 +402,12 @@ def run_sim(chain: Chain):
     plt.grid()
     plt.show()
 
-    # Save simulation outputs (for later post-processing, building new figures,...)
-    test_name = "test"
-    save_var = np.column_stack(
-        (
-            SNRs_dB,
-            SNRs_dB + shift_SNR_out,
-            BER,
-            PER,
-            RMSE_cfo,
-            RMSE_sto,
-            preamble_mis,
-            preamble_false,
-        )
-    )
-    np.savetxt(f"{test_name}.csv", save_var, delimiter="\t")
-    # Read file:
-    # data = np.loadtxt('test.csv')
-    # SNRs_dB = data[:,0]
-    # ...
-
 
 if __name__ == "__main__":
     from chain import BasicChain
 
-    chain = BasicChain()
-    run_sim(chain)
+    chain = BasicChain(payload_len=50, n_packets=10000, name="myBasicChain")
+    data_file=f"sim_payload_len_{chain.payload_len}_n_packets_{chain.n_packets}.csv"
+    if not os.path.isfile(data_file):
+        run_sim(chain, data_file=data_file)
+    plot_graphs(chain, data_file=data_file)

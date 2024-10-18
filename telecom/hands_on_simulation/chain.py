@@ -8,37 +8,48 @@ SYNC_WORD = np.array([int(bit) for bit in f"{0x3E2A54B7:0>32b}"])
 
 
 class Chain:
-    name: str = ""
-
-    # Communication parameters
-    bit_rate: float = BIT_RATE
-    freq_dev: float = BIT_RATE / 4
-
-    osr_tx: int = 64
-    osr_rx: int = 8
-
-    preamble: np.ndarray = PREAMBLE
-    sync_word: np.ndarray = SYNC_WORD
-
-    payload_len: int = 50  # Number of bits per packet
-
-    # Simulation parameters
-    n_packets: int = 100  # Number of sent packets
-
-    # Channel parameters
-    sto_val: float = 0
-    sto_range: float = 10 / BIT_RATE  # defines the delay range when random
-
-    cfo_val: float = 0
-    cfo_range: float = (
-        1000  # defines the CFO range when random (in Hz) #(1000 in old repo)
-    )
-
-    snr_range: np.ndarray = np.arange(-10, 25)
-
-    # Lowpass filter parameters
-    numtaps: int = 100
-    cutoff: float = BIT_RATE * osr_rx / 2.0001  # or 2*BIT_RATE,...
+    
+    def __init__(self, *,
+            name:str="",
+            # Communication parameters
+            bit_rate: float = BIT_RATE,
+            freq_dev: float = BIT_RATE / 4,
+            osr_tx: int = 64,
+            osr_rx: int = 8,
+            preamble: np.ndarray = PREAMBLE,
+            sync_word: np.ndarray = SYNC_WORD,
+            payload_len: int = 50,  # Number of bits per packet
+            # Simulation parameters
+            n_packets: int = 100,  # Number of sent packets
+            # Channel parameters
+            sto_val: float = 0,
+            sto_range: float = 10 / BIT_RATE,  # defines the delay range when random
+            cfo_val: float = 0,
+            cfo_range: float = (
+                1000  # defines the CFO range when random (in Hz) #(1000 in old repo)
+            ),
+            snr_range: np.ndarray = np.arange(-10, 25),
+            # Lowpass filter parameters
+            numtaps: int = 100,
+            cutoff: float = 0.0
+        ):
+        self.name = name
+        self.bit_rate = bit_rate
+        self.freq_dev = freq_dev
+        self.osr_rx = osr_rx
+        self.osr_tx = osr_tx
+        self.preamble = preamble
+        self.sync_word = sync_word
+        self.payload_len = payload_len
+        self.n_packets = n_packets
+        self.sto_val = sto_val
+        self.sto_range = sto_range
+        self.cfo_val = cfo_val
+        self.sto_range = sto_range
+        self.snr_range = snr_range
+        self.numtaps = numtaps
+        self.cutoff = BIT_RATE * self.osr_rx / 2.0001  # or 2*BIT_RATE,...
+        
 
     # Tx methods
 
@@ -133,9 +144,10 @@ class Chain:
 
 
 class BasicChain(Chain):
-    name = "Basic Tx/Rx chain"
-
-    cfo_val, sto_val = np.nan, np.nan  # CFO and STO are random
+    
+    def __init__(self, *, name="Basic Tx/Rx chain", cfo_val=np.nan, sto_val=np.nan, **kwargs):
+        super().__init__(name=name, cfo_val=cfo_val, sto_val=sto_val, **kwargs)
+        
 
     bypass_preamble_detect = False
 
