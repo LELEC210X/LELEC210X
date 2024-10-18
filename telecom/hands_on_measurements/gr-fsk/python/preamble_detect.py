@@ -63,14 +63,16 @@ class preamble_detect(gr.basic_block):
             out_sig=[np.complex64],
         )
 
-    def forecast(self, noutput_items, ninput_items_required):
+    def forecast(self, noutput_items, ninputs):
         """
-        input items are samples (with oversampling factor)
-        output items are samples (with oversampling factor)
+        forecast is only called from a general block
+        this is the default implementation
         """
-        ninput_items_required[0] = max(
-            noutput_items + self.filter_len, 2 * self.filter_len
-        )
+        ninput_items_required = [0] * ninputs
+        for i in range(ninputs):
+            ninput_items_required[i] = max(noutput_items + self.filter_len, 2 * self.filter_len )
+
+        return ninput_items_required
 
     def general_work(self, input_items, output_items):
         if self.rem_samples > 0:  # We are processing a previously detected packet

@@ -39,8 +39,17 @@ class noise_estimation(gr.basic_block):
             self, name="Noise Estimation", in_sig=[np.complex64], out_sig=None
         )
 
-    def forecast(self, noutput_items, ninput_items_required):
-        ninput_items_required[0] = self.n_samples
+    def forecast(self, noutput_items, ninputs):
+        """
+        forecast is only called from a general block
+        this is the default implementation
+        """
+        ninput_items_required = [0] * ninputs
+        for i in range(ninputs):
+            ninput_items_required[i] = self.n_samples
+
+        return ninput_items_required
+
 
     def general_work(self, input_items, output_items):
         y = input_items[0]
