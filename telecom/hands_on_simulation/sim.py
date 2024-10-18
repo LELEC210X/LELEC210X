@@ -1,3 +1,4 @@
+import os
 import matplotlib.pyplot as plt
 import numpy as np
 from chain import Chain
@@ -260,7 +261,8 @@ def run_sim(chain: Chain):
     ax2.set_ylabel("Angle (radians)", color="g")
     ax2.grid(True)
     ax2.axis("tight")
-    plt.show()
+
+    plt.savefig( os.path.dirname(os.path.abspath(__file__)) +"Dashboard.pdf")
 
     # Bit error rate
     fig, ax = plt.subplots(constrained_layout=True)
@@ -276,6 +278,7 @@ def run_sim(chain: Chain):
     ax.grid(True)
     ax.set_title("Average Bit Error Rate")
     ax.legend()
+    fig.savefig(os.path.dirname(os.path.abspath(__file__)) + "BER.pdf")
 
     # add second axis
     bool_2_axis = True
@@ -311,6 +314,7 @@ def run_sim(chain: Chain):
     ax.grid(True)
     ax.set_title("Average Packet Error Rate")
     ax.legend()
+    fig.savefig(os.path.dirname(os.path.abspath(__file__)) + "PER.pdf")
 
     # add second axis
     bool_2_axis = True
@@ -327,6 +331,7 @@ def run_sim(chain: Chain):
         ax2.set_xlim(ax.get_xlim())
         ax2.xaxis.label.set_color("b")
         ax2.tick_params(axis="x", colors="b")
+    fig.savefig(os.path.dirname(os.path.abspath(__file__)) + "PER_SNRe.pdf")
 
     # Preamble metrics
     plt.figure()
@@ -338,7 +343,7 @@ def run_sim(chain: Chain):
     plt.ylim([-1, 101])
     plt.grid()
     plt.legend()
-    plt.show()
+    plt.savefig(os.path.dirname(os.path.abspath(__file__)) + "preamble_detection.pdf")
 
     # RMSE CFO
     plt.figure()
@@ -347,7 +352,8 @@ def run_sim(chain: Chain):
     plt.ylabel("RMSE [-]")
     plt.xlabel("SNR [dB]")
     plt.grid()
-    plt.show()
+ 
+    plt.savefig(os.path.dirname(os.path.abspath(__file__)) +'RMSE_CFO.pdf')
 
     # RMSE STO
     plt.figure()
@@ -356,7 +362,8 @@ def run_sim(chain: Chain):
     plt.ylabel("RMSE [-]")
     plt.xlabel("SNR [dB]")
     plt.grid()
-    plt.show()
+    
+    plt.savefig(os.path.dirname(os.path.abspath(__file__)) + 'RMSE_STO.pdf')
 
     # Save simulation outputs (for later post-processing, building new figures,...)
     test_name = "test"
