@@ -289,8 +289,8 @@ def plot_graphs(chain, data_file="test.csv"):
     ax2.set_ylabel("Angle (radians)", color="g")
     ax2.grid(True)
     ax2.axis("tight")
-    plt.savefig("fir.png")  
     plt.show()
+    plt.savefig("FIR_response.png")
     
     # Theoretical curves - normalization
     Cu = np.correlate(taps, taps, mode="full")  # such that Cu[len(taps)-1] = 1
@@ -372,8 +372,9 @@ def plot_graphs(chain, data_file="test.csv"):
         ax2.set_xlim(ax.get_xlim())
         ax2.xaxis.label.set_color("b")
         ax2.tick_params(axis="x", colors="b")
-    
-    plt.savefig("ber_per.png")
+
+    plt.show()
+    plt.savefig("BER_PER.png")
 
     # Preamble metrics
     plt.figure()
@@ -385,8 +386,8 @@ def plot_graphs(chain, data_file="test.csv"):
     plt.ylim([-1, 101])
     plt.grid()
     plt.legend()
-    plt.savefig("preamble.png")
     plt.show()
+    plt.savefig("Preamble_detection_error.png")
 
     # RMSE CFO
     plt.figure()
@@ -395,8 +396,8 @@ def plot_graphs(chain, data_file="test.csv"):
     plt.ylabel("RMSE [-]")
     plt.xlabel("SNR [dB]")
     plt.grid()
-    plt.savefig("cfo.png")
     plt.show()
+    plt.savefig("RMSE_CFO.png")
 
     # RMSE STO
     plt.figure()
@@ -405,14 +406,14 @@ def plot_graphs(chain, data_file="test.csv"):
     plt.ylabel("RMSE [-]")
     plt.xlabel("SNR [dB]")
     plt.grid()
-    plt.savefig("sto.png")  
     plt.show()
+    plt.savefig("RMSE_STO.png")
 
 
 if __name__ == "__main__":
     from chain import BasicChain
 
-    chain = BasicChain(payload_len=50, n_packets=100, bypass_sto_estimation=True, bypass_cfo_estimation=True, name="myBasicChain")
+    chain = BasicChain(payload_len=50, n_packets=100, name="myBasicChain")
     data_file=f"sim_payload_len_{chain.payload_len}_n_packets_{chain.n_packets}.csv"
     if not os.path.isfile(data_file):
         run_sim(chain, data_file=data_file)

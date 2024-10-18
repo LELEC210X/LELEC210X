@@ -183,14 +183,6 @@ class BasicChain(Chain):
         """
         # TO DO: extract 2 blocks of size N*R at the start of y
 
-        N = len(self.preamble)//8 # 4 bytes per preamble
-        R = self.osr_rx
-        Nt = N * R
-        T = 1 / self.bit_rate
-
-        block1 = y[:Nt]
-        block2 = y[Nt:2*Nt]
-
         # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
         N = 4 # 4 bytes per preamble
         R = self.osr_rx
@@ -253,9 +245,6 @@ class BasicChain(Chain):
         # hint: look at what is done in modulate() in chain.py
         e_0 = np.exp(-1j * 2 * np.pi * fd * np.arange(R) * T / R)
         e_1 = np.exp(1j * 2 * np.pi * fd * np.arange(R) * T / R)
-
-        e_0 = np.exp(1j * 2 * np.pi * self.freq_dev * np.arange(R) / self.bit_rate)
-        e_1 = np.exp(-1j * 2 * np.pi * self.freq_dev * np.arange(R) / self.bit_rate)
 
         # TO DO: compute the correlations with the two reference waveforms (r0 and r1)
         r0 = np.dot(y, np.conj(e_0)) / T
