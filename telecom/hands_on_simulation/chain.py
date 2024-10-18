@@ -148,7 +148,7 @@ class BasicChain(Chain):
         Estimates CFO using Moose algorithm, on first samples of preamble.
         """
         # TO DO: extract 2 blocks of size N*R at the start of y
-        N = 4
+        N = 2
         R = self.osr_rx
         y1 = y[:N*R]
         y2 = y[N*R:2*N*R]
@@ -160,7 +160,7 @@ class BasicChain(Chain):
             alpha += y2[i]* np.conjugate(y1[i])
         argalpha = np.angle(alpha)
 
-        cfo_est = argalpha/(2*np.pi*Nt* 1/self.bit_rate /self.osr_rx)
+        cfo_est = argalpha/(2*np.pi*Nt* 1/(self.bit_rate *self.osr_rx))
 
         return cfo_est
 
