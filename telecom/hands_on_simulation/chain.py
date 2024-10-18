@@ -45,7 +45,7 @@ class Chain:
         self.sto_val = sto_val
         self.sto_range = sto_range
         self.cfo_val = cfo_val
-        self.sto_range = sto_range
+        self.cfo_range = cfo_range
         self.snr_range = snr_range
         self.numtaps = numtaps
         self.cutoff = BIT_RATE * self.osr_rx / 2.0001  # or 2*BIT_RATE,...
