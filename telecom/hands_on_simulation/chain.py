@@ -31,7 +31,7 @@ class Chain:
 
     cfo_val: float = 0
     cfo_range: float = (
-        10000  # defines the CFO range when random (in Hz) #(1000 in old repo)
+        1000  # defines the CFO range when random (in Hz) #(1000 in old repo)
     )
 
     snr_range: np.ndarray = np.arange(-10, 25)
@@ -141,7 +141,7 @@ class BasicChain(Chain):
 
         return None
 
-    bypass_cfo_estimation = True
+    bypass_cfo_estimation = False
 
     def cfo_estimation(self, y):
         """
@@ -152,7 +152,7 @@ class BasicChain(Chain):
         :return: The estimated CFO.
         """
         R = self.osr_rx
-        N = 4
+        N = 8
         Nt = N * R
         T = 1 / self.bit_rate
 
@@ -161,8 +161,9 @@ class BasicChain(Chain):
 
         numerator = np.sum(blockNT * np.conjugate(blockL))
         denominator = np.sum(np.abs(blockL)**2)
-
+        
         alpha_hat = numerator / denominator
+                
         phase_difference = np.angle(alpha_hat)
 
         cfo_est = phase_difference / ((2 * np.pi * Nt * T) / R)
