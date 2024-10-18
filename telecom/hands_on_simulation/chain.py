@@ -53,7 +53,7 @@ class Chain:
         :return: The modulates bit sequence, (N * R,).
         """
         fd = self.freq_dev  # Frequency deviation, Delta_f
-        B = self.bit_rate  # B=1/T
+        B = self.bit_rate  # B = 1/T
         h = 2 * fd / B  # Modulation index
         R = self.osr_tx  # Oversampling factor
 
@@ -125,7 +125,7 @@ class BasicChain(Chain):
 
     cfo_val, sto_val = np.nan, np.nan  # CFO and STO are random
 
-    bypass_preamble_detect = True
+    bypass_preamble_detect = False
 
     def preamble_detect(self, y):
         """
@@ -143,15 +143,23 @@ class BasicChain(Chain):
 
     bypass_cfo_estimation = True
 
-    def cfo_estimation(self, y):
+    def cfo_estimation(self, y: np.array):
         """
         Estimates CFO using Moose algorithm, on first samples of preamble.
         """
-        # TO DO: extract 2 blocks of size N*R at the start of y
+        R = self.osr_rx
+        N = int(len(self.preamble) / 4)  # number of symbols in preamble, /!\ DIVIDED by 4 to pad
+        Nt = N * R  # number of symbols to run moose 🦌 on
+        T = 1 / self.bit_rate
 
-        # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
+        # extract 2 blocks of size N*R at the start of y
+        y_begin = y[:2*Nt]
 
-        cfo_est = 0  # Default value, to change
+        # apply the Moose algorithm on these two blocks to estimate the CFO
+        numerator = np.angle(np.sum(y_begin[Nt: 2*Nt]*np.conj(y_begin[0:Nt])))
+        denominator = 2 * np.pi * Nt * T / R
+
+        cfo_est = numerator / denominator
 
         return cfo_est
 
