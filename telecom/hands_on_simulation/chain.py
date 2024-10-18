@@ -23,7 +23,7 @@ class Chain:
     payload_len: int = 50  # Number of bits per packet
 
     # Simulation parameters
-    n_packets: int = 100  # Number of sent packets
+    n_packets: int = 500  # Number of sent packets
 
     # Channel parameters
     sto_val: float = 0
@@ -151,8 +151,14 @@ class BasicChain(Chain):
         :param y: The received signal, (N * R,).
         :return: The estimated CFO.
         """
+        
+        # on imagine préambule : ABCDEFGHIJKLMNOPQRSTUVWXYZ
+        # on reçoit : DEFGHIJKLMNOPQRSTUVWXYZ vu que certains échantillons sont perdus au début
+        # on veut commencer direct mais sans prendre les 26 lettres pcq on sait pas combien ont été supprimées
+        # pour ça qu'on prend pas N = 16
+                
         R = self.osr_rx
-        N = 8
+        N = 12
         Nt = N * R
         T = 1 / self.bit_rate
 
