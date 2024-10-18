@@ -406,7 +406,7 @@ def plot_graphs(chain, data_file="test.csv"):
 if __name__ == "__main__":
     from chain import BasicChain
 
-    chain = BasicChain(payload_len=50, n_packets=10000, name="myBasicChain")
+    chain = BasicChain(payload_len=50, n_packets=100, bypass_sto_estimation=True, bypass_cfo_estimation=True, name="myBasicChain")
     data_file=f"sim_payload_len_{chain.payload_len}_n_packets_{chain.n_packets}.csv"
     if not os.path.isfile(data_file):
         run_sim(chain, data_file=data_file)

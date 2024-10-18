@@ -31,7 +31,10 @@ class Chain:
             snr_range: np.ndarray = np.arange(-10, 25),
             # Lowpass filter parameters
             numtaps: int = 100,
-            cutoff: float = 0.0
+            cutoff: float = 0.0,
+            bypass_preamble_detect: bool = True,
+            bypass_cfo_estimation: bool = True,
+            bypass_sto_estimation: bool = True
         ):
         self.name = name
         self.bit_rate = bit_rate
@@ -45,10 +48,13 @@ class Chain:
         self.sto_val = sto_val
         self.sto_range = sto_range
         self.cfo_val = cfo_val
-        self.sto_range = sto_range
+        self.cfo_range = cfo_range
         self.snr_range = snr_range
         self.numtaps = numtaps
         self.cutoff = BIT_RATE * self.osr_rx / 2.0001  # or 2*BIT_RATE,...
+        self.bypass_preamble_detect = bypass_preamble_detect
+        self.bypass_cfo_estimation = bypass_cfo_estimation
+        self.bypass_sto_estimation = bypass_sto_estimation
         
 
     # Tx methods
@@ -97,8 +103,6 @@ class Chain:
         return x
 
     # Rx methods
-    bypass_preamble_detect: bool = False
-
     def preamble_detect(self, y: np.array) -> Optional[int]:
         """
         Detects the preamlbe in a given received signal.
@@ -109,8 +113,6 @@ class Chain:
         """
         raise NotImplementedError
 
-    bypass_cfo_estimation: bool = False
-
     def cfo_estimation(self, y: np.array) -> float:
         """
         Estimates the CFO based on the received signal.
@@ -119,8 +121,6 @@ class Chain:
         :return: The estimated CFO.
         """
         raise NotImplementedError
-
-    bypass_sto_estimation: bool = False
 
     def sto_estimation(self, y: np.array) -> float:
         """
@@ -145,11 +145,14 @@ class Chain:
 
 class BasicChain(Chain):
     
-    def __init__(self, *, name="Basic Tx/Rx chain", cfo_val=np.nan, sto_val=np.nan, **kwargs):
+    def __init__(self, *, name="Basic Tx/Rx chain", cfo_val=np.nan, sto_val=np.nan,
+                 bypass_preamble_detect=False,
+                 bypass_cfo_estimation=False,
+                 bypass_sto_estimation=False,
+                 **kwargs
+             ):
         super().__init__(name=name, cfo_val=cfo_val, sto_val=sto_val, **kwargs)
         
-
-    bypass_preamble_detect = False
 
     def preamble_detect(self, y: np.array) -> Optional[int]:
         """
@@ -170,8 +173,6 @@ class BasicChain(Chain):
 
         return None
 
-    bypass_cfo_estimation = False
-
     def cfo_estimation(self, y: np.array) -> float:
         """
         Estimates the CFO based on the received signal.
@@ -183,7 +184,6 @@ class BasicChain(Chain):
         # TO DO: extract 2 blocks of size N*R at the start of y
 
         # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
-        
         N = 4 # 4 bytes per preamble
         R = self.osr_rx
         N_t = N * R
@@ -194,8 +194,6 @@ class BasicChain(Chain):
         cfo_est = np.angle(alpha_est) * R / (2 * np.pi * N_t * T) # Default value, to change
 
         return cfo_est
-
-    bypass_sto_estimation = False
 
     def sto_estimation(self, y: np.array) -> float:
         """
