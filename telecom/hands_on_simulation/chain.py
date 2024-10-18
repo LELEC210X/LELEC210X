@@ -165,8 +165,7 @@ class BasicChain(Chain):
         alpha_hat = numerator / denominator
         phase_difference = np.angle(alpha_hat)
 
-  
-        cfo_est = phase_difference / ((2 * np.pi * Nt * T) / self.bit_rate)
+        cfo_est = phase_difference / ((2 * np.pi * Nt * T) / R)
 
         return cfo_est
 
@@ -216,19 +215,18 @@ class BasicChain(Chain):
         T = 1 / B
         bits_hat = np.zeros(nb_syms, dtype=int)  # Default value, all bits=0. TO CHANGE!
 
+
         for k in range(nb_syms):
             symbol_samples = y[k]
 
-            r1 = (1 / R) * np.sum(
-                symbol_samples * np.exp(-1j * 2 * np.pi * fd * T * np.arange(R) / R)
-            )
-            r0 = (1 / R) * np.sum(
-                symbol_samples * np.exp(1j * 2 * np.pi * fd * T * np.arange(R) / R)
-            )
+            r1 = (1 / R) * np.sum(symbol_samples * np.exp(-1j * 2 * np.pi * fd * T * np.arange(R) / R))
+            r0 = (1 / R) * np.sum(symbol_samples * np.exp(1j * 2 * np.pi * fd * T * np.arange(R) / R))
 
             if np.abs(r1) > np.abs(r0):
                 bits_hat[k] = 1
             else:
                 bits_hat[k] = 0
+
+
 
         return bits_hat
