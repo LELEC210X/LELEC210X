@@ -290,6 +290,7 @@ def plot_graphs(chain, data_file="test.csv"):
     ax2.grid(True)
     ax2.axis("tight")
     plt.show()
+    plt.savefig("FIR_response.png")
     
     # Theoretical curves - normalization
     Cu = np.correlate(taps, taps, mode="full")  # such that Cu[len(taps)-1] = 1
@@ -372,6 +373,9 @@ def plot_graphs(chain, data_file="test.csv"):
         ax2.xaxis.label.set_color("b")
         ax2.tick_params(axis="x", colors="b")
 
+    plt.show()
+    plt.savefig("BER_PER.png")
+
     # Preamble metrics
     plt.figure()
     plt.plot(SNRs_dB, preamble_mis * 100, "-s", label="Miss-detection")
@@ -383,6 +387,7 @@ def plot_graphs(chain, data_file="test.csv"):
     plt.grid()
     plt.legend()
     plt.show()
+    plt.savefig("Preamble_detection_error.png")
 
     # RMSE CFO
     plt.figure()
@@ -392,6 +397,7 @@ def plot_graphs(chain, data_file="test.csv"):
     plt.xlabel("SNR [dB]")
     plt.grid()
     plt.show()
+    plt.savefig("RMSE_CFO.png")
 
     # RMSE STO
     plt.figure()
@@ -401,6 +407,7 @@ def plot_graphs(chain, data_file="test.csv"):
     plt.xlabel("SNR [dB]")
     plt.grid()
     plt.show()
+    plt.savefig("RMSE_STO.png")
 
 
 if __name__ == "__main__":
