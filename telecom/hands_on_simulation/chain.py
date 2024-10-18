@@ -81,7 +81,7 @@ class Chain:
             
             if print_x_k:
                 print(f"bit [{i}] : {b}")
-                print("--> x[{i}] : {np.abs(x[i * R]):.2f}∠{np.angle(x[i * R]) / np.pi * 180:.2f}°  ...  {np.abs(x[(i + 1) * R - 1]):.2f}∠{np.angle(x[(i + 1) * R - 1]) / np.pi * 180:.2f}°\n")
+                print(f"--> x[{i}] : {np.abs(x[i * R]):.2f}∠{np.angle(x[i * R]) / np.pi * 180:.2f}°  ...  {np.abs(x[(i + 1) * R - 1]):.2f}∠{np.angle(x[(i + 1) * R - 1]) / np.pi * 180:.2f}°\n")
 
         return x
 
@@ -233,8 +233,8 @@ class BasicChain(Chain):
 
         # TO DO: generate the reference waveforms used for the correlation
         # hint: look at what is done in modulate() in chain.py
-        e_0 = np.exp(1j * 2 * np.pi * fd * np.arange(R) * T)
-        e_1 = np.exp(-1j * 2 * np.pi * fd * np.arange(R) * T)
+        e_0 = np.exp(-1j * 2 * np.pi * fd * np.arange(R) * T / R)
+        e_1 = np.exp(1j * 2 * np.pi * fd * np.arange(R) * T / R)
 
         # TO DO: compute the correlations with the two reference waveforms (r0 and r1)
         r0 = np.dot(y, np.conj(e_0)) / T
