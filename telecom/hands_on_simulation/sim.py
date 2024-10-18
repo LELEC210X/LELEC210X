@@ -289,7 +289,6 @@ def plot_graphs(chain, data_file="test.csv"):
     ax2.set_ylabel("Angle (radians)", color="g")
     ax2.grid(True)
     ax2.axis("tight")
-    plt.savefig("fir.png")  
     plt.show()
     
     # Theoretical curves - normalization
@@ -372,8 +371,6 @@ def plot_graphs(chain, data_file="test.csv"):
         ax2.set_xlim(ax.get_xlim())
         ax2.xaxis.label.set_color("b")
         ax2.tick_params(axis="x", colors="b")
-    
-    plt.savefig("ber_per.png")
 
     # Preamble metrics
     plt.figure()
@@ -385,7 +382,6 @@ def plot_graphs(chain, data_file="test.csv"):
     plt.ylim([-1, 101])
     plt.grid()
     plt.legend()
-    plt.savefig("preamble.png")
     plt.show()
 
     # RMSE CFO
@@ -395,7 +391,6 @@ def plot_graphs(chain, data_file="test.csv"):
     plt.ylabel("RMSE [-]")
     plt.xlabel("SNR [dB]")
     plt.grid()
-    plt.savefig("cfo.png")
     plt.show()
 
     # RMSE STO
@@ -405,7 +400,6 @@ def plot_graphs(chain, data_file="test.csv"):
     plt.ylabel("RMSE [-]")
     plt.xlabel("SNR [dB]")
     plt.grid()
-    plt.savefig("sto.png")  
     plt.show()
 
 

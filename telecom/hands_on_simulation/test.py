@@ -48,6 +48,4 @@ class TestBasicChain:
         y_cfo = add_cfo(self.chain, y, cfo_val)  # adding CFO
         cfo_hat = self.chain.cfo_estimation(y_cfo)
 
-        print(cfo_hat, cfo_val)
-
         np.testing.assert_allclose(cfo_hat, cfo_val)
