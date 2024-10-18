@@ -64,8 +64,7 @@ class Chain:
         R = self.osr_tx  # Oversampling factor
 
         x = np.zeros(len(bits) * R, dtype=np.complex64)
-        ph = 2 * np.pi * fd * (np.arange(R) / R) / \
-            B  # Phase of reference waveform
+        ph = 2 * np.pi * fd * (np.arange(R) / R) / B  # Phase of reference waveform
 
         phase_shifts = np.zeros(
             len(bits) + 1
@@ -73,16 +72,12 @@ class Chain:
         phase_shifts[0] = 0  # Initial phase
 
         for i, b in enumerate(bits):
-            x[i * R: (i + 1) * R] = np.exp(1j * phase_shifts[i]) * np.exp(
+            x[i * R : (i + 1) * R] = np.exp(1j * phase_shifts[i]) * np.exp(
                 1j * (1 if b else -1) * ph
             )  # Sent waveforms, with starting phase coming from previous symbol
             phase_shifts[i + 1] = phase_shifts[i] + h * np.pi * (
                 1 if b else -1
             )  # Update phase to start with for next symbol
-
-            if print_x_k:
-                print(f"bit [{i}] : {b}")
-                print("--> x[{i}] : {np.abs(x[i * R]):.2f}∠{np.angle(x[i * R]) / np.pi * 180:.2f}°  ...  {np.abs(x[(i + 1) * R - 1]):.2f}∠{np.angle(x[(i + 1) * R - 1]) / np.pi * 180:.2f}°\n")
 
         return x
 
@@ -173,15 +168,14 @@ class BasicChain(Chain):
 
         # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
         
-        alpha_est_num = 0
-        alpha_est_den = 0
-        N_t = 4 * self.osr_rx
-        for l in range(N_t):
-            alpha_est_num += y[l + N_t] * np.conj(y[l])
-            alpha_est_den += np.abs(y[l]) ** 2
-        alpha_est = alpha_est_num / alpha_est_den
+        N = 4 # 4 bytes per preamble
+        R = self.osr_rx
+        N_t = N * R
+        T = 1 / self.bit_rate
         
-        cfo_est = np.angle(alpha_est) / (2 * np.pi * N_t) * (self.bit_rate * self.osr_rx) # Default value, to change
+        alpha_est = np.vdot(y[:N_t], y[N_t:2*N_t])
+        
+        cfo_est = np.angle(alpha_est) * R / (2 * np.pi * N_t * T) # Default value, to change
 
         return cfo_est
 
@@ -224,34 +218,33 @@ class BasicChain(Chain):
         :param print_y_k: If True, prints the y[k] array in polar representation.
         :return: The signal, after demodulation.
         """
+        fd = self.freq_dev  # Frequency deviation, Delta_f
         R = self.osr_rx  # Receiver oversampling factor
         nb_syms = len(y) // R  # Number of CPFSK symbols in y
+        T = 1 / self.bit_rate
+        
 
         # Group symbols together, in a matrix. Each row contains the R samples over one symbol period
         y = np.resize(y, (nb_syms, R))
 
         # TO DO: generate the reference waveforms used for the correlation
         # hint: look at what is done in modulate() in chain.py
+        e_0 = np.exp(1j * 2 * np.pi * fd * np.arange(R) * T)
+        e_1 = np.exp(-1j * 2 * np.pi * fd * np.arange(R) * T)
 
         # TO DO: compute the correlations with the two reference waveforms (r0 and r1)
-
+        print(f"Shape of y = {y.shape}\nShape of e_0 = {e_0.shape}\n")
+        
+        r0 = np.dot(y, e_0)
+        r1 = np.dot(y, e_1)
+        
         # TO DO: performs the decision based on r0 and r1
-
-        # Default value, all bits=0. TO CHANGE!
-        bits_hat = np.zeros(nb_syms, dtype=int)
-
-        for k in range(nb_syms):
-            r0 = 0.0
-            r1 = 0.0
-            for n in range(R):
-                r0 += y[k][n] * np.exp(1j * np.pi / 2 * n / R) / R
-                r1 += y[k][n] * np.exp(-1j * np.pi / 2 * n / R) / R
-
-            bits_hat[k] = int(abs(r1) > abs(r0))
-
-            if print_y_k:
+        bits_hat = (np.abs(r1) > np.abs(r0)).astype(int)
+        
+        if print_y_k:
+            for k in range(nb_syms):
                 print(f"y[{k}] : {np.abs(y[k][0]):.2f}∠{np.angle(y[k][0]) / np.pi * 180:.2f}°  ...  {np.abs(y[k][R - 1]):.2f}∠{np.angle(y[k][R - 1]) / np.pi * 180:.2f}°")
-                print(f"--> r0 = {np.abs(r0):.2f}∠{np.angle(r0) / np.pi * 180:.2f}°, r1 = {np.abs(r1):.2f}∠{np.angle(r1) / np.pi * 180:.2f}°\n")
+                print(f"--> r0[k] = {np.abs(r0[k]):.2f}∠{np.angle(r0[k]) / np.pi * 180:.2f}°, r1 = {np.abs(r1[k]):.2f}∠{np.angle(r1[k]) / np.pi * 180:.2f}°\n")
                 print(f"--> bit [{k}] : {bits_hat[k]}")
 
         if print_RX:
