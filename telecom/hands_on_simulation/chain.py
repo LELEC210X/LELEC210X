@@ -78,6 +78,10 @@ class Chain:
             phase_shifts[i + 1] = phase_shifts[i] + h * np.pi * (
                 1 if b else -1
             )  # Update phase to start with for next symbol
+            
+            if print_x_k:
+                print(f"bit [{i}] : {b}")
+                print("--> x[{i}] : {np.abs(x[i * R]):.2f}∠{np.angle(x[i * R]) / np.pi * 180:.2f}°  ...  {np.abs(x[(i + 1) * R - 1]):.2f}∠{np.angle(x[(i + 1) * R - 1]) / np.pi * 180:.2f}°\n")
 
         return x
 
@@ -233,10 +237,8 @@ class BasicChain(Chain):
         e_1 = np.exp(-1j * 2 * np.pi * fd * np.arange(R) * T)
 
         # TO DO: compute the correlations with the two reference waveforms (r0 and r1)
-        print(f"Shape of y = {y.shape}\nShape of e_0 = {e_0.shape}\n")
-        
-        r0 = np.dot(y, e_0)
-        r1 = np.dot(y, e_1)
+        r0 = np.dot(y, np.conj(e_0)) / T
+        r1 = np.dot(y, np.conj(e_1)) / T
         
         # TO DO: performs the decision based on r0 and r1
         bits_hat = (np.abs(r1) > np.abs(r0)).astype(int)
