@@ -199,10 +199,8 @@ class BasicChain(Chain):
 
         # generate the reference waveforms used for the correlation
         # hint: look at what is done in modulate() in chain.py
-        exp_plus = np.array([np.exp(+1j * 2 * np.pi * self.freq_dev *
-                            (n / (self.bit_rate * R))) for n in range(R)])
-        exp_minus = np.array([np.exp(-1j * 2 * np.pi * self.freq_dev *
-                                     (n / (self.bit_rate * R))) for n in range(R)])
+        exp_plus = np.exp(1j * 2 * np.pi * self.freq_dev * (np.arange(R) / (self.bit_rate * R)))
+        exp_minus = np.exp(-1j * 2 * np.pi * self.freq_dev * (np.arange(R) / (self.bit_rate * R)))
 
         # compute the correlations with the two reference waveforms (r0 and r1)
         bits_hat: np.array = np.zeros(nb_syms, dtype=int)
