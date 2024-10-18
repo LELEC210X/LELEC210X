@@ -34,7 +34,8 @@ class Chain:
             cutoff: float = 0.0,
             bypass_preamble_detect: bool = True,
             bypass_cfo_estimation: bool = True,
-            bypass_sto_estimation: bool = True
+            bypass_sto_estimation: bool = True,
+            **kwargs
         ):
         self.name = name
         self.bit_rate = bit_rate
@@ -145,12 +146,8 @@ class Chain:
 
 class BasicChain(Chain):
     
-    def __init__(self, *, name="Basic Tx/Rx chain", cfo_val=np.nan, sto_val=np.nan,
-                 bypass_preamble_detect=False,
-                 bypass_cfo_estimation=False,
-                 bypass_sto_estimation=False,
-                 **kwargs
-             ):
+    def __init__(self, *, name="Basic Tx/Rx chain", cfo_val=np.nan, sto_val=np.nan, **kwargs):
+        
         super().__init__(name=name, cfo_val=cfo_val, sto_val=sto_val, **kwargs)
         
 

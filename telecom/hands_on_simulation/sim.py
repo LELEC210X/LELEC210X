@@ -5,6 +5,7 @@ from scipy.signal import firwin, freqz
 from scipy.special import erfc
 from tqdm import tqdm
 import os
+import argparse
 
 
 def add_delay(chain: Chain, x: np.ndarray, tau: float):
@@ -409,12 +410,35 @@ def plot_graphs(chain, data_file="test.csv"):
     plt.show()
     plt.savefig("RMSE_STO.png")
 
+def parse_args(arg_list: list[str] = None):
+    
+    parser = argparse.ArgumentParser(usage="run python sim.py [-f, --force_simulation] [OPTIONAL_ARGUMENTS] [OPTIONAL_BYPASSES]", description="")
+    parser.add_argument("-f", "--force_simulation", action="store_true", help="Forces the simulation and replaces the accurate datafile if it already exists")
+    parser.add_argument("-p", "--payload_len", type=int, default=50, help="Payload length of the chain - default to 50")
+    parser.add_argument("-n", "--n_packets", type=int, default=100, help="Number of packets of the chain - default to 100")
+    parser.add_argument("-d", "--bypass_preamble_detect", action="store_true", help="If set, bypasses preamble detection")
+    parser.add_argument("-c", "--bypass_cfo_estimation", action="store_true", help="If set, bypasses CFO estimation")
+    parser.add_argument("-s", "--bypass_sto_estimation", action="store_true", help="If set, bypasses STO estimation")
+    
+    
+    args = parser.parse_args(arg_list)
+    return args
 
-if __name__ == "__main__":
+def main(arg_list: list[str] = None):
+    
     from chain import BasicChain
-
-    chain = BasicChain(payload_len=50, n_packets=100, name="myBasicChain")
-    data_file=f"sim_payload_len_{chain.payload_len}_n_packets_{chain.n_packets}.csv"
-    if not os.path.isfile(data_file):
+    
+    args = parse_args(arg_list)
+    chain = BasicChain(**vars(args))
+    
+    data_file = f"sim_p_{chain.payload_len}_n_{chain.n_packets}_" + \
+            f"pre_det_{'ON' if chain.bypass_preamble_detect else 'OFF'}_" + \
+            f"cfo_est_{'ON' if chain.bypass_cfo_estimation else 'OFF'}_" + \
+            f"sto_est_{'ON' if chain.bypass_sto_estimation else 'OFF'}.csv"
+        
+    if (not os.path.isfile(data_file)) or args.force_simulation:
         run_sim(chain, data_file=data_file)
     plot_graphs(chain, data_file=data_file)
+
+if __name__ == "__main__":
+    main()    
