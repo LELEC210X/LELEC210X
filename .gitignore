@@ -35,6 +35,22 @@ tex/*/*.synctex(busy)
 tex/pdfs.zip
 _minted-*/
 tex/hands_on_wireless_simulation/modulate.py
+tex/*.aux
+tex/*.fdb_latexmk
+tex/*.fls
+tex/*.log
+tex/*.out
+tex/*.pdf
+tex/*.nav
+tex/*.bbl
+tex/*.blg
+tex/*.bcf
+tex/*.run.xml
+tex/*.snm
+!tex/figures/*.pdf
+tex/*.toc
+tex/*.synctex.gz
+tex/*.synctex(busy)
 
 # MCU
 
@@ -45,7 +61,7 @@ mcu/*.launch
 
 # Telecom
 
-telecom/hands_on_simulation/test.csv
+telecom/hands_on_simulation/*.csv
 telecom/gr-limesdr/build/
 telecom/hands_on_measurements/gr-fsk/build/
 telecom/hands_on_measurements/gr-fsk/apps/*.py
