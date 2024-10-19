@@ -1,10 +1,11 @@
 import random
 import time
+from collections.abc import Generator
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from secrets import token_bytes
-from typing import Any, Callable, Dict, Generator, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from pydantic import (
     BaseModel,

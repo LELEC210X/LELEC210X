@@ -1,48 +1,51 @@
 """
-Test file, provided to easily check your implementations
-
-/!\ You should comment the last line in basic_chain.py (run_sim(c)) to avoid
-launching the full simulation when importing the basic_chain.py file
+Test file, provided to easily check your implementations.
 """
 
 import numpy as np
+import pytest
 from chain import BasicChain
 from sim import add_cfo, add_delay
 
-chain = BasicChain()
+
+@pytest.fixture(scope="session")
+def rng() -> np.random.Generator:
+    return np.random.default_rng()
 
 
-### Modulation and demodulation
-bits = np.array([0, 0, 1, 0, 1, 1, 0])  # choice of bits to send
-x_pay = chain.modulate(bits)  # modulated signal with payload
-x = x_pay
+class TestBasicChain:
+    chain = BasicChain()
 
-y, delay = add_delay(
-    chain, x, 0
-)  # application of ideal channel (if TX and RX oversampling factors are different)
+    @pytest.mark.parametrize("size", (1, 10, 100))
+    def test_demodulate(self, rng: np.random.Generator, size: int):
+        bits = rng.integers(2, size=size)  # choice of bits to send
+        x_pay = self.chain.modulate(bits)  # modulated signal with payload
+        x = x_pay
 
+        y, delay = add_delay(
+            self.chain, x, 0
+        )  # application of ideal channel (if TX and RX oversampling factors are different)
 
-bits_hat = chain.demodulate(y)  # call to demodulation function
+        bits_hat = self.chain.demodulate(y)  # call to demodulation function
 
-print(bits)
-print(bits_hat)
+        np.testing.assert_equal(bits_hat, bits)
 
-# looking at modulated signal...
-# plt.figure()
-# plt.stem(np.real(y))
-# plt.stem(np.unwrap(np.angle(y)))
+    @pytest.mark.parametrize("size", (1, 10, 100))
+    @pytest.mark.parametrize("cfo_val", (0, 100, 1000))
+    def test_cfo_estimation(self, rng: np.random.Generator, size: int, cfo_val: float):
+        bits = rng.integers(2, size=size)  # choice of bits to send
+        x_pay = self.chain.modulate(bits)  # modulated signal with payload
 
+        x_pr = self.chain.modulate(
+            self.chain.preamble
+        )  # modulated signal containing preamble
+        x_sync = self.chain.modulate(
+            self.chain.sync_word
+        )  # modulated signal containing sync_word
+        x = np.concatenate((x_pr, x_sync, x_pay))
 
-### CFO correction
-cfo_val = 1000
+        y, delay = add_delay(self.chain, x, 0)  # application of ideal channel
+        y_cfo = add_cfo(self.chain, y, cfo_val)  # adding CFO
+        cfo_hat = self.chain.cfo_estimation(y_cfo)
 
-x_pr = chain.modulate(chain.preamble)  # modulated signal containing preamble
-x_sync = chain.modulate(chain.sync_word)  # modulated signal containing sync_word
-x = np.concatenate((x_pr, x_sync, x_pay))
-
-y, delay = add_delay(chain, x, 0)  # application of ideal channel
-y_cfo = add_cfo(chain, y, cfo_val)  # adding CFO
-cfo_hat = chain.cfo_estimation(y_cfo)
-
-print(cfo_val)
-print(cfo_hat)
+        np.testing.assert_allclose(cfo_hat, cfo_val)

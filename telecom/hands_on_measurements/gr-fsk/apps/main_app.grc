@@ -32,6 +32,23 @@ options:
     state: enabled
 
 blocks:
+- name: Enable_chain
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: ''
+    label: ''
+    'true': '1'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1424, 84.0]
+    rotation: 0
+    state: true
 - name: K_threshold
   id: variable_qtgui_range
   parameters:
@@ -93,7 +110,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.1'
+    value: 2e-3
   states:
     bus_sink: false
     bus_source: false
@@ -117,7 +134,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: data_rate/4
+    value: data_rate/2
   states:
     bus_sink: false
     bus_source: false
@@ -161,6 +178,23 @@ blocks:
     coordinate: [1160, 92.0]
     rotation: 0
     state: true
+- name: noiseQuery
+  id: variable_qtgui_push_button
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Noise estimation query
+    pressed: '1'
+    released: '0'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1416, 196.0]
+    rotation: 0
+    state: true
 - name: packet_len
   id: variable
   parameters:
@@ -170,7 +204,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1352, 244.0]
+    coordinate: [1320, 180.0]
     rotation: 0
     state: true
 - name: payload_len
@@ -230,6 +264,45 @@ blocks:
     coordinate: [1160, 156.0]
     rotation: 0
     state: true
+- name: tx_power
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: Qt.Horizontal
+    rangeType: int
+    start: '-30'
+    step: '1'
+    stop: '30'
+    value: '10'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1304, 28.0]
+    rotation: 0
+    state: enabled
+- name: dc_blocker_xx_0
+  id: dc_blocker_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    length: '1024'
+    long_form: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: cc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [304, 292.0]
+    rotation: 0
+    state: enabled
 - name: fsk_demodulation_0
   id: fsk_demodulation
   parameters:
@@ -247,7 +320,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [672, 284.0]
+    coordinate: [1072, 316.0]
     rotation: 0
     state: enabled
 - name: fsk_flag_detector_0
@@ -268,6 +341,24 @@ blocks:
     bus_structure: null
     coordinate: [288, 156.0]
     rotation: 0
+    state: disabled
+- name: fsk_onQuery_noise_estimation_0
+  id: fsk_onQuery_noise_estimation
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    n_est: '10'
+    n_samples: '1024'
+    query: noiseQuery
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [416, 444.0]
+    rotation: 0
     state: true
 - name: fsk_packet_parser_0
   id: fsk_packet_parser
@@ -285,7 +376,28 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [936, 292.0]
+    coordinate: [992, 468.0]
+    rotation: 0
+    state: enabled
+- name: fsk_preamble_detect_0
+  id: fsk_preamble_detect
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    drate: data_rate
+    enable: Enable_chain
+    fdev: fdev
+    fsamp: samp_rate
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packet_len: packet_len
+    threshold: detect_threshold
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [776, 148.0]
     rotation: 0
     state: enabled
 - name: fsk_synchronization_0
@@ -295,18 +407,18 @@ blocks:
     alias: ''
     comment: ''
     drate: data_rate
-    estimated_noise_power: estimated_noise_power
     fdev: fdev
     fsamp: samp_rate
     hdr_len: hdr_len
     maxoutbuf: '0'
     minoutbuf: '0'
     packet_len: packet_len
+    tx_power: tx_power
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 276.0]
+    coordinate: [744, 308.0]
     rotation: 0
     state: enabled
 - name: limesdr_fpga_source_0
@@ -327,7 +439,7 @@ blocks:
     digital_bandw_ch1: samp_rate
     dspcfg_PASSTHROUGH_LEN: (packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate)+2000
     dspcfg_THRESHOLD: K_threshold
-    dspcfg_preamble_en: '1'
+    dspcfg_preamble_en: '0'
     filename: ''
     gain_dB_ch0: rx_gain
     gain_dB_ch1: '1'
@@ -347,7 +459,67 @@ blocks:
     bus_structure: null
     coordinate: [16, 204.0]
     rotation: 0
-    state: true
+    state: enabled
+- name: limesdr_source_0
+  id: limesdr_source
+  parameters:
+    affinity: ''
+    alias: ''
+    allow_tcxo_dac: '0'
+    analog_bandw_ch0: ''
+    analog_bandw_ch1: 1.5e6
+    calibr_bandw_ch0: ''
+    calibr_bandw_ch1: 2.5e6
+    ch_align: 'False'
+    channel_mode: '0'
+    comment: ''
+    dacVal: '180'
+    digital_bandw_ch0: samp_rate
+    digital_bandw_ch1: samp_rate
+    filename: ''
+    gain_dB_ch0: rx_gain
+    gain_dB_ch1: '1'
+    lna_path_ch0: '255'
+    lna_path_ch1: '2'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nco_freq_ch0: '0'
+    nco_freq_ch1: '0'
+    oversample: '0'
+    rf_freq: carrier_freq
+    samp_rate: samp_rate
+    serial: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 316.0]
+    rotation: 0
+    state: disabled
+- name: low_pass_filter_0
+  id: low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: data_rate+fdev
+    decim: '1'
+    gain: '1'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    type: fir_filter_ccf
+    width: data_rate*1
+    win: firdes.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [536, 140.0]
+    rotation: 0
+    state: enabled
 - name: qtgui_sink_x_0
   id: qtgui_sink_x
   parameters:
@@ -374,7 +546,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [296, 428.0]
+    coordinate: [168, 468.0]
     rotation: 0
     state: true
 - name: zeromq_pub_sink_0
@@ -393,17 +565,25 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1048, 420.0]
+    coordinate: [1288, 452.0]
     rotation: 0
     state: enabled
 
 connections:
+- [dc_blocker_xx_0, '0', fsk_onQuery_noise_estimation_0, '0']
+- [dc_blocker_xx_0, '0', low_pass_filter_0, '0']
+- [dc_blocker_xx_0, '0', qtgui_sink_x_0, '0']
 - [fsk_demodulation_0, '0', fsk_packet_parser_0, '0']
 - [fsk_flag_detector_0, '0', fsk_synchronization_0, '0']
+- [fsk_onQuery_noise_estimation_0, NoisePow, fsk_synchronization_0, NoisePow]
 - [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
+- [fsk_preamble_detect_0, '0', fsk_synchronization_0, '0']
 - [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
+- [limesdr_fpga_source_0, '0', dc_blocker_xx_0, '0']
 - [limesdr_fpga_source_0, '0', fsk_flag_detector_0, '0']
-- [limesdr_fpga_source_0, '0', qtgui_sink_x_0, '0']
+- [limesdr_source_0, '0', dc_blocker_xx_0, '0']
+- [limesdr_source_0, '0', fsk_flag_detector_0, '0']
+- [low_pass_filter_0, '0', fsk_preamble_detect_0, '0']
 
 metadata:
   file_format: 1

@@ -66,7 +66,7 @@ def generate_key(
     if not config_path.exists():
         raise click.UsageError(
             f"config file `{config_path}` does not exist. "
-            "Please create one first with `poetry run leaderboard config init`"
+            "Please create one first with `rye run leaderboard config init`"
         )
 
     config = Config.parse_file(config_path)

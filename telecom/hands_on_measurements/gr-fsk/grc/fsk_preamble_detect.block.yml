@@ -45,7 +45,8 @@ inputs:
     dtype: complex
 
 outputs:
-  - label: Output
+  - domain: stream
+    label: Output
     dtype: complex
 
 #  'file_format' specifies the version of the GRC yml format used in the file

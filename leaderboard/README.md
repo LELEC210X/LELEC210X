@@ -18,7 +18,7 @@ This folder contains everything you need to run a local version of the leadeboar
 All dependencies should be installed with the following command:
 
 ```bash
-poetry install
+rye sync
 ```
 
 ## Setup
@@ -26,13 +26,13 @@ poetry install
 The first time you use this server, you must create a config file:
 
 ```bash
-poetry run leaderboard config init
+rye run leaderboard config init
 ```
 
 and populate it when some group(s):
 
 ```bash
-poetry run leaderboard config generate-key "Teaching Assistants"
+rye run leaderboard config generate-key "Teaching Assistants"
 ```
 
 The key will be useful to send your guesses to the server.
@@ -40,13 +40,13 @@ The key will be useful to send your guesses to the server.
 Then, the server must be launched with:
 
 ```bash
-poetry run leaderboard serve
+rye run leaderboard serve
 ```
 
 Alernatively, you can open the server in webbrowser window with:
 
 ```bash
-poetry run leaderboard serve --open
+rye run leaderboard serve --open
 ```
 
 > [!TIP]
@@ -56,7 +56,7 @@ poetry run leaderboard serve --open
 For other commands, see:
 
 ```bash
-poetry run leaderboard --help
+rye run leaderboard --help
 ```
 
 ## Usage
@@ -76,14 +76,14 @@ The simplest way to do so is to use the `requests` library, see the example belo
 ### (Optional) If you run your own server
 
 ```bash
-> poetry run leaderboard config generate-key "The Besties"
+> rye run leaderboard config generate-key "The Besties"
 Group The Besties now has key: aqH27o66E8xz-IotBk11ZZo1ix7Vbs5H2pTXlSra
 ```
 
 To test everything locally, you also need to create a group with admin rights:
 
 ```bash
-> poetry run leaderboard config generate-key --admin "Teaching Assistants"
+> rye run leaderboard config generate-key --admin "Teaching Assistants"
 Group Teaching Assistants now has key: EdY7unM6C6ZFwt9uTjmaMv6eX9nM7pljGADmcudJ
 ```
 
@@ -119,7 +119,7 @@ response_as_dict = json.loads(response.text)
 This is also possible to submit a guess with:
 
 ```bash
-poetry run leaderboard submit fire --key="aqH27o66E8xz-IotBk11ZZo1ix7Vbs5H2pTXlSra"
+rye run leaderboard submit fire --key="aqH27o66E8xz-IotBk11ZZo1ix7Vbs5H2pTXlSra"
 ```
 
 Please only use this command for testing purposes.
@@ -165,7 +165,7 @@ and receiving leaderboard statuses to play the right sound files.
 This is done with this command:
 
 ```bash
-poetry run leaderboard play-sound --key EdY7unM6C6ZFwt9uTjmaMv6eX9nM7pljGADmcudJ
+rye run leaderboard play-sound --key EdY7unM6C6ZFwt9uTjmaMv6eX9nM7pljGADmcudJ
 ```
 
 ## Submitting a Key for the Security Round
@@ -255,18 +255,7 @@ git https://github.com/LELEC210X/LELEC210X.git
 You will only have `pull` rights to the repository, so do not make important changes
 because you will not be able to push them.
 
-Install Python3.8 and Poetry:
-
-```bash
-sudo apt update
-sudo apt upgrade
-sudo add-apt-repository ppa:deadsnakes/ppa -y
-sudo apt update
-sudo apt install python3.8-venv
-curl -sSL https://install.python-poetry.org | python3.8 -
-echo 'export PATH="/root/.local/bin:$PATH"' >> /root/.bashrc
-source /root/.bashrc
-```
+Install Rye, if not already.
 
 #### Apache2 server
 
@@ -295,7 +284,7 @@ Before starting the server, this is always good to do the following commands:
 ```bash
 cd /var/www/LELEC210X
 git pull
-poetry install
+rye sync
 ```
 
 This will download the latest changes and update the packages (if needed).
@@ -314,5 +303,5 @@ Next, everything should run as expected.
 A simple way to run the server in background is with `screen`:
 
 ```bash
-screen -d -m poetry run leaderboard serve
+screen -d -m rye run leaderboard serve
 ```
