@@ -149,7 +149,7 @@ def plot_data_and_fft(
 
 
 # Process a data buffer into signal data
-def process_sound_buffer(sound_buffer: str):
+def process_sound_buffer(sound_buffer: str) -> np.ndarray:
     buffer = bytes.fromhex(sound_buffer[len(PRINT_PREFIX) :])
     dt = np.dtype(np.uint16)
     dt = dt.newbyteorder("<")
