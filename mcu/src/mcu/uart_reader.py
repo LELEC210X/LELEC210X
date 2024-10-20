@@ -513,7 +513,7 @@ class SerialGUIApp(QMainWindow):
 
 
 # CLI application logic
-def run_cli(settings):
+def run_cli(settings: dict):
     # Set up logging
     logger = logging.getLogger(__name__)
 
