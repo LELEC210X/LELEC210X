@@ -25,7 +25,7 @@ extend-ignore = [
   "E501",
 ]
 extend-select = ["B", "C90", "D", "I", "N", "RUF", "UP", "T"]
-isort = {known-first-party = ["auth", "classification", "common", "leaderboard"]}
+isort = {known-first-party = ["auth", "classification", "common", "leaderboard", "mcu"]}
 line-length = 88
 
 [tool.rye]
@@ -39,4 +39,4 @@ managed = true
 virtual = true
 
 [tool.rye.workspace]
-members = ["auth", "classification", "common", "leaderboard"]
+members = ["auth", "classification", "common", "leaderboard", "mcu"]
