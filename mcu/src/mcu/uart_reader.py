@@ -233,7 +233,7 @@ class SerialGUIApp(QMainWindow):
         layout.addLayout(h_layout)
         return h_layout
 
-    def h_layout_stretch(self, h_layout):
+    def h_layout_stretch(self, h_layout: QHBoxLayout):
         h_layout.setStretch(0, 2)
         h_layout.setStretch(1, 6)
         h_layout.setStretch(2, 1)
