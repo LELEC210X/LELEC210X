@@ -228,7 +228,7 @@ class SerialGUIApp(QMainWindow):
             # Scroll to the bottom
             self.console_output.ensureCursorVisible()
 
-    def h_layout_box(self, layout):
+    def h_layout_box(self, layout: QVBoxLayout) -> QHBoxLayout:
         h_layout = QHBoxLayout()
         layout.addLayout(h_layout)
         return h_layout
