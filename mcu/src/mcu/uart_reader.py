@@ -472,7 +472,7 @@ class SerialGUIApp(QMainWindow):
         self.connect_button.setEnabled(True)
 
     # Update the console output, process the sound buffer and write the audio
-    def update_console(self, message):
+    def update_console(self, message: str):
         if message == "TERMINATE":
             self.disconnect_serial()
             self.refresh_ports()
