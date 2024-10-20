@@ -213,7 +213,7 @@ class SerialGUIApp(QMainWindow):
             super().__init__()
             self.console_output = console_output
 
-        def emit(self, record):
+        def emit(self, record: str):
             exploded = self.format(record).split(": ")
             output_message = (
                 exploded[0] if len(exploded) == 1 else "".join(exploded[1:])
