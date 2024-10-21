@@ -19,11 +19,11 @@
 #
 
 
+from distutils.version import LooseVersion
+
 import numpy as np
 from gnuradio import gr
-import pmt
 
-from distutils.version import LooseVersion
 
 def preamble_detect_energy(y, L, threshold):
     """
@@ -74,7 +74,6 @@ class preamble_detect(gr.basic_block):
         else:
             self.forecast = self.forecast_v310
 
-
     def forecast_v38(self, noutput_items, ninput_items_required):
         ninput_items_required[0] = max(
             noutput_items + self.filter_len, 2 * self.filter_len
@@ -87,10 +86,11 @@ class preamble_detect(gr.basic_block):
         """
         ninput_items_required = [0] * ninputs
         for i in range(ninputs):
-            ninput_items_required[i] = max(noutput_items + self.filter_len, 2 * self.filter_len )
+            ninput_items_required[i] = max(
+                noutput_items + self.filter_len, 2 * self.filter_len
+            )
 
         return ninput_items_required
-
 
     def set_enable(self, enable):
         self.enable = enable

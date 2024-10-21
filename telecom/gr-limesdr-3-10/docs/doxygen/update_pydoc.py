@@ -342,5 +342,3 @@ if __name__ == "__main__":
     elif args.function.lower() == 'copy':
         pydoc_files = glob.glob(os.path.join(args.bindings_dir,'*_pydoc_template.h'))
         copy_docstring_templates(pydoc_files, args.output_dir)
-
-

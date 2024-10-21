@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # Copyright 2019 Lime Microsystems <info@limemicro.com>
 #
@@ -20,11 +19,9 @@
 #
 
 from gnuradio import gr, gr_unittest
-from gnuradio import blocks
-import limesdr_fpga_swig as limesdr_fpga
+
 
 class qa_source(gr_unittest.TestCase):
-
     def setUp(self):
         self.tb = gr.top_block()
 
@@ -37,5 +34,5 @@ class qa_source(gr_unittest.TestCase):
         # check data
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     gr_unittest.run(qa_source)

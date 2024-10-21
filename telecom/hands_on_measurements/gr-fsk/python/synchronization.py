@@ -18,10 +18,12 @@
 # Boston, MA 02110-1301, USA.
 #
 
-import numpy as np
-from gnuradio import gr
-import pmt
 from distutils.version import LooseVersion
+
+import numpy as np
+import pmt
+from gnuradio import gr
+
 from .utils import logging, measurements_logger
 
 
@@ -58,9 +60,7 @@ class synchronization(gr.basic_block):
     docstring for block synchronization
     """
 
-    def __init__(
-        self, drate, fdev, fsamp, hdr_len, packet_len, tx_power
-    ):
+    def __init__(self, drate, fdev, fsamp, hdr_len, packet_len, tx_power):
         self.drate = drate
         self.fdev = fdev
         self.fsamp = fsamp
@@ -83,8 +83,8 @@ class synchronization(gr.basic_block):
             self, name="Synchronization", in_sig=[np.complex64], out_sig=[np.complex64]
         )
         self.logger = logging.getLogger("sync")
-        self.message_port_register_in(pmt.intern('NoisePow'))
-        self.set_msg_handler(pmt.intern('NoisePow'), self.handle_msg)
+        self.message_port_register_in(pmt.intern("NoisePow"))
+        self.set_msg_handler(pmt.intern("NoisePow"), self.handle_msg)
 
         self.gr_version = gr.version()
 
@@ -117,8 +117,8 @@ class synchronization(gr.basic_block):
         for i in range(ninputs):
             if self.rem_samples == 0:  # looking for a new packet
                 ninput_items_required[i] = (
-                        self.hdr_len * 8 * self.osr
-                    )  # enough samples to find a header inside
+                    self.hdr_len * 8 * self.osr
+                )  # enough samples to find a header inside
             else:  # processing a previously found packet
                 ninput_items_required[i] = (
                     noutput_items  # pass remaining samples in packet to next block
@@ -129,10 +129,8 @@ class synchronization(gr.basic_block):
     def handle_msg(self, msg):
         self.estimated_noise_power = pmt.to_double(msg)
 
-
     def set_tx_power(self, tx_power):
         self.tx_power = tx_power
-
 
     def general_work(self, input_items, output_items):
         if self.rem_samples == 0:  # new packet to process, compute the CFO and STO
@@ -167,7 +165,9 @@ class synchronization(gr.basic_block):
                 self.logger.info(
                     f"estimated SNR: {10 * np.log10(SNR_est):.2f} dB ({len(y)} samples, Esti. RX power: {self.power_est:.2e},  TX indicative Power: {self.tx_power} dB)"
                 )
-                measurements_logger.info(f"SNRdB={10 * np.log10(SNR_est):.2f},TXPdB={self.tx_power}")
+                measurements_logger.info(
+                    f"SNRdB={10 * np.log10(SNR_est):.2f},TXPdB={self.tx_power}"
+                )
 
             # Correct CFO before transferring samples to demodulation stage
             t = self.t0 + np.arange(1, len(y) + 1) / (self.drate * self.osr)

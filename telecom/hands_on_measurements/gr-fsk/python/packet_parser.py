@@ -18,10 +18,10 @@
 # Boston, MA 02110-1301, USA.
 #
 
+from distutils.version import LooseVersion
+
 import numpy as np
 from gnuradio import gr
-
-from distutils.version import LooseVersion
 
 from .utils import logging, measurements_logger
 
@@ -109,9 +109,7 @@ class packet_parser(gr.basic_block):
         else:
             self.forecast = self.forecast_v310
 
-
     def forecast_v38(self, noutput_items, ninput_items_required):
-
         ninput_items_required[0] = self.packet_len + 1  # in bytes
 
     def forecast_v310(self, noutput_items, ninputs):
@@ -124,7 +122,6 @@ class packet_parser(gr.basic_block):
             ninput_items_required[i] = self.packet_len + 1  # in bytes
 
         return ninput_items_required
-
 
     def general_work(self, input_items, output_items):
         # we process maximum one packet at a time

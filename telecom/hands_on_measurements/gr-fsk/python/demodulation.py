@@ -18,9 +18,11 @@
 # Boston, MA 02110-1301, USA.
 #
 
+from distutils.version import LooseVersion
+
 import numpy as np
 from gnuradio import gr
-from distutils.version import LooseVersion
+
 
 def demodulate(y, B, R, Fdev):
     """
@@ -91,7 +93,6 @@ class demodulation(gr.basic_block):
                 out[i] = (out[i] << 1) | bit
 
         return out
-
 
     def general_work(self, input_items, output_items):
         n_syms = len(output_items[0]) * 8

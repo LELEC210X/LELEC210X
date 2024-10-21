@@ -8,8 +8,10 @@ from typing import Any, Callable, List
 logging.basicConfig(level=logging.INFO)
 
 measurements_logger = logging.getLogger("measurements")
-measurements_logger.propagate=False
-measurements_logger.addHandler(logging.FileHandler(filename="measurements.txt", mode="w"))
+measurements_logger.propagate = False
+measurements_logger.addHandler(
+    logging.FileHandler(filename="measurements.txt", mode="w")
+)
 
 
 def timeit(fun: Callable[..., Any]) -> Callable[..., Any]:

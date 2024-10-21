@@ -19,9 +19,11 @@
 #
 
 
+from distutils.version import LooseVersion
+
 import numpy as np
 from gnuradio import gr
-from distutils.version import LooseVersion
+
 
 class flag_detector(gr.basic_block):
     """
@@ -110,7 +112,6 @@ class flag_detector(gr.basic_block):
             ):  # no preamble found, we discard the processed samples (no output_items)
                 self.consume_each(N)
                 return 0
-
 
             # A window corresponding to the length of a full packet + 1 byte + 1 symbol
             # is transferred to the output

@@ -28,7 +28,12 @@ if __name__ == "__main__":
             elif line.startswith("packet"):
                 *_, payload = line.split(",", maxsplit=2)
                 payload = list(map(int, payload.split("=")[1][1:-1].split(",")))
-                ber = np.unpackbits(expected_payload ^ np.array(payload, dtype=np.uint8)).sum() / num_bits
+                ber = (
+                    np.unpackbits(
+                        expected_payload ^ np.array(payload, dtype=np.uint8)
+                    ).sum()
+                    / num_bits
+                )
                 invalid = 1 if ber > 0 else 0
                 data["ber"].append(ber)
                 data["invalid"].append(invalid)
