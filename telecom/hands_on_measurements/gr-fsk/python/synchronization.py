@@ -170,12 +170,12 @@ class synchronization(gr.basic_block):
             y = input_items[0][:win_size]
 
             if self.power_est is None and win_size >= 256:
-                self.power_est = np.mean(np.abs(y) ** 2)
+                self.power_est = np.var(y)
                 SNR_est = (
                     self.power_est - self.estimated_noise_power
                 ) / self.estimated_noise_power
                 self.logger.info(
-                    f"estimated SNR: {10 * np.log10(SNR_est):.2f} dB ({len(y)} samples) (TX Power: {self.tx_power} dB)"
+                    f"estimated SNR: {10 * np.log10(SNR_est):.2f} dB ({len(y)} samples, Esti. RX power: {self.power_est:.2e},  TX indicative Power: {self.tx_power} dB)"
                 )
                 measurements_logger.info(f"SNRdB={10 * np.log10(SNR_est):.2f},TXPdB={self.tx_power}")
 

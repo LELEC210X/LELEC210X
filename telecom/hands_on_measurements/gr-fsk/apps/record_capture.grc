@@ -81,6 +81,24 @@ blocks:
     coordinate: [202, 15]
     rotation: 0
     state: enabled
+- name: blocks_file_sink_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: /mnt/d/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/telecom/hands_on_measurements/gr-fsk/misc/fsk_record_capture.mat
+    type: complex
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [440, 164.0]
+    rotation: 0
+    state: true
 - name: limesdr_source_0
   id: limesdr_source
   parameters:
@@ -143,11 +161,12 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [372, 300]
+    coordinate: [440, 268.0]
     rotation: 0
     state: true
 
 connections:
+- [limesdr_source_0, '0', blocks_file_sink_0, '0']
 - [limesdr_source_0, '0', qtgui_sink_x_0, '0']
 
 metadata:

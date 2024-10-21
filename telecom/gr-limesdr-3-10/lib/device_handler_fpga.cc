@@ -790,7 +790,7 @@ void device_handler_fpga::set_dspcfg_preamble(int device_number, uint16_t dspcfg
         spiDataRegX = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PASSTHROUGH_LEN); 
         std::cout << "Passthrough length: " << spiDataRegX << std::endl;
         
-        uint8_t spiDataRegThresh;
+        uint16_t spiDataRegThresh;
         spiDataRegThresh = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_THRESHOLD); 
         std::cout << "Detection threshold: " << spiDataRegThresh << std::endl;
         

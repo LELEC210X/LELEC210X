@@ -30,7 +30,7 @@ parameters:
     label: Packet Length (bytes)
     dtype: int
   - id: tx_power
-    label: TX power used in S2LP transceiver
+    label: TX power used
     dtype: float
 #  - id: estimated_noise_power
 #    label: Estimated Noise Power

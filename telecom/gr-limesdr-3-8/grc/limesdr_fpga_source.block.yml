@@ -159,9 +159,7 @@ parameters:
 
   - id: dspcfg_preamble_en
     label: Enable Packet Presence Detector
-    dtype: enum
-    options: ["1", "0"]
-    option_labels: [Yes, No]
+    dtype: int
     hide: part
     category: Custom FPGA
 

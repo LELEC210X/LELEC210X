@@ -77,6 +77,9 @@ class flag_detector(gr.basic_block):
 
         return ninput_items_required
 
+    def set_enable(self, enable):
+        self.enable = enable
+
     def general_work(self, input_items, output_items):
         if self.rem_samples > 0:  # We are processing a previously detected packet
             N = len(output_items[0])  # available space at output
@@ -100,13 +103,14 @@ class flag_detector(gr.basic_block):
                     pos = pos + 1
 
             else:
-                pos = 0
+                pos = None
 
             if (
                 pos is None
             ):  # no preamble found, we discard the processed samples (no output_items)
                 self.consume_each(N)
                 return 0
+
 
             # A window corresponding to the length of a full packet + 1 byte + 1 symbol
             # is transferred to the output

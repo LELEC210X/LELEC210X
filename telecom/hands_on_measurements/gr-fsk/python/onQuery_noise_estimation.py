@@ -82,7 +82,7 @@ class onQuery_noise_estimation(gr.basic_block):
         else : 
             y = input_items[0]
             dc_offset = np.mean(y)
-            self.noise_est = np.mean(np.abs(y - dc_offset) ** 2)
+            self.noise_est = np.var(y)
             self.consume_each(len(y))
             self.mean_noise_est =  self.mean_noise_est + self.noise_est
             self.logger.info(
@@ -95,7 +95,7 @@ class onQuery_noise_estimation(gr.basic_block):
                 self.message_port_pub(pmt.intern('NoisePow'), PMT_msg)
 
                 self.logger.info(
-                    f"===== > Final estimated noise power: {mean_noisP:.2e} ({10 * np.log10(mean_noisP):.2f}dB, Noise std : {np.sqrt(mean_noisP):.2e}"
+                    f"===== > Final estimated noise power: {mean_noisP:.2e} ({10 * np.log10(mean_noisP):.2f}dB, Noise std : {np.sqrt(mean_noisP):.2e})"
                 )
                 self.est_counter = 1
                 self.mean_noise_est = 0

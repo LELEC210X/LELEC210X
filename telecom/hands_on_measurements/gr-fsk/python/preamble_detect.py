@@ -94,6 +94,9 @@ class preamble_detect(gr.basic_block):
 
     def set_enable(self, enable):
         self.enable = enable
+    
+    def set_threshold(self, threshold):
+        self.threshold = threshold
 
     def general_work(self, input_items, output_items):
         if self.rem_samples > 0:  # We are processing a previously detected packet
