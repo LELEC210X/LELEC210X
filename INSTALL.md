@@ -69,29 +69,10 @@ please follow one of next sub-sections.
 
 ### Install on VirtualBox
 
-You can get Ubuntu-20.04 running with a virtual machine (VM) using VirtualBox.
+You can get Ubuntu running with a virtual machine (VM) using VirtualBox.
 As you will have to run a complete Linux image from your Windows system,
 this solution has a **significant overhead** in terms of processing capability and also in term of accessibility.
 Indeed, you will work in desktop entirely contained in a window which might be impractical.
-However, we provide you with a VirtualBox image file on which all installation steps are already performed for you.
-
-For the installation and the configuration of the Virtual machine, please refer to the
-"_Installation of the Virtual Machine with the project softwares_" provided on the Moodle of the course.
-
-Below, you can find the option selected during the installation
-of Ubuntu Desktop 20.04.5 LTS:
-
-- [x] keyboard layout set to English US;
-- [x] minimal installation;
-- [x] (user)name set to marconi;
-- [x] password set to faraday;
-- [x] automatically log in.
-
-> [!NOTE]
-> After first logging, the French Azerty layout was also added, and should be
-> the default one. To switch between the two layouts,
-> you can use <kbd>SHIFT</kbd>+<kbd>SUPER</kbd>+<kbd>SPACE</kbd>,
-> where <kbd>SUPER</kbd> is usually the Windows key.
 
 ### Install via Windows Subsystem for Linux
 
@@ -164,7 +145,7 @@ want to use Linux later-on, and have at least 60 Go of free memory.
 
 The following steps will either need to be performed on your host system,
 or on the Ubuntu system on which GNU Radio is installed
-(either a VM, WSL, or your host if it is Ubuntu-20.04).
+(either WSL, or your host).
 The subsection titles will therefore include an annotation **Host**,
 if the steps must be performed on your host system (Windows, MacOS, or Linux), or **Ubuntu**,
 if they refer to your Ubuntu installation. If your host system is Ubuntu, perform them in both cases.
@@ -356,7 +337,7 @@ a collection of softwares supporting several hardware platforms including the Li
 sudo add-apt-repository -y ppa:myriadrf/drivers
 sudo apt-get update
 sudo apt-get install limesuite liblimesuite-dev limesuite-udev limesuite-images
-sudo apt-get install soapysdr-tools soapysdr-module-lms7
+sudo apt-get install soapysdr-tools 
 ```
 
 #### Ubuntu - Install Gr-LimeSDR
@@ -580,20 +561,6 @@ When possible, you should use your host OS to edit files, commit changes to git,
 
 > Example: if you have installed the program via WSL, _Windows_ is your host OS. You should only use
 > WSL to compile programs, and open softwares (like GNU Radio) that could not be installed on the host.
-
-### With VirtualBox
-
-VirtualBox encapsulates a lot of features, such as sharing the clipboard,
-sharing folders, and so on.
-
-#### Sharing Files Between Host and Guest OSes
-
-When possible, you should avoid duplicating files between your host and the guest, i.e., the VM.
-To avoid this, we suggest to setup shared folders betweem the two. Please refer to either
-of the following guides:
-
-- [How to share folders between your Ubuntu Virtualbox and your host machine](https://net2.com/how-to-share-folders-between-your-ubuntu-virtualbox-and-your-host-machine/);
-- or [How to create a VirtualBox shared folder in Windows 11/10](https://www.thewindowsclub.com/how-to-create-a-virtualbox-shared-folder-in-windows).
 
 ### With WSL
 
