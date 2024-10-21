@@ -10,10 +10,6 @@ version = "0.1.0"
 
 [tool.ruff]
 extend-exclude = ["**/doxygen/**/*.py"]
-line-length = 88
-target-version = "py38"
-
-[tool.ruff.lint]
 extend-ignore = [
   "D100",
   "D101",
