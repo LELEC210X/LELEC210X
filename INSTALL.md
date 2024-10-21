@@ -30,7 +30,7 @@ Python and STM32CubeIDE are supported on every common OS,
 **but GNU Radio is only properly supported on Linux distributions**.
 The project is now supported on both GNU Radio 3.8 and 3.10, the first one
 being only available on Ubuntu 20.04. GNU Radio 3.10 can be installed on
-both Ubuntu 22.04 and 24.04.
+Ubuntu 22.04. The 24.04 could be supported but has not been tested.
 
 > [!TIP]
 > We strongly recommend students with a Windows OS to only
@@ -172,6 +172,12 @@ Additionnally, some steps might be only required for some specific OSes, in whic
 
 Quick tips: Ubuntu terminal windows can be launched via the Ubuntu Launchpad, or with
 <kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>T</kbd>.
+
+You can start by updating your system’s package list. Enter the following command:
+
+```bash
+sudo apt update
+```
 
 ### Ubuntu - Install Pip
 
