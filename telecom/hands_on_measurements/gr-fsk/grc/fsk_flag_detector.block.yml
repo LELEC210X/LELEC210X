@@ -5,6 +5,8 @@ category: "[FSK]"
 templates:
   imports: import fsk
   make: fsk.flag_detector(${drate},  ${fsamp}, ${packet_len}, ${enable})
+  callbacks:
+  - set_enable(${enable})
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
@@ -23,9 +25,7 @@ parameters:
     dtype: int
   - id: enable
     label: Enable Flag detection
-    dtype: enum
-    options: ["1", "0"]
-    option_labels: [Yes, No]
+    dtype: int
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
