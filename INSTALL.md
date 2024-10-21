@@ -25,13 +25,12 @@ In this project, will you have to use different softwares and tools.
 
 If possible, every software tool used should be installed and used,
 on your host system, i.e., your every-day OS. Moreover,
-the Git associated with the project should be cloned on your host system.
+**the Git associated with the project should be cloned on your host system.**
 Python and STM32CubeIDE are supported on every common OS,
 **but GNU Radio is only properly supported on Linux distributions**.
-Additionnally, the libraries for the LimeSDR are maintained on Ubuntu-20.04
-and not above.
-We therefore ask you to have Ubuntu-20.04 installed on your computer,
-using one of the methods presented in the following sections.
+The project is now supported on both GNU Radio 3.8 and 3.10, the first one
+being only available on Ubuntu 20.04. GNU Radio 3.10 can be installed on
+both Ubuntu 22.04 and 24.04.
 
 > [!TIP]
 > We strongly recommend students with a Windows OS to only
@@ -40,24 +39,22 @@ using one of the methods presented in the following sections.
 
 ## Prerequisites
 
-This project only works with GNU Radio 3.8, which in turn
-requires Python 3.8.
-
-**However**, the rest of the project works with any version
-of Python above 3.8. Moreover, Rye, the tool you will need
-to install later, automatically installs Python 3.9, so you
-don't need to bother about that.
+If you plan to use GNU Radio 3.8, installed on Ubuntu 20.04, beware
+that it requires Python 3.8, which is the default version installed on this
+Ubuntu release. **However**, the rest of the project 
+works with any version of Python above 3.8. Moreover, Rye, the tool 
+you will need to install later, automatically installs Python 3.9, 
+so you don't need to bother about that. Again this comment is only
+relevant if you plan to use Ubuntu 20.04 with GNU Radio 3.8.
 _Only the few Python files that are used by GNU Radio need to
-be executed with PYthon 3.8._
+be executed with Python 3.8._
 
 Hence, it is only required to have Python 3.8 installed on
 WSL, VB, or your Linux dual-boot, as this will be the place
 where GNU Radio will be executed.
-
-If you installed Ubuntu-20.04, it comes with Python 3.8 pre-installed,
 so you actually don't have to do anything.
 
-Using a different Ubuntu or Python version _might_ work,
+Using a different Python version _might_ work,
 but **we cannot guarantee** that
 everything will work out-of-the-box, and **you may need**
 to adapt some commands[^1].
@@ -105,9 +102,12 @@ You can also launch programs from each other's command lines.
 It is also much lighter on resources (compared to VirtualBox).
 It will allow you to clone the git of the course on your windows system and **do most of the work on Windows**,
 e.g., programming the MCU, modify the telecom and classification parts,
-while **only using WSL to compile** the code and run the Linux applications, such as GNU Radio.
+while **only using WSL to compile** the code and run the Linux applications, i.e., GNU Radio.
 
-In order to install the WSL and Ubuntu-20.04 on your Windows system,
+We recommend using one of the latest Ubuntu release, Ubuntu-22.04, for the project. However,
+if it is not available on your computer, you can use Ubuntu-20.04.
+
+In order to install the WSL and Ubuntu-22.04 (or 20.04) on your Windows system,
 we will use the following [guide](https://learn.microsoft.com/en-us/windows/wsl/install) from Microsoft.
 
 If you have WSL 1 installed (`wsl --version`), please
@@ -117,7 +117,7 @@ it to version 2!
 Open a PowerShell or Windows Command Prompt in admnistritator mode and enter the following command:
 
 ```bat
-wsl --install -d Ubuntu-20.04
+wsl --install -d Ubuntu-22.04
 ```
 
 This will install WSL with the required distribution of Linux.
@@ -131,23 +131,23 @@ wsl -l -v
 If necessary, you can change the version of WSL using:
 
 ```bat
-wsl --set-version Ubuntu-20.04 2
+wsl --set-version Ubuntu-22.04 2
 ```
 
 We advise you to setup the default version of WSL and the default distribution as follow:
 
 ```bat
 wsl --set-default-version 2
-wsl --setdefault Ubuntu−20.04
+wsl --setdefault Ubuntu−22.04
 ```
 
-You should now be able to launch and terminate a WSL session of Ubuntu-20.04 using:
+You should now be able to launch and terminate a WSL session of Ubuntu-22.04 using:
 
 ```bat
 wsl
-wsl -t Ubuntu−20.04
+wsl -t Ubuntu−22.04
 ```
-
+If you were to use Ubuntu-20.04, just adapt the previous commands with the release version.
 If you encounter any issue, please refer to the official website provided at the start of this section.
 
 ### Install Ubuntu on your computer
@@ -167,7 +167,7 @@ or on the Ubuntu system on which GNU Radio is installed
 (either a VM, WSL, or your host if it is Ubuntu-20.04).
 The subsection titles will therefore include an annotation **Host**,
 if the steps must be performed on your host system (Windows, MacOS, or Linux), or **Ubuntu**,
-if they refer to your Ubuntu-20.04 installation. If your host system is Ubuntu-20.04, perform them in both cases.
+if they refer to your Ubuntu installation. If your host system is Ubuntu, perform them in both cases.
 Additionnally, some steps might be only required for some specific OSes, in which case it will be specified.
 
 Quick tips: Ubuntu terminal windows can be launched via the Ubuntu Launchpad, or with
@@ -257,6 +257,17 @@ sudo apt-get install cmake
 
 ### Ubuntu - Install GNU Radio
 
+**/!\ Depending on the Ubuntu release you have, we will install GNU Radio differently**
+
+#### Ubuntu-22.04
+
+```bash
+sudo add-apt-repository ppa:gnuradio/gnuradio-releases
+sudo apt-get update
+sudo apt-get install gnuradio python3-packaging
+```
+
+#### Ubuntu-20.04
 For the LimeSDR to work, we need to install GNU Radio **3.8** and no any version higher.
 To do so:
 
@@ -266,6 +277,7 @@ sudo apt-get update
 sudo apt-get install gnuradio xterm python3-gi gobject-introspection gir1.2-gtk-3.0
 ```
 
+#### Launching GNU Radio
 You should now be able to open GNU Radio with its GUI with the following command.
 _If you use Windows with WSL, please refer first to the next section_
 
@@ -346,22 +358,80 @@ sudo apt-get install soapysdr-tools soapysdr-module-lms7
 Finally, we need to install _Gr-LimeSDR_ which is a low cost, open source software defined radio (SDR) platform.
 To do so, we use the following command,
 taken from the [official website](https://wiki.myriadrf.org/Gr-limesdr_Plugin_for_GNURadio).
+**/!\ Again, this step will vary depending on your Ubuntu release**
+##### Ubuntu-22.04
+In this case, we are going to install _Gr-LimeSDR_ from source. On Ubuntu, go to any directory in
+which you can store and install  the program. It can be _/root_ for example.
+```bash
+cd /root
+git clone https://github.com/chrisjohgorman/gr-limesdr.git
+cd gr-limesdr
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+sudo ldconfig
+```
 
+##### Ubuntu-20.04
 ```bash
 sudo add-apt-repository ppa:myriadrf/gnuradio
 sudo apt-get update
 sudo apt-get install gr-limesdr
 ```
 
+#### Install gr-fsk and ensure the PYTHONPATH is setup properly
+During the H3b, you are going demodulate actual sent packets using 
+a custom GNU Radio package. Even though it won't be functional, you 
+can already compile it in order to setup the _PYTHONPATH_ variable,
+so that GNU Radio knows where this custom python package has been installed.
+
+First, go **through an Ubuntu terminal** to the location of this git on your Host system 
+(it might be Windows, in which case you have to go through the _/mnt/XX_ directory in the Ubuntu terminal).
+As it can be quite cumbersome of typing this path everytime you want to recompile a GNU Radio package,
+we advice you to create some environment variables for their path on Ubuntu. For example : 
+
+```bash
+echo "export GRFSK='/mnt/d/XXX/telecom/hands_on_measurements/gr-fsk'" >> ~/.bashrc
+```
+The variable export will only be effective in new, fresh, terminals in which you can do _cd $GRFSK_.
+Now that you are in the _gr-fsk_ folder, you can compile the package :
+
+```bash
+mkdir build
+cd build/
+cmake ..
+sudo make install
+sudo ldconfig
+```
+To ensure the Python packages you installed will be found when running GNU Radio we must
+ensure the _PYTHONPATH_ variable is properly set. In the prompted log of the above installation commands,
+you should see multiple lines such as _... /usr/local/XXX/dist-packages/fsk/XXX_.
+Now run the command :
+
+```bash
+echo $PYTHONPATH
+```
+
+If the path from the compilation log (up to _dist-packages_) doe not appear, we will need to add it
+to the PYTHONPATH variable with the following command you should adapt to your case :
+
+
+```bash
+echo "export PYTHONPATH='/usr/local/XXX/dist-packages/:$PYTHONPATH'" >> ~/.bashrc
+```
+
 #### (After H4) Ubuntu - Install Gr-LimeSDR custom components
 
-First you need to install the following components:
+#### On Ubuntu-20.04
+You need to install the following components:
 
 ```bash
 sudo apt install liblimesuite-dev swig4.0 liborc-0.4-dev
 ```
-
-Then, go into the `./telecom/gr-limesdr` directory and install:
+#### For everyone
+Then, through an Ubuntu terminal, go into the `./telecom/gr-limesdr` directory and install:
 
 ```bash
 mkdir build
