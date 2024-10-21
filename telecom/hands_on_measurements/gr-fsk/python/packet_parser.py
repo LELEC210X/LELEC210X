@@ -111,7 +111,7 @@ class packet_parser(gr.basic_block):
 
 
     def forecast_v38(self, noutput_items, ninput_items_required):
-    
+
         ninput_items_required[0] = self.packet_len + 1  # in bytes
 
     def forecast_v310(self, noutput_items, ninputs):

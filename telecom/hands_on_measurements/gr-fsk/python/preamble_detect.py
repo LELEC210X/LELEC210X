@@ -21,7 +21,7 @@
 
 import numpy as np
 from gnuradio import gr
-import pmt 
+import pmt
 
 from distutils.version import LooseVersion
 
@@ -88,13 +88,13 @@ class preamble_detect(gr.basic_block):
         ninput_items_required = [0] * ninputs
         for i in range(ninputs):
             ninput_items_required[i] = max(noutput_items + self.filter_len, 2 * self.filter_len )
-         
+
         return ninput_items_required
-    
+
 
     def set_enable(self, enable):
         self.enable = enable
-    
+
     def set_threshold(self, threshold):
         self.threshold = threshold
 

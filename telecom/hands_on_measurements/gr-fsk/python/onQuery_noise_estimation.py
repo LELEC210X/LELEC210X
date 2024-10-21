@@ -63,7 +63,7 @@ class onQuery_noise_estimation(gr.basic_block):
             self.forecast = self.forecast_v310
 
     def forecast_v38(self, noutput_items, ninput_items_required):
-        ninput_items_required[0] = self.n_samples 
+        ninput_items_required[0] = self.n_samples
 
     def forecast_v310(self, noutput_items, ninputs):
         """
@@ -72,14 +72,14 @@ class onQuery_noise_estimation(gr.basic_block):
         """
         ninput_items_required = [0] * ninputs
         for i in range(ninputs):
-            ninput_items_required[i] = self.n_samples 
+            ninput_items_required[i] = self.n_samples
 
         return ninput_items_required
 
     def general_work(self, input_items, output_items):
-        if (self.do_a_query == 0) : 
+        if (self.do_a_query == 0) :
             self.consume_each(len(input_items[0]))
-        else : 
+        else :
             y = input_items[0]
             dc_offset = np.mean(y)
             self.noise_est = np.var(y)
@@ -89,7 +89,7 @@ class onQuery_noise_estimation(gr.basic_block):
                 f"estimated noise power: {self.noise_est:.2e} ({10 * np.log10(self.noise_est):.2f}dB, Noise std : {np.sqrt(self.noise_est):.2e},  DC offset: {np.abs(dc_offset):.2e}, calc. on {len(y)} samples)"
             )
 
-            if (self.est_counter == self.n_est) : 
+            if (self.est_counter == self.n_est) :
                 mean_noisP = self.mean_noise_est/self.est_counter
                 PMT_msg = pmt.from_double(mean_noisP)
                 self.message_port_pub(pmt.intern('NoisePow'), PMT_msg)
@@ -101,7 +101,7 @@ class onQuery_noise_estimation(gr.basic_block):
                 self.mean_noise_est = 0
                 self.do_a_query = 0
 
-            else : 
+            else :
                 self.est_counter = self.est_counter +1
 
         return 0

@@ -63,7 +63,7 @@ class demodulation(gr.basic_block):
         output items are bytes
         """
         ninput_items_required[0] = noutput_items * self.osr * 8
-           
+
     def forecast_v310(self, noutput_items, ninputs):
         """
         forecast is only called from a general block
@@ -74,7 +74,7 @@ class demodulation(gr.basic_block):
             ninput_items_required[i] = noutput_items * self.osr * 8
 
         return ninput_items_required
-    
+
     def symbols_to_bytes(self, symbols):
         """
         Converts symbols (bits here) to bytes

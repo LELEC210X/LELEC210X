@@ -198,4 +198,3 @@ class BasicChain(Chain):
         bits_hat = np.zeros(nb_syms, dtype=int)
 
         return bits_hat
-
