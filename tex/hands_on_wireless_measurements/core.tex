@@ -13,43 +13,30 @@ The teaching team hence developed a new \href{https://wiki.gnuradio.org/index.ph
 \texttt{gr-fsk} that contains all the blocks (preamble detection, synchronization, demodulation, packet parser, ...) needed to build an entire receiver chain for the S2LP radio.
 Before running GNU Radio, this module must be compiled and installed. To this end, open a terminal, go into the \texttt{telecom/hands\_on\_wireless\_measurements/gr-fsk} folder and execute the following commands:
 
-\begin{lstlisting}[language=bash]
-    $ mkdir build
-    $ cd build/
-    $ cmake ..
-    $ sudo make install
-    $ sudo ldconfig
-\end{lstlisting}
 
-%\begin{bash}
-%    mkdir build
-%    cd build/
-%    cmake ..
-%    sudo make install
-%    sudo ldconfig
-%\end{bash}
+
+\begin{bash}
+    mkdir build
+    cd build/
+    cmake ..
+    sudo make install
+    sudo ldconfig
+\end{bash}
 The module is now installed.
 
-To ensure GNU Radio will be able to locate the installation directory of this custom package, we need to check the \textit{PYTHONPATH} environment variable of GNU Radio. In the prompted log of the above installation commands, you should see multiple lines such as ... /usr/local/XXX/dist-packages/fsk/XXX. Now run the command :
+To ensure GNU Radio will be able to locate the installation directory of this custom package, we need to check the \textit{PYTHONPATH} environment variable of GNU Radio. In the prompted log of the above installation commands, you should see multiple lines such as \textit{... /usr/local/XXX/dist-packages/fsk/XXX}. Now run the command :
 
-\begin{lstlisting}[language=bash]
-    $ echo $PYTHONPATH
-\end{lstlisting}
 
-%\begin{bash}
-%echo \$PYTHONPATH
-%\end{bash}
+\begin{bash}
+echo \$PYTHONPATH
+\end{bash}
 
 If the path from the compilation log (up to \textit{dist-packages}) does not appear, we will need to add it to the \textit{PYTHONPATH} variable with the following command you should adapt to your case :
 
-\begin{lstlisting}[language=bash]
-    $ echo "export PYTHONPATH='/usr/local/XXX/dist-packages/:$PYTHONPATH'" >> ~/.bashrc
-\end{lstlisting}
 
-%
-%\begin{bash}
-%echo "export PYTHONPATH='/usr/local/XXX/dist-packages/:\$PYTHONPATH'" >> ~/.bashrc
-%\end{bash}
+\begin{bash}
+echo "export PYTHONPATH='/usr/local/XXX/dist-packages/:\$PYTHONPATH'" >> ~/.bashrc
+\end{bash}
 
 \subsection{Running the GNU Radio Companion}
 
@@ -116,10 +103,10 @@ callback functions, ... Open the file \texttt{gr-fsk/grc/fsk\_demodulation.block
 Once you went over the Python and YAML files, put the demodulation function you wrote for the previous hands-on in the external \texttt{demodulate} function. Repeat the same procedure for the CFO estimation in the function
 \texttt{cfo\_estimation} of \texttt{gr-fsk/python/synchronization.py}. Then, before running the GNU Radio application again, you need to re-do an installation to propagate your changes:
 
-\begin{minted}{bash}
+\begin{bash}
     cd build/
     sudo make install
-\end{minted}
+\end{bash}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Usage of the build folder}
     Creating and populating the build directory with \texttt{cmake} needs only to be done once.
