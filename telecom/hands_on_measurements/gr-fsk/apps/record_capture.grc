@@ -88,7 +88,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: /mnt/d/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/telecom/hands_on_measurements/gr-fsk/misc/fsk_record_capture.mat
+    file: /mnt/d/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/telecom/hands_on_measurements/gr-fsk/misc/fsk_capture.mat
     type: complex
     unbuffered: 'False'
     vlen: '1'
@@ -109,7 +109,6 @@ blocks:
     analog_bandw_ch1: 1.5e6
     calibr_bandw_ch0: 2.5e6
     calibr_bandw_ch1: 2.5e6
-    ch_align: 'False'
     channel_mode: '0'
     comment: ''
     dacVal: '180'
