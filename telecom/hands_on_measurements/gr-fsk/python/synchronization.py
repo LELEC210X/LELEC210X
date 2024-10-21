@@ -27,19 +27,9 @@ from .utils import logging, measurements_logger
 
 def cfo_estimation(y, B, R, Fdev):
     """
-    Estimates CFO using Moose algorithm, on first samples of preamble.
+    Estimate CFO using Moose algorithm, on first samples of preamble
     """
-    # TO DO: extract 2 blocks of size N*R at the start of y
-    N = 2
-    b1, b2 = y[0 : N * R], y[N * R : 2 * N * R]
-
-    # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
-    r = np.sum(b2 * np.conj(b1)) / (N * R)
-    cfo_est = np.angle(r) / (2 * np.pi * N * R) * (B * R)
-
-    return cfo_est
-
-    bypass_sto_estimation = False
+    return 0.0  # TODO
 
 
 def sto_estimation(y, B, R, Fdev):
