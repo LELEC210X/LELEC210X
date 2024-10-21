@@ -1,4 +1,4 @@
-# MCU 
+# MCU
 
 Files related to the mcu part.
 
@@ -13,10 +13,13 @@ rye sync
 ## Usage
 
 To launch the UART utility, run:
+
 ```bash
 rye run uart_reader
 ```
+
 or
+
 ```bash
 rye run python src/mcu/uart_reader.py
 ```
