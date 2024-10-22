@@ -38,7 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define ADC_BUF_SIZE 10000
+#define ADC_BUF_SIZE 30000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -49,7 +49,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-volatile int  button;
+volatile int buttonPressed;
+volatile int sound_bigger_than_50;
 volatile uint16_t ADCBuffer[2*ADC_BUF_SIZE]; /* ADC group regular conversion data (array of data) */
 volatile uint16_t* ADCData1;
 volatile uint16_t* ADCData2;
@@ -67,15 +68,31 @@ uint32_t get_signal_power(uint16_t *buffer, size_t len);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-  // Button pressed, cahnge state button
+  // If the button is pressed, change state buttonPressed
 	if (GPIO_Pin == B1_Pin) {
-	  button = 1;
+    //__disable_irq(); //Disable interrupts
+    buttonPressed = 1;
+    //__enable_irq(); //Enable interrupts
 	}
 }
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc){
-  /*Fin ADC, fuffer full*/
+  // If buffer is full
+  HAL_TIM_Base_Stop(&htim3);
+  HAL_ADC_Stop_DMA(&hadc1);
+
+	if(sound_bigger_than_50){
+    printf("Sending datas\r\n");
+    print_buffer(ADCData1);
+    
+	}else{
+    printf("Waiting for sound\r\n");
+    HAL_TIM_Base_Start(&htim3);
+    HAL_ADC_Start_DMA(&hadc1, ADCData1, 2*ADC_BUF_SIZE);
+	}
+  /*Fin ADC, fuffer full
   // Fini, allume led
   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
   // Stop ADC et Timer
@@ -84,15 +101,25 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc){
   print_buffer(ADCBuffer);//Envoie sur UART
   //Etein led
   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+  */
+}
+
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc){
+  // If half of the buffer is filled
+	uint32_t power = get_signal_power(ADCData1, ADC_BUF_SIZE);
+  printf("Power: %d\r\n", power);
+  if (power>80000){
+    sound_bigger_than_50 = 1;
+  }
 }
 
 void hex_encode(char* s, const uint8_t* buf, size_t len) {
   /* Encode buffer in hexadecimal format */
-  s[2*len] = '\0'; // A string terminated by a zero char.
-  for (size_t i=0; i<len; i++) {
-      s[i*2] = "0123456789abcdef"[buf[i] >> 4];
-      s[i*2+1] = "0123456789abcdef"[buf[i] & 0xF];
-  }
+    s[2*len] = '\0'; // A string terminated by a zero char.
+    for (size_t i=0; i<len; i++) {
+        s[i*2] = "0123456789abcdef"[buf[i] >> 4];
+        s[i*2+1] = "0123456789abcdef"[buf[i] & 0xF];
+    }
 }
 
 void print_buffer(uint16_t *buffer) {
@@ -150,7 +177,8 @@ int main(void)
   RetargetInit(&hlpuart1);
   printf("Hello world!\r\n");
 
-  button = 0;
+  buttonPressed = 0;
+  sound_bigger_than_50 = 0;
   ADCData1 = &ADCBuffer[0];
   ADCData2 = &ADCBuffer[ADC_BUF_SIZE];
   /* USER CODE END 2 */
@@ -158,13 +186,16 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1){
-    if(!button) __WFI(); //Sleep Mode
-    else{
-      // Si bouton, on commence aquisition
+    if(!buttonPressed) __WFI(); // Wait for interrupt
+    else {
+      // Start the ADC and the timer
       HAL_TIM_Base_Start(&htim3);
-      HAL_ADC_Start_DMA(&hadc1, ADCData1, ADC_BUF_SIZE);
-      button = 0;
+      HAL_ADC_Start_DMA(&hadc1, ADCData1, 2*ADC_BUF_SIZE);
+      buttonPressed = 0;
     }
+  
+  // Convert the ADC values if button is pressed
+    
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -193,10 +224,10 @@ void SystemClock_Config(void)
   * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MS  button = RCC_MSI_ON;
+  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
   RCC_OscInitStruct.MSICalibrationValue = 0;
   RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_10;
-  RCC_OscInitStruct.PLL.PL  button = RCC_PLL_NONE;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -228,7 +259,7 @@ void SystemClock_Config(void)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return button */
+  /* User can add his own implementation to report the HAL error return buttonPressed */
   __disable_irq();
   printf("Error!\r\n");
   while (1)
