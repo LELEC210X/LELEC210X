@@ -31,10 +31,10 @@ jobs:
 
     - name: Compile LaTeX documents
       uses: xu-cheng/texlive-action@v2
+      texlive_version: 2023
       with:
         run: |
           apk add make
-          pip install latexminted
           cd tex/
           make pdf -j$(nproc)
 
