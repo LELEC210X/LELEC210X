@@ -29,9 +29,6 @@ jobs:
         rye sync
         source .venv/bin/activate
 
-    - name: Fix Minted installation
-      run: pip install latexminted
-
     - name: Compile LaTeX documents
       uses: xu-cheng/texlive-action@v2
       with:
