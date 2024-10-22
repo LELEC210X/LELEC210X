@@ -24,18 +24,18 @@ Before running GNU Radio, this module must be compiled and installed. To this en
 \end{bash}
 The module is now installed.
 
-To ensure GNU Radio will be able to locate the installation directory of this custom package, we need to check the \textit{PYTHONPATH} environment variable of GNU Radio. In the prompted log of the above installation commands, you should see multiple lines such as \textit{... /usr/local/XXX/dist-packages/fsk/XXX}. Now run the command :
+To ensure GNU Radio will be able to locate the installation directory of this custom package, we need to check the \texttt{PYTHONPATH} environment variable of GNU Radio. In the prompted log of the above installation commands, you should see multiple lines such as \texttt{/usr/local/XXX/dist-packages/fsk/XXX}. Now run the command :
 
 
 \begin{bash}
-echo \$PYTHONPATH
+echo $PYTHONPATH
 \end{bash}
 
-If the path from the compilation log (up to \textit{dist-packages}) does not appear, we will need to add it to the \textit{PYTHONPATH} variable with the following command you should adapt to your case :
+If the path from the compilation log (up to \texttt{dist-packages}) does not appear, we will need to add it to the \texttt{PYTHONPATH} variable with the following command you should adapt to your case :
 
 
 \begin{bash}
-echo "export PYTHONPATH='/usr/local/XXX/dist-packages/:\$PYTHONPATH'" >> ~/.bashrc
+echo "export PYTHONPATH='/usr/local/XXX/dist-packages/:$PYTHONPATH'" >> ~/.bashrc
 \end{bash}
 
 \subsection{Running the GNU Radio Companion}
