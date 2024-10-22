@@ -34,6 +34,7 @@ jobs:
       with:
         run: |
           apk add make
+          pip install latexminted
           cd tex/
           make pdf -j$(nproc)
 
