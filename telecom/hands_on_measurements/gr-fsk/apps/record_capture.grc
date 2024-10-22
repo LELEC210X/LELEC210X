@@ -1,6 +1,7 @@
 options:
   parameters:
     author: UCLouvain
+    catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
@@ -87,7 +88,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: /home/marconi/fsk_capture.mat
+    file: /mnt/d/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/telecom/hands_on_measurements/gr-fsk/misc/fsk_capture.mat
     type: complex
     unbuffered: 'False'
     vlen: '1'
@@ -95,7 +96,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [368, 185]
+    coordinate: [440, 164.0]
     rotation: 0
     state: true
 - name: limesdr_source_0
@@ -104,9 +105,9 @@ blocks:
     affinity: ''
     alias: ''
     allow_tcxo_dac: '0'
-    analog_bandw_ch0: ''
+    analog_bandw_ch0: 1.5e6
     analog_bandw_ch1: 1.5e6
-    calibr_bandw_ch0: ''
+    calibr_bandw_ch0: 2.5e6
     calibr_bandw_ch1: 2.5e6
     channel_mode: '0'
     comment: ''
@@ -154,12 +155,12 @@ blocks:
     showports: 'False'
     showrf: 'False'
     type: complex
-    wintype: firdes.WIN_BLACKMAN_hARRIS
+    wintype: window.WIN_BLACKMAN_hARRIS
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [372, 300]
+    coordinate: [440, 268.0]
     rotation: 0
     state: true
 
@@ -169,3 +170,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: 3.10.7.0

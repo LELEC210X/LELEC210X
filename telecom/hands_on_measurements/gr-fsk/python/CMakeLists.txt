@@ -38,7 +38,7 @@ GR_PYTHON_INSTALL(
     synchronization.py
     demodulation.py
     packet_parser.py
-    noise_estimation.py DESTINATION ${GR_PYTHON_DIR}/fsk
+    onQuery_noise_estimation.py DESTINATION ${GR_PYTHON_DIR}/fsk
 )
 
 ########################################################################
@@ -52,4 +52,3 @@ GR_ADD_TEST(qa_preamble_detect ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/
 GR_ADD_TEST(qa_synchronization ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_synchronization.py)
 GR_ADD_TEST(qa_demodulation ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_demodulation.py)
 GR_ADD_TEST(qa_packet_parser ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_packet_parser.py)
-GR_ADD_TEST(qa_noise_estimation ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_noise_estimation.py)

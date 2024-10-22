@@ -1,6 +1,7 @@
 options:
   parameters:
     author: UCLouvain
+    catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
@@ -27,11 +28,40 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 8]
+    coordinate: [480, 20.0]
     rotation: 0
     state: enabled
 
 blocks:
+- name: Enable_detection
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: ''
+    label: ''
+    'true': '1'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1208, 164.0]
+    rotation: 0
+    state: true
+- name: K_threshold
+  id: variable
+  parameters:
+    comment: ''
+    value: '7'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1056, 220.0]
+    rotation: 0
+    state: disabled
 - name: K_threshold
   id: variable_qtgui_range
   parameters:
@@ -39,7 +69,7 @@ blocks:
     gui_hint: ''
     label: K factor for threshold
     min_len: '200'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: int
     start: '1'
     step: '1'
@@ -50,21 +80,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1111, 19]
+    coordinate: [1336, 4.0]
     rotation: 0
     state: enabled
-- name: K_threshold
-  id: variable
-  parameters:
-    comment: ''
-    value: '7'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1313, 22]
-    rotation: 0
-    state: disabled
 - name: carrier_freq
   id: variable
   parameters:
@@ -74,7 +92,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [202, 87]
+    coordinate: [664, 212.0]
     rotation: 0
     state: enabled
 - name: crc_len
@@ -86,7 +104,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [682, 18]
+    coordinate: [800, 84.0]
     rotation: 0
     state: true
 - name: data_rate
@@ -98,31 +116,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [301, 15]
-    rotation: 0
-    state: true
-- name: detect_threshold
-  id: variable
-  parameters:
-    comment: ''
-    value: '0.001'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [797, 22]
-    rotation: 0
-    state: true
-- name: estimated_noise_power
-  id: variable
-  parameters:
-    comment: ''
-    value: 1e-06
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [784, 95]
+    coordinate: [664, 84.0]
     rotation: 0
     state: true
 - name: fdev
@@ -134,7 +128,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [394, 15]
+    coordinate: [664, 148.0]
     rotation: 0
     state: true
 - name: hdr_len
@@ -146,7 +140,24 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [500, 17]
+    coordinate: [800, 20.0]
+    rotation: 0
+    state: true
+- name: noiseQuery
+  id: variable_qtgui_push_button
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Noise estimation query
+    pressed: '1'
+    released: '0'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1336, 212.0]
     rotation: 0
     state: true
 - name: packet_len
@@ -158,7 +169,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [582, 96]
+    coordinate: [1056, 92.0]
     rotation: 0
     state: true
 - name: payload_len
@@ -170,9 +181,21 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [580, 18]
+    coordinate: [1056, 20.0]
     rotation: 0
     state: true
+- name: rx_gain
+  id: variable
+  parameters:
+    comment: ''
+    value: '70'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1056, 156.0]
+    rotation: 0
+    state: disabled
 - name: rx_gain
   id: variable_qtgui_range
   parameters:
@@ -180,32 +203,20 @@ blocks:
     gui_hint: ''
     label: ''
     min_len: '200'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: int
     start: '0'
     step: '1'
-    stop: '70'
-    value: '16'
+    stop: '73'
+    value: '10'
     widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [984, 20]
+    coordinate: [1208, 44.0]
     rotation: 0
     state: enabled
-- name: rx_gain
-  id: variable
-  parameters:
-    comment: ''
-    value: '15'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1345, 91]
-    rotation: 0
-    state: disabled
 - name: samp_rate
   id: variable
   parameters:
@@ -215,8 +226,41 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [202, 15]
+    coordinate: [664, 20.0]
     rotation: 0
+    state: enabled
+- name: tx_power
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: TX power used (no impact, just for logging)
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1336, 132.0]
+    rotation: 0
+    state: true
+- name: dc_blocker_xx_0
+  id: dc_blocker_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    length: '1024'
+    long_form: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: cc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [36.0, 120]
+    rotation: 270
     state: enabled
 - name: fsk_demodulation_0
   id: fsk_demodulation
@@ -235,7 +279,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [880, 268.0]
+    coordinate: [720, 396.0]
     rotation: 0
     state: enabled
 - name: fsk_flag_detector_0
@@ -245,7 +289,7 @@ blocks:
     alias: ''
     comment: ''
     drate: data_rate
-    enable: '1'
+    enable: Enable_detection
     fsamp: samp_rate
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -254,9 +298,27 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [320, 204.0]
+    coordinate: [152, 388.0]
     rotation: 0
     state: enabled
+- name: fsk_onQuery_noise_estimation_0
+  id: fsk_onQuery_noise_estimation
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    n_est: '10'
+    n_samples: '1024'
+    query: noiseQuery
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [120, 508.0]
+    rotation: 0
+    state: true
 - name: fsk_packet_parser_0
   id: fsk_packet_parser
   parameters:
@@ -273,29 +335,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1152, 276.0]
+    coordinate: [984, 404.0]
     rotation: 0
     state: enabled
-- name: fsk_preamble_detect_0
-  id: fsk_preamble_detect
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    drate: data_rate
-    fdev: fdev
-    fsamp: samp_rate
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    packet_len: packet_len
-    threshold: detect_threshold
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [320, 380.0]
-    rotation: 0
-    state: disabled
 - name: fsk_synchronization_0
   id: fsk_synchronization
   parameters:
@@ -303,18 +345,18 @@ blocks:
     alias: ''
     comment: ''
     drate: data_rate
-    estimated_noise_power: estimated_noise_power
     fdev: fdev
     fsamp: samp_rate
     hdr_len: hdr_len
     maxoutbuf: '0'
     minoutbuf: '0'
     packet_len: packet_len
+    tx_power: tx_power
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [616, 260.0]
+    coordinate: [464, 388.0]
     rotation: 0
     state: enabled
 - name: limesdr_fpga_source_0
@@ -333,10 +375,9 @@ blocks:
     dacVal: '180'
     digital_bandw_ch0: samp_rate
     digital_bandw_ch1: samp_rate
-    dspcfg_PASSTHROUGH_LEN: (packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate)
-      + 1000
+    dspcfg_PASSTHROUGH_LEN: '(packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate) '
     dspcfg_THRESHOLD: K_threshold
-    dspcfg_preamble_en: '1'
+    dspcfg_preamble_en: Enable_detection
     filename: ''
     gain_dB_ch0: rx_gain
     gain_dB_ch1: '1'
@@ -354,8 +395,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [32, 204.0]
-    rotation: 0
+    coordinate: [136, 20.0]
+    rotation: 180
     state: true
 - name: qtgui_sink_x_0
   id: qtgui_sink_x
@@ -378,12 +419,12 @@ blocks:
     showports: 'False'
     showrf: 'False'
     type: complex
-    wintype: firdes.WIN_BLACKMAN_hARRIS
+    wintype: window.WIN_BLACKMAN_hARRIS
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [64, 356.0]
+    coordinate: [120, 244.0]
     rotation: 0
     state: enabled
 - name: zeromq_pub_sink_0
@@ -392,8 +433,11 @@ blocks:
     address: tcp://127.0.0.1:10000
     affinity: ''
     alias: ''
+    bind: 'True'
     comment: ''
+    drop_on_hwm: 'True'
     hwm: '-1'
+    key: ''
     pass_tags: 'False'
     timeout: '100'
     type: byte
@@ -402,19 +446,21 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1296, 412.0]
+    coordinate: [1248, 388.0]
     rotation: 0
     state: enabled
 
 connections:
+- [dc_blocker_xx_0, '0', fsk_flag_detector_0, '0']
+- [dc_blocker_xx_0, '0', fsk_onQuery_noise_estimation_0, '0']
+- [dc_blocker_xx_0, '0', qtgui_sink_x_0, '0']
 - [fsk_demodulation_0, '0', fsk_packet_parser_0, '0']
 - [fsk_flag_detector_0, '0', fsk_synchronization_0, '0']
+- [fsk_onQuery_noise_estimation_0, NoisePow, fsk_synchronization_0, NoisePow]
 - [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
-- [fsk_preamble_detect_0, '0', fsk_synchronization_0, '0']
 - [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
-- [limesdr_fpga_source_0, '0', fsk_flag_detector_0, '0']
-- [limesdr_fpga_source_0, '0', fsk_preamble_detect_0, '0']
-- [limesdr_fpga_source_0, '0', qtgui_sink_x_0, '0']
+- [limesdr_fpga_source_0, '0', dc_blocker_xx_0, '0']
 
 metadata:
   file_format: 1
+  grc_version: 3.10.7.0
