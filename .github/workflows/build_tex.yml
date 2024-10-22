@@ -31,8 +31,8 @@ jobs:
 
     - name: Compile LaTeX documents
       uses: xu-cheng/texlive-action@v2
-      texlive_version: 2023
       with:
+        texlive_version: 2023  # Temp. fix, see: https://github.com/gpoore/minted/issues/401
         run: |
           apk add make
           cd tex/
