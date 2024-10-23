@@ -19,6 +19,8 @@
 #
 
 
+from distutils.version import LooseVersion
+
 import numpy as np
 from gnuradio import gr
 
@@ -41,13 +43,14 @@ class preamble_detect(gr.basic_block):
     docstring for block preamble_detect
     """
 
-    def __init__(self, drate, fdev, fsamp, packet_len, threshold):
+    def __init__(self, drate, fdev, fsamp, packet_len, threshold, enable):
         self.drate = drate
         self.fdev = fdev
         self.fsamp = fsamp
         self.packet_len = packet_len  # in bytes
         self.osr = int(fsamp / drate)
         self.threshold = threshold
+        self.enable = enable
 
         self.filter_len = (
             8 * self.osr
@@ -63,14 +66,37 @@ class preamble_detect(gr.basic_block):
             out_sig=[np.complex64],
         )
 
-    def forecast(self, noutput_items, ninput_items_required):
-        """
-        input items are samples (with oversampling factor)
-        output items are samples (with oversampling factor)
-        """
+        self.gr_version = gr.version()
+
+        # Redefine function based on version
+        if LooseVersion(self.gr_version) < LooseVersion("3.9.0"):
+            self.forecast = self.forecast_v38
+        else:
+            self.forecast = self.forecast_v310
+
+    def forecast_v38(self, noutput_items, ninput_items_required):
         ninput_items_required[0] = max(
             noutput_items + self.filter_len, 2 * self.filter_len
         )
+
+    def forecast_v310(self, noutput_items, ninputs):
+        """
+        forecast is only called from a general block
+        this is the default implementation
+        """
+        ninput_items_required = [0] * ninputs
+        for i in range(ninputs):
+            ninput_items_required[i] = max(
+                noutput_items + self.filter_len, 2 * self.filter_len
+            )
+
+        return ninput_items_required
+
+    def set_enable(self, enable):
+        self.enable = enable
+
+    def set_threshold(self, threshold):
+        self.threshold = threshold
 
     def general_work(self, input_items, output_items):
         if self.rem_samples > 0:  # We are processing a previously detected packet
@@ -85,27 +111,34 @@ class preamble_detect(gr.basic_block):
             return n_out
         else:
             N = len(output_items[0]) - len(output_items[0]) % self.filter_len
-            y = input_items[0][: N + self.filter_len]
-            pos = preamble_detect_energy(y, self.filter_len, self.threshold)
+            if self.enable == 1:
+                y = input_items[0][: N + self.filter_len]
+                pos = preamble_detect_energy(y, self.filter_len, self.threshold)
 
-            if (
-                pos is None
-            ):  # no preamble found, we discard the processed samples (no output_items)
+                if (
+                    pos is None
+                ):  # no preamble found, we discard the processed samples (no output_items)
+                    self.consume_each(N)
+                    return 0
+                if (
+                    pos > N
+                ):  # in this case, n_out below is < 0. Consume samples and recompute later
+                    self.consume_each(N)
+                    return 0
+
+                # A window corresponding to the length of a full packet + 1 byte + 1 symbol
+                # is transferred to the output
+                self.rem_samples = 8 * self.osr * (self.packet_len + 1) + self.osr
+
+                n_out = N - pos
+
+                output_items[0][:n_out] = input_items[0][pos:N]
+                self.consume_each(N)
+
+                self.rem_samples -= n_out
+
+                return n_out
+
+            else:
                 self.consume_each(N)
                 return 0
-            if (
-                pos > N
-            ):  # in this case, n_out below is < 0. Consume samples and recompute later
-                self.consume_each(N)
-                return 0
-
-            # A window corresponding to the length of a full packet + 1 byte + 1 symbol
-            # is transferred to the output
-            self.rem_samples = 8 * self.osr * (self.packet_len + 1) + self.osr
-
-            n_out = N - pos
-            output_items[0][:n_out] = input_items[0][pos:N]
-            self.consume_each(N)
-
-            self.rem_samples -= n_out
-            return n_out

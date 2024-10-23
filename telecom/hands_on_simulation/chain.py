@@ -28,10 +28,15 @@ class Chain:
             cfo_range: float = (
                 1000  # defines the CFO range when random (in Hz) #(1000 in old repo)
             ),
+            cfo_Moose_N: int = 4,
             snr_range: np.ndarray = np.arange(-10, 25),
             # Lowpass filter parameters
             numtaps: int = 100,
-            cutoff: float = 0.0
+            cutoff: float = 0.0,
+            bypass_preamble_detect: bool = True,
+            bypass_cfo_estimation: bool = True,
+            bypass_sto_estimation: bool = True,
+            **kwargs
         ):
         self.name = name
         self.bit_rate = bit_rate
@@ -46,9 +51,13 @@ class Chain:
         self.sto_range = sto_range
         self.cfo_val = cfo_val
         self.cfo_range = cfo_range
+        self.cfo_Moose_N = cfo_Moose_N
         self.snr_range = snr_range
         self.numtaps = numtaps
         self.cutoff = BIT_RATE * self.osr_rx / 2.0001  # or 2*BIT_RATE,...
+        self.bypass_preamble_detect = bypass_preamble_detect
+        self.bypass_cfo_estimation = bypass_cfo_estimation
+        self.bypass_sto_estimation = bypass_sto_estimation
         
 
     # Tx methods
@@ -97,8 +106,6 @@ class Chain:
         return x
 
     # Rx methods
-    bypass_preamble_detect: bool = False
-
     def preamble_detect(self, y: np.array) -> Optional[int]:
         """
         Detects the preamlbe in a given received signal.
@@ -109,8 +116,6 @@ class Chain:
         """
         raise NotImplementedError
 
-    bypass_cfo_estimation: bool = False
-
     def cfo_estimation(self, y: np.array) -> float:
         """
         Estimates the CFO based on the received signal.
@@ -119,8 +124,6 @@ class Chain:
         :return: The estimated CFO.
         """
         raise NotImplementedError
-
-    bypass_sto_estimation: bool = False
 
     def sto_estimation(self, y: np.array) -> float:
         """
@@ -146,10 +149,9 @@ class Chain:
 class BasicChain(Chain):
     
     def __init__(self, *, name="Basic Tx/Rx chain", cfo_val=np.nan, sto_val=np.nan, **kwargs):
+        
         super().__init__(name=name, cfo_val=cfo_val, sto_val=sto_val, **kwargs)
         
-
-    bypass_preamble_detect = False
 
     def preamble_detect(self, y: np.array) -> Optional[int]:
         """
@@ -170,8 +172,6 @@ class BasicChain(Chain):
 
         return None
 
-    bypass_cfo_estimation = False
-
     def cfo_estimation(self, y: np.array) -> float:
         """
         Estimates the CFO based on the received signal.
@@ -183,9 +183,9 @@ class BasicChain(Chain):
         # TO DO: extract 2 blocks of size N*R at the start of y
 
         # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
-        N = 4 # 4 bytes per preamble
+        N_Moose = self.cfo_Moose_N # max should be total bits per preamble / 2
         R = self.osr_rx
-        N_t = N * R
+        N_t = N_Moose * R
         T = 1 / self.bit_rate
         
         alpha_est = np.vdot(y[:N_t], y[N_t:2*N_t])
@@ -193,8 +193,6 @@ class BasicChain(Chain):
         cfo_est = np.angle(alpha_est) * R / (2 * np.pi * N_t * T) # Default value, to change
 
         return cfo_est
-
-    bypass_sto_estimation = False
 
     def sto_estimation(self, y: np.array) -> float:
         """
@@ -235,12 +233,12 @@ class BasicChain(Chain):
         """
         fd = self.freq_dev  # Frequency deviation, Delta_f
         R = self.osr_rx  # Receiver oversampling factor
-        nb_syms = len(y) // R  # Number of CPFSK symbols in y
+        N = len(y) // R  # Number of CPFSK symbols in y
         T = 1 / self.bit_rate
         
 
         # Group symbols together, in a matrix. Each row contains the R samples over one symbol period
-        y = np.resize(y, (nb_syms, R))
+        y = np.resize(y, (N, R))
 
         # TO DO: generate the reference waveforms used for the correlation
         # hint: look at what is done in modulate() in chain.py
@@ -255,7 +253,7 @@ class BasicChain(Chain):
         bits_hat = (np.abs(r1) > np.abs(r0)).astype(int)
         
         if print_y_k:
-            for k in range(nb_syms):
+            for k in range(N):
                 print(f"y[{k}] : {np.abs(y[k][0]):.2f}∠{np.angle(y[k][0]) / np.pi * 180:.2f}°  ...  {np.abs(y[k][R - 1]):.2f}∠{np.angle(y[k][R - 1]) / np.pi * 180:.2f}°")
                 print(f"--> r0[k] = {np.abs(r0[k]):.2f}∠{np.angle(r0[k]) / np.pi * 180:.2f}°, r1 = {np.abs(r1[k]):.2f}∠{np.angle(r1[k]) / np.pi * 180:.2f}°\n")
                 print(f"--> bit [{k}] : {bits_hat[k]}")
