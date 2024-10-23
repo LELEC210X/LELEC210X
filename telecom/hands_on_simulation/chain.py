@@ -150,8 +150,7 @@ class BasicChain(Chain):
         # TO DO: extract 2 blocks of size N*R at the start of y
 
         # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
-
-        cfo_est = 0  # Default value, to change
+        cfo_est = 0
 
         return cfo_est
 
@@ -196,6 +195,6 @@ class BasicChain(Chain):
 
         # TO DO: performs the decision based on r0 and r1
 
-        bits_hat = np.zeros(nb_syms, dtype=int)  # Default value, all bits=0. TO CHANGE!
+        bits_hat = np.zeros(nb_syms, dtype=int)
 
         return bits_hat

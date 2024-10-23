@@ -46,10 +46,11 @@ mcu/*.launch
 # Telecom
 
 telecom/hands_on_simulation/test.csv
-telecom/gr-limesdr/build/
+telecom/gr-limesdr-3-8/build/
+telecom/gr-limesdr-3-10/build/
 telecom/hands_on_measurements/gr-fsk/build/
 telecom/hands_on_measurements/gr-fsk/apps/*.py
-
+telecom/hands_on_measurements/gr-fsk/apps/*.txt
 # FPGA
 
 # Bitstreams
