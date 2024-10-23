@@ -151,25 +151,24 @@ class BasicChain(Chain):
         :param y: The received signal, (N * R,).
         :return: The estimated CFO.
         """
-        
         # on imagine préambule : ABCDEFGHIJKLMNOPQRSTUVWXYZ
         # on reçoit : DEFGHIJKLMNOPQRSTUVWXYZ vu que certains échantillons sont perdus au début
         # on veut commencer direct mais sans prendre les 26 lettres pcq on sait pas combien ont été supprimées
         # pour ça qu'on prend pas N = 16
-                
+
         R = self.osr_rx
         N = 12
         Nt = N * R
         T = 1 / self.bit_rate
 
         blockL = y[:Nt]
-        blockNT = y[Nt:2*Nt]
+        blockNT = y[Nt : 2 * Nt]
 
         numerator = np.sum(blockNT * np.conjugate(blockL))
-        denominator = np.sum(np.abs(blockL)**2)
-        
+        denominator = np.sum(np.abs(blockL) ** 2)
+
         alpha_hat = numerator / denominator
-                
+
         phase_difference = np.angle(alpha_hat)
 
         cfo_est = phase_difference / ((2 * np.pi * Nt * T) / R)
@@ -222,18 +221,19 @@ class BasicChain(Chain):
         T = 1 / B
         bits_hat = np.zeros(nb_syms, dtype=int)  # Default value, all bits=0. TO CHANGE!
 
-
         for k in range(nb_syms):
             symbol_samples = y[k]
 
-            r1 = (1 / R) * np.sum(symbol_samples * np.exp(-1j * 2 * np.pi * fd * T * np.arange(R) / R))
-            r0 = (1 / R) * np.sum(symbol_samples * np.exp(1j * 2 * np.pi * fd * T * np.arange(R) / R))
+            r1 = (1 / R) * np.sum(
+                symbol_samples * np.exp(-1j * 2 * np.pi * fd * T * np.arange(R) / R)
+            )
+            r0 = (1 / R) * np.sum(
+                symbol_samples * np.exp(1j * 2 * np.pi * fd * T * np.arange(R) / R)
+            )
 
             if np.abs(r1) > np.abs(r0):
                 bits_hat[k] = 1
             else:
                 bits_hat[k] = 0
-
-
 
         return bits_hat
