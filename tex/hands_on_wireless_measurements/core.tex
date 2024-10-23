@@ -12,13 +12,31 @@ GNU Radio provides many built-in digital signal processing blocks (similarly to 
 The teaching team hence developed a new \href{https://wiki.gnuradio.org/index.php/OutOfTreeModules}{out-of-tree module} named
 \texttt{gr-fsk} that contains all the blocks (preamble detection, synchronization, demodulation, packet parser, ...) needed to build an entire receiver chain for the S2LP radio.
 Before running GNU Radio, this module must be compiled and installed. To this end, open a terminal, go into the \texttt{telecom/hands\_on\_wireless\_measurements/gr-fsk} folder and execute the following commands:
+
+
+
 \begin{bash}
     mkdir build
     cd build/
     cmake ..
     sudo make install
+    sudo ldconfig
 \end{bash}
 The module is now installed.
+
+To ensure GNU Radio will be able to locate the installation directory of this custom package, we need to check the \texttt{PYTHONPATH} environment variable of GNU Radio. In the prompted log of the above installation commands, you should see multiple lines such as \texttt{/usr/local/XXX/dist-packages/fsk/XXX}. Now run the command :
+
+
+\begin{bash}
+echo $PYTHONPATH
+\end{bash}
+
+If the path from the compilation log (up to \texttt{dist-packages}) does not appear, we will need to add it to the \texttt{PYTHONPATH} variable with the following command you should adapt to your case :
+
+
+\begin{bash}
+echo "export PYTHONPATH='/usr/local/XXX/dist-packages/:$PYTHONPATH'" >> ~/.bashrc
+\end{bash}
 
 \subsection{Running the GNU Radio Companion}
 
@@ -26,6 +44,10 @@ GNU Radio may either be used directly using Python scripts or through a GUI soft
 Start the GNU Radio Companion (\textit{``Programming -> GNU Radio Companion''}) and open the application \texttt{gr-fsk/apps/decode\_capture.grc}.
 This application reads a prerecorded capture from a file
 and demodulates it using the FSK receiver architecture that has been explained in the simulation hands-on. The operations carried out by the different blocks are exactly identical to those of the simulation framework we provided you.
+
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{GNU Radio parameter adjustement}
+    In the GNU Radio GUI, the low-pass filter might be highlighted in red due to an error depending on the Ubuntu release you are using. Double-click on it and on the part highlighted in red and select the corresponding one. (Normally the error, if present, is on the \textit{Window} parameter which should be set to \textit{Hamming})
+\end{bclogo}
 
 \texttt{.grc} files are designs which can be graphically edited in the companion, but they cannot directly be executed.
 Instead, the companion generates Python scripts based on the \texttt{.grc} design. To generate the corresponding script, press the second button starting from the left (i.e., the one with a box and an arrow) shown in Fig.~\ref{fig:buttons}.
@@ -56,6 +78,21 @@ handles the buffers inside GNU Radio. On the contrary, the operations that are s
 to external functions. These functions have almost similar prototypes to the corresponding functions of the simulation framework.
 \textbf{You may hence validate your signal processing functions in the simulation framework before inserting them in GNU Radio.}
 
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Remark on writing code that is \textit{fast enough}}
+    In the simulation framework, your code did not have to be fast to work.
+    \textbf{For the measurements}, however, the code should run in \textit{real-time},
+    meaning that, if your code is too slow, the packet will arrive faster
+    than they are decoded, eventually leading to errors.
+
+    If your code did work in the simulation tests, but not in GNU Radio, please
+    be careful to avoid too many for-loops, and prefer using array operations
+    directly.
+
+    You can use the \texttt{timeit} Python decorator from
+    \texttt{gr-fsk/python/utils} to measure how much time each function takes,
+    and identify the ones that are important to optimize.
+\end{bclogo}
+
 Nonetheless, it is important that you gain some understanding of how custom GNU Radio blocks are written.
 Please take some time to dive into \texttt{demodulation.py}. The functions \texttt{\_\_init\_\_} (initialization of the block with the specified parameters),
 \texttt{forecast} (indicates to GNU Radio how many input samples are needed to provide $N$ output samples) and \texttt{general\_work} (actual function that performs the processing) are common to all GNU Radio blocks.
@@ -65,10 +102,12 @@ callback functions, ... Open the file \texttt{gr-fsk/grc/fsk\_demodulation.block
 
 Once you went over the Python and YAML files, put the demodulation function you wrote for the previous hands-on in the external \texttt{demodulate} function. Repeat the same procedure for the CFO estimation in the function
 \texttt{cfo\_estimation} of \texttt{gr-fsk/python/synchronization.py}. Then, before running the GNU Radio application again, you need to re-do an installation to propagate your changes:
+
 \begin{bash}
     cd build/
     sudo make install
 \end{bash}
+
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Usage of the build folder}
     Creating and populating the build directory with \texttt{cmake} needs only to be done once.
     Afterwards it is sufficient to only do an install to propagate your changes in the Python files to the system.
@@ -91,8 +130,8 @@ The reference datasheet of the radio is available at the following link: \href{h
 \begin{enumerate}
     \item Connect the S2LP radio on the MCU to the Rx port of the LimeSDR Mini board using the SMA cable.
     \item Connect the Nucleo board to your computer.
-    \item Connect the LimeSDR Mini board to your computer \st{using the extension USB cable.
-        \textbf{Never connect the LimeSDR Mini board directly to your computer, as interference from your computer may corrupt the received signal.}} \textcolor{red}{$\rightarrow$ due to a USB 2.0/3.0 compatibility issue, please do not use the extension cable. We will reach back to you when we have a solution.}
+    \item Connect the LimeSDR Mini board to your computer using the extension USB cable.
+    To avoid any performance loss, do not connect the LimeSDR Mini board directly to your computer, as interference from your computer may corrupt the received signal.
     \item If on VirtualBox, pass both devices to the guest system (\textit{"Devices -> USB -> ..."}). On WSL, see install guidelines how to attach the LimeSDR.
 \end{enumerate}
 
@@ -116,8 +155,7 @@ In the configuration file \texttt{Core/Inc/config.h}, ensure that the following 
 Beside the general configuration file, the parameters of the radio evaluation mode are defined in \texttt{Core/Inc/eval\_radio.h}.
 Open this file and try to understand the different parameters.
 
-Afterwards, compile the software and flash the Nucleo board. Open a serial console to \texttt{/dev/ttyACM0} and press the button B1 to start
-transmitting packets.
+Afterwards, compile the software and flash the Nucleo board. Open a serial console to \texttt{/dev/ttyACM0} and press the button B1 to start transmitting packets.
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{MCU build error}
     If you encounter an error when building the MCU software project, this is probably because you need to update the project settings. To do so, please open the \texttt{ioc} and click \textit{Yes} when prompted to migrate the project to the new version. After, \textbf{do not forget} to re-generate. Finally, you should be able to compile the project. Some errors about \texttt{\_getpid} and \texttt{\_kill} may be left, but you can safely ignore them.
@@ -130,14 +168,25 @@ Open the application \texttt{gr-fsk/apps/eval\_limesdr.grc}. Instead of reading 
 to retrieve samples. Try to understand the effects of the following variables in the application:
 \begin{itemize}
     \item \texttt{packet\_len}: length of the packet, in bytes.
-    \item \texttt{rx\_gain}: gain of the amplification stage in the receiver chain, in decibels.
-    \item \texttt{detect\_threshold}: threshold of the preamble detection. \\
+    \item \texttt{rx\_gain}: gain of the amplification stage in the receiver chain, in decibels. It can be change during operation.
+    \item \texttt{detect\_threshold\_entry}: threshold of the preamble detection. You can also change it during operation.\\
     Open the Python file \texttt{gr-fsk/python/preamble\_detection.py} to understand its behavior.
     \item The cut-off frequency and transition width of the low pass filter.
 \end{itemize}
 If the role of some of these parameters are unclear to you, please ask the assistant for clarifications.
+Moreover, to allow the calculation of the SNR and to ease the setting of the threshold, the \textit{Noise estimation on query} can be activated during operation through the GUI during operation. It computes the noise power $K$ times over $N$ samples. It can be used to evaluate the noise before you enable the chain with the \textit{Enable chain} check box, or when you change the receiver gain.
 
-Finally, launch the GNU Radio application and then start transmitting packets using the MCU. You should be able to receive correctly all transmitted packets.
+When launching the GNU Radio application, the procedure is the following:
+\begin{enumerate}
+    \item Launch the GNU Radio application.
+    \item Perform a noise estimation by clicking on \textit{"Noise estimation query"}.
+    \item Update the detection threshold based on the estimated noise standard deviation.
+    \item Enable the chain by checking the box \textit{Enable chain}.
+    \item Start transmitting packets with the MCU.
+\end{enumerate}
+
+To be noted, there is \textit{TX power} variable that can be changed but it will only be useful later on in the project when you will make BER measurements.
+
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Help, my virtual machine becomes unstable or freezes!}
     If you observe that your virtual machine is unable to smoothly run the GNU Radio application, you may need to increase the number
     of CPU cores and the memory shared with the VM.
@@ -200,18 +249,11 @@ The theoretical explanation of the estimation of both random variables has been 
 In short, the power of the received signal is dynamically estimated using the preamble of the packet.
 On the contrary, the power of the noise is a fixed value which has to be estimated before the application is launched.
 
-In practice, an estimate of the noise power $\sigma^2$ can be obtained using the application \\
-\texttt{gr-fsk/apps/estimate\_noise.grc} \textbf{when the antenna is connected to the LimeSDR Mini}.
-The applications prints each second an estimate of $\sigma^2$.
-Since the noise level depends on the Rx gain, it is important that this gain is configured to the same value as the one used in the application
-\texttt{gr-fsk/apps/eval\_limesdr.grc}.
+In practice, an estimate of the noise power $\sigma^2$ can be obtained using the \textit{"Noise estimation query"} block during operation and \textbf{when the antenna is connected to the LimeSDR Mini}.
+Several estimation of $\sigma^2$ are made and their mean is calculated.
 
 \begin{enumerate}
-    \item Estimate the noise power using the application with a Rx gain of \SI{60}{\decibel}.
-    \item Repeat the operation by bypassing the low-pass filter (right-click on the block to enable/bypass it).
+    \item Estimate the noise power using the query with a Rx gain of \SI{60}{\decibel}.
+    \item Repeat the operation by bypassing the low-pass filter (right-click on the block to enable/bypass it, or select if and press D or E).
     What is the effect of the low-pass filter on the noise power?
-    \item Copy the estimated value (in linear scale, not in decibels)
-    with low-pass filter enabled to the the variable \texttt{estimated\_noise\_power} of the \texttt{gr-fsk/apps/eval\_limesdr.grc} application.
-    \item Regenerate and launch the application, and start transmitting packets at increasing distances.
-    At which SNR levels does the radio start failing to demodulate packets?
 \end{enumerate}

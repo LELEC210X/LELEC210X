@@ -245,6 +245,22 @@ def run_sim(chain: Chain):
     BER_th_BPSK = 0.5 * erfc(np.sqrt(10 ** (SNR_th / 10.0)))
     BER_th_noncoh = 0.5 * np.exp(-(10 ** (SNR_th / 10.0)) / 2)
 
+    # Bit error rate
+    fig, ax = plt.subplots(constrained_layout=True)
+    ax.plot(np.arange(len(Cu)), Cu)
+    ax.plot(np.arange(len(Cu)), np.abs(Cu))
+    ax.grid(True)
+    ax.set_title("Correlation")
+
+    print(Cu)
+    print(sum_Cu)
+    print(R**2 / sum_Cu)
+    print(np.sum(np.abs(taps) ** 2))
+    print(SNRs_dB)
+    print(SNR_th)
+    print(SNRs_dB - shift_SNR_filter + shift_SNR_out)
+    print(shift_SNR_out)
+    print(shift_SNR_filter)
     ### Plot dashboard
 
     fig, ax1 = plt.subplots()
@@ -341,22 +357,22 @@ def run_sim(chain: Chain):
     plt.show()
 
     # RMSE CFO
-    plt.figure()
-    plt.semilogy(SNRs_dB, RMSE_cfo, "-s")
-    plt.title("RMSE CFO")
-    plt.ylabel("RMSE [-]")
-    plt.xlabel("SNR [dB]")
-    plt.grid()
-    plt.show()
-
-    # RMSE STO
-    plt.figure()
-    plt.semilogy(SNRs_dB, RMSE_sto, "-s")
-    plt.title("RMSE STO")
-    plt.ylabel("RMSE [-]")
-    plt.xlabel("SNR [dB]")
-    plt.grid()
-    plt.show()
+    #    plt.figure()
+    #    plt.semilogy(SNRs_dB, RMSE_cfo, "-s")
+    #    plt.title("RMSE CFO")
+    #    plt.ylabel("RMSE [-]")
+    #    plt.xlabel("SNR [dB]")
+    #    plt.grid()
+    #    plt.show()
+    #
+    #    # RMSE STO
+    #    plt.figure()
+    #    plt.semilogy(SNRs_dB, RMSE_sto, "-s")
+    #    plt.title("RMSE STO")
+    #    plt.ylabel("RMSE [-]")
+    #    plt.xlabel("SNR [dB]")
+    #    plt.grid()
+    #    plt.show()
 
     # Save simulation outputs (for later post-processing, building new figures,...)
     test_name = "test"

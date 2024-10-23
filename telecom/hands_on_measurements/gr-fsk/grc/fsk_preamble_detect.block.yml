@@ -4,7 +4,10 @@ category: "[FSK]"
 
 templates:
   imports: import fsk
-  make: fsk.preamble_detect(${drate}, ${fdev}, ${fsamp}, ${packet_len}, ${threshold})
+  make: fsk.preamble_detect(${drate}, ${fdev}, ${fsamp}, ${packet_len}, ${threshold}, ${enable})
+  callbacks:
+  - set_enable(${enable})
+  - set_threshold(${threshold})
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
@@ -27,6 +30,9 @@ parameters:
   - id: threshold
     label: Detection Threshold
     dtype: float
+  - id: enable
+    label: Enable detection
+    dtype: int
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
@@ -40,7 +46,8 @@ inputs:
     dtype: complex
 
 outputs:
-  - label: Output
+  - domain: stream
+    label: Output
     dtype: complex
 
 #  'file_format' specifies the version of the GRC yml format used in the file

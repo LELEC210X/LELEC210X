@@ -18,8 +18,13 @@
 # Boston, MA 02110-1301, USA.
 #
 
+from distutils.version import LooseVersion
+
 import numpy as np
+import pmt
 from gnuradio import gr
+
+from .utils import logging, measurements_logger
 
 
 def cfo_estimation(y, B, R, Fdev):
@@ -55,14 +60,15 @@ class synchronization(gr.basic_block):
     docstring for block synchronization
     """
 
-    def __init__(self, drate, fdev, fsamp, hdr_len, packet_len, estimated_noise_power):
+    def __init__(self, drate, fdev, fsamp, hdr_len, packet_len, tx_power):
         self.drate = drate
         self.fdev = fdev
         self.fsamp = fsamp
         self.osr = int(fsamp / drate)
         self.hdr_len = hdr_len
         self.packet_len = packet_len  # in bytes
-        self.estimated_noise_power = estimated_noise_power
+        self.estimated_noise_power = 0
+        self.tx_power = tx_power
 
         # Remaining number of samples in the current packet
         self.rem_samples = 0
@@ -70,12 +76,25 @@ class synchronization(gr.basic_block):
         self.cfo = 0.0
         self.t0 = 0.0
         self.power_est = None
+        self.power_est = None
+        self.estimated_noise_power = 0
 
         gr.basic_block.__init__(
             self, name="Synchronization", in_sig=[np.complex64], out_sig=[np.complex64]
         )
+        self.logger = logging.getLogger("sync")
+        self.message_port_register_in(pmt.intern("NoisePow"))
+        self.set_msg_handler(pmt.intern("NoisePow"), self.handle_msg)
 
-    def forecast(self, noutput_items, ninput_items_required):
+        self.gr_version = gr.version()
+
+        # Redefine function based on version
+        if LooseVersion(self.gr_version) < LooseVersion("3.9.0"):
+            self.forecast = self.forecast_v38
+        else:
+            self.forecast = self.forecast_v310
+
+    def forecast_v38(self, noutput_items, ninput_items_required):
         """
         input items are samples (with oversampling factor)
         output items are samples (with oversampling factor)
@@ -88,6 +107,30 @@ class synchronization(gr.basic_block):
             ninput_items_required[0] = (
                 noutput_items  # pass remaining samples in packet to next block
             )
+
+    def forecast_v310(self, noutput_items, ninputs):
+        """
+        forecast is only called from a general block
+        this is the default implementation
+        """
+        ninput_items_required = [0] * ninputs
+        for i in range(ninputs):
+            if self.rem_samples == 0:  # looking for a new packet
+                ninput_items_required[i] = (
+                    self.hdr_len * 8 * self.osr
+                )  # enough samples to find a header inside
+            else:  # processing a previously found packet
+                ninput_items_required[i] = (
+                    noutput_items  # pass remaining samples in packet to next block
+                )
+
+        return ninput_items_required
+
+    def handle_msg(self, msg):
+        self.estimated_noise_power = pmt.to_double(msg)
+
+    def set_tx_power(self, tx_power):
+        self.tx_power = tx_power
 
     def general_work(self, input_items, output_items):
         if self.rem_samples == 0:  # new packet to process, compute the CFO and STO
@@ -104,10 +147,10 @@ class synchronization(gr.basic_block):
             self.init_sto = sto
             self.power_est = None
             self.rem_samples = (self.packet_len + 1) * 8 * self.osr
-            print(
-                f"[SYNC] New preamble detected @ {self.nitems_read(0) + sto} (CFO {self.cfo:.2f} Hz, STO {sto})"
+            self.logger.info(
+                f"new preamble detected @ {self.nitems_read(0) + sto} (CFO {self.cfo:.2f} Hz, STO {sto})"
             )
-
+            measurements_logger.info(f"CFO={self.cfo},STO={sto}")
             self.consume_each(sto)  # drop *sto* samples to align the buffer
             return 0  # ... but we do not transmit data to the demodulation stage
         else:
@@ -115,12 +158,15 @@ class synchronization(gr.basic_block):
             y = input_items[0][:win_size]
 
             if self.power_est is None and win_size >= 256:
-                self.power_est = np.mean(np.abs(y) ** 2)
+                self.power_est = np.var(y)
                 SNR_est = (
                     self.power_est - self.estimated_noise_power
                 ) / self.estimated_noise_power
-                print(
-                    f"[SYNC] Estimated SNR: {10 * np.log10(SNR_est):.2f} dB ({len(y)} samples)"
+                self.logger.info(
+                    f"estimated SNR: {10 * np.log10(SNR_est):.2f} dB ({len(y)} samples, Esti. RX power: {self.power_est:.2e},  TX indicative Power: {self.tx_power} dB)"
+                )
+                measurements_logger.info(
+                    f"SNRdB={10 * np.log10(SNR_est):.2f},TXPdB={self.tx_power}"
                 )
 
             # Correct CFO before transferring samples to demodulation stage

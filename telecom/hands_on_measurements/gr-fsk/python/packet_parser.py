@@ -18,8 +18,12 @@
 # Boston, MA 02110-1301, USA.
 #
 
+from distutils.version import LooseVersion
+
 import numpy as np
 from gnuradio import gr
+
+from .utils import logging, measurements_logger
 
 
 def reflect_data(x, width):
@@ -95,9 +99,29 @@ class packet_parser(gr.basic_block):
             in_sig=[np.uint8],
             out_sig=[(np.uint8, self.payload_len)],
         )
+        self.logger = logging.getLogger("parser")
 
-    def forecast(self, noutput_items, ninput_items_required):
+        self.gr_version = gr.version()
+
+        # Redefine function based on version
+        if LooseVersion(self.gr_version) < LooseVersion("3.9.0"):
+            self.forecast = self.forecast_v38
+        else:
+            self.forecast = self.forecast_v310
+
+    def forecast_v38(self, noutput_items, ninput_items_required):
         ninput_items_required[0] = self.packet_len + 1  # in bytes
+
+    def forecast_v310(self, noutput_items, ninputs):
+        """
+        forecast is only called from a general block
+        this is the default implementation
+        """
+        ninput_items_required = [0] * ninputs
+        for i in range(ninputs):
+            ninput_items_required[i] = self.packet_len + 1  # in bytes
+
+        return ninput_items_required
 
     def general_work(self, input_items, output_items):
         # we process maximum one packet at a time
@@ -132,17 +156,21 @@ class packet_parser(gr.basic_block):
             xor_out=0,
         )
         self.nb_packet += 1
-        if all(crc == crc_verif):
-            print("[MAC] Packet demodulated: ", payload, crc)
+        is_correct = all(crc == crc_verif)
+        measurements_logger.info(
+            f"packet_number={self.nb_packet},correct={is_correct},payload=[{','.join(map(str, payload))}]"
+        )
+        if is_correct:
+            self.logger.info(f"packet successfully demodulated: {payload} (CRC: {crc})")
             output_items[0][: self.payload_len] = payload
-            print(
-                f"--- {self.nb_packet} packets received with {self.nb_error} error(s) ---"
+            self.logger.info(
+                f"{self.nb_packet} packets received with {self.nb_error} error(s)"
             )
             return 1
         else:
-            print("[MAC] Error in CRC, packet dropped", payload, crc)
+            self.logger.error(f"incorrect CRC, packet dropped: {payload} (CRC: {crc})")
             self.nb_error += 1
-            print(
-                f"--- {self.nb_packet} packets received with {self.nb_error} error(s) ---"
+            self.logger.info(
+                f"{self.nb_packet} packets received with {self.nb_error} error(s)"
             )
             return 0

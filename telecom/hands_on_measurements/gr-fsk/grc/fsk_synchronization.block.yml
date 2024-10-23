@@ -4,7 +4,9 @@ category: "[FSK]"
 
 templates:
   imports: import fsk
-  make: fsk.synchronization(${drate}, ${fdev}, ${fsamp}, ${hdr_len}, ${packet_len}, ${estimated_noise_power})
+  make: fsk.synchronization(${drate}, ${fdev}, ${fsamp}, ${hdr_len}, ${packet_len}, ${tx_power})
+  callbacks:
+  - set_tx_power(${tx_power})
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
@@ -27,9 +29,12 @@ parameters:
   - id: packet_len
     label: Packet Length (bytes)
     dtype: int
-  - id: estimated_noise_power
-    label: Estimated Noise Power
+  - id: tx_power
+    label: TX power used
     dtype: float
+#  - id: estimated_noise_power
+#    label: Estimated Noise Power
+#    dtype: float
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
@@ -41,6 +46,9 @@ parameters:
 inputs:
   - label: Input
     dtype: complex
+  - domain: message
+    label: NoisePow
+    id: noisePow
 
 outputs:
   - label: Output
