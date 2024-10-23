@@ -23,5 +23,5 @@ install(FILES
     fsk_synchronization.block.yml
     fsk_demodulation.block.yml
     fsk_packet_parser.block.yml
-    fsk_noise_estimation.block.yml DESTINATION share/gnuradio/grc/blocks
+    fsk_onQuery_noise_estimation.block.yml DESTINATION share/gnuradio/grc/blocks
 )

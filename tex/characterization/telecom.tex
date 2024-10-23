@@ -2,15 +2,15 @@
 \subsection{Packet Error Rate}
 To obtain the experimental packet error rate (PER) as a function of the signal-to-noise ratio (SNR), one must measure the number of packets incorrectly demodulated by GNU Radio at several SNRs. To facilitate this measurement, we provide you with a script that parses the standard output of GNU Radio and extracts the number of received packets, the number of packet errors, the average estimated SNR as well as the measured CFO.
 
-To use it, you should remove the GUI from GNU Radio (by clicking on the Options block and setting the generate options to 'NO GUI', after having disabled all GUI blocks) and \textbf{generate the Python script}. Then, \textbf{for each SNR level}\footnote{This means that eval\_limesdr\_fpga.py should be run each time you press the B1 button on the MCU. We also suggest you to change the name of the file where the output is redirected, depending on the Tx power used (here, 5 dBm for example).}, run the following command in a terminal:
+To use it, you should first remove the GUI from GNU Radio (by clicking on the Options block and setting the generate options to 'NO GUI', after having disabled all GUI blocks) and \textbf{generate the Python script}. Then, before pressing the B1 button on the MCU, place the \texttt{tx\_power} range slider at the corresponding transmit power used by the MCU. This is needed so that GNU Radio will be able to print packets information and the corresponding SNR. As the gain is increased after pressing the button, you need to update the slider for every batch of packets that is sent.
     \begin{center}
-    \textit{python eval\_limesdr\_fpga.py | tee Tx\_5dBm.txt}\\
+    \texttt{python eval\_limesdr\_fpga.py}\\
     \end{center}
-This will launch your Python script and redirect the output to the file \textit{Tx\_5dBm.txt}. After the LimeSDR initialisation, you may start sending packet using the radio evaluation mode of the MCU.
+    This will launch your Python script and write useful measurements to the file \textit{measurements.txt}. \textbf{Note that this file will be saved in the same folder as the one you started GNU Radio from, and will be overwritten on each restart.} After the LimeSDR initialisation, you may start sending packet using the radio evaluation mode of the MCU (do not forget to set the transmit power first!).
 
-Once all packets have been transmitted (at the chosen SNR level), post-process the \textit{Tx\_5dBm.txt} file using the following Python script:
+Once all packets have been transmitted, post-process the \texttt{measurements.txt} file using the following Python script:
     \begin{center}
-    \textit{python read\_file\_for\_CFO\_SNR.py Tx\_5dBm.txt}\\
+    \texttt{python read\_measurements.py measurements.txt}\\
     \end{center}
 The script extracts all the metrics to obtain one point on the PER-SNR curve. Indeed, it prints the average SNR on all packets received, as well as the number of packets received and the number of packet errors. Then, repeat the same steps to obtain a new point on the PER-SNR curve, for another SNR level.
 
