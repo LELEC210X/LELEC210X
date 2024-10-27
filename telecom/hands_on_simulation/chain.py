@@ -29,7 +29,7 @@ class Chain:
                 1000  # defines the CFO range when random (in Hz) #(1000 in old repo)
             ),
             cfo_Moose_N: int = 4,
-            snr_range: np.ndarray = np.arange(-10, 25),
+            snr_range: np.ndarray = np.arange(-10, 35),
             # Lowpass filter parameters
             numtaps: int = 100,
             cutoff: float = 0.0,

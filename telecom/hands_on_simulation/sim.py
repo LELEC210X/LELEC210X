@@ -260,11 +260,10 @@ def run_sim(chain: Chain, filename="sim"):
     if not os.path.exists("data"):
         os.makedirs("data")
     
-    np.savetxt(f"data/{filename}.csv", save_var, delimiter=",",\
-               header=f"SNR_o [dB],SNR_e [dB],BER,PER,RMSE cfo,RMSE sto,preamble miss rate,\
-               preamble false rate,SNR estimation matrix ({chain.n_packets} columns)")
+    np.savetxt(f"data/{filename}.csv", save_var, delimiter=",", comments='',\
+    header=f"SNR_o [dB],SNR_e [dB],BER,PER,RMSE cfo,RMSE sto,preamble miss rate,preamble false rate,SNR estimation matrix ({chain.n_packets} columns)")
 
-def plot_FIR(chain: Chain):
+def plot_FIR(chain: Chain, **plot_kwargs):
     
     R = chain.osr_rx
     B = chain.bit_rate
@@ -274,7 +273,7 @@ def plot_FIR(chain: Chain):
     taps = firwin(chain.numtaps, chain.cutoff, fs=fs)
     
     # Plot dashboard
-    fig, ax1 = plt.subplots()
+    fig, ax1 = plt.subplots(**plot_kwargs)
     w, h = freqz(taps)
     f = w * fs * 0.5 / np.pi
     ax1.set_title("FIR response")
@@ -290,7 +289,7 @@ def plot_FIR(chain: Chain):
     
     return fig
 
-def plot_BER_PER(chain: Chain, SNRs_dB: np.ndarray, BER: np.ndarray, PER: np.ndarray):
+def plot_BER_PER(chain: Chain, SNRs_dB: np.ndarray, BER: np.ndarray, PER: np.ndarray, **plot_kwargs):
     
     R = chain.osr_rx
     B = chain.bit_rate
@@ -315,7 +314,7 @@ def plot_BER_PER(chain: Chain, SNRs_dB: np.ndarray, BER: np.ndarray, PER: np.nda
 
 
     # Bit error rate
-    fig1, ax = plt.subplots(constrained_layout=True)
+    fig1, ax = plt.subplots(**plot_kwargs)
     ax.plot(SNRs_dB + shift_SNR_out, BER, "-s", label="Simulation")
     ax.plot(SNR_th, BER_th, label="AWGN Th. FSK")
     ax.plot(SNR_th, BER_th_noncoh, label="AWGN Th. FSK non-coh.")
@@ -324,7 +323,7 @@ def plot_BER_PER(chain: Chain, SNRs_dB: np.ndarray, BER: np.ndarray, PER: np.nda
     ax.set_xlabel("SNR$_{o}$ [dB]")
     ax.set_yscale("log")
     ax.set_ylim((1e-6, 1))
-    ax.set_xlim((0, 30))
+    ax.set_xlim((0, chain.snr_range[len(chain.snr_range)-1]))
     ax.grid(True)
     ax.set_title("Average Bit Error Rate")
     ax.legend()
@@ -346,7 +345,7 @@ def plot_BER_PER(chain: Chain, SNRs_dB: np.ndarray, BER: np.ndarray, PER: np.nda
         ax2.tick_params(axis="x", colors="b")
 
     # Packet error rate
-    fig2, ax = plt.subplots(constrained_layout=True)
+    fig2, ax = plt.subplots(**plot_kwargs)
     ax.plot(SNRs_dB + shift_SNR_out, PER, "-s", label="Simulation")
     ax.plot(SNR_th, 1 - (1 - BER_th) ** chain.payload_len, label="AWGN Th. FSK")
     ax.plot(
@@ -359,7 +358,7 @@ def plot_BER_PER(chain: Chain, SNRs_dB: np.ndarray, BER: np.ndarray, PER: np.nda
     ax.set_xlabel("SNR$_{o}$ [dB]")
     ax.set_yscale("log")
     ax.set_ylim((1e-6, 1))
-    ax.set_xlim((0, 30))
+    ax.set_xlim((0, chain.snr_range[len(chain.snr_range)-1]))
     ax.grid(True)
     ax.set_title("Average Packet Error Rate")
     ax.legend()
@@ -382,9 +381,9 @@ def plot_BER_PER(chain: Chain, SNRs_dB: np.ndarray, BER: np.ndarray, PER: np.nda
     
     return (fig1, fig2)
 
-def plot_preamble_metrics(SNRs_dB: np.ndarray, preamble_mis: np.ndarray, preamble_false: np.ndarray):
+def plot_preamble_metrics(SNRs_dB: np.ndarray, preamble_mis: np.ndarray, preamble_false: np.ndarray, **plot_kwargs):
     
-    fig = plt.figure()
+    fig = plt.figure(**plot_kwargs)
     plt.plot(SNRs_dB, preamble_mis * 100, "-s", label="Miss-detection")
     plt.plot(SNRs_dB, preamble_false * 100, "-s", label="False-detection")
     plt.title("Preamble detection error ")
@@ -396,9 +395,9 @@ def plot_preamble_metrics(SNRs_dB: np.ndarray, preamble_mis: np.ndarray, preambl
     
     return fig
 
-def plot_RMSE_cfo(SNRs_dB: np.ndarray, RMSE_cfo: np.ndarray):
+def plot_RMSE_cfo(SNRs_dB: np.ndarray, RMSE_cfo: np.ndarray, **plot_kwargs):
     
-    fig = plt.figure()
+    fig = plt.figure(**plot_kwargs)
     plt.semilogy(SNRs_dB, RMSE_cfo, "-s")
     plt.title("RMSE CFO")
     plt.ylabel("RMSE [-]")
@@ -407,9 +406,9 @@ def plot_RMSE_cfo(SNRs_dB: np.ndarray, RMSE_cfo: np.ndarray):
     
     return fig
 
-def plot_RMSE_sto(SNRs_dB: np.ndarray, RMSE_sto: np.ndarray):
+def plot_RMSE_sto(SNRs_dB: np.ndarray, RMSE_sto: np.ndarray, **plot_kwargs):
     
-    fig = plt.figure()
+    fig = plt.figure(**plot_kwargs)
     plt.semilogy(SNRs_dB, RMSE_sto, "-s")
     plt.title("RMSE STO")
     plt.ylabel("RMSE [-]")
@@ -418,11 +417,11 @@ def plot_RMSE_sto(SNRs_dB: np.ndarray, RMSE_sto: np.ndarray):
     
     return fig
 
-def plot_SNR_est(SNRs_dB: np.ndarray, SNR_est_matrix: np.ndarray):
+def plot_SNR_est(SNRs_dB: np.ndarray, SNR_est_matrix: np.ndarray, **plot_kwargs):
     
     SNR_est_dB = 10*np.log10(np.abs(SNR_est_matrix.T))
     
-    fig = plt.figure()
+    fig = plt.figure(**plot_kwargs)
     plt.boxplot(SNR_est_dB, showfliers=False)
     plt.plot(np.arange(len(SNRs_dB))+1, SNRs_dB, color="lightblue")
     plt.xticks((np.arange(len(SNRs_dB))+1)[::5], labels=SNRs_dB[::5])
@@ -434,6 +433,8 @@ def plot_SNR_est(SNRs_dB: np.ndarray, SNR_est_matrix: np.ndarray):
     return fig
 
 def plot_graphs(chain: Chain, FIR=False, save=True, show=True, **kwargs):
+    
+    plot_kwargs = dict(figsize=(8,6), dpi=300, layout="constrained")
     
     # Read file:
     try:
@@ -456,15 +457,15 @@ def plot_graphs(chain: Chain, FIR=False, save=True, show=True, **kwargs):
         os.makedirs(f"graphs/{filename}")
     
     if FIR:
-        FIR_fig = plot_FIR(chain)
-    BER_fig, PER_fig = plot_BER_PER(chain, SNRs_dB, BER, PER)
+        FIR_fig = plot_FIR(chain, **plot_kwargs)
+    BER_fig, PER_fig = plot_BER_PER(chain, SNRs_dB, BER, PER, **plot_kwargs)
     if not chain.bypass_preamble_detect:
-        preamble_metrics_fig = plot_preamble_metrics(SNRs_dB, preamble_mis, preamble_false)
+        preamble_metrics_fig = plot_preamble_metrics(SNRs_dB, preamble_mis, preamble_false, **plot_kwargs)
     if not chain.bypass_cfo_estimation:
-        RMSE_cfo_fig = plot_RMSE_cfo(SNRs_dB, RMSE_cfo)
+        RMSE_cfo_fig = plot_RMSE_cfo(SNRs_dB, RMSE_cfo, **plot_kwargs)
     if not chain.bypass_sto_estimation:
-        RMSE_sto_fig = plot_RMSE_sto(SNRs_dB, RMSE_sto)
-    SNR_est_fig = plot_SNR_est(SNRs_dB, SNR_est_matrix)
+        RMSE_sto_fig = plot_RMSE_sto(SNRs_dB, RMSE_sto, **plot_kwargs)
+    SNR_est_fig = plot_SNR_est(SNRs_dB, SNR_est_matrix, **plot_kwargs)
         
     if save:
         if FIR:
