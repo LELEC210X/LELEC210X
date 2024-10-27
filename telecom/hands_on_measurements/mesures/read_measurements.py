@@ -32,6 +32,23 @@ class Packet:
         return self.__str__()
 
 
+class Noise_Query:
+    def __init__(self, rx_gain, lpf_status, final_noise_power_db, noise_std_db):
+        self.rx_gain = rx_gain
+        self.lpf_status = lpf_status
+        self.final_noise_power_db = final_noise_power_db
+        self.noise_std_db = noise_std_db
+
+    def __str__(self):
+        return (f"RX Gain: {self.rx_gain} dB\n"
+                f"LPF Status: {self.lpf_status}\n"
+                f"Final Estimated Noise Power: {self.final_noise_power_db} dB\n"
+                f"Noise Standard Deviation: {self.noise_std_db} dB\n")
+    
+    def __repr__(self):
+        return self.__str__()
+
+
 def reformat_txt_file(input_filepath, output_filepath=None):
     if output_filepath is None:
         output_filepath = input_filepath  # Overwrite the input file if no output file is specified
@@ -88,7 +105,7 @@ def calc_BER(byte_values):
     return ber
 
 
-def read_txt(filepath):
+def read_packets_txt(filepath):
     packets = []
     current_packet = None
 
@@ -128,13 +145,48 @@ def read_txt(filepath):
 
     return packets
 
+def read_noise_queries_txt(filepath):
+    noise_queries = []
+    with open(filepath, 'r') as file:
+        rx_gain, lpf_status, final_noise_power_db, noise_std_db = None, None, None, None
+        for line in file:
+            # Capture the RX gain and LPF status
+            if "dB LPF" in line:
+                match = re.match(r"(\d+) dB LPF (\w+)", line)
+                if match:
+                    rx_gain = int(match.group(1))
+                    lpf_status = match.group(2).lower()
+
+            # Capture the final estimated noise power and noise std in dB
+            elif "Final estimated noise power" in line:
+                match = re.search(r"Final estimated noise power: .+ \(([-\d.]+)dB, Noise std : ([-\d.]+)", line)
+                if match:
+                    final_noise_power_db = float(match.group(1))
+                    noise_std_db = float(match.group(2))
+
+                # Create a new Noise_Query instance and append it to the list
+                if rx_gain and lpf_status and final_noise_power_db is not None and noise_std_db is not None:
+                    noise_queries.append(
+                        Noise_Query(rx_gain, lpf_status, final_noise_power_db, noise_std_db)
+                    )
+                    # Reset for the next query
+                    rx_gain, lpf_status, final_noise_power_db, noise_std_db = None, None, None, None
+
+    return noise_queries
+
+
 def main():
     reformat_txt_file("Packets.txt", "Packets_reformatted.txt")
-    packets = read_txt("Packets_reformatted.txt")
+    packets = read_packets_txt("Packets_reformatted.txt")
+    noise_queries = read_noise_queries_txt("Noise_queries.txt")
     
     for i, packet in enumerate(packets):
         print(f"packet : {i}")
         print(packet)
+    
+    for i, noise_query in enumerate(noise_queries):
+        print(f"Noise query : {i}")
+        print(noise_query)
 
 if __name__ == "__main__":
     main()

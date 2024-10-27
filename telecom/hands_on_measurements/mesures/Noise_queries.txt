@@ -24,7 +24,7 @@ INFO:noise:estimated noise power: 2.32e-03 (-26.34dB, Noise std : 4.82e-02,  DC 
 INFO:noise:estimated noise power: 2.94e-03 (-25.31dB, Noise std : 5.42e-02,  DC offset: 2.10e-04, calc. on 4096 samples)
 INFO:noise:===== > Final estimated noise power: 2.51e-03 (-26.00dB, Noise std : 5.01e-02)
 
-60 dB LP Bypassed
+60 dB LPF Bypassed
 INFO:noise:estimated noise power: 9.70e-04 (-30.13dB, Noise std : 3.12e-02,  DC offset: 1.47e-04, calc. on 4095 samples)
 INFO:noise:estimated noise power: 9.49e-04 (-30.23dB, Noise std : 3.08e-02,  DC offset: 5.52e-05, calc. on 4096 samples)
 INFO:noise:estimated noise power: 1.02e-03 (-29.90dB, Noise std : 3.20e-02,  DC offset: 4.06e-05, calc. on 4095 samples)
@@ -37,7 +37,7 @@ INFO:noise:estimated noise power: 9.33e-04 (-30.30dB, Noise std : 3.05e-02,  DC 
 INFO:noise:estimated noise power: 1.01e-03 (-29.97dB, Noise std : 3.17e-02,  DC offset: 5.47e-05, calc. on 4096 samples)
 INFO:noise:===== > Final estimated noise power: 9.96e-04 (-30.02dB, Noise std : 3.16e-02)
 
-70 dB LP Bypassed
+70 dB LPF Bypassed
 INFO:noise:estimated noise power: 6.90e-03 (-21.61dB, Noise std : 8.31e-02,  DC offset: 4.44e-04, calc. on 4096 samples)
 INFO:noise:estimated noise power: 7.87e-03 (-21.04dB, Noise std : 8.87e-02,  DC offset: 5.42e-04, calc. on 4095 samples)
 INFO:noise:estimated noise power: 7.64e-03 (-21.17dB, Noise std : 8.74e-02,  DC offset: 2.63e-04, calc. on 4096 samples)
