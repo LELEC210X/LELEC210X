@@ -60,8 +60,8 @@ def plot_graphs(chain: Chain, packets: list[Packet], noise_queries: list[Noise_Q
     if save:
         if not os.path.exists("graphs"):
             os.makedirs("graphs")
-        BER_fig.savefig("graphs/BER.png", dpi=300)
-        PER_fig.savefig("graphs/PER.png", dpi=300)
+        BER_fig.savefig(f"graphs/BER_n_{chain.n_packets}_p_{chain.payload_len}.png", dpi=300)
+        PER_fig.savefig(f"graphs/PER_n_{chain.n_packets}_p_{chain.payload_len}.png", dpi=300)
     
     if show:
         plt.show()
