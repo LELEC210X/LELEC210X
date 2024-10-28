@@ -101,7 +101,7 @@ class Chain:
             
             if print_x_k:
                 print(f"bit [{i}] : {b}")
-                print(f"--> x[{i}] : {np.abs(x[i * R]):.2f}∠{np.angle(x[i * R]) / np.pi * 180:.2f}°  ...  {np.abs(x[(i + 1) * R - 1]):.2f}∠{np.angle(x[(i + 1) * R - 1]) / np.pi * 180:.2f}°\n")
+                print(f"--> x[{i}] : {np.abs(x[i * R]):.2f} arg {np.angle(x[i * R]) / np.pi * 180:.2f}°  ...  {np.abs(x[(i + 1) * R - 1]):.2f} arg {np.angle(x[(i + 1) * R - 1]) / np.pi * 180:.2f}°\n")
 
         return x
 
@@ -254,8 +254,8 @@ class BasicChain(Chain):
         
         if print_y_k:
             for k in range(N):
-                print(f"y[{k}] : {np.abs(y[k][0]):.2f}∠{np.angle(y[k][0]) / np.pi * 180:.2f}°  ...  {np.abs(y[k][R - 1]):.2f}∠{np.angle(y[k][R - 1]) / np.pi * 180:.2f}°")
-                print(f"--> r0[k] = {np.abs(r0[k]):.2f}∠{np.angle(r0[k]) / np.pi * 180:.2f}°, r1 = {np.abs(r1[k]):.2f}∠{np.angle(r1[k]) / np.pi * 180:.2f}°\n")
+                print(f"y[{k}] : {np.abs(y[k][0]):.2f} arg {np.angle(y[k][0]) / np.pi * 180:.2f}°  ...  {np.abs(y[k][R - 1]):.2f} arg {np.angle(y[k][R - 1]) / np.pi * 180:.2f}°")
+                print(f"--> r0[k] = {np.abs(r0[k]):.2f} arg {np.angle(r0[k]) / np.pi * 180:.2f}°, r1 = {np.abs(r1[k]):.2f} arg {np.angle(r1[k]) / np.pi * 180:.2f}°\n")
                 print(f"--> bit [{k}] : {bits_hat[k]}")
 
         if print_RX:
