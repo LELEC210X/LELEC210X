@@ -475,17 +475,17 @@ def plot_graphs(chain: Chain, FIR=False, SNR_est=True, save=True, show=True, **k
             R = chain.osr_rx
             B = chain.bit_rate
             fs = B * R
-            FIR_fig.savefig(f"graphs/FIR_response_numtaps_{chain.numtaps}_cutoff_{chain.cutoff:.0f}_fs_{fs:.0f}.png", dpi=300)
-        BER_fig.savefig(f"graphs/{filename}/BER.png", dpi=300)
-        PER_fig.savefig(f"graphs/{filename}/PER.png", dpi=300)
+            FIR_fig.savefig(f"graphs/FIR_response_numtaps_{chain.numtaps}_cutoff_{chain.cutoff:.0f}_fs_{fs:.0f}.pdf", dpi=300)
+        BER_fig.savefig(f"graphs/{filename}/BER.pdf", dpi=300)
+        PER_fig.savefig(f"graphs/{filename}/PER.pdf", dpi=300)
         if not chain.bypass_preamble_detect:
-            preamble_metrics_fig.savefig(f"graphs/{filename}/preamble_metrics.png", dpi=300)
+            preamble_metrics_fig.savefig(f"graphs/{filename}/preamble_metrics.pdf", dpi=300)
         if not chain.bypass_cfo_estimation:
-            RMSE_cfo_fig.savefig(f"graphs/{filename}/RMSE_cfo.png", dpi=300)
+            RMSE_cfo_fig.savefig(f"graphs/{filename}/RMSE_cfo.pdf", dpi=300)
         if not chain.bypass_sto_estimation:
-            RMSE_sto_fig.savefig(f"graphs/{filename}/RMSE_sto.png", dpi=300)
+            RMSE_sto_fig.savefig(f"graphs/{filename}/RMSE_sto.pdf", dpi=300)
         if SNR_est:
-            SNR_est_fig.savefig(f"graphs/{filename}/SNR_est.png", dpi=300)
+            SNR_est_fig.savefig(f"graphs/{filename}/SNR_est.pdf", dpi=300)
     
     if show:
         plt.show()
