@@ -74,7 +74,7 @@ def main():
 
     # It is better to compare with similar simulation parameters and large n_packets 
     chain = BasicChain(bypass_cfo_estimation=False, bypass_preamble_detect=False, bypass_sto_estimation=False)
-    # chain = BasicChain(payload_len=100, n_packets=100_000, cfo_Moose_N=16, bypass_cfo_estimation=False, bypass_preamble_detect=False, bypass_sto_estimation=False)
+    # chain = BasicChain(payload_len=800, n_packets=100_000, cfo_Moose_N=16, bypass_cfo_estimation=False, bypass_preamble_detect=False, bypass_sto_estimation=False)
     
     filename = f"sim_p_{chain.payload_len}_n_{chain.n_packets}_" + \
             f"pre_det_{'OFF' if chain.bypass_preamble_detect else 'ON'}_" + \
