@@ -42,7 +42,7 @@ set_global_assignment -name DEVICE 10M16SAU169C8G
 set_global_assignment -name TOP_LEVEL_ENTITY lms7_trx_top
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 15.1.2
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "10:56:13  OCTOBER 24, 2017"
-set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Standard Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
@@ -363,7 +363,7 @@ set_instance_assignment -name IO_STANDARD "1.8 V" -to FPGA_QSPI_IO1
 set_instance_assignment -name IO_STANDARD "1.8 V" -to FPGA_QSPI_IO2
 set_instance_assignment -name IO_STANDARD "1.8 V" -to FPGA_QSPI_IO3
 set_instance_assignment -name IO_STANDARD "1.8 V" -to FPGA_QSPI_SCLK
-set_global_assignment -name ALLOW_REGISTER_RETIMING OFF
+set_global_assignment -name ALLOW_REGISTER_RETIMING ON
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to BOM_VER[2]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to BOM_VER[1]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to BOM_VER[0]
@@ -371,7 +371,6 @@ set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to HW_VER[0]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to HW_VER[1]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to HW_VER[2]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to HW_VER[3]
-set_global_assignment -name DEVICE_MIGRATION_LIST 10M16SAU169C8G
 set_global_assignment -name QIP_FILE lms_auto_dsp/synthesis/lms_auto_dsp.qip
 set_global_assignment -name QIP_FILE lms_dsp/synthesis/lms_dsp.qip
 set_global_assignment -name VHDL_FILE src/rx_path_top/delay_chain/delay_chain.vhd

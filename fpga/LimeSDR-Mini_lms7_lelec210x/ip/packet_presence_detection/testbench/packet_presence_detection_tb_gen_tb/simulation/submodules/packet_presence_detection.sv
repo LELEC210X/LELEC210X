@@ -194,12 +194,16 @@ module dual_running_sum #(
 	end
 	
 	
+
+
+
+
+
 	wire  [(LONG_SUM_WIDTH+8 -1):0] long_shift_rescale;
 	
-	assign long_shift_rescale  = long_sum_reg ;
+	assign long_shift_rescale  = (long_sum_reg*K) >> 3;
 
 	assign long_shift_full = (long_counter==LONG_SHIFT_LEN);
-	
 	assign launch = short_to_long_arrived & long_shift_full &  (short_sum_reg  > long_shift_rescale);
 	
 	assign  long_sum = long_shift_rescale  ;

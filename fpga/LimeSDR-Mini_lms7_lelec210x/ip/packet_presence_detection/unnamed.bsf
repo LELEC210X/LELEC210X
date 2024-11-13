@@ -1,0 +1,156 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 0 0 512 336)
+	(text "unnamed" (rect 230 -1 266 11)(font "Arial" (font_size 10)))
+	(text "inst" (rect 8 320 20 332)(font "Arial" ))
+	(port
+		(pt 0 72)
+		(input)
+		(text "cfg_PASSTHROUGH_LEN[15..0]" (rect 0 0 143 12)(font "Arial" (font_size 8)))
+		(text "cfg_PASSTHROUGH_LEN[15..0]" (rect 4 61 160 72)(font "Arial" (font_size 8)))
+		(line (pt 0 72)(pt 192 72)(line_width 3))
+	)
+	(port
+		(pt 0 88)
+		(input)
+		(text "cfg_THRESHOLD[7..0]" (rect 0 0 100 12)(font "Arial" (font_size 8)))
+		(text "cfg_THRESHOLD[7..0]" (rect 4 77 118 88)(font "Arial" (font_size 8)))
+		(line (pt 0 88)(pt 192 88)(line_width 3))
+	)
+	(port
+		(pt 0 104)
+		(input)
+		(text "cfg_clear_rs" (rect 0 0 51 12)(font "Arial" (font_size 8)))
+		(text "cfg_clear_rs" (rect 4 93 76 104)(font "Arial" (font_size 8)))
+		(line (pt 0 104)(pt 192 104)(line_width 1))
+	)
+	(port
+		(pt 0 120)
+		(input)
+		(text "cfg_enable" (rect 0 0 43 12)(font "Arial" (font_size 8)))
+		(text "cfg_enable" (rect 4 109 64 120)(font "Arial" (font_size 8)))
+		(line (pt 0 120)(pt 192 120)(line_width 1))
+	)
+	(port
+		(pt 0 208)
+		(input)
+		(text "avalon_streaming_sink_data[23..0]" (rect 0 0 139 12)(font "Arial" (font_size 8)))
+		(text "avalon_streaming_sink_data[23..0]" (rect 4 197 202 208)(font "Arial" (font_size 8)))
+		(line (pt 0 208)(pt 192 208)(line_width 3))
+	)
+	(port
+		(pt 0 224)
+		(input)
+		(text "avalon_streaming_sink_valid" (rect 0 0 115 12)(font "Arial" (font_size 8)))
+		(text "avalon_streaming_sink_valid" (rect 4 213 166 224)(font "Arial" (font_size 8)))
+		(line (pt 0 224)(pt 192 224)(line_width 1))
+	)
+	(port
+		(pt 0 264)
+		(input)
+		(text "clock_sink_clk" (rect 0 0 57 12)(font "Arial" (font_size 8)))
+		(text "clock_sink_clk" (rect 4 253 88 264)(font "Arial" (font_size 8)))
+		(line (pt 0 264)(pt 192 264)(line_width 1))
+	)
+	(port
+		(pt 0 304)
+		(input)
+		(text "reset_sink_reset" (rect 0 0 67 12)(font "Arial" (font_size 8)))
+		(text "reset_sink_reset" (rect 4 293 100 304)(font "Arial" (font_size 8)))
+		(line (pt 0 304)(pt 192 304)(line_width 1))
+	)
+	(port
+		(pt 0 136)
+		(output)
+		(text "debug_count[31..0]" (rect 0 0 74 12)(font "Arial" (font_size 8)))
+		(text "debug_count[31..0]" (rect 4 125 112 136)(font "Arial" (font_size 8)))
+		(line (pt 0 136)(pt 192 136)(line_width 3))
+	)
+	(port
+		(pt 0 152)
+		(output)
+		(text "debug_long_sum[31..0]" (rect 0 0 92 12)(font "Arial" (font_size 8)))
+		(text "debug_long_sum[31..0]" (rect 4 141 130 152)(font "Arial" (font_size 8)))
+		(line (pt 0 152)(pt 192 152)(line_width 3))
+	)
+	(port
+		(pt 0 168)
+		(output)
+		(text "debug_short_sum[31..0]" (rect 0 0 96 12)(font "Arial" (font_size 8)))
+		(text "debug_short_sum[31..0]" (rect 4 157 136 168)(font "Arial" (font_size 8)))
+		(line (pt 0 168)(pt 192 168)(line_width 3))
+	)
+	(port
+		(pt 512 72)
+		(output)
+		(text "avalon_streaming_source_data[23..0]" (rect 0 0 151 12)(font "Arial" (font_size 8)))
+		(text "avalon_streaming_source_data[23..0]" (rect 325 61 535 72)(font "Arial" (font_size 8)))
+		(line (pt 512 72)(pt 320 72)(line_width 3))
+	)
+	(port
+		(pt 512 88)
+		(output)
+		(text "avalon_streaming_source_valid" (rect 0 0 127 12)(font "Arial" (font_size 8)))
+		(text "avalon_streaming_source_valid" (rect 354 77 528 88)(font "Arial" (font_size 8)))
+		(line (pt 512 88)(pt 320 88)(line_width 1))
+	)
+	(drawing
+		(text "cfg" (rect 175 43 368 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "cfg_passthrough_len" (rect 197 67 508 144)(font "Arial" (color 0 0 0)))
+		(text "cfg_threshold" (rect 197 83 472 176)(font "Arial" (color 0 0 0)))
+		(text "cfg_clear_rs" (rect 197 99 466 208)(font "Arial" (color 0 0 0)))
+		(text "cfg_enable" (rect 197 115 454 240)(font "Arial" (color 0 0 0)))
+		(text "debug_count" (rect 197 131 460 272)(font "Arial" (color 0 0 0)))
+		(text "debug_long_sum" (rect 197 147 478 304)(font "Arial" (color 0 0 0)))
+		(text "debug_short_sum" (rect 197 163 484 336)(font "Arial" (color 0 0 0)))
+		(text "avalon_streaming_sink" (rect 58 179 242 371)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "data" (rect 197 203 418 416)(font "Arial" (color 0 0 0)))
+		(text "valid" (rect 197 219 424 448)(font "Arial" (color 0 0 0)))
+		(text "avalon_streaming_source" (rect 321 43 780 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "data" (rect 299 67 622 144)(font "Arial" (color 0 0 0)))
+		(text "valid" (rect 297 83 624 176)(font "Arial" (color 0 0 0)))
+		(text "clock_sink" (rect 132 235 324 483)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "clk" (rect 197 259 412 528)(font "Arial" (color 0 0 0)))
+		(text "reset_sink" (rect 131 275 322 563)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "reset" (rect 197 299 424 608)(font "Arial" (color 0 0 0)))
+		(text " system " (rect 477 320 1002 650)(font "Arial" ))
+		(line (pt 192 32)(pt 320 32)(line_width 1))
+		(line (pt 320 32)(pt 320 320)(line_width 1))
+		(line (pt 192 320)(pt 320 320)(line_width 1))
+		(line (pt 192 32)(pt 192 320)(line_width 1))
+		(line (pt 193 52)(pt 193 172)(line_width 1))
+		(line (pt 194 52)(pt 194 172)(line_width 1))
+		(line (pt 193 188)(pt 193 228)(line_width 1))
+		(line (pt 194 188)(pt 194 228)(line_width 1))
+		(line (pt 319 52)(pt 319 92)(line_width 1))
+		(line (pt 318 52)(pt 318 92)(line_width 1))
+		(line (pt 193 244)(pt 193 268)(line_width 1))
+		(line (pt 194 244)(pt 194 268)(line_width 1))
+		(line (pt 193 284)(pt 193 308)(line_width 1))
+		(line (pt 194 284)(pt 194 308)(line_width 1))
+		(line (pt 0 0)(pt 512 0)(line_width 1))
+		(line (pt 512 0)(pt 512 336)(line_width 1))
+		(line (pt 0 336)(pt 512 336)(line_width 1))
+		(line (pt 0 0)(pt 0 336)(line_width 1))
+	)
+)

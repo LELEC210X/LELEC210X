@@ -5,11 +5,11 @@
  version="1.0"
  fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
- <!-- 2023.11.08.03:03:09 -->
+ <!-- 2024.11.13.13:21:53 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1699408989</value>
+  <value>1731500513</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -27,7 +27,7 @@
  </parameter>
  <parameter name="AUTO_DEVICE_FAMILY">
   <type>java.lang.String</type>
-  <value>MAX10FPGA</value>
+  <value>CYCLONEIVE</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -36,7 +36,7 @@
  </parameter>
  <parameter name="AUTO_DEVICE">
   <type>java.lang.String</type>
-  <value>10M16SAU169C8G</value>
+  <value>EP4CE10E22A7</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -45,7 +45,7 @@
  </parameter>
  <parameter name="AUTO_DEVICE_SPEEDGRADE">
   <type>java.lang.String</type>
-  <value>8</value>
+  <value>7</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -84,7 +84,7 @@
  </parameter>
  <parameter name="deviceFamily">
   <type>java.lang.String</type>
-  <value>MAX 10</value>
+  <value>Cyclone IV E</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>

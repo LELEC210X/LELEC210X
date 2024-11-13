@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pinplan
+ variation_name="packet_presence_detection_0"
+ megafunction_name="PACKET_PRESENCE_DETECTION"
+ specifies="all_ports">
+ <global>
+  <pin name="cfg_PASSTHROUGH_LEN[15..0]" direction="input" scope="external" />
+  <pin name="cfg_THRESHOLD[7..0]" direction="input" scope="external" />
+  <pin name="cfg_clear_rs" direction="input" scope="external" />
+  <pin name="cfg_enable" direction="input" scope="external" />
+  <pin name="debug_count[31..0]" direction="output" scope="external" />
+  <pin name="debug_long_sum[31..0]" direction="output" scope="external" />
+  <pin name="debug_short_sum[31..0]" direction="output" scope="external" />
+  <pin
+     name="avalon_streaming_sink_data[23..0]"
+     direction="input"
+     scope="external" />
+  <pin name="avalon_streaming_sink_valid" direction="input" scope="external" />
+  <pin
+     name="avalon_streaming_source_data[23..0]"
+     direction="output"
+     scope="external" />
+  <pin
+     name="avalon_streaming_source_valid"
+     direction="output"
+     scope="external" />
+  <pin name="clock_sink_clk" direction="input" scope="external" />
+  <pin name="reset_sink_reset" direction="input" scope="external" />
+ </global>
+</pinplan>
