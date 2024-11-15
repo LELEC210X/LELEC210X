@@ -1,5 +1,5 @@
 ## ================================================================================
-## Legal Notice: Copyright (C) 1991-2023 Altera Corporation. All rights reserved.
+## Legal Notice: Copyright (C) 1991-2024 Altera Corporation. All rights reserved.
 ## Any megafunction design, and related net list (encrypted or decrypted),
 ## support information, device programming or simulation file, and any other
 ## associated documentation or information provided by Altera or a partner
@@ -29,7 +29,7 @@ set top_entity lms_dsp_fir_compiler_ii_0
 set timing_resolution "1ps"
 set core_version 18.1
 set device_family "MAX 10"
-set quartus_rootdir C:/intelfpga/18.1/quartus
+set quartus_rootdir C:/intelfpga_lite/18.1/quartus
 # Change to "gate_level" for gate-level sim
 set sim_type "rtl"
 # END MEGAWIZARD INSERT VARIABLES

@@ -22,13 +22,22 @@ void tag_cbc_mac(uint8_t *tag, const uint8_t *msg, size_t msg_len) {
 	uint8_t *state = (uint8_t*) statew;
     size_t i;
 
-
+    // AES128_encrypt (block, key)
     // TO DO : Complete the CBC-MAC_AES
 
     // Copy the result of CBC-MAC-AES to the tag.
-    for (int j=0; j<16; j++) {
-        tag[j] = state[j];
+    for (i=0; i<=(msg_len>>4); i++) {
+    	// XOR the message portion to the state
+    	for (int j=0; j<16; j++) {
+			statew[j] ^= msg[(i<<4) + j];
+		}
+		AES128_encrypt(state, AES_Key);
     }
+    // Transfer the state to the tag
+    for (int j=0; j<16; j++) {
+    	tag[i] = statew[i];
+    }
+
 }
 
 // Assumes payload is already in place in the packet
@@ -40,6 +49,20 @@ int make_packet(uint8_t *packet, size_t payload_len, uint8_t sender_id, uint32_t
 	memset(packet + payload_len + PACKET_HEADER_LENGTH, 0, PACKET_TAG_LENGTH);
 
 	// TO DO :  replace the two previous command by properly
+
+	// Set the reserved field to 0
+	packet[0] = 0x00;
+	// Set the emitter_id field
+	packet[1] = sender_id;
+	// Set the payload_length field
+	packet[2] = (payload_len >> 8) & 0xFF;
+	packet[3] = payload_len & 0xFF;
+	// Set the packet_serial field
+	packet[4] = (serial >> 24) & 0xFF;
+	packet[5] = (serial >> 16) & 0xFF;
+	packet[6] = (serial >> 8) & 0xFF;
+	packet[7] = serial & 0xFF;
+
 	//			setting the packet header with the following structure :
 	/***************************************************************************
 	 *    Field       	Length (bytes)      Encoding        Description

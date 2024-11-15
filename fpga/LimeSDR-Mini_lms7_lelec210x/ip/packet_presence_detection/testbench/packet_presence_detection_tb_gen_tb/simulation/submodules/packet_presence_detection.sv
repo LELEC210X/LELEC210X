@@ -196,7 +196,7 @@ module dual_running_sum #(
 	
 	wire  [(LONG_SUM_WIDTH+8 -1):0] long_shift_rescale;
 	
-	assign long_shift_rescale  = long_sum_reg ;
+	assign long_shift_rescale  = (long_sum_reg*K)<<8;
 
 	assign long_shift_full = (long_counter==LONG_SHIFT_LEN);
 	
