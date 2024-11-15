@@ -171,7 +171,7 @@ module dual_running_sum #(
 	// Long term sum : evaluation of noise power
 	//
 	long_shift	long_shift_inst (
-	.aclr ( reset | clear_rs), 				// We clear the sum on a system reset or on a clear request from GNU Radio
+	.aclr ( reset | c), 				// We clear the sum on a system reset or on a clear request from GNU Radio
 	.clken ( enable & short_shift_full),	// We disable the delay line (and thus the long term sum) when the short term sum is not full (otherwise, zeroes would be forwarded)
 	.clock ( clock ),
 	.shiftin ( short_shift_out),			// The inputs are the samples energies from the short term sum (more specifically its delay line)
@@ -194,12 +194,27 @@ module dual_running_sum #(
 	end
 	
 	
-	wire  [(LONG_SUM_WIDTH+8 -1):0] long_shift_rescale;
+
+
+
+
+
+	reg  [(LONG_SUM_WIDTH+8 -1):0] long_shift_rescale;
 	
+<<<<<<< HEAD
 	assign long_shift_rescale  = (long_sum_reg*K)>>3;
+=======
+	always @(posedge clock) begin
+	if (reset | clear_rs) begin
+			long_shift_rescale        <= 'b0;		// We clear the sum on a system reset or on a clear request from GNU Radio
+	end
+	else begin
+		long_shift_rescale  <= (long_sum_reg*K) >> 3;
+		end
+	end
+>>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
 
 	assign long_shift_full = (long_counter==LONG_SHIFT_LEN);
-	
 	assign launch = short_to_long_arrived & long_shift_full &  (short_sum_reg  > long_shift_rescale);
 	
 	assign  long_sum = long_shift_rescale  ;

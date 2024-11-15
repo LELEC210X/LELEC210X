@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system name="$${FILENAME}">
+ <component
+   name="$${FILENAME}"
+   displayName="$${FILENAME}"
+   version="1.0"
+   description=""
+   tags="INTERNAL_COMPONENT=true"
+   categories="" />
+ <parameter name="bonusData"><![CDATA[bonusData 
+{
+   element packet_presence_detection_0
+   {
+      datum _sortIndex
+      {
+         value = "0";
+         type = "int";
+      }
+   }
+}
+]]></parameter>
+ <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
+ <parameter name="device" value="10M16SAU169C8G" />
+ <parameter name="deviceFamily" value="MAX 10" />
+ <parameter name="deviceSpeedGrade" value="8" />
+ <parameter name="fabricMode" value="QSYS" />
+ <parameter name="generateLegacySim" value="false" />
+ <parameter name="generationId" value="0" />
+ <parameter name="globalResetBus" value="false" />
+ <parameter name="hdlLanguage" value="VERILOG" />
+ <parameter name="hideFromIPCatalog" value="true" />
+ <parameter name="lockedInterfaceDefinition" value="" />
+ <parameter name="maxAdditionalLatency" value="1" />
+ <parameter name="projectName" value="" />
+ <parameter name="sopcBorderPoints" value="false" />
+ <parameter name="systemHash" value="0" />
+ <parameter name="testBenchDutName" value="" />
+ <parameter name="timeStamp" value="0" />
+ <parameter name="useTestBenchNamingPattern" value="false" />
+ <instanceScript></instanceScript>
+ <interface
+   name="avalon_streaming_sink"
+   internal="packet_presence_detection_0.avalon_streaming_sink"
+   type="avalon_streaming"
+   dir="end">
+  <port
+     name="avalon_streaming_sink_data"
+     internal="avalon_streaming_sink_data" />
+  <port
+     name="avalon_streaming_sink_valid"
+     internal="avalon_streaming_sink_valid" />
+ </interface>
+ <interface
+   name="avalon_streaming_source"
+   internal="packet_presence_detection_0.avalon_streaming_source"
+   type="avalon_streaming"
+   dir="start">
+  <port
+     name="avalon_streaming_source_data"
+     internal="avalon_streaming_source_data" />
+  <port
+     name="avalon_streaming_source_valid"
+     internal="avalon_streaming_source_valid" />
+ </interface>
+ <interface
+   name="cfg"
+   internal="packet_presence_detection_0.cfg"
+   type="conduit"
+   dir="end">
+  <port name="cfg_PASSTHROUGH_LEN" internal="cfg_PASSTHROUGH_LEN" />
+  <port name="cfg_THRESHOLD" internal="cfg_THRESHOLD" />
+  <port name="cfg_clear_rs" internal="cfg_clear_rs" />
+  <port name="cfg_enable" internal="cfg_enable" />
+  <port name="debug_count" internal="debug_count" />
+  <port name="debug_long_sum" internal="debug_long_sum" />
+  <port name="debug_short_sum" internal="debug_short_sum" />
+ </interface>
+ <interface
+   name="clock_sink"
+   internal="packet_presence_detection_0.clock_sink"
+   type="clock"
+   dir="end">
+  <port name="clock_sink_clk" internal="clock_sink_clk" />
+ </interface>
+ <interface
+   name="reset_sink"
+   internal="packet_presence_detection_0.reset_sink"
+   type="reset"
+   dir="end">
+  <port name="reset_sink_reset" internal="reset_sink_reset" />
+ </interface>
+ <module
+   name="packet_presence_detection_0"
+   kind="packet_presence_detection"
+   version="1.0"
+   enabled="1"
+   autoexport="1">
+  <parameter name="DATA_WIDTH" value="12" />
+  <parameter name="PASSTHROUGH_LEN_WIDTH" value="16" />
+ </module>
+ <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
+ <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
+</system>

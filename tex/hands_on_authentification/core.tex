@@ -1,7 +1,7 @@
 
 \section{Packet formatting}
 
-The packets we transmit shall have the following format
+The transmitted packets shall have the following format
 \begin{center}
 \texttt{r$\mathbin\Vert$emitter\_id$\mathbin\Vert$payload\_length$\mathbin\Vert$packet\_serial$\mathbin\Vert$app\_data$\mathbin\Vert$tag}
 \end{center}
@@ -60,12 +60,11 @@ Its prototype is:
 \begin{lstlisting}[style=customc]
 int make_packet(uint8_t *packet, size_t payload_len, uint8_t sender_id, uint32_t serial);
 \end{lstlisting}
-This function takes as input a buffer of bytes \texttt{packet} of
-\texttt{PACKET\_HEADER\_LENGTH + payload\_len + PACKET\_TAG\_LENGTH} and elements in
-which \texttt{app\_data} should already have been written starting at byte
+This function takes as input \texttt{packet}, a buffer of bytes of length
+\texttt{PACKET\_HEADER\_LENGTH + payload\_len + PACKET\_TAG\_LENGTH}, in
+which \texttt{app\_data} should already have been written starting at byte\\
 \verb|packet[PACKET_HEADER_LENGTH]|.
-The function has to write the remaining parts of the packet in the buffer and
-return the total length of the packet.
+The function has to write the remaining parts of the packet (the header and the tag) in the buffer and return the total length of the packet.
 
 \textbf{
     Implement \texttt{make\_packet}, except for the \texttt{tag} part of the
@@ -85,6 +84,13 @@ Let us now consider the authentication of the message. The authentication
 \]
 where $k$ is a secret key (an sequence of 16 bytes) shared between the sensor
 node and the receiver. This secret key should be uniformly random. The $\text{CBC-MAC-AES}$ algorithm is described in \autoref{algo:cbc-mac-aes} and its block diagram is shown in \autoref{fig:cbc-mac-aes}.
+
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{What does an authentication tag do ?}
+    You have had a quick introduction to the authentication basic knowledge in Lecture L3b.\\
+    Based on that and on the description of the message authentication code, what is your understanding of the purpose of the authentication tag ? What does it prevent or allow ?\\
+    More importantly, what \textit{doesn't} it prevent ? Is the header readable or encrypted ? And the message data ?
+\end{bclogo}
+
 \begin{algorithm}
 \begin{algorithmic}
     \REQUIRE Message $x$ (sequence of bytes) to authenticate.
@@ -167,6 +173,9 @@ Finally, you can take a look at \texttt{utils.c} where wrappers for cycle counti
 	\end{enumerate}
 \end{bclogo}
 
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{Optimization level}
+    What are the different optimization levels you can choose ? How do they differ from each other, which metrics do they change ? Which one should you choose for what purpose ?
+\end{bclogo}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{How to know the code size}
 	A simple way to know the code size of a specific function, such as the AES, is

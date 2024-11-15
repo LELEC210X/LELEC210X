@@ -37,7 +37,7 @@ for i in range(ninput):
   input_array_q[i] = (input_array_q_interleaved[2*i] << nbit) | (input_array_q_interleaved[2*i+1])
 
 # Save
-np.savetxt("fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/mentor/input_fpga.txt",input_array_q,fmt="%.6x")
+np.savetxt("../../../../../../fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/mentor/input_fpga.txt",input_array_q,fmt="%.6x")
 
 def twos_complement(value,bits):
     if value & (1 << (bits-1)):
@@ -45,7 +45,7 @@ def twos_complement(value,bits):
     return value
 
 
-output_array_fused_q = np.loadtxt("fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/mentor/input_fpga.txt",delimiter=" ",converters={0:lambda s: int(s,16)}).astype(np.int32)
+output_array_fused_q = np.loadtxt("../../../../../../fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/mentor/input_fpga.txt",delimiter=" ",converters={0:lambda s: int(s,16)}).astype(np.int32)
 output_array_q = np.zeros((len(output_array_fused_q),),dtype=np.complex64)
 for i in range(len(output_array_fused_q)):
   output_array_q[i ]  = twos_complement((output_array_fused_q[i] >> nbit) & ((1 << nbit)-1),nbit) +1j* twos_complement(output_array_fused_q[i] & ((1 << nbit)-1),nbit)

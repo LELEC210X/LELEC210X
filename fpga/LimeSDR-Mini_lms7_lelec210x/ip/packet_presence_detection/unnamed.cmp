@@ -1,0 +1,18 @@
+	component unnamed is
+		port (
+			cfg_PASSTHROUGH_LEN           : in  std_logic_vector(15 downto 0) := (others => 'X'); -- cfg_passthrough_len
+			cfg_THRESHOLD                 : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- cfg_threshold
+			cfg_clear_rs                  : in  std_logic                     := 'X';             -- cfg_clear_rs
+			cfg_enable                    : in  std_logic                     := 'X';             -- cfg_enable
+			debug_count                   : out std_logic_vector(31 downto 0);                    -- debug_count
+			debug_long_sum                : out std_logic_vector(31 downto 0);                    -- debug_long_sum
+			debug_short_sum               : out std_logic_vector(31 downto 0);                    -- debug_short_sum
+			avalon_streaming_sink_data    : in  std_logic_vector(23 downto 0) := (others => 'X'); -- data
+			avalon_streaming_sink_valid   : in  std_logic                     := 'X';             -- valid
+			avalon_streaming_source_data  : out std_logic_vector(23 downto 0);                    -- data
+			avalon_streaming_source_valid : out std_logic;                                        -- valid
+			clock_sink_clk                : in  std_logic                     := 'X';             -- clk
+			reset_sink_reset              : in  std_logic                     := 'X'              -- reset
+		);
+	end component unnamed;
+

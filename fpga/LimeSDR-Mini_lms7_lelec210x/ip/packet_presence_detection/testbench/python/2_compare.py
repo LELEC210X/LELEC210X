@@ -19,8 +19,8 @@ def load_array(fileName, nbit, qbit):
     return (array_q) * (2**(-qbit))
 
 
-output_array = load_array("fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/mentor/output_fpga.txt", nbit, qbit)
-input_array  = load_array("fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/mentor/input_fpga.txt", nbit, qbit)
+output_array = load_array("../../../../../../fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/mentor/output_fpga.txt", nbit, qbit)
+input_array  = load_array("../../../../../../fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/mentor/input_fpga.txt", nbit, qbit)
 
 
 fig, ax = plt.subplots(2,1,figsize=(12,8))

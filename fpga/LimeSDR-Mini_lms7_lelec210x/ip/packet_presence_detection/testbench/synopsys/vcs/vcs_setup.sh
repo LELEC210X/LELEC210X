@@ -12,7 +12,11 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
+<<<<<<< HEAD
 # ACDS 18.1 625 win32 2024.11.13.16:38:06
+=======
+# ACDS 18.1 625 win32 2024.11.13.13:22:02
+>>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
 
 # ----------------------------------------
 # vcs - auto-generated simulation script
@@ -94,7 +98,11 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
+<<<<<<< HEAD
 # ACDS 18.1 625 win32 2024.11.13.16:38:06
+=======
+# ACDS 18.1 625 win32 2024.11.13.13:22:02
+>>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
 # ----------------------------------------
 # initialize variables
 TOP_LEVEL_NAME="packet_presence_detection_tb_gen_tb"
@@ -136,8 +144,7 @@ vcs -lca -timescale=1ps/1ps -sverilog +verilog2001ext+.v -ntb_opts dtm $ELAB_OPT
   -v $QUARTUS_INSTALL_DIR/eda/sim_lib/sgate.v \
   -v $QUARTUS_INSTALL_DIR/eda/sim_lib/altera_mf.v \
   $QUARTUS_INSTALL_DIR/eda/sim_lib/altera_lnsim.sv \
-  -v $QUARTUS_INSTALL_DIR/eda/sim_lib/fiftyfivenm_atoms.v \
-  -v $QUARTUS_INSTALL_DIR/eda/sim_lib/synopsys/fiftyfivenm_atoms_ncrypt.v \
+  -v $QUARTUS_INSTALL_DIR/eda/sim_lib/cycloneive_atoms.v \
   $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv \
   $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv \
   $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection.sv \

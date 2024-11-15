@@ -12,7 +12,11 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
+<<<<<<< HEAD
 # ACDS 18.1 625 win32 2024.11.13.16:38:06
+=======
+# ACDS 18.1 625 win32 2024.11.13.13:22:02
+>>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
 # ----------------------------------------
 # Auto-generated simulation script rivierapro_setup.tcl
 # ----------------------------------------
@@ -170,8 +174,8 @@ ensure_lib                  ./libraries/altera_mf_ver
 vmap       altera_mf_ver    ./libraries/altera_mf_ver   
 ensure_lib                  ./libraries/altera_lnsim_ver
 vmap       altera_lnsim_ver ./libraries/altera_lnsim_ver
-ensure_lib                  ./libraries/fiftyfivenm_ver 
-vmap       fiftyfivenm_ver  ./libraries/fiftyfivenm_ver 
+ensure_lib                  ./libraries/cycloneive_ver  
+vmap       cycloneive_ver   ./libraries/cycloneive_ver  
 ensure_lib                                                  ./libraries/altera_common_sv_packages                       
 vmap       altera_common_sv_packages                        ./libraries/altera_common_sv_packages                       
 ensure_lib                                                  ./libraries/packet_presence_detection_0                     
@@ -193,13 +197,12 @@ vmap       packet_presence_detection_tb_gen_inst            ./libraries/packet_p
 # Compile device library files
 alias dev_com {
   echo "\[exec\] dev_com"
-  eval vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_primitives.v"              -work altera_ver      
-  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QUARTUS_INSTALL_DIR/eda/sim_lib/220model.v"                       -work lpm_ver         
-  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QUARTUS_INSTALL_DIR/eda/sim_lib/sgate.v"                          -work sgate_ver       
-  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_mf.v"                      -work altera_mf_ver   
-  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_lnsim.sv"                  -work altera_lnsim_ver
-  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QUARTUS_INSTALL_DIR/eda/sim_lib/fiftyfivenm_atoms.v"              -work fiftyfivenm_ver 
-  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QUARTUS_INSTALL_DIR/eda/sim_lib/aldec/fiftyfivenm_atoms_ncrypt.v" -work fiftyfivenm_ver 
+  eval vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_primitives.v" -work altera_ver      
+  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QUARTUS_INSTALL_DIR/eda/sim_lib/220model.v"          -work lpm_ver         
+  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QUARTUS_INSTALL_DIR/eda/sim_lib/sgate.v"             -work sgate_ver       
+  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_mf.v"         -work altera_mf_ver   
+  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_lnsim.sv"     -work altera_lnsim_ver
+  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QUARTUS_INSTALL_DIR/eda/sim_lib/cycloneive_atoms.v"  -work cycloneive_ver  
 }
 
 # ----------------------------------------
@@ -224,14 +227,14 @@ alias com {
 # Elaborate top level design
 alias elab {
   echo "\[exec\] elab"
-  eval vsim +access +r -t ps $ELAB_OPTIONS -L work -L altera_common_sv_packages -L packet_presence_detection_0 -L conduit_bfm_0 -L packet_presence_detection_tb_gen_inst_source_bfm -L packet_presence_detection_tb_gen_inst_sink_bfm -L packet_presence_detection_tb_gen_inst_reset_bfm -L packet_presence_detection_tb_gen_inst_clock_bfm -L packet_presence_detection_tb_gen_inst -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver $TOP_LEVEL_NAME
+  eval vsim +access +r -t ps $ELAB_OPTIONS -L work -L altera_common_sv_packages -L packet_presence_detection_0 -L conduit_bfm_0 -L packet_presence_detection_tb_gen_inst_source_bfm -L packet_presence_detection_tb_gen_inst_sink_bfm -L packet_presence_detection_tb_gen_inst_reset_bfm -L packet_presence_detection_tb_gen_inst_clock_bfm -L packet_presence_detection_tb_gen_inst -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver $TOP_LEVEL_NAME
 }
 
 # ----------------------------------------
 # Elaborate the top level design with -dbg -O2 option
 alias elab_debug {
   echo "\[exec\] elab_debug"
-  eval vsim -dbg -O2 +access +r -t ps $ELAB_OPTIONS -L work -L altera_common_sv_packages -L packet_presence_detection_0 -L conduit_bfm_0 -L packet_presence_detection_tb_gen_inst_source_bfm -L packet_presence_detection_tb_gen_inst_sink_bfm -L packet_presence_detection_tb_gen_inst_reset_bfm -L packet_presence_detection_tb_gen_inst_clock_bfm -L packet_presence_detection_tb_gen_inst -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver $TOP_LEVEL_NAME
+  eval vsim -dbg -O2 +access +r -t ps $ELAB_OPTIONS -L work -L altera_common_sv_packages -L packet_presence_detection_0 -L conduit_bfm_0 -L packet_presence_detection_tb_gen_inst_source_bfm -L packet_presence_detection_tb_gen_inst_sink_bfm -L packet_presence_detection_tb_gen_inst_reset_bfm -L packet_presence_detection_tb_gen_inst_clock_bfm -L packet_presence_detection_tb_gen_inst -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver $TOP_LEVEL_NAME
 }
 
 # ----------------------------------------

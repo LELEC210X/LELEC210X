@@ -32,7 +32,11 @@
     </sld_info>
     <sld_info hpath="rx_path_top:inst6_rx_path_top|lms_dsp:dspcfg_subsystem_inst11" name="dspcfg_subsystem_inst11">
       <assignment_values>
+<<<<<<< HEAD
         <assignment_value text="QSYS_NAME lms_dsp HAS_SOPCINFO 1 GENERATION_ID 1731512430"/>
+=======
+        <assignment_value text="QSYS_NAME lms_dsp HAS_SOPCINFO 1 GENERATION_ID 1731516662"/>
+>>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
       </assignment_values>
     </sld_info>
     <sld_info hpath="sld_hub:auto_hub|alt_sld_fab:\instrumentation_fabric_with_node_gen:instrumentation_fabric" library="alt_sld_fab" name="instrumentation_fabric">

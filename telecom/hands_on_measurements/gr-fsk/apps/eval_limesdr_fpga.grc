@@ -1,7 +1,6 @@
 options:
   parameters:
     author: UCLouvain
-    catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
@@ -69,7 +68,7 @@ blocks:
     gui_hint: ''
     label: K factor for threshold
     min_len: '200'
-    orient: QtCore.Qt.Horizontal
+    orient: Qt.Horizontal
     rangeType: int
     start: '1'
     step: '1'
@@ -203,7 +202,7 @@ blocks:
     gui_hint: ''
     label: ''
     min_len: '200'
-    orient: QtCore.Qt.Horizontal
+    orient: Qt.Horizontal
     rangeType: int
     start: '0'
     step: '1'
@@ -419,7 +418,7 @@ blocks:
     showports: 'False'
     showrf: 'False'
     type: complex
-    wintype: window.WIN_BLACKMAN_hARRIS
+    wintype: firdes.WIN_BLACKMAN_hARRIS
   states:
     bus_sink: false
     bus_source: false
@@ -433,11 +432,8 @@ blocks:
     address: tcp://127.0.0.1:10000
     affinity: ''
     alias: ''
-    bind: 'True'
     comment: ''
-    drop_on_hwm: 'True'
     hwm: '-1'
-    key: ''
     pass_tags: 'False'
     timeout: '100'
     type: byte
@@ -463,4 +459,3 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.7.0

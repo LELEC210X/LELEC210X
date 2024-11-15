@@ -26,18 +26,22 @@ void tag_cbc_mac(uint8_t *tag, const uint8_t *msg, size_t msg_len) {
     // TO DO : Complete the CBC-MAC_AES
 
     // Copy the result of CBC-MAC-AES to the tag.
-    for (i=0; i<=(msg_len>>4); i++) {
-    	// XOR the message portion to the state
-    	for (int j=0; j<16; j++) {
-			statew[j] ^= msg[(i<<4) + j];
+    for (i = 0; i < (msg_len + 15) / 16; i++) {
+		// XOR the message portion to the state
+		for (size_t j = 0; j < 16; j++) {
+			size_t msg_index = (i * 16) + j;
+			if (msg_index < msg_len) {  // Ensure within bounds
+				state[j] ^= msg[msg_index];
+			}
 		}
-		AES128_encrypt(state, AES_Key);
-    }
-    // Transfer the state to the tag
-    for (int j=0; j<16; j++) {
-    	tag[i] = statew[i];
-    }
 
+		// Encrypt the state with AES
+		AES128_encrypt(state, AES_Key);
+	}
+    // Transfer the state to the tag
+    for (size_t j=0; j<16; j++) {
+    	tag[j] = state[j];
+    }
 }
 
 // Assumes payload is already in place in the packet

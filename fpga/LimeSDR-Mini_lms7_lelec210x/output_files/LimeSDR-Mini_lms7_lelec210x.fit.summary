@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 Fitter Status : Successful - Wed Nov 13 16:48:59 2024
+=======
+Fitter Status : Successful - Wed Nov 13 17:55:34 2024
+>>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
 Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 Revision Name : LimeSDR-Mini_lms7_lelec210x
 Top-level Entity Name : lms7_trx_top
@@ -6,9 +10,15 @@ Family : MAX 10
 Device : 10M16SAU169C8G
 Timing Models : Final
 Total logic elements : 13,594 / 15,840 ( 86 % )
+<<<<<<< HEAD
     Total combinational functions : 9,398 / 15,840 ( 59 % )
     Dedicated logic registers : 10,619 / 15,840 ( 67 % )
 Total registers : 10691
+=======
+    Total combinational functions : 9,411 / 15,840 ( 59 % )
+    Dedicated logic registers : 10,666 / 15,840 ( 67 % )
+Total registers : 10738
+>>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
 Total pins : 117 / 130 ( 90 % )
 Total virtual pins : 0
 Total memory bits : 244,624 / 562,176 ( 44 % )
