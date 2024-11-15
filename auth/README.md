@@ -32,10 +32,12 @@ read messages from the TCP address that GNU Radio talks to.
 
 > [!TIP]
 > For secret variables, such as `--auth-key`,
-> it is recommended to store them in an environ variable, e.g.:
+> it is recommended to store them in an environment variable (easy on Linux system), e.g.:
 >
 > ```bash
 > echo "export AUTH_KEY=12345678123456781234567812345678  # 16 bytes key" >> ~/.bashrc.
 > ```
 >
-> The script(s) will automatically detect and read environ variables when present.
+> The script(s) will automatically detect and read environment variables when present.
+> 
+> If you work on Windows, the easiest way is to modify the default value of the `--auth-key` option to the key selected by your group in the `auth/src/auth/__main__.py` file.
