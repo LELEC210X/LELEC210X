@@ -20,7 +20,6 @@ def parse_packet(line):
     else:
         return None
 
-
 def serial_reader(args):
     ser = serial.Serial(port=args.input, baudrate=args.baudrate)
     ser.reset_input_buffer()
@@ -81,7 +80,8 @@ def main():
         help="Serial device baudrate.",
     )
     parser.add_argument(
-        "--key", action="store", type=str, help="MAC key, encoded in hex."
+        "--key", action="store", type=str, help="MAC key, encoded in hex.",
+        default="0"*32
     )
     args = parser.parse_args()
 
@@ -112,6 +112,7 @@ def main():
             continue
         print("  Authentication tag:", packet[-TAG_LEN:])
         if args.key is not None:
+            print("  AES key :", "".join([f" 0x{args.key[i]}{args.key[i+1]}" for i in range(0, len(args.key), 2)]))
             if bytes_eq(tag_cbc_mac(packet[:-TAG_LEN], key), packet[-TAG_LEN:]):
                 print("  Authentication SUCCESSFUL")
             else:
