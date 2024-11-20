@@ -8,6 +8,7 @@ import sounddevice as sd
 import soundfile as sf
 from numpy import ndarray
 from scipy.signal import fftconvolve
+import scipy.signal as sg
 
 # -----------------------------------------------------------------------------
 """
@@ -64,9 +65,7 @@ class AudioUtil:
         :param audio: The audio signal as a tuple (signal, sample_rate).
         :param newsr: The target sampling frequency.
         """
-        sig, sr = audio
-
-        ### TO COMPLETE
+        resig = sg.resample(audio[0], len(audio[0])//(audio[1]//newsr))
 
         return (resig, newsr)
 
@@ -196,8 +195,21 @@ class AudioUtil:
         :param Nft: The number of points of the FFT.
         :param fs2: The sampling frequency.
         """
-        ### TO COMPLETE
-        # stft /= float(2**8)
+        # Crop the signal such that its length is a multiple of Nft
+        y = audio[0][: len(audio[0]) - len(audio[0]) % Nft]
+    
+        # Reshape the signal into segments of length Nft
+        audiomat = np.reshape(y, (-1, Nft))
+    
+        # Apply a Hamming window to each segment
+        audioham = audiomat * np.hamming(Nft)
+    
+        # Flatten the windowed signal back into a 1D array
+        z = np.reshape(audioham, -1)
+    
+        # Compute the magnitude of the STFT
+        stft = np.abs(librosa.stft(z, n_fft=Nft, hop_length=Nft, window="rect", center=False))
+    
         return stft
 
     def get_hz2mel(fs2=11025, Nft=512, Nmel=20) -> ndarray:
@@ -223,8 +235,21 @@ class AudioUtil:
         :param Nft: The number of points of the FFT.
         :param fs2: The sampling frequency.
         """
-        ### TO COMPLETE
-
+        # Obtain the Hz-to-Mel transformation matrix
+        mels = librosa.filters.mel(sr=fs2, n_fft=Nft, n_mels=Nmel)
+    
+        # Normalize the Mel filter matrix so that its maximum value is 1
+        mels = mels / np.max(mels)
+    
+        # Resample the input signal to the downsampled rate
+        y = AudioUtil.resample(audio, fs2)
+    
+        # Compute the STFT of the resampled signal
+        stft = AudioUtil.specgram(y, Nft)
+    
+        # Apply the Mel filter bank to the STFT to obtain the Mel spectrogram
+        melspec = np.matmul(mels, stft)
+    
         return melspec
 
     def spectro_aug_timefreq_masking(
