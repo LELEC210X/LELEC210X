@@ -1,9 +1,9 @@
 \section{Practical part}
 %
-Similarly \emph{hands\_on\_mcu.pdf}, you can run the code by:
+As before, you can run the code by:
 \begin{itemize}
-	\item Flashing the MCU with the code by clicking on the green run button.
-	\item Launching the script reading the content of the uart printed by the MCU with \texttt{python uart-rader.py -p PORTNAME}.
+	\item Flashing the MCU with the code by clicking the green run button.
+	\item Launching the script reading the content of the uart printed by the MCU with \texttt{rye run python uart-rader.py -p PORTNAME}.
 \end{itemize}
 If your python script runs, pressing the \textcolor{blue}{User blue button} on the Nucleo board should launch an audio acquisition with the microphone. A figure should open, showing the acquired melspectrogram. To stop your script, click on \texttt{CLTR+C} in the command prompt then press the \textcolor{blue}{User blue button} again.  Remember how to switch to an audio acquisition with the jack cable by changing the \texttt{SEL\_SOUND} pin connection on the Nucleo board as explained in \emph{hands\_on\_audio\_acquisition.pdf}.
 %
@@ -67,7 +67,7 @@ In this line, the (q15$\_$t) and two (q31$\_$t) are called \textbf{casting}. Thi
 \end{bclogo}
 %
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Hardcoding data}
-The content of \emph{spectrogram$\_$tables.h} and \emph{spectrogram.h} has been hardcoded using the files in \textbf{Python2C$\_$conversion}. These notebooks could be useful for you during the second semester if you want to apply your feature vector computations on a perfect signal, i.e. an audio signal from the Dataset which has directly been hardcoded in C. This is optional, but you can already take a look at how this is done.
+The content of \emph{spectrogram$\_$tables.h} and \emph{spectrogram.h} has been hardcoded using the files in \textbf{classification/Python2C$\_$conversion}. These notebooks could be useful for you during the second semester if you want to apply your feature vector computations on a perfect signal, i.e. an audio signal from the Dataset which has directly been hardcoded in C. This is optional, but you can already take a look at how this is done.
 \end{bclogo}
 %
 When you read and try to understand the code (remember this is equivalent to what you did during H1 in Python), \textbf{evaluate the theoretical complexity of the different functions involved} ($\mathcal O(n^2)$, $\mathcal O(\sin (n))$,\ldots), this will help you to identify the \emph{bottlenecks} (worst parts in a computational point of view). Each time you have a pipeline with different computations where the efficiency is critical, you should work on improving your bottlenecks. Confirm your evaluations of the computational complexities by \textbf{measuring the cycle counts of all intermediate computations in spectrogram.c} as explained in \emph{hands\_on\_authentication.pdf}.
@@ -89,7 +89,7 @@ For now, the feature vector content is printed on the UART and displayed on the 
 %
 You should have noticed that the performances of your trained classifier on audio signals acquired with the microphone are very poor. Indeed, there are many differences between a nice feature vector computation made from a registered audio file in Python and a real computation made from an acquired signal in fixed-point format in C.
 
-To take these imperfections into account, you will create training data using your own device. It implicitely takes the acquisition non idealities into account, and gives you the possibility to truly augment the data increasining the distance between the sound source and microphone, or adding background sound by yourself.
+To take these imperfections into account, you can create training data using your own system. It implicitely takes the acquisition non idealities into account, and gives you the possibility to truly augment the data, not using emulated data augmentation techniques but rather by increasing the distance between the sound source and microphone or adding background sound by yourself.
 %
 \noindent To summarize, you have to:
 \begin{enumerate}
