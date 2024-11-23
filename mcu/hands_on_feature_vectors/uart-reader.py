@@ -21,7 +21,7 @@ CONFIG_PREFIX = "DF:CFG:"  # Follows a JSON string
 FREQ_SAMPLING = 10200
 MELVEC_LENGTH = 19
 N_MELVECS = 19
-current_config = f"melvec_length={MELVEC_LENGTH}\n n_melvecs={N_MELVECS}"
+current_config = f"DEFAULT\nmelvec_length: {MELVEC_LENGTH}\nn_melvecs: {N_MELVECS}"
 
 dt = np.dtype(np.uint16).newbyteorder("<")
 
@@ -29,6 +29,9 @@ dt = np.dtype(np.uint16).newbyteorder("<")
 data_queue = Queue()
 history = []  # Persistent buffer for MEL spectrogram history
 
+def json_to_config_string(config):
+    data = json.dumps(config)
+    return data.replace(" ", "").replace("\n", "").replace("\t", "").replace("\r", "").replace(",", "\n").replace("{", "").replace("}", "").replace("\"", "")
 
 # Function to parse incoming serial buffer
 def parse_buffer(line):
@@ -42,9 +45,7 @@ def parse_buffer(line):
         config = json.loads(line[len(CONFIG_PREFIX):])
         MELVEC_LENGTH = config.get("melvec_length", MELVEC_LENGTH)
         N_MELVECS = config.get("n_melvecs", N_MELVECS)
-        print(f"Updated MEL vector length: {MELVEC_LENGTH}")
-        print(f"Updated number of MEL vectors: {N_MELVECS}")
-        current_config = f"melvec_length={MELVEC_LENGTH}\n n_melvecs={N_MELVECS}"
+        current_config = json_to_config_string(config)
         return None
     else:
         return None
@@ -70,7 +71,7 @@ app.layout = html.Div(
     [
         html.Div([
             html.Label("Configuration:", style={"margin-right": "10px"}),
-            html.Pre(id="config-text", children="Config 1", style={"display": "inline-block", "margin-right": "10px"}),
+            html.Pre(id="config-text", children="Config 1", style={"display": "inline-block", "margin-right": "10px", "text-align": "left"}),
             dcc.Upload(
                 id="upload-model",
                 children=html.Button("Load AI Model", style={"margin-right": "10px"}),
