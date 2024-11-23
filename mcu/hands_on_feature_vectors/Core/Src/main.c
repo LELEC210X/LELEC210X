@@ -148,6 +148,7 @@ void hex_encode(char* s, const uint8_t* buf, size_t len) {
 
 void print_buffer(volatile uint16_t *buffer, size_t len) {
 	hex_encode(hex_encoded_buffer, (uint8_t*)buffer, sizeof(uint16_t) * len);
+	printf("DF:CFG:{\"melvec_length\":%u, \"n_melvecs\":%u}\r\n", MELVEC_LENGTH, N_MELVECS);
 	printf("DF:HEX:%s\r\n", hex_encoded_buffer);
 }
 
@@ -159,6 +160,7 @@ void print_buffer(volatile uint16_t *buffer, size_t len) {
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */

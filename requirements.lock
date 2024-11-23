@@ -79,6 +79,14 @@ cryptography==43.0.0
     # via auth
 cycler==0.12.1
     # via matplotlib
+dash==2.18.2
+    # via mcu
+dash-core-components==2.0.0
+    # via dash
+dash-html-components==2.0.0
+    # via dash
+dash-table==5.0.0
+    # via dash
 debugpy==1.8.5
     # via ipykernel
 decorator==5.1.1
@@ -100,6 +108,7 @@ executing==2.0.1
 fastjsonschema==2.20.0
     # via nbformat
 flask==3.0.3
+    # via dash
     # via flask-apscheduler
     # via flask-limiter
     # via flask-restx
@@ -146,6 +155,7 @@ idna==3.8
     # via jsonschema
     # via requests
 importlib-metadata==8.4.0
+    # via dash
     # via flask
     # via jupyter-client
     # via jupyter-lsp
@@ -258,6 +268,7 @@ nbformat==5.10.4
     # via nbclient
     # via nbconvert
 nest-asyncio==1.6.0
+    # via dash
     # via ipykernel
 notebook==7.2.1
     # via classification
@@ -304,6 +315,7 @@ platformdirs==4.2.2
     # via jupyter-core
     # via pooch
 plotly==5.24.1
+    # via dash
     # via mcu
 pooch==1.8.2
     # via librosa
@@ -381,9 +393,12 @@ referencing==0.35.1
     # via jsonschema-specifications
     # via jupyter-events
 requests==2.32.3
+    # via dash
     # via jupyterlab-server
     # via leaderboard
     # via pooch
+retrying==1.3.4
+    # via dash
 rfc3339-validator==0.1.4
     # via jsonschema
     # via jupyter-events
@@ -408,6 +423,7 @@ seaborn==0.13.2
 send2trash==1.8.3
     # via jupyter-server
 setuptools==73.0.1
+    # via dash
     # via jupyterlab
     # via zope-event
     # via zope-interface
@@ -418,6 +434,7 @@ six==1.16.0
     # via asttokens
     # via bleach
     # via python-dateutil
+    # via retrying
     # via rfc3339-validator
 sniffio==1.3.1
     # via anyio
@@ -472,6 +489,7 @@ types-python-dateutil==2.9.0.20240821
 typing-extensions==4.12.2
     # via anyio
     # via async-lru
+    # via dash
     # via flask-limiter
     # via ipython
     # via librosa
@@ -497,6 +515,7 @@ webencodings==0.5.1
 websocket-client==1.8.0
     # via jupyter-server
 werkzeug==3.0.4
+    # via dash
     # via flask
     # via flask-restx
 wrapt==1.16.0

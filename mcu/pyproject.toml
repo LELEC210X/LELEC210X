@@ -4,13 +4,14 @@ requires = ["hatchling"]
 
 [project]
 dependencies = [
-  "click>=8.1.7",
-  "scipy>=1.13.1",
-  "numpy>=1.21.2",
-  "plotly>=5.3.1",
-  "pyserial>=3.5",
-  "soundfile>=0.12.1",
-  "PyQt6>=6.0.0",
+    "click>=8.1.7",
+    "scipy>=1.13.1",
+    "numpy>=1.21.2",
+    "plotly>=5.3.1",
+    "pyserial>=3.5",
+    "soundfile>=0.12.1",
+    "PyQt6>=6.0.0",
+    "dash>=2.18.2",
 ]
 name = "mcu"
 requires-python = ">= 3.9"

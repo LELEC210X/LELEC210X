@@ -74,6 +74,8 @@ if __name__ == "__main__":
         for msg in input_stream:
             print(f"Acquisition #{msg_counter}")
 
+            print("RARA")
+
             buffer_size = len(msg)
             times = np.linspace(0, buffer_size - 1, buffer_size) * 1 / FREQ_SAMPLING
             voltage_mV = msg * VDD / VAL_MAX_ADC * 1e3
