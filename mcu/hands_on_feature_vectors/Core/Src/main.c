@@ -67,6 +67,7 @@ static q15_t *mel_vectors[N_MELVECS];
 static q15_t mel_vectors_flat[N_MELVECS * MELVEC_LENGTH];
 
 char hex_encoded_buffer[sizeof(q15_t) * 2 * N_MELVECS * MELVEC_LENGTH + 1];
+volatile char toggle_system = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -83,9 +84,16 @@ void stop_cycle_count(char *s);
 /* USER CODE BEGIN 0 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if ((GPIO_Pin == B1_Pin) & !bounce) {
-		HAL_ADC_Start_DMA(&hadc1, (uint32_t *) ADCBuffer, 2 * SAMPLES_PER_MELVEC);
-		HAL_TIM_Base_Start(&htim3);
+		if (!toggle_system){
+			HAL_ADC_Start_DMA(&hadc1, (uint32_t *) ADCBuffer, 2 * SAMPLES_PER_MELVEC);
+			HAL_TIM_Base_Start(&htim3);
+		}
 		bounce = 1;
+		if (toggle_system) {
+			toggle_system = 0;
+		} else {
+			toggle_system = 1;
+		}
 	}
 }
 
@@ -106,6 +114,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
 		HAL_ADC_Stop_DMA(&hadc1);
 		print_buffer(mel_vectors_flat, N_MELVECS * MELVEC_LENGTH);
 		cur_melvec = 0;
+
 	}
 	bounce = 0;
 	DEBUG_PRINT("All DMA.\r\n");
@@ -205,6 +214,12 @@ int main(void)
 	HAL_Delay(500);
 	HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_RESET);
 	HAL_Delay(500);
+
+	if (toggle_system & !bounce) { // THIS IS VERY CLUNKY, BUT KINDA WORKS
+		bounce = 1;
+		HAL_ADC_Start_DMA(&hadc1, (uint32_t *) ADCBuffer, 2 * SAMPLES_PER_MELVEC);
+		HAL_TIM_Base_Start(&htim3);
+	}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

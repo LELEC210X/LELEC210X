@@ -28,6 +28,7 @@ dt = np.dtype(np.uint16).newbyteorder("<")
 # Queue for real-time data communication
 data_queue = Queue()
 history = []  # Persistent buffer for MEL spectrogram history
+n_clicks_reset = 0
 
 def json_to_config_string(config):
     data = json.dumps(config)
@@ -70,6 +71,7 @@ app = dash.Dash(__name__, title="UART Reader", update_title=None)
 app.layout = html.Div(
     [
         html.Div([
+            html.Button("Reset History", id="reset-history", style={"margin-right": "10px"}),
             html.Label("Configuration:", style={"margin-right": "10px"}),
             html.Pre(id="config-text", children="Config 1", style={"display": "inline-block", "margin-right": "10px", "text-align": "left"}),
             dcc.Upload(
@@ -79,21 +81,30 @@ app.layout = html.Div(
             ),            html.Div(id="model-status", style={"display": "inline-block"})
         ], style={"padding": "10px", "display": "flex", "align-items": "center", "justify-content": "space-between"}),
         dcc.Graph(id="heatmap", style={"height": "calc(100vh - 60px)", "width": "100%"}),
+        dcc.Graph(id="melvec_long", style={"height": "calc(100vh - 60px)", "width": "100%"}),
         dcc.Interval(id="interval", interval=1000, n_intervals=0)
     ]
 )
 
 @app.callback(
     Output("heatmap", "figure"),
-    [Input("interval", "n_intervals")]
+    Output("melvec_long", "figure"),
+    [Input("interval", "n_intervals"), Input("reset-history", "n_clicks")],
 )
-def update_graph(n_intervals):
+def update_graph(n_intervals, n_clicks):
     global history
+    global n_clicks_reset
+    # Reset history if the reset button is clicked
+    if n_clicks is not None and n_clicks > n_clicks_reset:
+        history = []
+        n_clicks_reset = n_clicks
+
+    # Create the heatmap figure based on the
     while not data_queue.empty():
         melvec = data_queue.get()
         # Reshape and store the MEL spectrogram in history
         mel_spectrogram = melvec.reshape((N_MELVECS, MELVEC_LENGTH)).T
-        history = [mel_spectrogram]
+        history.append(mel_spectrogram)
         # Keep only the last 10 spectrograms in history to limit memory usage
         if len(history) > 10:
             history.pop(0)
@@ -101,24 +112,46 @@ def update_graph(n_intervals):
     # Combine the history into a single 2D array
     if history:
         combined_spectrogram = np.hstack(history)
-        fig = go.Figure(
+        
+        # Create the heatmap figure
+        heatmap_fig = go.Figure(
             data=go.Heatmap(
                 z=combined_spectrogram,
                 colorscale="Viridis",
                 colorbar=dict(title="Amplitude")
             )
         )
-        fig.update_layout(
+        heatmap_fig.update_layout(
             title=f"MEL Spectrogram #{n_intervals}",
             xaxis_title="Mel Vector (History)",
             yaxis_title="Frequency Bin",
             autosize=True,
             margin=dict(l=20, r=20, t=40, b=20)
         )
-        return fig
+        
+        # Create the mel vector-long spectrogram, by stacking N_MELVECS mel vectors together for each entry, making a bigger table
+        new_spectrogram = np.array(history).reshape((-1, N_MELVECS * MELVEC_LENGTH))
+        combined_spectrogram = np.vstack(new_spectrogram)
+        combined_spectrogram = combined_spectrogram.T
+        melvec_long_fig = go.Figure(
+            data=go.Heatmap(
+                z=combined_spectrogram,
+                colorscale="Viridis",
+                colorbar=dict(title="Amplitude")
+            )
+        )
+        melvec_long_fig.update_layout(
+            title=f"MEL Vector-Long Spectrogram #{n_intervals}",
+            xaxis_title="Mel Vectors (History)",
+            yaxis_title="Frequency Bin",
+            autosize=True,
+            margin=dict(l=20, r=20, t=40, b=20)
+        )
+        
+        return heatmap_fig, melvec_long_fig
 
-    # Return an empty figure if no data is available yet
-    return go.Figure()
+    # Return empty figures if no data is available yet
+    return go.Figure(), go.Figure()
 
 @app.callback(
     Output("config-text", "children"),
