@@ -1,13 +1,11 @@
 import argparse
 import dash
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html, dcc
 from dash.dependencies import Input, Output, State
 import numpy as np
 import serial
 from serial.tools import list_ports
 import json
-from classification.utils.plots import plot_specgram
 from threading import Thread
 from queue import Queue
 import plotly.graph_objs as go
@@ -16,6 +14,9 @@ import base64
 import time
 import traceback
 import os
+import pickle
+from classification.datasets import Dataset
+from classification.utils.audio_student import AudioUtil, Feature_vector_DS
 
 
 # Constants
@@ -25,17 +26,25 @@ FREQ_SAMPLING = 10200
 MELVEC_LENGTH = 19
 N_MELVECS = 19
 HISTORY_SIZE = 10
-current_config = f"DEFAULT\nmelvec_length: {MELVEC_LENGTH}\nn_melvecs: {N_MELVECS}"
-
-dt = np.dtype(np.uint16).newbyteorder("<")
+CLASS_HISTORY_SIZE = 10
+CLASS_HISTORY_OVERWRITE = 2
+MODEL_SIZE = 5
+CLASSES = ["birds", "chainsaw", "fire", "handsaw", "helicopter"]
+DEFAULT_MODEL = os.path.dirname(os.path.abspath(__file__)) + "/../../classification/data/models/model.pickle"
 
 # Queue for real-time data communication
 data_queue = Queue()
+current_config = f"DEFAULT\nmelvec_length: {MELVEC_LENGTH}\nn_melvecs: {N_MELVECS}"
+dt = np.dtype(np.uint16).newbyteorder("<")
 history = []  # Persistent buffer for MEL spectrogram history
 n_clicks_reset = 0
 n_clicks_save_history = 0
 n_clicks_save_melvec = 0
 current_port = ""
+
+# Ai stuff:
+model = None
+class_history = {"class_proba": {cls: [0.0] for cls in CLASSES}, "final_prediction": ["No Data"]}
 
 def json_to_config_string(config):
     data = json.dumps(config)
@@ -49,7 +58,7 @@ def parse_buffer(line):
     if line.startswith(MEL_PREFIX):
         return bytes.fromhex(line[len(MEL_PREFIX):])
     elif line.startswith(CONFIG_PREFIX):
-        print("Received configuration data.")
+        #print("Received configuration data.")
         config = json.loads(line[len(CONFIG_PREFIX):])
         MELVEC_LENGTH = config.get("melvec_length", MELVEC_LENGTH)
         N_MELVECS = config.get("n_melvecs", N_MELVECS)
@@ -93,6 +102,16 @@ def reader(port, data_queue):
         print(f"Unexpected error: {e}")
         traceback.print_exc()
 
+# AI check model presence
+if os.path.exists(DEFAULT_MODEL):
+    model = pickle.load(open(DEFAULT_MODEL, 'rb'))
+    print(f"Loaded AI model : {DEFAULT_MODEL}")
+    model_loaded_text = f"Loaded AI model : {DEFAULT_MODEL}"
+    has_model = "Ready"
+else:
+    print(f"No AI model found at {DEFAULT_MODEL}")
+    model_loaded_text = "No model loaded"
+    has_model = "No model"
 
 # Dash app setup
 app = dash.Dash(__name__, title="UART Reader", update_title=None)
@@ -104,22 +123,27 @@ app.layout = html.Div(
                 html.Button("Reset History", id="reset-history", style={"margin-right": "10px"}),
                 html.Button("Save History", id="save-history", style={"margin-right": "10px"}),
                 html.Button("Save Last MEL Vector", id="save-melvec", style={"margin-right": "10px"})
-            ], style={"display": "flex", "flexDirection": "column", "flex": 1}),
+            ], style={"display": "flex", "flexDirection": "column", "flex": 1, "padding-left": "20px", "padding-right": "20px"}),
             html.Div([
                 html.Label("Port:", id="port-current", style={"margin-right": "10px"}),
                 html.Label("Configuration:", style={"margin-right": "10px"}),
                 html.Pre(id="config-text", children="Config 1", style={"display": "inline-block", "margin-right": "10px", "text-align": "left"})
-            ], style={"display": "flex", "flexDirection": "column", "flex": 1}),           
-            dcc.Upload(
-                id="upload-model",
-                children=html.Button("Load AI Model", style={"margin-right": "10px"}),
-                multiple=False,
-                style={"display": "inline-block"}
-            ),            
-            html.Div(id="model-status", style={"margin-right": "10px", "display": "inline-block"})
+            ], style={"display": "flex", "flexDirection": "column", "flex": 1, "padding-left": "20px", "padding-right": "20px"}),
+            html.Div([
+                html.Label("AI Model Status:", style={"margin-right": "10px"}),
+                html.Label(model_loaded_text, id="model-status", style={"margin-right": "10px", "font-size": "8px"}),
+                dcc.Upload(
+                    id="upload-model",
+                    children=html.Button("Load AI Model", style={"margin-right": "10px"}),
+                    multiple=False,
+                    style={"display": "inline-block"}
+                )
+            ], style={"display": "flex", "flexDirection": "column", "flex": 1, "padding-left": "10px", "padding-right": "10px"}),         
         ], style={"display": "flex", "align-items": "center", "justify-content": "space-between"}),
-        html.Label(f"MEL Spectrogram ({HISTORY_SIZE} elements)", style={"text-align": "center", "font-size": "20px"}),
-        dcc.Graph(id="heatmap", style={"height": "calc(60vh - 60px)", "width": "100%"}),
+        html.Div([
+            html.Label(f"MEL Spectrogram ({HISTORY_SIZE} elements)", style={"text-align": "center", "font-size": "20px"}),
+            dcc.Graph(id="heatmap", style={"height": "calc(60vh - 60px)", "width": "100%"}),
+        ], style={"display": "flex", "flexDirection": "column", "flex": 1}),
         html.Div([
             html.Div([
                 html.Label(f"MEL Vector-Long Spectrogram ({HISTORY_SIZE} elements)", style={"text-align": "center", "font-size": "20px"}),
@@ -130,10 +154,22 @@ app.layout = html.Div(
                 dcc.Graph(id="melvec_last", style={"height":  "calc(60vh - 60px)", "width": "100%"})
             ], style={"display": "flex", "flexDirection": "column", "flex": 1})     
         ], style={"display": "flex", "flexDirection": "row", "flex": 1}),
+        html.Div([
+            html.Label(f"Predicted Class >> {has_model} <<", id="class-flag", style={"text-align": "center", "font-size": "30px", "background-color": "#BF7BFF", "padding": "20px"}),
+            html.Div([
+                html.Div([
+                    html.Label(f"Class Probabilities (On {CLASS_HISTORY_OVERWRITE} MEL Vectors)", style={"text-align": "center", "font-size": "20px", "margin": "10px"}), 
+                    dcc.Graph(id="class-proba", style={"height": "calc(60vh - 60px)", "width": "100%"}) # Bar chart with class probabilities
+                ], style={"display": "flex", "flexDirection": "column", "flex": 1}),
+                html.Div([
+                    html.Label(f"Class Probabity History ({CLASS_HISTORY_SIZE} ellements)", style={"text-align": "center", "font-size": "20px", "margin": "10px"}),
+                    dcc.Graph(id="class-histogram", style={"height": "calc(60vh - 60px)", "width": "100%"}) # History of the probabilities of each class
+                ], style={"display": "flex", "flexDirection": "column", "flex": 1}),
+            ], style={"display": "flex", "flexDirection": "row"})
+        ], style={"display": "flex", "flexDirection": "column", "flex": 1}),
         dcc.Interval(id="interval", interval=800, n_intervals=0)
     ]
 )
-
 
 @app.callback(
     Output("config-text", "children"), Output("port-current", "children"),
@@ -148,10 +184,13 @@ def update_config_text(n_intervals):
     Output("heatmap", "figure"),
     Output("melvec_long", "figure"),
     Output("melvec_last", "figure"),
-    [Input("interval", "n_intervals"), Input("reset-history", "n_clicks"), Input("save-history", "n_clicks"), Input("save-melvec", "n_clicks")]
+    Output("class-proba", "figure"),
+    Output("class-histogram", "figure"),
+    Output("class-flag", "children"),
+    [Input("interval", "n_intervals"), Input("reset-history", "n_clicks"), Input("save-history", "n_clicks"), Input("save-melvec", "n_clicks"), Input("class-flag", "children")],
 )
-def update_graph(n_intervals, reset_clicks, save_history_clicks, save_melvec_clicks):
-    global history
+def update_graph(n_intervals, reset_clicks, save_history_clicks, save_melvec_clicks, class_flag):
+    global history, model, class_history
     global n_clicks_reset, n_clicks_save_history, n_clicks_save_melvec
 
     # Reset history if the reset button is clicked
@@ -240,11 +279,74 @@ def update_graph(n_intervals, reset_clicks, save_history_clicks, save_melvec_cli
             autosize=True,
             margin=dict(l=20, r=20, t=40, b=20)
         )
-        
-        return heatmap_fig, melvec_long_fig, melvec_fig
+
+        # AI model prediction
+        flattened_melvec = [np.array(melvec).flatten() for melvec in history[-CLASS_HISTORY_OVERWRITE:]]
+        class_prediction = mel_vect_to_proba(flattened_melvec, model)
+        class_history["final_prediction"].append(class_prediction["final_prediction"])
+        for cls in CLASSES:
+            class_history["class_proba"][cls].append(class_prediction["class_proba"][cls])
+
+        # Create the class flag
+        if class_prediction["final_prediction"] != "No model loaded":
+            class_flag = f"Predicted Class >> {class_prediction['final_prediction']} <<"
+        else:
+            class_flag = "Predicted Class >> No Model <<"
+
+        # Keep only the last CLASS_HISTORY_SIZE predictions in history to limit memory usage
+        if len(class_history["final_prediction"]) > CLASS_HISTORY_SIZE:
+            class_history["final_prediction"].pop(0)
+            for cls in CLASSES:
+                class_history["class_proba"][cls].pop(0)
+
+        # Create the class probability
+        class_proba_fig = go.Figure(
+            data=[go.Bar(x=CLASSES, y=[class_prediction["class_proba"][cls] for cls in CLASSES])]
+        )
+        class_proba_fig.update_layout(
+            title="Class Probabilities",
+            xaxis_title="Probability",
+            yaxis_title="Count",
+            autosize=True,
+            margin=dict(l=20, r=20, t=40, b=20)
+        )
+
+        # Create the class temporal plot for all the classes, and how their probabilities evolve over time, use lines
+        class_hist_fig = go.Figure(
+            data=[go.Line(x=np.arange(len(class_history["class_proba"][cls])), y=class_history["class_proba"][cls], name=cls) for cls in CLASSES]
+        )
+        class_hist_fig.update_layout(
+            title="Class Histogram",
+            xaxis_title="Time",
+            yaxis_title="Probability",
+            autosize=True,
+            margin=dict(l=20, r=20, t=40, b=20)
+        )
+        return heatmap_fig, melvec_long_fig, melvec_fig, class_proba_fig, class_hist_fig, class_flag
 
     # Return empty figures if no data is available yet
-    return go.Figure(), go.Figure(), go.Figure()
+    return go.Figure(), go.Figure(), go.Figure(), go.Figure(), go.Figure(), class_flag
+
+def mel_vect_to_proba(list_mel_vec: list, model=None) -> dict:
+    """ 
+    Takes a list of 10 mel vectors and returns the class probabilities and the predicted class using average voting.
+    """
+    if model is None:
+        return {"class_proba": {cls: 0.0 for cls in CLASSES}, "final_prediction": "No model loaded"}
+    
+    probs = np.zeros((len(list_mel_vec), MODEL_SIZE))
+    for i in range(len(list_mel_vec)):
+        current_vec = list_mel_vec[i]
+        current_vec = np.array(current_vec)
+        normalized = current_vec / np.linalg.norm(current_vec)
+        probs[i] = model.predict_proba([normalized]) # class are in this order : birds, chainsaw, fire, handsaw, helicopter
+    mean_probs = np.mean(probs, axis=0)
+    predicted_class = CLASSES[np.argmax(mean_probs)]
+    
+    return {
+        "class_proba": {CLASSES[i]: mean_probs[i] for i in range(len(CLASSES))},
+        "final_prediction": predicted_class
+    }
 
 @app.callback(
     Output("model-status", "children"),
@@ -252,8 +354,9 @@ def update_graph(n_intervals, reset_clicks, save_history_clicks, save_melvec_cli
     [State("upload-model", "filename")]
 )
 def load_model(contents, filename):
+    global model
     if contents is None:
-        return ""
+        return model_loaded_text
     
     content_type, content_string = contents.split(',')
     decoded = base64.b64decode(content_string)
@@ -264,6 +367,7 @@ def load_model(contents, filename):
     
     # Load the AI model based on the uploaded file
     # Replace this with your actual model loading code
+    model = pickle.load(open(filename, 'rb'))
     model_status = f"Loaded AI model : {filename}"
     return model_status
 

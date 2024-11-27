@@ -33,9 +33,9 @@ void Spectrogram_Format(q15_t *buf)
 	// /!\ When multiplying/dividing by a power 2, always prefer shifting left/right instead, ARM instructions to do so are more efficient.
 	// Here we should shift left by 3.
 
-	start_cycle_count();
+	//start_cycle_count(); // TIMING STUFF
 	arm_shift_q15(buf, 3, buf, SAMPLES_PER_MELVEC);
-	stop_cycle_count("Step_0.1");
+	//stop_cycle_count("Step_0.1");
 
 	// STEP 0.2 : Remove DC Component
 	//            --> Pointwise substract
