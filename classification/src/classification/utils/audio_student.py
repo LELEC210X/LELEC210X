@@ -361,7 +361,7 @@ class Feature_vector_DS:
                     amplitude_limit=0.1,
                 )
             if "echo" in self.data_aug:
-                aud = AudioUtil.add_echo(aud)
+                aud = AudioUtil.echo(aud)
             if "noise" in self.data_aug:
                 aud = AudioUtil.add_noise(aud, sigma=0.05)
             if "scaling" in self.data_aug:
@@ -426,3 +426,42 @@ class Feature_vector_DS:
         else:
             self.data_aug = [self.data_aug]
 
+# from classification.datasets import Dataset
+# dataset = Dataset()
+# classnames = dataset.list_classes()
+# myds = Feature_vector_DS(dataset, Nft=512, nmel=20, duration=950, shift_pct=0.0)
+# distorsion_to_add = ["noise"]
+# nclass = len(classnames)
+# naudio = dataset.naudio
+# featveclen = len(myds["fire", 0])
+
+
+# y = []
+# for i in range(myds.data_aug_factor):
+#     for j in range(nclass):
+#         for k in range(dataset.naudio):
+#             y.append(classnames[j])
+
+# y_aug = np.array(y)
+
+# #print(y_aug)
+# "Compute the matrixed dataset, this takes some seconds, but you can then reload it by commenting this loop and decommenting the np.load below"
+# X_aug = np.zeros((myds.data_aug_factor * nclass * naudio, featveclen))
+# for s in range(myds.data_aug_factor):
+#     if s != 0:
+#         myds.mod_data_aug([distorsion_to_add[s - 1]])
+#     for idx in range(dataset.naudio):
+#         for class_idx, classname in enumerate(classnames):
+#             featvec = myds[classname, idx]
+#             #if s == 0:
+#                 #print("class_idx =",class_idx)
+#                 #print(s * nclass * naudio + class_idx * naudio + idx)
+#                 #print(classname)
+#                 #print(featvec)
+#             X_aug[s * nclass * naudio + class_idx * naudio + idx, :] = featvec
+# np.save(fm_dir + "feature_matrix_2D_aug.npy", X_aug)
+
+# # X_aug = np.load(fm_dir+"feature_matrix_2D_aug.npy")
+
+# print(f"Shape of the feature matrix : {X_aug.shape}")
+# print(f"Number of labels : {len(y_aug)}")
