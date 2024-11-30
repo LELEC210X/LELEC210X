@@ -302,6 +302,7 @@ numpy==2.0.2
     # via scipy
     # via seaborn
     # via soxr
+    # via xgboost
 ordered-set==4.1.0
     # via flask-limiter
 overrides==7.7.0
@@ -439,6 +440,7 @@ scipy==1.13.1
     # via librosa
     # via mcu
     # via scikit-learn
+    # via xgboost
 seaborn==0.13.2
     # via classification
 send2trash==1.8.3
@@ -548,6 +550,7 @@ wsproto==1.2.0
     # via simple-websocket
 wtforms==3.1.2
     # via flask-wtf
+xgboost==2.1.3
 youtube-dl @ git+https://github.com/ytdl-org/youtube-dl.git@c5098961b04ce83f4615f2a846c84f803b072639
 zipp==3.20.1
     # via importlib-metadata
