@@ -84,12 +84,12 @@ def plot_signal_and_fft(signal, sampling_rate):
     fig.add_trace(go.Scatter(x=times, y=voltage_mV, mode='lines', name=f"Acquisition #{msg_counter}"), row=1, col=1)
     # Plot FFT without DC component
     fig.add_trace(go.Scatter(x=freqs, y=fft_values, mode='lines', name=f"FFT #{msg_counter}"), row=2, col=1)
-
-    # Show plots
-    pio.show(fig, renderer="browser")
-
+    
     # Generate audio file
     generate_audio(signal, f"acq-{msg_counter}")
+    
+    # Show plots
+    pio.show(fig, renderer="browser")
 
     msg_counter += 1
 
