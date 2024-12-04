@@ -365,7 +365,6 @@ blocks:
     analog_bandw_ch1: 1.5e6
     calibr_bandw_ch0: 2.5e6
     calibr_bandw_ch1: 2.5e6
-    ch_align: 'False'
     channel_mode: '0'
     comment: ''
     dacVal: '180'
@@ -388,7 +387,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [56, 12.0]
+    coordinate: [72, 4.0]
     rotation: 0
     state: enabled
 - name: low_pass_filter_0
@@ -398,7 +397,7 @@ blocks:
     alias: ''
     beta: '6.76'
     comment: ''
-    cutoff_freq: data_rate+fdev
+    cutoff_freq: 62.5e3
     decim: '1'
     gain: '1'
     interp: '1'
@@ -443,7 +442,7 @@ blocks:
     bus_structure: null
     coordinate: [384, 244.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: zeromq_pub_sink_0
   id: zeromq_pub_sink
   parameters:

@@ -83,6 +83,40 @@ blocks:
     coordinate: [1336, 4.0]
     rotation: 0
     state: enabled
+- name: Print_metrics
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: ''
+    label: ''
+    'true': '1'
+    type: int
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1192, 580.0]
+    rotation: 0
+    state: true
+- name: Print_payload
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: ''
+    label: ''
+    'true': '1'
+    type: int
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1352, 580.0]
+    rotation: 0
+    state: true
 - name: carrier_freq
   id: variable
   parameters:
@@ -328,6 +362,7 @@ blocks:
     comment: ''
     crc_len: crc_len
     hdr_len: hdr_len
+    log_payload: Print_payload
     maxoutbuf: '0'
     minoutbuf: '0'
     payload_len: payload_len
@@ -345,6 +380,7 @@ blocks:
     alias: ''
     comment: ''
     drate: data_rate
+    enable_log: Print_metrics
     fdev: fdev
     fsamp: samp_rate
     hdr_len: hdr_len
@@ -375,7 +411,7 @@ blocks:
     dacVal: '180'
     digital_bandw_ch0: samp_rate
     digital_bandw_ch1: samp_rate
-    dspcfg_PASSTHROUGH_LEN: '(packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate) '
+    dspcfg_PASSTHROUGH_LEN: (packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate)
     dspcfg_THRESHOLD: K_threshold
     dspcfg_preamble_en: Enable_detection
     filename: ''
@@ -426,7 +462,7 @@ blocks:
     bus_structure: null
     coordinate: [120, 244.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: zeromq_pub_sink_0
   id: zeromq_pub_sink
   parameters:

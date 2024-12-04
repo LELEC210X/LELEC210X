@@ -4,9 +4,10 @@ category: "[FSK]"
 
 templates:
   imports: import fsk
-  make: fsk.synchronization(${drate}, ${fdev}, ${fsamp}, ${hdr_len}, ${packet_len}, ${tx_power})
+  make: fsk.synchronization(${drate}, ${fdev}, ${fsamp}, ${hdr_len}, ${packet_len}, ${tx_power},${enable_log})
   callbacks:
   - set_tx_power(${tx_power})
+  - set_enable_log(${enable_log})
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
@@ -32,6 +33,10 @@ parameters:
   - id: tx_power
     label: TX power used
     dtype: float
+  - id: enable_log
+    label: Print packet metrics
+    dtype: int
+
 #  - id: estimated_noise_power
 #    label: Estimated Noise Power
 #    dtype: float

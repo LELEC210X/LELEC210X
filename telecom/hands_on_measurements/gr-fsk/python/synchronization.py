@@ -60,7 +60,7 @@ class synchronization(gr.basic_block):
     docstring for block synchronization
     """
 
-    def __init__(self, drate, fdev, fsamp, hdr_len, packet_len, tx_power):
+    def __init__(self, drate, fdev, fsamp, hdr_len, packet_len, tx_power,enable_log):
         self.drate = drate
         self.fdev = fdev
         self.fsamp = fsamp
@@ -69,6 +69,7 @@ class synchronization(gr.basic_block):
         self.packet_len = packet_len  # in bytes
         self.estimated_noise_power = 0
         self.tx_power = tx_power
+        self.enable_log = enable_log
 
         # Remaining number of samples in the current packet
         self.rem_samples = 0
@@ -99,14 +100,7 @@ class synchronization(gr.basic_block):
         input items are samples (with oversampling factor)
         output items are samples (with oversampling factor)
         """
-        if self.rem_samples == 0:  # looking for a new packet
-            ninput_items_required[0] = (
-                self.hdr_len * 8 * self.osr
-            )  # enough samples to find a header inside
-        else:  # processing a previously found packet
-            ninput_items_required[0] = (
-                noutput_items  # pass remaining samples in packet to next block
-            )
+        ninput_items_required[0] =8 * self.osr * (self.packet_len + 1) + self.osr
 
     def forecast_v310(self, noutput_items, ninputs):
         """
@@ -117,7 +111,7 @@ class synchronization(gr.basic_block):
         for i in range(ninputs):
             if self.rem_samples == 0:  # looking for a new packet
                 ninput_items_required[i] = (
-                    self.hdr_len * 8 * self.osr
+                    8 * self.osr * (self.packet_len + 1) + self.osr
                 )  # enough samples to find a header inside
             else:  # processing a previously found packet
                 ninput_items_required[i] = (
@@ -125,6 +119,9 @@ class synchronization(gr.basic_block):
                 )
 
         return ninput_items_required
+
+    def set_enable_log(self, enable_log):
+        self.enable_log = enable_log
 
     def handle_msg(self, msg):
         self.estimated_noise_power = pmt.to_double(msg)
@@ -147,9 +144,10 @@ class synchronization(gr.basic_block):
             self.init_sto = sto
             self.power_est = None
             self.rem_samples = (self.packet_len + 1) * 8 * self.osr
-            self.logger.info(
-                f"new preamble detected @ {self.nitems_read(0) + sto} (CFO {self.cfo:.2f} Hz, STO {sto})"
-            )
+            if self.enable_log:
+                self.logger.info(
+                    f"new preamble detected @ {self.nitems_read(0) + sto} (CFO {self.cfo:.2f} Hz, STO {sto})"
+                )
             measurements_logger.info(f"CFO={self.cfo},STO={sto}")
             self.consume_each(sto)  # drop *sto* samples to align the buffer
             return 0  # ... but we do not transmit data to the demodulation stage
@@ -162,9 +160,10 @@ class synchronization(gr.basic_block):
                 SNR_est = (
                     self.power_est - self.estimated_noise_power
                 ) / self.estimated_noise_power
-                self.logger.info(
-                    f"estimated SNR: {10 * np.log10(SNR_est):.2f} dB ({len(y)} samples, Esti. RX power: {self.power_est:.2e},  TX indicative Power: {self.tx_power} dB)"
-                )
+                if self.enable_log:
+                    self.logger.info(
+                        f"estimated SNR: {10 * np.log10(SNR_est):.2f} dB ({len(y)} samples, Esti. RX power: {self.power_est:.2e},  TX indicative Power: {self.tx_power} dB)"
+                    )
                 measurements_logger.info(
                     f"SNRdB={10 * np.log10(SNR_est):.2f},TXPdB={self.tx_power}"
                 )
