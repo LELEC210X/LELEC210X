@@ -1,7 +1,6 @@
 options:
   parameters:
     author: UCLouvain
-    catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
@@ -48,6 +47,40 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1192, 124.0]
+    rotation: 0
+    state: true
+- name: Print_metrics
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: ''
+    label: ''
+    'true': '1'
+    type: int
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1176, 556.0]
+    rotation: 0
+    state: true
+- name: Print_payload
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: ''
+    label: ''
+    'true': '1'
+    type: int
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1336, 556.0]
     rotation: 0
     state: true
 - name: carrier_freq
@@ -185,7 +218,7 @@ blocks:
     gui_hint: ''
     label: ''
     min_len: '200'
-    orient: QtCore.Qt.Horizontal
+    orient: Qt.Horizontal
     rangeType: int
     start: '0'
     step: '1'
@@ -303,6 +336,7 @@ blocks:
     comment: ''
     crc_len: crc_len
     hdr_len: hdr_len
+    log_payload: Print_payload
     maxoutbuf: '0'
     minoutbuf: '0'
     payload_len: payload_len
@@ -310,7 +344,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1000, 396.0]
+    coordinate: [984, 388.0]
     rotation: 0
     state: enabled
 - name: fsk_preamble_detect_0
@@ -341,6 +375,7 @@ blocks:
     alias: ''
     comment: ''
     drate: data_rate
+    enable_log: Print_metrics
     fdev: fdev
     fsamp: samp_rate
     hdr_len: hdr_len
@@ -352,7 +387,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [448, 380.0]
+    coordinate: [448, 372.0]
     rotation: 0
     state: enabled
 - name: limesdr_source_0
@@ -365,6 +400,7 @@ blocks:
     analog_bandw_ch1: 1.5e6
     calibr_bandw_ch0: 2.5e6
     calibr_bandw_ch1: 2.5e6
+    ch_align: 'False'
     channel_mode: '0'
     comment: ''
     dacVal: '180'
@@ -406,7 +442,7 @@ blocks:
     samp_rate: samp_rate
     type: fir_filter_ccf
     width: data_rate*1
-    win: window.WIN_HAMMING
+    win: firdes.WIN_HAMMING
   states:
     bus_sink: false
     bus_source: false
@@ -449,11 +485,8 @@ blocks:
     address: tcp://127.0.0.1:10000
     affinity: ''
     alias: ''
-    bind: 'True'
     comment: ''
-    drop_on_hwm: 'True'
     hwm: '-1'
-    key: ''
     pass_tags: 'False'
     timeout: '100'
     type: byte
@@ -480,4 +513,3 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.7.0

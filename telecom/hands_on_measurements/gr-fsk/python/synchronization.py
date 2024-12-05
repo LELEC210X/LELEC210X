@@ -95,12 +95,20 @@ class synchronization(gr.basic_block):
         else:
             self.forecast = self.forecast_v310
 
+
     def forecast_v38(self, noutput_items, ninput_items_required):
         """
         input items are samples (with oversampling factor)
         output items are samples (with oversampling factor)
         """
-        ninput_items_required[0] =8 * self.osr * (self.packet_len + 1) + self.osr
+        if self.rem_samples == 0:  # looking for a new packet
+            ninput_items_required[0] = (
+                    min(8000, 8 * self.osr * (self.packet_len + 1) + self.osr)
+                )  # enough samples to find a header inside
+        else:  # processing a previously found packet
+            ninput_items_required[0] = (
+                noutput_items  # pass remaining samples in packet to next block
+            )
 
     def forecast_v310(self, noutput_items, ninputs):
         """
@@ -111,7 +119,7 @@ class synchronization(gr.basic_block):
         for i in range(ninputs):
             if self.rem_samples == 0:  # looking for a new packet
                 ninput_items_required[i] = (
-                    8 * self.osr * (self.packet_len + 1) + self.osr
+                    min(8000, 8 * self.osr * (self.packet_len + 1) + self.osr)
                 )  # enough samples to find a header inside
             else:  # processing a previously found packet
                 ninput_items_required[i] = (
