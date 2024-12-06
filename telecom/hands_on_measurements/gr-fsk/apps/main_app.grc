@@ -83,6 +83,40 @@ blocks:
     coordinate: [1056, 276.0]
     rotation: 0
     state: disabled
+- name: Print_metrics
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: ''
+    label: ''
+    'true': '1'
+    type: int
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [912, 564.0]
+    rotation: 0
+    state: true
+- name: Print_payload
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: ''
+    label: ''
+    'true': '1'
+    type: int
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1072, 564.0]
+    rotation: 0
+    state: true
 - name: carrier_freq
   id: variable
   parameters:
@@ -364,6 +398,7 @@ blocks:
     comment: ''
     crc_len: crc_len
     hdr_len: hdr_len
+    log_payload: Print_payload
     maxoutbuf: '0'
     minoutbuf: '0'
     payload_len: payload_len
@@ -381,6 +416,7 @@ blocks:
     alias: ''
     comment: ''
     drate: data_rate
+    enable_log: Print_metrics
     fdev: fdev
     fsamp: samp_rate
     hdr_len: hdr_len
@@ -462,7 +498,7 @@ blocks:
     bus_structure: null
     coordinate: [112, 244.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: zeromq_pub_sink_0
   id: zeromq_pub_sink
   parameters:

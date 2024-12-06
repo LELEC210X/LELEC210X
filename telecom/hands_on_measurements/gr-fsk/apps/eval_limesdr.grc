@@ -49,6 +49,40 @@ blocks:
     coordinate: [1192, 124.0]
     rotation: 0
     state: true
+- name: Print_metrics
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: ''
+    label: ''
+    'true': '1'
+    type: int
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1176, 556.0]
+    rotation: 0
+    state: true
+- name: Print_payload
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: ''
+    label: ''
+    'true': '1'
+    type: int
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1336, 556.0]
+    rotation: 0
+    state: true
 - name: carrier_freq
   id: variable
   parameters:
@@ -302,6 +336,7 @@ blocks:
     comment: ''
     crc_len: crc_len
     hdr_len: hdr_len
+    log_payload: Print_payload
     maxoutbuf: '0'
     minoutbuf: '0'
     payload_len: payload_len
@@ -309,7 +344,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1000, 396.0]
+    coordinate: [984, 388.0]
     rotation: 0
     state: enabled
 - name: fsk_preamble_detect_0
@@ -340,6 +375,7 @@ blocks:
     alias: ''
     comment: ''
     drate: data_rate
+    enable_log: Print_metrics
     fdev: fdev
     fsamp: samp_rate
     hdr_len: hdr_len
@@ -351,7 +387,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [448, 380.0]
+    coordinate: [448, 372.0]
     rotation: 0
     state: enabled
 - name: limesdr_source_0
@@ -387,7 +423,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [56, 12.0]
+    coordinate: [72, 4.0]
     rotation: 0
     state: enabled
 - name: low_pass_filter_0
@@ -397,7 +433,7 @@ blocks:
     alias: ''
     beta: '6.76'
     comment: ''
-    cutoff_freq: data_rate+fdev
+    cutoff_freq: 62.5e3
     decim: '1'
     gain: '1'
     interp: '1'
@@ -442,7 +478,7 @@ blocks:
     bus_structure: null
     coordinate: [384, 244.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: zeromq_pub_sink_0
   id: zeromq_pub_sink
   parameters:
