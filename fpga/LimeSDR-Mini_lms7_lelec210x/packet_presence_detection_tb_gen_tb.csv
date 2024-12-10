@@ -1,24 +1,12 @@
-<<<<<<< HEAD
-# system info packet_presence_detection_tb_gen_tb on 2024.11.13.16:38:04
+# system info packet_presence_detection_tb_gen_tb on 2023.11.08.03:03:19
 system_info:
 name,value
 DEVICE,10M16SAU169C8G
 DEVICE_FAMILY,MAX 10
-GENERATION_ID,1731512280
+GENERATION_ID,1699408996
 #
 #
-# Files generated for packet_presence_detection_tb_gen_tb on 2024.11.13.16:38:04
-=======
-# system info packet_presence_detection_tb_gen_tb on 2024.11.13.13:22:01
-system_info:
-name,value
-DEVICE,EP4CE10E22A7
-DEVICE_FAMILY,Cyclone IV E
-GENERATION_ID,1731500518
-#
-#
-# Files generated for packet_presence_detection_tb_gen_tb on 2024.11.13.13:22:01
->>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
+# Files generated for packet_presence_detection_tb_gen_tb on 2023.11.08.03:03:19
 files:
 filepath,kind,attributes,module,is_top
 ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/packet_presence_detection_tb_gen_tb.v,VERILOG,,packet_presence_detection_tb_gen_tb,true

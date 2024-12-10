@@ -16,11 +16,7 @@
 -- ---------------------------------------------------------------------------
 
 -- VHDL created from lms_dsp_fir_compiler_ii_0_rtl_core
-<<<<<<< HEAD
--- VHDL created on Wed Nov 13 16:59:37 2024
-=======
--- VHDL created on Wed Nov 13 17:51:06 2024
->>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
+-- VHDL created on Wed Nov 08 03:04:01 2023
 
 
 library IEEE;

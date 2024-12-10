@@ -15,4 +15,4 @@ lpm_ver:                                          ./libraries/lpm_ver/
 sgate_ver:                                        ./libraries/sgate_ver/                                       
 altera_mf_ver:                                    ./libraries/altera_mf_ver/                                   
 altera_lnsim_ver:                                 ./libraries/altera_lnsim_ver/                                
-cycloneive_ver:                                   ./libraries/cycloneive_ver/                                  
+fiftyfivenm_ver:                                  ./libraries/fiftyfivenm_ver/                                 

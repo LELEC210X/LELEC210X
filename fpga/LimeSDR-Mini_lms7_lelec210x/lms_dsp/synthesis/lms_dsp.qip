@@ -2,11 +2,7 @@ set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name IP_TOOL_NAME "Q
 set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name IP_TOOL_VERSION "18.1"
 set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name IP_TOOL_ENV "Qsys"
 set_global_assignment -library "lms_dsp" -name SOPCINFO_FILE [file join $::quartus(qip_path) "../../lms_dsp.sopcinfo"]
-<<<<<<< HEAD
-set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name SLD_INFO "QSYS_NAME lms_dsp HAS_SOPCINFO 1 GENERATION_ID 1731513570"
-=======
-set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name SLD_INFO "QSYS_NAME lms_dsp HAS_SOPCINFO 1 GENERATION_ID 1731516662"
->>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
+set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name SLD_INFO "QSYS_NAME lms_dsp HAS_SOPCINFO 1 GENERATION_ID 1699409035"
 set_global_assignment -library "lms_dsp" -name MISC_FILE [file join $::quartus(qip_path) "../lms_dsp.cmp"]
 set_global_assignment -library "lms_dsp" -name SLD_FILE [file join $::quartus(qip_path) "lms_dsp.debuginfo"]
 set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name IP_TARGETED_DEVICE_FAMILY "MAX 10"
@@ -19,11 +15,7 @@ set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name IP_COMPONENT_DI
 set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name IP_COMPONENT_REPORT_HIERARCHY "On"
 set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name IP_COMPONENT_INTERNAL "Off"
 set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name IP_COMPONENT_VERSION "MS4w"
-<<<<<<< HEAD
-set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTczMTUxMzU3MA==::QXV0byBHRU5FUkFUSU9OX0lE"
-=======
-set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTczMTUxNjY2Mg==::QXV0byBHRU5FUkFUSU9OX0lE"
->>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
+set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTY5OTQwOTAzNQ==::QXV0byBHRU5FUkFUSU9OX0lE"
 set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfRkFNSUxZ::TUFYIDEw::QXV0byBERVZJQ0VfRkFNSUxZ"
 set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0U=::MTBNMTZTQVUxNjlDOEc=::QXV0byBERVZJQ0U="
 set_global_assignment -entity "lms_dsp" -library "lms_dsp" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfU1BFRURHUkFERQ==::OA==::QXV0byBERVZJQ0VfU1BFRURHUkFERQ=="

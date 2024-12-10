@@ -1,23 +1,12 @@
-<<<<<<< HEAD
-# system info lms_dsp on 2024.11.13.16:59:24
-=======
-# system info lms_dsp on 2024.11.13.17:50:58
->>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
+# system info lms_dsp on 2023.11.08.03:03:49
 system_info:
 name,value
 DEVICE,10M16SAU169C8G
 DEVICE_FAMILY,MAX 10
-<<<<<<< HEAD
-GENERATION_ID,1731513552
+GENERATION_ID,1699409017
 #
 #
-# Files generated for lms_dsp on 2024.11.13.16:59:24
-=======
-GENERATION_ID,1731516649
-#
-#
-# Files generated for lms_dsp on 2024.11.13.17:50:58
->>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
+# Files generated for lms_dsp on 2023.11.08.03:03:49
 files:
 filepath,kind,attributes,module,is_top
 simulation/lms_dsp.v,VERILOG,,lms_dsp,true

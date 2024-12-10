@@ -1,5 +1,5 @@
 
-# (C) 2001-2024 Altera Corporation. All rights reserved.
+# (C) 2001-2023 Altera Corporation. All rights reserved.
 # Your use of Altera Corporation's design tools, logic functions and 
 # other software and tools, and its AMPP partner logic functions, and 
 # any output files any of the foregoing (including device programming 
@@ -12,11 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-<<<<<<< HEAD
-# ACDS 18.1 625 win32 2024.11.13.16:59:25
-=======
-# ACDS 18.1 625 win32 2024.11.13.17:50:59
->>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
+# ACDS 18.1 625 win32 2023.11.08.03:03:50
 
 # ----------------------------------------
 # ncsim - auto-generated simulation script
@@ -110,16 +106,12 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
-<<<<<<< HEAD
-# ACDS 18.1 625 win32 2024.11.13.16:59:25
-=======
-# ACDS 18.1 625 win32 2024.11.13.17:50:59
->>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
+# ACDS 18.1 625 win32 2023.11.08.03:03:50
 # ----------------------------------------
 # initialize variables
 TOP_LEVEL_NAME="lms_dsp"
 QSYS_SIMDIR="./../"
-QUARTUS_INSTALL_DIR="C:/intelfpga_lite/18.1/quartus/"
+QUARTUS_INSTALL_DIR="C:/intelfpga/18.1/quartus/"
 SKIP_FILE_COPY=0
 SKIP_DEV_COM=0
 SKIP_COM=0

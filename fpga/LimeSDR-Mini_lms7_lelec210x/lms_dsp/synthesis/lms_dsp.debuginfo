@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="lms_dsp" kind="system" version="18.1" fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
-<<<<<<< HEAD
- <!-- 2024.11.13.16:59:41 -->
-=======
- <!-- 2024.11.13.17:51:09 -->
->>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
+ <!-- 2023.11.08.03:04:06 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -57,11 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-<<<<<<< HEAD
-  <value>1731513570</value>
-=======
-  <value>1731516662</value>
->>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
+  <value>1699409035</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -5472,9 +5464,5 @@ parameters are a RESULT of the module parameters. -->
   <version>18.1</version>
  </plugin>
  <reportVersion>18.1 625</reportVersion>
-<<<<<<< HEAD
- <uniqueIdentifier>7413EA663E38000001932640646D</uniqueIdentifier>
-=======
- <uniqueIdentifier>B0A46015F69D00000193266F8CB8</uniqueIdentifier>
->>>>>>> 4554853f3b505ad080345c9cf6e6bc270ab7ac57
+ <uniqueIdentifier>00FF5FECB7010000018BACAC0E94</uniqueIdentifier>
 </EnsembleReport>

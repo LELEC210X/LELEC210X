@@ -1,21 +1,13 @@
-INIT_FROM_EXTERNAL_ROM_CHECKBOX_CHECKED=NO
 INTENDED_DEVICE_FAMILY="MAX 10"
+LPM_HINT=RAM_BLOCK_TYPE=M9K
+LPM_TYPE=altshift_taps
+NUMBER_OF_TAPS=1
+TAP_DISTANCE=256
+WIDTH=16
 DEVICE_FAMILY="MAX 10"
+aclr
+clken
 clock
-counter_param
-counter_type
-data_in
-pll_areset_in
-pll_scandataout
-pll_scandone
-read_param
-reconfig
-reset
-write_param
-busy
-data_out
-pll_areset
-pll_configupdate
-pll_scanclk
-pll_scanclkena
-pll_scandata
+shiftin
+shiftout
+taps

@@ -50,5 +50,5 @@
    path="ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/packet_presence_detection_tb_gen_tb.v"
    type="VERILOG" />
  <topLevel name="packet_presence_detection_tb_gen_tb" />
- <deviceFamily name="cycloneive" />
+ <deviceFamily name="max10" />
 </simPackage>
