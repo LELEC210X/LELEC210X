@@ -26,11 +26,32 @@ from gnuradio import gr
 
 def demodulate(y, B, R, Fdev):
     """
+    Demodulates the received signal.
     Non-coherent demodulator.
+    
+    :param y: The received signal, (N * R,).
+    :return: The signal, after demodulation.
     """
-    nb_syms = int(len(y) / R)
-    bits_hat = np.zeros(nb_syms, dtype=int)
-    return bits_hat  # TODO
+    N = len(y) // R  # Number of CPFSK symbols in y
+    T = 1 / B # 1/B
+    
+
+    # Group symbols together, in a matrix. Each row contains the R samples over one symbol period
+    y = np.resize(y, (N, R))
+
+    # TO DO: generate the reference waveforms used for the correlation
+    # hint: look at what is done in modulate() in chain.py
+    e_0 = np.exp(-1j * 2 * np.pi * Fdev * np.arange(R) * T / R)
+    e_1 = np.exp(1j * 2 * np.pi * Fdev * np.arange(R) * T / R)
+
+    # TO DO: compute the correlations with the two reference waveforms (r0 and r1)
+    r0 = np.dot(y, np.conj(e_0)) / T
+    r1 = np.dot(y, np.conj(e_1)) / T
+    
+    # TO DO: performs the decision based on r0 and r1
+    bits_hat = (np.abs(r1) > np.abs(r0)).astype(int)
+    
+    return bits_hat
 
 
 class demodulation(gr.basic_block):

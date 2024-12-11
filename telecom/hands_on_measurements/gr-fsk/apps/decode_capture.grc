@@ -160,7 +160,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /mnt/d/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/telecom/hands_on_measurements/gr-fsk/misc/fsk_capture.mat
+    file: /mnt/c/users/gauti/OneDrive - UCL/Documents/UCL - EPL/Master/Master 1 Q1/LELEC210X/LELEC210X_GROUP_E/telecom/hands_on_measurements/gr-fsk/misc/fsk_capture.mat
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -240,6 +240,7 @@ blocks:
     comment: ''
     crc_len: crc_len
     hdr_len: hdr_len
+    log_payload: 'True'
     maxoutbuf: '0'
     minoutbuf: '0'
     payload_len: payload_len
@@ -278,6 +279,7 @@ blocks:
     alias: ''
     comment: ''
     drate: data_rate
+    enable_log: 'True'
     fdev: fdev
     fsamp: samp_rate
     hdr_len: hdr_len
