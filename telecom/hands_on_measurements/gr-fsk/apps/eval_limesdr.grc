@@ -41,7 +41,7 @@ blocks:
     label: ''
     'true': '1'
     type: int
-    value: '1'
+    value: '0'
   states:
     bus_sink: false
     bus_source: false
@@ -324,7 +324,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [112, 564.0]
+    coordinate: [88, 492.0]
     rotation: 0
     state: true
 - name: fsk_packet_parser_0
@@ -447,7 +447,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [96, 204.0]
+    coordinate: [88, 212.0]
     rotation: 180
     state: enabled
 - name: qtgui_sink_x_0
@@ -471,7 +471,7 @@ blocks:
     showports: 'False'
     showrf: 'False'
     type: complex
-    wintype: firdes.WIN_BLACKMAN_hARRIS
+    wintype: window.WIN_BLACKMAN_hARRIS
   states:
     bus_sink: false
     bus_source: false

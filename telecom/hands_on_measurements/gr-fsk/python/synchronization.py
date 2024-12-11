@@ -29,9 +29,24 @@ from .utils import logging, measurements_logger
 
 def cfo_estimation(y, B, R, Fdev):
     """
-    Estimate CFO using Moose algorithm, on first samples of preamble
+    Estimates the CFO based on the received signal.
+    Estimates CFO using Moose algorithm, on first samples of preamble.
+
+    :param y: The received signal, (N * R,).
+    :return: The estimated CFO.
     """
-    return 0.0  # TODO
+    # TO DO: extract 2 blocks of size N*R at the start of y
+
+    # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
+    N_Moose = 16 # max should be total bits per preamble / 2
+    N_t = N_Moose * R
+    T = 1 / B # 1/Bitrate
+    
+    alpha_est = np.vdot(y[:N_t], y[N_t:2*N_t])
+    
+    cfo_est = np.angle(alpha_est) * R / (2 * np.pi * N_t * T)
+
+    return cfo_est
 
 
 def sto_estimation(y, B, R, Fdev):
