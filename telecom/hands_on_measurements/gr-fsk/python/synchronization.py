@@ -33,11 +33,14 @@ def cfo_estimation(y, B, R, Fdev):
     Estimates CFO using Moose algorithm, on first samples of preamble.
 
     :param y: The received signal, (N * R,).
+    :param B: Bitrate [bits/sec]
+    :param R: oversample factor (typically = 8)
+    :param Fdev: frequency deviation, not used by this function
     :return: The estimated CFO.
     """
-    # TO DO: extract 2 blocks of size N*R at the start of y
+    # extract 2 blocks of size N*R at the start of y
 
-    # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
+    # apply the Moose algorithm on these two blocks to estimate the CFO
     N_Moose = 16 # max should be total bits per preamble / 2
     N_t = N_Moose * R
     T = 1 / B # 1/Bitrate
