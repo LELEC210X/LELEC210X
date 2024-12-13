@@ -107,18 +107,18 @@ class SignalViewer(QMainWindow):
         self.voltage_scale = QDoubleSpinBox()
         self.voltage_scale.setValue(1.0)
         self.resistance = QDoubleSpinBox()
-        self.resistance.setRange(0.001, 1e6)  # Allow values from 1mΩ to 1MΩ
-        self.resistance.setDecimals(3)  # 3 decimal places
-        self.resistance.setValue(1.0)
+        self.resistance.setRange(0.001, 1e8)  # Allow values from 1mΩ to 100MΩ
+        self.resistance.setDecimals(2)  # 3 decimal places
+        self.resistance.setValue(100.0)
         self.resistance.setSuffix(" Ω")  # Add units
         self.resistance.setStepType(QAbstractSpinBox.StepType.AdaptiveDecimalStepType)
         
         self.power_combo = QComboBox()
         self.power_combo.addItems([
-            "P=CH1*CH2",
             "P=CH1*(CH1-CH2)/R",
             "P=CH1*CH2/R",
             "P=CH1^2/R",
+            "P=CH1*CH2",
             "P=CH1^2"
         ])
         
@@ -240,18 +240,29 @@ class SignalViewer(QMainWindow):
         for item in self.power_plot_container.findChildren(FigureCanvasQTAgg):
             item.deleteLater()
             
-        # Get dimensions
-        width, height = self.aspect_ratios[self.aspect_ratio.currentText()]
+        # Get target aspect ratio
+        target_ratio = self.aspect_ratios[self.aspect_ratio.currentText()]
         
-        # Create new plots
+        # Calculate dimensions for voltage plot
+        v_width = self.voltage_plot_container.width()
+        v_height = self.voltage_plot_container.height()
+        plot_width, plot_height = self.plot_manager.calculate_plot_dimensions(
+            v_width, v_height, target_ratio)
+            
+        # Create plots with calculated dimensions
         voltage_canvas = self.plot_manager.create_voltage_plot(
-            self.signals, width, height)
+            self.signals, plot_width, plot_height)
         power_canvas = self.plot_manager.create_power_plot(
-            self.signals, self.calculate_power, width, height)
+            self.signals, self.calculate_power, plot_width, plot_height)
             
         # Add to containers
         self.voltage_plot_container.layout().addWidget(voltage_canvas)
         self.power_plot_container.layout().addWidget(power_canvas)
+
+    def resizeEvent(self, event):
+        """Handle window resize events"""
+        super().resizeEvent(event)
+        self.update_plots()
 
     def calculate_power(self, ch1: SignalData, ch2: SignalData) -> np.ndarray:
         """Calculate power based on selected formula and resistance"""
@@ -411,11 +422,13 @@ class SignalViewer(QMainWindow):
                 
                 if plot_type in ['voltage', 'both']:
                     canvas = self.plot_manager.create_voltage_plot(
-                        self.signals, width, height)
+                        self.signals, width, height, for_export=True)
                     canvas.figure.savefig(
-                        save_dir / f"voltage_plot_{timestamp}.png", dpi=300)
+                        save_dir / f"voltage_plot_{timestamp}.png", 
+                        dpi=300, bbox_inches='tight', pad_inches=0.1)
                     canvas.figure.savefig(
-                        save_dir / f"voltage_plot_{timestamp}.pdf")
+                        save_dir / f"voltage_plot_{timestamp}.pdf",
+                        bbox_inches='tight', pad_inches=0.1)
                     
                 if plot_type in ['power', 'both']:
                     canvas = self.plot_manager.create_power_plot(

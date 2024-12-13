@@ -22,10 +22,31 @@ class PlotManager:
         })
 
     def create_canvas(self, width, height):
-        fig = Figure(figsize=(width/self.dpi, height/self.dpi), dpi=self.dpi)
+        # Convert pixels to inches for matplotlib
+        w_inches = width / self.dpi
+        h_inches = height / self.dpi
+        fig = Figure(figsize=(w_inches, h_inches), dpi=self.dpi)
         return FigureCanvasQTAgg(fig)
 
-    def create_voltage_plot(self, signals: Dict, width: int, height: int):
+    def calculate_plot_dimensions(self, container_width: int, container_height: int, 
+                                target_ratio: tuple) -> tuple[int, int]:
+        """Calculate plot dimensions to fit container while maintaining aspect ratio"""
+        target_width, target_height = target_ratio
+        ratio = target_width / target_height
+        
+        # Calculate dimensions that fit the container
+        if container_width / container_height > ratio:
+            # Container is wider than target ratio - fit to height
+            height = container_height
+            width = int(height * ratio)
+        else:
+            # Container is taller than target ratio - fit to width
+            width = container_width
+            height = int(width / ratio)
+            
+        return width, height
+
+    def create_voltage_plot(self, signals: Dict, width: int, height: int, for_export: bool = False):
         canvas = self.create_canvas(width, height)
         ax = canvas.figure.add_subplot(111)
         
@@ -37,12 +58,17 @@ class PlotManager:
         ax.set_xlabel('Time (s)')
         ax.set_ylabel('Voltage (V)')
         ax.set_title('Voltage Signals')
-        ax.grid(True)
-        ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
-        canvas.figure.tight_layout()
+        ax.grid(True, alpha=0.3)
+        ax.legend(loc='best')  # Automatically find best location inside plot
+        
+        if for_export:
+            canvas.figure.tight_layout(pad=0.1)  # Tight borders for export
+        else:
+            canvas.figure.tight_layout(pad=0.5)  # More padding for UI
+            
         return canvas
 
-    def create_power_plot(self, signals: Dict, power_calc, width: int, height: int):
+    def create_power_plot(self, signals: Dict, power_calc, width: int, height: int, for_export: bool = False):
         canvas = self.create_canvas(width, height)
         ax = canvas.figure.add_subplot(111)
         
@@ -54,7 +80,12 @@ class PlotManager:
         ax.set_xlabel('Time (s)')
         ax.set_ylabel('Power (W)')
         ax.set_title('Power')
-        ax.grid(True)
-        ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
-        canvas.figure.tight_layout()
+        ax.grid(True, alpha=0.3)
+        ax.legend(loc='best')  # Automatically find best location inside plot
+        
+        if for_export:
+            canvas.figure.tight_layout(pad=0.1)  # Tight borders for export
+        else:
+            canvas.figure.tight_layout(pad=0.5)  # More padding for UI
+            
         return canvas
