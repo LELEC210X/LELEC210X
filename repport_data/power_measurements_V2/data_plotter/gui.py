@@ -14,6 +14,8 @@ from data_types import SignalData
 from csv_processor import OscilloscopeCSVProcessor
 from signal_processor import SignalProcessor
 from datetime import datetime
+from plot_manager import PlotManager
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 
 logger = logging.getLogger(__name__)
 
@@ -42,9 +44,8 @@ class SignalViewer(QMainWindow):
         super().__init__()
         self.setWindowTitle("Signal Viewer")
         self.signals: Dict[str, SignalData] = {}
-        self.loaded_files: Dict[str, Dict[str, SignalData]] = {}  # Store loaded files separately
-        self.power_formula = "P=CH1*CH2/R"
-        self.resistance = 100.0
+        self.loaded_files: Dict[str, Dict[str, SignalData]] = {}
+        self.plot_manager = PlotManager()
         self.init_ui()
 
     def init_ui(self):
@@ -160,10 +161,15 @@ class SignalViewer(QMainWindow):
         
         # Right panel with plots
         right_panel = QVBoxLayout()
-        self.voltage_plot = QWebEngineView()
-        self.power_plot = QWebEngineView()
-        right_panel.addWidget(self.voltage_plot)
-        right_panel.addWidget(self.power_plot)
+        
+        # Replace QWebEngineView with QWidget containers
+        self.voltage_plot_container = QWidget()
+        self.power_plot_container = QWidget()
+        voltage_layout = QVBoxLayout(self.voltage_plot_container)
+        power_layout = QVBoxLayout(self.power_plot_container)
+        
+        right_panel.addWidget(self.voltage_plot_container)
+        right_panel.addWidget(self.power_plot_container)
         
         # Add panels to main layout
         layout.addLayout(left_panel, stretch=1)
@@ -228,48 +234,24 @@ class SignalViewer(QMainWindow):
         if not self.signals:
             return
             
-        # Create voltage plot
-        voltage_fig = make_subplots(rows=1, cols=1)
+        # Clear previous plots
+        for item in self.voltage_plot_container.findChildren(FigureCanvasQTAgg):
+            item.deleteLater()
+        for item in self.power_plot_container.findChildren(FigureCanvasQTAgg):
+            item.deleteLater()
+            
+        # Get dimensions
+        width, height = self.aspect_ratios[self.aspect_ratio.currentText()]
         
-        for filename, channels in self.signals.items():
-            for channel_name, signal in channels.items():
-                voltage_fig.add_trace(
-                    go.Scatter(
-                        x=signal.time,
-                        y=signal.processed_signal,
-                        name=f"{filename} - {channel_name}"
-                    )
-                )
-        
-        voltage_fig.update_layout(
-            title="Voltage Signals",
-            xaxis_title="Time (s)",
-            yaxis_title="Voltage (V)"
-        )
-        
-        # Create power plot
-        power_fig = make_subplots(rows=1, cols=1)
-        
-        for filename, channels in self.signals.items():
-            if "CH1" in channels and "CH2" in channels:
-                power = self.calculate_power(channels["CH1"], channels["CH2"])
-                power_fig.add_trace(
-                    go.Scatter(
-                        x=channels["CH1"].time,
-                        y=power,
-                        name=f"{filename} - Power"
-                    )
-                )
-        
-        power_fig.update_layout(
-            title="Power",
-            xaxis_title="Time (s)",
-            yaxis_title="Power (W)"
-        )
-        
-        # Update plots
-        self.voltage_plot.setHtml(voltage_fig.to_html(include_plotlyjs='cdn'))
-        self.power_plot.setHtml(power_fig.to_html(include_plotlyjs='cdn'))
+        # Create new plots
+        voltage_canvas = self.plot_manager.create_voltage_plot(
+            self.signals, width, height)
+        power_canvas = self.plot_manager.create_power_plot(
+            self.signals, self.calculate_power, width, height)
+            
+        # Add to containers
+        self.voltage_plot_container.layout().addWidget(voltage_canvas)
+        self.power_plot_container.layout().addWidget(power_canvas)
 
     def calculate_power(self, ch1: SignalData, ch2: SignalData) -> np.ndarray:
         """Calculate power based on selected formula and resistance"""
@@ -425,38 +407,23 @@ class SignalViewer(QMainWindow):
             if save_dir:
                 save_dir = Path(save_dir)
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                
-                # Get current dimensions
                 width, height = self.aspect_ratios[self.aspect_ratio.currentText()]
                 
-                # Configure plot export settings
-                config = {
-                    'width': width,
-                    'height': height,
-                    'scale': 4  # Higher resolution for export
-                }
-                
                 if plot_type in ['voltage', 'both']:
-                    voltage_fig = self.create_voltage_plot()
-                    voltage_fig.write_image(
-                        str(save_dir / f"voltage_plot_{timestamp}.png"),
-                        **config
-                    )
-                    voltage_fig.write_image(
-                        str(save_dir / f"voltage_plot_{timestamp}.pdf"),
-                        **config
-                    )
+                    canvas = self.plot_manager.create_voltage_plot(
+                        self.signals, width, height)
+                    canvas.figure.savefig(
+                        save_dir / f"voltage_plot_{timestamp}.png", dpi=300)
+                    canvas.figure.savefig(
+                        save_dir / f"voltage_plot_{timestamp}.pdf")
                     
                 if plot_type in ['power', 'both']:
-                    power_fig = self.create_power_plot()
-                    power_fig.write_image(
-                        str(save_dir / f"power_plot_{timestamp}.png"),
-                        **config
-                    )
-                    power_fig.write_image(
-                        str(save_dir / f"power_plot_{timestamp}.pdf"),
-                        **config
-                    )
+                    canvas = self.plot_manager.create_power_plot(
+                        self.signals, self.calculate_power, width, height)
+                    canvas.figure.savefig(
+                        save_dir / f"power_plot_{timestamp}.png", dpi=300)
+                    canvas.figure.savefig(
+                        save_dir / f"power_plot_{timestamp}.pdf")
                     
                 QMessageBox.information(self, "Success", "Plots exported successfully!")
                 

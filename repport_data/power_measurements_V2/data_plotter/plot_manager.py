@@ -1,7 +1,8 @@
 # plot_manager.py
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_qt6agg import FigureCanvasQTAgg
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 import matplotlib.pyplot as plt
+import matplotlib
 from typing import Dict
 import numpy as np
 
