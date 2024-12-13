@@ -1,10 +1,12 @@
-import sys
-import random
 import json
+import random
+import sys
+
 import plotly.graph_objects as go
-from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
-from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtCore import QTimer
+from PyQt6.QtWebEngineWidgets import QWebEngineView
+from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
+
 
 class DynamicPlotlyGraphApp(QMainWindow):
     def __init__(self):
