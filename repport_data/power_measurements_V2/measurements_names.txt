@@ -1,0 +1,16 @@
+26_000 : H5 code, passive (DMA ?)
+26_001 : H5 code, constant transmission --> Don't know when (but probably not at sending of uart)
+26_002 : main app, 16MHz, passive
+26_003 : main app, acquisition chain, and transmit (also with uart) --> Signal must get spliced (20 peaks)
+26_004 : main app, only uart, passive
+26_005 : main app, only uart --> Signal cut
+26_006 : main app, only transmit, passive
+26_007 : main app, only transmit --> Signal cut
+26_008 : main app, only transmit, timescale to 500ms
+26_009 : main app, no com, timescale to 500ms, passive ---> (LED DOMMINANT)
+26_010 : main app, no com, timescale to 500ms
+26_011 : main app, no com, timescale to 500ms, only format op
+26_012 : main app, no com, timescale to 500ms, only compute
+26_013 : main app, no com, timescale to 500ms, no mac
+26_014 : main app, no com, timescale to 500ms, no packet processing
+26_015 : main app, no com, timescale to 500ms, no packet processing, no mel, no hex encode
