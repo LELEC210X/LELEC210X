@@ -92,7 +92,7 @@ blocks:
     label: ''
     'true': '1'
     type: int
-    value: '1'
+    value: '0'
   states:
     bus_sink: false
     bus_source: false
@@ -109,7 +109,7 @@ blocks:
     label: ''
     'true': '1'
     type: int
-    value: '1'
+    value: '0'
   states:
     bus_sink: false
     bus_source: false
@@ -145,7 +145,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 50e3
+    value: 500e3
   states:
     bus_sink: false
     bus_source: false
@@ -169,7 +169,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '8'
+    value: '16'
   states:
     bus_sink: false
     bus_source: false
@@ -210,7 +210,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '100'
+    value: '50'
   states:
     bus_sink: false
     bus_source: false

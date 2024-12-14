@@ -1,6 +1,7 @@
 options:
   parameters:
     author: UCLouvain
+    catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
@@ -218,7 +219,7 @@ blocks:
     gui_hint: ''
     label: ''
     min_len: '200'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: int
     start: '0'
     step: '1'
@@ -400,7 +401,6 @@ blocks:
     analog_bandw_ch1: 1.5e6
     calibr_bandw_ch0: 2.5e6
     calibr_bandw_ch1: 2.5e6
-    ch_align: 'False'
     channel_mode: '0'
     comment: ''
     dacVal: '180'
@@ -442,7 +442,7 @@ blocks:
     samp_rate: samp_rate
     type: fir_filter_ccf
     width: data_rate*1
-    win: firdes.WIN_HAMMING
+    win: window.WIN_HAMMING
   states:
     bus_sink: false
     bus_source: false
@@ -485,8 +485,11 @@ blocks:
     address: tcp://127.0.0.1:10000
     affinity: ''
     alias: ''
+    bind: 'True'
     comment: ''
+    drop_on_hwm: 'True'
     hwm: '-1'
+    key: ''
     pass_tags: 'False'
     timeout: '100'
     type: byte
@@ -513,3 +516,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: 3.10.7.0

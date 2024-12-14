@@ -18,7 +18,7 @@ void eval_radio(void)
 		buf[i] = (uint8_t) (i & 0xFF);
 	}
 
-	for (int32_t lvl = MIN_PA_LEVEL; lvl <= MAX_PA_LEVEL; lvl++) {
+	for (int32_t lvl = MIN_PA_LEVEL; lvl <= MAX_PA_LEVEL; lvl = lvl+3) {
 		btn_press = 0;
 		DEBUG_PRINT("=== Press button B1 to start evaluation at %ld dBm\r\n", lvl);
 		while (!btn_press) {
@@ -36,9 +36,9 @@ void eval_radio(void)
 
 			for(uint16_t j=0; j < PACKET_DELAY; j++) {
 				HAL_GPIO_WritePin(GPIOB, LD2_Pin, GPIO_PIN_SET);
-				HAL_Delay(500);
+				HAL_Delay(50);
 				HAL_GPIO_WritePin(GPIOB, LD2_Pin, GPIO_PIN_RESET);
-				HAL_Delay(500);
+				HAL_Delay(50);
 			}
 		}
 	}
