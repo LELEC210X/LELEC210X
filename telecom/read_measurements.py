@@ -7,14 +7,80 @@ import sys
 from collections import defaultdict
 
 import matplotlib.pyplot as plt
+from matplotlib import colormaps as cm
 import numpy as np
 import pandas as pd
 
+
+def plot_BER_vs_byte_pos(payload_df: pd.DataFrame, expected_payload: np.ndarray[np.uint8]):
+
+    num_bits = len(expected_payload) * 8
+    BER = []
+    for column in payload_df:
+        BER.append(np.unpackbits(
+            payload[column] ^ expected_payload).sum()
+            / num_bits)
+    fig, ax = plt.subplots()
+    ax.plot(payload_df.columns, BER)
+    plt.show()
+
+
+def plot_SNRest_vs_CFOest(df: pd.DataFrame):
+
+    groups = list(df.groupby("txp"))
+    cmap = cm['gist_rainbow'].resampled(len(groups))
+
+    fig, ax = plt.subplots()
+    for i, (txp, txp_df) in enumerate(groups[::-1]):
+        c = cmap(range(len(groups)))[i]
+        ax.scatter(txp_df["cfo"], txp_df["snr"], s=3,
+                   color=c)
+        ax.axhline(y=np.nanpercentile(txp_df.loc[:, "snr"], 50),
+                   color=c, linewidth=.5)
+
+        print(f'SNRmed at {np.nanpercentile(txp_df.loc[:, "snr"], 50)} \
+              for TX power at {txp}')
+
+    plt.show()
+
+
+def plot_BER_vs_SNRest(df: pd.DataFrame, drop_extrema=True, drop_last_bytes=True):
+
+    fig, ax = plt.subplots()
+    ax.set_yscale('log')
+    filtered_df: df.DataFrame = df.copy()
+    description = df.groupby("txp").describe(percentiles=[.05, .5, .95])
+
+    if drop_extrema:
+        for (txp, txp_df) in df.groupby("txp"):
+            # print(txp_df.describe(percentiles=[.05, .5, .95]))
+            filtered_df.drop(labels=txp_df.loc[txp_df['cfo'] < description.loc[txp, ('cfo', '5%')]].index,
+                             inplace=True, errors='ignore')
+            filtered_df.drop(labels=txp_df.loc[txp_df['cfo'] > description.loc[txp, ('cfo', '95%')]].index,
+                             inplace=True, errors='ignore')
+            filtered_df.drop(labels=txp_df.loc[txp_df['snr'] == np.nan].index,
+                             inplace=True, errors='ignore')
+            filtered_df.drop(labels=txp_df.loc[txp_df['snr'] < description.loc[txp, ('snr', '5%')]].index,
+                             inplace=True, errors='ignore')
+
+    ax.plot(description.loc[:, ('snr', '50%')],
+            description.loc[:, ('ber', 'mean')])
+    if drop_extrema:
+        description = filtered_df.groupby("txp").describe(percentiles=[.5])
+        ax.plot(description.loc[:, ('snr', '50%')],
+                description.loc[:, ('ber', 'mean')])
+    if drop_last_bytes:
+        ax.plot(description.loc[:, ('snr', '50%')],
+                description.loc[:, ('ber30', 'mean')])
+    plt.show()
+
+
 if __name__ == "__main__":
-    expected_payload = np.arange(100, dtype=np.uint8)
+    expected_payload = np.arange(50, dtype=np.uint8)
     num_bits = len(expected_payload) * 8
 
     data = defaultdict(list)
+    payload_data = []
     with open(sys.argv[1]) as f:
         for line in f.read().splitlines():
             if line.startswith("CFO"):
@@ -22,25 +88,53 @@ if __name__ == "__main__":
                 data["cfo"].append(float(cfo.split("=")[1]))
                 data["sto"].append(int(sto.split("=")[1]))
             elif line.startswith("SNR"):
-                snr, txp = line.split(",")
+                snr, _ = line.split(",")
                 data["snr"].append(float(snr.split("=")[1]))
-                data["txp"].append(int(txp.split("=")[1]))
             elif line.startswith("packet"):
-                *_, payload = line.split(",", maxsplit=2)
-                payload = list(map(int, payload.split("=")[1][1:-1].split(",")))
+                idx, correct, payload = line.split(",", maxsplit=2)
+                idx = int(idx.split("=")[1])
+                correct = True if correct.split("=")[1] == "True" else False
+                payload = list(
+                    map(np.uint8, payload.split("=")[1][1:-1].split(",")))
                 ber = (
                     np.unpackbits(
                         expected_payload ^ np.array(payload, dtype=np.uint8)
-                    ).sum()
-                    / num_bits
+                    ).sum() / num_bits
                 )
-                invalid = 1 if ber > 0 else 0
+                ber30 = (
+                    np.unpackbits(
+                        expected_payload[:30] ^ np.array(
+                            payload, dtype=np.uint8)[:30]
+                    ).sum() / (len(expected_payload[:30])*8)
+                )
+                data["indices"].append(idx)
+                data["correct"].append(correct)
+                payload_data.append(payload)
                 data["ber"].append(ber)
-                data["invalid"].append(invalid)
+                data["ber30"].append(ber30)
 
-        df = pd.DataFrame.from_dict(data)
+    with open(sys.argv[2]) as f:
+        for line in f.read().splitlines():
+            if line.startswith("TXP:"):
+                txp, idxs = line.replace("TXP:", "").split("  ")
+                txp = float(txp.replace("dB", ""))
+                idx_begin, idx_end = map(int, idxs.split("-"))
+                for idx in range(idx_end-idx_begin+1):
+                    data["txp"].append(txp)
 
-        print(df)
+    df = pd.DataFrame.from_dict(data)
+    payload_df = pd.DataFrame(payload_data)
+    df.set_index("indices", drop=True, inplace=True)
+    payload_df.set_index(df.index, inplace=True)
 
-    fig = df.groupby("txp").hist(column="cfo")
-    plt.show()
+    # print(df)
+    # print(payload_df)
+
+    plot_BER_vs_SNRest(df)
+
+    # plot_SNRest_vs_CFOest(df)
+
+    # plot_BER_vs_byte_pos(payload_df, expected_payload)
+
+    # fig = df.groupby("txp").hist(column="cfo")
+    # plt.show()
