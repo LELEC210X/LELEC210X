@@ -147,6 +147,11 @@ class SignalViewer(QMainWindow):
 
         left_panel.addWidget(save_group)
         
+        # Add save data button
+        save_data_btn = QPushButton("Save Data as NPY")
+        save_data_btn.clicked.connect(self.save_data_npy)
+        save_layout.addWidget(save_data_btn)
+        
         # Add power calculation controls
         power_group = QGroupBox("Power Calculation")
         power_layout = QFormLayout()
@@ -417,7 +422,6 @@ class SignalViewer(QMainWindow):
         """Create common layout settings for plots"""
         # Get current aspect ratio dimensions
         width, height = self.aspect_ratios[self.aspect_ratio.currentText()]
-        
         return {
             'title': {
                 'text': title,
@@ -458,6 +462,7 @@ class SignalViewer(QMainWindow):
                 'font': {'size': 14, 'family': 'Arial'}
             }
         }
+
 
     def create_voltage_plot(self) -> go.Figure:
         """Create voltage plot figure"""
@@ -779,6 +784,137 @@ class SignalViewer(QMainWindow):
                         voltage_offset=voltage_offset,  # Use per-channel offset
                         time_offset=settings.time_offset
                     )
+
+    def save_data_npy(self):
+        """Save processed signals and power data as NPY file"""
+        if not self.signals:
+            QMessageBox.warning(self, "Warning", "No data to export!")
+            return
+            
+        try:
+            save_dir = QFileDialog.getExistingDirectory(
+                self, "Select Save Directory", "",
+                QFileDialog.Option.ShowDirsOnly
+            )
+            
+            if save_dir:
+                save_dir = Path(save_dir)
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                
+                # Process signals with current settings
+                display_signals = {}
+                power_data = {}
+                
+                for filename, channels in self.signals.items():
+                    display_signals[filename] = {}
+                    settings = self.signal_settings.get(filename, SignalSettings())
+                    
+                    # Process voltage signals
+                    for channel_name, signal in channels.items():
+                        # Apply processing steps
+                        time = signal.time.copy()
+                        processed_signal = signal.raw_signal.copy()
+                        
+                        min_len = min(len(time), len(processed_signal))
+                        time = time[:min_len]
+                        processed_signal = processed_signal[:min_len]
+                        
+                        voltage_offset = settings.voltage_offsets.get(channel_name, 0.0)
+                        processed_signal -= voltage_offset
+                        
+                        if settings.smoothing > 1:
+                            window_size = min(settings.smoothing, len(processed_signal))
+                            if window_size > 1:
+                                window = np.ones(window_size) / window_size
+                                processed_signal = np.convolve(processed_signal, window, mode='same')
+                        
+                        total_points = len(processed_signal)
+                        start_idx = int((settings.start_trim / 100.0) * total_points)
+                        end_idx = int((settings.end_trim / 100.0) * total_points)
+                        
+                        if start_idx >= end_idx or start_idx >= total_points:
+                            start_idx = 0
+                            end_idx = total_points
+                        
+                        processed_signal = processed_signal[start_idx:end_idx]
+                        time = time[start_idx:end_idx]
+                        
+                        if len(time) > 0:
+                            time = time - time[0] + settings.time_offset
+                        
+                        display_signals[filename][channel_name] = {
+                            'time': time,
+                            'voltage': processed_signal,
+                            'metadata': {
+                                'channel': channel_name,
+                                'file': filename,
+                                'settings': {
+                                    'voltage_offset': voltage_offset,
+                                    'time_offset': settings.time_offset,
+                                    'smoothing': settings.smoothing,
+                                    'start_trim': settings.start_trim,
+                                    'end_trim': settings.end_trim
+                                }
+                            }
+                        }
+                    
+                    # Calculate power if both channels exist
+                    if "CH1" in channels and "CH2" in channels:
+                        ch1 = SignalData(
+                            raw_signal=display_signals[filename]["CH1"]["voltage"],
+                            time=display_signals[filename]["CH1"]["time"],
+                            metadata=signal.metadata,
+                            processed_signal=display_signals[filename]["CH1"]["voltage"]
+                        )
+                        ch2 = SignalData(
+                            raw_signal=display_signals[filename]["CH2"]["voltage"],
+                            time=display_signals[filename]["CH2"]["time"],
+                            metadata=signal.metadata,
+                            processed_signal=display_signals[filename]["CH2"]["voltage"]
+                        )
+                        power = self.calculate_power(ch1, ch2)
+                        
+                        power_data[filename] = {
+                            'time': display_signals[filename]["CH1"]["time"],
+                            'power': power,
+                            'metadata': {
+                                'formula': self.power_combo.currentText(),
+                                'resistance': self.resistance.value(),
+                                'power_flipped': self.power_flip.isChecked(),
+                                'file': filename
+                            }
+                        }
+                
+                # Create export dictionary
+                export_data = {
+                    'voltage_signals': display_signals,
+                    'power_signals': power_data,
+                    'plot_info': {
+                        'voltage_title': "Voltage Signals",
+                        'power_title': "Power",
+                        'time_axis': "Time (s)",
+                        'voltage_axis': "Voltage (V)",
+                        'power_axis': "Power (W)",
+                        'export_time': timestamp
+                    }
+                }
+                
+                # Save to NPY file
+                np.save(
+                    save_dir / f"signal_data_{timestamp}.npy",
+                    export_data,
+                    allow_pickle=True
+                )
+                
+                QMessageBox.information(
+                    self, 
+                    "Success", 
+                    f"Data saved successfully to signal_data_{timestamp}.npy"
+                )
+                
+        except Exception as e:
+            logger.error(f"Error saving data: {str(e)}", exc_info=True)
+            QMessageBox.critical(self, "Error", f"Failed to save data: {str(e)}")
 
 class RangeSlider(QWidget):
     valueChanged = pyqtSignal(tuple)
