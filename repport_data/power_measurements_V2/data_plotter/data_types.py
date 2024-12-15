@@ -1,7 +1,7 @@
 # data_types.py
 from dataclasses import dataclass
-from typing import Optional, Dict, Any
 import numpy as np
+from typing import Optional
 
 @dataclass
 class ChannelMetadata:
@@ -16,9 +16,10 @@ class ChannelMetadata:
 @dataclass
 class SignalData:
     raw_signal: np.ndarray
-    processed_signal: np.ndarray
     time: np.ndarray
     metadata: ChannelMetadata
-    fft: Optional[np.ndarray] = None
-    melspectrogram: Optional[np.ndarray] = None
-    spectrogram: Optional[np.ndarray] = None
+    processed_signal: Optional[np.ndarray] = None
+
+    def __post_init__(self):
+        if self.processed_signal is None:
+            self.processed_signal = self.raw_signal.copy()
