@@ -92,22 +92,6 @@ class SignalViewer(QMainWindow):
         button_layout.addWidget(refresh_btn)
         button_layout.addWidget(deselect_btn)
         
-        # Add save plot buttons
-        save_btns_layout = QHBoxLayout()
-        save_voltage_btn = QPushButton("Save Voltage Plot")
-        save_power_btn = QPushButton("Save Power Plot")
-        save_both_btn = QPushButton("Save Both Plots")
-        
-        save_voltage_btn.clicked.connect(lambda: self.export_plot('voltage'))
-        save_power_btn.clicked.connect(lambda: self.export_plot('power'))
-        save_both_btn.clicked.connect(lambda: self.export_plot('both'))
-        
-        save_btns_layout.addWidget(save_voltage_btn)
-        save_btns_layout.addWidget(save_power_btn)
-        save_btns_layout.addWidget(save_both_btn)
-        
-        file_layout.addLayout(save_btns_layout)
-        
         # File list
         self.file_list = QListWidget()
         self.file_list.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
@@ -116,7 +100,7 @@ class SignalViewer(QMainWindow):
         # Progress bar
         self.progress_bar = QProgressBar()
         self.progress_bar.setVisible(False)
-        
+
         # Aspect ratio selector
         aspect_layout = QHBoxLayout()
         aspect_layout.addWidget(QLabel("Aspect Ratio:"))
@@ -143,6 +127,25 @@ class SignalViewer(QMainWindow):
         
         # Add file group to left panel
         left_panel.addWidget(file_group)
+
+                
+        # Add save plot buttons
+        save_group = QGroupBox("Save Plots")
+        save_layout = QVBoxLayout()
+        save_voltage_btn = QPushButton("Save Voltage Plot")
+        save_power_btn = QPushButton("Save Power Plot")
+        save_both_btn = QPushButton("Save Both Plots")
+        
+        save_voltage_btn.clicked.connect(lambda: self.export_plot('voltage'))
+        save_power_btn.clicked.connect(lambda: self.export_plot('power'))
+        save_both_btn.clicked.connect(lambda: self.export_plot('both'))
+
+        save_layout.addWidget(save_voltage_btn)
+        save_layout.addWidget(save_power_btn)
+        save_layout.addWidget(save_both_btn)
+        save_group.setLayout(save_layout)
+
+        left_panel.addWidget(save_group)
         
         # Add power calculation controls
         power_group = QGroupBox("Power Calculation")
@@ -507,7 +510,7 @@ class SignalViewer(QMainWindow):
         return fig
 
     def export_plot(self, plot_type: str):
-        """Export plots to PDF and PNG"""
+        """Export plots to PDF and PNG exactly as shown on screen"""
         if not self.signals:
             QMessageBox.warning(self, "Warning", "No data to export!")
             return
@@ -523,11 +526,62 @@ class SignalViewer(QMainWindow):
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                 width, height = self.aspect_ratios[self.aspect_ratio.currentText()]
                 
+                # First get the processed signals with all current settings applied
+                display_signals = {}
+                for filename, channels in self.signals.items():
+                    display_signals[filename] = {}
+                    settings = self.signal_settings.get(filename, SignalSettings())
+                    
+                    for channel_name, signal in channels.items():
+                        # Apply all processing steps same as update_plots()
+                        time = signal.time.copy()
+                        processed_signal = signal.raw_signal.copy()
+                        
+                        # Ensure arrays have same length
+                        min_len = min(len(time), len(processed_signal))
+                        time = time[:min_len]
+                        processed_signal = processed_signal[:min_len]
+                        
+                        # Apply voltage offset
+                        voltage_offset = settings.voltage_offsets.get(channel_name, 0.0)
+                        processed_signal -= voltage_offset
+                        
+                        # Apply smoothing
+                        if settings.smoothing > 1:
+                            window_size = min(settings.smoothing, len(processed_signal))
+                            if window_size > 1:
+                                window = np.ones(window_size) / window_size
+                                processed_signal = np.convolve(processed_signal, window, mode='same')
+                                
+                        # Apply trimming 
+                        total_points = len(processed_signal)
+                        start_idx = int((settings.start_trim / 100.0) * total_points)
+                        end_idx = int((settings.end_trim / 100.0) * total_points)
+                        
+                        if start_idx >= end_idx or start_idx >= total_points:
+                            start_idx = 0
+                            end_idx = total_points
+                        
+                        processed_signal = processed_signal[start_idx:end_idx]
+                        time = time[start_idx:end_idx]
+
+                        # Apply time offset
+                        if len(time) > 0:
+                            time = time - time[0] + settings.time_offset
+                            
+                        display_signals[filename][channel_name] = SignalData(
+                            raw_signal=signal.raw_signal,
+                            time=time,
+                            metadata=signal.metadata,
+                            processed_signal=processed_signal
+                        )
+                
+                # Now export using the processed signals
                 if plot_type in ['voltage', 'both']:
                     canvas = self.plot_manager.create_voltage_plot(
-                        self.signals, width, height, for_export=True)
+                        display_signals, width, height, for_export=True)
                     canvas.figure.savefig(
-                        save_dir / f"voltage_plot_{timestamp}.png", 
+                        save_dir / f"voltage_plot_{timestamp}.png",
                         dpi=300, bbox_inches='tight', pad_inches=0.1)
                     canvas.figure.savefig(
                         save_dir / f"voltage_plot_{timestamp}.pdf",
@@ -535,11 +589,13 @@ class SignalViewer(QMainWindow):
                     
                 if plot_type in ['power', 'both']:
                     canvas = self.plot_manager.create_power_plot(
-                        self.signals, self.calculate_power, width, height)
+                        display_signals, self.calculate_power, width, height)
                     canvas.figure.savefig(
-                        save_dir / f"power_plot_{timestamp}.png", dpi=300)
+                        save_dir / f"power_plot_{timestamp}.png", dpi=300,
+                        bbox_inches='tight', pad_inches=0.1)
                     canvas.figure.savefig(
-                        save_dir / f"power_plot_{timestamp}.pdf")
+                        save_dir / f"power_plot_{timestamp}.pdf",
+                        bbox_inches='tight', pad_inches=0.1)
                     
                 QMessageBox.information(self, "Success", "Plots exported successfully!")
                 
