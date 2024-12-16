@@ -6,7 +6,7 @@ import matplotlib
 from typing import Dict
 import numpy as np
 
-plt.style.use('seaborn-darkgrid')  # Scientific style
+#plt.style.use('seaborn-darkgrid')  # Scientific style
 
 class PlotManager:
     def __init__(self, dpi=100):
