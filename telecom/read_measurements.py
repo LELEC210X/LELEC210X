@@ -4,56 +4,91 @@ and plots the PER/SNR curve, plus CFO values.
 """
 
 import sys
+import os
 from collections import defaultdict
 
 import matplotlib.pyplot as plt
-from matplotlib import colormaps as cm
+from matplotlib import cm, colors
 import numpy as np
 import pandas as pd
 
 
 def plot_BER_vs_byte_pos(payload_df: pd.DataFrame, expected_payload: np.ndarray[np.uint8]):
 
-    num_bits = len(expected_payload) * 8
-    BER = []
-    for column in payload_df:
-        BER.append(np.unpackbits(
-            payload[column] ^ expected_payload).sum()
-            / num_bits)
+    num_bits = payload_df.shape[0] * 8
+    BER = np.zeros(payload_df.shape[1], dtype=float)
+    for idx, column in enumerate(payload_df):
+        BER[idx] = np.unpackbits(
+            payload_df[column] ^ expected_payload[idx]).sum() / num_bits
     fig, ax = plt.subplots()
-    ax.plot(payload_df.columns, BER)
-    plt.show()
+    ax.plot(payload_df.columns, BER*100, color='black')
+    ax.set_title('across all SNR\'s')
+    ax.set_xlabel('Byte position')
+    ax.set_ylabel('BER [%]')
+    fig.suptitle('BER vs Byte position in packet')
+
+    plt.savefig('R6_Graphs/BER_vs_byte_pos.png', dpi=300)
 
 
 def plot_SNRest_vs_CFOest(df: pd.DataFrame):
 
-    groups = list(df.groupby("txp"))
-    cmap = cm['gist_rainbow'].resampled(len(groups))
+    groups = df.groupby("txp")
+    txp_delta = list(groups)[0][0] - list(groups)[1][0]
+    cmap = plt.get_cmap('gist_rainbow').resampled(len(groups))
 
     fig, ax = plt.subplots()
-    for i, (txp, txp_df) in enumerate(groups[::-1]):
-        c = cmap(range(len(groups)))[i]
-        ax.scatter(txp_df["cfo"], txp_df["snr"], s=3,
+    for i, (txp, txp_df) in enumerate(list(groups)[::-1], start=1):
+        c = cmap(range(len(groups)))[len(groups)-i]
+        ax.scatter(txp_df["cfo"]/1000, txp_df["snr"], s=3,
                    color=c)
         ax.axhline(y=np.nanpercentile(txp_df.loc[:, "snr"], 50),
                    color=c, linewidth=.5)
 
-        print(f'SNRmed at {np.nanpercentile(txp_df.loc[:, "snr"], 50)} \
-              for TX power at {txp}')
+    ax.scatter(np.nan, np.nan, color='black', label='Received packet metrics')
+    ax.axhline(y=np.nan, color='black', label='Median SNR')
+    ax.set_xlabel('CFO estimation [kHz]')
+    ax.set_ylabel('SNR estimation [dB]')
+    ax.legend(loc=3, fontsize='small', frameon=False)
+    fig.suptitle('CFO and SNR estimation statistics')
+    fig.colorbar(cm.ScalarMappable(cmap=cmap,
+                                   norm=colors.Normalize(
+                                       vmin=list(groups)[0][0] + txp_delta/2,
+                                       vmax=list(groups)[-1][0] - txp_delta/2)),
+                 ticks=list(groups.groups.keys()), ax=ax, label='TXP [dBW]')
 
-    plt.show()
+    plt.savefig('R6_Graphs/SNRest_vs_CFOest.png', dpi=300)
 
 
-def plot_BER_vs_SNRest(df: pd.DataFrame, drop_extrema=True, drop_last_bytes=True):
+def BER_SNR_sim():
+
+    SNRs_dB = np.array([-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4,
+                        5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                        21, 22, 23, 24])
+    BER = np.array([5.000e-01, 5.000e-01, 5.000e-01, 5.000e-01, 5.000e-01, 5.000e-01, 5.000e-01,
+                    5.000e-01, 5.000e-01, 5.000e-01, 4.616e-01, 1.390e-01, 1.126e-01, 8.880e-02,
+                    6.860e-02, 6.320e-02, 5.500e-02, 4.160e-02, 3.520e-02, 2.340e-02, 2.120e-02,
+                    2.040e-02, 1.440e-02, 9.800e-03, 9.200e-03, 6.000e-03, 6.000e-04, 4.000e-04,
+                    4.000e-04, 2.000e-04, 2.000e-04, 2.000e-04, 0.000e+00, 0.000e+00, 0.000e+00,])
 
     fig, ax = plt.subplots()
+    ax.plot(SNRs_dB, BER, "-s", label="Simulation")
+    ax.grid(True)
+
+    return (fig, ax)
+
+
+def plot_BER_vs_SNRest(df: pd.DataFrame, drop_extrema=True, drop_last_bytes=True, comp_sim=True):
+
+    if comp_sim:
+        fig, ax = BER_SNR_sim()
+    else:
+        fig, ax = plt.subplots()
     ax.set_yscale('log')
     filtered_df: df.DataFrame = df.copy()
     description = df.groupby("txp").describe(percentiles=[.05, .5, .95])
 
     if drop_extrema:
         for (txp, txp_df) in df.groupby("txp"):
-            # print(txp_df.describe(percentiles=[.05, .5, .95]))
             filtered_df.drop(labels=txp_df.loc[txp_df['cfo'] < description.loc[txp, ('cfo', '5%')]].index,
                              inplace=True, errors='ignore')
             filtered_df.drop(labels=txp_df.loc[txp_df['cfo'] > description.loc[txp, ('cfo', '95%')]].index,
@@ -64,15 +99,66 @@ def plot_BER_vs_SNRest(df: pd.DataFrame, drop_extrema=True, drop_last_bytes=True
                              inplace=True, errors='ignore')
 
     ax.plot(description.loc[:, ('snr', '50%')],
-            description.loc[:, ('ber', 'mean')])
+            description.loc[:, ('ber', 'mean')], "-s", label='BER of all data')
     if drop_extrema:
         description = filtered_df.groupby("txp").describe(percentiles=[.5])
         ax.plot(description.loc[:, ('snr', '50%')],
-                description.loc[:, ('ber', 'mean')])
+                description.loc[:, ('ber', 'mean')], "-s", label='Without extreme CFO and SNR')
     if drop_last_bytes:
         ax.plot(description.loc[:, ('snr', '50%')],
-                description.loc[:, ('ber30', 'mean')])
-    plt.show()
+                description.loc[:, ('ber30', 'mean')], "-s", label='Only first bytes of each packet')
+
+    ax.set_xlabel('SNR estimation [dB]')
+    ax.set_ylabel('BER [%]')
+    ax.legend(loc=3)
+    fig.suptitle('BER vs SNR estimation')
+
+    if comp_sim:
+        plt.savefig('R6_Graphs/BER_vs_SNRest_with_sim.png', dpi=300)
+    else:
+        plt.savefig('R6_Graphs/BER_vs_SNRest.png', dpi=300)
+
+
+def detection_sim():
+
+    SNRs_dB = np.array([-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4,
+                        5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                        21, 22, 23, 24])
+    preamble_mis = np.zeros_like(SNRs_dB)
+    preamble_false = np.array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 0.88, 0.06,
+                               0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                               0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+
+    fig, ax = plt.subplots()
+    ax.plot(SNRs_dB, preamble_mis * 100, "-s",
+            label="Simulation: Miss-detection")
+    ax.plot(SNRs_dB, preamble_false * 100, "-s",
+            label="Simulation: False-detection")
+
+    return fig, ax
+
+
+def plot_detection_rate(df, npackets=50, comp_sim=True):
+
+    if comp_sim:
+        fig, ax = detection_sim()
+    else:
+        fig, ax = plt.subplots()
+
+    description = df.groupby("txp").describe()
+
+    ax.plot(description.loc[:, ('snr', '50%')],
+            description.loc[:, ('snr', 'count')] / npackets * 100, "-s",
+            color="black", label="Measure: Transmitted/Received packets ratio")
+    ax.set_xlabel('SNR estimation [dB]')
+    ax.set_ylabel('[%]')
+    ax.legend(loc=1, frameon=False, fontsize='small')
+    fig.suptitle('Packet detection metrics vs SNR estimation')
+
+    if comp_sim:
+        plt.savefig('R6_Graphs/detection_rate_with_sim.png', dpi=300)
+    else:
+        plt.savefig('R6_Graphs/detection_rate.png', dpi=300)
 
 
 if __name__ == "__main__":
@@ -93,7 +179,7 @@ if __name__ == "__main__":
             elif line.startswith("packet"):
                 idx, correct, payload = line.split(",", maxsplit=2)
                 idx = int(idx.split("=")[1])
-                correct = True if correct.split("=")[1] == "True" else False
+                correct = correct.split("=")[1] == "True"
                 payload = list(
                     map(np.uint8, payload.split("=")[1][1:-1].split(",")))
                 ber = (
@@ -113,14 +199,42 @@ if __name__ == "__main__":
                 data["ber"].append(ber)
                 data["ber30"].append(ber30)
 
-    with open(sys.argv[2]) as f:
-        for line in f.read().splitlines():
-            if line.startswith("TXP:"):
-                txp, idxs = line.replace("TXP:", "").split("  ")
-                txp = float(txp.replace("dB", ""))
-                idx_begin, idx_end = map(int, idxs.split("-"))
-                for idx in range(idx_end-idx_begin+1):
-                    data["txp"].append(txp)
+    try:
+        with open(sys.argv[2]) as f:
+            data["txp"] = list(np.zeros_like(data["indices"], dtype=float))
+            for line in f.read().splitlines():
+                if line.startswith("TXP:"):
+                    txp, *_, idxs = line.replace("TXP:", "").split(" ")
+                    txp = float(txp.replace("dB", ""))
+                    idx_begin, idx_end = map(int, idxs.split("-"))
+                    data["txp"][idx_begin-1: idx_end] = \
+                        list(np.full(idx_end-idx_begin+1, txp))
+    except IndexError as e:
+        print("""
+              Please provide a second argument when calling this script
+              Second argument should be a .txt file with the following information and structure:
+
+              [complementary_measurements.txt]
+              ...
+              whatever additional information needed
+              ...
+              TXP:-45dB  0001-0004
+              TXP:-42dB  0005-0126
+              ...
+              additional commentary here
+              ...
+              TXP:-12dB  1429-1578
+              TXP:-15    1268-1428
+              ...
+              [end of file]
+
+              Where each line begining with 'TXP:' first reads the power in dB (Watt)
+              (no need to write dB but don't write anything else),
+              then a separation with at least 1 space ' ',
+              and then the index of the first and last received packet at that power
+              separated by a '-'
+              """)
+        raise e
 
     df = pd.DataFrame.from_dict(data)
     payload_df = pd.DataFrame(payload_data)
@@ -131,10 +245,13 @@ if __name__ == "__main__":
     # print(payload_df)
 
     plot_BER_vs_SNRest(df)
+    plot_BER_vs_SNRest(df, comp_sim=False)
 
-    # plot_SNRest_vs_CFOest(df)
+    plot_SNRest_vs_CFOest(df)
 
-    # plot_BER_vs_byte_pos(payload_df, expected_payload)
+    plot_BER_vs_byte_pos(payload_df, expected_payload)
+
+    plot_detection_rate(df, npackets=200)
 
     # fig = df.groupby("txp").hist(column="cfo")
-    # plt.show()
+    plt.show()

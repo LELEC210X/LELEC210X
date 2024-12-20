@@ -190,7 +190,7 @@ class BasicChain(Chain):
         
         alpha_est = np.vdot(y[:N_t], y[N_t:2*N_t])
         
-        cfo_est = np.angle(alpha_est) * R / (2 * np.pi * N_t * T) # Default value, to change
+        cfo_est = np.angle(alpha_est) * R / (2 * np.pi * N_t * T)
 
         return cfo_est
 

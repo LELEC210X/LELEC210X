@@ -32,7 +32,7 @@ def demodulate(y, B, R, Fdev):
     :param y: The received signal, (N * R,).
     :param B: Bitrate [bits/sec]
     :param R: oversample factor (typically = 8)
-    :param Fdev: frequency deviation, as calculated by cfo_estimation
+    :param Fdev: Frequency deviation [Hz] ( = Bitrate/4)
     :return: The signal, after demodulation.
     """
     N = len(y) // R  # Number of CPFSK symbols in y

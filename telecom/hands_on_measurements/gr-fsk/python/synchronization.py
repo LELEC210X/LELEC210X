@@ -35,7 +35,7 @@ def cfo_estimation(y, B, R, Fdev):
     :param y: The received signal, (N * R,).
     :param B: Bitrate [bits/sec]
     :param R: oversample factor (typically = 8)
-    :param Fdev: frequency deviation, not used by this function
+    :param Fdev: Frequency deviation [Hz] ( = Bitrate/4)
     :return: The estimated CFO.
     """
     # extract 2 blocks of size N*R at the start of y
