@@ -63,6 +63,12 @@ class PlotWindow(QMainWindow):
         self.setCentralWidget(main_widget)
         layout = QVBoxLayout(main_widget)
 
+        # Energy consumption widget
+        self.energy_widget = QWidget()
+        self.energy_layout = QVBoxLayout(self.energy_widget)
+        self.energy_layout.addWidget(QLabel(f"Energy consumption: {np.trapz(self.power)*1e-3:.2f} mJ"))
+        layout.addWidget(self.energy_widget)
+
         # Plot widget setup
         plot_widget = QWidget()
         plot_layout = QVBoxLayout(plot_widget)
@@ -87,7 +93,7 @@ class PlotWindow(QMainWindow):
         self.ax.tick_params(axis='both', which='major', labelsize=16)
         self.ax.set_xlabel("Time (s)", fontsize=24)
         self.ax.set_ylabel("Power (mW)", fontsize=24)
-        self.ax.set_ylim(min(-0.2, np.min(self.power)), np.max(self.power)*1.1)
+        self.ax.set_ylim(min(-0.2, np.min(self.power)), np.max(self.power)*1.1) # TODO : sum the -0.2 to the min value
         self.ax.grid(True)
 
         # Slider setup with safety bounds
@@ -157,7 +163,7 @@ class PlotWindow(QMainWindow):
             # Recenter time axis
             trimmed_time = self.centered_time[start_idx:end_idx]
             trimmed_time = trimmed_time - trimmed_time[0]
-            
+
             self.line.set_data(trimmed_time, 
                               self.power[start_idx:end_idx])
             self.ax.relim()
@@ -167,6 +173,10 @@ class PlotWindow(QMainWindow):
             self.file_info['trim_end'] = end_idx
             
             self.canvas.draw()
+
+            # Update energy consumption
+            energy = np.trapz(self.power[start_idx:end_idx]) * 1e-3
+            self.energy_layout.itemAt(0).widget().setText(f"Energy consumption: {energy:.2f} mJ")
         except Exception as e:
             logging.error(f"Error updating plot: {str(e)}")
 
@@ -180,7 +190,8 @@ class PlotWindow(QMainWindow):
         base_name = f"{self.file_info['filename'][:-4]}_trim_{self.file_info['trim_start']}_{self.file_info['trim_end']}"
         self.fig.savefig(save_dir / f"{base_name}.pdf", bbox_inches='tight')
         self.fig.savefig(save_dir / f"{base_name}.png", dpi=300, bbox_inches='tight')
-        print(f"Saved plots to {save_dir}")
+        print(f"Saved plots to {save_dir} : {base_name}")
+        print(f"Energy consumption: {np.trapz(self.power[self.file_info['trim_start']:self.file_info['trim_end']])} mJ")
 
     def close_all(self):
         global close_all
