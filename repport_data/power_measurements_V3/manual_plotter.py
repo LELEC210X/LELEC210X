@@ -1,10 +1,17 @@
 import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
 import pandas as pd
 from tkinter import filedialog, Tk
 import logging
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
+from matplotlib.figure import Figure
+from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
+                            QHBoxLayout, QPushButton, QSlider, QLabel)
+from PyQt6.QtCore import Qt
+import matplotlib.style as mplstyle
 
 class CSVProcessor:
     def __init__(self, file_path: Path):
@@ -39,6 +46,130 @@ class CSVProcessor:
             if voltage_column in df.columns:
                 self.voltage_data[channel] = df[voltage_column].values * 1e-3  # Convert mV to V
 
+class PlotWindow(QMainWindow):
+    def __init__(self, file_info, processor, power, folder_path):
+        super().__init__()
+        self.file_info = file_info
+        self.processor = processor
+        self.power = power
+        self.folder_path = folder_path
+        mplstyle.use('fast')
+        self.setup_ui()
+
+    def setup_ui(self):
+        main_widget = QWidget()
+        self.setCentralWidget(main_widget)
+        layout = QVBoxLayout(main_widget)
+
+        # Plot widget setup
+        plot_widget = QWidget()
+        plot_layout = QVBoxLayout(plot_widget)
+        
+        # Create and store matplotlib canvas
+        self.fig = Figure(figsize=(10, 6))
+        self.canvas = FigureCanvasQTAgg(self.fig)
+        plot_layout.addWidget(self.canvas)
+        
+        # Navigation toolbar
+        toolbar = NavigationToolbar2QT(self.canvas, self)
+        plot_layout.addWidget(toolbar)
+        
+        layout.addWidget(plot_widget)
+
+        # Center time and store data
+        self.centered_time = self.processor.time - self.processor.time[0]
+        
+        # Create plot
+        self.ax = self.fig.add_subplot(111)
+        self.line, = self.ax.plot(self.centered_time, self.power)
+        self.ax.set_xlabel("Time (s)")
+        self.ax.set_ylabel("Power (mW)")
+        self.ax.grid(True)
+
+        # Slider setup with safety bounds
+        self.data_len = len(self.centered_time)
+        
+        slider_widget = QWidget()
+        slider_layout = QVBoxLayout(slider_widget)
+        
+        # Start slider with value display
+        start_layout = QHBoxLayout()
+        start_layout.addWidget(QLabel("Start:"))
+        self.start_slider = QSlider(Qt.Orientation.Horizontal)
+        self.start_slider.setRange(0, self.data_len-2)  # Leave room for end
+        self.start_value = QLabel("0")
+        start_layout.addWidget(self.start_slider)
+        start_layout.addWidget(self.start_value)
+        slider_layout.addLayout(start_layout)
+        
+        # End slider with value display
+        end_layout = QHBoxLayout()
+        end_layout.addWidget(QLabel("End:"))
+        self.end_slider = QSlider(Qt.Orientation.Horizontal)
+        self.end_slider.setRange(1, self.data_len-1)  # Must be after start
+        self.end_slider.setValue(self.data_len-1)
+        self.end_value = QLabel(str(self.data_len-1))
+        end_layout.addWidget(self.end_slider)
+        end_layout.addWidget(self.end_value)
+        slider_layout.addLayout(end_layout)
+        
+        # Connect sliders with value updates
+        self.start_slider.valueChanged.connect(self.on_start_changed)
+        self.end_slider.valueChanged.connect(self.on_end_changed)
+        
+        layout.addWidget(slider_widget)
+        
+        # Buttons
+        button_layout = QHBoxLayout()
+        reset_btn = QPushButton("Reset View")
+        reset_btn.clicked.connect(self.reset_view)
+        save_btn = QPushButton("Save Plot")
+        save_btn.clicked.connect(self.save_plot)
+        button_layout.addWidget(reset_btn)
+        button_layout.addWidget(save_btn)
+        layout.addLayout(button_layout)
+
+    def on_start_changed(self, value):
+        self.start_value.setText(str(value))
+        if value < self.end_slider.value():
+            self.update_plot()
+
+    def on_end_changed(self, value):
+        self.end_value.setText(str(value))
+        if value > self.start_slider.value():
+            self.update_plot()
+
+    def update_plot(self):
+        try:
+            start_idx = self.start_slider.value()
+            end_idx = self.end_slider.value()
+            
+            if start_idx >= end_idx or start_idx < 0 or end_idx >= self.data_len:
+                return
+                
+            self.line.set_data(self.centered_time[start_idx:end_idx], 
+                              self.power[start_idx:end_idx])
+            self.ax.relim()
+            self.ax.autoscale_view()
+            
+            self.file_info['trim_start'] = start_idx
+            self.file_info['trim_end'] = end_idx
+            
+            self.canvas.draw()
+        except Exception as e:
+            logging.error(f"Error updating plot: {str(e)}")
+
+    def reset_view(self):
+        self.start_slider.setValue(0)
+        self.end_slider.setValue(self.data_len-1)
+
+    def save_plot(self):
+        save_dir = self.folder_path / 'plots'
+        save_dir.mkdir(exist_ok=True)
+        base_name = f"{self.file_info['filename'][:-4]}_trim_{self.file_info['trim_start']}_{self.file_info['trim_end']}"
+        self.fig.savefig(save_dir / f"{base_name}.pdf", bbox_inches='tight')
+        self.fig.savefig(save_dir / f"{base_name}.png", dpi=300, bbox_inches='tight')
+        print(f"Saved plots to {save_dir}")
 
 def main():
     # Create root window and hide it
@@ -97,6 +228,9 @@ def main():
     mcu_voltage = lambda ch2, ch1: ch2_voltage(ch2) + ch1_voltage(ch1)
     power_formula = lambda ch1, ch2: mcu_current(ch1) * mcu_voltage(ch2, ch1)
 
+    app = QApplication(sys.argv)
+    mplstyle.use('fast')
+
     for i, file in csv_files.items():
         try:
             processor = CSVProcessor(folder_path / file['filename'])
@@ -104,14 +238,10 @@ def main():
             ch2 = processor.voltage_data['CH2']
             power = power_formula(ch1, ch2)*1000
             
-            plt.figure()
-            plt.plot(processor.time, power)
-            plt.xlabel("Time (s)")
-            plt.ylabel("Power (mW)")
-            plt.title(f"Power Consumption - {file['filename']}")
-            plt.ylim(0, np.max(power) * 1.1)
-            plt.grid()
-            plt.show()
+            window = PlotWindow(file, processor, power, folder_path)
+            window.show()
+            app.exec()
+            
         except Exception as e:
             logging.error(f"Error processing file {file['filename']}: {str(e)}")
             continue
