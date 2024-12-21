@@ -13,6 +13,8 @@ from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
 from PyQt6.QtCore import Qt
 import matplotlib.style as mplstyle
 
+close_all = False
+
 class CSVProcessor:
     def __init__(self, file_path: Path):
         self.file_path = Path(file_path)
@@ -66,7 +68,7 @@ class PlotWindow(QMainWindow):
         plot_layout = QVBoxLayout(plot_widget)
         
         # Create and store matplotlib canvas
-        self.fig = Figure(figsize=(10, 6))
+        self.fig = Figure(figsize=(8, 6))
         self.canvas = FigureCanvasQTAgg(self.fig)
         plot_layout.addWidget(self.canvas)
         
@@ -82,8 +84,9 @@ class PlotWindow(QMainWindow):
         # Create plot
         self.ax = self.fig.add_subplot(111)
         self.line, = self.ax.plot(self.centered_time, self.power)
-        self.ax.set_xlabel("Time (s)")
-        self.ax.set_ylabel("Power (mW)")
+        self.ax.tick_params(axis='both', which='major', labelsize=12)
+        self.ax.set_xlabel("Time (s)", fontsize=14)
+        self.ax.set_ylabel("Power (mW)", fontsize=14)
         self.ax.grid(True)
 
         # Slider setup with safety bounds
@@ -179,6 +182,8 @@ class PlotWindow(QMainWindow):
         print(f"Saved plots to {save_dir}")
 
     def close_all(self):
+        global close_all
+        close_all = True
         QApplication.quit()
 
 def main():
@@ -242,6 +247,8 @@ def main():
     mplstyle.use('fast')
 
     for i, file in csv_files.items():
+        if close_all:
+            break
         try:
             processor = CSVProcessor(folder_path / file['filename'])
             ch1 = processor.voltage_data['CH1']
