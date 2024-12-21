@@ -84,9 +84,10 @@ class PlotWindow(QMainWindow):
         # Create plot
         self.ax = self.fig.add_subplot(111)
         self.line, = self.ax.plot(self.centered_time, self.power)
-        self.ax.tick_params(axis='both', which='major', labelsize=12)
-        self.ax.set_xlabel("Time (s)", fontsize=14)
-        self.ax.set_ylabel("Power (mW)", fontsize=14)
+        self.ax.tick_params(axis='both', which='major', labelsize=16)
+        self.ax.set_xlabel("Time (s)", fontsize=24)
+        self.ax.set_ylabel("Power (mW)", fontsize=24)
+        self.ax.set_ylim(min(-0.2, np.min(self.power)), np.max(self.power)*1.1)
         self.ax.grid(True)
 
         # Slider setup with safety bounds
