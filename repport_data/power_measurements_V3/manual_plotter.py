@@ -125,8 +125,11 @@ class PlotWindow(QMainWindow):
         reset_btn.clicked.connect(self.reset_view)
         save_btn = QPushButton("Save Plot")
         save_btn.clicked.connect(self.save_plot)
+        close_btn = QPushButton("Close All")
+        close_btn.clicked.connect(self.close_all)
         button_layout.addWidget(reset_btn)
         button_layout.addWidget(save_btn)
+        button_layout.addWidget(close_btn)
         layout.addLayout(button_layout)
 
     def on_start_changed(self, value):
@@ -147,7 +150,11 @@ class PlotWindow(QMainWindow):
             if start_idx >= end_idx or start_idx < 0 or end_idx >= self.data_len:
                 return
                 
-            self.line.set_data(self.centered_time[start_idx:end_idx], 
+            # Recenter time axis
+            trimmed_time = self.centered_time[start_idx:end_idx]
+            trimmed_time = trimmed_time - trimmed_time[0]
+            
+            self.line.set_data(trimmed_time, 
                               self.power[start_idx:end_idx])
             self.ax.relim()
             self.ax.autoscale_view()
@@ -170,6 +177,9 @@ class PlotWindow(QMainWindow):
         self.fig.savefig(save_dir / f"{base_name}.pdf", bbox_inches='tight')
         self.fig.savefig(save_dir / f"{base_name}.png", dpi=300, bbox_inches='tight')
         print(f"Saved plots to {save_dir}")
+
+    def close_all(self):
+        QApplication.quit()
 
 def main():
     # Create root window and hide it
