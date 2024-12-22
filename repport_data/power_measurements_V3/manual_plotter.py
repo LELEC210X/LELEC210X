@@ -244,6 +244,11 @@ def main():
         17: {'filename': 'data_30_017.csv', 'trim_start' : 0, 'trim_end': -1},
         18: {'filename': 'data_30_018.csv', 'trim_start' : 0, 'trim_end': -1},
         19: {'filename': 'data_30_019.csv', 'trim_start' : 0, 'trim_end': -1},
+        110: {'filename': 'data_31_000.csv', 'trim_start' : 0, 'trim_end': -1},
+        111: {'filename': 'data_31_001.csv', 'trim_start' : 0, 'trim_end': -1},
+        112: {'filename': 'data_31_002.csv', 'trim_start' : 0, 'trim_end': -1},
+        113: {'filename': 'data_31_003.csv', 'trim_start' : 0, 'trim_end': -1},
+        114: {'filename': 'data_31_004.csv', 'trim_start' : 0, 'trim_end': -1},
     }
 
     R = 100.54
