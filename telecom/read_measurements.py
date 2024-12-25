@@ -4,170 +4,26 @@ and plots the PER/SNR curve, plus CFO values.
 """
 
 import sys
-import os
 from collections import defaultdict
 
 import matplotlib.pyplot as plt
 from matplotlib import cm, colors
+import matplotlib as mpl
 import numpy as np
 import pandas as pd
+from hands_on_simulation import sim, chain
 
 
-def plot_BER_vs_byte_pos(payload_df: pd.DataFrame, expected_payload: np.ndarray[np.uint8]):
+def read_measurements(
+    filepath_meas: str, filepath_compl_meas: str = None, num_bytes: int = 50,
+    first_bytes: int = None,
+    txp: bool = False, distance: bool = False, ber: bool = True
+) -> pd.DataFrame:
 
-    num_bits = payload_df.shape[0] * 8
-    BER = np.zeros(payload_df.shape[1], dtype=float)
-    for idx, column in enumerate(payload_df):
-        BER[idx] = np.unpackbits(
-            payload_df[column] ^ expected_payload[idx]).sum() / num_bits
-    fig, ax = plt.subplots()
-    ax.plot(payload_df.columns, BER*100, color='black')
-    ax.set_title('across all SNR\'s')
-    ax.set_xlabel('Byte position')
-    ax.set_ylabel('BER [%]')
-    fig.suptitle('BER vs Byte position in packet')
-
-    plt.savefig('R6_Graphs/BER_vs_byte_pos.png', dpi=300)
-
-
-def plot_SNRest_vs_CFOest(df: pd.DataFrame):
-
-    groups = df.groupby("txp")
-    txp_delta = list(groups)[0][0] - list(groups)[1][0]
-    cmap = plt.get_cmap('gist_rainbow').resampled(len(groups))
-
-    fig, ax = plt.subplots()
-    for i, (txp, txp_df) in enumerate(list(groups)[::-1], start=1):
-        c = cmap(range(len(groups)))[len(groups)-i]
-        ax.scatter(txp_df["cfo"]/1000, txp_df["snr"], s=3,
-                   color=c)
-        ax.axhline(y=np.nanpercentile(txp_df.loc[:, "snr"], 50),
-                   color=c, linewidth=.5)
-
-    ax.scatter(np.nan, np.nan, color='black', label='Received packet metrics')
-    ax.axhline(y=np.nan, color='black', label='Median SNR')
-    ax.set_xlabel('CFO estimation [kHz]')
-    ax.set_ylabel('SNR estimation [dB]')
-    ax.legend(loc=3, fontsize='small', frameon=False)
-    fig.suptitle('CFO and SNR estimation statistics')
-    fig.colorbar(cm.ScalarMappable(cmap=cmap,
-                                   norm=colors.Normalize(
-                                       vmin=list(groups)[0][0] + txp_delta/2,
-                                       vmax=list(groups)[-1][0] - txp_delta/2)),
-                 ticks=list(groups.groups.keys()), ax=ax, label='TXP [dBW]')
-
-    plt.savefig('R6_Graphs/SNRest_vs_CFOest.png', dpi=300)
-
-
-def BER_SNR_sim():
-
-    SNRs_dB = np.array([-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4,
-                        5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-                        21, 22, 23, 24])
-    BER = np.array([5.000e-01, 5.000e-01, 5.000e-01, 5.000e-01, 5.000e-01, 5.000e-01, 5.000e-01,
-                    5.000e-01, 5.000e-01, 5.000e-01, 4.616e-01, 1.390e-01, 1.126e-01, 8.880e-02,
-                    6.860e-02, 6.320e-02, 5.500e-02, 4.160e-02, 3.520e-02, 2.340e-02, 2.120e-02,
-                    2.040e-02, 1.440e-02, 9.800e-03, 9.200e-03, 6.000e-03, 6.000e-04, 4.000e-04,
-                    4.000e-04, 2.000e-04, 2.000e-04, 2.000e-04, 0.000e+00, 0.000e+00, 0.000e+00,])
-
-    fig, ax = plt.subplots()
-    ax.plot(SNRs_dB, BER, "-s", label="Simulation")
-    ax.grid(True)
-
-    return (fig, ax)
-
-
-def plot_BER_vs_SNRest(df: pd.DataFrame, drop_extrema=True, drop_last_bytes=True, comp_sim=True):
-
-    if comp_sim:
-        fig, ax = BER_SNR_sim()
-    else:
-        fig, ax = plt.subplots()
-    ax.set_yscale('log')
-    filtered_df: df.DataFrame = df.copy()
-    description = df.groupby("txp").describe(percentiles=[.05, .5, .95])
-
-    if drop_extrema:
-        for (txp, txp_df) in df.groupby("txp"):
-            filtered_df.drop(labels=txp_df.loc[txp_df['cfo'] < description.loc[txp, ('cfo', '5%')]].index,
-                             inplace=True, errors='ignore')
-            filtered_df.drop(labels=txp_df.loc[txp_df['cfo'] > description.loc[txp, ('cfo', '95%')]].index,
-                             inplace=True, errors='ignore')
-            filtered_df.drop(labels=txp_df.loc[txp_df['snr'] == np.nan].index,
-                             inplace=True, errors='ignore')
-            filtered_df.drop(labels=txp_df.loc[txp_df['snr'] < description.loc[txp, ('snr', '5%')]].index,
-                             inplace=True, errors='ignore')
-
-    ax.plot(description.loc[:, ('snr', '50%')],
-            description.loc[:, ('ber', 'mean')], "-s", label='BER of all data')
-    if drop_extrema:
-        description = filtered_df.groupby("txp").describe(percentiles=[.5])
-        ax.plot(description.loc[:, ('snr', '50%')],
-                description.loc[:, ('ber', 'mean')], "-s", label='Without extreme CFO and SNR')
-    if drop_last_bytes:
-        ax.plot(description.loc[:, ('snr', '50%')],
-                description.loc[:, ('ber30', 'mean')], "-s", label='Only first bytes of each packet')
-
-    ax.set_xlabel('SNR estimation [dB]')
-    ax.set_ylabel('BER [%]')
-    ax.legend(loc=3)
-    fig.suptitle('BER vs SNR estimation')
-
-    if comp_sim:
-        plt.savefig('R6_Graphs/BER_vs_SNRest_with_sim.png', dpi=300)
-    else:
-        plt.savefig('R6_Graphs/BER_vs_SNRest.png', dpi=300)
-
-
-def detection_sim():
-
-    SNRs_dB = np.array([-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4,
-                        5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-                        21, 22, 23, 24])
-    preamble_mis = np.zeros_like(SNRs_dB)
-    preamble_false = np.array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 0.88, 0.06,
-                               0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-                               0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
-
-    fig, ax = plt.subplots()
-    ax.plot(SNRs_dB, preamble_mis * 100, "-s",
-            label="Simulation: Miss-detection")
-    ax.plot(SNRs_dB, preamble_false * 100, "-s",
-            label="Simulation: False-detection")
-
-    return fig, ax
-
-
-def plot_detection_rate(df, npackets=50, comp_sim=True):
-
-    if comp_sim:
-        fig, ax = detection_sim()
-    else:
-        fig, ax = plt.subplots()
-
-    description = df.groupby("txp").describe()
-
-    ax.plot(description.loc[:, ('snr', '50%')],
-            description.loc[:, ('snr', 'count')] / npackets * 100, "-s",
-            color="black", label="Measure: Transmitted/Received packets ratio")
-    ax.set_xlabel('SNR estimation [dB]')
-    ax.set_ylabel('[%]')
-    ax.legend(loc=1, frameon=False, fontsize='small')
-    fig.suptitle('Packet detection metrics vs SNR estimation')
-
-    if comp_sim:
-        plt.savefig('R6_Graphs/detection_rate_with_sim.png', dpi=300)
-    else:
-        plt.savefig('R6_Graphs/detection_rate.png', dpi=300)
-
-
-if __name__ == "__main__":
-    expected_payload = np.arange(50, dtype=np.uint8)
-    num_bits = len(expected_payload) * 8
-
+    expected_payload = np.arange(num_bytes, dtype=np.uint8)
     data = defaultdict(list)
     payload_data = []
-    with open(sys.argv[1]) as f:
+    with open(filepath_meas) as f:
         for line in f.read().splitlines():
             if line.startswith("CFO"):
                 cfo, sto = line.split(",")
@@ -179,79 +35,450 @@ if __name__ == "__main__":
             elif line.startswith("packet"):
                 idx, correct, payload = line.split(",", maxsplit=2)
                 idx = int(idx.split("=")[1])
-                correct = correct.split("=")[1] == "True"
-                payload = list(
-                    map(np.uint8, payload.split("=")[1][1:-1].split(",")))
-                ber = (
-                    np.unpackbits(
-                        expected_payload ^ np.array(payload, dtype=np.uint8)
-                    ).sum() / num_bits
-                )
-                ber30 = (
-                    np.unpackbits(
-                        expected_payload[:30] ^ np.array(
-                            payload, dtype=np.uint8)[:30]
-                    ).sum() / (len(expected_payload[:30])*8)
-                )
+                correct = int(correct.split("=")[1] == "True")
                 data["indices"].append(idx)
                 data["correct"].append(correct)
+                payload = list(
+                    map(np.uint8, payload.split("=")[1][1:-1].split(",")))
                 payload_data.append(payload)
-                data["ber"].append(ber)
-                data["ber30"].append(ber30)
+                if ber:
+                    ber_value = (
+                        np.unpackbits(
+                            expected_payload ^ np.array(
+                                payload, dtype=np.uint8)
+                        ).sum() / (num_bytes*8)
+                    )
+                    data["ber"].append(ber_value)
+                if first_bytes is not None and ber:
+                    ber_first_bytes = (
+                        np.unpackbits(
+                            expected_payload[:first_bytes] ^ np.array(
+                                payload, dtype=np.uint8)[:first_bytes]
+                        ).sum() / (len(expected_payload[:first_bytes])*8)
+                    )
+                    data["ber_first_bytes"].append(ber_first_bytes)
 
-    try:
-        with open(sys.argv[2]) as f:
-            data["txp"] = list(np.zeros_like(data["indices"], dtype=float))
-            for line in f.read().splitlines():
-                if line.startswith("TXP:"):
-                    txp, *_, idxs = line.replace("TXP:", "").split(" ")
-                    txp = float(txp.replace("dB", ""))
-                    idx_begin, idx_end = map(int, idxs.split("-"))
-                    data["txp"][idx_begin-1: idx_end] = \
-                        list(np.full(idx_end-idx_begin+1, txp))
-    except IndexError as e:
-        print("""
-              Please provide a second argument when calling this script
-              Second argument should be a .txt file with the following information and structure:
+    if filepath_compl_meas is not None:
+        try:
+            with open(filepath_compl_meas) as f:
+                if txp:
+                    data["txp"] = list(
+                        np.full_like(data["indices"], np.nan, dtype=float))
+                    for line in f.read().splitlines():
+                        if line.startswith("TXP:"):
+                            txp_value, * \
+                                _, idxs = line.replace("TXP:", "").split(" ")
+                            txp_value = float(txp_value.replace("dB", ""))
+                            idx_begin, idx_end = map(int, idxs.split("-"))
+                            data["txp"][idx_begin-1: idx_end] = \
+                                list(np.full(idx_end-idx_begin+1, txp_value))
+                if distance:
+                    data["distance"] = list(
+                        np.full_like(data["indices"], np.nan, dtype=float))
+                    for line in f.read().splitlines():
+                        if line.startswith("DISTANCE:"):
+                            distance_value, * \
+                                _, idxs = line.replace(
+                                    "DISTANCE:", "").split(" ")
+                            distance_value = float(
+                                distance_value.replace("m", ""))
+                            idx_begin, idx_end = map(int, idxs.split("-"))
+                            data["distance"][idx_begin-1: idx_end] = \
+                                list(np.full(idx_end-idx_begin+1, distance_value))
+        except Exception as e:
+            print("""
+                  Please provide a second argument when calling this script
+                  Second argument should be a .txt file with the following information and structure:
 
-              [complementary_measurements.txt]
-              ...
-              whatever additional information needed
-              ...
-              TXP:-45dB  0001-0004
-              TXP:-42dB  0005-0126
-              ...
-              additional commentary here
-              ...
-              TXP:-12dB  1429-1578
-              TXP:-15    1268-1428
-              ...
-              [end of file]
+                  [complementary_measurements.txt]
+                  ...
+                  whatever additional information needed
+                  ...
+                  TXP:-45dB  0001-0004
+                  TXP:-42dB  0005-0126
+                  ...
+                  additional commentary here
+                  ...
+                  TXP:-12dB  1429-1578
+                  TXP:-15    1268-1428
+                  ...
+                  DISTANCE:1.0m  0001-0004
+                  DISTANCE:2m    0005-0126
+                  ...
+                  additional commentary here
+                  ...
+                  DISTANCE:3     1429-1578
+                  DISTANCE:4.0   1268-1428
+                  ...
+                  [end of file]
 
-              Where each line begining with 'TXP:' first reads the power in dB (Watt)
-              (no need to write dB but don't write anything else),
-              then a separation with at least 1 space ' ',
-              and then the index of the first and last received packet at that power
-              separated by a '-'
-              """)
-        raise e
+                  Each line begining with 'TXP:' first reads the power in dB (Watt)
+                  (no need to write dB but don't write anything else),
+                  then a separation with at least 1 space ' ',
+                  and then the index of the first and last received packet at that power
+                  separated by a '-'
+                  Each line begining with 'DISTANCE:' first reads the distance in meter
+                  (no need to write m but don't write anything else),
+                  then a separation with at least 1 space ' ',
+                  and then the index of the first and last received packet at that distance
+                  separated by a '-'
 
+                  """)
+            raise e
     df = pd.DataFrame.from_dict(data)
-    payload_df = pd.DataFrame(payload_data)
     df.set_index("indices", drop=True, inplace=True)
+    payload_df = pd.DataFrame(payload_data)
     payload_df.set_index(df.index, inplace=True)
+    return (df, payload_df)
 
-    # print(df)
-    # print(payload_df)
 
-    plot_BER_vs_SNRest(df)
-    plot_BER_vs_SNRest(df, comp_sim=False)
+def plot_BER_vs_byte_pos(payload_df: pd.DataFrame) -> mpl.figure.Figure:
 
-    plot_SNRest_vs_CFOest(df)
+    expected_payload = np.arange(payload_df.shape[0], dtype=np.uint8)
+    num_bits = payload_df.shape[0] * 8
+    BER = np.zeros(payload_df.shape[1], dtype=float)
+    for idx, column in enumerate(payload_df):
+        BER[idx] = np.unpackbits(
+            payload_df[column] ^ expected_payload[idx]).sum() / num_bits
+    fig, ax = plt.subplots()
+    ax.plot(payload_df.columns, BER*100, color='black')
+    ax.set_xlabel('Byte position')
+    ax.set_ylabel('BER [%]')
+    fig.suptitle('BER vs Byte position in packet')
+    ax.set_title('across all SNR\'s')
+    return fig
+    # plt.savefig('R6_Graphs/20-12_N=16/BER_vs_byte_pos.png', dpi=300)
 
-    plot_BER_vs_byte_pos(payload_df, expected_payload)
 
-    plot_detection_rate(df, npackets=200)
+def plot_SNRest_vs_CFOest(df: pd.DataFrame, N: int = 16) -> mpl.figure.Figure:
 
-    # fig = df.groupby("txp").hist(column="cfo")
-    plt.show()
+    groups = df.groupby('txp')
+    txp_delta = list(groups)[0][0] - list(groups)[1][0]
+    cmap = plt.get_cmap('gist_rainbow').resampled(len(groups))
+    fig, ax = plt.subplots()
+    for i, (txp, txp_df) in enumerate(list(groups)[::-1], start=1):
+        c = cmap(range(len(groups)))[len(groups)-i]
+        ax.scatter(txp_df['cfo']/1000, txp_df['snr'], s=3,
+                   color=c)
+        ax.axhline(y=np.nanpercentile(txp_df.loc[:, 'snr'], 50),
+                   color=c, linewidth=.5)
+    ax.scatter(np.nan, np.nan, color='black', label='Received packet metrics')
+    ax.axhline(y=np.nan, color='black', label='Median SNR')
+    ax.set_xlabel('CFO estimation [kHz]')
+    ax.set_ylabel('SNR estimation [dB]')
+    ax.legend(loc=4, fontsize='small')
+    ax.set_title(f'N = {N}')
+    fig.suptitle('CFO and SNR estimation statistics')
+    fig.colorbar(cm.ScalarMappable(cmap=cmap,
+                                   norm=colors.Normalize(
+                                       vmin=list(groups)[0][0] + txp_delta/2,
+                                       vmax=list(groups)[-1][0] - txp_delta/2)),
+                 ticks=list(groups.groups.keys()), ax=ax, label='TXP [dBW]')
+    return fig
+
+
+def plot_cfo_hist(
+    df: pd.DataFrame, N: int = 16, color: str = None
+) -> mpl.figure.Figure:
+
+    fig, ax = plt.subplots()
+    description = df.groupby("txp").describe()
+    df['cfo_dev'] = list(np.zeros_like(df.index, dtype=float))
+    for (idx, serie) in df.iterrows():
+        if not np.isnan(serie['txp']):
+            df.loc[idx, 'cfo_dev'] = serie['cfo'] - \
+                description.loc[serie['txp'], ('cfo', 'mean')]
+    df.hist(column='cfo_dev', ax=ax)
+    ax.patches[-1].set_label(f'N = {N}')
+    if color is not None:
+        for patch in ax.patches:
+            patch.set_color(color)
+    ax.legend()
+    ax.set_xlabel('Centered CFO estimation [Hz]')
+    mean = df['cfo'].mean()
+    stdev = np.sqrt(((df['cfo_dev'].array*df['cfo_dev'].array)).mean())
+    ax.set_title(f'$\\mu = {mean:.2f} Hz\\;\\;\\;\\;\\sigma = {stdev:.2f} Hz$')
+    fig.suptitle('Centered CFO distribution')
+    return fig
+
+
+def plot_BER_vs_SNRest(
+    df: pd.DataFrame, drop_extrema: bool = True, drop_last_bytes: bool = False,
+    comp_sim: bool = False, SNR_sim: np.ndarray[float] = None,
+    BER_sim: list[np.ndarray[float]] = None, labels_sim: list[str] = None
+) -> mpl.figure.Figure:
+
+    fig, ax = plt.subplots()
+    if comp_sim:
+        for BER, label in zip(BER_sim, labels_sim):
+            BER_SNR_sim(SNR_sim, BER, label, fig)
+    ax.set_yscale('log')
+    description = df.groupby("txp").describe(percentiles=[.05, .5, .95])
+    if drop_extrema:
+        filtered_df: df.DataFrame = df.copy()
+        for (txp, txp_df) in df.groupby("txp"):
+            filtered_df.drop(labels=txp_df.loc[txp_df['cfo'] < description.loc[txp, ('cfo', '5%')]].index,
+                             inplace=True, errors='ignore')
+            filtered_df.drop(labels=txp_df.loc[txp_df['cfo'] > description.loc[txp, ('cfo', '95%')]].index,
+                             inplace=True, errors='ignore')
+            filtered_df.drop(labels=txp_df.loc[txp_df['snr'] == np.nan].index,
+                             inplace=True, errors='ignore')
+            filtered_df.drop(labels=txp_df.loc[txp_df['snr'] < description.loc[txp, ('snr', '5%')]].index,
+                             inplace=True, errors='ignore')
+    ax.plot(description.loc[:, ('snr', '50%')],
+            description.loc[:, ('ber', 'mean')], "-s", label='Measurements')
+    if drop_extrema:
+        description = filtered_df.groupby("txp").describe(percentiles=[.5])
+        ax.plot(description.loc[:, ('snr', '50%')],
+                description.loc[:, ('ber', 'mean')], "-s", label='Without extreme CFO and SNR')
+    if drop_last_bytes:
+        ax.plot(description.loc[:, ('snr', '50%')],
+                description.loc[:, ('ber_first_bytes', 'mean')], "-s", label='Only first bytes of each packet')
+    ax.set_xlabel('SNR estimation [dB]')
+    ax.set_ylabel('BER')
+    ax.set_ylim((2e-6, 1))
+    ax.set_xlim((5.0, 30.0))
+    ax.legend(loc=3)
+    fig.suptitle('BER vs SNR estimation')
+    return fig
+
+
+def plot_PER_vs_SNRest(
+    df: pd.DataFrame, drop_extrema: bool = True,
+    comp_sim: bool = False, SNR_sim: np.ndarray[float] = None,
+    PER_sim: list[np.ndarray[float]] = None, labels_sim: list[str] = None
+) -> mpl.figure.Figure:
+
+    fig, ax = plt.subplots()
+    if comp_sim:
+        for PER, label in zip(PER_sim, labels_sim):
+            BER_SNR_sim(SNR_sim, PER, label, fig)
+    ax.set_yscale('log')
+    description = df.groupby("txp").describe(percentiles=[.05, .5, .95])
+    if drop_extrema:
+        filtered_df: df.DataFrame = df.copy()
+        for (txp, txp_df) in df.groupby("txp"):
+            filtered_df.drop(labels=txp_df.loc[txp_df['cfo'] < description.loc[txp, ('cfo', '5%')]].index,
+                             inplace=True, errors='ignore')
+            filtered_df.drop(labels=txp_df.loc[txp_df['cfo'] > description.loc[txp, ('cfo', '95%')]].index,
+                             inplace=True, errors='ignore')
+            filtered_df.drop(labels=txp_df.loc[txp_df['snr'] == np.nan].index,
+                             inplace=True, errors='ignore')
+            filtered_df.drop(labels=txp_df.loc[txp_df['snr'] < description.loc[txp, ('snr', '5%')]].index,
+                             inplace=True, errors='ignore')
+    ax.plot(description.loc[:, ('snr', '50%')],
+            1-description.loc[:, ('correct', 'mean')].array, "-s", label='Measurements')
+    if drop_extrema:
+        description = filtered_df.groupby("txp").describe(percentiles=[.5])
+        ax.plot(description.loc[:, ('snr', '50%')],
+                1-description.loc[:, ('correct', 'mean')].array, "-s", label='Without extreme CFO and SNR')
+    ax.set_xlabel('SNR estimation [dB]')
+    ax.set_ylabel('PER')
+    ax.set_ylim((2e-6, 1))
+    ax.set_xlim((5.0, 30.0))
+    ax.legend(loc=3)
+    fig.suptitle('PER vs SNR estimation')
+    return fig
+
+
+def plot_detection_rate(
+    df: pd.DataFrame, npackets: int = 50,
+    comp_sim: bool = False, SNR_sim: np.ndarray[float] = None,
+    preamble_mis: np.ndarray[float] = None, preamble_false: np.ndarray[float] = None
+) -> mpl.figure.Figure:
+
+    fig, ax = plt.subplots()
+    if comp_sim:
+        detection_sim(SNR_sim, preamble_mis, preamble_false, fig)
+
+    description = df.groupby("txp").describe()
+
+    ax.plot(description.loc[:, ('snr', '50%')],
+            description.loc[:, ('snr', 'count')] / npackets * 100, "-s",
+            color="black", label="Measure: Transmitted/Received packets ratio")
+    ax.set_xlabel('SNR estimation [dB]')
+    ax.set_ylabel('[%]')
+    ax.legend(loc=6, fontsize='small')
+    fig.suptitle('Packet detection metrics vs SNR estimation')
+
+    if comp_sim:
+        plt.savefig('R6_Graphs/20-12_N=16/detection_rate_with_sim.png', dpi=300)
+    else:
+        plt.savefig('R6_Graphs/20-12_N=16/detection_rate.png', dpi=300)
+
+    return fig
+
+
+def BER_SNR_sim(
+    SNR: np.ndarray[float], BER: np.ndarray[float], label: str, fig: mpl.figure.Figure
+) -> mpl.figure.Figure:
+
+    ax = fig.gca()
+    ax.plot(SNR, BER, "-s", label=label)
+    ax.grid(True)
+
+    return fig
+
+
+def detection_sim(
+    SNR: np.ndarray[float], preamble_mis: np.ndarray[float], preamble_false: np.ndarray[float],
+    fig: mpl.figure.Figure
+) -> mpl.figure.Figure:
+
+    ax = fig.gca()
+    ax.plot(SNR, preamble_mis * 100, "-s",
+            label="Simulation: Miss-detection")
+    ax.plot(SNR, preamble_false * 100, "-s",
+            label="Simulation: False-detection")
+    return fig
+
+
+def plot_SNRest_vs_dist(
+    df: pd.DataFrame, title: str = '', fig: mpl.figure.Figure = None
+) -> mpl.figure.Figure:
+
+    groups = df.groupby('distance')
+    snr = []
+    for idxs in groups.groups.values():
+        ls = list(df.loc[idxs, 'snr'].array)
+        snr.append(ls)
+
+    fig, ax = plt.subplots()
+    ax.boxplot(snr, showfliers=False, positions=list(groups.groups.keys()))
+    ax.set_xlabel('Distance [m]')
+    ax.set_ylabel('$SNR_{est}$ [dB]')
+    ax.set_title(title)
+    ax._children[-1].set_label(title)
+    ax.legend()
+    fig.suptitle('SNR evolution over the distance')
+    return fig
+
+
+def main() -> None:
+    sim.main(['--FIR', '--no_save', '-p', '200', '-n', '500', '-m', '16', '-r', '1500'])
+
+if __name__ == '__main__':
+
+    main()
+
+    num_bytes: int = 200
+    npackets: int = 200
+
+    SNRs_est = np.array([-2.29620372, -1.29620372, -0.29620372,  0.70379628,  1.70379628,
+                         2.70379628,  3.70379628,  4.70379628,  5.70379628,  6.70379628,
+                         7.70379628,  8.70379628,  9.70379628, 10.70379628, 11.70379628,
+                         12.70379628, 13.70379628, 14.70379628, 15.70379628, 16.70379628,
+                         17.70379628, 18.70379628, 19.70379628, 20.70379628, 21.70379628,
+                         22.70379628, 23.70379628, 24.70379628, 25.70379628, 26.70379628,
+                         27.70379628, 28.70379628, 29.70379628, 30.70379628, 31.70379628,
+                         32.70379628, 33.70379628, 34.70379628, 35.70379628, 36.70379628,
+                         37.70379628, 38.70379628, 39.70379628, 40.70379628, 41.70379628])
+    BER = np.array([5.00000000e-01, 5.00000000e-01, 5.00000000e-01, 5.00000000e-01,
+                    5.00000000e-01, 5.00000000e-01, 5.00000000e-01, 5.00000000e-01,
+                    5.00000000e-01, 5.00000000e-01, 4.53213113e-01, 1.27546263e-01,
+                    9.29172125e-02, 6.87695250e-02, 4.74106125e-02, 2.88529000e-02,
+                    1.43596625e-02, 5.17051250e-03, 1.32652500e-03, 2.08212500e-04,
+                    1.82625000e-05, 4.38750000e-06, 2.25000000e-06, 9.75000000e-07,
+                    3.37500000e-07, 5.00000000e-08, 0.00000000e+00, 0.00000000e+00,
+                    0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
+                    0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
+                    0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
+                    0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
+                    0.00000000e+00])
+    BER_bypass_all = np.array([3.68895800e-01, 3.42385137e-01, 3.12413337e-01, 2.79312338e-01,
+                               2.43771675e-01, 2.06775288e-01, 1.69699975e-01, 1.33982150e-01,
+                               1.01092213e-01, 7.22106500e-02, 4.82670250e-02, 2.96958375e-02,
+                               1.64690125e-02, 8.01142500e-03, 3.30952500e-03, 1.11535000e-03,
+                               2.91675000e-04, 5.62375000e-05, 6.83750000e-06, 5.00000000e-07,
+                               0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
+                               0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
+                               0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
+                               0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
+                               0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
+                               0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
+                               0.00000000e+00])
+    PER = np.array([1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00,
+                    1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00,
+                    1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00, 9.9828e-01,
+                    9.0458e-01, 5.1732e-01, 1.7488e-01, 5.0060e-02, 2.1200e-02,
+                    1.2400e-02, 7.0200e-03, 3.6000e-03, 1.5600e-03, 5.4000e-04,
+                    8.0000e-05, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+                    0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+                    0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+                    0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00])
+    PER_bypass_all = np.array([1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00,
+                               1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00,
+                               1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00, 9.9474e-01,
+                               8.3086e-01, 3.7106e-01, 8.6160e-02, 1.0900e-02, 8.0000e-04,
+                               0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+                               0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+                               0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+                               0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+                               0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00])
+    preamble_mis = np.array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                             0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                             0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+    preamble_false = np.array([1., 1., 1., 1., 1., 1., 1.,
+                               1., 1., 1., 0.86482, 0.01872, 0., 0.,
+                               0., 0., 0., 0., 0., 0., 0.,
+                               0., 0., 0., 0., 0., 0., 0.,
+                               0., 0., 0., 0., 0., 0., 0.,
+                               0., 0., 0., 0., 0., 0., 0.,
+                               0., 0., 0.])
+
+    # df, payload_df = read_measurements(
+    #     './hands_on_measurements/gr-fsk/apps/20-12_measurements.txt',
+    #     './hands_on_measurements/gr-fsk/apps/20-12_compl_measurements.txt',
+    #     num_bytes=num_bytes, first_bytes=100,
+    #     txp=True, ber=True, distance=False)
+    # fig = plot_BER_vs_SNRest(df, comp_sim=True, SNR_sim=SNRs_est, BER_sim=[BER, BER_bypass_all],
+    #                          labels_sim=['Simulation', 'Bypass all synchronization'])
+    # fig.savefig('R6_Graphs/BER vs SNR measurements and simulation.svg')
+    # fig = plot_PER_vs_SNRest(df, comp_sim=True, drop_extrema=False,
+    #                          SNR_sim=SNRs_est, PER_sim=[PER, PER_bypass_all],
+    #                          labels_sim=['Simulation', 'Bypass all synchronization'])
+    # fig.savefig('R6_Graphs/PER vs SNR measurements and simulation.svg')
+    # fig = plot_detection_rate(df, npackets=npackets, comp_sim=True, drop_extrema=False,
+    #                           SNR_sim=SNRs_est,
+    #                           preamble_mis=preamble_mis, preamble_false=preamble_false)
+    # fig.savefig('R6_Graphs/Detection metrics.svg')
+    # fig = plot_BER_vs_byte_pos(payload_df)
+    # fig.savefig('R6_Graphs/BER vs byte position.svg')
+    # df, payload_df = read_measurements(
+    #     './hands_on_measurements/gr-fsk/apps/20-12_measurements_N=16.txt',
+    #     './hands_on_measurements/gr-fsk/apps/20-12_compl_measurements_N=16.txt',
+    #     num_bytes=num_bytes, txp=True, ber=False, distance=False)
+    # fig = plot_cfo_hist(df, N=16, color='C0')
+    # fig.savefig('R6_Graphs/CFO histogram N = 16.svg')
+    # fig = plot_SNRest_vs_CFOest(df, N=16)
+    # fig.savefig('R6_Graphs/SNR vs CFO N=16.svg')
+    # df, payload_df = read_measurements(
+    #     './hands_on_measurements/gr-fsk/apps/20-12_measurements_N=8.txt',
+    #     './hands_on_measurements/gr-fsk/apps/20-12_compl_measurements_N=8.txt',
+    #     num_bytes=num_bytes, txp=True, ber=False, distance=False)
+    # fig = plot_cfo_hist(df, N=8, color='C1')
+    # fig.savefig('R6_Graphs/CFO histogram N = 8.svg')
+    # fig = plot_SNRest_vs_CFOest(df, N=8)
+    # fig.savefig('R6_Graphs/SNR vs CFO N=8.svg')
+    # df, payload_df = read_measurements(
+    #     './hands_on_measurements/gr-fsk/apps/20-12_measurements_N=4.txt',
+    #     './hands_on_measurements/gr-fsk/apps/20-12_compl_measurements_N=4.txt',
+    #     num_bytes=num_bytes, txp=True, ber=False, distance=False)
+    # fig = plot_cfo_hist(df, N=4, color='C2')
+    # fig.savefig('R6_Graphs/CFO histogram N = 4.svg')
+    # fig = plot_SNRest_vs_CFOest(df, N=4)
+    # fig.savefig('R6_Graphs/SNR vs CFO N=4.svg')
+    # df, payload_df = read_measurements(
+    #     './hands_on_measurements/gr-fsk/apps/20-12_measurements distance.txt',
+    #     './hands_on_measurements/gr-fsk/apps/20-12_compl_measurements distance.txt',
+    #     num_bytes=num_bytes, txp=False, ber=False, distance=True)
+    # fig = plot_SNRest_vs_dist(df, title='Closed room')
+    # fig.savefig('R6_Graphs/SNR vs distance.svg')
+    # df, payload_df = read_measurements(
+    #     './hands_on_measurements/gr-fsk/apps/22-12_measurements distance.txt',
+    #     './hands_on_measurements/gr-fsk/apps/22-12_compl_measurements distance.txt',
+    #     num_bytes=num_bytes, txp=False, ber=False, distance=True)
+    # fig = plot_SNRest_vs_dist(df, title='Tennis field')
+    # fig.savefig('R6_Graphs/SNR vs distance tennis field.svg')
+    # 
+    # plt.show()

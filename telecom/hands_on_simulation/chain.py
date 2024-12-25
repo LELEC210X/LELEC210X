@@ -8,36 +8,37 @@ SYNC_WORD = np.array([int(bit) for bit in f"{0x3E2A54B7:0>32b}"])
 
 
 class Chain:
-    
+
     def __init__(self, *,
-            name:str="",
-            # Communication parameters
-            bit_rate: float = BIT_RATE,
-            freq_dev: float = BIT_RATE / 4,
-            osr_tx: int = 64,
-            osr_rx: int = 8,
-            preamble: np.ndarray = PREAMBLE,
-            sync_word: np.ndarray = SYNC_WORD,
-            payload_len: int = 50,  # Number of bits per packet
-            # Simulation parameters
-            n_packets: int = 100,  # Number of sent packets
-            # Channel parameters
-            sto_val: float = 0,
-            sto_range: float = 10 / BIT_RATE,  # defines the delay range when random
-            cfo_val: float = 0,
-            cfo_range: float = (
-                1000  # defines the CFO range when random (in Hz) #(1000 in old repo)
-            ),
-            cfo_Moose_N: int = 4,
-            snr_range: np.ndarray = np.arange(-10, 35),
-            # Lowpass filter parameters
-            numtaps: int = 100,
-            cutoff: float = 0.0,
-            bypass_preamble_detect: bool = True,
-            bypass_cfo_estimation: bool = True,
-            bypass_sto_estimation: bool = True,
-            **kwargs
-        ):
+                 name: str = "",
+                 # Communication parameters
+                 bit_rate: float = BIT_RATE,
+                 freq_dev: float = BIT_RATE / 4,
+                 osr_tx: int = 64,
+                 osr_rx: int = 8,
+                 preamble: np.ndarray = PREAMBLE,
+                 sync_word: np.ndarray = SYNC_WORD,
+                 payload_len: int = 50,  # Number of bits per packet
+                 # Simulation parameters
+                 n_packets: int = 100,  # Number of sent packets
+                 # Channel parameters
+                 sto_val: float = 0,
+                 sto_range: float = 10 / BIT_RATE,  # defines the delay range when random
+                 cfo_val: float = 0,
+                 cfo_range: float = (
+                     # defines the CFO range when random (in Hz) #(1000 in old repo)
+                     1000
+                 ),
+                 cfo_Moose_N: int = 4,
+                 snr_range: np.ndarray = np.arange(-10, 35),
+                 # Lowpass filter parameters
+                 numtaps: int = 100,
+                 cutoff: float = 0.0,
+                 bypass_preamble_detect: bool = True,
+                 bypass_cfo_estimation: bool = True,
+                 bypass_sto_estimation: bool = True,
+                 **kwargs
+                 ):
         self.name = name
         self.bit_rate = bit_rate
         self.freq_dev = freq_dev
@@ -54,11 +55,13 @@ class Chain:
         self.cfo_Moose_N = cfo_Moose_N
         self.snr_range = snr_range
         self.numtaps = numtaps
-        self.cutoff = BIT_RATE * self.osr_rx / 2.0001  # or 2*BIT_RATE,...
+        if cutoff == 0.0:
+            self.cutoff = BIT_RATE * self.osr_rx / 2.0001  # or 2*BIT_RATE,...
+        else:
+            self.cutoff = cutoff
         self.bypass_preamble_detect = bypass_preamble_detect
         self.bypass_cfo_estimation = bypass_cfo_estimation
         self.bypass_sto_estimation = bypass_sto_estimation
-        
 
     # Tx methods
 
@@ -84,7 +87,8 @@ class Chain:
         R = self.osr_tx  # Oversampling factor
 
         x = np.zeros(len(bits) * R, dtype=np.complex64)
-        ph = 2 * np.pi * fd * (np.arange(R) / R) / B  # Phase of reference waveform
+        ph = 2 * np.pi * fd * (np.arange(R) / R) / \
+            B  # Phase of reference waveform
 
         phase_shifts = np.zeros(
             len(bits) + 1
@@ -92,16 +96,19 @@ class Chain:
         phase_shifts[0] = 0  # Initial phase
 
         for i, b in enumerate(bits):
-            x[i * R : (i + 1) * R] = np.exp(1j * phase_shifts[i]) * np.exp(
+            x[i * R: (i + 1) * R] = np.exp(1j * phase_shifts[i]) * np.exp(
                 1j * (1 if b else -1) * ph
             )  # Sent waveforms, with starting phase coming from previous symbol
             phase_shifts[i + 1] = phase_shifts[i] + h * np.pi * (
                 1 if b else -1
             )  # Update phase to start with for next symbol
-            
+
             if print_x_k:
                 print(f"bit [{i}] : {b}")
-                print(f"--> x[{i}] : {np.abs(x[i * R]):.2f} arg {np.angle(x[i * R]) / np.pi * 180:.2f}°  ...  {np.abs(x[(i + 1) * R - 1]):.2f} arg {np.angle(x[(i + 1) * R - 1]) / np.pi * 180:.2f}°\n")
+                print(f'--> x[{i}] : {np.abs(x[i * R]):.2f} arg '
+                      f'{np.angle(x[i * R]) / np.pi * 180:.2f}°  ...  '
+                      f'{np.abs(x[(i + 1) * R - 1]):.2f}'
+                      f'arg {np.angle(x[(i + 1) * R - 1]) / np.pi * 180:.2f}°\n')
 
         return x
 
@@ -137,7 +144,7 @@ class Chain:
     def demodulate(self, y: np.array, print_RX=False, print_y_k=False) -> np.array:
         """
         Demodulates the received signal.
-        
+
         :param y: The received signal, (N * R,).
         :param print_RX: If True, prints the received bit array.
         :param print_y_k: If True, prints the y[k] array in polar representation.
@@ -147,11 +154,10 @@ class Chain:
 
 
 class BasicChain(Chain):
-    
+
     def __init__(self, *, name="Basic Tx/Rx chain", cfo_val=np.nan, sto_val=np.nan, **kwargs):
-        
+
         super().__init__(name=name, cfo_val=cfo_val, sto_val=sto_val, **kwargs)
-        
 
     def preamble_detect(self, y: np.array) -> Optional[int]:
         """
@@ -183,13 +189,13 @@ class BasicChain(Chain):
         # TO DO: extract 2 blocks of size N*R at the start of y
 
         # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
-        N_Moose = self.cfo_Moose_N # max should be total bits per preamble / 2
+        N_Moose = self.cfo_Moose_N  # max should be total bits per preamble / 2
         R = self.osr_rx
         N_t = N_Moose * R
         T = 1 / self.bit_rate
-        
+
         alpha_est = np.vdot(y[:N_t], y[N_t:2*N_t])
-        
+
         cfo_est = np.angle(alpha_est) * R / (2 * np.pi * N_t * T)
 
         return cfo_est
@@ -225,7 +231,7 @@ class BasicChain(Chain):
         """
         Demodulates the received signal.
         Non-coherent demodulator.
-        
+
         :param y: The received signal, (N * R,).
         :param print_RX: If True, prints the received bit array.
         :param print_y_k: If True, prints the y[k] array in polar representation.
@@ -235,7 +241,6 @@ class BasicChain(Chain):
         R = self.osr_rx  # Receiver oversampling factor
         N = len(y) // R  # Number of CPFSK symbols in y
         T = 1 / self.bit_rate
-        
 
         # Group symbols together, in a matrix. Each row contains the R samples over one symbol period
         y = np.resize(y, (N, R))
@@ -248,14 +253,20 @@ class BasicChain(Chain):
         # TO DO: compute the correlations with the two reference waveforms (r0 and r1)
         r0 = np.dot(y, np.conj(e_0)) / T
         r1 = np.dot(y, np.conj(e_1)) / T
-        
+
         # TO DO: performs the decision based on r0 and r1
         bits_hat = (np.abs(r1) > np.abs(r0)).astype(int)
-        
+
         if print_y_k:
             for k in range(N):
-                print(f"y[{k}] : {np.abs(y[k][0]):.2f} arg {np.angle(y[k][0]) / np.pi * 180:.2f}°  ...  {np.abs(y[k][R - 1]):.2f} arg {np.angle(y[k][R - 1]) / np.pi * 180:.2f}°")
-                print(f"--> r0[k] = {np.abs(r0[k]):.2f} arg {np.angle(r0[k]) / np.pi * 180:.2f}°, r1 = {np.abs(r1[k]):.2f} arg {np.angle(r1[k]) / np.pi * 180:.2f}°\n")
+                print(f'y[{k}] : {np.abs(y[k][0]):.2f} arg '
+                      f'{np.angle(y[k][0]) / np.pi * 180:.2f}°  ...  '
+                      f'{np.abs(y[k][R - 1]):.2f} arg '
+                      f'{np.angle(y[k][R - 1]) / np.pi * 180:.2f}°')
+                print(f'--> r0[k] = {np.abs(r0[k]):.2f} arg '
+                      f'{np.angle(r0[k]) / np.pi * 180:.2f}°, r1 = '
+                      f'{np.abs(r1[k]):.2f} arg '
+                      f'{np.angle(r1[k]) / np.pi * 180:.2f}°\n')
                 print(f"--> bit [{k}] : {bits_hat[k]}")
 
         if print_RX:

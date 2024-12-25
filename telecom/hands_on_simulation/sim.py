@@ -1,12 +1,14 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from chain import Chain
+try:
+    from chain import Chain, BasicChain
+except ModuleNotFoundError:
+    from .chain import Chain, BasicChain
 from scipy.signal import firwin, freqz
 from scipy.special import erfc
 from tqdm import tqdm
 import os
 import argparse
-from chain import BasicChain
 
 
 def add_delay(chain: Chain, x: np.ndarray, tau: float):
@@ -50,6 +52,7 @@ def run_sim(chain: Chain, filename="sim"):
     Main function, running the simulations of the communication chain provided, for several SNRs.
     Compute and display the different metrics to evaluate the performances.
     """
+
     SNRs_dB = chain.snr_range
     R = chain.osr_rx
     B = chain.bit_rate
@@ -267,7 +270,7 @@ def run_sim(chain: Chain, filename="sim"):
     if not os.path.exists("data"):
         os.makedirs("data")
 
-    np.savetxt(f"data/{filename}.csv", save_var, delimiter=",", comments='',
+    np.savetxt(os.path.dirname(__file__)+f"/data/{filename}.csv", save_var, delimiter=",", comments='',
                header=f"SNR_o [dB],SNR_e [dB],BER,PER,RMSE cfo,RMSE sto,preamble miss rate,preamble false rate,SNR estimation matrix ({chain.n_packets} columns)")
 
 
@@ -298,6 +301,10 @@ def plot_FIR(chain: Chain, **plot_kwargs):
     return fig
 
 
+shift_SNR_out: float
+shift_SNR_filter: float
+
+
 def plot_BER_PER(chain: Chain, SNRs_dB: np.ndarray, BER: np.ndarray, PER: np.ndarray, **plot_kwargs):
 
     R = chain.osr_rx
@@ -313,6 +320,8 @@ def plot_BER_PER(chain: Chain, SNRs_dB: np.ndarray, BER: np.ndarray, PER: np.nda
     for r in range(0, R):
         for rt in range(0, R):
             sum_Cu += Cu[len(taps) - 1 + r - rt]
+    global shift_SNR_out
+    global shift_SNR_filter
     shift_SNR_out = 10 * np.log10(R**2 / sum_Cu)  # 10*np.log10(chain.osr_rx)
     shift_SNR_filter = 10 * np.log10(1 / np.sum(np.abs(taps) ** 2))
 
@@ -342,7 +351,8 @@ def plot_BER_PER(chain: Chain, SNRs_dB: np.ndarray, BER: np.ndarray, PER: np.nda
         ax2 = ax1.twiny()
         # ax2.set_xticks(SNRs_dB + shift_SNR_out)
         ax2.set_xticks(SNRs_dB - shift_SNR_filter + shift_SNR_out)
-        ax2.set_xticklabels(SNRs_dB)
+        ax2.set_xticklabels(
+            (SNRs_dB - shift_SNR_filter + shift_SNR_out).astype(int))
         ax2.xaxis.set_ticks_position("bottom")
         ax2.xaxis.set_label_position("bottom")
         ax2.spines["bottom"].set_position(("outward", 36))
@@ -379,7 +389,8 @@ def plot_BER_PER(chain: Chain, SNRs_dB: np.ndarray, BER: np.ndarray, PER: np.nda
         ax4 = ax3.twiny()
         # ax4.set_xticks(SNRs_dB + shift_SNR_out)
         ax4.set_xticks(SNRs_dB - shift_SNR_filter + shift_SNR_out)
-        ax4.set_xticklabels(SNRs_dB)
+        ax4.set_xticklabels(
+            (SNRs_dB - shift_SNR_filter + shift_SNR_out).astype(int))
         ax4.xaxis.set_ticks_position("bottom")
         ax4.xaxis.set_label_position("bottom")
         ax4.spines["bottom"].set_position(("outward", 36))
@@ -393,9 +404,6 @@ def plot_BER_PER(chain: Chain, SNRs_dB: np.ndarray, BER: np.ndarray, PER: np.nda
 
 
 def plot_preamble_metrics(SNRs_dB: np.ndarray, preamble_mis: np.ndarray, preamble_false: np.ndarray, **plot_kwargs):
-
-    print(preamble_mis)
-    print(preamble_false)
 
     fig = plt.figure(**plot_kwargs)
     plt.plot(SNRs_dB, preamble_mis * 100, "-s", label="Miss-detection")
@@ -439,15 +447,23 @@ def plot_SNR_est(SNRs_dB: np.ndarray, SNR_est_matrix: np.ndarray, **plot_kwargs)
     SNR_est_dB = 10*np.log10(np.abs(SNR_est_matrix.T))
 
     fig = plt.figure(**plot_kwargs)
-    plt.boxplot(SNR_est_dB, showfliers=False)
-    plt.plot(np.arange(len(SNRs_dB))+1, SNRs_dB, color="lightblue")
-    plt.xticks((np.arange(len(SNRs_dB))+1)[::5], labels=SNRs_dB[::5])
-    plt.title("Boxplot SNR estimations")
+    plt.boxplot(SNR_est_dB, showfliers=False, positions=SNRs_dB)
+    plt.plot(SNRs_dB, SNRs_dB, color="lightblue")
+    plt.xticks(SNRs_dB[::5], labels=SNRs_dB[::5])
+    fig.suptitle("Boxplot SNR estimations")
+    plt.title('Simulation')
     plt.ylabel("SNR estimation [dB]")
-    plt.xlabel("SNR [dB]")
+    plt.xlabel("$SNR_e$ [dB]")
     plt.grid()
 
     return fig
+
+
+SNRs_dB: np.ndarray[float]
+BER: np.ndarray[float]
+PER: np.ndarray[float]
+preamble_mis: np.ndarray[float]
+preamble_false: np.ndarray[float]
 
 
 def plot_graphs(chain: Chain, FIR=False, SNR_est=True, save=True, show=True, **kwargs):
@@ -455,12 +471,18 @@ def plot_graphs(chain: Chain, FIR=False, SNR_est=True, save=True, show=True, **k
     # Read file:
     try:
         filename = kwargs['filename']
-        data = np.loadtxt(f"data/{filename}.csv", delimiter=",", skiprows=1)
+        data = np.loadtxt(os.path.dirname(__file__)+f"/data/{filename}.csv", delimiter=",", skiprows=1)
     except:
-        raise FileNotFoundError(f"No such data file found: data/{
-                                kwargs['filename']}.csv\nPlease call the function with filename=valid_filename")
+        raise FileNotFoundError(
+            f"No such data file found: data/{kwargs['filename']}.csv\n \
+                Please call the function with filename=valid_filename")
 
-    SNRs_dB = data[:, 0].astype(int)
+    global SNRs_dB
+    global BER
+    global PER
+    global preamble_mis
+    global preamble_false
+    SNRs_dB = data[:, 0]
     _ = data[:, 1]
     BER = data[:, 2]
     PER = data[:, 3]
@@ -490,25 +512,27 @@ def plot_graphs(chain: Chain, FIR=False, SNR_est=True, save=True, show=True, **k
         SNR_est_fig = plot_SNR_est(SNRs_dB, SNR_est_matrix, **plot_kwargs)
 
     if save:
-        if not os.path.exists(f"graphs/{filename}"):
-            os.makedirs(f"graphs/{filename}")
+        curdir = os.path.dirname(__file__)
+        if not os.path.exists(curdir+f"/graphs/{filename}"):
+            os.makedirs(curdir+f"/graphs/{filename}")
         if FIR:
             R = chain.osr_rx
             B = chain.bit_rate
             fs = B * R
-            FIR_fig.savefig(f"graphs/FIR_response_numtaps_{chain.numtaps}_cutoff_{
-                            chain.cutoff:.0f}_fs_{fs:.0f}.pdf", dpi=300)
-        BER_fig.savefig(f"graphs/{filename}/BER.pdf", dpi=300)
-        PER_fig.savefig(f"graphs/{filename}/PER.pdf", dpi=300)
+            FIR_fig.savefig(curdir+
+                f"/graphs/FIR_response_numtaps_{chain.numtaps}_cutoff_"
+                f"{chain.cutoff:.0f}_fs_{fs:.0f}.pdf", dpi=300)
+        BER_fig.savefig(curdir+f"/graphs/{filename}/BER.pdf", dpi=300)
+        PER_fig.savefig(curdir+f"/graphs/{filename}/PER.pdf", dpi=300)
         if not chain.bypass_preamble_detect:
-            preamble_metrics_fig.savefig(
-                f"graphs/{filename}/preamble_metrics.pdf", dpi=300)
+            preamble_metrics_fig.savefig(curdir+
+                f"/graphs/{filename}/preamble_metrics.pdf", dpi=300)
         if not chain.bypass_cfo_estimation:
-            RMSE_cfo_fig.savefig(f"graphs/{filename}/RMSE_cfo.pdf", dpi=300)
+            RMSE_cfo_fig.savefig(curdir+f"/graphs/{filename}/RMSE_cfo.pdf", dpi=300)
         if not chain.bypass_sto_estimation:
-            RMSE_sto_fig.savefig(f"graphs/{filename}/RMSE_sto.pdf", dpi=300)
+            RMSE_sto_fig.savefig(curdir+f"/graphs/{filename}/RMSE_sto.pdf", dpi=300)
         if SNR_est:
-            SNR_est_fig.savefig(f"graphs/{filename}/SNR_est.pdf", dpi=300)
+            SNR_est_fig.savefig(curdir+f"/graphs/{filename}/SNR_est.pdf", dpi=300)
 
     if show:
         plt.show()
@@ -553,25 +577,25 @@ def main(arg_list: list[str] = None):
     # args.bypass_preamble_detect = True
     # args.bypass_cfo_estimation = True
     # args.bypass_sto_estimation = True
-    # args.payload_len = 100
-    # args.n_packets = 100_000
-    # args.cfo_Moose_N = 16
-    # args.cfo_range = 10_000
+    args.payload_len = 1600
+    args.n_packets = 500
+    args.cfo_Moose_N = 16
+    args.cfo_range = 1_500
 
     # Change the simulation parameters here, for example:
     # args.force_simulation = True
-    # args.FIR = True
+    args.FIR = True
     # args.no_show = True
     # args.no_save = True
 
-    chain = BasicChain(**vars(args))
+    chain = BasicChain(cutoff=150e3, numtaps=31, **vars(args))
 
     filename = f"sim_p_{chain.payload_len}_n_{chain.n_packets}_" + \
         f"pre_det_{'OFF' if chain.bypass_preamble_detect else 'ON'}_" + \
         f"cfo_est_{'OFF' if chain.bypass_cfo_estimation else f'ON(N={chain.cfo_Moose_N},range={chain.cfo_range:.0f})'}_" + \
         f"sto_est_{'OFF' if chain.bypass_sto_estimation else 'ON'}"
 
-    if (not os.path.isfile(f"data/{filename}.csv")) or args.force_simulation:
+    if (not os.path.isfile(os.path.dirname(__file__)+f"/data/{filename}.csv")) or args.force_simulation:
         run_sim(chain, filename=filename)
     if (not args.no_show) or (not args.no_save):
         plot_graphs(chain, filename=filename, show=not args.no_show,
