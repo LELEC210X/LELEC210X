@@ -94,6 +94,7 @@ def reader(port, data_queue):
             buffer = parse_buffer(line)
             if buffer is not None:
                 buffer_array = np.frombuffer(buffer, dtype=dt)
+                # TODO : Ajouter le save
                 data_queue.put(buffer_array)
     except serial.SerialException as e:
         print(f"Error opening or reading from serial port {port}: {e}")

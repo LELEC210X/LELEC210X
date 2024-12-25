@@ -1,5 +1,5 @@
 Power Analyzer report for LimeSDR-Mini_lms7_lelec210x
-Tue Dec 10 10:52:09 2024
+Tue Dec 17 01:01:45 2024
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -52,19 +52,19 @@ refer to the applicable agreement for further details.
 ; Number detected on machine ; 8           ;
 ; Maximum allowed            ; 4           ;
 ;                            ;             ;
-; Average used               ; 1.38        ;
+; Average used               ; 1.99        ;
 ; Maximum used               ; 4           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processors 2-4         ;  12.5%      ;
+;     Processors 2-4         ;  33.0%      ;
 +----------------------------+-------------+
 
 
 +-------------------------------------------------------------------------------------------+
 ; Power Analyzer Summary                                                                    ;
 +----------------------------------------+--------------------------------------------------+
-; Power Analyzer Status                  ; Successful - Tue Dec 10 10:52:08 2024            ;
+; Power Analyzer Status                  ; Successful - Tue Dec 17 01:01:45 2024            ;
 ; Quartus Prime Version                  ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition      ;
 ; Revision Name                          ; LimeSDR-Mini_lms7_lelec210x                      ;
 ; Top-level Entity Name                  ; lms7_trx_top                                     ;
@@ -822,7 +822,7 @@ refer to the applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Power Analyzer
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Tue Dec 10 10:50:29 2024
+    Info: Processing started: Tue Dec 17 01:01:25 2024
 Info: Command: quartus_pow --read_settings_files=off --write_settings_files=off LimeSDR-Mini_lms7_lelec210x -c LimeSDR-Mini_lms7_lelec210x
 Warning (125092): Tcl Script File lms_auto_dsp/synthesis/lms_auto_dsp.qip not found
     Info (125063): set_global_assignment -name QIP_FILE lms_auto_dsp/synthesis/lms_auto_dsp.qip
@@ -10899,9 +10899,9 @@ Info (218004): PLL "pll_top:inst1_pll_top|rxtx_pll:rxtx_pll_inst0|altpll:altpll_
 Info (215049): Average toggle rate for this design is 9.878 millions of transitions / sec
 Info (215031): Total thermal power estimate for the design is 893.03 mW
 Info: Quartus Prime Power Analyzer was successful. 0 errors, 11839 warnings
-    Info: Peak virtual memory: 4980 megabytes
-    Info: Processing ended: Tue Dec 10 10:52:09 2024
-    Info: Elapsed time: 00:01:40
-    Info: Total CPU time (on all processors): 00:02:15
+    Info: Peak virtual memory: 4946 megabytes
+    Info: Processing ended: Tue Dec 17 01:01:46 2024
+    Info: Elapsed time: 00:00:21
+    Info: Total CPU time (on all processors): 00:00:37
 
 
