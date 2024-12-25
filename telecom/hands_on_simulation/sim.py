@@ -285,6 +285,7 @@ def plot_FIR(chain: Chain, **plot_kwargs):
 
     # Plot dashboard
     fig, ax1 = plt.subplots(**plot_kwargs)
+    fig.canvas.manager.set_window_title("Simulation: FIR response")
     w, h = freqz(taps)
     f = w * fs * 0.5 / np.pi
     ax1.set_title("FIR response")
@@ -332,6 +333,7 @@ def plot_BER_PER(chain: Chain, SNRs_dB: np.ndarray, BER: np.ndarray, PER: np.nda
 
     # Bit error rate
     fig1, ax1 = plt.subplots(**plot_kwargs)
+    fig1.canvas.manager.set_window_title("Simulation: BER")
     ax1.plot(SNRs_dB + shift_SNR_out, BER, "-s", label="Simulation")
     ax1.plot(SNR_th, BER_th, label="AWGN Th. FSK")
     ax1.plot(SNR_th, BER_th_noncoh, label="AWGN Th. FSK non-coh.")
@@ -364,6 +366,7 @@ def plot_BER_PER(chain: Chain, SNRs_dB: np.ndarray, BER: np.ndarray, PER: np.nda
 
     # Packet error rate
     fig2, ax3 = plt.subplots(**plot_kwargs)
+    fig2.canvas.manager.set_window_title("Simulation: PER")
     ax3.plot(SNRs_dB + shift_SNR_out, PER, "-s", label="Simulation")
     ax3.plot(SNR_th, 1 - (1 - BER_th) **
              chain.payload_len, label="AWGN Th. FSK")
@@ -406,6 +409,7 @@ def plot_BER_PER(chain: Chain, SNRs_dB: np.ndarray, BER: np.ndarray, PER: np.nda
 def plot_preamble_metrics(SNRs_dB: np.ndarray, preamble_mis: np.ndarray, preamble_false: np.ndarray, **plot_kwargs):
 
     fig = plt.figure(**plot_kwargs)
+    fig.canvas.manager.set_window_title("Simulation: Preamble Metrics")
     plt.plot(SNRs_dB, preamble_mis * 100, "-s", label="Miss-detection")
     plt.plot(SNRs_dB, preamble_false * 100, "-s", label="False-detection")
     plt.title("Preamble detection error ")
@@ -421,6 +425,7 @@ def plot_preamble_metrics(SNRs_dB: np.ndarray, preamble_mis: np.ndarray, preambl
 def plot_RMSE_cfo(SNRs_dB: np.ndarray, RMSE_cfo: np.ndarray, **plot_kwargs):
 
     fig = plt.figure(**plot_kwargs)
+    fig.canvas.manager.set_window_title("Simulation: RMSE cfo")
     plt.semilogy(SNRs_dB, RMSE_cfo, "-s")
     plt.title("RMSE CFO")
     plt.ylabel("RMSE [-]")
@@ -433,6 +438,7 @@ def plot_RMSE_cfo(SNRs_dB: np.ndarray, RMSE_cfo: np.ndarray, **plot_kwargs):
 def plot_RMSE_sto(SNRs_dB: np.ndarray, RMSE_sto: np.ndarray, **plot_kwargs):
 
     fig = plt.figure(**plot_kwargs)
+    fig.canvas.manager.set_window_title("Simulation: RMSE STO")
     plt.semilogy(SNRs_dB, RMSE_sto, "-s")
     plt.title("RMSE STO")
     plt.ylabel("RMSE [-]")
@@ -445,8 +451,8 @@ def plot_RMSE_sto(SNRs_dB: np.ndarray, RMSE_sto: np.ndarray, **plot_kwargs):
 def plot_SNR_est(SNRs_dB: np.ndarray, SNR_est_matrix: np.ndarray, **plot_kwargs):
 
     SNR_est_dB = 10*np.log10(np.abs(SNR_est_matrix.T))
-
     fig = plt.figure(**plot_kwargs)
+    fig.canvas.manager.set_window_title("Simulation: SNR estimation")
     plt.boxplot(SNR_est_dB, showfliers=False, positions=SNRs_dB)
     plt.plot(SNRs_dB, SNRs_dB, color="lightblue")
     plt.xticks(SNRs_dB[::5], labels=SNRs_dB[::5])
@@ -577,14 +583,14 @@ def main(arg_list: list[str] = None):
     # args.bypass_preamble_detect = True
     # args.bypass_cfo_estimation = True
     # args.bypass_sto_estimation = True
-    args.payload_len = 1600
-    args.n_packets = 500
-    args.cfo_Moose_N = 16
-    args.cfo_range = 1_500
+    # args.payload_len = 1600
+    # args.n_packets = 500
+    # args.cfo_Moose_N = 16
+    # args.cfo_range = 1_500
 
     # Change the simulation parameters here, for example:
     # args.force_simulation = True
-    args.FIR = True
+    # args.FIR = True
     # args.no_show = True
     # args.no_save = True
 
@@ -600,6 +606,31 @@ def main(arg_list: list[str] = None):
     if (not args.no_show) or (not args.no_save):
         plot_graphs(chain, filename=filename, show=not args.no_show,
                     save=not args.no_save, FIR=args.FIR)
+
+
+def get_SNRs_est():
+    global SNRs_dB, shift_SNR_out, shift_SNR_filter
+    return SNRs_dB + shift_SNR_out - shift_SNR_filter
+
+
+def get_BER():
+    global BER
+    return BER
+
+
+def get_PER():
+    global PER
+    return PER
+
+
+def get_preamble_mis():
+    global preamble_mis
+    return preamble_mis
+
+
+def get_preamble_false():
+    global preamble_false
+    return preamble_false
 
 
 if __name__ == "__main__":

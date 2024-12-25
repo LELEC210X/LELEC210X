@@ -4,6 +4,7 @@ and plots the PER/SNR curve, plus CFO values.
 """
 
 import sys
+import os
 from collections import defaultdict
 
 import matplotlib.pyplot as plt
@@ -23,7 +24,7 @@ def read_measurements(
     expected_payload = np.arange(num_bytes, dtype=np.uint8)
     data = defaultdict(list)
     payload_data = []
-    with open(filepath_meas) as f:
+    with open(os.path.dirname(__file__)+'/'+filepath_meas) as f:
         for line in f.read().splitlines():
             if line.startswith("CFO"):
                 cfo, sto = line.split(",")
@@ -60,7 +61,7 @@ def read_measurements(
 
     if filepath_compl_meas is not None:
         try:
-            with open(filepath_compl_meas) as f:
+            with open(os.path.dirname(__file__)+'/'+filepath_compl_meas) as f:
                 if txp:
                     data["txp"] = list(
                         np.full_like(data["indices"], np.nan, dtype=float))
@@ -141,13 +142,13 @@ def plot_BER_vs_byte_pos(payload_df: pd.DataFrame) -> mpl.figure.Figure:
         BER[idx] = np.unpackbits(
             payload_df[column] ^ expected_payload[idx]).sum() / num_bits
     fig, ax = plt.subplots()
+    fig.canvas.manager.set_window_title('Measurements: BER vs Byte position')
     ax.plot(payload_df.columns, BER*100, color='black')
     ax.set_xlabel('Byte position')
     ax.set_ylabel('BER [%]')
     fig.suptitle('BER vs Byte position in packet')
     ax.set_title('across all SNR\'s')
     return fig
-    # plt.savefig('R6_Graphs/20-12_N=16/BER_vs_byte_pos.png', dpi=300)
 
 
 def plot_SNRest_vs_CFOest(df: pd.DataFrame, N: int = 16) -> mpl.figure.Figure:
@@ -156,6 +157,7 @@ def plot_SNRest_vs_CFOest(df: pd.DataFrame, N: int = 16) -> mpl.figure.Figure:
     txp_delta = list(groups)[0][0] - list(groups)[1][0]
     cmap = plt.get_cmap('gist_rainbow').resampled(len(groups))
     fig, ax = plt.subplots()
+    fig.canvas.manager.set_window_title(f'Measurements: SNR est vs CFO est N={N}')
     for i, (txp, txp_df) in enumerate(list(groups)[::-1], start=1):
         c = cmap(range(len(groups)))[len(groups)-i]
         ax.scatter(txp_df['cfo']/1000, txp_df['snr'], s=3,
@@ -182,6 +184,7 @@ def plot_cfo_hist(
 ) -> mpl.figure.Figure:
 
     fig, ax = plt.subplots()
+    fig.canvas.manager.set_window_title(f'Measurements: CFO histogram N={N}')
     description = df.groupby("txp").describe()
     df['cfo_dev'] = list(np.zeros_like(df.index, dtype=float))
     for (idx, serie) in df.iterrows():
@@ -209,6 +212,7 @@ def plot_BER_vs_SNRest(
 ) -> mpl.figure.Figure:
 
     fig, ax = plt.subplots()
+    fig.canvas.manager.set_window_title('Measurements: BER vs SNR est')
     if comp_sim:
         for BER, label in zip(BER_sim, labels_sim):
             BER_SNR_sim(SNR_sim, BER, label, fig)
@@ -250,6 +254,7 @@ def plot_PER_vs_SNRest(
 ) -> mpl.figure.Figure:
 
     fig, ax = plt.subplots()
+    fig.canvas.manager.set_window_title('Measurements: PER vs SNR est')
     if comp_sim:
         for PER, label in zip(PER_sim, labels_sim):
             BER_SNR_sim(SNR_sim, PER, label, fig)
@@ -288,6 +293,7 @@ def plot_detection_rate(
 ) -> mpl.figure.Figure:
 
     fig, ax = plt.subplots()
+    fig.canvas.manager.set_window_title('Measurements: Detection rate')
     if comp_sim:
         detection_sim(SNR_sim, preamble_mis, preamble_false, fig)
 
@@ -344,6 +350,7 @@ def plot_SNRest_vs_dist(
         snr.append(ls)
 
     fig, ax = plt.subplots()
+    fig.canvas.manager.set_window_title('Measurements: SNR est vs Distance')
     ax.boxplot(snr, showfliers=False, positions=list(groups.groups.keys()))
     ax.set_xlabel('Distance [m]')
     ax.set_ylabel('$SNR_{est}$ [dB]')
@@ -355,130 +362,81 @@ def plot_SNRest_vs_dist(
 
 
 def main() -> None:
-    sim.main(['--FIR', '--no_save', '-p', '200', '-n', '500', '-m', '16', '-r', '1500'])
-
-if __name__ == '__main__':
-
-    main()
-
     num_bytes: int = 200
     npackets: int = 200
+    # __________Simulation without bypasses__________
+    sim.main(['--FIR', '--no_show', '-p', '1600', '-n', '50000', '-m', '16', '-r', '1500'])
+    SNRs_est = sim.get_SNRs_est()
+    BER = sim.get_BER()
+    PER = sim.get_PER()
+    preamble_mis = sim.get_preamble_mis()
+    preamble_false = sim.get_preamble_false()
+    # __________Simulation with all bypasses__________
+    sim.main(['--no_show', '-p', '1600', '-n', '50000', '-m', '16', '-r', '1500', '-d', '-c', '-s'])
+    BER_bypass_all = sim.BER
+    PER_bypass_all = sim.PER
+    # __________Read measurements data__________
+    # Use custom function 'read_measurements' (see above) to retrieve data and metadata
+    # IMPORTANT: use the filepath relative to THIS file's directory (LELEC210X_GROUP_E/telecom/)
+    # Don't hesitate to add custom plot functions and try to keep a similar signature for compatibility issues
+    curdir = os.path.dirname(__file__)+'/'
+    df, payload_df = read_measurements(
+        './hands_on_measurements/measurements/20-12_measurements.txt',
+        './hands_on_measurements/measurements/20-12_compl_measurements.txt',
+        num_bytes=num_bytes, first_bytes=100,
+        txp=True, ber=True, distance=False)
+    plt.close('all')
+    fig = plot_BER_vs_SNRest(df, comp_sim=True, SNR_sim=SNRs_est, BER_sim=[BER, BER_bypass_all],
+                             labels_sim=['Simulation', 'Bypass all synchronization'])
+    fig.savefig(curdir+'R6_Graphs/BER vs SNR measurements and simulation.svg')
+    fig = plot_PER_vs_SNRest(df, comp_sim=True, drop_extrema=False,
+                             SNR_sim=SNRs_est, PER_sim=[PER, PER_bypass_all],
+                             labels_sim=['Simulation', 'Bypass all synchronization'])
+    fig.savefig(curdir+'R6_Graphs/PER vs SNR measurements and simulation.svg')
+    fig = plot_detection_rate(df, npackets=npackets, comp_sim=True, SNR_sim=SNRs_est,
+                              preamble_mis=preamble_mis, preamble_false=preamble_false)
+    fig.savefig(curdir+'R6_Graphs/Detection metrics.svg')
+    fig = plot_BER_vs_byte_pos(payload_df)
+    fig.savefig(curdir+'R6_Graphs/BER vs byte position.svg')
+    df, payload_df = read_measurements(
+        './hands_on_measurements/measurements/20-12_measurements_N=16.txt',
+        './hands_on_measurements/measurements/20-12_compl_measurements_N=16.txt',
+        num_bytes=num_bytes, txp=True, ber=False, distance=False)
+    fig = plot_cfo_hist(df, N=16, color='C0')
+    fig.savefig(curdir+'R6_Graphs/CFO histogram N = 16.svg')
+    fig = plot_SNRest_vs_CFOest(df, N=16)
+    fig.savefig(curdir+'R6_Graphs/SNR vs CFO N=16.svg')
+    df, payload_df = read_measurements(
+        './hands_on_measurements/measurements/20-12_measurements_N=8.txt',
+        './hands_on_measurements/measurements/20-12_compl_measurements_N=8.txt',
+        num_bytes=num_bytes, txp=True, ber=False, distance=False)
+    fig = plot_cfo_hist(df, N=8, color='C1')
+    fig.savefig(curdir+'R6_Graphs/CFO histogram N = 8.svg')
+    fig = plot_SNRest_vs_CFOest(df, N=8)
+    fig.savefig(curdir+'R6_Graphs/SNR vs CFO N=8.svg')
+    df, payload_df = read_measurements(
+        './hands_on_measurements/measurements/20-12_measurements_N=4.txt',
+        './hands_on_measurements/measurements/20-12_compl_measurements_N=4.txt',
+        num_bytes=num_bytes, txp=True, ber=False, distance=False)
+    fig = plot_cfo_hist(df, N=4, color='C2')
+    fig.savefig(curdir+'R6_Graphs/CFO histogram N = 4.svg')
+    fig = plot_SNRest_vs_CFOest(df, N=4)
+    fig.savefig(curdir+'R6_Graphs/SNR vs CFO N=4.svg')
+    df, payload_df = read_measurements(
+        './hands_on_measurements/measurements/20-12_measurements distance.txt',
+        './hands_on_measurements/measurements/20-12_compl_measurements distance.txt',
+        num_bytes=num_bytes, txp=False, ber=False, distance=True)
+    fig = plot_SNRest_vs_dist(df, title='Closed room')
+    fig.savefig(curdir+'R6_Graphs/SNR vs distance.svg')
+    df, payload_df = read_measurements(
+        './hands_on_measurements/measurements/22-12_measurements distance.txt',
+        './hands_on_measurements/measurements/22-12_compl_measurements distance.txt',
+        num_bytes=num_bytes, txp=False, ber=False, distance=True)
+    fig = plot_SNRest_vs_dist(df, title='Tennis field')
+    fig.savefig(curdir+'R6_Graphs/SNR vs distance tennis field.svg')
+    # __________Show plots__________
+    plt.show()
 
-    SNRs_est = np.array([-2.29620372, -1.29620372, -0.29620372,  0.70379628,  1.70379628,
-                         2.70379628,  3.70379628,  4.70379628,  5.70379628,  6.70379628,
-                         7.70379628,  8.70379628,  9.70379628, 10.70379628, 11.70379628,
-                         12.70379628, 13.70379628, 14.70379628, 15.70379628, 16.70379628,
-                         17.70379628, 18.70379628, 19.70379628, 20.70379628, 21.70379628,
-                         22.70379628, 23.70379628, 24.70379628, 25.70379628, 26.70379628,
-                         27.70379628, 28.70379628, 29.70379628, 30.70379628, 31.70379628,
-                         32.70379628, 33.70379628, 34.70379628, 35.70379628, 36.70379628,
-                         37.70379628, 38.70379628, 39.70379628, 40.70379628, 41.70379628])
-    BER = np.array([5.00000000e-01, 5.00000000e-01, 5.00000000e-01, 5.00000000e-01,
-                    5.00000000e-01, 5.00000000e-01, 5.00000000e-01, 5.00000000e-01,
-                    5.00000000e-01, 5.00000000e-01, 4.53213113e-01, 1.27546263e-01,
-                    9.29172125e-02, 6.87695250e-02, 4.74106125e-02, 2.88529000e-02,
-                    1.43596625e-02, 5.17051250e-03, 1.32652500e-03, 2.08212500e-04,
-                    1.82625000e-05, 4.38750000e-06, 2.25000000e-06, 9.75000000e-07,
-                    3.37500000e-07, 5.00000000e-08, 0.00000000e+00, 0.00000000e+00,
-                    0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
-                    0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
-                    0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
-                    0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
-                    0.00000000e+00])
-    BER_bypass_all = np.array([3.68895800e-01, 3.42385137e-01, 3.12413337e-01, 2.79312338e-01,
-                               2.43771675e-01, 2.06775288e-01, 1.69699975e-01, 1.33982150e-01,
-                               1.01092213e-01, 7.22106500e-02, 4.82670250e-02, 2.96958375e-02,
-                               1.64690125e-02, 8.01142500e-03, 3.30952500e-03, 1.11535000e-03,
-                               2.91675000e-04, 5.62375000e-05, 6.83750000e-06, 5.00000000e-07,
-                               0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
-                               0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
-                               0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
-                               0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
-                               0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
-                               0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
-                               0.00000000e+00])
-    PER = np.array([1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00,
-                    1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00,
-                    1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00, 9.9828e-01,
-                    9.0458e-01, 5.1732e-01, 1.7488e-01, 5.0060e-02, 2.1200e-02,
-                    1.2400e-02, 7.0200e-03, 3.6000e-03, 1.5600e-03, 5.4000e-04,
-                    8.0000e-05, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
-                    0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
-                    0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
-                    0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00])
-    PER_bypass_all = np.array([1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00,
-                               1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00,
-                               1.0000e+00, 1.0000e+00, 1.0000e+00, 1.0000e+00, 9.9474e-01,
-                               8.3086e-01, 3.7106e-01, 8.6160e-02, 1.0900e-02, 8.0000e-04,
-                               0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
-                               0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
-                               0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
-                               0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
-                               0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00])
-    preamble_mis = np.array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-                             0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-                             0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
-    preamble_false = np.array([1., 1., 1., 1., 1., 1., 1.,
-                               1., 1., 1., 0.86482, 0.01872, 0., 0.,
-                               0., 0., 0., 0., 0., 0., 0.,
-                               0., 0., 0., 0., 0., 0., 0.,
-                               0., 0., 0., 0., 0., 0., 0.,
-                               0., 0., 0., 0., 0., 0., 0.,
-                               0., 0., 0.])
 
-    # df, payload_df = read_measurements(
-    #     './hands_on_measurements/gr-fsk/apps/20-12_measurements.txt',
-    #     './hands_on_measurements/gr-fsk/apps/20-12_compl_measurements.txt',
-    #     num_bytes=num_bytes, first_bytes=100,
-    #     txp=True, ber=True, distance=False)
-    # fig = plot_BER_vs_SNRest(df, comp_sim=True, SNR_sim=SNRs_est, BER_sim=[BER, BER_bypass_all],
-    #                          labels_sim=['Simulation', 'Bypass all synchronization'])
-    # fig.savefig('R6_Graphs/BER vs SNR measurements and simulation.svg')
-    # fig = plot_PER_vs_SNRest(df, comp_sim=True, drop_extrema=False,
-    #                          SNR_sim=SNRs_est, PER_sim=[PER, PER_bypass_all],
-    #                          labels_sim=['Simulation', 'Bypass all synchronization'])
-    # fig.savefig('R6_Graphs/PER vs SNR measurements and simulation.svg')
-    # fig = plot_detection_rate(df, npackets=npackets, comp_sim=True, drop_extrema=False,
-    #                           SNR_sim=SNRs_est,
-    #                           preamble_mis=preamble_mis, preamble_false=preamble_false)
-    # fig.savefig('R6_Graphs/Detection metrics.svg')
-    # fig = plot_BER_vs_byte_pos(payload_df)
-    # fig.savefig('R6_Graphs/BER vs byte position.svg')
-    # df, payload_df = read_measurements(
-    #     './hands_on_measurements/gr-fsk/apps/20-12_measurements_N=16.txt',
-    #     './hands_on_measurements/gr-fsk/apps/20-12_compl_measurements_N=16.txt',
-    #     num_bytes=num_bytes, txp=True, ber=False, distance=False)
-    # fig = plot_cfo_hist(df, N=16, color='C0')
-    # fig.savefig('R6_Graphs/CFO histogram N = 16.svg')
-    # fig = plot_SNRest_vs_CFOest(df, N=16)
-    # fig.savefig('R6_Graphs/SNR vs CFO N=16.svg')
-    # df, payload_df = read_measurements(
-    #     './hands_on_measurements/gr-fsk/apps/20-12_measurements_N=8.txt',
-    #     './hands_on_measurements/gr-fsk/apps/20-12_compl_measurements_N=8.txt',
-    #     num_bytes=num_bytes, txp=True, ber=False, distance=False)
-    # fig = plot_cfo_hist(df, N=8, color='C1')
-    # fig.savefig('R6_Graphs/CFO histogram N = 8.svg')
-    # fig = plot_SNRest_vs_CFOest(df, N=8)
-    # fig.savefig('R6_Graphs/SNR vs CFO N=8.svg')
-    # df, payload_df = read_measurements(
-    #     './hands_on_measurements/gr-fsk/apps/20-12_measurements_N=4.txt',
-    #     './hands_on_measurements/gr-fsk/apps/20-12_compl_measurements_N=4.txt',
-    #     num_bytes=num_bytes, txp=True, ber=False, distance=False)
-    # fig = plot_cfo_hist(df, N=4, color='C2')
-    # fig.savefig('R6_Graphs/CFO histogram N = 4.svg')
-    # fig = plot_SNRest_vs_CFOest(df, N=4)
-    # fig.savefig('R6_Graphs/SNR vs CFO N=4.svg')
-    # df, payload_df = read_measurements(
-    #     './hands_on_measurements/gr-fsk/apps/20-12_measurements distance.txt',
-    #     './hands_on_measurements/gr-fsk/apps/20-12_compl_measurements distance.txt',
-    #     num_bytes=num_bytes, txp=False, ber=False, distance=True)
-    # fig = plot_SNRest_vs_dist(df, title='Closed room')
-    # fig.savefig('R6_Graphs/SNR vs distance.svg')
-    # df, payload_df = read_measurements(
-    #     './hands_on_measurements/gr-fsk/apps/22-12_measurements distance.txt',
-    #     './hands_on_measurements/gr-fsk/apps/22-12_compl_measurements distance.txt',
-    #     num_bytes=num_bytes, txp=False, ber=False, distance=True)
-    # fig = plot_SNRest_vs_dist(df, title='Tennis field')
-    # fig.savefig('R6_Graphs/SNR vs distance tennis field.svg')
-    # 
-    # plt.show()
+if __name__ == '__main__':
+    main()
