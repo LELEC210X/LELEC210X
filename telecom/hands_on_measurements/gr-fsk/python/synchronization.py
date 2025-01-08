@@ -49,6 +49,30 @@ def cfo_estimation(y, B, R, Fdev):
     
     cfo_est = np.angle(alpha_est) * R / (2 * np.pi * N_t * T)
 
+    # TO IMPROVE
+    # 1) Dynamic Range Search
+    #    --> Iterate through possible N values
+    #    --> Ensure enough samples for Moose
+    #    --> Estimate CFO using Moose
+    #    --> Evaluate consistency (simple variance heuristic)
+    #    --> Update best N if error metric improves
+    #    --> Use different metrics such as SNR estimation, CFO estimation variance, ...
+    #
+    # 2) Multiple Estimations and Averaging
+    #    --> Segment the preamble (with or without overlapping sections)
+    #    --> Estimate CFO for each block
+    #    --> Combine estimations (optional: weight wrt to SNR estimation)
+    #
+    # 3) Adaptive Correction
+    #    --> Adding of an ender to our packets with predefined sequence (consecutive 01's)
+    #    --> Validation of the CFO estimation by correlation of sequences in preamble and ender
+    #    --> Refine CFO estimation using Moose algorithm to retroactively adjust the phase of y[n]
+    #    --> Use sequences designed for high autocorrelation properties
+    #        (e.g., Gold codes or pseudo-random sequences)
+    #        Repetitions of 0's and 1's may struggle with multipath interference since the signal
+    #        doesn't have enough diversity to distinguish between delayed copies of the signal.
+    #    --> Combine STO and CFO estimations since a frame (timing) error induces phase shift
+
     return cfo_est
 
 
