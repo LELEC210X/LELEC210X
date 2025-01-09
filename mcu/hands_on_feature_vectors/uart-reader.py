@@ -14,17 +14,22 @@ import base64
 import time
 import traceback
 import os
+import signal
 import pickle
 from classification.datasets import Dataset
 from classification.utils.audio_student import AudioUtil, Feature_vector_DS
 
 
 # Constants
+NB_FILE_SAVED = 201
+CURRENT_SUB_SAVED = -1
+CURRENT_SAVED = 0
+CURRENT_CLASS = "handsaw"
 MEL_PREFIX = "DF:HEX:"
 CONFIG_PREFIX = "DF:CFG:"  # Follows a JSON string
 FREQ_SAMPLING = 10200
-MELVEC_LENGTH = 19
-N_MELVECS = 19
+MELVEC_LENGTH = 20
+N_MELVECS = 20
 HISTORY_SIZE = 10
 CLASS_HISTORY_SIZE = 10
 CLASS_HISTORY_OVERWRITE = 2
@@ -71,6 +76,8 @@ def parse_buffer(line):
 # Serial reader function
 def reader(port, data_queue):
     global current_port
+    global CURRENT_SAVED
+    global CURRENT_SUB_SAVED
     try:
         # Check if the port is available
         available_ports = [p.device for p in list_ports.comports()]
@@ -95,6 +102,16 @@ def reader(port, data_queue):
             if buffer is not None:
                 buffer_array = np.frombuffer(buffer, dtype=dt)
                 # TODO : Ajouter le save
+                if CURRENT_SUB_SAVED != NB_FILE_SAVED :
+                    CURRENT_SAVED = (CURRENT_SUB_SAVED // 5)
+                    MY_MODULO = CURRENT_SUB_SAVED % 5
+                    np.save(f"{os.getcwd()}/melvecs/data_aquired_{CURRENT_CLASS}_{CURRENT_SAVED}_{MY_MODULO}.npy", buffer_array)
+                    CURRENT_SUB_SAVED += 1
+                    
+                else :
+                    print("%s files were saved" % (NB_FILE_SAVED))
+                    pid = os.getpid()
+                    os.kill(pid,signal.SIGTERM)
                 data_queue.put(buffer_array)
     except serial.SerialException as e:
         print(f"Error opening or reading from serial port {port}: {e}")
@@ -219,6 +236,7 @@ def update_graph(n_intervals, reset_clicks, save_history_clicks, save_melvec_cli
     # Create the heatmap figure based on the
     while not data_queue.empty():
         melvec = data_queue.get()
+        #melvec = melvec[4:404]
         # Reshape and store the MEL spectrogram in history
         mel_spectrogram = melvec.reshape((N_MELVECS, MELVEC_LENGTH)).T
         history.append(mel_spectrogram)
