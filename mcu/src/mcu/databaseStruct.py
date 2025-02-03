@@ -25,6 +25,7 @@ import sys
 import logging
 import numpy as np
 from typing import Literal, Callable
+import time
 
 class DatabaseEntry:
     """Class to store the information of a database entry."""
@@ -202,17 +203,24 @@ class DatabaseEntry:
         widget.setText(str(self.entry_value))
         widget.setToolTip(self.description)
         widget.setReadOnly(not self.attributes.get("editable", True))
+        if not self.attributes.get("editable", True):
+            widget.setStyleSheet("color: #707070;")
         def update_value(entry_obj: DatabaseEntry):
             widget.setText(str(self.entry_value))
             widget.setToolTip(self.description)
             widget.setReadOnly(not self.attributes.get("editable", True))
+            if not self.attributes.get("editable", True):
+                widget.setStyleSheet("color: #707070;")
+            else:
+                widget.setStyleSheet("color: #000000;")
         self.add_callback("value_up_" + id, update_value)
         def update_entry():
             try:
                 self.safe_set("entry_value", type(self.entry_value)(widget.text()))
             except ValueError:
                 logging.error(f"Error setting value of {self.id} to {widget.text()} (default value widget)")
-        widget.textChanged.connect(update_entry)
+        #widget.editingFinished.connect(update_entry)
+        widget.textEdited.connect(update_entry) # This is better for real time updates, as its not 4 times per change (like with textChanged)
         return widget
 
 class DatabaseClass:
@@ -340,6 +348,9 @@ class DatabaseClass:
         layout = QVBoxLayout()
         widget.setLayout(layout)
         for entry in self._entries.values():
+            # Skip hidden entries
+            if entry.attributes.get("hidden", False):
+                continue
             layout.addWidget(entry.get_full_widget(id))
         layout.addStretch()
         layout.setContentsMargins(0, 0, 0, 0)
@@ -493,6 +504,13 @@ class ContentDatabase:
         # Show the window
         window.show()
 
+        # Register the removal of the callbacks
+        def remove_callbacks():
+            for class_ in self._classes.values():
+                class_.remove_gui_callbacks(id)
+            self.remove_gui_callbacks(id)
+        window.destroyed.connect(remove_callbacks)
+
         # Keep a reference to the window to prevent it from being garbage collected
         self.parameter_windows.append(window) 
 
@@ -524,9 +542,15 @@ def db_basics(database: ContentDatabase) -> bool:
         description="Content 2 description, with content wrap, because we are that strong !",
         entry_type= str,
         entry_value= "content2.wav",
+    )
+    class1.add_entry(
+        id="content_hidden",
+        name="Hidden Content",
+        description="This should not be visible",
+        entry_type= str,
+        entry_value= "spoooky message",
         attributes={
-            "hidden": False,
-            "editable": True,
+            "hidden": True,
         },
     )
     class2 = database.add_class(
@@ -545,11 +569,24 @@ def db_basics(database: ContentDatabase) -> bool:
             "editable": True,
         },
     )
+    class2.add_entry(
+        id="content4",
+        name="Uneditable Content",
+        description="This should not be editable",
+        entry_type= str,
+        entry_value= "content4.wav",
+        attributes={
+            "editable": False,
+        },
+    )
 
     return True
 
 
 if __name__ == "__main__":
+    # Setup logging
+    logging.basicConfig(level=logging.DEBUG)
+
     # Prototype of the interface interactions with the database
 
     database = ContentDatabase()
@@ -567,14 +604,12 @@ if __name__ == "__main__":
     content1 = database.get_short("class1", "content1")
 
     # Modify the database
-    content1.safe_set("attributes", {"hidden": False, "editable": True})
+    content1.safe_set("attributes", {"hidden": False})
     content1.safe_set("entry_value", "new_content1.wav")
     content1.safe_set("description", "New description that is long enough to test the wrapping of the text in the GUI")
 
     # Make a system to add callbacks and remove them for stuff outside the database
-    content1.add_callback("print_change", lambda entry: print("Content 1 changed"))
-    content1.remove_callback("print_change")
-
+    content1.add_callback("print_change", lambda entry: logging.info(f"Entry content1 changed to {entry.get_value()}"))
     # Start the app stuff for QT
     app = QApplication(sys.argv)
 
@@ -598,6 +633,11 @@ if __name__ == "__main__":
     class_box.setLayout(class_layout)
     class_layout.addWidget(class1.get_class_widget("class1"))
     layout.addWidget(class_box)
+
+    # Add the hidden content, as this case is just to show the hidden content
+    layout.addWidget(QLabel("Hidden content"))
+    hidden_entry = class1.get_entry("content_hidden")
+    layout.addWidget(hidden_entry.get_full_widget("content_hidden"))
 
     central_widget.setLayout(layout)
     window.show()
