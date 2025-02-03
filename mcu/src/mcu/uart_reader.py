@@ -1103,32 +1103,74 @@ class GUI_MainWindow(QMainWindow):
         about_text = f"{self.settings.app_name} - {self.settings.app_version}\n\n{self.settings.app_description}\n\nDeveloped by {self.settings.app_author}"
         QMessageBox.about(self, "About", about_text)
 
+    def _count_and_list_files(self, path: pathl.Path) -> tuple[int, list[str]]:
+        """Count and list all files in directory"""
+        try:
+            files = list(path.rglob("*"))
+            file_count = len([f for f in files if f.is_file()])
+            file_list = [str(f.relative_to(path)) for f in files if f.is_file()]
+            return file_count, file_list
+        except Exception as e:
+            self.logger.error(f"Failed to list files: {e}")
+            return 0, []
+
+    def _safe_clear_directory(self, path: pathl.Path, dir_name: str) -> bool:
+        """Safely clear directory with user confirmation"""
+        try:
+            # Validate path
+            if not path.exists():
+                self.logger.warning(f"{dir_name} folder does not exist")
+                return True
+                
+            if not path.is_relative_to(self.settings.app_folder):
+                self.logger.error(f"Cannot delete {dir_name} folder outside app directory")
+                return False
+                
+            # Count and list files
+            file_count, file_list = self._count_and_list_files(path)
+            if file_count == 0:
+                self.logger.info(f"No files to delete in {dir_name} folder")
+                return True
+                
+            # Create confirmation message
+            msg = f"Are you sure you want to delete {file_count} files from {dir_name}?\n\n"
+            msg += "Folder: " + str(path).replace('\\', "\\ ") + "\n\n"
+            msg += "Files to be deleted:\n"
+            msg += "\n".join(f"- {f}" for f in file_list[:10])
+            if len(file_list) > 10:
+                msg += f"\n... and {len(file_list) - 10} more"
+            msg += "\n\nThis action cannot be undone."
+                
+            # Ask for confirmation
+            reply = QMessageBox.question(self, f"Clear {dir_name}", msg, QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+            
+            if reply == QMessageBox.StandardButton.Yes:
+                rmtree(path, ignore_errors=True)
+                path.mkdir(parents=True, exist_ok=True)
+                self.logger.good(f"{dir_name} cleared successfully")
+                return True
+            else:
+                self.logger.info(f"{dir_name} clear cancelled")
+                return False
+                
+        except Exception as e:
+            self.logger.error(f"Failed to clear {dir_name}: {e}")
+            return False
+
     def clear_audio(self):
-        """
-        Clear the audio.
-        """
-        self.logger.debug("Clearing the audio")
-        rmtree(self.settings.audio_folder.path, ignore_errors=True)
-        self.settings.audio_folder.path.mkdir(parents=True, exist_ok=True)
-        self.logger.good("Audio cleared successfully")
+        """Clear the audio folder with confirmation"""
+        self.logger.debug("Clearing audio folder")
+        self._safe_clear_directory(self.settings.audio_folder.path, "Audio")
 
     def clear_mel(self):
-        """
-        Clear the mel spectrogram.
-        """
-        self.logger.debug("Clearing the mel spectrogram")
-        rmtree(self.settings.mel_folder.path, ignore_errors=True)
-        self.settings.mel_folder.path.mkdir(parents=True, exist_ok=True)
-        self.logger.good("Mel spectrogram cleared successfully")
+        """Clear the mel spectrogram folder with confirmation"""
+        self.logger.debug("Clearing mel spectrogram folder")
+        self._safe_clear_directory(self.settings.mel_autosave_folder.path, "Mel")
 
     def clear_plots(self):
-        """
-        Clear the plots.
-        """
-        self.logger.debug("Clearing the plots")
-        rmtree(self.settings.plot_folder.path, ignore_errors=True)
-        self.settings.plot_folder.path.mkdir(parents=True, exist_ok=True)
-        self.logger.good("Plots cleared successfully")
+        """Clear the plots folder with confirmation"""
+        self.logger.debug("Clearing plots folder")
+        self._safe_clear_directory(self.settings.plot_save_folder_base.path, "Plots")
 
     def update_serial_port_settings(self):
         """Update serial port settings with signal blocking"""
