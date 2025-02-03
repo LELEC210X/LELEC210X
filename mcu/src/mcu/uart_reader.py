@@ -94,7 +94,7 @@ class APP_Settings():
     def __init__(self):
         self.__lock_protection = Lock()
         self.__setting_callbacks = {}
-        self.__updating = False  # Add update flag
+        self.__updating = False 
 
         # App stuff
         self.app_folder = pathl.Path(__file__).parent
@@ -715,7 +715,7 @@ class GUI_ParametersWindow(QMainWindow):
         """
         Create the GUI.
         """
-        self.logger.debug("Creating the GUI")
+        self.logger.debug("Creating the Parametter's GUI")
 
         # Create the settings categories
         categories = {}
@@ -792,7 +792,7 @@ class GUI_AudioWindow(QMainWindow):
         """
         Create the GUI.
         """
-        self.logger.debug("Creating the GUI")
+        self.logger.debug("Creating the Audio's GUI")
 
         # Create the buttons
         self.button_record = QPushButton("Record")
@@ -862,7 +862,7 @@ class GUI_MelWindow(QMainWindow):
         """
         Create the GUI.
         """
-        self.logger.debug("Creating the GUI")
+        self.logger.debug("Creating the Mel's GUI")
 
         # Create the buttons
         self.button_record = QPushButton("Record")
@@ -1023,6 +1023,10 @@ class GUI_MainWindow(QMainWindow):
     def create_menu_bar(self):
         self.menu = self.menuBar()
         self.menu_file = self.menu.addMenu("&File")
+        self.menu_file_import_settings = self.menu_file.addAction("&Import Settings")
+        self.menu_file_import_settings.triggered.connect(self.import_settings)
+        self.menu_file_export_settings = self.menu_file.addAction("&Export Settings")
+        self.menu_file_export_settings.triggered.connect(self.export_settings)
         self.menu_file_exit = self.menu_file.addAction("&Exit")
         self.menu_file_exit.triggered.connect(self.close)
         self.menu_parameters = self.menu.addMenu("&Parameters")
@@ -1036,6 +1040,36 @@ class GUI_MainWindow(QMainWindow):
         self.menu_help = self.menu.addMenu("&Help")
         self.menu_help_about = self.menu_help.addAction("&About")
         self.menu_help_about.triggered.connect(self.open_about)
+        self.menu_help_clear_audio = self.menu_help.addAction("&Clear Audio")
+        self.menu_help_clear_audio.triggered.connect(self.clear_audio)
+        self.menu_help_clear_mel = self.menu_help.addAction("&Clear Mel")
+        self.menu_help_clear_mel.triggered.connect(self.clear_mel)
+        self.menu_help_clear_plots = self.menu_help.addAction("&Clear Plots")
+        self.menu_help_clear_plots.triggered.connect(self.clear_plots)
+
+    def import_settings(self):
+        """
+        Import settings.
+        """
+        self.logger.debug("Importing settings")
+        filename, _ = QFileDialog.getOpenFileName(self, "Import Settings", "", "Settings Files (*.cfg.npy)")
+        if filename:
+            if self.settings.import_settings(filename):
+                self.logger.good("Settings imported successfully")
+            else:
+                self.logger.error("Failed to import settings")
+
+    def export_settings(self):
+        """
+        Export settings.
+        """
+        self.logger.debug("Exporting settings")
+        filename, _ = QFileDialog.getSaveFileName(self, "Export Settings", "", "Settings Files (*.cfg.npy)")
+        if filename:
+            if self.settings.export_settings(filename):
+                self.logger.good("Settings exported successfully")
+            else:
+                self.logger.error("Failed to export settings")
 
     def open_parameters_window(self):
         """
@@ -1068,6 +1102,33 @@ class GUI_MainWindow(QMainWindow):
         self.logger.debug("Showing the about message")
         about_text = f"{self.settings.app_name} - {self.settings.app_version}\n\n{self.settings.app_description}\n\nDeveloped by {self.settings.app_author}"
         QMessageBox.about(self, "About", about_text)
+
+    def clear_audio(self):
+        """
+        Clear the audio.
+        """
+        self.logger.debug("Clearing the audio")
+        rmtree(self.settings.audio_folder.path, ignore_errors=True)
+        self.settings.audio_folder.path.mkdir(parents=True, exist_ok=True)
+        self.logger.good("Audio cleared successfully")
+
+    def clear_mel(self):
+        """
+        Clear the mel spectrogram.
+        """
+        self.logger.debug("Clearing the mel spectrogram")
+        rmtree(self.settings.mel_folder.path, ignore_errors=True)
+        self.settings.mel_folder.path.mkdir(parents=True, exist_ok=True)
+        self.logger.good("Mel spectrogram cleared successfully")
+
+    def clear_plots(self):
+        """
+        Clear the plots.
+        """
+        self.logger.debug("Clearing the plots")
+        rmtree(self.settings.plot_folder.path, ignore_errors=True)
+        self.settings.plot_folder.path.mkdir(parents=True, exist_ok=True)
+        self.logger.good("Plots cleared successfully")
 
     def update_serial_port_settings(self):
         """Update serial port settings with signal blocking"""
@@ -1181,6 +1242,14 @@ class GUI_MainWindow(QMainWindow):
         Close the application.
         """
         self.logger.debug("Closing the application")
+        # Stop the serial reader
+        self.serial_reader.stop()
+        # Close the logger
+        for handler in self.logger.handlers:
+            handler.close()
+        # Close all windows
+        for window in QApplication.topLevelWidgets():
+            window.close()
         event.accept()
 
 ###############################################################################

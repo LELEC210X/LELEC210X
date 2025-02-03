@@ -5974,3 +5974,24 @@
 [2024-12-26 01:00:16] DEBUG    : Initiating serial port connection
 [2024-12-26 01:00:16] ERROR    : Serial toggle failed: Failed to start serial reader
 [2024-12-26 01:00:28] DEBUG    : Closing the application
+[2024-12-26 01:01:48] DEBUG    : Creating the main window
+[2024-12-26 01:01:48] DEBUG    : Creating the GUI
+[2024-12-26 01:01:48] DEBUG    : Updating the serial port
+[2024-12-26 01:01:51] DEBUG    : Opening the parameters window
+[2024-12-26 01:01:51] DEBUG    : Creating the parameters window
+[2024-12-26 01:01:51] DEBUG    : Creating the GUI
+[2024-12-26 01:02:42] DEBUG    : Opening the parameters window
+[2024-12-26 01:02:42] DEBUG    : Creating the parameters window
+[2024-12-26 01:02:42] DEBUG    : Creating the GUI
+[2024-12-26 01:02:44] DEBUG    : Closing the application
+[2024-12-26 01:03:36] DEBUG    : Creating the main window
+[2024-12-26 01:03:36] DEBUG    : Creating the GUI
+[2024-12-26 01:03:36] DEBUG    : Updating the serial port
+[2024-12-26 01:03:38] DEBUG    : Opening the parameters window
+[2024-12-26 01:03:38] DEBUG    : Creating the parameters window
+[2024-12-26 01:03:38] DEBUG    : Creating the GUI
+[2024-12-26 01:03:40] DEBUG    : Closing the application
+[2024-12-26 01:05:20] DEBUG    : Creating the main window
+[2024-12-26 01:05:20] DEBUG    : Creating the GUI
+[2024-12-26 01:05:20] DEBUG    : Updating the serial port
+[2024-12-26 01:05:35] DEBUG    : Closing the application
