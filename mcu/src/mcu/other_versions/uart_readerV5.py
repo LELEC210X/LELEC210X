@@ -57,8 +57,8 @@ from matplotlib.patches import Rectangle
 import matplotlib
 
 # Local application imports
-from databaseStruct import *
-import database_initialization as db_init
+from databaseV3 import *
+import databaseV3_initialization as db_init
 from loggingUtils import ContentLogger
 from serialUtils import SerialController
 

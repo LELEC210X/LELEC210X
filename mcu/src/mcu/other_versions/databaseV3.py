@@ -28,7 +28,7 @@ import numpy as np
 from typing import Literal, Callable
 import time
 
-from utilities import convertSuffix
+from utilities_V1 import convertSuffix
 
 class DatabaseEntry:
     """Class to store the information of a database entry."""

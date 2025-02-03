@@ -52,7 +52,7 @@ from matplotlib.patches import Rectangle
 import matplotlib
 
 # Custom modules
-import mcu.src.mcu.temp_storage_of_scripts.databaseUtils as dbu
+import databaseV2_for_V4 as dbu
 import loggingUtils as logu
 import serialUtils as seru
 

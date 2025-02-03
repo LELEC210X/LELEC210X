@@ -1,4 +1,4 @@
-from databaseStruct import *
+from databaseV3 import *
 import os, pathlib
 
 def generate_database() -> ContentDatabase:
