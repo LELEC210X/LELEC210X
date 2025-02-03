@@ -724,7 +724,10 @@ class DatabaseClass:
 
     def get_class_widget(self, id: str) -> QWidget:
         """Get the class widget."""
+        base_widget = QScrollArea()
+        base_widget.setWidgetResizable(True)
         widget = QWidget()
+        base_widget.setWidget(widget)
         layout = QVBoxLayout()
         widget.setLayout(layout)
         for entry in self._entries.values():
@@ -733,8 +736,8 @@ class DatabaseClass:
                 continue
             layout.addWidget(entry.get_full_widget(id))
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.addStretch()
-        return widget    
+        layout.addStretch(999)
+        return base_widget    
 
 ####################################################################################################
 
