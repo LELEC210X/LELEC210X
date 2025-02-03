@@ -6,19 +6,13 @@ from PyQt6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QScrollArea,
-    QGridLayout,
     QSpinBox,
-    QTabWidget,
     QSlider,
-    QSpacerItem,
     QColorDialog,
-    QDoubleSpinBox,
     QLineEdit,
     QGroupBox,
     QMainWindow,
-    QMessageBox,
     QPushButton,
-    QTextEdit,
     QVBoxLayout,
     QWidget,
 )
@@ -51,12 +45,15 @@ SUFFIX_SCALES = {
     }
 
 def float_to_scaled_suffix(value: float):
+    """ Convert a float to a scaled value and suffix. """
     if value == 0:
         return (0, "")
+    # Find the order of magnitude of the value
     order = int(np.floor(np.log10(abs(value)) / 3) * 3)
     return (value / 10 ** order, SUFFIX_SCALES[order])
 
 def scaled_suffix_to_float(value: float, suffix: str):
+    """ Convert a scaled value and suffix back to a float. """
     # If suffix is empty, just return the given value
     if not suffix:
         return value
@@ -71,29 +68,27 @@ def scaled_suffix_to_float(value: float, suffix: str):
 
 class ContentDatabase:
     """
-    A simple database class that stores categories and items and synchrnoizes them with widgets.
+        A simple, thread-safe database class that stores categories and items, synchronizing them between widgets.
 
-    The database is thread-safe and can be accessed from multiple threads.
+        Features:
+        - Thread-safe access from multiple threads.
+        - Custom initialization function to populate the database.
+        - Generate widgets for each element or a whole cathegory easilly.
 
-    The database can be initialized with a custom initialisation function that populates the database.
-
-    The database can be used to generate widgets for each category.
-
-    The possible types of items that can be added to the database are:
-    - SuffixFloat
-    - Integer
-    - RangeInt
-    - RangeFloat
-    - Text
-    - Color
-    - Boolean
-    - List
-    - Dictionary    
-    - File
-    - Folder
-    - ChoiceBox
-    - ConstantText
-    
+        Supported Item Types:
+        - SuffixFloat
+        - Integer
+        - RangeInt
+        - RangeFloat
+        - Text
+        - Color
+        - Boolean
+        - List
+        - Dictionary
+        - File
+        - Folder
+        - ChoiceBox
+        - ConstantText
     """
     def __init__(self, initialisation_func: callable, logger: logging.Logger, debug: bool = False):
         self.lock = Lock()
@@ -102,14 +97,18 @@ class ContentDatabase:
         self.logger = logger
         self.debug = debug
 
+        # Run the initialization function
         initialisation_func(self)
 
     def debug_log(self, message: str):
+        """ Log a message if debug is enabled (To reduce log spam, even in debug mode). """
         if self.debug:
             self.logger.debug(message)
 
     def create_category(self, category_name: str):
+        """ Create a new category in the database. """
         with self.lock:
+            # Check if the category already exists
             if category_name not in self.db:
                 self.db[category_name] = {}
                 self.debug_log(f"Category created: {category_name}")
@@ -117,8 +116,11 @@ class ContentDatabase:
                 self.debug_log(f"Category already exists: {category_name}")
 
     def add_item(self, category_name: str, item_name: str, item_value):
+        """ Add a new item to a category in the database. """
         with self.lock:
+            # Check if the category exists
             if category_name in self.db:
+                # Check if the item already exists
                 if item_name not in self.db[category_name]:
                     self.db[category_name][item_name] = item_value
                     self.debug_log(f"Item added: {item_name}")
@@ -128,17 +130,23 @@ class ContentDatabase:
                 self.debug_log(f"Category does not exist: {category_name}")
 
     def get_item(self, category_name: str, item_name: str):
+        """ Get an item from a category in the database. """
         with self.lock:
+            # Check if the category and item exist
             if category_name in self.db:
+                # Check if the item exists
                 if item_name in self.db[category_name]:
                     return self.db[category_name][item_name]
                 else:
                     self.debug_log(f"Item does not exist: {item_name}")
             else:
                 self.debug_log(f"Category does not exist: {category_name}")
+            return None
 
     def gen_category_widget(self, category_name: str):
+        """ Generate a widget for a category in the database (using each element's generation function). """
         with self.lock:
+            # Check if the category exists
             if category_name in self.db:
                 category_widget = QGroupBox(category_name)
                 category_layout = QVBoxLayout()
@@ -157,6 +165,45 @@ class ContentDatabase:
             else:
                 self.debug_log(f"Category does not exist: {category_name}")
 
+    def reset_database(self):
+        """ Reset the database to an empty state, by signaling all items to reset. """
+        with self.lock:
+            for category in self.db.values():
+                for item in category.values():
+                    item.trigger_callbacks()
+
+    def import_database(self, npy_file: pathlib.Path):
+        """ Import the values of the elements from a numpy file. """
+        with self.lock:
+            try:
+                # Load the data from the numpy file
+                data = np.load(npy_file, allow_pickle=True)
+                # Iterate over all categories and items to set their values
+                for category_name, category in data.items():
+                    for item_name, item_value in category.items():
+                        item = self.get_item(category_name, item_name)
+                        if item:
+                            item.set_value(item_value)
+                self.logger.info(f"Database imported: {npy_file}")
+            except Exception as e:
+                self.logger.error(f"Failed to import database: {e}")
+
+    def export_database(self, npy_file: pathlib.Path):
+        """ Export the values of the elements to a numpy file. """
+        with self.lock:
+            data = {}
+            # Iterate over all categories and items to save their values
+            for category_name, category in self.db.items():
+                data[category_name] = {}
+                for item_name, item_value in category.items():
+                    data[category_name][item_name] = item_value.get_value()
+            # Try to save the data to a numpy file
+            try:
+                np.save(npy_file, data)
+                self.logger.info(f"Database exported: {npy_file}")
+            except Exception as e:
+                self.logger.error(f"Failed to export database: {e}")
+
     class DatabaseElementTemplate:
         """
         Template for the database element
@@ -171,9 +218,11 @@ class ContentDatabase:
 
         def register_callback(self, callback: callable):
             with self.lock:
+                # Add a callback to the list
                 self.callbacks.append(callback)
         def trigger_callbacks(self):
             with self.lock:
+                # Trigger all callbacks
                 self.updating = True
                 for callback in self.callbacks:
                     callback(self.value)
@@ -183,36 +232,19 @@ class ContentDatabase:
             return self.value
         
         def set_value(self, value): 
+            # If the callback is updating, return (to avoid infinite loops)
             if self.updating:
                 return
+            # Update the value and trigger callbacks
             self.value = value
             self.trigger_callbacks()
 
+        # Implement these methods in the derived classes
         def __str__(self): ...
         def __repr__(self): ...
         def gen_widget(self): ...
 
-    """
-    The following types can be registered:
-    >> Editable or not (default to editable, else, it becomes a label)
-    - Suffixed Float (TextEntry with custom handler for suffixes)
-    - Integer (SpinBox)
-    - RangeInt (Slider)
-    - RangeFloat (Slider)
-    - Text (LineEdit)
-    - Color (ColorDialog)
-    - Boolean (CheckBox)
-    - List (List of LineEdit)
-    - Dictionary (List of LineEdit with label)
-    - File (File Dialog)
-    - Folder (File Dialog)
-    
-    >> Not editable
-    - Date Time (Calendar)
-
-    >> Editable
-    - ChoiceBox (ComboBox)
-    """
+    # ------------------ Database Element Types ------------------
 
     class SuffixFloat(DatabaseElementTemplate):
         """
@@ -350,14 +382,14 @@ class ContentDatabase:
 
             # Update internal value and label on slider move
             slider.valueChanged.connect(lambda val: (
-                self.set_value(val),
-                value_label.setText(str(val))
+                self.set_value((val, self.value[1], self.value[2])),
+                value_label.setText(str(int(val)))
             ))
 
             # If this value changes from elsewhere, keep the widget in sync
             self.register_callback(lambda val: (
-                slider.setValue(val),
-                value_label.setText(str(val))
+                slider.setValue(val[0]),
+                value_label.setText(str(int(val[0])))
             ))
 
             layout.addWidget(label)
@@ -778,6 +810,8 @@ class ContentDatabase:
             widget.setLayout(layout)
             return widget
 
+# ------------------ Example Usage ------------------
+
 def init_db(db: ContentDatabase):
     """
     Simple initialization function that creates a category
@@ -818,6 +852,25 @@ class MainWindow(QMainWindow):
         scroll_area.setWidgetResizable(True)
         scroll_content = QWidget()
         scroll_layout = QVBoxLayout(scroll_content)
+
+        # Add a zone that multiplies the ints and floats
+        label_function_random = QLabel("Multiplication of the 4 first values :")
+        text_entry = QLineEdit("1.0")
+        text_entry.setReadOnly(True)
+        def text_entry_callback(value):
+            suffix_float = db.get_item("Audio Settings", "gain").value[0]
+            integer = db.get_item("Audio Settings", "gain2").value
+            range_int = db.get_item("Audio Settings", "gain3").value[0]
+            range_float = db.get_item("Audio Settings", "gain4").value[0]
+            text_entry.setText(str(suffix_float * integer * range_int * range_float))
+        # Register the callback to update the text entry at any change
+        db.get_item("Audio Settings", "gain").register_callback(text_entry_callback)
+        db.get_item("Audio Settings", "gain2").register_callback(text_entry_callback)
+        db.get_item("Audio Settings", "gain3").register_callback(text_entry_callback)
+        db.get_item("Audio Settings", "gain4").register_callback(text_entry_callback)
+
+        scroll_layout.addWidget(label_function_random)
+        scroll_layout.addWidget(text_entry)
 
         # Generate a widget for each category and add it to scroll
         for category_name in db.db:

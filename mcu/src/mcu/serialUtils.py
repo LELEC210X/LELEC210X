@@ -1,57 +1,31 @@
 # Standard Library
 import logging
-import os
 import sys
-from shutil import rmtree
-import pathlib as pathl
-import datetime
 from threading import Lock
 from typing import Optional
 import time
-from threading import Thread
 from queue import Queue
 
 # Installed Libraries
-import click
-import numpy as np
-import plotly.graph_objects as go
-import plotly.subplots as plts
 from serial import Serial, SerialException
-import soundfile as sf
 from PyQt6.QtCore import QThread, pyqtSignal
 from serial.tools import list_ports
-from scipy import fft
 from PyQt6.QtWidgets import (
     QApplication,
     QCheckBox,
     QComboBox,
-    QFileDialog,
     QHBoxLayout,
     QLabel,
-    QScrollArea,
-    QGridLayout,
-    QSpinBox,
-    QTabWidget,
-    QSlider,
-    QSpacerItem,
-    QColorDialog,
-    QDoubleSpinBox,
     QLineEdit,
-    QGroupBox,
     QMainWindow,
-    QMessageBox,
     QPushButton,
     QTextEdit,
     QVBoxLayout,
     QWidget,
 )
-from PyQt6.QtCore import Qt
-from PyQt6 import QtGui
-import pathlib
 from threading import Lock
 import sys
 import logging
-import numpy as np
 
 
 class SerialController(QThread):
@@ -366,9 +340,9 @@ class SerialController(QThread):
 
         
     
+# Example usage
 # -------------------------------------------------
-# Demonstration GUI showing multiple functionalities
-# -------------------------------------------------
+
 logger = logging.getLogger("SerialExample")
 logger.setLevel(logging.DEBUG)
 logger_handler = logging.StreamHandler(sys.stdout)
@@ -517,10 +491,6 @@ class MainWindow(QMainWindow):
     def handle_error_occurred(self, error_msg: str):
         self.console.append(f"ERROR: {error_msg}")
 
-
-# -------------------------------------------------
-# Main entry point
-# -------------------------------------------------
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     main_window = MainWindow()
