@@ -48,6 +48,7 @@ import matplotlib.animation as animation
 from matplotlib.animation import FuncAnimation
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
+from matplotlib.patches import Rectangle
 import matplotlib
 
 # Custom modules
@@ -244,14 +245,158 @@ class GUIAudioWindow(QMainWindow):
 
         # Update FPS
         current_time = time.time()
-        fps = 1 / (current_time - self.current_time)
+        fps = 1 / max((current_time - self.current_time), 1e-16)
         self.current_time = current_time
         self.fps_counter.setText(f"FPS: {fps:.2f}")
         return (self.line_fft,)
 
 class GUIMELWindow(QMainWindow):
-    # nothing
-    pass
+    """MEL GUI window for the application and the classifier"""
+
+    def __init__(self, db: dbu.ContentDatabase, log: logu.ContentLogger, ser: seru.SerialController, base_data = None):
+        super().__init__()
+
+        self.db = db
+        self.log = log
+        self.ser = ser
+        self.logger = log.logger
+
+        # Create the data : list[dict<"data": np.ndarray, "class_proba": np.ndarray]
+        self.historic_data = [{"data": np.zeros(400), "class_proba": np.zeros(10)} for _ in range(10)]
+        if base_data is not None and type(base_data) == np.ndarray:
+            self.historic_data[0]["data"] = base_data
+
+        self.ser.data_received_prefix.connect(self.prefix_message_handler)
+
+        # Create the main window
+        self.setWindowTitle(f"{self.db.get_item('_hidden', 'appname').value} - MEL Window")
+        self.setGeometry(100, 100, 800, 600)
+
+        # Create the main layout
+        self.main_layout = QVBoxLayout()
+        self.main_widget = QWidget()
+        self.main_widget.setLayout(self.main_layout)
+        self.setCentralWidget(self.main_widget)
+
+        # Create the UI
+        self.create_ui()
+
+    def add_data(self, data):
+        if not self.db.get_item("MEL Settings", "mel_freeze").value:
+            max_history = self.db.get_item("MEL Settings", "max_history_length").value
+            self.historic_data = [{"data": data, "class_proba": np.zeros(10)}] + self.historic_data[:-1]
+            if len(self.historic_data) > max_history:
+                self.historic_data = self.historic_data[:max_history]
+            elif len(self.historic_data) < max_history:
+                self.historic_data = self.historic_data + [{"data": np.zeros(400), "class_proba": np.zeros(10)} for _ in range(max_history-len(self.historic_data))]
+
+    def prefix_message_handler(self, prefix, message):
+        if prefix == self.db.get_item("MEL Settings", "serial_prefix").value:
+            self.add_data(message)
+
+    def create_ui(self):
+        # Add title to the window
+        self.title = QLabel(f"MEL Window")
+        self.title.setFont(QtGui.QFont("Arial", 20))
+        self.main_layout.addWidget(self.title)
+
+        # Add a FPS counter
+        self.fps_counter = QLabel("FPS: 0")
+        self.main_layout.addWidget(self.fps_counter)
+        self.current_time = time.time()
+
+        # Add the MEL graph
+        self.fig_mel = Figure(figsize=(8, 6))
+        self.canvas_mel = FigureCanvasQTAgg(self.fig_mel)
+        self.main_layout.addWidget(self.canvas_mel)
+        self.fig_mel.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.2)
+        self.fig_mel.tight_layout(pad=0.5)
+
+        # Add the classifier graphs next to each other
+        self.classifier_layout = QHBoxLayout()
+        self.fig_classifier = Figure(figsize=(6, 6))
+        self.canvas_classifier = FigureCanvasQTAgg(self.fig_classifier)
+        self.classifier_layout.addWidget(self.canvas_classifier)
+
+        self.fig_class_history = Figure(figsize=(8, 6))
+        self.canvas_class_history = FigureCanvasQTAgg(self.fig_class_history)
+        self.classifier_layout.addWidget(self.canvas_class_history)
+        self.main_layout.addLayout(self.classifier_layout)
+
+        # Setup the graphs
+        self.mel_ax = self.fig_mel.add_subplot(111)
+        self.class_ax = self.fig_classifier.add_subplot(111)
+        self.hist_ax = self.fig_class_history.add_subplot(111)
+
+        # Make a rectangle for the mel plot
+        self.mel_rect = Rectangle((-1.125+0.5, -0.025), 1.05, 1.05, linewidth=1, edgecolor='red', facecolor='none')
+
+        self.mel_pcolors = []
+        self.setup_mel_plots()
+
+        self.db.get_item("MEL Settings", "max_history_length").register_callback(self.setup_mel_plots)
+
+        # Add the animation
+        TARGET_FPS = self.db.get_item("Plot Settings", "framerate").value
+        self.anim_mel = FuncAnimation(
+            self.fig_mel,
+            self._update_mel_plot,
+            init_func=self._init_mel_plot,
+            interval=1//TARGET_FPS*1000,
+            blit=True,
+            save_count=1
+        )
+
+    def setup_mel_plots(self, number_of_bins=10):
+        self.mel_pcolors = []
+        self.mel_ax.clear()
+        self.mel_ax.set_title("MEL Spectrogram")
+        self.mel_ax.set_xlabel("Time Frames")
+        self.mel_ax.set_ylabel("Mel Frequency Bins")
+        self.mel_ax.set_xlim(-number_of_bins*1.1 + 0.4, 0.1 + 0.5)
+        self.mel_ax.set_ylim(-0.05, 1.05)
+        self.mel_ax.autoscale(enable=False, axis="both")
+        self.mel_ax.set_xticks(np.arange(-number_of_bins, 1, 1))
+
+        for i in range(number_of_bins):
+            offset = -1.1
+            X, Y = np.meshgrid(np.linspace(0, 1, 20), np.linspace(0, 1, 20))
+            image = self.mel_ax.pcolormesh(
+                X + i*offset - 1.1 + 0.5, Y, np.zeros((20, 20)),
+                vmin=0,
+                vmax=1,
+                cmap='viridis',
+                shading='auto',  # Avoid gridlines
+            )
+            self.mel_pcolors.append(image)
+
+        self.mel_ax.add_patch(self.mel_rect)
+
+    def _init_mel_plot(self):
+        """Initialize mel plot for blitting."""
+        for image in self.mel_pcolors:
+            image.set_array(np.zeros(400).ravel())
+        return self.mel_pcolors + [self.mel_rect]
+
+    def _update_mel_plot(self, frame):
+        """Update mel plot for animation."""
+        for i, image in enumerate(self.mel_pcolors):
+            if i < len(self.historic_data):
+                data:np.ndarray = self.historic_data[i]["data"]
+            else:
+                data = np.zeros(400)
+            image.set_array(data.ravel())
+
+        # FPS counter
+        current_time = time.time()
+        fps = 1 / max((current_time - self.current_time), 1e-16)
+        self.current_time = current_time
+        self.fps_counter.setText(f"FPS: {fps:.2f}")
+
+        # Add random data to the last image
+        self.add_data(np.random.rand(400)) # TODO: remove
+
+        return self.mel_pcolors + [self.mel_rect]        
 
 class GUIMainWindow(QMainWindow):
     """Main GUI window for the application"""
@@ -316,7 +461,7 @@ class GUIMainWindow(QMainWindow):
 
         self.windows_menu_params.triggered.connect(self.open_params_window)
         self.windows_menu_audio.triggered.connect(lambda: self.open_audio_window(np.zeros(10240)))
-        self.windows_menu_mel.triggered.connect(lambda: self.open_mel_window(np.zeros(10240))) # TODO : Change this to the MEL data
+        self.windows_menu_mel.triggered.connect(self.open_mel_window)
 
         self.help_menu_about.triggered.connect(self.show_about)
 
@@ -559,6 +704,7 @@ def database_init(db: dbu.ContentDatabase):
     db.create_category("MEL Settings")
     db.add_item("MEL Settings", "serial_prefix", db.Text("Serial Prefix", "SND:MEL:", "The prefix to use for the MEL data serial communication"))
     db.add_item("MEL Settings", "file_prefix", db.Text("File Prefix", "mel", "The prefix to use for the MEL files before adding the timestamp"))
+    db.add_item("MEL Settings", "max_history_length", db.Integer("Max History Length", 10, "The maximum number of data points to keep in the history"))
     # TODO: Add more MEL settings
     db.add_item("MEL Settings", "auto_save", db.Boolean("Auto Save", False, "Automatically save the MEL files"))
     db.add_item("MEL Settings", "mel_freeze", db.Boolean("MEL Freeze", False, "Freeze the MEL data"))
