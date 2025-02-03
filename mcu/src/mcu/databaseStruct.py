@@ -45,6 +45,7 @@ class DatabaseEntry:
         self._callbacks: dict[str, Callable] = {}
         self._value_lock = Lock()
         self._callbacks_lock = Lock()
+        self._callbacks_running = False
 
     # Reset logic
 
@@ -92,11 +93,12 @@ class DatabaseEntry:
                     self.entry_value.update(value)
                 else:
                     self.entry_value = value
-            # Default handling
-            try:
-                setattr(self, target, value)
-            except AttributeError:
-                return False
+            else:
+                # Default handling
+                try:
+                    setattr(self, target, value)
+                except AttributeError:
+                    return False
         # Run the callbacks
         if call_callbacks:
             self.run_callbacks()
@@ -147,8 +149,15 @@ class DatabaseEntry:
     
     def run_callbacks(self) -> None:
         """Run all the callbacks of the entry."""
+        # Prevent multiple callbacks from running at the same time
+        with self._callbacks_lock:
+            if self._callbacks_running:
+                return
+            self._callbacks_running = True
+        # Run the callbacks
         for callback in self._callbacks.values():
             callback(self)
+        self._callbacks_running = False
             
     # UI logic
 
@@ -221,11 +230,11 @@ class DatabaseEntry:
             DatabaseEntry.ListEntry: lambda id: self._get_BulletEntry_widget(id, "list"),
             DatabaseEntry.DictEntry: lambda id: self._get_BulletEntry_widget(id, "dict"),
             DatabaseEntry.SuffixEntry: self._get_SuffixEntry_widget,
-            DatabaseEntry.FileEntry: lambda id: QLabel("Not implemented yet"),
-            DatabaseEntry.FolderEntry: lambda id: QLabel("Not implemented yet"),
-            DatabaseEntry.ColorEntry: lambda id: QLabel("Not implemented yet"),
-            DatabaseEntry.ComboBoxEntry: lambda id: QLabel("Not implemented yet"),
-            DatabaseEntry.ButtonEntry: lambda id: QLabel("Not implemented yet"),
+            DatabaseEntry.FileEntry: lambda id: self._get_fileEntry_widget(id, "file"),
+            DatabaseEntry.FolderEntry: lambda id: self._get_fileEntry_widget(id, "folder"),
+            DatabaseEntry.ColorEntry: self._get_ColorEntry_widget,
+            DatabaseEntry.ComboBoxEntry: self._get_ComboBoxEntry_widget,
+            DatabaseEntry.ButtonEntry: self._get_ButtonEntry_widget,
         }
         try:
             return function_map[self.entry_type](id)
@@ -452,8 +461,145 @@ class DatabaseEntry:
 
         return widget
     
-    # TODO : Implement the other entry types
+    def _get_fileEntry_widget(self, id: str, entry_type: Literal["file", "folder"]) -> QWidget:
+        """Get the file entry widget."""
+        widget = QWidget()
+        layout = QHBoxLayout()
+        widget.setLayout(layout)
+        entry_box = QLineEdit()
+        browse_button = QPushButton("File Dialog" if entry_type == "file" else "Folder Dialog")
+        layout.addWidget(entry_box)
+        layout.addWidget(browse_button)
 
+        # Callbacks
+        def update_value(entry_obj: DatabaseEntry):
+            entry_box.setText(entry_obj.entry_value)
+            entry_box.setToolTip(entry_obj.description)
+            if not entry_obj.attributes.get("editable", True):
+                entry_box.setStyleSheet("color: #707070;")
+                entry_box.setReadOnly(True)
+            else:
+                entry_box.setStyleSheet("color: #000000;")
+                entry_box.setReadOnly(False)
+        self.add_callback("value_up_" + id, update_value)
+        update_value(self)
+
+        # Update the entry
+        def update_entry_button():
+            if entry_type == "file":
+                file_types = self.attributes.get("file_types", "All Files (*)")
+                file_path = QFileDialog.getOpenFileName(None, "Select a file", entry_box.text(), file_types)[0]
+            else:
+                file_path = QFileDialog.getExistingDirectory(None, "Select a folder", entry_box.text())
+            if file_path:
+                self.safe_set("entry_value", file_path)
+        def update_entry_text():
+            self.safe_set("entry_value", entry_box.text())
+        browse_button.clicked.connect(update_entry_button)
+        entry_box.editingFinished.connect(update_entry_text)
+        return widget
+
+    def _get_ColorEntry_widget(self, id: str) -> QWidget: # TODO : Implement the color entry
+        """Get the color entry widget."""
+        widget = QWidget()
+        layout = QHBoxLayout()
+        widget.setLayout(layout)
+        entry_box = QLineEdit()
+        color_box = QLabel()
+        browse_button = QPushButton("Color Dialog")
+        layout.addWidget(entry_box)
+        layout.addWidget(color_box)
+        layout.addWidget(browse_button)
+
+        # Callbacks
+        def update_value(entry_obj: DatabaseEntry):
+            entry_box.setText(entry_obj.entry_value)
+            entry_box.setToolTip(entry_obj.description)
+            if not entry_obj.attributes.get("editable", True):
+                entry_box.setStyleSheet("color: #707070;")
+                entry_box.setReadOnly(True)
+            else:
+                entry_box.setStyleSheet("color: #000000;")
+                entry_box.setReadOnly(False)
+            # Update the color box preview
+            color_box.setText("  ")
+            color_box.setStyleSheet("background-color: " + entry_obj.entry_value + ";")
+        self.add_callback("value_up_" + id, update_value)
+        update_value(self)
+
+        # Update the entry
+        def update_entry_button():
+            color = QColorDialog.getColor()
+            if color.isValid():
+                self.safe_set("entry_value", color.name())
+        def update_entry_text():
+            # Check if the color is valid
+            if not QtGui.QColor(entry_box.text()).isValid():
+                color_box.setText("Invalid color")
+                color_box.setStyleSheet("background-color: #F0F0F0;")
+                return
+            self.safe_set("entry_value", entry_box.text())
+        browse_button.clicked.connect(update_entry_button)
+        entry_box.editingFinished.connect(update_entry_text)
+        return widget
+
+    def _get_ComboBoxEntry_widget(self, id: str) -> QWidget: 
+        """Get the combo box entry widget."""
+        widget = QWidget()
+        layout = QHBoxLayout()
+        widget.setLayout(layout)
+        entry_box = QComboBox()
+        layout.addWidget(entry_box)
+
+        # Callbacks
+        def update_value(entry_obj: DatabaseEntry):
+            # Block signals to prevent triggering during programmatic update
+            entry_box.blockSignals(True)
+            entry_box.clear()
+            entry_box.addItems(entry_obj.entry_value.get("options", []))
+            current_index = entry_obj.entry_value.get("index", entry_obj.attributes.get("default_index", 0))
+            entry_box.setCurrentIndex(current_index)
+            entry_box.setToolTip(entry_obj.description)
+            if not entry_obj.attributes.get("editable", True):
+                entry_box.setStyleSheet("color: #707070;")
+                entry_box.setDisabled(True)
+            else:
+                entry_box.setStyleSheet("color: #000000;")
+                entry_box.setDisabled(False)
+            # Unblock signals after updating
+            entry_box.blockSignals(False)
+        self.add_callback("value_up_" + id, update_value)
+        update_value(self)  # Initial update
+
+        # Update the entry
+        def update_entry(value):
+            if entry_box.currentIndex() == -1:
+                return
+            # Update only the 'index' in the entry_value dict
+            new_value = self.entry_value.copy()
+            new_value["index"] = value
+            self.safe_set("entry_value", new_value)
+        entry_box.currentIndexChanged.connect(update_entry)
+
+        return widget
+
+    def _get_ButtonEntry_widget(self, id: str) -> QWidget:
+        """Get the button entry widget."""
+        widget = QPushButton("Press Me")
+        widget.setToolTip(self.description)
+
+        # Callbacks
+        def update_value(entry_obj: DatabaseEntry):
+            widget.setToolTip(entry_obj.description)
+            widget.setDisabled(not entry_obj.attributes.get("editable", True))
+        self.add_callback("value_up_" + id, update_value)
+        update_value(self) # Initial update
+
+        # Update the entry
+        def update_entry():
+            self.run_callbacks()
+        widget.clicked.connect(update_entry)
+        return widget
 
 ####################################################################################################
 
@@ -908,6 +1054,75 @@ def db_basics(database: ContentDatabase) -> bool:
             "editable": True,
         },
     )
+    class3.add_entry(
+        id="content13",
+        name="File Content",
+        description="Testing the file context with a file",
+        entry_type= DatabaseEntry.FileEntry,
+        entry_value= "content13_file.wav",
+        attributes={
+            "hidden": False,
+            "editable": True,
+        },
+    )
+    class3.add_entry(
+        id="content13_types",
+        name="File Content Types",
+        description="This is a file content with specific types",
+        entry_type= DatabaseEntry.FileEntry,
+        entry_value= "content13_file.wav",
+        attributes={
+            "hidden": False,
+            "editable": True,
+            "file_types": "Audio Files (*.wav)",
+        },
+    )
+    class3.add_entry(
+        id="content14",
+        name="Folder Content",
+        description="Testing the file context with a folder",
+        entry_type= DatabaseEntry.FolderEntry,
+        entry_value= "content14_folder",
+        attributes={
+            "hidden": False,
+            "editable": True,
+        },
+    )
+    class3.add_entry(
+        id="content15",
+        name="Color Content",
+        description="Testing the color content",
+        entry_type= DatabaseEntry.ColorEntry,
+        entry_value= "#FF0000",
+        attributes={
+            "hidden": False,
+            "editable": True,
+        },
+    )
+    class3.add_entry(
+        id="content16",
+        name="ComboBox Content",
+        description="Testing the combo box content",
+        entry_type= DatabaseEntry.ComboBoxEntry,
+        entry_value= {"options": ["option1", "option2", "option3"], "index": 0},
+        attributes={
+            "hidden": False,
+            "editable": True,
+            "default_index": 0,
+        },
+    )
+    class3.add_entry(
+        id="content17",
+        name="Button Content",
+        description="Testing the button content",
+        entry_type= DatabaseEntry.ButtonEntry,
+        entry_value= None,
+        attributes={
+            "hidden": False,
+            "editable": True,
+        },
+    )
+    class3.get_entry("content17").add_callback("print_button", lambda entry: logging.info("Button pressed"))
 
     return True
 
