@@ -850,6 +850,11 @@ def main():
     window.resize(800, 600)
     window.show()
 
+    # Create a new main window next to it
+    window2 = MainWindow(db)
+    window2.resize(800, 600)
+    window2.show()
+
     # Execute the app
     sys.exit(app.exec())
 
