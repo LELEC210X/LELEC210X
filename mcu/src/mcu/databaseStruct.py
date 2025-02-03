@@ -10,6 +10,7 @@ from PyQt6.QtWidgets import (
     QSlider,
     QColorDialog,
     QTabWidget,
+    QDoubleSpinBox,
     QLineEdit,
     QGroupBox,
     QMainWindow,
@@ -29,13 +30,13 @@ import time
 
 class DatabaseEntry:
     """Class to store the information of a database entry."""
-    def __init__(self, id: str, name: str, description: str, entry_type: type, entry_value: any, attributes: dict = {}, reset_value: any = None):
+    def __init__(self, id: str, name: str, description: str, entry_type: "GenericEntry", entry_value: any, attributes: dict = {}, reset_value: any = None):
         self.id = id
         self.name = name
         self.description = description
-        self.entry_type = entry_type
         self.entry_value = entry_value
         self.attributes = attributes
+        self.entry_type:DatabaseEntry.GenericEntry = entry_type
 
         self.reset_value = entry_value if reset_value is None else reset_value
 
@@ -57,7 +58,7 @@ class DatabaseEntry:
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "entry_type": self.entry_type,
+            "entry_type": self.entry_type.serialize(),
             "entry_value": self.entry_value,
             "attributes": self.attributes,
             "reset_value": self.reset_value,
@@ -70,7 +71,7 @@ class DatabaseEntry:
             id=data["id"],
             name=data["name"],
             description=data["description"],
-            entry_type=data["entry_type"],
+            entry_type=DatabaseEntry.GenericEntry.deserialize(data["entry_type"]),
             entry_value=data["entry_value"],
             attributes=data["attributes"],
             reset_value=data["reset_value"],
@@ -78,7 +79,7 @@ class DatabaseEntry:
 
     # Setters
     
-    def safe_set(self, target: Literal["name", "description", "entry_type", "entry_value", "attributes", "reset_value"], value: any, call_callbacks: bool = True) -> bool:
+    def safe_set(self, target: Literal["name", "description", "entry_value", "attributes", "reset_value"], value: any, call_callbacks: bool = True) -> bool:
         """Set the class attribute with a lock, and runs the callbacks (by default)."""
         with self._value_lock:
             # Custom handlings
@@ -166,6 +167,8 @@ class DatabaseEntry:
         widget.setFixedWidth(250)
         widget.setFont(QtGui.QFont("Arial", 8))
         widget.setWordWrap(True)
+        widget.adjustSize()
+        widget.setMinimumHeight(widget.sizeHint().height()) # HACK : This is to make the text not get cropped if the wrap is not working properly
         def update_description(entry_obj: DatabaseEntry):
             widget.setText(self.description)
             widget.setToolTip(self.description)
@@ -195,16 +198,68 @@ class DatabaseEntry:
         layout.setContentsMargins(0, 0, 0, 0)
         return widget
     
-    # FOR EACH ENTRY TYPE
+    # Per Class UI logic
 
     def get_value_widget(self, id: str) -> QWidget:
-        """DEFAULT VALUE WIDGET"""
+        """Get the value widget of the entry."""
+        function_map = {
+            DatabaseEntry.GenericEntry: self._get_GenericEntry_widget,
+            DatabaseEntry.StringEntry: self._get_GenericEntry_widget,
+            DatabaseEntry.IntEntry: lambda id: self._get_NumberEntry_widget(id, "int"),
+            DatabaseEntry.FloatEntry: lambda id: self._get_NumberEntry_widget(id, "float"),
+            DatabaseEntry.IntRangeEntry: lambda id: self._get_RangeEntry_widget(id, "int"),
+            DatabaseEntry.FloatRangeEntry: lambda id: self._get_RangeEntry_widget(id, "float"),
+            DatabaseEntry.BoolEntry: self._get_BoolEntry_widget,
+            DatabaseEntry.ListEntry: lambda id: self._get_BulletEntry_widget(id, "list"),
+            DatabaseEntry.DictEntry: lambda id: self._get_BulletEntry_widget(id, "dict"),
+            DatabaseEntry.FileEntry: lambda id: QLabel("Not implemented yet"),
+            DatabaseEntry.FolderEntry: lambda id: QLabel("Not implemented yet"),
+            DatabaseEntry.ColorEntry: lambda id: QLabel("Not implemented yet"),
+            DatabaseEntry.ComboBoxEntry: lambda id: QLabel("Not implemented yet"),
+            DatabaseEntry.ButtonEntry: lambda id: QLabel("Not implemented yet"),
+        }
+        try:
+            return function_map[self.entry_type](id)
+        except KeyError:
+            return QLabel("Unimplemented entry type: " + self.entry_type.__name__)
+        except Exception as e:
+            logging.error(f"Error getting value widget for {self.id} : {e}")
+            return QLabel("Error getting value widget")
+
+    # Classes 
+    class GenericEntry:
+        """Generic entry widget. (Should not be used directly if possible)"""
+        @classmethod  # Change from @staticmethod to @classmethod
+        def serialize(cls) -> str:
+            return cls.__name__  # Use cls instead of __class__
+
+        @staticmethod 
+        def deserialize(data: str):
+            for subclass in DatabaseEntry.GenericEntry.__subclasses__():  # Use GenericEntry explicitly
+                if subclass.__name__ == data:
+                    return subclass
+            return DatabaseEntry.GenericEntry
+    class StringEntry       (GenericEntry):"""String entry widget."""
+    class IntEntry          (GenericEntry):"""Int entry widget."""
+    class FloatEntry        (GenericEntry):"""Float entry widget."""
+    class IntRangeEntry     (GenericEntry):"""Int range entry widget."""
+    class FloatRangeEntry   (GenericEntry):"""Float range entry widget."""
+    class BoolEntry         (GenericEntry):"""Bool entry widget."""
+    class ListEntry         (GenericEntry):"""List entry widget."""
+    class DictEntry         (GenericEntry):"""Dict entry widget."""
+    class FileEntry         (GenericEntry):"""File entry widget."""
+    class FolderEntry       (GenericEntry):"""Folder entry widget."""
+    class ColorEntry        (GenericEntry):"""Color entry widget."""
+    class ComboBoxEntry     (GenericEntry):"""ComboBox entry widget."""
+    class ButtonEntry       (GenericEntry):"""Button entry widget. (No value, only callbacks)""" # There is no value for this one, just a button
+
+    # UI Widgets
+
+    def _get_GenericEntry_widget(self, id: str) -> QWidget:
+        """Get the generic entry widget."""
         widget = QLineEdit()
-        widget.setText(str(self.entry_value))
-        widget.setToolTip(self.description)
-        widget.setReadOnly(not self.attributes.get("editable", True))
-        if not self.attributes.get("editable", True):
-            widget.setStyleSheet("color: #707070;")
+
+        # Callbacks
         def update_value(entry_obj: DatabaseEntry):
             widget.setText(str(self.entry_value))
             widget.setToolTip(self.description)
@@ -214,14 +269,149 @@ class DatabaseEntry:
             else:
                 widget.setStyleSheet("color: #000000;")
         self.add_callback("value_up_" + id, update_value)
+        update_value(self) # Initial update
+
+        # Update the entry
         def update_entry():
             try:
                 self.safe_set("entry_value", type(self.entry_value)(widget.text()))
             except ValueError:
                 logging.error(f"Error setting value of {self.id} to {widget.text()} (default value widget)")
+                
         #widget.editingFinished.connect(update_entry)
         widget.textEdited.connect(update_entry) # This is better for real time updates, as its not 4 times per change (like with textChanged)
         return widget
+    
+    def _get_NumberEntry_widget(self, id: str, entry_type: Literal["str", "float"]) -> QWidget:
+        """Get the number entry widget."""
+        if entry_type == "float":
+            base_widget = QDoubleSpinBox()
+            base_widget.setDecimals(2)
+            base_widget.setSingleStep(0.5)
+            base_widget.setRange(-1e255, 1e255)
+        else:
+            base_widget = QSpinBox()
+            base_widget.setRange(-2147483648, 2147483647)
+
+        # Callbacks
+        def update_value(entry_obj: DatabaseEntry):
+            base_widget.setToolTip(entry_obj.description)
+            base_widget.setValue(entry_obj.entry_value)
+            if not entry_obj.attributes.get("editable", True):
+                base_widget.setStyleSheet("color: #707070;")
+                base_widget.setReadOnly(True)
+            else:
+                base_widget.setStyleSheet("color: #000000;")
+                base_widget.setReadOnly(False)
+        self.add_callback("value_up_" + id, update_value)
+        update_value(self) # Initial update
+
+        # Update the entry
+        def update_entry(value):
+            self.safe_set("entry_value", value)
+        base_widget.valueChanged.connect(update_entry)
+
+        return base_widget
+    
+    def _get_RangeEntry_widget(self, id: str, entry_type: Literal["int", "float"]) -> QWidget:
+        """Get the range entry widget."""
+        PRECISION_FACTOR = 100
+        containment_widget = QWidget()
+        layout = QHBoxLayout()
+        containment_widget.setLayout(layout)
+
+        # Compose the slider
+        slider = QSlider(Qt.Orientation.Horizontal)
+        slider.setTickPosition(QSlider.TickPosition.TicksBelow)
+        numerical_entry = QDoubleSpinBox()
+        numerical_entry.setDecimals(2 if entry_type == "float" else 0)
+        numerical_entry.setStepType(QDoubleSpinBox.StepType.AdaptiveDecimalStepType)
+        numerical_entry.setSingleStep(1/PRECISION_FACTOR)
+        layout.addWidget(slider)
+        layout.addWidget(numerical_entry)
+
+        # Callbacks
+        def update_value(entry_obj: DatabaseEntry):
+            containment_widget.setToolTip(entry_obj.description)
+            
+            value_dict:dict = entry_obj.entry_value
+            dict_values:list[float|int] = [float(value_dict.get(key, 0)) for key in ["min", "max", "value"]]
+            min_max_val_float = [float(val)*PRECISION_FACTOR for val in dict_values]
+            min_max_val_int   = [int(val) for val in min_max_val_float]
+
+            if not entry_obj.attributes.get("editable", True):
+                containment_widget.setStyleSheet("color: #707070;")
+                slider.setDisabled(True)
+                numerical_entry.setReadOnly(True)
+            else:
+                containment_widget.setStyleSheet("color: #000000;")
+                slider.setDisabled(False)
+                numerical_entry.setReadOnly(False)
+            
+            slider.setRange(min_max_val_int[0], min_max_val_int[1])
+            slider.setValue(min_max_val_int[2])
+            slider.setTickInterval((min_max_val_int[1]- min_max_val_int[0])//10)
+            numerical_entry.setRange(dict_values[0], dict_values[1])
+            numerical_entry.setValue(dict_values[2])
+
+        self.add_callback("value_up_" + id, update_value)
+        update_value(self) # Initial update
+
+        # Slider update
+        def on_slider_change(value):
+            numerical_entry.setValue(value/PRECISION_FACTOR)
+            self.entry_value["value"] = value/PRECISION_FACTOR
+        slider.valueChanged.connect(on_slider_change)
+
+        # Numerical entry update
+        def on_numerical_entry_change(value):
+            slider.setValue(int(value*PRECISION_FACTOR))
+            self.entry_value["value"] = value
+        numerical_entry.valueChanged.connect(on_numerical_entry_change)
+
+        return containment_widget
+        
+    def _get_BoolEntry_widget(self, id: str) -> QWidget:
+        """Get the bool entry widget."""
+        container_widget = QWidget()
+        layout = QHBoxLayout()
+        container_widget.setLayout(layout)
+        widget = QCheckBox()
+        layout.addStretch()
+        layout.addWidget(widget)
+        layout.addStretch()
+
+        # Callbacks
+        def update_value(entry_obj: DatabaseEntry):
+            widget.setToolTip(entry_obj.description)
+            widget.setChecked(entry_obj.entry_value)
+            if not entry_obj.attributes.get("editable", True):
+                widget.setStyleSheet("color: #707070;")
+                widget.setDisabled(True)
+            else:
+                widget.setStyleSheet("color: #000000;")
+                widget.setDisabled(False)
+        self.add_callback("value_up_" + id, update_value)
+        update_value(self) # Initial update
+
+        # Update the entry
+        def update_entry(value):
+            self.safe_set("entry_value", value)
+        widget.stateChanged.connect(update_entry)
+
+        return container_widget
+
+    def _get_BulletEntry_widget(self, id: str, entry_type: Literal["list", "dict"]) -> QWidget: # TODO : Implement the list and dict entries
+        """Get the bullet entry widget."""
+        container_widget = QWidget()
+        layout = QVBoxLayout()
+        container_widget.setLayout(layout)
+        layout.addWidget(QLabel("Not implemented yet"))
+        return container_widget
+    
+    # TODO : Implement the other entry types
+
+####################################################################################################
 
 class DatabaseClass:
     def __init__(self, id: str, name: str, description: str):
@@ -272,7 +462,7 @@ class DatabaseClass:
     
     # Entry management
 
-    def add_entry(self, id: str, name: str, description: str, entry_type: type, entry_value: any, attributes: dict = {}) -> DatabaseEntry:
+    def add_entry(self, id: str, name: str, description: str, entry_type: DatabaseEntry.GenericEntry, entry_value: any, attributes: dict = {}) -> DatabaseEntry:
         """Add an entry to the class."""
         entry = DatabaseEntry(id, name, description, entry_type, entry_value, attributes)
         with self._entries_lock:
@@ -352,8 +542,8 @@ class DatabaseClass:
             if entry.attributes.get("hidden", False):
                 continue
             layout.addWidget(entry.get_full_widget(id))
-        layout.addStretch()
         layout.setContentsMargins(0, 0, 0, 0)
+        layout.addStretch()
         return widget    
 
 ####################################################################################################
@@ -529,7 +719,7 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content1",
         name="Content 1",
         description="Content 1 description",
-        entry_type= str,
+        entry_type= DatabaseEntry.StringEntry,
         entry_value= "content1.wav",
         attributes={
             "hidden": False,
@@ -539,20 +729,21 @@ def db_basics(database: ContentDatabase) -> bool:
     class1.add_entry(
         id="content2",
         name="Content 2",
-        description="Content 2 description, with content wrap, because we are that strong !",
-        entry_type= str,
+        description="Content 2 description, with content wrap, because we are that strong ! But weirdly, the auto dimentioning of the window is not working properly",
+        entry_type= DatabaseEntry.StringEntry,
         entry_value= "content2.wav",
     )
     class1.add_entry(
         id="content_hidden",
         name="Hidden Content",
-        description="This should not be visible",
-        entry_type= str,
+        description="This should not be visible, and this is also a word wrap test, so that i can fix a bug",
+        entry_type= DatabaseEntry.StringEntry,
         entry_value= "spoooky message",
         attributes={
             "hidden": True,
         },
     )
+    ### --- ###
     class2 = database.add_class(
         id="class2",
         name="Class 2",
@@ -561,8 +752,8 @@ def db_basics(database: ContentDatabase) -> bool:
     class2.add_entry(
         id="content3",
         name="Content 3",
-        description="Content 3 description (from class 2)",
-        entry_type= str,
+        description="Content 3 description (from class 2) - This is mainly to see if the class separation works",
+        entry_type= DatabaseEntry.StringEntry,
         entry_value= "content3.wav",
         attributes={
             "hidden": False,
@@ -572,11 +763,72 @@ def db_basics(database: ContentDatabase) -> bool:
     class2.add_entry(
         id="content4",
         name="Uneditable Content",
-        description="This should not be editable",
-        entry_type= str,
+        description="This should not be editable, so that the user can't change it, but still copy it, whilst giving a slight hint that it is not editable",
+        entry_type= DatabaseEntry.StringEntry,
         entry_value= "content4.wav",
         attributes={
             "editable": False,
+        },
+    )
+    ### --- ###
+    class3 = database.add_class(
+        id="class3",
+        name="Class 3 - Test all other types",
+        description="Class 3 description, be cause why not ?",
+    )
+    class3.add_entry(
+        id="content5",
+        name="Integer Content",
+        description="I'm trying to test all the other types, so here is an integer",
+        entry_type= DatabaseEntry.IntEntry,
+        entry_value= 5,
+        attributes={
+            "hidden": False,
+            "editable": True,
+        },
+    )
+    class3.add_entry(
+        id="content6",
+        name="Float Content",
+        description="I'm trying to test all the other types, so here is a float (its pi*100 = 314.1592653589793)",
+        entry_type= DatabaseEntry.FloatEntry,
+        entry_value= np.pi*100,
+        attributes={
+            "hidden": False,
+            "editable": True,
+        },
+    )
+    class3.add_entry(
+        id="content7",
+        name="Int Range Content",
+        description="I'm trying to test all the other types, so here is an int range",
+        entry_type= DatabaseEntry.IntRangeEntry,
+        entry_value= {"min": 0, "max": 10, "value": 5},
+        attributes={
+            "hidden": False,
+            "editable": True,
+        },
+    )
+    class3.add_entry(
+        id="content8",
+        name="Float Range Content",
+        description="I'm trying to test all the other types, so here is a float range (its pi*100 = 314.1592653589793)",
+        entry_type= DatabaseEntry.FloatRangeEntry,
+        entry_value= {"min": 0, "max": np.pi*100, "value": np.pi*50},
+        attributes={
+            "hidden": False,
+            "editable": True,
+        },
+    )
+    class3.add_entry(
+        id="content9",
+        name="Bool Content",
+        description="I'm trying to test all the other types, so here is a bool",
+        entry_type= DatabaseEntry.BoolEntry,
+        entry_value= True,
+        attributes={
+            "hidden": False,
+            "editable": True,
         },
     )
 
