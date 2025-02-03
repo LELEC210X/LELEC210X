@@ -77,6 +77,11 @@ class SerialController(QThread):
         self._prefixes.discard(prefix)
         self.logger.debug(f"Unregistered prefix: {prefix}")
 
+    def unregister_all_prefixes(self) -> None:
+        """Unregister all prefixes."""
+        self._prefixes.clear()
+        self.logger.debug("Unregistered all prefixes")
+
     def write_message(self, message: str) -> None:
         """Write a message to the serial port."""
         if self.is_connected and message:
@@ -308,6 +313,8 @@ class SerialController(QThread):
         except Exception as e:
             self.logger.error(f"Stop error: {e}")
             return False
+        finally:
+            self.logger.trace("Reader stopped") # Idk if its the right level
 
     def _cleanup(self) -> None:
         """Clean up resources"""
@@ -329,6 +336,7 @@ class SerialController(QThread):
         # Emit connection state
         self._running = False
         self.connection_state.emit(False)
+        self.logger.debug("Cleaned up resources")
 
     def _handle_error(self, message: str) -> None:
         """Handle errors uniformly"""
@@ -355,6 +363,13 @@ def success(self, message, *args, **kws):
     if self.isEnabledFor(25):
         self._log(25, message, args, **kws)
 logging.Logger.success = success
+
+# Add TRACE level to the logger
+logging.addLevelName(15, "TRACE")
+def trace(self, message, *args, **kws):
+    if self.isEnabledFor(15):
+        self._log(15, message, args, **kws)
+logging.Logger.trace = trace
 
 class MainWindow(QMainWindow):
     def __init__(self):

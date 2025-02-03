@@ -7,8 +7,13 @@ import pathlib
 
 class ContentLogger:
     _custom_levels = {
-            'TRACE': 5,
+            'DEBUG': logging.DEBUG,
+            'TRACE': 15,
+            'INFO': logging.INFO,
             'SUCCESS': 25,
+            'WARNING': logging.WARNING,
+            'ERROR': logging.ERROR,
+            'CRITICAL': logging.CRITICAL
         }
 
     def __init__(self, name: str, file_path: str = "test_logs.log", use_file: bool = True):
@@ -40,10 +45,10 @@ class ContentLogger:
                 self.logger._log(level_value, msg, args, **kwargs)
         return log_method
 
-    def change_level(self, level: int):
+    def change_level(self, level: str):
         """Change the logger’s overall level (DEBUG, INFO, etc.)."""
         # Change the level of the logger instance
-        self.logger.setLevel(level)
+        self.logger.setLevel(self._custom_levels.get(level, logging.DEBUG))
 
     def change_formatter(self, formatter_str: str = None, datefmt: str = None, CLI_only: bool = False):
         """Change the formatter and date formatter for all handlers, or only CLI if CLI_only=True."""
@@ -64,17 +69,17 @@ class ContentLogger:
 
     def change_file_path(self, file_path: str):
         """Change the file path for the file handler."""
-        self.file_path = pathlib.Path(__file__).parent / file_path
+        self.file_path = file_path
         # Find the file handler and update its file path
         file_handler = next((h for h in self.handlers if isinstance(h, logging.FileHandler)), None)
         if file_handler:
             file_handler.baseFilename = str(self.file_path)
 
-    def toggle_file_logging(self, file_path: str, level: int = logging.DEBUG):
+    def toggle_file_logging(self, level: int = logging.DEBUG):
         """Toggle file logging on/off."""
         # If the logger has no file handlers, add one
         if not any(isinstance(h, logging.FileHandler) for h in self.handlers):
-            self.add_file_handler(file_path, level)
+            self.add_file_handler(self.file_path, level)
         else:
             self.remove_file_handler()
 

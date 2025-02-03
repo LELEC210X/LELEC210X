@@ -6589,3 +6589,10 @@
 [2024-12-27 23:54:10] DEBUG    : Creating the audio window
 [2024-12-27 23:54:10] DEBUG    : Creating the Audio's GUI
 [2024-12-27 23:54:17] DEBUG    : Closing the application
+[2025-01-03 19:27:37] DEBUG    : Creating the main window
+[2025-01-03 19:27:37] DEBUG    : Creating the GUI
+[2025-01-03 19:27:37] DEBUG    : Updating serial port list
+[2025-01-03 19:27:37] DEBUG    : Opening the audio window
+[2025-01-03 19:27:37] DEBUG    : Creating the audio window
+[2025-01-03 19:27:37] DEBUG    : Creating the Audio's GUI
+[2025-01-03 19:28:35] DEBUG    : Closing the application
