@@ -201,7 +201,7 @@ class GUIAudioWindow(QMainWindow):
             self.fig_audio,
             self._update_audio_plot,
             init_func=self._init_audio_plot,
-            interval=1//TARGET_FPS*1000,
+            interval=1/TARGET_FPS*1000,
             blit=True,
             save_count=1
         )
@@ -209,7 +209,7 @@ class GUIAudioWindow(QMainWindow):
             self.fig_fft,
             self._update_fft_plot,
             init_func=self._init_fft_plot,
-            interval=1//TARGET_FPS*1000,
+            interval=1/TARGET_FPS*1000,
             blit=True,
             save_count=1
         )
@@ -290,6 +290,9 @@ class GUIMELWindow(QMainWindow):
             elif len(self.historic_data) < max_history:
                 self.historic_data = self.historic_data + [{"data": np.zeros(400), "class_proba": np.zeros(10)} for _ in range(max_history-len(self.historic_data))]
 
+        # TODO : Remove this
+        self.historic_data[0]["class_proba"] = np.random.rand(10) if self.historic_data[0]["class_proba"].sum() == 0 else self.historic_data[0]["class_proba"]
+
     def prefix_message_handler(self, prefix, message):
         if prefix == self.db.get_item("MEL Settings", "serial_prefix").value:
             self.add_data(message)
@@ -336,16 +339,69 @@ class GUIMELWindow(QMainWindow):
 
         self.db.get_item("MEL Settings", "max_history_length").register_callback(self.setup_mel_plots)
 
+        # Setup the graph for the classifier
+        self.class_ax.set_title("Classifier Probabilities")
+        self.class_ax.set_xlabel("Classes")
+        self.class_ax.set_ylabel("Probability")
+        self.class_ax.set_xlim(-0.5, 9.5)
+        self.class_ax.set_ylim(-0.05, 1.05)
+        self.class_ax.autoscale(enable=False, axis="both")
+
+        self.classes = [f"Class {i}" for i in range(10)]
+        self.class_histogram = self.class_ax.hist(
+            self.classes,
+            bins=10,
+            weights=np.zeros(10),
+            align='mid',
+            rwidth=0.5,
+            color='blue',
+        )
+
+        self.hist_ax.set_title("Classifier History")
+        self.hist_ax.set_xlabel("Time Frames")
+        self.hist_ax.set_ylabel("Probability")
+        self.hist_ax.set_xlim(-9, 0)
+        self.hist_ax.set_ylim(-0.05, 1.45)
+        self.hist_ax.autoscale(enable=False, axis="both")
+
+        self.hist_lines = []
+        for i in range(len(self.classes)):
+            line, = self.hist_ax.plot([], [], animated=True, label=self.classes[i])
+            self.hist_lines.append(line)
+
+        # Place a external legend
+        self.hist_ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
+        self.fig_class_history.subplots_adjust(left=0.15, right=0.75, top=0.9, bottom=0.2)
+
         # Add the animation
-        TARGET_FPS = self.db.get_item("Plot Settings", "framerate").value
+        TARGET_FPS = self.db.get_item("Plot Settings", "framerate").value/10
         self.anim_mel = FuncAnimation(
             self.fig_mel,
             self._update_mel_plot,
             init_func=self._init_mel_plot,
-            interval=1//TARGET_FPS*1000,
+            interval=1/TARGET_FPS*1000,
             blit=True,
             save_count=1
         )
+
+        self.anim_class = FuncAnimation(
+            self.fig_classifier,
+            self._update_class_plot,
+            init_func=self._init_class_plot,
+            interval=1/TARGET_FPS*1000,
+            blit=True,
+            save_count=1
+        )
+
+        self.anim_hist_class = FuncAnimation(
+            self.fig_class_history,
+            self._update_hist_class_plot,
+            init_func=self._init_hist_class_plot,
+            interval=1/TARGET_FPS*1000,
+            blit=True,
+            save_count=1
+        )
+
 
     def setup_mel_plots(self, number_of_bins=10):
         self.mel_pcolors = []
@@ -396,8 +452,54 @@ class GUIMELWindow(QMainWindow):
         # Add random data to the last image
         self.add_data(np.random.rand(400)) # TODO: remove
 
-        return self.mel_pcolors + [self.mel_rect]        
+        return self.mel_pcolors + [self.mel_rect]     
 
+    def _init_class_plot(self):
+        """Initialize class plot for blitting."""
+        self.class_histogram = self.class_ax.hist(self.classes, bins=10, weights=np.zeros(10), align='mid', rwidth=0.5, color='blue', edgecolor='black')
+        # Make the class titles vertical
+        self.class_ax.set_xticklabels(self.classes, rotation=45)
+        # Make the figure slightly smaller in height to compensate for the vertical labels
+        self.fig_classifier.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.3)
+
+        return (self.class_histogram[2][0],)
+    
+    def _update_class_plot(self, frame):
+        """Update class plot for animation."""
+        # Update class histogram
+        if len(self.historic_data) > 0:
+            class_proba = self.historic_data[0]["class_proba"]
+        else:
+            class_proba = np.zeros(10)
+        
+        # Update the histogram
+        for rect, h in zip(self.class_histogram[2], class_proba):
+            rect.set_height(h)
+        
+        # Make red and add text to the highest bar
+        max_class = np.argmax(class_proba)
+        for i, rect in enumerate(self.class_histogram[2]):
+            if i == max_class:
+                rect.set_color('red')
+            else:
+                rect.set_color('blue')
+
+        return self.class_histogram[2]
+
+    def _init_hist_class_plot(self):
+        """Initialize class history plot for blitting."""
+        for line in self.hist_lines:
+            line.set_data([], [])
+        return self.hist_lines
+    
+    def _update_hist_class_plot(self, frame):
+        """Update class history plot for animation."""
+        for i, line in enumerate(self.hist_lines):
+            line.set_data(-np.arange(0, 10), [data["class_proba"][i] for data in self.historic_data])
+
+        return self.hist_lines
+    
+####################################################################################################
 class GUIMainWindow(QMainWindow):
     """Main GUI window for the application"""
 

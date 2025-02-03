@@ -1,156 +1,49 @@
-[2025-01-03 22:34:02] INFO    : UI created
-[2025-01-03 23:48:35] ERROR   : Invalid port: -- No Ports Detected --
-[2025-01-03 23:48:47] ERROR   : Invalid port: -- No Ports Detected --
-[2025-01-03 23:49:08] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:49:10] DEBUG   : Stopping reader
-[2025-01-03 23:49:11] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:49:12] DEBUG   : Stopping reader
-[2025-01-03 23:50:01] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:50:02] DEBUG   : Stopping reader
-[2025-01-03 23:50:10] ERROR   : Invalid port: COM6
-[2025-01-03 23:50:14] ERROR   : Invalid port: COM6
-[2025-01-03 23:50:19] ERROR   : Invalid port: -- No Ports Detected --
-[2025-01-03 23:50:20] ERROR   : Invalid port: -- No Ports Detected --
-[2025-01-03 23:50:21] ERROR   : Invalid port: -- No Ports Detected --
-[2025-01-03 23:52:12] ERROR   : Invalid port: -- No Ports Detected --
-[2025-01-03 23:52:14] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:52:16] DEBUG   : Stopping reader
-[2025-01-03 23:52:16] DEBUG   : Cleaned up resources
-[2025-01-03 23:52:16] INFO    : Reader stopped
-[2025-01-03 23:52:24] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:52:34] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:52:34] DEBUG   : Stopping reader
-[2025-01-03 23:52:34] DEBUG   : Cleaned up resources
-[2025-01-03 23:52:34] INFO    : Reader stopped
-[2025-01-03 23:52:36] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:52:37] DEBUG   : Stopping reader
-[2025-01-03 23:52:37] DEBUG   : Cleaned up resources
-[2025-01-03 23:52:37] INFO    : Reader stopped
-[2025-01-03 23:52:42] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:52:44] ERROR   : Serial port disconnected unexpectedly
-[2025-01-03 23:52:44] DEBUG   : Stopping reader
-[2025-01-03 23:52:44] ERROR   : Serial port disconnected unexpectedly
-[2025-01-03 23:52:44] INFO    : Received 9 bytes
-[2025-01-03 23:52:44] INFO    : Reader stopped
-[2025-01-03 23:52:44] DEBUG   : Cleaned up resources
-[2025-01-03 23:55:13] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:55:15] DEBUG   : Stopping reader
-[2025-01-03 23:55:15] DEBUG   : Cleaned up resources
-[2025-01-03 23:55:15] INFO    : Reader stopped
-[2025-01-03 23:55:20] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:55:25] DEBUG   : Cleaned up resources
-[2025-01-03 23:56:41] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:56:43] DEBUG   : Stopping reader
-[2025-01-03 23:56:43] DEBUG   : Cleaned up resources
-[2025-01-03 23:56:43] INFO    : Reader stopped
-[2025-01-03 23:56:45] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:56:47] ERROR   : Serial port disconnected unexpectedly
-[2025-01-03 23:56:47] DEBUG   : Stopping reader
-[2025-01-03 23:56:47] INFO    : >>TERMINATE
-[2025-01-03 23:56:47] INFO    : Reader stopped
-[2025-01-03 23:56:47] DEBUG   : Cleaned up resources
-[2025-01-03 23:58:05] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:58:06] DEBUG   : Stopping reader
-[2025-01-03 23:58:06] DEBUG   : Cleaned up resources
-[2025-01-03 23:58:06] SUCCESS : Reader stopped
-[2025-01-03 23:58:10] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:59:03] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:59:03] DEBUG   : Stopping reader
-[2025-01-03 23:59:03] DEBUG   : Cleaned up resources
-[2025-01-03 23:59:03] WARNING : Reader stopped
-[2025-01-03 23:59:32] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-03 23:59:36] INFO    : >>Hello world
-[2025-01-03 23:59:36] INFO    : >>[S2LP] Init OK
-[2025-01-03 23:59:47] DEBUG   : Stopping reader
-[2025-01-03 23:59:47] DEBUG   : Cleaned up resources
-[2025-01-04 00:01:23] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-04 00:01:23] DEBUG   : Stopping reader
-[2025-01-04 00:01:23] DEBUG   : Cleaned up resources
-[2025-01-04 00:01:23] TRACE   : Reader stopped
-[2025-01-04 00:21:40] INFO    : Opening the Parameters Window
-[2025-01-04 00:26:20] INFO    : Opening the Parameters Window
-[2025-01-04 00:26:48] INFO    : Opening the Parameters Window
-[2025-01-04 00:28:14] INFO    : Opening the Parameters Window
-[2025-01-04 00:35:40] INFO    : Opening the Audio Window
-[2025-01-04 00:36:15] INFO    : Opening the Audio Window
-[2025-01-04 00:36:45] INFO    : Opening the Audio Window
-[2025-01-04 00:37:48] INFO    : Opening the Audio Window
-[2025-01-04 00:38:29] INFO    : Opening the Audio Window
-[2025-01-04 00:39:56] INFO    : Opening the Audio Window
-[2025-01-04 00:40:31] INFO    : Opening the Audio Window
-[2025-01-04 16:35:07] INFO    : Opening the MEL Window
-[2025-01-04 16:40:20] INFO    : Opening the MEL Window
-[2025-01-04 16:43:25] INFO    : Opening the MEL Window
-[2025-01-04 16:44:42] INFO    : Opening the MEL Window
-[2025-01-04 16:45:36] INFO    : Opening the MEL Window
-[2025-01-04 16:46:31] INFO    : Opening the MEL Window
-[2025-01-04 16:47:22] INFO    : Opening the MEL Window
-[2025-01-04 16:48:29] INFO    : Opening the MEL Window
-[2025-01-04 16:53:55] INFO    : Opening the MEL Window
-[2025-01-04 16:54:27] INFO    : Opening the MEL Window
-[2025-01-04 16:55:02] INFO    : Opening the MEL Window
-[2025-01-04 16:55:29] INFO    : Opening the MEL Window
-[2025-01-04 16:56:50] INFO    : Opening the MEL Window
-[2025-01-04 16:57:44] INFO    : Opening the MEL Window
-[2025-01-04 16:58:15] INFO    : Opening the MEL Window
-[2025-01-04 16:59:45] INFO    : Opening the MEL Window
-[2025-01-04 17:00:21] INFO    : Opening the MEL Window
-[2025-01-04 17:01:11] INFO    : Opening the MEL Window
-[2025-01-04 17:01:26] INFO    : Opening the MEL Window
-[2025-01-04 17:02:27] INFO    : Opening the MEL Window
-[2025-01-04 17:03:03] INFO    : Opening the MEL Window
-[2025-01-04 23:11:52] INFO    : Opening the MEL Window
-[2025-01-04 23:12:35] INFO    : Opening the MEL Window
-[2025-01-04 23:18:43] ERROR   : Invalid port: -- No Ports Detected --
-[2025-01-04 23:18:44] ERROR   : Invalid port: -- No Ports Detected --
-[2025-01-04 23:18:44] ERROR   : Invalid port: -- No Ports Detected --
-[2025-01-04 23:18:44] ERROR   : Invalid port: -- No Ports Detected --
-[2025-01-04 23:18:52] SUCCESS : Connected to COM6 at 115200 baud
-[2025-01-04 23:18:55] INFO    : >>Hello world
-[2025-01-04 23:18:55] INFO    : >>[S2LP] Init OK
-[2025-01-04 23:18:55] INFO    : >>Hello world
-[2025-01-04 23:18:55] INFO    : >>[S2LP] Init OK
-[2025-01-04 23:19:01] INFO    : Opening the Parameters Window
-[2025-01-04 23:19:11] ERROR   : Serial port disconnected unexpectedly
-[2025-01-04 23:19:11] TRACE   : Reader stopped
-[2025-01-04 23:19:38] INFO    : Opening the Audio Window
-[2025-01-04 23:19:54] INFO    : Opening the MEL Window
-[2025-01-06 22:53:35] INFO    : Opening the MEL Window
-[2025-01-06 22:55:14] INFO    : Opening the MEL Window
-[2025-01-06 22:55:58] INFO    : Opening the MEL Window
-[2025-01-06 22:56:35] INFO    : Opening the MEL Window
-[2025-01-06 22:57:47] INFO    : Opening the MEL Window
-[2025-01-06 22:59:39] INFO    : Opening the MEL Window
-[2025-01-06 23:00:11] INFO    : Opening the MEL Window
-[2025-01-06 23:15:19] INFO    : Opening the MEL Window
-[2025-01-06 23:16:40] INFO    : Opening the MEL Window
-[2025-01-06 23:17:20] INFO    : Opening the MEL Window
-[2025-01-06 23:18:15] INFO    : Opening the MEL Window
-[2025-01-06 23:19:07] INFO    : Opening the MEL Window
-[2025-01-06 23:19:27] INFO    : Opening the MEL Window
-[2025-01-06 23:20:07] INFO    : Opening the MEL Window
-[2025-01-06 23:20:32] INFO    : Opening the MEL Window
-[2025-01-06 23:21:17] INFO    : Opening the MEL Window
-[2025-01-06 23:21:29] INFO    : Opening the MEL Window
-[2025-01-06 23:22:03] INFO    : Opening the MEL Window
-[2025-01-06 23:23:28] INFO    : Opening the MEL Window
-[2025-01-06 23:23:58] INFO    : Opening the MEL Window
-[2025-01-06 23:24:36] INFO    : Opening the MEL Window
-[2025-01-06 23:24:59] INFO    : Opening the MEL Window
-[2025-01-06 23:27:51] INFO    : Opening the MEL Window
-[2025-01-06 23:27:55] INFO    : Opening the Parameters Window
-[2025-01-06 23:29:16] INFO    : Opening the MEL Window
-[2025-01-06 23:30:24] INFO    : Opening the MEL Window
-[2025-01-06 23:30:48] INFO    : Opening the MEL Window
-[2025-01-06 23:31:00] INFO    : Opening the MEL Window
-[2025-01-06 23:31:06] INFO    : Opening the Parameters Window
-[2025-01-06 23:32:28] INFO    : Opening the MEL Window
-[2025-01-06 23:32:33] INFO    : Opening the Parameters Window
-[2025-01-06 23:35:03] INFO    : Opening the Parameters Window
-[2025-01-06 23:35:05] INFO    : Opening the MEL Window
-[2025-01-06 23:37:45] INFO    : Opening the Parameters Window
-[2025-01-06 23:37:47] INFO    : Opening the MEL Window
-[2025-01-06 23:39:04] INFO    : Opening the MEL Window
-[2025-01-06 23:39:06] INFO    : Opening the Parameters Window
-[2025-01-06 23:40:22] INFO    : Opening the MEL Window
-[2025-01-06 23:40:24] INFO    : Opening the Parameters Window
+[2025-01-10 20:13:14] INFO    : Opening the Audio Window
+[2025-01-10 20:13:23] INFO    : Opening the MEL Window
+[2025-01-10 20:14:35] INFO    : Opening the Audio Window
+[2025-01-10 20:14:40] INFO    : Opening the Parameters Window
+[2025-01-10 20:14:52] INFO    : Opening the Audio Window
+[2025-01-10 20:14:55] INFO    : Opening the MEL Window
+[2025-01-10 20:16:10] ERROR   : Invalid port: -- No Ports Detected --
+[2025-01-10 20:17:56] INFO    : Opening the MEL Window
+[2025-01-10 20:20:46] INFO    : Opening the MEL Window
+[2025-01-10 20:21:32] INFO    : Opening the MEL Window
+[2025-01-10 20:22:02] INFO    : Opening the MEL Window
+[2025-01-10 20:22:10] INFO    : Opening the MEL Window
+[2025-01-10 20:24:45] INFO    : Opening the MEL Window
+[2025-01-10 20:25:39] INFO    : Opening the MEL Window
+[2025-01-10 20:26:05] INFO    : Opening the MEL Window
+[2025-01-10 20:26:25] INFO    : Opening the MEL Window
+[2025-01-10 20:26:38] INFO    : Opening the MEL Window
+[2025-01-10 20:26:55] INFO    : Opening the MEL Window
+[2025-01-10 20:27:19] INFO    : Opening the MEL Window
+[2025-01-10 20:28:48] INFO    : Opening the MEL Window
+[2025-01-10 20:29:00] INFO    : Opening the MEL Window
+[2025-01-10 20:29:20] INFO    : Opening the MEL Window
+[2025-01-10 20:32:34] INFO    : Opening the MEL Window
+[2025-01-10 20:32:57] INFO    : Opening the MEL Window
+[2025-01-10 20:34:22] INFO    : Opening the MEL Window
+[2025-01-10 20:35:03] INFO    : Opening the MEL Window
+[2025-01-10 20:35:36] INFO    : Opening the MEL Window
+[2025-01-10 20:37:25] INFO    : Opening the MEL Window
+[2025-01-10 20:38:59] INFO    : Opening the MEL Window
+[2025-01-10 20:39:51] INFO    : Opening the MEL Window
+[2025-01-10 20:49:05] INFO    : Opening the MEL Window
+[2025-01-10 20:49:20] INFO    : Opening the MEL Window
+[2025-01-10 20:49:49] INFO    : Opening the MEL Window
+[2025-01-10 20:50:16] INFO    : Opening the MEL Window
+[2025-01-10 20:50:29] INFO    : Opening the MEL Window
+[2025-01-10 20:51:01] INFO    : Opening the MEL Window
+[2025-01-10 20:51:37] INFO    : Opening the MEL Window
+[2025-01-10 20:51:58] INFO    : Opening the MEL Window
+[2025-01-10 20:52:08] INFO    : Opening the MEL Window
+[2025-01-10 20:52:22] INFO    : Opening the MEL Window
+[2025-01-10 20:53:43] INFO    : Opening the MEL Window
+[2025-01-10 20:53:56] INFO    : Opening the MEL Window
+[2025-01-10 20:54:07] INFO    : Opening the MEL Window
+[2025-01-10 20:54:15] INFO    : Opening the MEL Window
+[2025-01-10 20:54:35] INFO    : Opening the MEL Window
+[2025-01-10 20:54:49] INFO    : Opening the MEL Window
+[2025-01-10 20:55:00] INFO    : Opening the MEL Window
+[2025-01-10 20:55:11] INFO    : Opening the MEL Window
+[2025-01-10 20:55:23] INFO    : Opening the MEL Window
