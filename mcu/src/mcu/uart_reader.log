@@ -6091,3 +6091,501 @@
 [2024-12-26 01:25:00] DEBUG    : Clearing audio folder
 [2024-12-26 01:25:32] GOOD     : Audio cleared successfully
 [2024-12-26 01:25:36] DEBUG    : Closing the application
+[2024-12-26 16:04:11] DEBUG    : Creating the main window
+[2024-12-26 16:04:11] DEBUG    : Creating the GUI
+[2024-12-26 16:04:11] DEBUG    : Updating the serial port
+[2024-12-26 16:04:17] DEBUG    : Initiating serial port connection
+[2024-12-26 16:04:17] DEBUG    : Serial port connected successfully
+[2024-12-26 16:04:17] GOOD     : Connected to COM6 - USB Serial Device (COM6)
+[2024-12-26 16:04:17] DEBUG    : Initiating serial port disconnect
+[2024-12-26 16:04:17] DEBUG    : Stopping reader
+[2024-12-26 16:04:17] GOOD     : Serial port disconnected successfully
+[2024-12-26 16:04:18] DEBUG    : Updating the serial port
+[2024-12-26 16:04:20] DEBUG    : Updating the serial port
+[2024-12-26 16:04:21] DEBUG    : Updating the serial port
+[2024-12-26 16:04:22] DEBUG    : Updating the serial port
+[2024-12-26 16:04:22] DEBUG    : Updating the serial port
+[2024-12-26 16:04:23] DEBUG    : Updating the serial port
+[2024-12-26 16:04:25] DEBUG    : Updating the serial port
+[2024-12-26 16:04:30] DEBUG    : Closing the application
+[2024-12-26 16:06:08] DEBUG    : Creating the main window
+[2024-12-26 16:06:08] DEBUG    : Creating the GUI
+[2024-12-26 16:06:08] DEBUG    : Updating the serial port
+[2024-12-26 16:06:10] DEBUG    : Updating the serial port
+[2024-12-26 16:06:13] DEBUG    : Opening the parameters window
+[2024-12-26 16:06:13] DEBUG    : Creating the parameters window
+[2024-12-26 16:06:13] DEBUG    : Creating the Parametter's GUI
+[2024-12-26 16:06:25] DEBUG    : Closing the application
+[2024-12-26 16:11:35] DEBUG    : Creating the main window
+[2024-12-26 16:11:35] DEBUG    : Creating the GUI
+[2024-12-26 16:11:35] DEBUG    : Updating the serial port
+[2024-12-26 16:11:41] DEBUG    : Closing the application
+[2024-12-26 16:15:01] DEBUG    : Creating the main window
+[2024-12-26 16:15:01] DEBUG    : Creating the GUI
+[2024-12-26 16:15:01] DEBUG    : Updating serial port list
+[2024-12-26 16:15:07] DEBUG    : Updating serial port list
+[2024-12-26 16:15:09] DEBUG    : Updating serial port list
+[2024-12-26 16:15:09] DEBUG    : Updating serial port list
+[2024-12-26 16:15:09] DEBUG    : Updating serial port list
+[2024-12-26 16:15:10] DEBUG    : Closing the application
+[2024-12-26 16:17:06] DEBUG    : Creating the main window
+[2024-12-26 16:17:06] DEBUG    : Creating the GUI
+[2024-12-26 16:17:06] DEBUG    : Updating serial port list
+[2024-12-26 16:17:10] DEBUG    : Updating serial port list
+[2024-12-26 16:17:13] DEBUG    : Updating serial port list
+[2024-12-26 16:17:15] DEBUG    : Updating serial port list
+[2024-12-26 16:17:16] DEBUG    : Updating serial port list
+[2024-12-26 16:17:17] DEBUG    : Updating serial port list
+[2024-12-26 16:17:18] DEBUG    : Updating serial port list
+[2024-12-26 16:17:18] DEBUG    : Updating serial port list
+[2024-12-26 16:17:19] DEBUG    : Updating serial port list
+[2024-12-26 16:17:22] DEBUG    : Closing the application
+[2024-12-26 19:12:54] DEBUG    : Creating the main window
+[2024-12-26 19:12:54] DEBUG    : Creating the GUI
+[2024-12-26 19:12:55] DEBUG    : Updating serial port list
+[2024-12-26 19:12:59] DEBUG    : Initiating serial port connection
+[2024-12-26 19:12:59] ERROR    : Serial toggle failed: Failed to start serial reader
+[2024-12-26 19:13:03] DEBUG    : Updating serial port list
+[2024-12-26 19:13:07] DEBUG    : Updating serial port list
+[2024-12-26 19:13:07] DEBUG    : Updating serial port list
+[2024-12-26 19:13:23] DEBUG    : Closing the application
+[2024-12-26 22:13:28] DEBUG    : Creating the main window
+[2024-12-26 22:13:28] DEBUG    : Creating the GUI
+[2024-12-26 22:13:28] DEBUG    : Updating serial port list
+[2024-12-26 22:13:28] DEBUG    : Opening the audio window
+[2024-12-26 22:13:28] DEBUG    : Creating the audio window
+[2024-12-26 22:13:28] DEBUG    : Creating the Audio's GUI
+[2024-12-26 22:13:42] DEBUG    : Closing the application
+[2024-12-26 22:14:47] DEBUG    : Creating the main window
+[2024-12-26 22:14:47] DEBUG    : Creating the GUI
+[2024-12-26 22:14:47] DEBUG    : Updating serial port list
+[2024-12-26 22:14:47] DEBUG    : Opening the audio window
+[2024-12-26 22:14:47] DEBUG    : Creating the audio window
+[2024-12-26 22:14:47] DEBUG    : Creating the Audio's GUI
+[2024-12-26 22:14:56] DEBUG    : Closing the application
+[2024-12-26 22:17:47] DEBUG    : Creating the main window
+[2024-12-26 22:17:47] DEBUG    : Creating the GUI
+[2024-12-26 22:17:47] DEBUG    : Updating serial port list
+[2024-12-26 22:17:47] DEBUG    : Opening the audio window
+[2024-12-26 22:17:47] DEBUG    : Creating the audio window
+[2024-12-26 22:17:47] DEBUG    : Creating the Audio's GUI
+[2024-12-26 22:55:16] DEBUG    : Creating the main window
+[2024-12-26 22:55:16] DEBUG    : Creating the GUI
+[2024-12-26 22:55:16] DEBUG    : Updating serial port list
+[2024-12-26 22:55:16] DEBUG    : Opening the audio window
+[2024-12-26 22:55:16] DEBUG    : Creating the audio window
+[2024-12-26 22:55:16] DEBUG    : Creating the Audio's GUI
+[2024-12-26 22:55:41] DEBUG    : Closing the application
+[2024-12-26 22:56:57] DEBUG    : Creating the main window
+[2024-12-26 22:56:57] DEBUG    : Creating the GUI
+[2024-12-26 22:56:57] DEBUG    : Updating serial port list
+[2024-12-26 22:56:57] DEBUG    : Opening the audio window
+[2024-12-26 22:56:57] DEBUG    : Creating the audio window
+[2024-12-26 22:56:57] DEBUG    : Creating the Audio's GUI
+[2024-12-26 22:57:05] DEBUG    : Closing the application
+[2024-12-26 22:59:05] DEBUG    : Creating the main window
+[2024-12-26 22:59:05] DEBUG    : Creating the GUI
+[2024-12-26 22:59:05] DEBUG    : Updating serial port list
+[2024-12-26 22:59:05] DEBUG    : Opening the audio window
+[2024-12-26 22:59:05] DEBUG    : Creating the audio window
+[2024-12-26 22:59:05] DEBUG    : Creating the Audio's GUI
+[2024-12-26 22:59:13] DEBUG    : Closing the application
+[2024-12-26 23:00:24] DEBUG    : Creating the main window
+[2024-12-26 23:00:24] DEBUG    : Creating the GUI
+[2024-12-26 23:00:24] DEBUG    : Updating serial port list
+[2024-12-26 23:00:24] DEBUG    : Opening the audio window
+[2024-12-26 23:00:24] DEBUG    : Creating the audio window
+[2024-12-26 23:00:24] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:00:36] DEBUG    : Closing the application
+[2024-12-26 23:01:18] DEBUG    : Creating the main window
+[2024-12-26 23:01:18] DEBUG    : Creating the GUI
+[2024-12-26 23:01:18] DEBUG    : Updating serial port list
+[2024-12-26 23:01:18] DEBUG    : Opening the audio window
+[2024-12-26 23:01:18] DEBUG    : Creating the audio window
+[2024-12-26 23:01:18] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:01:29] DEBUG    : Closing the application
+[2024-12-26 23:01:33] DEBUG    : Creating the main window
+[2024-12-26 23:01:33] DEBUG    : Creating the GUI
+[2024-12-26 23:01:33] DEBUG    : Updating serial port list
+[2024-12-26 23:01:33] DEBUG    : Opening the audio window
+[2024-12-26 23:01:33] DEBUG    : Creating the audio window
+[2024-12-26 23:01:33] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:02:41] DEBUG    : Creating the main window
+[2024-12-26 23:02:41] DEBUG    : Creating the GUI
+[2024-12-26 23:02:41] DEBUG    : Updating serial port list
+[2024-12-26 23:02:41] DEBUG    : Opening the audio window
+[2024-12-26 23:02:41] DEBUG    : Creating the audio window
+[2024-12-26 23:02:41] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:02:46] DEBUG    : Closing the application
+[2024-12-26 23:03:23] DEBUG    : Creating the main window
+[2024-12-26 23:03:23] DEBUG    : Creating the GUI
+[2024-12-26 23:03:23] DEBUG    : Updating serial port list
+[2024-12-26 23:03:23] DEBUG    : Opening the audio window
+[2024-12-26 23:03:23] DEBUG    : Creating the audio window
+[2024-12-26 23:03:23] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:03:34] DEBUG    : Closing the application
+[2024-12-26 23:04:35] DEBUG    : Creating the main window
+[2024-12-26 23:04:35] DEBUG    : Creating the GUI
+[2024-12-26 23:04:35] DEBUG    : Updating serial port list
+[2024-12-26 23:04:35] DEBUG    : Opening the audio window
+[2024-12-26 23:04:35] DEBUG    : Creating the audio window
+[2024-12-26 23:04:35] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:04:56] DEBUG    : Closing the application
+[2024-12-26 23:06:22] DEBUG    : Creating the main window
+[2024-12-26 23:06:22] DEBUG    : Creating the GUI
+[2024-12-26 23:06:22] DEBUG    : Updating serial port list
+[2024-12-26 23:06:22] DEBUG    : Opening the audio window
+[2024-12-26 23:06:22] DEBUG    : Creating the audio window
+[2024-12-26 23:06:22] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:07:29] DEBUG    : Creating the main window
+[2024-12-26 23:07:29] DEBUG    : Creating the GUI
+[2024-12-26 23:07:29] DEBUG    : Updating serial port list
+[2024-12-26 23:07:29] DEBUG    : Opening the audio window
+[2024-12-26 23:07:29] DEBUG    : Creating the audio window
+[2024-12-26 23:07:29] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:07:40] DEBUG    : Closing the application
+[2024-12-26 23:09:16] DEBUG    : Creating the main window
+[2024-12-26 23:09:16] DEBUG    : Creating the GUI
+[2024-12-26 23:09:16] DEBUG    : Updating serial port list
+[2024-12-26 23:09:16] DEBUG    : Opening the audio window
+[2024-12-26 23:09:16] DEBUG    : Creating the audio window
+[2024-12-26 23:09:16] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:10:26] DEBUG    : Creating the main window
+[2024-12-26 23:10:26] DEBUG    : Creating the GUI
+[2024-12-26 23:10:26] DEBUG    : Updating serial port list
+[2024-12-26 23:10:26] DEBUG    : Opening the audio window
+[2024-12-26 23:10:26] DEBUG    : Creating the audio window
+[2024-12-26 23:10:26] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:10:37] DEBUG    : Creating the main window
+[2024-12-26 23:10:37] DEBUG    : Creating the GUI
+[2024-12-26 23:10:38] DEBUG    : Updating serial port list
+[2024-12-26 23:10:38] DEBUG    : Opening the audio window
+[2024-12-26 23:10:38] DEBUG    : Creating the audio window
+[2024-12-26 23:10:38] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:11:04] DEBUG    : Closing the application
+[2024-12-26 23:12:42] DEBUG    : Creating the main window
+[2024-12-26 23:12:42] DEBUG    : Creating the GUI
+[2024-12-26 23:12:42] DEBUG    : Updating serial port list
+[2024-12-26 23:12:42] DEBUG    : Opening the audio window
+[2024-12-26 23:12:42] DEBUG    : Creating the audio window
+[2024-12-26 23:12:42] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:12:53] DEBUG    : Closing the application
+[2024-12-26 23:13:08] DEBUG    : Creating the main window
+[2024-12-26 23:13:08] DEBUG    : Creating the GUI
+[2024-12-26 23:13:08] DEBUG    : Updating serial port list
+[2024-12-26 23:13:08] DEBUG    : Opening the audio window
+[2024-12-26 23:13:08] DEBUG    : Creating the audio window
+[2024-12-26 23:13:08] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:13:12] DEBUG    : Closing the application
+[2024-12-26 23:13:31] DEBUG    : Creating the main window
+[2024-12-26 23:13:31] DEBUG    : Creating the GUI
+[2024-12-26 23:13:31] DEBUG    : Updating serial port list
+[2024-12-26 23:13:31] DEBUG    : Opening the audio window
+[2024-12-26 23:13:31] DEBUG    : Creating the audio window
+[2024-12-26 23:13:31] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:15:18] DEBUG    : Closing the application
+[2024-12-26 23:15:37] DEBUG    : Creating the main window
+[2024-12-26 23:15:37] DEBUG    : Creating the GUI
+[2024-12-26 23:15:37] DEBUG    : Updating serial port list
+[2024-12-26 23:15:37] DEBUG    : Opening the audio window
+[2024-12-26 23:15:37] DEBUG    : Creating the audio window
+[2024-12-26 23:15:37] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:15:56] DEBUG    : Closing the application
+[2024-12-26 23:16:15] DEBUG    : Creating the main window
+[2024-12-26 23:16:15] DEBUG    : Creating the GUI
+[2024-12-26 23:16:15] DEBUG    : Updating serial port list
+[2024-12-26 23:16:15] DEBUG    : Opening the audio window
+[2024-12-26 23:16:15] DEBUG    : Creating the audio window
+[2024-12-26 23:16:15] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:16:18] DEBUG    : Closing the application
+[2024-12-26 23:16:27] DEBUG    : Creating the main window
+[2024-12-26 23:16:27] DEBUG    : Creating the GUI
+[2024-12-26 23:16:27] DEBUG    : Updating serial port list
+[2024-12-26 23:16:27] DEBUG    : Opening the audio window
+[2024-12-26 23:16:27] DEBUG    : Creating the audio window
+[2024-12-26 23:16:27] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:16:35] DEBUG    : Closing the application
+[2024-12-26 23:17:47] DEBUG    : Creating the main window
+[2024-12-26 23:17:47] DEBUG    : Creating the GUI
+[2024-12-26 23:17:47] DEBUG    : Updating serial port list
+[2024-12-26 23:17:47] DEBUG    : Opening the audio window
+[2024-12-26 23:17:47] DEBUG    : Creating the audio window
+[2024-12-26 23:17:47] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:17:57] DEBUG    : Saving audio signal
+[2024-12-26 23:19:18] DEBUG    : Creating the main window
+[2024-12-26 23:19:18] DEBUG    : Creating the GUI
+[2024-12-26 23:19:18] DEBUG    : Updating serial port list
+[2024-12-26 23:19:18] DEBUG    : Opening the audio window
+[2024-12-26 23:19:18] DEBUG    : Creating the audio window
+[2024-12-26 23:19:18] DEBUG    : Creating the Audio's GUI
+[2024-12-26 23:19:21] DEBUG    : Saving audio signal
+[2024-12-27 21:41:48] DEBUG    : Creating the main window
+[2024-12-27 21:41:48] DEBUG    : Creating the GUI
+[2024-12-27 21:41:48] DEBUG    : Updating serial port list
+[2024-12-27 21:41:48] DEBUG    : Opening the audio window
+[2024-12-27 21:41:48] DEBUG    : Creating the audio window
+[2024-12-27 21:41:48] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:44:42] DEBUG    : Closing the application
+[2024-12-27 21:46:25] DEBUG    : Creating the main window
+[2024-12-27 21:46:25] DEBUG    : Creating the GUI
+[2024-12-27 21:46:25] DEBUG    : Updating serial port list
+[2024-12-27 21:46:25] DEBUG    : Opening the audio window
+[2024-12-27 21:46:25] DEBUG    : Creating the audio window
+[2024-12-27 21:46:25] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:46:34] DEBUG    : Closing the application
+[2024-12-27 21:47:52] DEBUG    : Creating the main window
+[2024-12-27 21:47:52] DEBUG    : Creating the GUI
+[2024-12-27 21:47:52] DEBUG    : Updating serial port list
+[2024-12-27 21:47:52] DEBUG    : Opening the audio window
+[2024-12-27 21:47:52] DEBUG    : Creating the audio window
+[2024-12-27 21:47:52] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:48:01] DEBUG    : Closing the application
+[2024-12-27 21:48:25] DEBUG    : Creating the main window
+[2024-12-27 21:48:25] DEBUG    : Creating the GUI
+[2024-12-27 21:48:25] DEBUG    : Updating serial port list
+[2024-12-27 21:48:25] DEBUG    : Opening the audio window
+[2024-12-27 21:48:25] DEBUG    : Creating the audio window
+[2024-12-27 21:48:25] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:48:30] DEBUG    : Closing the application
+[2024-12-27 21:50:39] DEBUG    : Creating the main window
+[2024-12-27 21:50:39] DEBUG    : Creating the GUI
+[2024-12-27 21:50:39] DEBUG    : Updating serial port list
+[2024-12-27 21:50:39] DEBUG    : Opening the audio window
+[2024-12-27 21:50:39] DEBUG    : Creating the audio window
+[2024-12-27 21:50:39] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:50:42] DEBUG    : Closing the application
+[2024-12-27 21:52:00] DEBUG    : Creating the main window
+[2024-12-27 21:52:00] DEBUG    : Creating the GUI
+[2024-12-27 21:52:00] DEBUG    : Updating serial port list
+[2024-12-27 21:52:01] DEBUG    : Opening the audio window
+[2024-12-27 21:52:01] DEBUG    : Creating the audio window
+[2024-12-27 21:52:01] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:52:21] DEBUG    : Creating the main window
+[2024-12-27 21:52:21] DEBUG    : Creating the GUI
+[2024-12-27 21:52:21] DEBUG    : Updating serial port list
+[2024-12-27 21:52:21] DEBUG    : Opening the audio window
+[2024-12-27 21:52:21] DEBUG    : Creating the audio window
+[2024-12-27 21:52:21] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:52:52] DEBUG    : Creating the main window
+[2024-12-27 21:52:52] DEBUG    : Creating the GUI
+[2024-12-27 21:52:52] DEBUG    : Updating serial port list
+[2024-12-27 21:52:52] DEBUG    : Opening the audio window
+[2024-12-27 21:52:52] DEBUG    : Creating the audio window
+[2024-12-27 21:52:52] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:53:05] DEBUG    : Creating the main window
+[2024-12-27 21:53:05] DEBUG    : Creating the GUI
+[2024-12-27 21:53:05] DEBUG    : Updating serial port list
+[2024-12-27 21:53:05] DEBUG    : Opening the audio window
+[2024-12-27 21:53:05] DEBUG    : Creating the audio window
+[2024-12-27 21:53:05] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:53:29] DEBUG    : Creating the main window
+[2024-12-27 21:53:29] DEBUG    : Creating the GUI
+[2024-12-27 21:53:29] DEBUG    : Updating serial port list
+[2024-12-27 21:53:29] DEBUG    : Opening the audio window
+[2024-12-27 21:53:29] DEBUG    : Creating the audio window
+[2024-12-27 21:53:29] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:53:50] DEBUG    : Creating the main window
+[2024-12-27 21:53:50] DEBUG    : Creating the GUI
+[2024-12-27 21:53:50] DEBUG    : Updating serial port list
+[2024-12-27 21:53:50] DEBUG    : Opening the audio window
+[2024-12-27 21:53:50] DEBUG    : Creating the audio window
+[2024-12-27 21:53:50] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:53:53] DEBUG    : Closing the application
+[2024-12-27 21:54:07] DEBUG    : Creating the main window
+[2024-12-27 21:54:07] DEBUG    : Creating the GUI
+[2024-12-27 21:54:07] DEBUG    : Updating serial port list
+[2024-12-27 21:54:07] DEBUG    : Opening the audio window
+[2024-12-27 21:54:07] DEBUG    : Creating the audio window
+[2024-12-27 21:54:07] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:54:47] DEBUG    : Creating the main window
+[2024-12-27 21:54:47] DEBUG    : Creating the GUI
+[2024-12-27 21:54:47] DEBUG    : Updating serial port list
+[2024-12-27 21:54:47] DEBUG    : Opening the audio window
+[2024-12-27 21:54:47] DEBUG    : Creating the audio window
+[2024-12-27 21:54:47] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:55:13] DEBUG    : Creating the main window
+[2024-12-27 21:55:13] DEBUG    : Creating the GUI
+[2024-12-27 21:55:13] DEBUG    : Updating serial port list
+[2024-12-27 21:55:13] DEBUG    : Opening the audio window
+[2024-12-27 21:55:13] DEBUG    : Creating the audio window
+[2024-12-27 21:55:13] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:56:30] DEBUG    : Creating the main window
+[2024-12-27 21:56:30] DEBUG    : Creating the GUI
+[2024-12-27 21:56:30] DEBUG    : Updating serial port list
+[2024-12-27 21:56:30] DEBUG    : Opening the audio window
+[2024-12-27 21:56:30] DEBUG    : Creating the audio window
+[2024-12-27 21:56:30] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:56:53] DEBUG    : Creating the main window
+[2024-12-27 21:56:53] DEBUG    : Creating the GUI
+[2024-12-27 21:56:53] DEBUG    : Updating serial port list
+[2024-12-27 21:56:53] DEBUG    : Opening the audio window
+[2024-12-27 21:56:53] DEBUG    : Creating the audio window
+[2024-12-27 21:56:53] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:57:07] DEBUG    : Creating the main window
+[2024-12-27 21:57:07] DEBUG    : Creating the GUI
+[2024-12-27 21:57:07] DEBUG    : Updating serial port list
+[2024-12-27 21:57:07] DEBUG    : Opening the audio window
+[2024-12-27 21:57:07] DEBUG    : Creating the audio window
+[2024-12-27 21:57:07] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:57:11] DEBUG    : Closing the application
+[2024-12-27 21:57:26] DEBUG    : Creating the main window
+[2024-12-27 21:57:26] DEBUG    : Creating the GUI
+[2024-12-27 21:57:26] DEBUG    : Updating serial port list
+[2024-12-27 21:57:26] DEBUG    : Opening the audio window
+[2024-12-27 21:57:26] DEBUG    : Creating the audio window
+[2024-12-27 21:57:26] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:57:32] DEBUG    : Closing the application
+[2024-12-27 21:58:08] DEBUG    : Creating the main window
+[2024-12-27 21:58:08] DEBUG    : Creating the GUI
+[2024-12-27 21:58:08] DEBUG    : Updating serial port list
+[2024-12-27 21:58:08] DEBUG    : Opening the audio window
+[2024-12-27 21:58:08] DEBUG    : Creating the audio window
+[2024-12-27 21:58:08] DEBUG    : Creating the Audio's GUI
+[2024-12-27 21:58:12] DEBUG    : Closing the application
+[2024-12-27 21:58:36] DEBUG    : Creating the main window
+[2024-12-27 21:58:36] DEBUG    : Creating the GUI
+[2024-12-27 21:58:36] DEBUG    : Updating serial port list
+[2024-12-27 21:58:36] DEBUG    : Opening the audio window
+[2024-12-27 21:58:36] DEBUG    : Creating the audio window
+[2024-12-27 21:58:36] DEBUG    : Creating the Audio's GUI
+[2024-12-27 22:00:02] DEBUG    : Creating the main window
+[2024-12-27 22:00:02] DEBUG    : Creating the GUI
+[2024-12-27 22:00:02] DEBUG    : Updating serial port list
+[2024-12-27 22:00:02] DEBUG    : Opening the audio window
+[2024-12-27 22:00:02] DEBUG    : Creating the audio window
+[2024-12-27 22:00:02] DEBUG    : Creating the Audio's GUI
+[2024-12-27 22:00:38] DEBUG    : Closing the application
+[2024-12-27 22:03:05] DEBUG    : Creating the main window
+[2024-12-27 22:03:05] DEBUG    : Creating the GUI
+[2024-12-27 22:03:05] DEBUG    : Updating serial port list
+[2024-12-27 22:03:05] DEBUG    : Opening the audio window
+[2024-12-27 22:03:05] DEBUG    : Creating the audio window
+[2024-12-27 22:03:54] DEBUG    : Closing the application
+[2024-12-27 22:05:10] DEBUG    : Creating the main window
+[2024-12-27 22:05:10] DEBUG    : Creating the GUI
+[2024-12-27 22:05:10] DEBUG    : Updating serial port list
+[2024-12-27 22:05:10] DEBUG    : Opening the audio window
+[2024-12-27 22:05:10] DEBUG    : Creating the audio window
+[2024-12-27 22:05:10] DEBUG    : Creating the Audio's GUI
+[2024-12-27 22:08:01] DEBUG    : Creating the main window
+[2024-12-27 22:08:01] DEBUG    : Creating the GUI
+[2024-12-27 22:08:01] DEBUG    : Updating serial port list
+[2024-12-27 22:08:01] DEBUG    : Opening the audio window
+[2024-12-27 22:08:01] DEBUG    : Creating the audio window
+[2024-12-27 22:08:01] DEBUG    : Creating the Audio's GUI
+[2024-12-27 22:08:17] DEBUG    : Closing the application
+[2024-12-27 22:08:17] DEBUG    : Closing the application
+[2024-12-27 22:08:17] DEBUG    : Closing the application
+[2024-12-27 22:11:32] DEBUG    : Creating the main window
+[2024-12-27 22:11:32] DEBUG    : Creating the GUI
+[2024-12-27 22:11:32] DEBUG    : Updating serial port list
+[2024-12-27 22:11:32] DEBUG    : Opening the audio window
+[2024-12-27 22:11:32] DEBUG    : Creating the audio window
+[2024-12-27 22:11:32] DEBUG    : Creating the Audio's GUI
+[2024-12-27 22:11:45] DEBUG    : Closing the application
+[2024-12-27 22:14:03] DEBUG    : Creating the main window
+[2024-12-27 22:14:03] DEBUG    : Creating the GUI
+[2024-12-27 22:14:03] DEBUG    : Updating serial port list
+[2024-12-27 22:14:03] DEBUG    : Opening the audio window
+[2024-12-27 22:14:03] DEBUG    : Creating the audio window
+[2024-12-27 22:14:03] DEBUG    : Creating the Audio's GUI
+[2024-12-27 22:14:23] DEBUG    : Creating the main window
+[2024-12-27 22:14:23] DEBUG    : Creating the GUI
+[2024-12-27 22:14:23] DEBUG    : Updating serial port list
+[2024-12-27 22:14:23] DEBUG    : Opening the audio window
+[2024-12-27 22:14:23] DEBUG    : Creating the audio window
+[2024-12-27 22:14:23] DEBUG    : Creating the Audio's GUI
+[2024-12-27 23:33:37] DEBUG    : Creating the main window
+[2024-12-27 23:33:37] DEBUG    : Creating the GUI
+[2024-12-27 23:33:37] DEBUG    : Updating serial port list
+[2024-12-27 23:33:37] DEBUG    : Opening the audio window
+[2024-12-27 23:33:37] DEBUG    : Creating the audio window
+[2024-12-27 23:33:37] DEBUG    : Creating the Audio's GUI
+[2024-12-27 23:34:10] DEBUG    : Creating the main window
+[2024-12-27 23:34:10] DEBUG    : Creating the GUI
+[2024-12-27 23:34:10] DEBUG    : Updating serial port list
+[2024-12-27 23:34:10] DEBUG    : Opening the audio window
+[2024-12-27 23:34:10] DEBUG    : Creating the audio window
+[2024-12-27 23:34:10] DEBUG    : Creating the Audio's GUI
+[2024-12-27 23:34:39] DEBUG    : Closing the application
+[2024-12-27 23:38:02] DEBUG    : Creating the main window
+[2024-12-27 23:38:02] DEBUG    : Creating the GUI
+[2024-12-27 23:38:02] DEBUG    : Updating serial port list
+[2024-12-27 23:38:02] DEBUG    : Opening the audio window
+[2024-12-27 23:38:02] DEBUG    : Creating the audio window
+[2024-12-27 23:38:02] DEBUG    : Creating the Audio's GUI
+[2024-12-27 23:38:08] DEBUG    : Closing the application
+[2024-12-27 23:39:22] DEBUG    : Creating the main window
+[2024-12-27 23:39:22] DEBUG    : Creating the GUI
+[2024-12-27 23:39:22] DEBUG    : Updating serial port list
+[2024-12-27 23:39:22] DEBUG    : Opening the audio window
+[2024-12-27 23:39:22] DEBUG    : Creating the audio window
+[2024-12-27 23:39:22] DEBUG    : Creating the Audio's GUI
+[2024-12-27 23:39:31] DEBUG    : Closing the application
+[2024-12-27 23:39:52] DEBUG    : Creating the main window
+[2024-12-27 23:39:52] DEBUG    : Creating the GUI
+[2024-12-27 23:39:52] DEBUG    : Updating serial port list
+[2024-12-27 23:39:52] DEBUG    : Opening the audio window
+[2024-12-27 23:39:52] DEBUG    : Creating the audio window
+[2024-12-27 23:39:52] DEBUG    : Creating the Audio's GUI
+[2024-12-27 23:40:05] DEBUG    : Creating the main window
+[2024-12-27 23:40:05] DEBUG    : Creating the GUI
+[2024-12-27 23:40:05] DEBUG    : Updating serial port list
+[2024-12-27 23:40:05] DEBUG    : Opening the audio window
+[2024-12-27 23:40:05] DEBUG    : Creating the audio window
+[2024-12-27 23:40:05] DEBUG    : Creating the Audio's GUI
+[2024-12-27 23:40:48] DEBUG    : Creating the main window
+[2024-12-27 23:40:48] DEBUG    : Creating the GUI
+[2024-12-27 23:40:48] DEBUG    : Updating serial port list
+[2024-12-27 23:40:48] DEBUG    : Opening the audio window
+[2024-12-27 23:40:48] DEBUG    : Creating the audio window
+[2024-12-27 23:40:48] DEBUG    : Creating the Audio's GUI
+[2024-12-27 23:40:51] DEBUG    : Testing audio signal
+[2024-12-27 23:40:51] DEBUG    : Testing audio signal
+[2024-12-27 23:40:51] DEBUG    : Testing audio signal
+[2024-12-27 23:40:51] DEBUG    : Testing audio signal
+[2024-12-27 23:40:51] DEBUG    : Testing audio signal
+[2024-12-27 23:40:52] DEBUG    : Testing audio signal
+[2024-12-27 23:40:52] DEBUG    : Testing audio signal
+[2024-12-27 23:40:52] DEBUG    : Testing audio signal
+[2024-12-27 23:40:52] DEBUG    : Testing audio signal
+[2024-12-27 23:40:52] DEBUG    : Testing audio signal
+[2024-12-27 23:40:52] DEBUG    : Testing audio signal
+[2024-12-27 23:40:53] DEBUG    : Testing audio signal
+[2024-12-27 23:40:53] DEBUG    : Testing audio signal
+[2024-12-27 23:40:54] DEBUG    : Closing the application
+[2024-12-27 23:41:11] DEBUG    : Creating the main window
+[2024-12-27 23:41:11] DEBUG    : Creating the GUI
+[2024-12-27 23:41:11] DEBUG    : Updating serial port list
+[2024-12-27 23:41:11] DEBUG    : Opening the audio window
+[2024-12-27 23:41:11] DEBUG    : Creating the audio window
+[2024-12-27 23:41:11] DEBUG    : Creating the Audio's GUI
+[2024-12-27 23:41:26] DEBUG    : Closing the application
+[2024-12-27 23:43:58] DEBUG    : Creating the main window
+[2024-12-27 23:43:58] DEBUG    : Creating the GUI
+[2024-12-27 23:43:58] DEBUG    : Updating serial port list
+[2024-12-27 23:43:58] DEBUG    : Opening the audio window
+[2024-12-27 23:43:58] DEBUG    : Creating the audio window
+[2024-12-27 23:43:58] DEBUG    : Creating the Audio's GUI
+[2024-12-27 23:44:33] DEBUG    : Closing the application
+[2024-12-27 23:46:02] DEBUG    : Creating the main window
+[2024-12-27 23:46:02] DEBUG    : Creating the GUI
+[2024-12-27 23:46:02] DEBUG    : Updating serial port list
+[2024-12-27 23:46:02] DEBUG    : Opening the audio window
+[2024-12-27 23:46:02] DEBUG    : Creating the audio window
+[2024-12-27 23:46:02] DEBUG    : Creating the Audio's GUI
+[2024-12-27 23:46:12] DEBUG    : Closing the application
+[2024-12-27 23:47:25] DEBUG    : Creating the main window
+[2024-12-27 23:47:25] DEBUG    : Creating the GUI
+[2024-12-27 23:47:25] DEBUG    : Updating serial port list
+[2024-12-27 23:47:25] DEBUG    : Opening the audio window
+[2024-12-27 23:47:25] DEBUG    : Creating the audio window
+[2024-12-27 23:47:25] DEBUG    : Creating the Audio's GUI
+[2024-12-27 23:47:38] DEBUG    : Closing the application
+[2024-12-27 23:54:10] DEBUG    : Creating the main window
+[2024-12-27 23:54:10] DEBUG    : Creating the GUI
+[2024-12-27 23:54:10] DEBUG    : Updating serial port list
+[2024-12-27 23:54:10] DEBUG    : Opening the audio window
+[2024-12-27 23:54:10] DEBUG    : Creating the audio window
+[2024-12-27 23:54:10] DEBUG    : Creating the Audio's GUI
+[2024-12-27 23:54:17] DEBUG    : Closing the application

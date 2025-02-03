@@ -33,7 +33,9 @@ from PyQt6.QtWidgets import (
     QGridLayout,
     QSpinBox,
     QTabWidget,
+    QSpacerItem,
     QLineEdit,
+    QGroupBox,
     QMainWindow,
     QMessageBox,
     QPushButton,
@@ -42,9 +44,14 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 from serial.tools import list_ports
+from scipy import fft
 
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from matplotlib.animation import FuncAnimation
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+from matplotlib.figure import Figure
+import matplotlib
 
 # Local
 #from mcu.src.mcu import user_classifier
@@ -113,11 +120,8 @@ class APP_Settings():
         self.logging_file_backup_count = 3
 
         # GUI settings
-        self.gui_use_fixed_FPS = False
         self.gui_update_rate = 60 # FPS
-        self.gui_max_samples = 1024
-        self.gui_use_plotly = False
-        self.gui_use_matplotlib_blit = False
+        self.gui_use_matplotlib_blit = True
         self.gui_min_window_size = self.DimensionElement((800, 600), editable=True)
         self.gui_default_window_size = self.DimensionElement((1280//2, 720))
 
@@ -134,6 +138,7 @@ class APP_Settings():
         self.serial_timeout = 1
         self.serial_allow_write = False
         self.serial_freeze = False
+        self.serial_auto_select_index = 1 # Index to select when refreshing or opening
 
         # Nucleo board settings
         self.nucleo_config_serial_prefix = "CFG:HEX:"
@@ -150,7 +155,7 @@ class APP_Settings():
         self.audio_file_save_numpy = False
         self.audio_file_save_plots = False
         self.audio_file_auto_save = False
-        self.audio_file_auto_clear = False
+        self.audio_freeze = False
 
         # Mel spectrogram settings
         self.mel_serial_prefix = "MEL:HEX:"
@@ -165,6 +170,7 @@ class APP_Settings():
         self.mel_autosave_plots = False
         self.mel_autosave_numpy = False
         self.mel_autosave_clear = False
+        self.mel_freeze = False
 
         # User classifier settings
         self.classifier_use = False
@@ -354,7 +360,7 @@ def test_logging(logger: logging.Logger):
 def get_available_ports(app_settings: APP_Settings):
     """Get available serial ports without triggering circular updates"""
     old_index = app_settings.serial_port.index
-    old_ports = app_settings.serial_port.choices[old_index]
+    old_port = app_settings.serial_port.choices[old_index]
     
     # Get new ports
     new_ports = ["-- No serial port --"] + [
@@ -362,17 +368,19 @@ def get_available_ports(app_settings: APP_Settings):
         for port in list_ports.comports()
     ]
     
-    # Update only if ports changed
-    if new_ports != app_settings.serial_port.choices:
-        app_settings.update_values({
-            "serial_port": (0, new_ports)
-        })
-        
-        # Restore old selection if still available
-        if old_ports in new_ports:
-            app_settings.update_values({
-                "serial_port": new_ports.index(old_ports)
-            })
+    # Update settings if changed
+    if len(new_ports) == 1:
+        new_index = 0
+    else:
+        # Try to keep the same port if possible
+        # If not, select the one depending on the auto select index
+        if old_port in new_ports and old_index != 0:
+            new_index = new_ports.index(old_port)
+        elif old_index == 0:
+            new_index = app_settings.serial_auto_select_index
+            if new_index > len(new_ports):
+                new_index = 1
+    app_settings.update_values({"serial_port": (new_index, new_ports)})
 
 class SerialReader(QThread):
     """
@@ -585,6 +593,22 @@ class SerialReader(QThread):
         self.stop()
 
 ###############################################################################
+# Plotting
+
+def save_figure(fig, filename, plot_type, both_types, logger: logging.Logger):
+    """
+    Save a figure to a file.
+    """
+    try:
+        if plot_type == 0 or both_types:
+            fig.savefig(filename + ".pdf", format="pdf")
+        if plot_type == 1 or both_types:
+            fig.savefig(filename + ".png", format="png")
+        logger.good(f"Saved plot to {filename}")
+    except Exception as e:
+        logger.error(f"Failed to save plot: {e}")
+
+###############################################################################
 # GUI
 
 class GUI_ParametersWindow(QMainWindow):
@@ -775,15 +799,19 @@ class GUI_AudioWindow(QMainWindow):
         super().__init__()
         self.settings = settings
         self.logger = logger
+        self.save_signal = pyqtSignal(str)
 
         # Create the audio window
         self.logger.debug("Creating the audio window")
         self.setWindowTitle("Audio")
-        self.resize(640, 480)
+        self.resize(self.settings.gui_default_window_size.list[0], self.settings.gui_default_window_size.list[1])
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
         self.base_layout = QVBoxLayout()
         self.central_widget.setLayout(self.base_layout)
+
+        # Create dummy audio data
+        self.audio_data = np.zeros(1024, dtype=float)
 
         # Create the GUI
         self.create_gui()
@@ -794,48 +822,256 @@ class GUI_AudioWindow(QMainWindow):
         """
         self.logger.debug("Creating the Audio's GUI")
 
-        # Create the buttons
-        self.button_record = QPushButton("Record")
-        self.button_record.clicked.connect(self.record_audio)
-        self.button_play = QPushButton("Play")
-        self.button_play.clicked.connect(self.play_audio)
+        # Set plotting style to blit with an option, and fast
+        plt.style.use("fast")
+        matplotlib.use("Qt5Agg")
+
+        # Add a FPS counter
+        self.fps_counter = QLabel("FPS: 0")
+        self.base_layout.addWidget(self.fps_counter)
+        self.current_time = time.time()
+
+        # Create the 2 figures for the audio signal and FFT
+        self.fig_audio = Figure(figsize=(8, 6))
+        self.canvas_audio = FigureCanvasQTAgg(self.fig_audio)
+        self.base_layout.addWidget(self.canvas_audio)
+
+        self.fig_fft = Figure(figsize=(8, 6))
+        self.canvas_fft = FigureCanvasQTAgg(self.fig_fft)
+        self.base_layout.addWidget(self.canvas_fft)
+
+        # Setup the layouts
+        self.ax_audio = self.fig_audio.add_subplot(111)
+        self.ax_fft = self.fig_fft.add_subplot(111)
+
+        self.ax_audio.set_title("Audio Signal")
+        self.ax_audio.set_xlabel("Time (s)")
+        self.ax_audio.set_ylabel("Amplitude (%)")
+        self.ax_audio.set_xlim(0, 1)
+        self.ax_audio.set_ylim(-1, 1)
+        self.ax_audio.grid(True)
+        self.ax_audio.autoscale(enable=False, axis="both")
+        
+        self.ax_fft.set_title("FFT")
+        self.ax_fft.set_xlabel("Frequency (Hz)")
+        self.ax_fft.set_ylabel("Magnitude (dB)")
+        self.ax_fft.set_xlim(-10500, 10500)
+        self.ax_fft.set_ylim(-1, 100)
+        self.ax_fft.grid(True)
+        self.ax_fft.autoscale(enable=False, axis="both")
+
+        # Add the signal to the plots
+        self.line_audio, = self.ax_audio.plot([], [], animated=True)
+        self.line_fft, = self.ax_fft.plot([], [], animated=True)
+
+        # Make the plots slightly smaller
+        self.fig_audio.tight_layout()
+        self.fig_audio.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.2)
+
+        self.fig_fft.tight_layout()
+        self.fig_fft.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.2)
+
+        # Set up animation using blit
+        TARGET_FPS = int(self.settings.gui_update_rate)
+        self.anim_audio = FuncAnimation(
+            self.fig_audio,
+            self._update_audio_plot,
+            init_func=self._init_audio_plot,
+            interval=1//TARGET_FPS*1000,
+            blit=self.settings.gui_use_matplotlib_blit, # Use blit to speed up
+            save_count=1
+        )
+        self.anim_fft = FuncAnimation(
+            self.fig_fft,
+            self._update_fft_plot,
+            init_func=self._init_fft_plot,
+            interval=1//TARGET_FPS*1000,
+            blit=self.settings.gui_use_matplotlib_blit,
+            save_count=1
+        )
+
+
+
+
+        # Create the plot settings box
+        self.box_settings = QHBoxLayout()
+        self.base_layout.addLayout(self.box_settings)
+
+        # Create group boxes for plot and save settings
+        self.group_plot_settings = QGroupBox("Plot Settings")
+        self.group_save_settings = QGroupBox("Save Settings")
+        self.group_statistic_settings = QGroupBox("Signal Statistics")
+
+        # Create layouts for the group boxes
+        self.settings_plot_box = QGridLayout()
+        self.settings_save_box = QGridLayout()
+        self.settings_statistic_box = QGridLayout()
+
+        # Set layouts to the group boxes
+        self.group_plot_settings.setLayout(self.settings_plot_box)
+        self.group_save_settings.setLayout(self.settings_save_box)
+        self.group_statistic_settings.setLayout(self.settings_statistic_box)
+
+        # Add group boxes to the main layout
+        self.box_settings.addWidget(self.group_plot_settings)
+        self.box_settings.addWidget(self.group_save_settings)
+        self.box_settings.addWidget(self.group_statistic_settings)
+
+
+
+        # Add the settings for the plot
+        self.label_plot_freeze = QLabel("Freeze:")
+        self.settings_plot_box.addWidget(self.label_plot_freeze, 0, 0)
+        self.check_plot_freeze = QCheckBox()
+        self.check_plot_freeze.setChecked(self.settings.audio_freeze)
+        self.check_plot_freeze.stateChanged.connect(lambda state: self.settings.update_values({"audio_freeze": bool(state)}))
+        self.settings.register_callback("audio_freeze", lambda loc_settings: self.check_plot_freeze.setChecked(loc_settings.audio_freeze))
+        self.settings_plot_box.addWidget(self.check_plot_freeze, 0, 1)
+
+        # Add the settings for the save
+        self.label_save_auto = QLabel("Auto Save:")
+        self.settings_save_box.addWidget(self.label_save_auto, 0, 0)
+        self.check_save_auto = QCheckBox()
+        self.check_save_auto.setChecked(self.settings.audio_file_auto_save)
+        self.check_save_auto.stateChanged.connect(lambda state: self.settings.update_values({"audio_file_auto_save": bool(state)}))
+        self.settings.register_callback("audio_file_auto_save", lambda loc_settings: self.check_save_auto.setChecked(loc_settings.audio_file_auto_save))
+        self.settings_save_box.addWidget(self.check_save_auto, 0, 1)
+
+        # Add the settings for the save
+        self.label_save_folder = QLabel("Save Folder:")
+        self.settings_save_box.addWidget(self.label_save_folder, 4, 0)
+        self.edit_save_folder = QLineEdit(str(self.settings.audio_folder.path))
+        self.edit_save_folder.setReadOnly(True)
+        self.settings_save_box.addWidget(self.edit_save_folder, 4, 1)
+        self.button_save_folder = QPushButton("...")
+        self.button_save_folder.setFixedWidth(30)
+        self.button_save_folder.clicked.connect(lambda: self.__open_file_dialog(self.edit_save_folder, True))
+        self.settings_save_box.addWidget(self.button_save_folder, 4, 2)
+
+        # Add the settings for the save
+        self.label_save_name = QLabel("File Name Prefix:")
+        self.settings_save_box.addWidget(self.label_save_name, 5, 0)
+        self.edit_save_name = QLineEdit(self.settings.audio_file_name_prefix)
+        self.settings_save_box.addWidget(self.edit_save_name, 5, 1)
+        self.settings.register_callback("audio_file_name_prefix", lambda loc_settings: self.edit_save_name.setText(loc_settings.audio_file_name_prefix))
+
+        # Add the settings for the save
+        self.label_save_numpy = QLabel("Save Numpy (.npy):")
+        self.settings_save_box.addWidget(self.label_save_numpy, 2, 0)
+        self.check_save_numpy = QCheckBox()
+        self.check_save_numpy.setChecked(self.settings.audio_file_save_numpy)
+        self.check_save_numpy.stateChanged.connect(lambda state: self.settings.update_values({"audio_file_save_numpy": bool(state)}))
+        self.settings.register_callback("audio_file_save_numpy", lambda loc_settings: self.check_save_numpy.setChecked(loc_settings.audio_file_save_numpy))
+        self.settings_save_box.addWidget(self.check_save_numpy, 2, 1)
+
+        # Add the settings for the save
+        self.label_save_plots = QLabel("Save Plots (per settings):")
+        self.settings_save_box.addWidget(self.label_save_plots, 3, 0)
+        self.check_save_plots = QCheckBox()
+        self.check_save_plots.setChecked(self.settings.audio_file_save_plots)
+        self.check_save_plots.stateChanged.connect(lambda state: self.settings.update_values({"audio_file_save_plots": bool(state)}))
+        self.settings.register_callback("audio_file_save_plots", lambda loc_settings: self.check_save_plots.setChecked(loc_settings.audio_file_save_plots))
+        self.settings_save_box.addWidget(self.check_save_plots, 3, 1)
+
+        # Add the settings for the save
+        self.label_save_types = QLabel("File Types:")
+        self.settings_save_box.addWidget(self.label_save_types, 6, 0)
+        self.edit_save_types = QComboBox()
+        self.edit_save_types.addItems(self.settings.audio_file_types.choices)
+        self.edit_save_types.setCurrentIndex(self.settings.audio_file_types.index)
+        self.edit_save_types.currentIndexChanged.connect(lambda idx: self.settings.update_values({"audio_file_types": idx}))
+        self.settings.register_callback("audio_file_types", lambda loc_settings: self.edit_save_types.setCurrentIndex(loc_settings.audio_file_types.index))
+        self.settings_save_box.addWidget(self.edit_save_types, 6, 1)
+
+
+
+        # Add the settings for the statistic
+        self.label_statistic_max = QLabel("Max:")
+        self.settings_statistic_box.addWidget(self.label_statistic_max, 0, 0)
+        self.label_statistic_max_value = QLabel("0")
+        self.settings_statistic_box.addWidget(self.label_statistic_max_value, 0, 1) 
+        self.label_statistic_min = QLabel("Min:")
+        self.settings_statistic_box.addWidget(self.label_statistic_min, 1, 0)
+        self.label_statistic_min_value = QLabel("0")
+        self.settings_statistic_box.addWidget(self.label_statistic_min_value, 1, 1)
+        self.label_statistic_avg = QLabel("Avg:")
+        self.settings_statistic_box.addWidget(self.label_statistic_avg, 2, 0)
+        self.label_statistic_avg_value = QLabel("0")
+        self.settings_statistic_box.addWidget(self.label_statistic_avg_value, 2, 1)
+        self.label_statistic_std = QLabel("Std:")
+        self.settings_statistic_box.addWidget(self.label_statistic_std, 3, 0)
+        self.label_statistic_std_value = QLabel("0")
+        self.settings_statistic_box.addWidget(self.label_statistic_std_value, 3, 1)
+        self.label_statistic_entropoy = QLabel("FFT energy:")
+        self.settings_statistic_box.addWidget(self.label_statistic_entropoy, 4, 0)
+        self.label_statistic_entropoy_value = QLabel("0")
+        self.settings_statistic_box.addWidget(self.label_statistic_entropoy_value, 4, 1)
+
+        # Add save button
         self.button_save = QPushButton("Save")
         self.button_save.clicked.connect(self.save_audio)
-        self.button_clear = QPushButton("Clear")
-        self.button_clear.clicked.connect(self.clear_audio)
-        self.base_layout.addWidget(self.button_record)
-        self.base_layout.addWidget(self.button_play)
         self.base_layout.addWidget(self.button_save)
-        self.base_layout.addWidget(self.button_clear)
 
-        # Create the audio console
-        self.console = QTextEdit()
-        self.console.setReadOnly(True)
-        self.base_layout.addWidget(self.console)
+        # Add a Test button
+        self.button_test = QPushButton("Test")
+        self.button_test.clicked.connect(self.test_audio)
+        self.base_layout.addWidget(self.button_test)
 
-    def record_audio(self):
-        """
-        Record audio.
-        """
-        self.logger.debug("Recording audio")
+    def test_audio(self):
+        self.audio_data = np.random.rand(1024)
 
-    def play_audio(self):
-        """
-        Play audio.
-        """
-        self.logger.debug("Playing audio")
+    def _init_audio_plot(self):
+        """Initialize audio line for blitting."""
+        self.line_audio.set_data([], [])
+        return (self.line_audio,)
 
+    def _init_fft_plot(self):
+        """Initialize FFT line for blitting."""
+        self.line_fft.set_data([], [])
+        return (self.line_fft,)
+
+    def _update_audio_plot(self, frame):
+        """Update audio plot for animation."""
+        # Update audio signal
+        x = np.linspace(0, 1, len(self.audio_data))
+        self.line_audio.set_data(x, self.audio_data)
+
+        # Update statistics
+        self.label_statistic_max_value.setText(f"{np.max(self.audio_data):.2f}")
+        self.label_statistic_min_value.setText(f"{np.min(self.audio_data):.2f}")
+        self.label_statistic_avg_value.setText(f"{np.mean(self.audio_data):.2f}")
+        self.label_statistic_std_value.setText(f"{np.std(self.audio_data):.2f}")
+
+        return (self.line_audio,)
+
+    def _update_fft_plot(self, frame):
+        """Update FFT plot for animation."""
+        # Calculate FFT
+        fft_data = np.abs(np.fft.fft(self.audio_data))
+        fft_data = 20 * np.log10(fft_data + 1e-12)  # Avoid log(0)
+        fft_data = np.fft.fftshift(fft_data)
+        freqs = np.linspace(-10200, 10200, len(fft_data))
+        self.line_fft.set_data(freqs, fft_data)
+
+        # Update FPS
+        current_time = time.time()
+        fps = 1 / (current_time - self.current_time)
+        self.current_time = current_time
+        self.fps_counter.setText(f"FPS: {fps:.2f}")
+
+        # Update energy
+        fft_data_not_db = np.abs(np.fft.fft(self.audio_data))
+        energy = np.sum(fft_data_not_db ** 2) / len(fft_data_not_db)
+        self.label_statistic_entropoy_value.setText(f"{energy:.2f} units")
+
+        return (self.line_fft,)
+    
     def save_audio(self):
-        """
-        Save audio.
-        """
-        self.logger.debug("Saving audio")
-
-    def clear_audio(self):
-        """
-        Clear audio.
-        """
-        self.logger.debug("Clearing audio")
+        self.logger.debug("Saving audio signal")
+        file_name = self.settings.audio_folder.path + self.settings.audio_file_name_prefix + time.strftime("%Y%m%d-%H%M%S")
+        save_figure(self.fig_audio, file_name, self.settings.plot_save_types.index, self.settings.plot_save_all_types, self.logger)
+        if self.settings.audio_file_save_numpy:
+            np.save(file_name + ".npy", self.audio_data)
 
 class GUI_MelWindow(QMainWindow):
     """
@@ -923,6 +1159,7 @@ class GUI_MainWindow(QMainWindow):
         self.serial_reader = SerialReader(self.settings, self.logger)
         self.serial_reader.error_occurred.connect(self._handle_connection_error)
         self.serial_reader.connection_state.connect(self._handle_connection_state)
+        self.serial_reader.data_received.connect(self._handle_data_received)
 
         # Add the console handler (GUI)
         handler = QTextEditLogger(self.console, self.settings)
@@ -930,6 +1167,9 @@ class GUI_MainWindow(QMainWindow):
 
         # Test logging
         # test_logging(self.logger)
+
+        # Adjust the windows
+        self.open_audio_window()
 
     def create_gui(self):
         """
@@ -1186,11 +1426,8 @@ class GUI_MainWindow(QMainWindow):
         """
         Update the serial port.
         """
-        self.logger.debug("Updating the serial port")
+        self.logger.debug("Updating serial port list")
         get_available_ports(self.settings)
-        self.serial_port_combo.clear()
-        self.serial_port_combo.addItems(self.settings.serial_port.choices)
-        self.serial_port_combo.setCurrentIndex(self.settings.serial_port.index)
     
     def _handle_connection_error(self, error_message: str) -> None:
         """Handle errors without triggering port refresh"""
@@ -1206,6 +1443,19 @@ class GUI_MainWindow(QMainWindow):
             self._update_ui_state(connected=False, error=True)
             QMessageBox.warning(self, "Connection Lost", 
                             "Serial port disconnected unexpectedly")
+
+    def _handle_data_received(self, data: str) -> None:
+        """Handle data received from serial port"""
+        if data == "CONNECTION_TERMINATED":
+            self.logger.warning("Serial port connection terminated")
+            self._update_ui_state(connected=False, error=True)
+            QMessageBox.warning(self, "Connection Lost", 
+                            "Serial port connection terminated")
+        else:
+            # Main processing loop
+
+            # TODO: Process the data
+            pass
 
     def toggle_serial(self) -> None:
         """Toggle the serial connection state between connected and disconnected."""
@@ -1311,4 +1561,5 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     main_window = GUI_MainWindow(settings, logger)
     main_window.show()
+
     sys.exit(app.exec())
