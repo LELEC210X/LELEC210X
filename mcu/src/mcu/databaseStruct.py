@@ -28,6 +28,8 @@ import numpy as np
 from typing import Literal, Callable
 import time
 
+from utilities import convertSuffix
+
 class DatabaseEntry:
     """Class to store the information of a database entry."""
     def __init__(self, id: str, name: str, description: str, entry_type: "GenericEntry", entry_value: any, attributes: dict = {}, reset_value: any = None):
@@ -78,15 +80,20 @@ class DatabaseEntry:
         )
 
     # Setters
-    
+
     def safe_set(self, target: Literal["name", "description", "entry_value", "attributes", "reset_value"], value: any, call_callbacks: bool = True) -> bool:
         """Set the class attribute with a lock, and runs the callbacks (by default)."""
         with self._value_lock:
             # Custom handlings
             if target == "attributes":
                 self.attributes.update(value)
+            elif target == "entry_value":
+                if isinstance(self.entry_value, dict) and isinstance(value, dict):
+                    self.entry_value.update(value)
+                else:
+                    self.entry_value = value
+            # Default handling
             try:
-                # Default handling
                 setattr(self, target, value)
             except AttributeError:
                 return False
@@ -184,6 +191,7 @@ class DatabaseEntry:
         description = self.get_description_widget(id)
         layout.addWidget(name)
         layout.addWidget(description)
+        layout.addStretch()
         return widget
     
     def get_full_widget(self, id: str) -> QWidget:
@@ -212,6 +220,7 @@ class DatabaseEntry:
             DatabaseEntry.BoolEntry: self._get_BoolEntry_widget,
             DatabaseEntry.ListEntry: lambda id: self._get_BulletEntry_widget(id, "list"),
             DatabaseEntry.DictEntry: lambda id: self._get_BulletEntry_widget(id, "dict"),
+            DatabaseEntry.SuffixEntry: self._get_SuffixEntry_widget,
             DatabaseEntry.FileEntry: lambda id: QLabel("Not implemented yet"),
             DatabaseEntry.FolderEntry: lambda id: QLabel("Not implemented yet"),
             DatabaseEntry.ColorEntry: lambda id: QLabel("Not implemented yet"),
@@ -247,6 +256,7 @@ class DatabaseEntry:
     class BoolEntry         (GenericEntry):"""Bool entry widget."""
     class ListEntry         (GenericEntry):"""List entry widget."""
     class DictEntry         (GenericEntry):"""Dict entry widget."""
+    class SuffixEntry       (GenericEntry):"""Suffix entry widget."""
     class FileEntry         (GenericEntry):"""File entry widget."""
     class FolderEntry       (GenericEntry):"""Folder entry widget."""
     class ColorEntry        (GenericEntry):"""Color entry widget."""
@@ -313,7 +323,7 @@ class DatabaseEntry:
 
         return base_widget
     
-    def _get_RangeEntry_widget(self, id: str, entry_type: Literal["int", "float"]) -> QWidget:
+    def _get_RangeEntry_widget(self, id: str, entry_type: Literal["int", "float"]) -> QWidget: # TODO : Correct to safe_set of a dict
         """Get the range entry widget."""
         PRECISION_FACTOR = 100
         containment_widget = QWidget()
@@ -403,13 +413,47 @@ class DatabaseEntry:
 
     def _get_BulletEntry_widget(self, id: str, entry_type: Literal["list", "dict"]) -> QWidget: # TODO : Implement the list and dict entries
         """Get the bullet entry widget."""
-        container_widget = QWidget()
-        layout = QVBoxLayout()
-        container_widget.setLayout(layout)
-        layout.addWidget(QLabel("Not implemented yet"))
-        return container_widget
+        widget = QLabel("Not implemented yet")
+        return widget       
+    
+    def _get_SuffixEntry_widget(self, id: str) -> QWidget: # TODO : Correct to safe_set of a dict
+        """Get the suffix entry widget."""
+        widget = QWidget()
+        layout = QHBoxLayout()
+        widget.setLayout(layout)
+        entry_box = QLineEdit()
+        suffix_box = QLabel()
+        layout.addWidget(entry_box)
+        layout.addWidget(suffix_box)
+        
+        # Callbacks
+        def update_value(entry_obj: DatabaseEntry):
+            string_value = convertSuffix(entry_obj.entry_value["value"])
+            entry_box.setText(string_value)
+            suffix_box.setText(entry_obj.entry_value["suffix"])
+            entry_box.setToolTip(entry_obj.description)
+            if not entry_obj.attributes.get("editable", True):
+                entry_box.setStyleSheet("color: #707070;")
+                entry_box.setReadOnly(True)
+            else:
+                entry_box.setStyleSheet("color: #000000;")
+                entry_box.setReadOnly(False)
+        self.add_callback("value_up_" + id, update_value)
+        update_value(self)
+
+        # Update the entry
+        def update_entry(): 
+            value = entry_box.text()
+            new_entry_value = self.entry_value 
+            float_value = convertSuffix(value)
+            new_entry_value["value"] = float_value if float_value is not None else 0
+            self.safe_set("entry_value", new_entry_value)
+        entry_box.editingFinished.connect(update_entry)
+
+        return widget
     
     # TODO : Implement the other entry types
+
 
 ####################################################################################################
 
@@ -826,6 +870,39 @@ def db_basics(database: ContentDatabase) -> bool:
         description="I'm trying to test all the other types, so here is a bool",
         entry_type= DatabaseEntry.BoolEntry,
         entry_value= True,
+        attributes={
+            "hidden": False,
+            "editable": True,
+        },
+    )
+    class3.add_entry(
+        id="content10",
+        name="List Content",
+        description="I'm trying to test all the other types, so here is a list",
+        entry_type= DatabaseEntry.ListEntry,
+        entry_value= ["item1", "item2", "item3"],
+        attributes={
+            "hidden": False,
+            "editable": True,
+        },
+    )
+    class3.add_entry(
+        id="content11",
+        name="Dict Content",
+        description="I'm trying to test all the other types, so here is a dict",
+        entry_type= DatabaseEntry.DictEntry,
+        entry_value= {"key1": "value1", "key2": "value2", "key3": "value3"},
+        attributes={
+            "hidden": False,
+            "editable": True,
+        },
+    )
+    class3.add_entry(
+        id="content12",
+        name="Suffix Content",
+        description="I'm trying to test all the other types, so here is a suffix (its pi*1e9 = 3.14 G Hz)",
+        entry_type= DatabaseEntry.SuffixEntry,
+        entry_value= {"value": np.pi*1e9, "suffix": "Hz"},
         attributes={
             "hidden": False,
             "editable": True,
