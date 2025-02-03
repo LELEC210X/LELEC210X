@@ -4883,3 +4883,736 @@
 [2024-12-24 00:19:59] DEBUG    : Creating the GUI
 [2024-12-24 00:20:03] DEBUG    : Showing the about message
 [2024-12-24 00:20:08] DEBUG    : Closing the application
+[2024-12-24 00:26:53] DEBUG    : Creating the main window
+[2024-12-24 00:26:53] DEBUG    : Creating the GUI
+[2024-12-24 00:26:53] DEBUG    : Updating the serial port
+[2024-12-24 00:27:00] DEBUG    : Closing the application
+[2024-12-24 00:31:24] DEBUG    : Creating the main window
+[2024-12-24 00:31:24] DEBUG    : Creating the GUI
+[2024-12-24 00:31:24] DEBUG    : Updating the serial port
+[2024-12-24 00:31:35] DEBUG    : Updating the serial port
+[2024-12-24 00:31:36] DEBUG    : Updating the serial port
+[2024-12-24 00:31:43] DEBUG    : Updating the serial port
+[2024-12-24 00:31:51] DEBUG    : Updating the serial port
+[2024-12-24 00:31:53] DEBUG    : Closing the application
+[2024-12-24 00:33:07] DEBUG    : Creating the main window
+[2024-12-24 00:33:07] DEBUG    : Creating the GUI
+[2024-12-24 00:33:07] DEBUG    : Updating the serial port
+[2024-12-24 00:33:12] DEBUG    : Updating the serial port
+[2024-12-24 00:33:13] DEBUG    : Updating the serial port
+[2024-12-24 00:33:13] DEBUG    : Updating the serial port
+[2024-12-24 00:33:13] DEBUG    : Updating the serial port
+[2024-12-24 00:33:13] DEBUG    : Updating the serial port
+[2024-12-24 00:33:19] DEBUG    : Opening the parameters window
+[2024-12-24 00:33:19] DEBUG    : Creating the parameters window
+[2024-12-24 00:33:19] DEBUG    : Creating the GUI
+[2024-12-24 00:33:35] DEBUG    : Opening the audio window
+[2024-12-24 00:33:35] DEBUG    : Creating the audio window
+[2024-12-24 00:33:35] DEBUG    : Creating the GUI
+[2024-12-24 00:33:39] DEBUG    : Closing the application
+[2024-12-24 00:35:03] DEBUG    : Creating the main window
+[2024-12-24 00:35:03] DEBUG    : Creating the GUI
+[2024-12-24 00:35:03] DEBUG    : Updating the serial port
+[2024-12-24 00:35:07] DEBUG    : Opening the parameters window
+[2024-12-24 00:35:07] DEBUG    : Creating the parameters window
+[2024-12-24 00:35:07] DEBUG    : Creating the GUI
+[2024-12-24 00:35:23] DEBUG    : Updating the serial port
+[2024-12-24 00:35:54] DEBUG    : Closing the application
+[2024-12-24 00:42:39] DEBUG    : Creating the main window
+[2024-12-24 00:42:39] DEBUG    : Creating the GUI
+[2024-12-24 00:42:39] DEBUG    : Updating the serial port
+[2024-12-24 00:42:42] DEBUG    : Closing the application
+[2024-12-24 00:43:13] DEBUG    : Creating the main window
+[2024-12-24 00:43:13] DEBUG    : Creating the GUI
+[2024-12-24 00:43:13] DEBUG    : Updating the serial port
+[2024-12-24 00:43:15] DEBUG    : Closing the application
+[2024-12-24 00:43:31] DEBUG    : Creating the main window
+[2024-12-24 00:43:31] DEBUG    : Creating the GUI
+[2024-12-24 00:43:31] DEBUG    : Updating the serial port
+[2024-12-24 00:43:35] DEBUG    : Updating the serial port
+[2024-12-24 00:43:42] DEBUG    : Closing the application
+[2024-12-24 00:45:00] DEBUG    : Creating the main window
+[2024-12-24 00:45:00] DEBUG    : Creating the GUI
+[2024-12-24 00:45:00] DEBUG    : Updating the serial port
+[2024-12-24 00:45:03] DEBUG    : Closing the application
+[2024-12-24 00:46:54] DEBUG    : Creating the main window
+[2024-12-24 00:46:54] DEBUG    : Creating the GUI
+[2024-12-24 00:46:54] DEBUG    : Updating the serial port
+[2024-12-24 00:47:01] DEBUG    : Creating the main window
+[2024-12-24 00:47:01] DEBUG    : Creating the GUI
+[2024-12-24 00:47:01] DEBUG    : Updating the serial port
+[2024-12-24 00:47:11] DEBUG    : Closing the application
+[2024-12-24 00:47:25] DEBUG    : Creating the main window
+[2024-12-24 00:47:33] DEBUG    : Creating the main window
+[2024-12-24 00:47:33] DEBUG    : Creating the GUI
+[2024-12-24 00:47:33] DEBUG    : Updating the serial port
+[2024-12-24 00:47:41] DEBUG    : Closing the application
+[2024-12-24 00:48:53] DEBUG    : Creating the main window
+[2024-12-24 00:48:53] DEBUG    : Creating the GUI
+[2024-12-24 00:48:53] DEBUG    : Updating the serial port
+[2024-12-24 00:49:16] DEBUG    : Creating the main window
+[2024-12-24 00:49:16] DEBUG    : Creating the GUI
+[2024-12-24 00:49:16] DEBUG    : Updating the serial port
+[2024-12-24 00:49:18] DEBUG    : Closing the application
+[2024-12-24 00:49:34] DEBUG    : Creating the main window
+[2024-12-24 00:49:34] DEBUG    : Creating the GUI
+[2024-12-24 00:49:34] DEBUG    : Updating the serial port
+[2024-12-24 00:49:44] DEBUG    : Creating the main window
+[2024-12-24 00:49:44] DEBUG    : Creating the GUI
+[2024-12-24 00:49:44] DEBUG    : Updating the serial port
+[2024-12-24 00:49:46] DEBUG    : Closing the application
+[2024-12-24 00:49:55] DEBUG    : Creating the main window
+[2024-12-24 00:49:55] DEBUG    : Creating the GUI
+[2024-12-24 00:49:55] DEBUG    : Updating the serial port
+[2024-12-24 00:49:56] DEBUG    : Closing the application
+[2024-12-24 00:52:38] DEBUG    : Creating the main window
+[2024-12-24 00:52:38] DEBUG    : Creating the GUI
+[2024-12-24 00:52:38] DEBUG    : Updating the serial port
+[2024-12-24 00:52:40] DEBUG    : Starting the serial reader
+[2024-12-24 00:52:40] DEBUG    : Starting the serial reader
+[2024-12-24 00:54:02] DEBUG    : Creating the main window
+[2024-12-24 00:54:02] DEBUG    : Creating the GUI
+[2024-12-24 00:54:02] DEBUG    : Updating the serial port
+[2024-12-24 00:54:03] DEBUG    : Starting the serial reader
+[2024-12-24 00:54:03] DEBUG    : Starting the serial reader
+[2024-12-24 00:54:03] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 00:54:05] DEBUG    : Starting the serial reader
+[2024-12-24 00:54:05] DEBUG    : Starting the serial reader
+[2024-12-24 00:54:05] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 00:54:07] DEBUG    : Starting the serial reader
+[2024-12-24 00:54:07] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:09] DEBUG    : Creating the main window
+[2024-12-24 00:55:09] DEBUG    : Creating the GUI
+[2024-12-24 00:55:09] DEBUG    : Updating the serial port
+[2024-12-24 00:55:11] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:11] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:11] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 00:55:21] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:21] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:21] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 00:55:22] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:22] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:22] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 00:55:22] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:22] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:22] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 00:55:22] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:22] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:22] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 00:55:22] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:22] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:22] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 00:55:22] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:22] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:22] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 00:55:22] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:22] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:22] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 00:55:23] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:23] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:23] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 00:55:23] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:23] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:23] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 00:55:23] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:23] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:23] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 00:55:23] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:23] DEBUG    : Starting the serial reader
+[2024-12-24 00:55:23] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 00:57:21] DEBUG    : Creating the main window
+[2024-12-24 00:57:21] DEBUG    : Creating the GUI
+[2024-12-24 00:57:21] DEBUG    : Updating the serial port
+[2024-12-24 00:58:02] DEBUG    : Creating the main window
+[2024-12-24 00:58:02] DEBUG    : Creating the GUI
+[2024-12-24 00:58:02] DEBUG    : Updating the serial port
+[2024-12-24 00:58:12] DEBUG    : Closing the application
+[2024-12-24 00:58:42] DEBUG    : Creating the main window
+[2024-12-24 00:58:42] DEBUG    : Creating the GUI
+[2024-12-24 00:58:42] DEBUG    : Updating the serial port
+[2024-12-24 00:58:47] DEBUG    : Closing the application
+[2024-12-24 00:58:57] DEBUG    : Creating the main window
+[2024-12-24 00:58:57] DEBUG    : Creating the GUI
+[2024-12-24 00:58:57] DEBUG    : Updating the serial port
+[2024-12-24 01:00:27] DEBUG    : Closing the application
+[2024-12-24 01:00:45] DEBUG    : Creating the main window
+[2024-12-24 01:00:45] DEBUG    : Creating the GUI
+[2024-12-24 01:00:45] DEBUG    : Updating the serial port
+[2024-12-24 01:00:47] DEBUG    : Closing the application
+[2024-12-24 01:00:51] DEBUG    : Creating the main window
+[2024-12-24 01:00:51] DEBUG    : Creating the GUI
+[2024-12-24 01:00:51] DEBUG    : Updating the serial port
+[2024-12-24 01:01:09] DEBUG    : Closing the application
+[2024-12-24 01:01:18] DEBUG    : Creating the main window
+[2024-12-24 01:01:18] DEBUG    : Creating the GUI
+[2024-12-24 01:01:18] DEBUG    : Updating the serial port
+[2024-12-24 01:01:29] DEBUG    : Closing the application
+[2024-12-24 01:01:40] DEBUG    : Creating the main window
+[2024-12-24 01:01:40] DEBUG    : Creating the GUI
+[2024-12-24 01:01:40] DEBUG    : Updating the serial port
+[2024-12-24 01:02:08] DEBUG    : Closing the application
+[2024-12-24 01:03:36] DEBUG    : Creating the main window
+[2024-12-24 01:03:36] DEBUG    : Creating the GUI
+[2024-12-24 01:03:36] DEBUG    : Updating the serial port
+[2024-12-24 01:03:43] DEBUG    : Starting the serial reader
+[2024-12-24 01:03:43] DEBUG    : Starting the serial reader
+[2024-12-24 01:03:43] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 01:03:45] DEBUG    : Starting the serial reader
+[2024-12-24 01:03:45] DEBUG    : Starting the serial reader
+[2024-12-24 01:03:45] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 01:03:49] DEBUG    : Starting the serial reader
+[2024-12-24 01:03:49] DEBUG    : Starting the serial reader
+[2024-12-24 01:03:49] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 01:03:49] DEBUG    : Starting the serial reader
+[2024-12-24 01:03:49] DEBUG    : Starting the serial reader
+[2024-12-24 01:03:49] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 01:03:49] DEBUG    : Starting the serial reader
+[2024-12-24 01:03:49] DEBUG    : Starting the serial reader
+[2024-12-24 01:03:49] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 01:03:49] DEBUG    : Starting the serial reader
+[2024-12-24 01:03:49] DEBUG    : Starting the serial reader
+[2024-12-24 01:03:49] ERROR    : Error in the serial reader: name 'SerialPort' is not defined
+[2024-12-24 01:03:49] DEBUG    : Starting the serial reader
+[2024-12-24 01:03:49] DEBUG    : Starting the serial reader
+[2024-12-24 01:08:09] DEBUG    : Creating the main window
+[2024-12-24 01:08:09] DEBUG    : Creating the GUI
+[2024-12-24 01:09:42] DEBUG    : Creating the main window
+[2024-12-24 01:09:42] DEBUG    : Creating the GUI
+[2024-12-24 01:09:42] DEBUG    : Updating the serial port
+[2024-12-24 01:09:45] DEBUG    : Updating the serial port
+[2024-12-24 01:09:56] DEBUG    : Updating the serial port
+[2024-12-24 01:10:01] DEBUG    : Opening the parameters window
+[2024-12-24 01:10:01] DEBUG    : Creating the parameters window
+[2024-12-24 01:10:01] DEBUG    : Creating the GUI
+[2024-12-24 01:10:12] DEBUG    : Closing the application
+[2024-12-24 01:10:59] DEBUG    : Creating the main window
+[2024-12-24 01:10:59] DEBUG    : Creating the GUI
+[2024-12-24 01:10:59] DEBUG    : Updating the serial port
+[2024-12-24 01:11:02] DEBUG    : Opening the parameters window
+[2024-12-24 01:11:02] DEBUG    : Creating the parameters window
+[2024-12-24 01:11:02] DEBUG    : Creating the GUI
+[2024-12-24 01:11:12] DEBUG    : Updating the serial port
+[2024-12-24 01:11:13] DEBUG    : Opening the parameters window
+[2024-12-24 01:11:13] DEBUG    : Creating the parameters window
+[2024-12-24 01:11:13] DEBUG    : Creating the GUI
+[2024-12-24 01:11:19] DEBUG    : Closing the application
+[2024-12-24 01:12:53] DEBUG    : Creating the main window
+[2024-12-24 01:12:53] DEBUG    : Creating the GUI
+[2024-12-24 01:12:53] DEBUG    : Updating the serial port
+[2024-12-24 01:12:55] DEBUG    : Closing the application
+[2024-12-24 01:13:01] DEBUG    : Creating the main window
+[2024-12-24 01:13:01] DEBUG    : Creating the GUI
+[2024-12-24 01:13:01] DEBUG    : Updating the serial port
+[2024-12-24 01:13:03] DEBUG    : Starting the serial reader
+[2024-12-24 01:13:03] DEBUG    : Starting the serial reader
+[2024-12-24 01:13:03] ERROR    : Error in the serial reader: could not open port '-- No serial port --': FileNotFoundError(2, 'The system cannot find the file specified.', None, 2)
+[2024-12-24 01:13:11] DEBUG    : Starting the serial reader
+[2024-12-24 01:13:11] DEBUG    : Starting the serial reader
+[2024-12-24 01:13:11] ERROR    : Error in the serial reader: could not open port '-- No serial port --': FileNotFoundError(2, 'The system cannot find the file specified.', None, 2)
+[2024-12-24 01:13:13] DEBUG    : Starting the serial reader
+[2024-12-24 01:13:13] DEBUG    : Starting the serial reader
+[2024-12-24 01:13:13] ERROR    : Error in the serial reader: could not open port '-- No serial port --': FileNotFoundError(2, 'The system cannot find the file specified.', None, 2)
+[2024-12-24 01:13:17] DEBUG    : Updating the serial port
+[2024-12-24 01:13:18] DEBUG    : Starting the serial reader
+[2024-12-24 01:13:18] DEBUG    : Starting the serial reader
+[2024-12-24 01:14:07] DEBUG    : Creating the main window
+[2024-12-24 01:14:07] DEBUG    : Creating the GUI
+[2024-12-24 01:14:07] DEBUG    : Updating the serial port
+[2024-12-24 01:14:09] DEBUG    : Connecting the serial port
+[2024-12-24 01:14:09] DEBUG    : Starting the serial reader
+[2024-12-24 01:14:09] ERROR    : Error in the serial reader: could not open port 'COM4 - USB Serial Port (COM4)': FileNotFoundError(2, 'The system cannot find the file specified.', None, 2)
+[2024-12-24 01:14:10] DEBUG    : Connecting the serial port
+[2024-12-24 01:14:10] DEBUG    : Starting the serial reader
+[2024-12-24 01:14:22] DEBUG    : Creating the main window
+[2024-12-24 01:14:22] DEBUG    : Creating the GUI
+[2024-12-24 01:14:22] DEBUG    : Updating the serial port
+[2024-12-24 01:14:23] DEBUG    : Connecting the serial port
+[2024-12-24 01:14:23] DEBUG    : Starting the serial reader
+[2024-12-24 01:14:23] ERROR    : Error in the serial reader: could not open port 'COM4 - USB Serial Port (COM4)': FileNotFoundError(2, 'The system cannot find the file specified.', None, 2)
+[2024-12-24 01:14:28] DEBUG    : Connecting the serial port
+[2024-12-24 01:14:28] DEBUG    : Starting the serial reader
+[2024-12-24 01:14:28] ERROR    : Error in the serial reader: could not open port 'COM4 - USB Serial Port (COM4)': FileNotFoundError(2, 'The system cannot find the file specified.', None, 2)
+[2024-12-24 01:14:31] DEBUG    : Closing the application
+[2024-12-24 01:15:04] DEBUG    : Creating the main window
+[2024-12-24 01:15:04] DEBUG    : Creating the GUI
+[2024-12-24 01:15:04] DEBUG    : Updating the serial port
+[2024-12-24 01:15:05] DEBUG    : Connecting the serial port
+[2024-12-24 01:15:05] DEBUG    : Starting the serial reader
+[2024-12-24 01:15:05] ERROR    : Error in the serial reader: Port is already open.
+[2024-12-24 01:15:15] DEBUG    : Connecting the serial port
+[2024-12-24 01:15:15] DEBUG    : Starting the serial reader
+[2024-12-24 01:15:16] ERROR    : Error in the serial reader: Port is already open.
+[2024-12-24 01:15:18] DEBUG    : Connecting the serial port
+[2024-12-24 01:15:18] DEBUG    : Starting the serial reader
+[2024-12-24 01:15:18] ERROR    : Error in the serial reader: Port is already open.
+[2024-12-24 01:15:20] DEBUG    : Closing the application
+[2024-12-24 18:34:38] DEBUG    : Creating the main window
+[2024-12-24 18:34:38] DEBUG    : Creating the GUI
+[2024-12-24 18:34:38] DEBUG    : Updating the serial port
+[2024-12-24 18:34:41] DEBUG    : Connecting the serial port
+[2024-12-24 18:34:41] ERROR    : No serial port selected
+[2024-12-24 18:34:44] DEBUG    : Connecting the serial port
+[2024-12-24 18:34:44] ERROR    : No serial port selected
+[2024-12-24 18:34:46] DEBUG    : Closing the application
+[2024-12-24 18:35:15] DEBUG    : Creating the main window
+[2024-12-24 18:35:15] DEBUG    : Creating the GUI
+[2024-12-24 18:35:15] DEBUG    : Updating the serial port
+[2024-12-24 18:35:16] DEBUG    : Connecting the serial port
+[2024-12-24 18:35:16] ERROR    : No serial port selected
+[2024-12-24 18:36:29] DEBUG    : Creating the main window
+[2024-12-24 18:36:29] DEBUG    : Creating the GUI
+[2024-12-24 18:36:29] DEBUG    : Updating the serial port
+[2024-12-24 18:36:30] ERROR    : No serial port selected
+[2024-12-24 18:36:31] ERROR    : No serial port selected
+[2024-12-24 18:36:32] ERROR    : No serial port selected
+[2024-12-24 18:36:41] ERROR    : No serial port selected
+[2024-12-24 18:36:44] DEBUG    : Updating the serial port
+[2024-12-24 18:36:46] DEBUG    : Connecting to the serial port
+[2024-12-24 18:36:46] DEBUG    : Starting the serial reader
+[2024-12-24 18:36:46] ERROR    : Error in the serial reader: Port is already open.
+[2024-12-24 18:36:47] DEBUG    : Connecting to the serial port
+[2024-12-24 18:36:47] DEBUG    : Starting the serial reader
+[2024-12-24 18:36:47] ERROR    : Error in the serial reader: Port is already open.
+[2024-12-24 18:36:52] DEBUG    : Connecting to the serial port
+[2024-12-24 18:36:52] DEBUG    : Starting the serial reader
+[2024-12-24 18:36:52] ERROR    : Error in the serial reader: Port is already open.
+[2024-12-24 18:39:13] DEBUG    : Creating the main window
+[2024-12-24 18:39:13] DEBUG    : Creating the GUI
+[2024-12-24 18:39:13] DEBUG    : Updating the serial port
+[2024-12-24 18:39:15] ERROR    : No serial port selected
+[2024-12-24 18:39:17] ERROR    : No serial port selected
+[2024-12-24 18:39:24] DEBUG    : Updating the serial port
+[2024-12-24 18:39:25] DEBUG    : Starting the serial reader
+[2024-12-24 18:39:25] ERROR    : Error in the serial reader: Port is already open.
+[2024-12-24 18:39:27] DEBUG    : Starting the serial reader
+[2024-12-24 18:39:27] ERROR    : Error in the serial reader: Port is already open.
+[2024-12-24 18:39:28] DEBUG    : Starting the serial reader
+[2024-12-24 18:39:28] ERROR    : Error in the serial reader: Port is already open.
+[2024-12-24 18:39:28] DEBUG    : Updating the serial port
+[2024-12-24 18:39:29] DEBUG    : Starting the serial reader
+[2024-12-24 18:39:29] ERROR    : Error in the serial reader: Port is already open.
+[2024-12-24 18:39:29] DEBUG    : Starting the serial reader
+[2024-12-24 18:39:29] ERROR    : Error in the serial reader: Port is already open.
+[2024-12-24 18:39:29] DEBUG    : Starting the serial reader
+[2024-12-24 18:40:09] DEBUG    : Creating the main window
+[2024-12-24 18:40:09] DEBUG    : Creating the GUI
+[2024-12-24 18:40:09] DEBUG    : Updating the serial port
+[2024-12-24 18:40:10] DEBUG    : Starting the serial reader
+[2024-12-24 18:40:10] ERROR    : Error in the serial reader: Port is already open.
+[2024-12-24 18:40:15] DEBUG    : Updating the serial port
+[2024-12-24 18:40:16] DEBUG    : Starting the serial reader
+[2024-12-24 18:40:16] ERROR    : Error in the serial reader: Port is already open.
+[2024-12-24 18:40:20] DEBUG    : Closing the application
+[2024-12-24 18:49:06] DEBUG    : Creating the main window
+[2024-12-24 18:49:06] DEBUG    : Creating the GUI
+[2024-12-24 18:49:06] DEBUG    : Updating the serial port
+[2024-12-24 18:49:07] DEBUG    : Starting the serial reader
+[2024-12-24 18:49:07] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:49:26] DEBUG    : Creating the main window
+[2024-12-24 18:49:26] DEBUG    : Creating the GUI
+[2024-12-24 18:49:26] DEBUG    : Updating the serial port
+[2024-12-24 18:49:28] DEBUG    : Connecting to the serial port
+[2024-12-24 18:49:28] DEBUG    : Starting the serial reader
+[2024-12-24 18:49:28] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:49:29] DEBUG    : Disconnecting the serial port
+[2024-12-24 18:49:29] DEBUG    : Stopping serial reader
+[2024-12-24 18:49:29] INFO     : Serial port closed
+[2024-12-24 18:49:43] DEBUG    : Connecting to the serial port
+[2024-12-24 18:49:43] DEBUG    : Starting the serial reader
+[2024-12-24 18:49:43] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:49:44] DEBUG    : Disconnecting the serial port
+[2024-12-24 18:49:44] DEBUG    : Stopping serial reader
+[2024-12-24 18:49:44] INFO     : Serial port closed
+[2024-12-24 18:49:52] DEBUG    : Updating the serial port
+[2024-12-24 18:49:54] DEBUG    : Connecting to the serial port
+[2024-12-24 18:49:56] DEBUG    : Connecting to the serial port
+[2024-12-24 18:49:57] DEBUG    : Connecting to the serial port
+[2024-12-24 18:49:59] DEBUG    : Closing the application
+[2024-12-24 18:51:21] DEBUG    : Creating the main window
+[2024-12-24 18:51:21] DEBUG    : Creating the GUI
+[2024-12-24 18:51:21] DEBUG    : Updating the serial port
+[2024-12-24 18:51:22] DEBUG    : Initiating serial port connection
+[2024-12-24 18:51:22] GOOD     : Serial port connected successfully
+[2024-12-24 18:51:22] DEBUG    : Starting the serial reader
+[2024-12-24 18:51:22] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:51:28] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:51:28] DEBUG    : Stopping serial reader
+[2024-12-24 18:51:28] ERROR    : Serial toggle failed: Failed to stop serial reader thread
+[2024-12-24 18:51:28] INFO     : Serial port closed
+[2024-12-24 18:51:37] DEBUG    : Updating the serial port
+[2024-12-24 18:51:38] DEBUG    : Initiating serial port connection
+[2024-12-24 18:51:38] ERROR    : Serial toggle failed: Failed to start serial reader thread
+[2024-12-24 18:51:48] DEBUG    : Updating the serial port
+[2024-12-24 18:51:49] DEBUG    : Initiating serial port connection
+[2024-12-24 18:51:49] GOOD     : Serial port connected successfully
+[2024-12-24 18:51:49] DEBUG    : Starting the serial reader
+[2024-12-24 18:51:49] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:52:16] DEBUG    : Creating the main window
+[2024-12-24 18:52:16] DEBUG    : Creating the GUI
+[2024-12-24 18:52:16] DEBUG    : Updating the serial port
+[2024-12-24 18:52:17] DEBUG    : Initiating serial port connection
+[2024-12-24 18:52:17] GOOD     : Serial port connected successfully
+[2024-12-24 18:52:17] DEBUG    : Starting the serial reader
+[2024-12-24 18:52:17] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:52:23] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:52:23] DEBUG    : Stopping serial reader
+[2024-12-24 18:52:23] ERROR    : Serial toggle failed: Failed to stop serial reader thread
+[2024-12-24 18:52:23] INFO     : Serial port closed
+[2024-12-24 18:52:33] DEBUG    : Closing the application
+[2024-12-24 18:54:39] DEBUG    : Creating the main window
+[2024-12-24 18:54:39] DEBUG    : Creating the GUI
+[2024-12-24 18:54:39] DEBUG    : Updating the serial port
+[2024-12-24 18:54:40] DEBUG    : Initiating serial port connection
+[2024-12-24 18:54:40] GOOD     : Serial port connected successfully
+[2024-12-24 18:54:40] DEBUG    : Starting the serial reader
+[2024-12-24 18:54:40] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:54:42] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:54:42] DEBUG    : Stopping serial reader
+[2024-12-24 18:54:42] DEBUG    : Waiting for thread to finish...
+[2024-12-24 18:54:42] ERROR    : Error stopping serial reader: arguments did not match any overloaded call:
+  wait(self, deadline: QDeadlineTimer = QDeadlineTimer(QDeadlineTimer.Forever)): 'msecs' is not a valid keyword argument
+  wait(self, time: int): 'msecs' is not a valid keyword argument
+[2024-12-24 18:54:42] ERROR    : Serial toggle failed: Failed to stop serial reader
+[2024-12-24 18:54:42] INFO     : Serial port closed
+[2024-12-24 18:54:53] DEBUG    : Initiating serial port connection
+[2024-12-24 18:54:53] GOOD     : Serial port connected successfully
+[2024-12-24 18:54:53] DEBUG    : Starting the serial reader
+[2024-12-24 18:54:53] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:55:19] DEBUG    : Creating the main window
+[2024-12-24 18:55:19] DEBUG    : Creating the GUI
+[2024-12-24 18:55:19] DEBUG    : Updating the serial port
+[2024-12-24 18:55:20] DEBUG    : Initiating serial port connection
+[2024-12-24 18:55:20] GOOD     : Serial port connected successfully
+[2024-12-24 18:55:20] DEBUG    : Starting the serial reader
+[2024-12-24 18:55:20] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:55:21] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:55:21] DEBUG    : Stopping serial reader
+[2024-12-24 18:55:21] DEBUG    : Waiting for thread to finish...
+[2024-12-24 18:55:21] INFO     : Serial port closed
+[2024-12-24 18:55:21] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:55:24] DEBUG    : Initiating serial port connection
+[2024-12-24 18:55:24] GOOD     : Serial port connected successfully
+[2024-12-24 18:55:24] DEBUG    : Starting the serial reader
+[2024-12-24 18:56:46] DEBUG    : Creating the main window
+[2024-12-24 18:56:46] DEBUG    : Creating the GUI
+[2024-12-24 18:56:46] DEBUG    : Updating the serial port
+[2024-12-24 18:56:47] DEBUG    : Closing the application
+[2024-12-24 18:56:56] DEBUG    : Creating the main window
+[2024-12-24 18:56:56] DEBUG    : Creating the GUI
+[2024-12-24 18:56:56] DEBUG    : Updating the serial port
+[2024-12-24 18:56:57] DEBUG    : Initiating serial port connection
+[2024-12-24 18:56:57] GOOD     : Serial port connected successfully
+[2024-12-24 18:56:57] DEBUG    : Starting the serial reader
+[2024-12-24 18:56:57] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:57:03] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:57:03] DEBUG    : Stopping serial reader
+[2024-12-24 18:57:03] DEBUG    : Waiting for thread to finish...
+[2024-12-24 18:57:03] INFO     : Serial port closed
+[2024-12-24 18:57:04] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:57:05] DEBUG    : Initiating serial port connection
+[2024-12-24 18:57:05] GOOD     : Serial port connected successfully
+[2024-12-24 18:57:05] DEBUG    : Starting the serial reader
+[2024-12-24 18:57:05] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:58:28] DEBUG    : Creating the main window
+[2024-12-24 18:58:28] DEBUG    : Creating the GUI
+[2024-12-24 18:58:28] DEBUG    : Updating the serial port
+[2024-12-24 18:58:29] DEBUG    : Initiating serial port connection
+[2024-12-24 18:58:29] GOOD     : Serial port connected successfully
+[2024-12-24 18:58:29] DEBUG    : Starting the serial reader
+[2024-12-24 18:58:29] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:58:30] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:58:30] DEBUG    : Stopping serial reader
+[2024-12-24 18:58:30] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:58:31] DEBUG    : Initiating serial port connection
+[2024-12-24 18:58:31] GOOD     : Serial port connected successfully
+[2024-12-24 18:58:31] DEBUG    : Starting the serial reader
+[2024-12-24 18:58:31] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:58:32] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:58:32] DEBUG    : Stopping serial reader
+[2024-12-24 18:58:32] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:58:32] DEBUG    : Initiating serial port connection
+[2024-12-24 18:58:32] GOOD     : Serial port connected successfully
+[2024-12-24 18:58:32] DEBUG    : Starting the serial reader
+[2024-12-24 18:58:32] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:58:33] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:58:33] DEBUG    : Stopping serial reader
+[2024-12-24 18:58:33] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:58:33] DEBUG    : Initiating serial port connection
+[2024-12-24 18:58:33] GOOD     : Serial port connected successfully
+[2024-12-24 18:58:33] DEBUG    : Starting the serial reader
+[2024-12-24 18:58:42] DEBUG    : Creating the main window
+[2024-12-24 18:58:42] DEBUG    : Creating the GUI
+[2024-12-24 18:58:42] DEBUG    : Updating the serial port
+[2024-12-24 18:58:43] DEBUG    : Initiating serial port connection
+[2024-12-24 18:58:43] GOOD     : Serial port connected successfully
+[2024-12-24 18:58:43] DEBUG    : Starting the serial reader
+[2024-12-24 18:58:43] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:58:47] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:58:47] DEBUG    : Stopping serial reader
+[2024-12-24 18:58:47] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:58:49] DEBUG    : Initiating serial port connection
+[2024-12-24 18:58:49] GOOD     : Serial port connected successfully
+[2024-12-24 18:58:49] DEBUG    : Starting the serial reader
+[2024-12-24 18:58:49] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:58:57] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:58:57] DEBUG    : Stopping serial reader
+[2024-12-24 18:58:57] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:58:58] DEBUG    : Initiating serial port connection
+[2024-12-24 18:58:58] GOOD     : Serial port connected successfully
+[2024-12-24 18:58:58] DEBUG    : Starting the serial reader
+[2024-12-24 18:58:58] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:00] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:00] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:00] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:01] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:01] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:01] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:01] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:03] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:03] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:03] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:04] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:04] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:04] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:04] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:10] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:10] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:10] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:12] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:12] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:12] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:12] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:13] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:13] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:13] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:14] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:14] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:14] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:14] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:15] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:15] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:15] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:15] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:15] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:15] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:15] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:16] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:16] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:16] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:17] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:17] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:17] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:17] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:18] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:18] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:18] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:19] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:19] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:19] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:19] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:20] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:20] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:20] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:21] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:21] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:21] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:21] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:22] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:22] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:22] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:23] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:23] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:23] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:23] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:23] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:23] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:23] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:24] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:24] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:24] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:24] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:24] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:24] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:24] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:24] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:24] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:24] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:24] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:25] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:25] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:25] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:25] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:25] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:25] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:25] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:26] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:26] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:26] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:26] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:26] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:26] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:26] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:27] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:27] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:27] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:27] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:27] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:27] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:27] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:28] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:28] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:28] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:28] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:28] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:28] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:28] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:28] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:28] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:28] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:29] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:29] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:29] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:29] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:29] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:29] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:29] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:30] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:30] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:30] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:30] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:30] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:30] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:30] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:30] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:30] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:30] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:30] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:31] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:31] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:31] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:31] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:31] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:31] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:31] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:31] DEBUG    : Initiating serial port disconnect
+[2024-12-24 18:59:31] DEBUG    : Stopping serial reader
+[2024-12-24 18:59:31] GOOD     : Serial port disconnected successfully
+[2024-12-24 18:59:35] DEBUG    : Closing the application
+[2024-12-24 18:59:54] DEBUG    : Creating the main window
+[2024-12-24 18:59:54] DEBUG    : Creating the GUI
+[2024-12-24 18:59:54] DEBUG    : Updating the serial port
+[2024-12-24 18:59:56] DEBUG    : Initiating serial port connection
+[2024-12-24 18:59:56] GOOD     : Serial port connected successfully
+[2024-12-24 18:59:56] DEBUG    : Starting the serial reader
+[2024-12-24 18:59:56] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 18:59:58] DEBUG    : Sending UART data: test
+[2024-12-24 19:00:03] DEBUG    : Sending UART data: yeeet
+[2024-12-24 19:00:05] DEBUG    : Closing the application
+[2024-12-24 19:00:20] DEBUG    : Creating the main window
+[2024-12-24 19:00:20] DEBUG    : Creating the GUI
+[2024-12-24 19:00:20] DEBUG    : Updating the serial port
+[2024-12-24 19:00:21] DEBUG    : Initiating serial port connection
+[2024-12-24 19:00:21] GOOD     : Serial port connected successfully
+[2024-12-24 19:00:21] DEBUG    : Starting the serial reader
+[2024-12-24 19:00:21] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 19:00:27] DEBUG    : Closing the application
+[2024-12-24 19:05:49] DEBUG    : Creating the main window
+[2024-12-24 19:05:49] DEBUG    : Creating the GUI
+[2024-12-24 19:05:49] DEBUG    : Updating the serial port
+[2024-12-24 19:05:50] DEBUG    : Initiating serial port connection
+[2024-12-24 19:05:50] DEBUG    : Serial port connected successfully
+[2024-12-24 19:05:50] DEBUG    : Starting the serial reader
+[2024-12-24 19:05:50] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 19:05:52] DEBUG    : Initiating serial port disconnect
+[2024-12-24 19:05:52] DEBUG    : Stopping serial reader
+[2024-12-24 19:05:52] DEBUG    : Serial port disconnected successfully
+[2024-12-24 19:05:57] DEBUG    : Initiating serial port connection
+[2024-12-24 19:05:57] DEBUG    : Serial port connected successfully
+[2024-12-24 19:05:57] DEBUG    : Starting the serial reader
+[2024-12-24 19:05:57] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 19:06:02] ERROR    : Serial connection error: ClearCommError failed (OSError(22, 'The I/O operation has been aborted because of either a thread exit or an application request.', None, 995))
+[2024-12-24 19:06:02] DEBUG    : Stopping serial reader
+[2024-12-24 19:06:02] WARNING  : Force terminating thread
+[2024-12-24 19:08:26] DEBUG    : Creating the main window
+[2024-12-24 19:08:26] DEBUG    : Creating the GUI
+[2024-12-24 19:08:26] DEBUG    : Updating the serial port
+[2024-12-24 19:08:28] DEBUG    : Initiating serial port connection
+[2024-12-24 19:08:28] DEBUG    : Serial port connected successfully
+[2024-12-24 19:08:28] DEBUG    : Starting the serial reader
+[2024-12-24 19:08:28] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 19:08:29] DEBUG    : Initiating serial port disconnect
+[2024-12-24 19:08:29] DEBUG    : Stopping serial reader
+[2024-12-24 19:08:29] DEBUG    : Serial port disconnected successfully
+[2024-12-24 19:08:30] DEBUG    : Initiating serial port connection
+[2024-12-24 19:08:30] DEBUG    : Serial port connected successfully
+[2024-12-24 19:08:30] DEBUG    : Starting the serial reader
+[2024-12-24 19:08:30] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 19:08:35] DEBUG    : Initiating serial port disconnect
+[2024-12-24 19:08:35] DEBUG    : Stopping serial reader
+[2024-12-24 19:08:35] DEBUG    : Serial port disconnected successfully
+[2024-12-24 19:08:37] DEBUG    : Initiating serial port connection
+[2024-12-24 19:08:37] DEBUG    : Serial port connected successfully
+[2024-12-24 19:08:37] DEBUG    : Starting the serial reader
+[2024-12-24 19:08:37] GOOD     : Connected to serial port: COM6 - USB Serial Device (COM6)
+[2024-12-24 19:08:38] ERROR    : Serial port disconnected unexpectedly
+[2024-12-24 19:08:38] DEBUG    : Stopping serial reader
+[2024-12-24 19:08:38] WARNING  : Force terminating thread
+[2024-12-24 19:12:06] DEBUG    : Creating the main window
+[2024-12-24 19:12:06] DEBUG    : Creating the GUI
+[2024-12-24 19:12:06] DEBUG    : Updating the serial port
+[2024-12-24 19:12:07] DEBUG    : Initiating serial port connection
+[2024-12-24 19:12:07] DEBUG    : Serial port connected successfully
+[2024-12-24 19:12:07] DEBUG    : Starting the serial reader
+[2024-12-24 19:13:47] DEBUG    : Creating the main window
+[2024-12-24 19:13:47] DEBUG    : Creating the GUI
+[2024-12-24 19:13:47] DEBUG    : Updating the serial port
+[2024-12-24 19:13:49] DEBUG    : Initiating serial port connection
+[2024-12-24 19:13:49] DEBUG    : Serial port connected successfully
+[2024-12-24 19:13:49] GOOD     : Connected to COM6
+[2024-12-24 19:13:50] DEBUG    : Initiating serial port disconnect
+[2024-12-24 19:13:50] DEBUG    : Stopping reader
+[2024-12-24 19:13:50] DEBUG    : Serial port disconnected successfully
+[2024-12-24 19:13:51] DEBUG    : Initiating serial port connection
+[2024-12-24 19:13:51] DEBUG    : Serial port connected successfully
+[2024-12-24 19:13:51] GOOD     : Connected to COM6
+[2024-12-24 19:13:54] ERROR    : Serial port disconnected unexpectedly
+[2024-12-24 19:13:54] DEBUG    : Stopping reader
+[2024-12-24 19:14:02] DEBUG    : Initiating serial port connection
+[2024-12-24 19:14:02] DEBUG    : Serial port connected successfully
+[2024-12-24 19:14:02] GOOD     : Connected to COM6
+[2024-12-24 19:14:05] DEBUG    : Initiating serial port disconnect
+[2024-12-24 19:14:05] DEBUG    : Stopping reader
+[2024-12-24 19:14:05] DEBUG    : Serial port disconnected successfully
+[2024-12-24 19:14:07] DEBUG    : Closing the application
+[2024-12-24 19:16:19] DEBUG    : Creating the main window
+[2024-12-24 19:16:19] DEBUG    : Creating the GUI
+[2024-12-24 19:16:19] DEBUG    : Updating the serial port
+[2024-12-24 19:16:20] DEBUG    : Initiating serial port connection
+[2024-12-24 19:16:20] DEBUG    : Serial port connected successfully
+[2024-12-24 19:16:20] GOOD     : Connected to COM6
+[2024-12-24 19:16:22] DEBUG    : Initiating serial port disconnect
+[2024-12-24 19:16:22] DEBUG    : Stopping reader
+[2024-12-24 19:16:22] DEBUG    : Serial port disconnected successfully
+[2024-12-24 19:16:23] DEBUG    : Initiating serial port connection
+[2024-12-24 19:16:23] DEBUG    : Serial port connected successfully
+[2024-12-24 19:16:23] GOOD     : Connected to COM6
+[2024-12-24 19:16:25] ERROR    : Serial port disconnected unexpectedly
+[2024-12-24 19:16:25] DEBUG    : Stopping reader
+[2024-12-24 19:16:25] ERROR    : Serial connection error: Serial port disconnected unexpectedly
+[2024-12-24 19:16:36] DEBUG    : Initiating serial port connection
+[2024-12-24 19:16:36] DEBUG    : Serial port connected successfully
+[2024-12-24 19:16:36] GOOD     : Connected to COM6
+[2024-12-24 19:16:45] DEBUG    : Initiating serial port disconnect
+[2024-12-24 19:16:45] DEBUG    : Stopping reader
+[2024-12-24 19:16:45] DEBUG    : Serial port disconnected successfully
+[2024-12-24 19:16:53] DEBUG    : Closing the application
+[2024-12-24 19:18:57] DEBUG    : Creating the main window
+[2024-12-24 19:18:57] DEBUG    : Creating the GUI
+[2024-12-24 19:18:57] DEBUG    : Updating the serial port
+[2024-12-24 19:18:59] DEBUG    : Initiating serial port connection
+[2024-12-24 19:18:59] DEBUG    : Serial port connected successfully
+[2024-12-24 19:18:59] GOOD     : Connected to COM6 - USB Serial Device (COM6)
+[2024-12-24 19:19:09] DEBUG    : Initiating serial port disconnect
+[2024-12-24 19:19:09] DEBUG    : Stopping reader
+[2024-12-24 19:19:09] DEBUG    : Serial port disconnected successfully
+[2024-12-24 19:19:13] DEBUG    : Closing the application
