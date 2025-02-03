@@ -5616,3 +5616,361 @@
 [2024-12-24 19:19:09] DEBUG    : Stopping reader
 [2024-12-24 19:19:09] DEBUG    : Serial port disconnected successfully
 [2024-12-24 19:19:13] DEBUG    : Closing the application
+[2024-12-24 23:14:21] DEBUG    : Creating the main window
+[2024-12-24 23:14:42] DEBUG    : Creating the main window
+[2024-12-24 23:14:42] DEBUG    : Creating the GUI
+[2024-12-24 23:14:42] DEBUG    : Updating the serial port
+[2024-12-24 23:14:46] DEBUG    : Updating the serial port
+[2024-12-24 23:14:48] DEBUG    : Updating the serial port
+[2024-12-24 23:14:49] DEBUG    : Updating the serial port
+[2024-12-24 23:14:54] DEBUG    : Updating the serial port
+[2024-12-24 23:15:01] DEBUG    : Updating the serial port
+[2024-12-24 23:15:09] DEBUG    : Opening the parameters window
+[2024-12-24 23:15:09] DEBUG    : Creating the parameters window
+[2024-12-24 23:15:09] DEBUG    : Creating the GUI
+[2024-12-24 23:15:18] DEBUG    : Closing the application
+[2024-12-24 23:16:25] DEBUG    : Creating the main window
+[2024-12-24 23:16:25] DEBUG    : Creating the GUI
+[2024-12-24 23:16:25] DEBUG    : Updating the serial port
+[2024-12-24 23:16:27] DEBUG    : Opening the parameters window
+[2024-12-24 23:16:27] DEBUG    : Creating the parameters window
+[2024-12-24 23:16:27] DEBUG    : Creating the GUI
+[2024-12-24 23:16:50] DEBUG    : Closing the application
+[2024-12-24 23:17:36] DEBUG    : Creating the main window
+[2024-12-24 23:17:36] DEBUG    : Creating the GUI
+[2024-12-24 23:17:36] DEBUG    : Updating the serial port
+[2024-12-24 23:17:38] DEBUG    : Opening the parameters window
+[2024-12-24 23:17:38] DEBUG    : Creating the parameters window
+[2024-12-24 23:17:38] DEBUG    : Creating the GUI
+[2024-12-24 23:17:46] DEBUG    : Closing the application
+[2024-12-24 23:18:56] DEBUG    : Creating the main window
+[2024-12-24 23:18:56] DEBUG    : Creating the GUI
+[2024-12-24 23:18:56] DEBUG    : Updating the serial port
+[2024-12-24 23:18:58] DEBUG    : Opening the parameters window
+[2024-12-24 23:18:58] DEBUG    : Creating the parameters window
+[2024-12-24 23:18:58] DEBUG    : Creating the GUI
+[2024-12-24 23:19:04] DEBUG    : Closing the application
+[2024-12-24 23:19:45] DEBUG    : Creating the main window
+[2024-12-24 23:19:45] DEBUG    : Creating the GUI
+[2024-12-24 23:19:45] DEBUG    : Updating the serial port
+[2024-12-24 23:19:48] DEBUG    : Opening the parameters window
+[2024-12-24 23:19:48] DEBUG    : Creating the parameters window
+[2024-12-24 23:19:48] DEBUG    : Creating the GUI
+[2024-12-24 23:19:52] DEBUG    : Closing the application
+[2024-12-24 23:27:13] DEBUG    : Creating the main window
+[2024-12-24 23:27:13] DEBUG    : Creating the GUI
+[2024-12-24 23:27:13] DEBUG    : Updating the serial port settings
+[2024-12-24 23:27:13] DEBUG    : Updating the serial port
+[2024-12-24 23:27:13] DEBUG    : Updating the serial port settings
+[2024-12-24 23:27:13] DEBUG    : Updating the serial port settings
+[2024-12-24 23:27:13] DEBUG    : Updating the serial port settings
+[2024-12-24 23:27:13] DEBUG    : Updating the serial port settings
+[2024-12-24 23:27:15] DEBUG    : Opening the parameters window
+[2024-12-24 23:27:15] DEBUG    : Creating the parameters window
+[2024-12-24 23:27:15] DEBUG    : Creating the GUI
+[2024-12-24 23:27:19] DEBUG    : Updating setting serial_port to 0
+[2024-12-24 23:27:19] ERROR    : Error updating setting serial_port: 'int' object is not subscriptable
+[2024-12-24 23:27:25] DEBUG    : Updating setting serial_port to 1
+[2024-12-24 23:27:25] ERROR    : Error updating setting serial_port: 'int' object is not subscriptable
+[2024-12-24 23:27:35] DEBUG    : Closing the application
+[2024-12-24 23:28:39] DEBUG    : Creating the main window
+[2024-12-24 23:28:39] DEBUG    : Creating the GUI
+[2024-12-24 23:28:39] DEBUG    : Updating the serial port settings
+[2024-12-24 23:28:39] DEBUG    : Updating the serial port
+[2024-12-24 23:28:39] DEBUG    : Updating the serial port settings
+[2024-12-24 23:28:39] DEBUG    : Updating the serial port settings
+[2024-12-24 23:28:39] DEBUG    : Updating the serial port settings
+[2024-12-24 23:28:41] DEBUG    : Opening the parameters window
+[2024-12-24 23:28:41] DEBUG    : Creating the parameters window
+[2024-12-24 23:28:41] DEBUG    : Creating the GUI
+[2024-12-24 23:28:44] DEBUG    : Updating setting serial_port to 0
+[2024-12-24 23:28:44] ERROR    : Error updating setting serial_port: 'int' object is not subscriptable
+[2024-12-24 23:28:46] DEBUG    : Updating setting serial_port to 1
+[2024-12-24 23:28:46] ERROR    : Error updating setting serial_port: 'int' object is not subscriptable
+[2024-12-24 23:28:47] DEBUG    : Initiating serial port connection
+[2024-12-24 23:28:47] ERROR    : Failed to start serial reader: 'ChoiceBox' object has no attribute 'options'
+[2024-12-24 23:28:47] ERROR    : Serial toggle failed: Failed to start serial reader
+[2024-12-24 23:28:53] DEBUG    : Closing the application
+[2024-12-24 23:29:24] DEBUG    : Creating the main window
+[2024-12-24 23:29:24] DEBUG    : Creating the GUI
+[2024-12-24 23:29:24] DEBUG    : Updating the serial port settings
+[2024-12-24 23:29:24] DEBUG    : Updating the serial port
+[2024-12-24 23:29:24] DEBUG    : Updating the serial port settings
+[2024-12-24 23:29:24] DEBUG    : Updating the serial port settings
+[2024-12-24 23:29:24] DEBUG    : Updating the serial port settings
+[2024-12-24 23:29:25] DEBUG    : Initiating serial port connection
+[2024-12-24 23:29:25] DEBUG    : Serial port connected successfully
+[2024-12-24 23:29:25] GOOD     : Connected to COM6 - USB Serial Device (COM6)
+[2024-12-24 23:29:26] DEBUG    : Initiating serial port disconnect
+[2024-12-24 23:29:26] DEBUG    : Stopping reader
+[2024-12-24 23:29:26] GOOD     : Serial port disconnected successfully
+[2024-12-24 23:29:27] DEBUG    : Updating the serial port settings
+[2024-12-24 23:29:30] DEBUG    : Opening the parameters window
+[2024-12-24 23:29:30] DEBUG    : Creating the parameters window
+[2024-12-24 23:29:30] DEBUG    : Creating the GUI
+[2024-12-24 23:29:33] DEBUG    : Updating setting serial_port to 1
+[2024-12-24 23:29:33] ERROR    : Error updating setting serial_port: 'int' object is not subscriptable
+[2024-12-24 23:29:38] DEBUG    : Closing the application
+[2024-12-24 23:30:44] DEBUG    : Creating the main window
+[2024-12-24 23:30:44] DEBUG    : Creating the GUI
+[2024-12-24 23:30:44] DEBUG    : Updating the serial port settings
+[2024-12-24 23:30:44] DEBUG    : Updating the serial port
+[2024-12-24 23:30:44] DEBUG    : Updating the serial port settings
+[2024-12-24 23:30:44] DEBUG    : Updating the serial port settings
+[2024-12-24 23:30:44] DEBUG    : Updating the serial port settings
+[2024-12-24 23:30:46] DEBUG    : Opening the parameters window
+[2024-12-24 23:30:46] DEBUG    : Creating the parameters window
+[2024-12-24 23:30:46] DEBUG    : Creating the GUI
+[2024-12-24 23:30:51] DEBUG    : Updating setting serial_port to 0
+[2024-12-24 23:30:51] ERROR    : Error updating setting serial_port: 'int' object is not subscriptable
+[2024-12-24 23:30:54] DEBUG    : Closing the application
+[2024-12-24 23:32:44] DEBUG    : Creating the main window
+[2024-12-24 23:32:44] DEBUG    : Creating the GUI
+[2024-12-24 23:32:45] DEBUG    : Updating the serial port settings
+[2024-12-24 23:32:45] DEBUG    : Updating the serial port
+[2024-12-24 23:32:45] DEBUG    : Updating the serial port settings
+[2024-12-24 23:32:45] DEBUG    : Updating the serial port settings
+[2024-12-24 23:32:45] DEBUG    : Updating the serial port settings
+[2024-12-24 23:32:49] DEBUG    : Opening the parameters window
+[2024-12-24 23:32:49] DEBUG    : Creating the parameters window
+[2024-12-24 23:32:49] DEBUG    : Creating the GUI
+[2024-12-24 23:32:50] DEBUG    : Updating setting serial_port to 0
+[2024-12-24 23:32:50] ERROR    : Error updating setting serial_port: 'int' object is not subscriptable
+[2024-12-24 23:32:54] DEBUG    : Closing the application
+[2024-12-24 23:37:30] DEBUG    : Creating the main window
+[2024-12-24 23:37:30] DEBUG    : Creating the GUI
+[2024-12-24 23:37:30] DEBUG    : Updating the serial port settings
+[2024-12-24 23:37:30] DEBUG    : Updating the serial port
+[2024-12-24 23:37:30] DEBUG    : Updating the serial port settings
+[2024-12-24 23:37:30] DEBUG    : Updating the serial port settings
+[2024-12-24 23:37:30] DEBUG    : Updating the serial port settings
+[2024-12-24 23:37:32] DEBUG    : Opening the parameters window
+[2024-12-24 23:37:32] DEBUG    : Creating the parameters window
+[2024-12-24 23:37:32] DEBUG    : Creating the GUI
+[2024-12-24 23:37:36] DEBUG    : Updating setting serial_port to 0
+[2024-12-24 23:37:36] ERROR    : Error updating setting serial_port: 'int' object is not subscriptable
+[2024-12-24 23:37:40] DEBUG    : Initiating serial port connection
+[2024-12-24 23:37:40] DEBUG    : Serial port connected successfully
+[2024-12-24 23:37:40] GOOD     : Connected to COM6 - USB Serial Device (COM6)
+[2024-12-24 23:37:41] DEBUG    : Initiating serial port disconnect
+[2024-12-24 23:37:41] DEBUG    : Stopping reader
+[2024-12-24 23:37:42] GOOD     : Serial port disconnected successfully
+[2024-12-24 23:37:44] DEBUG    : Closing the application
+[2024-12-25 10:06:51] DEBUG    : Creating the main window
+[2024-12-25 10:06:51] DEBUG    : Creating the GUI
+[2024-12-25 10:06:51] DEBUG    : Updating the serial port settings
+[2024-12-25 10:06:51] DEBUG    : Updating the serial port
+[2024-12-25 10:06:51] DEBUG    : Updating the serial port settings
+[2024-12-25 10:06:51] DEBUG    : Updating the serial port settings
+[2024-12-25 10:06:53] DEBUG    : Opening the parameters window
+[2024-12-25 10:06:53] DEBUG    : Creating the parameters window
+[2024-12-25 10:06:53] DEBUG    : Creating the GUI
+[2024-12-25 10:38:07] DEBUG    : Creating the main window
+[2024-12-25 10:38:07] DEBUG    : Creating the GUI
+[2024-12-25 10:38:07] DEBUG    : Updating the serial port settings
+[2024-12-25 10:38:07] DEBUG    : Updating the serial port
+[2024-12-25 10:38:07] DEBUG    : Updating the serial port settings
+[2024-12-25 10:39:52] DEBUG    : Creating the main window
+[2024-12-25 10:39:52] DEBUG    : Creating the GUI
+[2024-12-25 10:39:52] DEBUG    : Updating the serial port settings
+[2024-12-25 10:39:52] DEBUG    : Updating the serial port
+[2024-12-25 10:39:52] DEBUG    : Updating the serial port settings
+[2024-12-25 10:40:48] DEBUG    : Creating the main window
+[2024-12-25 10:40:48] DEBUG    : Creating the GUI
+[2024-12-25 10:40:48] DEBUG    : Updating the serial port settings
+[2024-12-25 10:40:48] DEBUG    : Updating the serial port
+[2024-12-25 10:40:48] DEBUG    : Updating the serial port settings
+[2024-12-25 10:40:48] DEBUG    : Updating the serial port settings
+[2024-12-25 10:40:50] DEBUG    : Opening the parameters window
+[2024-12-25 10:40:50] DEBUG    : Creating the parameters window
+[2024-12-25 10:40:50] DEBUG    : Creating the GUI
+[2024-12-25 10:41:54] DEBUG    : Creating the main window
+[2024-12-25 10:41:54] DEBUG    : Creating the GUI
+[2024-12-25 10:41:54] DEBUG    : Updating the serial port settings
+[2024-12-25 10:41:54] DEBUG    : Updating the serial port
+[2024-12-25 10:41:54] DEBUG    : Updating the serial port settings
+[2024-12-25 10:41:54] DEBUG    : Updating the serial port settings
+[2024-12-25 10:41:55] DEBUG    : Opening the parameters window
+[2024-12-25 10:41:55] DEBUG    : Creating the parameters window
+[2024-12-25 10:41:55] DEBUG    : Creating the GUI
+[2024-12-25 10:42:09] DEBUG    : Creating the main window
+[2024-12-25 10:42:09] DEBUG    : Creating the GUI
+[2024-12-25 10:42:09] DEBUG    : Updating the serial port settings
+[2024-12-25 10:42:09] DEBUG    : Updating the serial port
+[2024-12-25 10:42:09] DEBUG    : Updating the serial port settings
+[2024-12-25 10:42:09] DEBUG    : Updating the serial port settings
+[2024-12-25 10:42:11] DEBUG    : Opening the parameters window
+[2024-12-25 10:42:11] DEBUG    : Creating the parameters window
+[2024-12-25 10:42:11] DEBUG    : Creating the GUI
+[2024-12-25 10:43:04] DEBUG    : Creating the main window
+[2024-12-25 10:43:04] DEBUG    : Creating the GUI
+[2024-12-25 10:43:04] DEBUG    : Updating the serial port settings
+[2024-12-25 10:43:04] DEBUG    : Updating the serial port
+[2024-12-25 10:43:04] DEBUG    : Updating the serial port settings
+[2024-12-25 10:43:04] DEBUG    : Updating the serial port settings
+[2024-12-25 10:43:06] DEBUG    : Opening the parameters window
+[2024-12-25 10:43:06] DEBUG    : Creating the parameters window
+[2024-12-25 10:43:06] DEBUG    : Creating the GUI
+[2024-12-25 10:43:31] DEBUG    : Creating the main window
+[2024-12-25 10:43:31] DEBUG    : Creating the GUI
+[2024-12-25 10:43:31] DEBUG    : Updating the serial port settings
+[2024-12-25 10:43:31] DEBUG    : Updating the serial port
+[2024-12-25 10:43:31] DEBUG    : Updating the serial port settings
+[2024-12-25 10:43:31] DEBUG    : Updating the serial port settings
+[2024-12-25 10:43:33] DEBUG    : Opening the parameters window
+[2024-12-25 10:43:33] DEBUG    : Creating the parameters window
+[2024-12-25 10:43:33] DEBUG    : Creating the GUI
+[2024-12-26 00:20:39] DEBUG    : Creating the main window
+[2024-12-26 00:20:39] DEBUG    : Creating the GUI
+[2024-12-26 00:20:39] DEBUG    : Updating the serial port settings
+[2024-12-26 00:20:39] DEBUG    : Updating the serial port
+[2024-12-26 00:20:39] DEBUG    : Updating the serial port settings
+[2024-12-26 00:20:39] DEBUG    : Updating the serial port settings
+[2024-12-26 00:20:41] DEBUG    : Opening the parameters window
+[2024-12-26 00:20:41] DEBUG    : Creating the parameters window
+[2024-12-26 00:20:41] DEBUG    : Creating the GUI
+[2024-12-26 00:21:00] DEBUG    : Creating the main window
+[2024-12-26 00:21:00] DEBUG    : Creating the GUI
+[2024-12-26 00:21:00] DEBUG    : Updating the serial port settings
+[2024-12-26 00:21:00] DEBUG    : Updating the serial port
+[2024-12-26 00:21:00] DEBUG    : Updating the serial port settings
+[2024-12-26 00:21:00] DEBUG    : Updating the serial port settings
+[2024-12-26 00:21:01] DEBUG    : Opening the parameters window
+[2024-12-26 00:21:01] DEBUG    : Creating the parameters window
+[2024-12-26 00:21:01] DEBUG    : Creating the GUI
+[2024-12-26 00:21:06] DEBUG    : Closing the application
+[2024-12-26 00:21:27] DEBUG    : Creating the main window
+[2024-12-26 00:21:27] DEBUG    : Creating the GUI
+[2024-12-26 00:21:27] DEBUG    : Updating the serial port settings
+[2024-12-26 00:21:27] DEBUG    : Updating the serial port
+[2024-12-26 00:21:27] DEBUG    : Updating the serial port settings
+[2024-12-26 00:21:27] DEBUG    : Updating the serial port settings
+[2024-12-26 00:21:29] DEBUG    : Opening the parameters window
+[2024-12-26 00:21:29] DEBUG    : Creating the parameters window
+[2024-12-26 00:21:29] DEBUG    : Creating the GUI
+[2024-12-26 00:21:55] DEBUG    : Closing the application
+[2024-12-26 00:23:46] DEBUG    : Creating the main window
+[2024-12-26 00:23:46] DEBUG    : Creating the GUI
+[2024-12-26 00:23:46] DEBUG    : Updating the serial port settings
+[2024-12-26 00:23:46] DEBUG    : Updating the serial port
+[2024-12-26 00:23:46] DEBUG    : Updating the serial port settings
+[2024-12-26 00:23:46] DEBUG    : Updating the serial port settings
+[2024-12-26 00:23:48] DEBUG    : Opening the parameters window
+[2024-12-26 00:23:48] DEBUG    : Creating the parameters window
+[2024-12-26 00:23:48] DEBUG    : Creating the GUI
+[2024-12-26 00:24:51] DEBUG    : Creating the main window
+[2024-12-26 00:24:51] DEBUG    : Creating the GUI
+[2024-12-26 00:24:51] DEBUG    : Updating the serial port settings
+[2024-12-26 00:24:51] DEBUG    : Updating the serial port
+[2024-12-26 00:24:51] DEBUG    : Updating the serial port settings
+[2024-12-26 00:24:51] DEBUG    : Updating the serial port settings
+[2024-12-26 00:24:53] DEBUG    : Opening the parameters window
+[2024-12-26 00:24:53] DEBUG    : Creating the parameters window
+[2024-12-26 00:24:53] DEBUG    : Creating the GUI
+[2024-12-26 00:25:05] DEBUG    : Creating the main window
+[2024-12-26 00:25:05] DEBUG    : Creating the GUI
+[2024-12-26 00:25:05] DEBUG    : Updating the serial port settings
+[2024-12-26 00:25:05] DEBUG    : Updating the serial port
+[2024-12-26 00:25:05] DEBUG    : Updating the serial port settings
+[2024-12-26 00:25:05] DEBUG    : Updating the serial port settings
+[2024-12-26 00:25:07] DEBUG    : Opening the parameters window
+[2024-12-26 00:25:07] DEBUG    : Creating the parameters window
+[2024-12-26 00:25:07] DEBUG    : Creating the GUI
+[2024-12-26 00:28:02] DEBUG    : Creating the main window
+[2024-12-26 00:28:02] DEBUG    : Creating the GUI
+[2024-12-26 00:28:02] DEBUG    : Updating the serial port settings
+[2024-12-26 00:28:02] DEBUG    : Updating the serial port
+[2024-12-26 00:28:02] DEBUG    : Updating the serial port settings
+[2024-12-26 00:28:02] DEBUG    : Updating the serial port settings
+[2024-12-26 00:28:05] DEBUG    : Opening the parameters window
+[2024-12-26 00:28:05] DEBUG    : Creating the parameters window
+[2024-12-26 00:28:05] DEBUG    : Creating the GUI
+[2024-12-26 00:29:17] DEBUG    : Creating the main window
+[2024-12-26 00:29:17] DEBUG    : Creating the GUI
+[2024-12-26 00:29:17] DEBUG    : Updating the serial port settings
+[2024-12-26 00:29:17] DEBUG    : Updating the serial port
+[2024-12-26 00:29:17] DEBUG    : Updating the serial port settings
+[2024-12-26 00:29:17] DEBUG    : Updating the serial port settings
+[2024-12-26 00:29:19] DEBUG    : Opening the parameters window
+[2024-12-26 00:29:19] DEBUG    : Creating the parameters window
+[2024-12-26 00:29:19] DEBUG    : Creating the GUI
+[2024-12-26 00:30:14] DEBUG    : Creating the main window
+[2024-12-26 00:30:14] DEBUG    : Creating the GUI
+[2024-12-26 00:30:14] DEBUG    : Updating the serial port settings
+[2024-12-26 00:30:14] DEBUG    : Updating the serial port
+[2024-12-26 00:30:14] DEBUG    : Updating the serial port settings
+[2024-12-26 00:30:14] DEBUG    : Updating the serial port settings
+[2024-12-26 00:30:16] DEBUG    : Opening the parameters window
+[2024-12-26 00:30:16] DEBUG    : Creating the parameters window
+[2024-12-26 00:30:16] DEBUG    : Creating the GUI
+[2024-12-26 00:30:26] DEBUG    : Closing the application
+[2024-12-26 00:34:23] DEBUG    : Creating the main window
+[2024-12-26 00:34:23] DEBUG    : Creating the GUI
+[2024-12-26 00:34:23] DEBUG    : Updating the serial port settings
+[2024-12-26 00:34:23] DEBUG    : Updating the serial port
+[2024-12-26 00:34:23] DEBUG    : Updating the serial port settings
+[2024-12-26 00:34:23] DEBUG    : Updating the serial port settings
+[2024-12-26 00:34:25] DEBUG    : Opening the parameters window
+[2024-12-26 00:34:25] DEBUG    : Creating the parameters window
+[2024-12-26 00:34:25] DEBUG    : Creating the GUI
+[2024-12-26 00:35:41] DEBUG    : Creating the main window
+[2024-12-26 00:35:41] DEBUG    : Creating the GUI
+[2024-12-26 00:35:41] DEBUG    : Updating the serial port settings
+[2024-12-26 00:35:41] DEBUG    : Updating the serial port
+[2024-12-26 00:35:41] DEBUG    : Updating the serial port settings
+[2024-12-26 00:35:41] DEBUG    : Updating the serial port settings
+[2024-12-26 00:35:43] DEBUG    : Opening the parameters window
+[2024-12-26 00:35:43] DEBUG    : Creating the parameters window
+[2024-12-26 00:35:43] DEBUG    : Creating the GUI
+[2024-12-26 00:36:15] DEBUG    : Opening the parameters window
+[2024-12-26 00:36:15] DEBUG    : Creating the parameters window
+[2024-12-26 00:36:15] DEBUG    : Creating the GUI
+[2024-12-26 00:36:34] DEBUG    : Closing the application
+[2024-12-26 00:38:07] DEBUG    : Creating the main window
+[2024-12-26 00:38:07] DEBUG    : Creating the GUI
+[2024-12-26 00:38:07] DEBUG    : Updating the serial port settings
+[2024-12-26 00:38:07] DEBUG    : Updating the serial port
+[2024-12-26 00:38:07] DEBUG    : Updating the serial port settings
+[2024-12-26 00:38:07] DEBUG    : Updating the serial port settings
+[2024-12-26 00:38:09] DEBUG    : Opening the parameters window
+[2024-12-26 00:38:09] DEBUG    : Creating the parameters window
+[2024-12-26 00:38:09] DEBUG    : Creating the GUI
+[2024-12-26 00:38:21] DEBUG    : Closing the application
+[2024-12-26 00:40:45] DEBUG    : Creating the main window
+[2024-12-26 00:40:45] DEBUG    : Creating the GUI
+[2024-12-26 00:40:45] DEBUG    : Updating the serial port
+[2024-12-26 00:40:45] DEBUG    : Updating the serial port settings
+[2024-12-26 00:40:50] DEBUG    : Closing the application
+[2024-12-26 00:41:09] DEBUG    : Creating the main window
+[2024-12-26 00:41:09] DEBUG    : Creating the GUI
+[2024-12-26 00:41:09] DEBUG    : Updating the serial port
+[2024-12-26 00:41:09] DEBUG    : Updating the serial port settings
+[2024-12-26 00:41:13] DEBUG    : Updating the serial port settings
+[2024-12-26 00:44:07] DEBUG    : Creating the main window
+[2024-12-26 00:44:07] DEBUG    : Creating the GUI
+[2024-12-26 00:44:07] DEBUG    : Updating the serial port settings
+[2024-12-26 00:44:07] DEBUG    : Updating the serial port settings
+[2024-12-26 00:53:25] DEBUG    : Creating the main window
+[2024-12-26 00:53:25] DEBUG    : Creating the GUI
+[2024-12-26 00:53:25] DEBUG    : Updating the serial port settings
+[2024-12-26 00:54:12] DEBUG    : Creating the main window
+[2024-12-26 00:54:12] DEBUG    : Creating the GUI
+[2024-12-26 00:54:12] DEBUG    : Updating the serial port settings
+[2024-12-26 00:54:12] DEBUG    : Updating the serial port settings
+[2024-12-26 00:59:55] DEBUG    : Creating the main window
+[2024-12-26 00:59:55] DEBUG    : Creating the GUI
+[2024-12-26 00:59:55] DEBUG    : Updating the serial port
+[2024-12-26 00:59:57] DEBUG    : Opening the parameters window
+[2024-12-26 00:59:57] DEBUG    : Creating the parameters window
+[2024-12-26 00:59:57] DEBUG    : Creating the GUI
+[2024-12-26 01:00:08] DEBUG    : Initiating serial port connection
+[2024-12-26 01:00:08] ERROR    : Serial toggle failed: Failed to start serial reader
+[2024-12-26 01:00:12] DEBUG    : Initiating serial port connection
+[2024-12-26 01:00:12] DEBUG    : Serial port connected successfully
+[2024-12-26 01:00:13] GOOD     : Connected to COM6 - USB Serial Device (COM6)
+[2024-12-26 01:00:13] DEBUG    : Initiating serial port disconnect
+[2024-12-26 01:00:13] DEBUG    : Stopping reader
+[2024-12-26 01:00:13] GOOD     : Serial port disconnected successfully
+[2024-12-26 01:00:16] DEBUG    : Initiating serial port connection
+[2024-12-26 01:00:16] ERROR    : Serial toggle failed: Failed to start serial reader
+[2024-12-26 01:00:28] DEBUG    : Closing the application

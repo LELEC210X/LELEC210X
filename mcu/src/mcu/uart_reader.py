@@ -31,6 +31,7 @@ from PyQt6.QtWidgets import (
     QLabel,
     QScrollArea,
     QGridLayout,
+    QSpinBox,
     QTabWidget,
     QLineEdit,
     QMainWindow,
@@ -58,7 +59,43 @@ class APP_Settings():
 
     Must be accessed using a thread lock or similar
     """
+    class ChoiceBox():
+        def __init__(self, default, choices):
+            self.__default = default
+            self.index = default
+            self.choices = choices
+
+        def reset(self):
+            self.index = self.__default
+
+        def __str__(self):
+            return self.choices[self.index]
+        
+    class PathBox():
+        def __init__(self, default, is_folder=False):
+            self.default = default
+            self.path = default
+            self.is_folder = is_folder
+
+        def reset(self):
+            self.path = self.default
+
+        def __str__(self):
+            return self.path
+        
+    class DimensionElement():
+        def __init__(self, tuple, editable=False):
+            self.list = list(tuple)
+            self.editable = editable
+            
+        def __str__(self):
+            return f"{self.list[0]} x {self.list[1]}"
+
     def __init__(self):
+        self.__lock_protection = Lock()
+        self.__setting_callbacks = {}
+        self.__updating = False  # Add update flag
+
         # App stuff
         self.app_folder = pathl.Path(__file__).parent
         self.app_name = "UART Console App for LELEC210x"
@@ -71,7 +108,7 @@ class APP_Settings():
         self.logging_format = "[%(asctime)s] %(levelname)-9s: %(message)s"
         self.logging_date_format = "%Y-%m-%d %H:%M:%S"
         self.logging_use_file = True
-        self.logging_file = self.app_folder / "uart_reader.log"
+        self.logging_file = self.PathBox(self.app_folder / "uart_reader.log")
         self.logging_file_max_size = 1024 * 1024 # 1 MB
         self.logging_file_backup_count = 3
 
@@ -81,18 +118,18 @@ class APP_Settings():
         self.gui_max_samples = 1024
         self.gui_use_plotly = False
         self.gui_use_matplotlib_blit = False
-        self.gui_min_window_size = (800, 600)
-        self.gui_default_window_size = (1280//2, 720) # Read only
+        self.gui_min_window_size = self.DimensionElement((800, 600), editable=True)
+        self.gui_default_window_size = self.DimensionElement((1280//2, 720))
 
         # Plotting settings
         self.plot_name_prefix = "plot"
         self.plot_name_postfix_timestamp = True
-        self.plot_save_types = ["pdf", "png"]
+        self.plot_save_types = self.ChoiceBox(0, ["pdf", "png"])
         self.plot_save_all_types = True
-        self.plot_save_folder_base = self.app_folder / "plots"
+        self.plot_save_folder_base = self.PathBox(self.app_folder / "plots", is_folder=True)
 
         # Serial settings
-        self.serial_port = "-- No serial port --"
+        self.serial_port = self.ChoiceBox(0, ["-- No serial port --"])
         self.serial_baud_rate = 115200 # bps
         self.serial_timeout = 1
         self.serial_allow_write = False
@@ -104,10 +141,9 @@ class APP_Settings():
 
         # Audio settings
         self.audio_serial_prefix = "SND:HEX:"
-        self.audio_folder = self.app_folder / "audio"
+        self.audio_folder = self.PathBox(self.app_folder / "audio", is_folder=True)
         self.audio_file_name_prefix = "audio"
-        self.audio_file_types = ["wav", "ogg", "mp3", "flac"] # [0, ["wav", "ogg", "mp3", "flac"]] --> Drop down menu
-        self.audio_file_type = self.audio_file_types[0]
+        self.audio_file_types = self.ChoiceBox(0, ["wav", "ogg", "mp3", "flac"])
         self.audio_file_freq = 44100 # Hz
         self.audio_file_channels = 1
         self.audio_file_dtype = "int16"
@@ -125,20 +161,107 @@ class APP_Settings():
         self.mel_history_max_shown = 10 # Max shown
         self.mel_autosave = False # As numpy file (dictionary)
         self.mel_file_name_prefix = "mel"
-        self.mel_autosave_folder = self.app_folder / "mel_spectrograms"
+        self.mel_autosave_folder = self.PathBox(self.app_folder / "mel", is_folder=True)
         self.mel_autosave_plots = False
         self.mel_autosave_numpy = False
         self.mel_autosave_clear = False
 
         # User classifier settings
         self.classifier_use = False
-        self.classifier_file_pickle = self.app_folder / "user_classifier.pkl" # If found, load
-        self.classifier_file_numpy = self.app_folder / "user_classifier.npy" # If found, load (secondary)
+        self.classifier_file_pickle = self.PathBox(self.app_folder / "user_classifier.pkl") # If found, load
+        self.classifier_file_numpy = self.PathBox(self.app_folder / "user_classifier.npy") # If found, load (secondary)
         self.classifier_file_auto_save = False # As numpy file (dictionary)
         self.classifier_file_auto_save_mel = True
         self.classifier_file_auto_save_plots = False
         self.classifier_use_mel_history = False # Requires the use of the .npy with a dictionary and "history_len" key
         self.classifier_history_max_shown = 10 # Max shown
+
+    def register_callback(self, name: str, callback: callable):
+        """
+        Register a callback function to be called when settings are updated.
+        """
+        with self.__lock_protection:
+            self.__setting_callbacks[name] = callback
+
+    def __call_callbacks(self):
+        """
+        Call all the registered callbacks.
+
+        The callback is donne as follows :
+            callback(settings)
+        """
+        with self.__lock_protection:
+            for name, callback in self.__setting_callbacks.items():
+                callback(self)
+
+    def __update_value(self, key, value):
+        """
+        Update a single value.
+        """
+        with self.__lock_protection:
+            # Check if the key exists
+            if hasattr(self, key):
+                # Update the value depending on the type
+                if isinstance(getattr(self, key), APP_Settings.ChoiceBox):
+                    if type(value) == int:
+                        getattr(self, key).index = value
+                    elif type(value) == list:
+                        getattr(self, key).choices = value
+                    else:
+                        index, choices = value
+                        getattr(self, key).index = index
+                        getattr(self, key).choices = choices
+                elif isinstance(getattr(self, key), APP_Settings.PathBox):
+                    getattr(self, key).path = value
+                elif isinstance(getattr(self, key), APP_Settings.DimensionElement):
+                    getattr(self, key).list = value
+                else:
+                    setattr(self, key, value)
+
+    def update_values(self, new_settings: dict):
+        """Update settings with update lock to prevent circular updates"""
+        if self.__updating:  # Skip if already updating
+            return
+            
+        self.__updating = True
+        try:
+            for key, value in new_settings.items():
+                if hasattr(self, key):
+                    self.__update_value(key, value)
+            self.__call_callbacks()
+        finally:
+            self.__updating = False
+
+    def import_settings(self, filename):
+        """
+        Import the settings (dictionary) from a .cfg.npy file.
+        """
+        with self.__lock_protection:
+            try:
+                new_settings = np.load(filename, allow_pickle=True).item()
+                self.update_values(new_settings)
+                return True
+            except Exception as e:
+                print(f"Failed to import settings: {e}")
+                return False
+
+    def export_settings(self, filename):
+        """
+        Export the settings to a .cfg.npy file.
+        """
+        with self.__lock_protection:
+            try:
+                new_dict = {}
+                for key, value in self.__dict__.items():
+                    if key.startswith("__") or key.startswith("_") or key.startswith("app_"):
+                        continue
+                    new_dict[key] = value
+
+                np.save(filename, self.__dict__)
+                return True
+            except Exception as e:
+                print(f"Failed to export settings: {e}")
+                return False
 
 ###############################################################################
 # Logging
@@ -171,7 +294,7 @@ def setup_logging(settings):
 
     # Create the file handler
     if settings.logging_use_file:
-        file_handler = logging.FileHandler(settings.logging_file)
+        file_handler = logging.FileHandler(settings.logging_file.path)
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
 
@@ -228,11 +351,28 @@ def test_logging(logger: logging.Logger):
 ###############################################################################
 # Serial
 
-def get_available_ports():
-    """
-    Get the available serial ports.
-    """
-    return [f"{port.device} - {port.description}" for port in list_ports.comports()]
+def get_available_ports(app_settings: APP_Settings):
+    """Get available serial ports without triggering circular updates"""
+    old_index = app_settings.serial_port.index
+    old_ports = app_settings.serial_port.choices[old_index]
+    
+    # Get new ports
+    new_ports = ["-- No serial port --"] + [
+        f"{port.device} - {port.description}" 
+        for port in list_ports.comports()
+    ]
+    
+    # Update only if ports changed
+    if new_ports != app_settings.serial_port.choices:
+        app_settings.update_values({
+            "serial_port": (0, new_ports)
+        })
+        
+        # Restore old selection if still available
+        if old_ports in new_ports:
+            app_settings.update_values({
+                "serial_port": new_ports.index(old_ports)
+            })
 
 class SerialReader(QThread):
     """
@@ -271,7 +411,7 @@ class SerialReader(QThread):
                 self.logger.warning("Thread already running")
                 return False
 
-            if self.settings.serial_port == "-- No serial port --":
+            if self.settings.serial_port.choices[self.settings.serial_port.index] == "-- No serial port --":
                 return False
 
             self._running = True
@@ -297,7 +437,7 @@ class SerialReader(QThread):
     def _connect(self) -> None:
         """Connect to serial port"""
         try:
-            port = self.settings.serial_port.split(" - ")[0]
+            port = self.settings.serial_port.choices[self.settings.serial_port.index].split(" - ")[0]
             
             with self._lock:
                 if self._serial is not None:
@@ -448,6 +588,116 @@ class SerialReader(QThread):
 # GUI
 
 class GUI_ParametersWindow(QMainWindow):
+
+    def __setting_UI_mapper(self, type: type, value: any, setting_key: str) -> tuple[any, callable]:
+        """Map settings to UI widgets with their update functions"""
+        
+        # Map the type to the correct widget
+        # Bools are mapped to checkboxes
+        if type == bool:
+            widget = QCheckBox()
+            widget.setChecked(value)
+            update_func = lambda state: self.settings.update_values({setting_key: bool(state)})
+            callback_func = lambda loc_settings: widget.setChecked(getattr(loc_settings, setting_key))
+            widget.stateChanged.connect(update_func)
+            return widget, callback_func
+        # Lists are mapped to multiple line edits
+        elif type == list:
+            widgets = []
+            for i, item in enumerate(value):
+                edit = QLineEdit(str(item))
+                update_func = lambda text, idx=i: self.settings.update_values(
+                    {setting_key: [x if j != idx else text for j, x in enumerate(value)]}
+                )
+                edit.textChanged.connect(update_func)
+                widgets.append(edit)
+            callback_func = lambda loc_settings: [edit.setText(str(item)) for edit, item in zip(widgets, getattr(loc_settings, setting_key))]
+            return widgets, callback_func
+        # Tuples are mapped to a single label
+        elif type == tuple:
+            widget = QLabel("(" + " , ".join(map(str, value)) + ")")
+            return widget, None  # Tuples are immutable
+        # Ints are mapped to spinboxes
+        elif type == int:
+            widget = QSpinBox()
+            widget.setMaximum(int(2147483647))
+            widget.setMinimum(int(-2147483647))
+            widget.setValue(value)
+            update_func = lambda val: self.settings.update_values({setting_key: int(val)})
+            callback_func = lambda loc_settings: widget.setValue(getattr(loc_settings, setting_key))
+            widget.valueChanged.connect(update_func)
+            return widget, callback_func
+        # Floats are mapped to spinboxes
+        elif type == float:
+            widget = QSpinBox()
+            widget.setMaximum(float(1e99))
+            widget.setMinimum(float(-1e99))
+            widget.setValue(value)
+            widget.setDecimals(2)
+            update_func = lambda val: self.settings.update_values({setting_key: float(val)})
+            callback_func = lambda loc_settings: widget.setValue(getattr(loc_settings, setting_key))
+            widget.valueChanged.connect(update_func)
+            return widget, callback_func
+        # Strings are mapped to line edits
+        elif type == str:
+            widget = QLineEdit(value)
+            update_func = lambda text: self.settings.update_values({setting_key: str(text)})
+            callback_func = lambda loc_settings: widget.setText(getattr(loc_settings, setting_key))
+            widget.textChanged.connect(update_func)
+            return widget, callback_func
+        # PathBox are mapped to line edits with a browse button
+        elif type == APP_Settings.PathBox:
+            widget = QLineEdit(str(value.path))
+            browse = QPushButton("...")
+            browse.setFixedWidth(30)
+            update_func = lambda text: self.settings.update_values(
+                {setting_key: APP_Settings.PathBox(text, value.is_folder)}
+            )
+            callback_func = lambda loc_settings: widget.setText(str(getattr(loc_settings, setting_key).path))
+            widget.textChanged.connect(update_func)
+            browse.clicked.connect(lambda: self.__open_file_dialog(widget, value.is_folder))
+            return [widget, browse], callback_func
+        # ChoiceBox are mapped to comboboxes
+        elif type == APP_Settings.ChoiceBox:
+            widget = QComboBox()
+            widget.addItems(value.choices)
+            widget.setCurrentIndex(value.index)
+            update_func = lambda idx: self.settings.update_values({setting_key: idx})
+            def callback_func(loc_settings):
+                widget.clear()
+                widget.addItems(getattr(loc_settings, setting_key).choices)
+                widget.setCurrentIndex(getattr(loc_settings, setting_key).index)
+            widget.currentIndexChanged.connect(update_func)
+            return widget, callback_func
+        # DimensionElement are mapped to two line edits
+        elif type == APP_Settings.DimensionElement:
+            if value.editable:
+                w1 = QLineEdit(str(value.list[0]))
+                label = QLabel("x")
+                w2 = QLineEdit(str(value.list[1]))
+                update_func = lambda: self.settings.update_values(
+                    {setting_key: APP_Settings.DimensionElement([int(w1.text()), int(w2.text())])}
+                )
+                callback_func = lambda loc_settings: [w1.setText(str(value.list[0])), w2.setText(str(value.list[1]))]
+                w1.textChanged.connect(update_func)
+                w2.textChanged.connect(update_func)
+                return [w1, label, w2], callback_func
+            else:
+                widget = QLabel(f"{value.list[0]} x {value.list[1]}")
+                callback_func = lambda loc_settings: widget.setText(f"{getattr(loc_settings, setting_key).list[0]} x {getattr(loc_settings, setting_key).list[1]}")
+                return widget, callback_func
+        # Other types are not supported
+        else:
+            return QLabel("Unsupported setting type"), None
+
+    def __open_file_dialog(self, widget, is_folder: bool = False):
+        if is_folder:
+            path = QFileDialog.getExistingDirectory(self, "Select Folder")
+        else:
+            path = QFileDialog.getOpenFileName(self, "Select File")[0]
+        if path:
+            widget.setText(path)
+
     def __init__(self, settings, logger: logging.Logger):
         super().__init__()
         self.settings = settings
@@ -461,123 +711,61 @@ class GUI_ParametersWindow(QMainWindow):
         self.setCentralWidget(self.tab_widget)
         self.create_gui()
 
-    def create_collection_widget(self, value, key):
-        """Create widget for list/tuple types"""
-        container = QWidget()
-        layout = QHBoxLayout(container)
-        layout.setSpacing(2)
-        layout.setContentsMargins(0, 0, 0, 0)
-        
-        for i, item in enumerate(value):
-            edit = QLineEdit(str(item))
-            edit.setFixedWidth(50)
-            edit.textChanged.connect(
-                lambda text, k=key, idx=i: self.update_collection_item(k, idx, text))
-            layout.addWidget(edit)
-        
-        layout.addStretch()
-        return container
-
     def create_gui(self):
-        """Create the GUI with categorized settings"""
+        """
+        Create the GUI.
+        """
         self.logger.debug("Creating the GUI")
-        
+
+        # Create the settings categories
         categories = {}
         for key, value in self.settings.__dict__.items():
-            if key.startswith(("__", "app_")):
+            if key.startswith(("__", "app", "_")):
                 continue
             category = key.split("_")[0]
             if category not in categories:
                 categories[category] = []
             categories[category].append((key, value))
 
+        # Create the tab for each category
         for category, settings in categories.items():
             scroll = QScrollArea()
             container = QWidget()
             scroll.setWidget(container)
             scroll.setWidgetResizable(True)
             
-            grid_layout = QGridLayout(container)
+            # Main vertical layout to hold grid and spacer
+            main_layout = QVBoxLayout(container)
+            main_layout.setSpacing(0)
+            main_layout.setContentsMargins(5, 5, 5, 5)
+            
+            # Grid layout for widgets
+            grid_layout = QGridLayout()
             grid_layout.setVerticalSpacing(2)
             grid_layout.setHorizontalSpacing(10)
-            grid_layout.setContentsMargins(5, 5, 5, 5)
-
-            for row, (key, value) in enumerate(settings):
-                label = QLabel(key)
-                label.setMinimumWidth(150)
-                grid_layout.addWidget(label, row, 0)
-
-                if isinstance(value, bool):
-                    widget = QCheckBox()
-                    widget.setChecked(value)
-                    widget.stateChanged.connect(
-                        lambda state, k=key: self.update_setting(k, state))
-                elif isinstance(value, (tuple, list)):
-                    widget = self.create_collection_widget(value, key)
-                elif isinstance(value, (int, float)):
-                    widget = QLineEdit(str(value))
-                    widget.textChanged.connect(
-                        lambda text, k=key: self.update_setting(k, text))
-                elif isinstance(value, (str, pathl.Path)):
-                    widget = QLineEdit(str(value))
-                    widget.textChanged.connect(
-                        lambda text, k=key: self.update_setting(k, text))
+            grid_layout.setContentsMargins(0, 0, 0, 0)
+            
+            # Add widgets to grid
+            for i, (key, value) in enumerate(settings):
+                grid_layout.addWidget(QLabel(key), i, 0)
+                widgets, callback_func = self.__setting_UI_mapper(type(value), value, key)
+                if isinstance(widgets, list):
+                    for j, widget in enumerate(widgets):
+                        grid_layout.addWidget(widget, i, j+1)
                 else:
-                    continue
+                    grid_layout.addWidget(widgets, i, 1)
 
-                grid_layout.addWidget(widget, row, 1)
+                # Register callback
+                if callback_func:
+                    self.settings.register_callback(key, callback_func)
 
-            grid_layout.setRowStretch(grid_layout.rowCount(), 1)
-            grid_layout.setColumnStretch(1, 1)
+            # Add grid to main layout
+            main_layout.addLayout(grid_layout)
             
-            self.tab_widget.addTab(scroll, category.capitalize())
-
-    def update_collection_item(self, key, index, value):
-        """Update individual item in collection setting"""
-        try:
-            current_value = getattr(self.settings, key)
-            new_value = list(current_value)
+            # Add vertical spacer to push everything up
+            main_layout.addStretch(1)
             
-            # Convert value to correct type based on existing item
-            orig_type = type(current_value[index])
-            if orig_type == int:
-                value = int(value)
-            elif orig_type == float:
-                value = float(value)
-            
-            new_value[index] = value
-            
-            # Convert back to original type (tuple if needed)
-            if isinstance(current_value, tuple):
-                new_value = tuple(new_value)
-                
-            setattr(self.settings, key, new_value)
-            self.logger.debug(f"Updated collection {key}[{index}] to {value}")
-        except Exception as e:
-            self.logger.error(f"Error updating collection {key}[{index}]: {e}")
-
-    def update_setting(self, key, value):
-        """Update a setting."""
-        self.logger.debug(f"Updating setting {key} to {value}")
-        try:
-            setting_type = type(getattr(self.settings, key))
-            
-            if setting_type == bool:
-                value = bool(int(value))
-            elif setting_type == int:
-                value = int(value)
-            elif setting_type == float:
-                value = float(value)
-            elif setting_type == pathl.Path:
-                value = pathl.Path(value)
-            elif setting_type in (tuple, list):
-                return  # Handled by update_collection_item
-            else:
-                value = str(value)
-
-            setattr(self.settings, key, value)
-        except Exception as e:
-            self.logger.error(f"Error updating setting {key} to {value}: {e}")
+            self.tab_widget.addTab(scroll, category)
 
 class GUI_AudioWindow(QMainWindow):
     """
@@ -722,7 +910,7 @@ class GUI_MainWindow(QMainWindow):
         # Create the main window
         self.logger.debug("Creating the main window")
         self.setWindowTitle(f"{self.settings.app_name} - {self.settings.app_version}")
-        self.resize(*self.settings.gui_default_window_size)
+        self.resize(*self.settings.gui_default_window_size.list)
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
         self.base_layout = QVBoxLayout()
@@ -777,6 +965,11 @@ class GUI_MainWindow(QMainWindow):
         # Combo box
         self.serial_port_combo = QComboBox()
         self.serial_port_combo.currentIndexChanged.connect(self.update_serial_port_settings)
+        def serial_port_callback(settings):
+            self.serial_port_combo.clear()
+            self.serial_port_combo.addItems(settings.serial_port.choices)
+            self.serial_port_combo.setCurrentIndex(settings.serial_port.index)
+        self.settings.register_callback("serial_port_main", serial_port_callback)
         control_grid.addWidget(self.serial_port_combo, row, 1)
 
         # Refresh button
@@ -789,10 +982,7 @@ class GUI_MainWindow(QMainWindow):
         control_grid.setColumnStretch(1, 1)
 
         # Initialize combo box
-        self.serial_port_combo.addItems(["-- No serial port --"])
         self.update_serial_port()
-        if self.serial_port_combo.count() > 1:
-            self.serial_port_combo.setCurrentIndex(1)
 
         # >> Serial connect <<
         # Connect button
@@ -880,35 +1070,30 @@ class GUI_MainWindow(QMainWindow):
         QMessageBox.about(self, "About", about_text)
 
     def update_serial_port_settings(self):
-        """
-        Update the serial port settings.
-        """
-        self.settings.serial_port = self.serial_port_combo.currentText()
+        """Update serial port settings with signal blocking"""
+        try:
+            self.serial_port_combo.blockSignals(True)
+            self.settings.update_values({
+                "serial_port": self.serial_port_combo.currentIndex()
+            })
+        finally:
+            self.serial_port_combo.blockSignals(False)
 
     def update_serial_port(self):
         """
         Update the serial port.
         """
         self.logger.debug("Updating the serial port")
-        old_port = self.serial_port_combo.currentText()
+        get_available_ports(self.settings)
         self.serial_port_combo.clear()
-        ports = ["-- No serial port --"] + [
-            f"{port.device} - {port.description}" for port in list_ports.comports()
-        ]
-        self.serial_port_combo.addItems(ports)
-        if old_port == "-- No serial port --" and len(ports) > 1:
-            self.serial_port_combo.setCurrentIndex(1)
-            self.update_serial_port_settings()
-        elif old_port in ports:
-            self.serial_port_combo.setCurrentText(old_port)
-            self.update_serial_port_settings()
+        self.serial_port_combo.addItems(self.settings.serial_port.choices)
+        self.serial_port_combo.setCurrentIndex(self.settings.serial_port.index)
     
     def _handle_connection_error(self, error_message: str) -> None:
-        """Handle unexpected serial connection errors"""
+        """Handle errors without triggering port refresh"""
         self.logger.error(f"Serial connection error: {error_message}")
         self._update_ui_state(connected=False, error=True)
         QMessageBox.critical(self, "Connection Error", error_message)
-        self.update_serial_port()
 
     def _handle_connection_state(self, connected: bool) -> None:
         """Handle connection state changes from serial reader"""
@@ -1004,6 +1189,9 @@ class GUI_MainWindow(QMainWindow):
 if __name__ == "__main__":
     # Settings
     settings = APP_Settings()
+
+    # Update settings
+    get_available_ports(settings)
 
     # Logging
     logger = setup_logging(settings)
