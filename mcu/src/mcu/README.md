@@ -22,6 +22,9 @@ pickled_data = {
 ```
 >NOTE : The model can also be a custom wrapper class, that allows to use the .predict(X) method, so that you can have any X depending on the parametters as defined above, and return a y that is the same length as the "classes" list.
 
+### Instruction on use of the Mel Window
+The mel window is the most patched up window in the whole program, as i had a hard time implementing it without a complete rewrite as i will explain further on in the document. This means that if you want to use it with for example, a feature vector of 30x30, then you will first have to modify the parametters in the parametter window or initialization function for the database. Only then, when you open the Mel Window, will the graphs work properly and not crash because of weird data formats.
+
 ## Internal Structure/Architecture of the `uart_readerV4`
 TBD
 ## Problems, Choices and future evolution
@@ -39,6 +42,11 @@ I would recommend you to use the database V3 as its quite good, and has everythi
 One thing to keep in mind, is that the hardest part of this whole thing was probably the MEL vector part, its still giving me nightmares because of the fact that feature vectors can be NxM with N not always equal to M. And making it update with the rest of the things, gave me a headache.
 
 Good luck to you if you take on this challenge.
+### Ramble on the architecture to aim for
+The perfect architecture is a architecture that devides the application into 2 independent parts, that can mutate at their own rate. For instance, if you made a graph, you would want to have the UI read a array in memory, and update itself using that array. And when you have to change the data of the array, you can change it as fast as you want, as the GUI will just handle it. This separation allows you to make clear procedural generation of the GUI ellements at each update loop. It also allows you to change the underlying stuff, and re-render the whole ui with new parameters in a easier way. 
+
+Another feature that is quite crititcal, but that is handled by the latests versions of the database (V3 and V4). Is the ability to use callbacks, as they allows you to not only update the UI when some value/array or anything else changes, but also allows you to add custom handlers for when you have to pre-process stuff. Though, one word of warning, the database is meant for non dynamic storage, as its quite heavy, if you wanted to make for example a update to a dynamically assembled list of plots on the UI, by changing a array, then you would have to create something else than the database. As the overhead would be a bit too big, and i also haven't updated it.
+
 ## Authors (Expand as needed)
 - Group E 2024-2025
 - (Future You ?)
