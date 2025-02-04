@@ -5,6 +5,9 @@ from threading import Lock
 from typing import Optional
 import time
 from queue import Queue
+from threading import Lock
+import sys
+import logging
 
 # Installed Libraries
 from serial import Serial, SerialException
@@ -23,10 +26,6 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-from threading import Lock
-import sys
-import logging
-
 
 class SerialController(QThread):
     """

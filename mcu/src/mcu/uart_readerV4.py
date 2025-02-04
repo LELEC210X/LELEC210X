@@ -250,6 +250,8 @@ class GUIAudioWindow(QMainWindow):
         self.fps_counter.setText(f"FPS: {fps:.2f}")
         return (self.line_fft,)
 
+
+# TODO : Make the Mel vectors be interpretable with the adjusted sizes from the MCU and the UI settings
 class GUIMELWindow(QMainWindow):
     """MEL GUI window for the application and the classifier"""
 
@@ -290,12 +292,15 @@ class GUIMELWindow(QMainWindow):
             elif len(self.historic_data) < max_history:
                 self.historic_data = self.historic_data + [{"data": np.zeros(400), "class_proba": np.zeros(10)} for _ in range(max_history-len(self.historic_data))]
 
-        # TODO : Remove this
-        self.historic_data[0]["class_proba"] = np.random.rand(10) if self.historic_data[0]["class_proba"].sum() == 0 else self.historic_data[0]["class_proba"]
+        # TODO : Remove this (class_proba is random)
+        #self.historic_data[0]["class_proba"] = np.random.rand(10) if self.historic_data[0]["class_proba"].sum() == 0 else self.historic_data[0]["class_proba"]
 
     def prefix_message_handler(self, prefix, message):
         if prefix == self.db.get_item("MEL Settings", "serial_prefix").value:
-            self.add_data(message)
+            array_hex = bytes.fromhex(message)
+            mel_vec = np.frombuffer(array_hex, dtype=np.dtype(np.uint16).newbyteorder("<"))
+            mel_vec = mel_vec[:-12] # TODO : Fix this
+            self.add_data(mel_vec)
 
     def create_ui(self):
         # Add title to the window
@@ -374,7 +379,7 @@ class GUIMELWindow(QMainWindow):
         self.fig_class_history.subplots_adjust(left=0.15, right=0.75, top=0.9, bottom=0.2)
 
         # Add the animation
-        TARGET_FPS = self.db.get_item("Plot Settings", "framerate").value/10
+        TARGET_FPS = self.db.get_item("Plot Settings", "framerate").value
         self.anim_mel = FuncAnimation(
             self.fig_mel,
             self._update_mel_plot,
@@ -448,9 +453,6 @@ class GUIMELWindow(QMainWindow):
         fps = 1 / max((current_time - self.current_time), 1e-16)
         self.current_time = current_time
         self.fps_counter.setText(f"FPS: {fps:.2f}")
-
-        # Add random data to the last image
-        self.add_data(np.random.rand(400)) # TODO: remove
 
         return self.mel_pcolors + [self.mel_rect]     
 
@@ -723,16 +725,16 @@ class GUIMainWindow(QMainWindow):
         self.logger.info(f">>{message}")
 
     def prefix_message_handler(self, prefix, message):
-        self.logger.info(f"Received {len(message)} bytes for prefix {prefix}")
-        if prefix == "CFG:HEX:":
+        #self.logger.info(f"Received {len(message)} bytes for prefix {prefix}")
+        if prefix == self.db.get_item("Serial Settings", "database_prefix").value:
             self.logger.info(f"New configuration received: {message}")
-        elif prefix == "SND:HEX:":
+        elif prefix == self.db.get_item("Audio Settings", "serial_prefix").value:
             self.logger.info(f"New audio data received of length {len(message)}")
             # Ill have to pass the message in the init of the window, so that it can be displayed
-        elif prefix == "SND:MEL:":
+        elif prefix == self.db.get_item("MEL Settings", "serial_prefix").value:
             self.logger.info(f"New MEL data received of length {len(message)}")
         else:
-            self.logger.warning(f"Unknown prefix {prefix}")
+            self.logger.warning(f"Unknown prefix {prefix} (message length: {len(message)})")
 
 ####################################################################################################
 # Database Initialization
@@ -804,7 +806,7 @@ def database_init(db: dbu.ContentDatabase):
 
     # MEL Settings
     db.create_category("MEL Settings")
-    db.add_item("MEL Settings", "serial_prefix", db.Text("Serial Prefix", "SND:MEL:", "The prefix to use for the MEL data serial communication"))
+    db.add_item("MEL Settings", "serial_prefix", db.Text("Serial Prefix", "DF:HEX:", "The prefix to use for the MEL data serial communication"))
     db.add_item("MEL Settings", "file_prefix", db.Text("File Prefix", "mel", "The prefix to use for the MEL files before adding the timestamp"))
     db.add_item("MEL Settings", "max_history_length", db.Integer("Max History Length", 10, "The maximum number of data points to keep in the history"))
     # TODO: Add more MEL settings
