@@ -10,7 +10,7 @@ TODO : Add image
 Its structure is essentially just a dictionary containing the model and a bit more info for me to make it easy. It follows this convention :
 ```Python
 pickled_data = {
-    "model": sklearn.BaseEstimator, # The pre-trained classifier (fitted)
+    "model": sklearn.base.BaseEstimator, # The pre-trained classifier (fitted)
     "mel_len": 20, # Length of the mel-vector of the feature vector
     "mel_num": 20, # Number of mel-vectors in the feature vector
     "classes": ["gun", "chainsaw", "bird", "fire"],
@@ -22,8 +22,8 @@ pickled_data = {
 ```
 >NOTE : The model can also be a custom wrapper class, that allows to use the .predict(X) method, so that you can have any X depending on the parametters as defined above, and return a y that is the same length as the "classes" list.
 
-### Instruction on use of the Mel Window
-The mel window is the most patched up window in the whole program, as i had a hard time implementing it without a complete rewrite as i will explain further on in the document. This means that if you want to use it with for example, a feature vector of 30x30, then you will first have to modify the parametters in the parametter window or initialization function for the database. Only then, when you open the Mel Window, will the graphs work properly and not crash because of weird data formats.
+### Instruction on use of the Mel Window (WARNING BUGS)
+The mel window is the most patched up window in the whole program, as i had a hard time implementing it without a complete rewrite as i will explain further on in the document. This means that, if you want to use it with for example: a feature vector of 30x30 and a different model path, then you will first have to modify the parametters in the parametter window or initialization function for the database. Only then, can you open the Mel Window, and make the graphs work properly and not create errors or crash because of weird data formats.
 
 ## Internal Structure/Architecture of the `uart_readerV4`
 TBD

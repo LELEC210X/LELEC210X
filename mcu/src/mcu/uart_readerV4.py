@@ -9,6 +9,8 @@ from threading import Lock
 from queue import Queue
 from typing import Optional
 import time
+from threading import Thread
+import pickle
 
 # Installed Libraries
 import click
@@ -50,6 +52,8 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 from matplotlib.patches import Rectangle
 import matplotlib
+
+import sklearn
 
 # Custom modules
 import databaseV2_for_V4 as dbu
@@ -263,11 +267,47 @@ class GUIMELWindow(QMainWindow):
         self.logger = log.logger
 
         self.current_mel_length = self.db.get_item("MEL Settings", "mel_length").value
-        self.current_mel_number = self.db.get_item("MEL Settings", "mel_number").value 
-        # TODO : Make the window close then re-open with the updated values !!!!!       
+        self.current_mel_number = self.db.get_item("MEL Settings", "mel_number").value
+        self.current_feature_length = self.current_mel_length * self.current_mel_number
+        
+        # Load the current model
+        self.current_model_path = self.db.get_item("Classifier Settings", "model_path").value
+        # Structure of the model :
+        #  {"model": sklearn.BaseEstimator}
+        try:
+            self.current_model_dict = pickle.load(open(self.current_model_path, "rb"))
+        except Exception as e:
+            self.current_model_dict = {}
+            self.logger.error(f"Error loading the model : {e}")
+        if type(self.current_model_dict) != dict:
+            self.current_model = None
+            self.current_model_dict = {}
+            self.logger.error(f"Error loading the model : Not a dictionary")
+
+        self.current_model: Optional[sklearn.base.BaseEstimator] = self.current_model_dict.get("model", None)
+
+        # Check if the model is loaded
+        if self.current_model is None:
+            self.logger.error("No model loaded, please load a model in the settings")
+            self.current_model = None
+        else:
+            self.logger.info(f"Model loaded from {self.current_model_path}")
+
+        # Verify the model parameters
+        if self.current_model is not None:
+            if self.current_model_dict["mel_len"] != self.current_mel_length or self.current_model_dict["mel_num"] != self.current_mel_number:
+                self.logger.error(f"Model parameters do not match the current MEL parameters : {self.current_model_dict['mel_len']} != {self.current_mel_length} or {self.current_model_dict['mel_num']} != {self.current_mel_number}")
+                self.current_model = None
+            if "classes" not in self.current_model_dict:
+                self.logger.error(f"Model does not have specified classes")
+                self.current_model = None
+
+        
+
+        self.num_classes = len(self.current_model_dict["classes"]) if self.current_model is not None else 10
 
         # Create the data : list[dict<"data": np.ndarray, "class_proba": np.ndarray]
-        self.historic_data = [{"data": np.zeros(400), "class_proba": np.zeros(10)} for _ in range(10)]
+        self.historic_data = [{"data": np.zeros(self.current_feature_length), "class_proba": np.zeros(self.num_classes)} for _ in range(10)]
         if base_data is not None and type(base_data) == np.ndarray:
             self.add_data(base_data)
 
@@ -294,14 +334,14 @@ class GUIMELWindow(QMainWindow):
             self.main_layout.addWidget(self.demo_box)
 
             self.demo_super_spawn = QPushButton("Spawn Mel Data")
-            self.demo_super_spawn.clicked.connect(lambda: self.add_data(np.random.rand(400)))
+            self.demo_super_spawn.clicked.connect(lambda: self.add_data(np.random.rand(self.current_feature_length)))
             self.demo_box_layout.addWidget(self.demo_super_spawn)
 
             self.demo_super_spawn = QPushButton("Spawn Mel and Class Data")
-            self.demo_super_spawn.clicked.connect(lambda: self.add_data(np.random.rand(400)))
+            self.demo_super_spawn.clicked.connect(lambda: self.add_data(np.random.rand(self.current_feature_length)))
             self.demo_super_spawn.clicked.connect(
                 lambda: self.historic_data[0].update({
-                    "class_proba": np.random.rand(10) if self.historic_data[0]["class_proba"].sum() == 0 else self.historic_data[0]["class_proba"]
+                    "class_proba": np.random.rand(self.num_classes) if self.historic_data[0]["class_proba"].sum() == 0 else self.historic_data[0]["class_proba"]
                     }))
             self.demo_box_layout.addWidget(self.demo_super_spawn)
 
@@ -311,11 +351,20 @@ class GUIMELWindow(QMainWindow):
     def add_data(self, data):
         if not self.db.get_item("MEL Settings", "mel_freeze").value:
             max_history = self.db.get_item("MEL Settings", "max_history_length").value
-            self.historic_data = [{"data": data, "class_proba": np.zeros(10)}] + self.historic_data[:-1]
+            self.historic_data = [{"data": data, "class_proba": np.zeros(self.num_classes)}] + self.historic_data[:-1]
             if len(self.historic_data) > max_history:
                 self.historic_data = self.historic_data[:max_history]
             elif len(self.historic_data) < max_history:
-                self.historic_data = self.historic_data + [{"data": np.zeros(400), "class_proba": np.zeros(10)} for _ in range(max_history-len(self.historic_data))]
+                self.historic_data = self.historic_data + [{"data": np.zeros(self.current_feature_length), "class_proba": np.zeros(self.num_classes)} for _ in range(max_history-len(self.historic_data))]
+            
+        # Classify the data
+        if self.current_model is not None:
+            # Take the lastest data
+            data = self.historic_data[0]["data"]
+            # Classify the data
+            self.current_model: Optional[sklearn.base.BaseEstimator]
+            class_proba = self.current_model.predict_proba(data.reshape(1, -1))
+            self.historic_data[0].update({"class_proba": class_proba[0]})
 
     def prefix_message_handler(self, prefix, message):
         if prefix == self.db.get_item("MEL Settings", "serial_prefix").value:
@@ -374,11 +423,11 @@ class GUIMELWindow(QMainWindow):
         self.class_ax.set_ylim(-0.05, 1.05)
         self.class_ax.autoscale(enable=False, axis="both")
 
-        self.classes = [f"Class {i}" for i in range(10)]
+        self.classes = self.current_model_dict.get("classes", [f"Class {i}" for i in range(self.num_classes)])
         self.class_histogram = self.class_ax.hist(
             self.classes,
-            bins=10,
-            weights=np.zeros(10),
+            bins=self.num_classes,
+            weights=np.zeros(self.num_classes),
             align='mid',
             rwidth=0.5,
             color='blue',
@@ -443,9 +492,9 @@ class GUIMELWindow(QMainWindow):
 
         for i in range(number_of_bins):
             offset = -1.1
-            X, Y = np.meshgrid(np.linspace(0, 1, 20), np.linspace(0, 1, 20))
+            X, Y = np.meshgrid(np.linspace(0, 1, self.current_mel_number), np.linspace(0, 1, self.current_mel_length))
             image = self.mel_ax.pcolormesh(
-                X + i*offset - 1.1 + 0.5, Y, np.zeros((20, 20)),
+                X + i*offset - 1.1 + 0.5, Y, np.zeros((self.current_mel_length, self.current_mel_number)),
                 vmin=0,
                 vmax=1,
                 cmap='viridis',
@@ -458,7 +507,7 @@ class GUIMELWindow(QMainWindow):
     def _init_mel_plot(self):
         """Initialize mel plot for blitting."""
         for image in self.mel_pcolors:
-            image.set_array(np.zeros(400).ravel())
+            image.set_array(np.zeros(self.current_feature_length).ravel())
         return self.mel_pcolors + [self.mel_rect]
 
     def _update_mel_plot(self, frame):
@@ -467,7 +516,7 @@ class GUIMELWindow(QMainWindow):
             if i < len(self.historic_data):
                 data:np.ndarray = self.historic_data[i]["data"]
             else:
-                data = np.zeros(400)
+                data = np.zeros(self.current_feature_length)
             image.set_array(data.ravel())
 
         # FPS counter
@@ -480,7 +529,7 @@ class GUIMELWindow(QMainWindow):
 
     def _init_class_plot(self):
         """Initialize class plot for blitting."""
-        self.class_histogram = self.class_ax.hist(self.classes, bins=10, weights=np.zeros(10), align='mid', rwidth=0.5, color='blue', edgecolor='black')
+        self.class_histogram = self.class_ax.hist(self.classes, bins=self.num_classes, weights=np.zeros(self.num_classes), align='mid', rwidth=0.5, color='blue', edgecolor='black')
         # Make the class titles vertical
         self.class_ax.set_xticklabels(self.classes, rotation=45)
         # Make the figure slightly smaller in height to compensate for the vertical labels
@@ -494,7 +543,7 @@ class GUIMELWindow(QMainWindow):
         if len(self.historic_data) > 0:
             class_proba = self.historic_data[0]["class_proba"]
         else:
-            class_proba = np.zeros(10)
+            class_proba = np.zeros(self.num_classes)
         
         # Update the histogram
         for rect, h in zip(self.class_histogram[2], class_proba):
