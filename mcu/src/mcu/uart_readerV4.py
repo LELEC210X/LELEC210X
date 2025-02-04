@@ -251,7 +251,6 @@ class GUIAudioWindow(QMainWindow):
         return (self.line_fft,)
 
 
-# TODO : Make the Mel vectors be interpretable with the adjusted sizes from the MCU and the UI settings
 class GUIMELWindow(QMainWindow):
     """MEL GUI window for the application and the classifier"""
 
@@ -263,10 +262,14 @@ class GUIMELWindow(QMainWindow):
         self.ser = ser
         self.logger = log.logger
 
+        self.current_mel_length = self.db.get_item("MEL Settings", "mel_length").value
+        self.current_mel_number = self.db.get_item("MEL Settings", "mel_number").value 
+        # TODO : Make the window close then re-open with the updated values !!!!!       
+
         # Create the data : list[dict<"data": np.ndarray, "class_proba": np.ndarray]
         self.historic_data = [{"data": np.zeros(400), "class_proba": np.zeros(10)} for _ in range(10)]
         if base_data is not None and type(base_data) == np.ndarray:
-            self.historic_data[0]["data"] = base_data
+            self.add_data(base_data)
 
         self.ser.data_received_prefix.connect(self.prefix_message_handler)
 
@@ -280,6 +283,28 @@ class GUIMELWindow(QMainWindow):
         self.main_widget.setLayout(self.main_layout)
         self.setCentralWidget(self.main_widget)
 
+        # Add demo box for data spawning and testing
+        if True:
+            self.demo_box = QGroupBox("Test Box")
+            self.demo_box.setCheckable(True)
+            self.demo_box.setChecked(True)
+            self.demo_box_layout = QVBoxLayout()
+            self.demo_box.setLayout(self.demo_box_layout)
+            self.demo_box.toggled.connect(lambda state: self.demo_box.setFixedHeight(15) if not state else self.demo_box.setFixedHeight(100))
+            self.main_layout.addWidget(self.demo_box)
+
+            self.demo_super_spawn = QPushButton("Spawn Mel Data")
+            self.demo_super_spawn.clicked.connect(lambda: self.add_data(np.random.rand(400)))
+            self.demo_box_layout.addWidget(self.demo_super_spawn)
+
+            self.demo_super_spawn = QPushButton("Spawn Mel and Class Data")
+            self.demo_super_spawn.clicked.connect(lambda: self.add_data(np.random.rand(400)))
+            self.demo_super_spawn.clicked.connect(
+                lambda: self.historic_data[0].update({
+                    "class_proba": np.random.rand(10) if self.historic_data[0]["class_proba"].sum() == 0 else self.historic_data[0]["class_proba"]
+                    }))
+            self.demo_box_layout.addWidget(self.demo_super_spawn)
+
         # Create the UI
         self.create_ui()
 
@@ -291,9 +316,6 @@ class GUIMELWindow(QMainWindow):
                 self.historic_data = self.historic_data[:max_history]
             elif len(self.historic_data) < max_history:
                 self.historic_data = self.historic_data + [{"data": np.zeros(400), "class_proba": np.zeros(10)} for _ in range(max_history-len(self.historic_data))]
-
-        # TODO : Remove this (class_proba is random)
-        #self.historic_data[0]["class_proba"] = np.random.rand(10) if self.historic_data[0]["class_proba"].sum() == 0 else self.historic_data[0]["class_proba"]
 
     def prefix_message_handler(self, prefix, message):
         if prefix == self.db.get_item("MEL Settings", "serial_prefix").value:
@@ -731,8 +753,10 @@ class GUIMainWindow(QMainWindow):
         elif prefix == self.db.get_item("Audio Settings", "serial_prefix").value:
             self.logger.info(f"New audio data received of length {len(message)}")
             # Ill have to pass the message in the init of the window, so that it can be displayed
+            self.open_audio_window(message)
         elif prefix == self.db.get_item("MEL Settings", "serial_prefix").value:
             self.logger.info(f"New MEL data received of length {len(message)}")
+            self.open_mel_window(message)
         else:
             self.logger.warning(f"Unknown prefix {prefix} (message length: {len(message)})")
 
@@ -809,6 +833,8 @@ def database_init(db: dbu.ContentDatabase):
     db.add_item("MEL Settings", "serial_prefix", db.Text("Serial Prefix", "DF:HEX:", "The prefix to use for the MEL data serial communication"))
     db.add_item("MEL Settings", "file_prefix", db.Text("File Prefix", "mel", "The prefix to use for the MEL files before adding the timestamp"))
     db.add_item("MEL Settings", "max_history_length", db.Integer("Max History Length", 10, "The maximum number of data points to keep in the history"))
+    db.add_item("MEL Settings", "mel_length", db.Integer("MEL Length", 20, "The length of the MEL vectors"))
+    db.add_item("MEL Settings", "mel_number", db.Integer("MEL Number", 20, "The number of MEL vectors in the feature vector"))
     # TODO: Add more MEL settings
     db.add_item("MEL Settings", "auto_save", db.Boolean("Auto Save", False, "Automatically save the MEL files"))
     db.add_item("MEL Settings", "mel_freeze", db.Boolean("MEL Freeze", False, "Freeze the MEL data"))
