@@ -3163,3 +3163,83 @@
 [2025-02-05 22:38:08] INFO    : New MEL data received of length 1648
 [2025-02-05 22:38:09] INFO    : >>Hello world
 [2025-02-05 22:38:09] INFO    : >>[S2LP] Init OK
+[2025-02-05 22:41:12] SUCCESS : Connected to COM6 at 115200 baud
+[2025-02-05 22:41:13] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:13] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:13] INFO    : Opening the MEL Window
+[2025-02-05 22:41:13] ERROR   : Error loading the model : [Errno 2] No such file or directory: 'c:\\Users\\vi427\\Documents\\GITLAB\\LELEC210X_Contribution_Group_E\\mcu\\src\\models\\model.pkl'
+[2025-02-05 22:41:13] ERROR   : No model loaded, please load a model in the settings
+[2025-02-05 22:41:14] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:14] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:16] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:16] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:17] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:17] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:18] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:18] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:20] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:20] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:21] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:21] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:22] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:23] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:24] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:24] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:25] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:25] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:27] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:27] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:28] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:28] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:29] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:30] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:31] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:31] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:32] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:32] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:34] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:34] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:35] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:35] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:36] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:37] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:38] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:38] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:39] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:39] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:41] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:41] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:42] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:42] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:43] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:43] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:45] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:45] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:46] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:46] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:47] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:48] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:49] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:49] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:50] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:50] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:52] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:52] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:53] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:53] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:54] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:55] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:56] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:56] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:56] INFO    : Opening the MEL Window
+[2025-02-05 22:41:56] ERROR   : Error loading the model : [Errno 2] No such file or directory: 'c:\\Users\\vi427\\Documents\\GITLAB\\LELEC210X_Contribution_Group_E\\mcu\\src\\models\\model.pkl'
+[2025-02-05 22:41:56] ERROR   : No model loaded, please load a model in the settings
+[2025-02-05 22:41:57] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:57] INFO    : New MEL data received of length 1648
+[2025-02-05 22:41:59] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:41:59] INFO    : New MEL data received of length 1648
+[2025-02-05 22:42:00] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:42:00] INFO    : New MEL data received of length 1648
+[2025-02-05 22:42:01] INFO    : >>[S2LP] Packet transmitted!
+[2025-02-05 22:42:02] WARNING : Decode error: 'ascii' codec can't decode byte 0xfe in position 562: ordinal not in range(128)
+[2025-02-05 22:42:02] INFO    : >>[S2LP] Init OK

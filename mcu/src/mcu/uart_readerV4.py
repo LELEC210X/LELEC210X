@@ -664,12 +664,14 @@ class GUIMainWindow(QMainWindow):
         if not hasattr(self, "audio_window") or self.audio_window is None:
             self.logger.info("Opening the Audio Window")
             self.audio_window = GUIAudioWindow(self.db, self.log, self.ser, base_data)
+            self.audio_window.closeEvent = lambda event: setattr(self, "audio_window", None)
             self.audio_window.show()
 
     def open_mel_window(self, base_data = None):
         if not hasattr(self, "mel_window") or self.mel_window is None:
             self.logger.info("Opening the MEL Window")
             self.mel_window = GUIMELWindow(self.db, self.log, self.ser, base_data)
+            self.mel_window.closeEvent = lambda event: setattr(self, "mel_window", None)
             self.mel_window.show()
 
     def show_about(self):
