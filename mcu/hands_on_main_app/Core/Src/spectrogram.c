@@ -64,9 +64,9 @@ void Spectrogram_Compute(q15_t *samples, q15_t *melvec)
 	// Since the FFT is a recursive algorithm, the values are rescaled in the function to ensure that overflow cannot happen.
 	arm_rfft_instance_q15 rfft_inst;
 
-	//arm_rfft_init_q15(&rfft_inst, SAMPLES_PER_MELVEC, 0, 1);
+	arm_rfft_init_q15(&rfft_inst, SAMPLES_PER_MELVEC, 0, 1);
 
-	//arm_rfft_q15(&rfft_inst, buf, buf_fft);
+	arm_rfft_q15(&rfft_inst, buf, buf_fft);
 
 	// STEP 3  : Compute the complex magnitude of the FFT
 	//           Because the FFT can output a great proportion of very small values,
@@ -122,9 +122,9 @@ void Spectrogram_Compute(q15_t *samples, q15_t *melvec)
 	
 	arm_matrix_instance_q15 hz2mel_inst, fftmag_inst, melvec_inst;
 
-	//arm_mat_init_q15(&hz2mel_inst, MELVEC_LENGTH, SAMPLES_PER_MELVEC/2, hz2mel_mat);
-	//arm_mat_init_q15(&fftmag_inst, SAMPLES_PER_MELVEC/2, 1, buf);
-	//arm_mat_init_q15(&melvec_inst, MELVEC_LENGTH, 1, melvec);
+	arm_mat_init_q15(&hz2mel_inst, MELVEC_LENGTH, SAMPLES_PER_MELVEC/2, hz2mel_mat);
+	arm_mat_init_q15(&fftmag_inst, SAMPLES_PER_MELVEC/2, 1, buf);
+	arm_mat_init_q15(&melvec_inst, MELVEC_LENGTH, 1, melvec);
 
-	//arm_mat_mult_fast_q15(&hz2mel_inst, &fftmag_inst, &melvec_inst, buf_tmp);
+	arm_mat_mult_fast_q15(&hz2mel_inst, &fftmag_inst, &melvec_inst, buf_tmp);
 }
