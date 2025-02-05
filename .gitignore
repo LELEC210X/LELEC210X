@@ -32,6 +32,7 @@ tex/*/*.snm
 tex/*/*.toc
 tex/*/*.synctex.gz
 tex/*/*.synctex(busy)
+!tex/reports/*
 tex/pdfs.zip
 _minted-*/
 tex/hands_on_wireless_simulation/modulate.py

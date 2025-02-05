@@ -1,0 +1,20 @@
+INFO:noise:estimated noise power: 8.71e-06 (-50.60dB, Noise std : 2.95e-03,  DC offset: 1.10e-05, calc. on 4096 samples)
+INFO:noise:estimated noise power: 8.70e-06 (-50.61dB, Noise std : 2.95e-03,  DC offset: 8.00e-06, calc. on 4095 samples)
+INFO:noise:estimated noise power: 9.59e-06 (-50.18dB, Noise std : 3.10e-03,  DC offset: 3.37e-06, calc. on 4096 samples)
+INFO:noise:estimated noise power: 8.92e-06 (-50.50dB, Noise std : 2.99e-03,  DC offset: 4.09e-06, calc. on 4095 samples)
+INFO:noise:estimated noise power: 8.28e-06 (-50.82dB, Noise std : 2.88e-03,  DC offset: 6.30e-06, calc. on 4096 samples)
+INFO:noise:estimated noise power: 8.79e-06 (-50.56dB, Noise std : 2.96e-03,  DC offset: 4.94e-06, calc. on 4095 samples)
+INFO:noise:estimated noise power: 8.57e-06 (-50.67dB, Noise std : 2.93e-03,  DC offset: 8.83e-06, calc. on 4096 samples)
+INFO:noise:estimated noise power: 8.93e-06 (-50.49dB, Noise std : 2.99e-03,  DC offset: 1.19e-05, calc. on 4095 samples)
+INFO:noise:estimated noise power: 9.14e-06 (-50.39dB, Noise std : 3.02e-03,  DC offset: 1.08e-05, calc. on 4096 samples)
+INFO:noise:estimated noise power: 8.34e-06 (-50.79dB, Noise std : 2.89e-03,  DC offset: 1.77e-05, calc. on 4095 samples)
+INFO:noise:===== > Final estimated noise power: 8.79e-06 (-50.56dB, Noise std : 2.97e-03)
+RX gain: 50dB
+K: 60
+DISTANCE:1.0m  001-064
+DISTANCE:2.0m  065-116
+DISTANCE:3.0m  117-165
+K: 52
+DISTANCE:5.0m  173-217
+K: 36
+DISTANCE:8.0m  305-339

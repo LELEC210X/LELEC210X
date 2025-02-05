@@ -1,0 +1,23 @@
+INFO:noise:estimated noise power: 1.25e-06 (-59.03dB, Noise std : 1.12e-03,  DC offset: 1.44e-05, calc. on 4095 samples)
+INFO:noise:estimated noise power: 1.26e-06 (-58.98dB, Noise std : 1.12e-03,  DC offset: 1.37e-05, calc. on 4096 samples)
+INFO:noise:estimated noise power: 1.27e-06 (-58.96dB, Noise std : 1.13e-03,  DC offset: 2.69e-05, calc. on 4095 samples)
+INFO:noise:estimated noise power: 1.22e-06 (-59.14dB, Noise std : 1.10e-03,  DC offset: 1.81e-05, calc. on 4096 samples)
+INFO:noise:estimated noise power: 1.24e-06 (-59.08dB, Noise std : 1.11e-03,  DC offset: 3.42e-06, calc. on 4095 samples)
+INFO:noise:estimated noise power: 1.25e-06 (-59.02dB, Noise std : 1.12e-03,  DC offset: 1.37e-05, calc. on 4096 samples)
+INFO:noise:estimated noise power: 1.30e-06 (-58.84dB, Noise std : 1.14e-03,  DC offset: 5.25e-06, calc. on 4096 samples)
+INFO:noise:estimated noise power: 1.28e-06 (-58.94dB, Noise std : 1.13e-03,  DC offset: 2.52e-05, calc. on 4095 samples)
+INFO:noise:estimated noise power: 1.26e-06 (-58.99dB, Noise std : 1.12e-03,  DC offset: 2.98e-05, calc. on 4096 samples)
+INFO:noise:estimated noise power: 1.26e-06 (-58.99dB, Noise std : 1.12e-03,  DC offset: 1.89e-05, calc. on 4095 samples)
+INFO:noise:===== > Final estimated noise power: 1.26e-06 (-59.00dB, Noise std : 1.12e-03)
+TXP:-50dB  0002-0005
+TXP:-49dB  0006-0010
+TXP:-48dB  0011-0017
+TXP:-47dB  0018-0030
+TXP:-46dB  0031-0204
+TXP:-45dB  0205-0402
+TXP:-44dB  0403-0602
+TXP:-43dB  0603-0802
+TXP:-42dB  0803-1002
+TXP:-41dB  1003-1200
+TXP:-40dB  1201-1400
+TXP:-39dB  1401-1600
