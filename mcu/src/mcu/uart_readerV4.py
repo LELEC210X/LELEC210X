@@ -126,7 +126,7 @@ class GUIAudioWindow(QMainWindow):
         self.ser = ser
         self.logger = log.logger
 
-        self.audio_data = base_data
+        self.audio_data = base_data if base_data is not None and type(base_data) == np.ndarray else np.zeros(10240)
 
         self.ser.data_received_prefix.connect(self.prefix_message_handler)
 
@@ -254,7 +254,6 @@ class GUIAudioWindow(QMainWindow):
         self.fps_counter.setText(f"FPS: {fps:.2f}")
         return (self.line_fft,)
 
-
 class GUIMELWindow(QMainWindow):
     """MEL GUI window for the application and the classifier"""
 
@@ -370,7 +369,8 @@ class GUIMELWindow(QMainWindow):
         if prefix == self.db.get_item("MEL Settings", "serial_prefix").value:
             array_hex = bytes.fromhex(message)
             mel_vec = np.frombuffer(array_hex, dtype=np.dtype(np.uint16).newbyteorder("<"))
-            mel_vec = mel_vec[:-12] # TODO : Fix this
+            if len(mel_vec) > self.current_feature_length:
+                mel_vec = mel_vec[:-12] # TODO : Fix this properly (12 is the CBC mac)
             self.add_data(mel_vec)
 
     def create_ui(self):
@@ -496,7 +496,7 @@ class GUIMELWindow(QMainWindow):
             image = self.mel_ax.pcolormesh(
                 X + i*offset - 1.1 + 0.5, Y, np.zeros((self.current_mel_length, self.current_mel_number)),
                 vmin=0,
-                vmax=1,
+                vmax=(2**16),
                 cmap='viridis',
                 shading='auto',  # Avoid gridlines
             )
@@ -517,7 +517,8 @@ class GUIMELWindow(QMainWindow):
                 data:np.ndarray = self.historic_data[i]["data"]
             else:
                 data = np.zeros(self.current_feature_length)
-            image.set_array(data.ravel())
+            raveled_data = data.reshape(self.current_mel_length, self.current_mel_number).T.ravel()
+            image.set_array(raveled_data)
 
         # FPS counter
         current_time = time.time()
@@ -568,7 +569,7 @@ class GUIMELWindow(QMainWindow):
     def _update_hist_class_plot(self, frame):
         """Update class history plot for animation."""
         for i, line in enumerate(self.hist_lines):
-            line.set_data(-np.arange(0, 10), [data["class_proba"][i] for data in self.historic_data])
+            line.set_data(-np.arange(0, len(self.historic_data)), [data["class_proba"][i] for data in self.historic_data])
 
         return self.hist_lines
     
@@ -635,7 +636,7 @@ class GUIMainWindow(QMainWindow):
         self.file_menu_exit.triggered.connect(self.close)
 
         self.windows_menu_params.triggered.connect(self.open_params_window)
-        self.windows_menu_audio.triggered.connect(lambda: self.open_audio_window(np.zeros(10240)))
+        self.windows_menu_audio.triggered.connect(self.open_audio_window)
         self.windows_menu_mel.triggered.connect(self.open_mel_window)
 
         self.help_menu_about.triggered.connect(self.show_about)
@@ -660,14 +661,16 @@ class GUIMainWindow(QMainWindow):
         self.params_window.show()
 
     def open_audio_window(self, base_data = None):
-        self.logger.info("Opening the Audio Window")
-        self.audio_window = GUIAudioWindow(self.db, self.log, self.ser, base_data)
-        self.audio_window.show()
+        if not hasattr(self, "audio_window") or self.audio_window is None:
+            self.logger.info("Opening the Audio Window")
+            self.audio_window = GUIAudioWindow(self.db, self.log, self.ser, base_data)
+            self.audio_window.show()
 
     def open_mel_window(self, base_data = None):
-        self.logger.info("Opening the MEL Window")
-        self.mel_window = GUIMELWindow(self.db, self.log, self.ser, base_data)
-        self.mel_window.show()
+        if not hasattr(self, "mel_window") or self.mel_window is None:
+            self.logger.info("Opening the MEL Window")
+            self.mel_window = GUIMELWindow(self.db, self.log, self.ser, base_data)
+            self.mel_window.show()
 
     def show_about(self):
         self.logger.info("Showing the About Dialog")
