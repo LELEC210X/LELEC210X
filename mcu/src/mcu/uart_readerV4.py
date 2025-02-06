@@ -59,6 +59,7 @@ import sklearn
 import databaseV2_for_V4 as dbu
 import loggingUtils as logu
 import serialUtils as seru
+from model_formatter_for_V4 import *
 
 class GUIParamWindow(QMainWindow):
     """Parameters GUI window for the application"""
@@ -272,9 +273,9 @@ class GUIMELWindow(QMainWindow):
         # Load the current model
         self.current_model_path = self.db.get_item("Classifier Settings", "model_path").value
         # Structure of the model :
-        #  {"model": sklearn.BaseEstimator}
+        #  {"model": AbstractModelWrapper, "mel_len": int, "mel_num": int, "classes": List[str]}
         try:
-            self.current_model_dict = pickle.load(open(self.current_model_path, "rb"))
+            self.current_model_dict = load_model(self.current_model_path).to_dict()
         except Exception as e:
             self.current_model_dict = {}
             self.logger.error(f"Error loading the model : {e}")
@@ -283,7 +284,9 @@ class GUIMELWindow(QMainWindow):
             self.current_model_dict = {}
             self.logger.error(f"Error loading the model : Not a dictionary")
 
-        self.current_model: Optional[sklearn.base.BaseEstimator] = self.current_model_dict.get("model", None)
+        self.current_model = None
+        if "model" in self.current_model_dict:
+            self.current_model = self.current_model_dict["model"]
 
         # Check if the model is loaded
         if self.current_model is None:
@@ -291,6 +294,12 @@ class GUIMELWindow(QMainWindow):
             self.current_model = None
         else:
             self.logger.info(f"Model loaded from {self.current_model_path}")
+            # Load the rest of the parameters
+            self.current_mel_length = self.current_model_dict.get("mel_len", 20)
+            self.current_mel_number = self.current_model_dict.get("mel_num", 20)
+            self.current_feature_length = self.current_mel_length * self.current_mel_number
+            self.classes = self.current_model_dict.get("classes", [f"Class {i}" for i in range(10)])
+            self.num_classes = len(self.classes)
 
         # Verify the model parameters
         if self.current_model is not None:
@@ -333,11 +342,11 @@ class GUIMELWindow(QMainWindow):
             self.main_layout.addWidget(self.demo_box)
 
             self.demo_super_spawn = QPushButton("Spawn Mel Data")
-            self.demo_super_spawn.clicked.connect(lambda: self.add_data(np.random.rand(self.current_feature_length)))
+            self.demo_super_spawn.clicked.connect(lambda: self.add_data(np.random.randint(0, 2**16, self.current_feature_length)))
             self.demo_box_layout.addWidget(self.demo_super_spawn)
 
             self.demo_super_spawn = QPushButton("Spawn Mel and Class Data")
-            self.demo_super_spawn.clicked.connect(lambda: self.add_data(np.random.rand(self.current_feature_length)))
+            self.demo_super_spawn.clicked.connect(lambda: self.add_data(np.random.randint(0, 2**16, self.current_feature_length)))
             self.demo_super_spawn.clicked.connect(
                 lambda: self.historic_data[0].update({
                     "class_proba": np.random.rand(self.num_classes) if self.historic_data[0]["class_proba"].sum() == 0 else self.historic_data[0]["class_proba"]
@@ -362,7 +371,7 @@ class GUIMELWindow(QMainWindow):
             data = self.historic_data[0]["data"]
             # Classify the data
             self.current_model: Optional[sklearn.base.BaseEstimator]
-            class_proba = self.current_model.predict_proba(data.reshape(1, -1))
+            class_proba = self.current_model.predict(data.reshape(1, -1))
             self.historic_data[0].update({"class_proba": class_proba[0]})
 
     def prefix_message_handler(self, prefix, message):
@@ -424,10 +433,11 @@ class GUIMELWindow(QMainWindow):
         self.class_ax.autoscale(enable=False, axis="both")
 
         self.classes = self.current_model_dict.get("classes", [f"Class {i}" for i in range(self.num_classes)])
+        self.num_classes = len(self.classes)
         self.class_histogram = self.class_ax.hist(
             self.classes,
-            bins=self.num_classes,
-            weights=np.zeros(self.num_classes),
+            bins=len(self.classes),
+            weights=np.zeros(len(self.classes)),
             align='mid',
             rwidth=0.5,
             color='blue',
@@ -898,7 +908,7 @@ def database_init(db: dbu.ContentDatabase):
 
     # Classifier Settings
     db.create_category("Classifier Settings")
-    db.add_item("Classifier Settings", "model_path", db.File("Model Path", base_path.parent/"models" / "model.pkl", "The path to the model file"))
+    db.add_item("Classifier Settings", "model_path", db.File("Model Path", base_path.parent/"mcu"/ "model.pickle", "The path to the model file"))
     # TODO: Add more classifier settings
 
 def connect_db_to_log(db: dbu.ContentDatabase, log: logu.ContentLogger):
