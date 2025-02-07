@@ -16,8 +16,6 @@
 -e file:mcu
 aniso8601==9.0.1
     # via flask-restx
-annotated-types==0.7.0
-    # via pydantic
 anyio==4.4.0
     # via httpx
     # via jupyter-server
@@ -55,7 +53,6 @@ certifi==2024.7.4
 cffi==1.17.0
     # via argon2-cffi-bindings
     # via cryptography
-    # via gevent
     # via sounddevice
     # via soundfile
 cfgv==3.4.0
@@ -69,11 +66,6 @@ click==8.1.7
     # via flask
     # via leaderboard
     # via mcu
-colorama==0.4.6
-    # via click
-    # via ipython
-    # via pytest
-    # via tqdm
 comm==0.2.2
     # via ipykernel
 contourpy==1.2.1
@@ -95,7 +87,7 @@ distlib==0.3.8
     # via virtualenv
 dnspython==2.6.1
     # via eventlet
-eventlet==0.36.1
+eventlet==0.33.3
     # via leaderboard
 exceptiongroup==1.2.2
     # via anyio
@@ -107,7 +99,7 @@ fastjsonschema==2.20.0
     # via nbformat
 filelock==3.15.4
     # via virtualenv
-flask==3.0.3
+flask==2.3.3
     # via flask-apscheduler
     # via flask-limiter
     # via flask-restx
@@ -313,6 +305,8 @@ pandocfilters==1.5.1
     # via nbconvert
 parso==0.8.4
     # via jedi
+pexpect==4.9.0
+    # via ipython
 pillow==10.4.0
     # via matplotlib
 platformdirs==4.2.2
@@ -332,14 +326,15 @@ prompt-toolkit==3.0.47
     # via ipython
 psutil==6.0.0
     # via ipykernel
+ptyprocess==0.7.0
+    # via pexpect
+    # via terminado
 pure-eval==0.2.3
     # via stack-data
 pycparser==2.22
     # via cffi
-pydantic==2.8.2
+pydantic==1.10.21
     # via leaderboard
-pydantic-core==2.20.1
-    # via pydantic
 pydub==0.25.1
     # via leaderboard
 pygments==2.18.0
@@ -377,12 +372,6 @@ pytz==2024.1
     # via apscheduler
     # via flask-restx
     # via pandas
-pywin32==308
-    # via jupyter-core
-pywinpty==2.0.13
-    # via jupyter-server
-    # via jupyter-server-terminals
-    # via terminado
 pyyaml==6.0.2
     # via flask-swagger
     # via jupyter-events
@@ -433,6 +422,7 @@ six==1.16.0
     # via apscheduler
     # via asttokens
     # via bleach
+    # via eventlet
     # via python-dateutil
     # via rfc3339-validator
 sniffio==1.3.1
@@ -494,10 +484,8 @@ typing-extensions==4.12.2
     # via librosa
     # via limits
     # via pydantic
-    # via pydantic-core
 tzdata==2024.1
     # via pandas
-    # via tzlocal
 tzlocal==5.2
     # via apscheduler
 uri-template==1.3.0
@@ -524,7 +512,7 @@ wsproto==1.2.0
     # via simple-websocket
 wtforms==3.1.2
     # via flask-wtf
-youtube-dl @ git+https://github.com/ytdl-org/youtube-dl.git@c5098961b04ce83f4615f2a846c84f803b072639
+youtube-dl @ git+https://github.com/ytdl-org/youtube-dl.git@711e72c292327674c4a0593fdbb83d6347738ec9
 zipp==3.20.1
     # via importlib-metadata
     # via importlib-resources

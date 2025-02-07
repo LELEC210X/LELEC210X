@@ -122,7 +122,7 @@ class RoundsConfig(BaseModel):
     seed: Optional[PositiveInt] = None
     start_paused: bool = True
     restart_when_finished: bool = False
-    pause_between_rounds = True
+    pause_between_rounds: bool = True
     latency_margin: PositiveFloat = 1.0
     delay_before_playing: PositiveFloat = 2.0
     delay_after_playing: PositiveFloat = 1.0
