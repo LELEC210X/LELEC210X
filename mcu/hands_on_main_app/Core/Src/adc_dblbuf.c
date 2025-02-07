@@ -111,7 +111,7 @@ static void ADC_Callback(int buf_cplt) {
 	ADCDataRdy[buf_cplt] = 0;
 
 	if (rem_n_bufs == 0) {
-		print_spectrogram();
+		//print_spectrogram();
 		send_spectrogram();
 	}
 }

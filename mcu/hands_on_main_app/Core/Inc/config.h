@@ -17,7 +17,7 @@
 #define ENABLE_RADIO 1
 
 // General UART enable/disable (disable for low-power operation)
-#define ENABLE_UART 0
+#define ENABLE_UART 1
 
 // In continuous mode, we start and stop continuous acquisition on button press.
 // In non-continuous mode, we send a single packet on button press.
@@ -32,7 +32,7 @@
 #define PERF_COUNT 0
 
 // Enable debug print
-#define DEBUGP 0
+#define DEBUGP 1
 
 #if (DEBUGP == 1)
 #define DEBUG_PRINT(...) do{ printf(__VA_ARGS__ ); } while( 0 )
