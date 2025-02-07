@@ -6,6 +6,14 @@ import librosa.core
 from dataclasses import dataclass
 from typing import List
 
+
+
+################## Mel Triangle ##################
+# FIRST PART
+
+# TODO : Fix the last bug, the fact that the area is not 1 in some representations, its just a factor 2 that is mysteriously somewhere
+# I don't know how to fix this bug permanently, so i just added a small correcting factor in different functions
+
 def hz_to_mel(f):
     return 2595 * np.log10(1 + f / 700)
 
@@ -123,4 +131,78 @@ mel_fb_height = np.max(mel_fb, axis=1)
 mel_trigs_librosa = [MelTriangle(c, w, h) for c, w, h in zip(mel_fb_center, mel_fb_half_width, mel_fb_height)]
 fig = plot_mel_filterbank(mel_trigs_librosa, f_s, n_fft)
 fig.suptitle("Librosa Mel Filter Bank")
+plt.show(block=False)
+
+
+################## Mel Transform ##################
+## SECOND PART
+
+def mel_transform(x: np.ndarray, mel_trigs: List[MelTriangle]) -> np.ndarray:
+    """Apply mel transform to signal"""
+    # The algorithm is to consider 3 buckets at a time (different triangles)
+    # For each bucket, we compute the weighted sum of the signal using triangles not equal to 0
+    
+    mel_bins = np.zeros(len(mel_trigs))
+    current_bins = np.arange(3)
+    latest_bin = current_bins[-1] # The last bin is the one that was added
+
+    # For each sample, compute the weight of the sample in the 3 triangles that we are considering
+    for i, sample in enumerate(x):
+        # For each triangle we are considering, compute the weight of the sample
+        for current_mel_idx in current_bins:
+            sample_weight = mel_trigs[current_mel_idx].position(sample)
+            # Add the weight to the corresponding mel bin
+            if sample_weight != 0:
+                mel_bins[current_mel_idx] += sample_weight
+            else:
+                # If the weight is 0, we need to consider the next triangle
+                current_mel_idx = latest_bin + 1
+                latest_bin = current_mel_idx
+
+    # Normalize the mel bins
+    mel_bins /= np.sum(mel_bins)
+    return mel_bins
+
+def dumb_mel_transform(x: np.ndarray, mel_trigs: List[MelTriangle], f_s: int, n_fft: int) -> np.ndarray:
+    """Apply mel transform to signal"""
+    # Just consider all triangles at once, and compute the weighted sum of the signal
+
+    mel_bins = np.zeros(len(mel_trigs))
+    sampling_rate = f_s / n_fft
+
+    for i, sample in enumerate(x):
+        for j, t in enumerate(mel_trigs):
+            mel_bins[j] += t.position(i*sampling_rate) * sample
+
+    return mel_bins
+
+# Create a sound signal (for fft)
+y, sr = librosa.load(librosa.ex('trumpet'))
+n_fft = 2048
+
+# Generate the triangle filter bank
+mel_trigs = mel_filter_bank_from_scratch(sr, n_fft, 40)
+
+# Compute the mel spectrogram using librosa (for comparison)
+librosa_mel = librosa.feature.melspectrogram(y=y, sr=sr, n_fft=n_fft, n_mels=40)
+
+# Compute our triangle-based mel spectrogram
+triangle_mel = np.zeros(librosa_mel.shape)
+fft_y = librosa.core.stft(y, n_fft=n_fft)
+for i in range(librosa_mel.shape[1]):
+    mel_spec = dumb_mel_transform(np.abs(fft_y[:, i]), mel_trigs, sr, n_fft)
+    triangle_mel[:, i] = mel_spec
+
+# Plot the mel spectrogram
+fig, ax = plt.subplots(2, 2, figsize=(15, 6))
+librosa.display.waveshow(y, sr=sr, ax=ax[0, 0])
+D = librosa.amplitude_to_db(np.abs(librosa.stft(y, n_fft=n_fft)), ref=np.max)
+librosa.display.specshow(D, sr=sr, x_axis='time', y_axis='log', ax=ax[0, 1])
+librosa.display.specshow(librosa.power_to_db(librosa_mel, ref=np.max), sr=sr, x_axis='time', ax=ax[1, 0])
+librosa.display.specshow(librosa.power_to_db(triangle_mel, ref=np.max), sr=sr, x_axis='time', ax=ax[1, 1])
+ax[0, 0].set_title("Original Signal")
+ax[0, 1].set_title("Original Signal FFT")
+ax[1, 0].set_title("Mel (librosa)")
+ax[1, 1].set_title("Mel (triangles)")
+plt.tight_layout()
 plt.show(block=True)
