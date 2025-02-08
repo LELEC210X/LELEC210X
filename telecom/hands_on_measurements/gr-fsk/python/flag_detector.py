@@ -19,9 +19,11 @@
 #
 
 
+from distutils.version import LooseVersion
+
 import numpy as np
 from gnuradio import gr
-
+from .utils import logging
 
 class flag_detector(gr.basic_block):
     """
@@ -51,12 +53,35 @@ class flag_detector(gr.basic_block):
             out_sig=[np.complex64],
         )
 
-    def forecast(self, noutput_items, ninput_items_required):
+        self.gr_version = gr.version()
+        self.logger = logging.getLogger("sync")
+
+        # Redefine function based on version
+        if LooseVersion(self.gr_version) < LooseVersion("3.9.0"):
+            self.forecast = self.forecast_v38
+        else:
+            self.forecast = self.forecast_v310
+
+    def forecast_v38(self, noutput_items, ninput_items_required):
         """
         input items are samples (with oversampling factor)
         output items are samples (with oversampling factor)
         """
         ninput_items_required[0] = noutput_items
+
+    def forecast_v310(self, noutput_items, ninputs):
+        """
+        forecast is only called from a general block
+        this is the default implementation
+        """
+        ninput_items_required = [0] * ninputs
+        for i in range(ninputs):
+            ninput_items_required[i] = noutput_items
+
+        return ninput_items_required
+
+    def set_enable(self, enable):
+        self.enable = enable
 
     def general_work(self, input_items, output_items):
         if self.rem_samples > 0:  # We are processing a previously detected packet
@@ -79,9 +104,11 @@ class flag_detector(gr.basic_block):
                     pos = None
                 else:
                     pos = pos + 1
-
+                    #self.logger.info(
+                    #    f"flag  @ {self.nitems_read(0) + pos}"
+                    #)
             else:
-                pos = 0
+                pos = None
 
             if (
                 pos is None
@@ -91,7 +118,7 @@ class flag_detector(gr.basic_block):
 
             # A window corresponding to the length of a full packet + 1 byte + 1 symbol
             # is transferred to the output
-            self.rem_samples = 8 * self.osr * (self.packet_len + 1) + self.osr
+            self.rem_samples = 8 * self.osr * (self.packet_len + 1) + self.osr 
 
             n_out = min(N - pos, self.rem_samples)
             output_items[0][:n_out] = input_items[0][pos : (pos + n_out)]

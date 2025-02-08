@@ -122,37 +122,6 @@ There exists plently of applications, but we recommend:
 - and [GitHub Desktop](https://desktop.github.com/),
   a very simple but good Git application.
 
-## 2. Installing dependencies
-
-As this project requires quite a lot of dependencies, the teaching staff is
-providing a [VirtualBox](https://www.virtualbox.org/) (VB) image. Put simply,
-VB is a free tool that a allows to run the same set of software, thanks to
-**virtualization**, regardless of your computer.
-
-> [!NOTE]
-> Quartus is not part of the installed softwares,
-> and we assume you have it installed it from a previous class.
-
-> [!WARNING]
-> As the VB was developed for an older version of the project,
-> Rye is not yet installed, and must be
-> [installed](https://rye.astral.sh/guide/installation/) manually.
-
-### 2.1 Dealing with a slow VB
-
-Despite being very useful, VB has the disavantage that it can be **quite slow**.
-To cope with this issue, there exist multiple solutions (from easiest for hardest):
-
-1. Increase the resources allocated to VB (in `Settings->System`): either the
-   memory or the number of CPUs;
-2. _(Debian only)_ Manually install the software listed on the install page;
-3. _(Windows only)_ Install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
-   and refer to 2;
-4. _(Windows or macOS only)_ Install Ubuntu in dual-boot and refer to 2.
-
-Note that the last two steps require the most disk memory, but will most
-probably produce that fastest experience in the end.
-
 For the list of softwares needed for this project,
 see [INSTALL.md](./INSTALL.md).
 

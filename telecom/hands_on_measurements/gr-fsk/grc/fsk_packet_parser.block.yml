@@ -4,8 +4,9 @@ category: "[FSK]"
 
 templates:
   imports: import fsk
-  make: fsk.packet_parser(${hdr_len}, ${payload_len}, ${crc_len}, ${address})
-
+  make: fsk.packet_parser(${hdr_len}, ${payload_len}, ${crc_len}, ${address}, ${log_payload})
+  callbacks:
+  - set_log_payload(${log_payload})
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
 #     * id (makes the value accessible as \$keyname, e.g. in the make entry)
@@ -24,7 +25,9 @@ parameters:
   - id: address
     label: Address (bits)
     dtype: int_vector
-
+  - id: log_payload
+    label: Print the demodulated payload
+    dtype: int
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
 #      * label (an identifier for the GUI)

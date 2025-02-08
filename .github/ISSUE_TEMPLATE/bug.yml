@@ -18,7 +18,7 @@ body:
     label: Terms
     description: 'By submitting this issue, I have:'
     options:
-    - label: Checked the [existing issues](https://github.com/LELEC210X/LELEC210X/issues?q=is%3Aissue+label%3Adocumentation+) and [discussions](https://github.com/LELEC210X/LELEC210X/discussions) to see if my issue had not already been reported;
+    - label: Checked the [existing issues](https://github.com/LELEC210X/LELEC210X/issues?q=is%3Aissue) and [discussions](https://github.com/LELEC210X/LELEC210X/discussions) to see if my issue had not already been reported;
       required: true
     - label: Read the [best practice](https://github.com/LELEC210X/LELEC210X/wiki/Best-practice-guide) and checked if my bug was not one of the common bugs documented in the Wiki;
       required: true

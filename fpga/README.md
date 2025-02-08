@@ -6,7 +6,7 @@ The gateware can be built with the free version of the Altera Quartus tools.
 
 ## Quartus config
 
-- Go to [the Quartus Download Center](https://fpgasoftware.intel.com/18.1/?edition=lite&platform=windows)
+- Go to [the Quartus Download Center](https://fpgasoftware.intel.com/18.1/?edition=lite&platform=windows) , more specifically [here](https://www.intel.com/content/www/us/en/software-kit/665988/intel-quartus-prime-lite-edition-design-software-version-18-1-for-linux.html) for Quartus 18.1, in the tab "Individual files" (do not forget to select the correct operating system).
 - Download "MAX 10 FPGA device support" (330 MB)
 
 ## Compilation
