@@ -56,10 +56,16 @@ import matplotlib
 import sklearn
 
 # Custom modules
-import databaseV2_for_V4 as dbu
-import loggingUtils as logu
-import serialUtils as seru
-from model_formatter_for_V4 import *
+try:
+    import databaseV2_for_V4 as dbu
+    import loggingUtils as logu
+    import serialUtils as seru
+    from model_formatter_for_V4 import *
+except:
+    import mcu.databaseV2_for_V4 as dbu
+    import mcu.loggingUtils as logu
+    import mcu.serialUtils as seru
+    from mcu.model_formatter_for_V4 import *
 
 class GUIParamWindow(QMainWindow):
     """Parameters GUI window for the application"""
@@ -980,6 +986,7 @@ def connect_db_to_ser(db: dbu.ContentDatabase, ser: seru.SerialController):
 @click.option("--baud", default=115200, help="Baud rate to use")
 @click.option("--log", default=pathl.Path(__file__).parent/"uart_logs.log", help="Log file to write to")
 def main(cli: bool, debug: bool, port: Optional[str], baud: int, log: str):
+    print("Starting the application")
     # Create the main application
     app = QApplication(sys.argv)
 

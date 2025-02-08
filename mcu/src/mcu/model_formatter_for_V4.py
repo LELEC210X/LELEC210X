@@ -142,7 +142,7 @@ def save_model(model_format: ModelPickleFormat, path: str):
     with open(path, "wb") as file:
         pickle.dump(model_dict, file)
 
-def load_model(path: str) -> ModelPickleFormat | None:
+def load_model(path: str) -> Optional[ModelPickleFormat]:
     """Load the model and its metadata from a pickle file."""
     if not os.path.exists(path):
         return None

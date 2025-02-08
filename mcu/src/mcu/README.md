@@ -1,6 +1,19 @@
 # UART Reader Manual
 
 ## How to use
+### How to run the old version
+Through rye :
+> `rye run uart_reader`
+
+Through python :
+> `python3 uart_readerV1.py`
+### How to run the new version
+Through rye :
+> `rye run uart_reader2`
+
+Through python :
+> `python3 uart_readerV4.py`
+
 ### Program entry point
 The brand new uart-reader is the file named `uart_readerV4.py`, located next to this readme. This app allows the user to connect to a serial port, and liscen to it. When it receives certain packets, it can open one of 2 windows : Audio window, for audio packets from hands_on_audio_acquisition, and Mel window that is there to receive packets as mel vectors or full packets from the main app (only tested with the main app, usage may vary).
 

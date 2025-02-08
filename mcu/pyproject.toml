@@ -17,7 +17,8 @@ requires-python = ">= 3.9"
 version = "0.1.0"
 
 [project.scripts]
-uart_reader = "mcu.uart_reader:main"
+uart_reader = "mcu.uart_readerV1:main"
+uart_reader2 = "mcu.uart_readerV4:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/mcu"]
