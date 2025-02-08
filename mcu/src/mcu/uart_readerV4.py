@@ -33,14 +33,14 @@ from serial.tools import list_ports
 
 # Custom modules
 try:
-    import databaseV2_for_V4 as dbu
-    import loggingUtils as logu
-    import serialUtils as seru
+    import libraries.databaseV2_for_V4 as dbu
+    import libraries.loggingUtils as logu
+    import libraries.serialUtils as seru
     from model_formatter_for_V4 import *
 except:
-    import mcu.databaseV2_for_V4 as dbu
-    import mcu.loggingUtils as logu
-    import mcu.serialUtils as seru
+    import mcu.libraries.databaseV2_for_V4 as dbu
+    import mcu.libraries.loggingUtils as logu
+    import mcu.libraries.serialUtils as seru
     from mcu.model_formatter_for_V4 import *
 
 
@@ -1461,7 +1461,7 @@ def connect_db_to_ser(db: dbu.ContentDatabase, ser: seru.SerialController):
     help="Log file to write to",
 )
 def main(cli: bool, debug: bool, port: Optional[str], baud: int, log: str):
-    print("Starting the application")
+    print("Starting the application ...")
     # Create the main application
     app = QApplication(sys.argv)
 
@@ -1470,7 +1470,7 @@ def main(cli: bool, debug: bool, port: Optional[str], baud: int, log: str):
     matplotlib.use("Qt5Agg")
 
     # Create the logger
-    logelem = logu.ContentLogger(__name__, "uart_logs.log", True)
+    logelem = logu.ContentLogger(__name__, "../uart_logs.log", True)
 
     # Create the database
     db = dbu.ContentDatabase(database_init, logelem.logger, False)
