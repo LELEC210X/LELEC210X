@@ -1,59 +1,62 @@
+import logging
+import pathlib
+import sys
+from threading import Lock
+
+import numpy as np
+from PyQt6 import QtGui
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
     QApplication,
     QCheckBox,
+    QColorDialog,
     QComboBox,
     QFileDialog,
+    QGroupBox,
     QHBoxLayout,
     QLabel,
-    QScrollArea,
-    QSpinBox,
-    QSlider,
-    QColorDialog,
     QLineEdit,
-    QGroupBox,
     QMainWindow,
     QPushButton,
+    QScrollArea,
+    QSlider,
+    QSpinBox,
     QVBoxLayout,
     QWidget,
 )
-from PyQt6.QtCore import Qt
-from PyQt6 import QtGui
-import pathlib
-from threading import Lock
-import sys
-import logging
-import numpy as np
 
 SUFFIX_SCALES = {
-        -24: "y",
-        -21: "z",
-        -18: "a",
-        -15: "f",
-        -12: "p",
-        -9: "n",
-        -6: "u",
-        -3: "m",
-        0: "",
-        3: "k",
-        6: "M",
-        9: "G",
-        12: "T",
-        15: "P",
-        18: "E",
-        21: "Z",
-        24: "Y",
-    }
+    -24: "y",
+    -21: "z",
+    -18: "a",
+    -15: "f",
+    -12: "p",
+    -9: "n",
+    -6: "u",
+    -3: "m",
+    0: "",
+    3: "k",
+    6: "M",
+    9: "G",
+    12: "T",
+    15: "P",
+    18: "E",
+    21: "Z",
+    24: "Y",
+}
+
 
 def float_to_scaled_suffix(value: float):
-    """ Convert a float to a scaled value and suffix. """
+    """Convert a float to a scaled value and suffix."""
     if value == 0:
         return (0, "")
     # Find the order of magnitude of the value
     order = int(np.floor(np.log10(abs(value)) / 3) * 3)
-    return (value / 10 ** order, SUFFIX_SCALES[order])
+    return (value / 10**order, SUFFIX_SCALES[order])
+
 
 def scaled_suffix_to_float(value: float, suffix: str):
-    """ Convert a scaled value and suffix back to a float. """
+    """Convert a scaled value and suffix back to a float."""
     # If suffix is empty, just return the given value
     if not suffix:
         return value
@@ -61,36 +64,40 @@ def scaled_suffix_to_float(value: float, suffix: str):
     # Otherwise, try matching the first character to a scale
     for order, scale in SUFFIX_SCALES.items():
         if len(suffix) > 0 and scale == suffix[0]:
-            return value * 10 ** order
+            return value * 10**order
 
     # If no match found, return the original value
     return value
 
+
 class ContentDatabase:
     """
-        A simple, thread-safe database class that stores categories and items, synchronizing them between widgets.
+    A simple, thread-safe database class that stores categories and items, synchronizing them between widgets.
 
-        Features:
-        - Thread-safe access from multiple threads.
-        - Custom initialization function to populate the database.
-        - Generate widgets for each element or a whole cathegory easilly.
+    Features:
+    - Thread-safe access from multiple threads.
+    - Custom initialization function to populate the database.
+    - Generate widgets for each element or a whole cathegory easilly.
 
-        Supported Item Types:
-        - SuffixFloat
-        - Integer
-        - RangeInt
-        - RangeFloat
-        - Text
-        - Color
-        - Boolean
-        - List
-        - Dictionary
-        - File
-        - Folder
-        - ChoiceBox
-        - ConstantText
+    Supported Item Types:
+    - SuffixFloat
+    - Integer
+    - RangeInt
+    - RangeFloat
+    - Text
+    - Color
+    - Boolean
+    - List
+    - Dictionary
+    - File
+    - Folder
+    - ChoiceBox
+    - ConstantText
     """
-    def __init__(self, initialisation_func: callable, logger: logging.Logger, debug: bool = False):
+
+    def __init__(
+        self, initialisation_func: callable, logger: logging.Logger, debug: bool = False
+    ):
         self.lock = Lock()
         self.db = {}
         self.app_path = pathlib.Path(__file__).parent.absolute()
@@ -101,12 +108,12 @@ class ContentDatabase:
         initialisation_func(self)
 
     def debug_log(self, message: str) -> None:
-        """ Log a message if debug is enabled (To reduce log spam, even in debug mode). """
+        """Log a message if debug is enabled (To reduce log spam, even in debug mode)."""
         if self.debug:
             self.logger.debug(message)
 
     def create_category(self, category_name: str) -> None:
-        """ Create a new category in the database. """
+        """Create a new category in the database."""
         with self.lock:
             # Check if the category already exists
             if category_name not in self.db:
@@ -116,7 +123,7 @@ class ContentDatabase:
                 self.debug_log(f"Category already exists: {category_name}")
 
     def add_item(self, category_name: str, item_name: str, item_value) -> None:
-        """ Add a new item to a category in the database. """
+        """Add a new item to a category in the database."""
         with self.lock:
             # Check if the category exists
             if category_name in self.db:
@@ -125,12 +132,14 @@ class ContentDatabase:
                     self.db[category_name][item_name] = item_value
                     self.debug_log(f"Item added: {item_name}")
                 else:
-                    self.debug_log(f"Item already exists: {item_name} - {self.db[category_name][item_name]}")
+                    self.debug_log(
+                        f"Item already exists: {item_name} - {self.db[category_name][item_name]}"
+                    )
             else:
                 self.debug_log(f"Category does not exist: {category_name}")
 
     def get_item(self, category_name: str, item_name: str) -> "DatabaseElementTemplate":
-        """ Get an item from a category in the database. """
+        """Get an item from a category in the database."""
         with self.lock:
             # Check if the category and item exist
             if category_name in self.db:
@@ -144,7 +153,7 @@ class ContentDatabase:
             return None
 
     def gen_category_widget(self, category_name: str) -> QGroupBox:
-        """ Generate a widget for a category in the database (using each element's generation function). """
+        """Generate a widget for a category in the database (using each element's generation function)."""
         with self.lock:
             # Check if the category exists
             if category_name in self.db:
@@ -162,14 +171,14 @@ class ContentDatabase:
                 self.debug_log(f"Category does not exist: {category_name}")
 
     def reset_database(self) -> None:
-        """ Reset the database to an empty state, by signaling all items to reset. """
+        """Reset the database to an empty state, by signaling all items to reset."""
         with self.lock:
             for category in self.db.values():
                 for item in category.values():
                     item.trigger_callbacks()
 
     def import_database(self, npy_file: pathlib.Path) -> None:
-        """ Import the values of the elements from a numpy file. """
+        """Import the values of the elements from a numpy file."""
         with self.lock:
             try:
                 # Load the data from the numpy file
@@ -185,7 +194,7 @@ class ContentDatabase:
                 self.logger.error(f"Failed to import database: {e}")
 
     def export_database(self, npy_file: pathlib.Path) -> None:
-        """ Export the values of the elements to a numpy file. """
+        """Export the values of the elements to a numpy file."""
         with self.lock:
             data = {}
             # Iterate over all categories and items to save their values
@@ -200,13 +209,13 @@ class ContentDatabase:
             except Exception as e:
                 self.logger.error(f"Failed to export database: {e}")
 
-
     # ------------------ Database Element Template ------------------
     class DatabaseElementTemplate:
         """
         Template for the database element
         """
-        def __init__(self, name: str, value, description: str = ""): 
+
+        def __init__(self, name: str, value, description: str = ""):
             self.lock = Lock()
             self.updating = False
             self.name = name
@@ -215,13 +224,13 @@ class ContentDatabase:
             self.callbacks = []
 
         def register_callback(self, callback: callable) -> None:
-            """ Register a callback to be triggered when the value changes. """
+            """Register a callback to be triggered when the value changes."""
             with self.lock:
                 # Add a callback to the list
                 self.callbacks.append(callback)
 
         def trigger_callbacks(self) -> None:
-            """ Trigger all registered callbacks. """
+            """Trigger all registered callbacks."""
             with self.lock:
                 # Trigger all callbacks
                 self.updating = True
@@ -229,12 +238,12 @@ class ContentDatabase:
                     callback(self.value)
                 self.updating = False
 
-        def get_value(self) -> any: 
-            """ Get the value of the element. """
+        def get_value(self) -> any:
+            """Get the value of the element."""
             return self.value
-        
+
         def set_value(self, value) -> None:
-            """ Set the value of the element and trigger all callbacks. """
+            """Set the value of the element and trigger all callbacks."""
             # If the callback is updating, return (to avoid infinite loops)
             if self.updating:
                 return
@@ -249,14 +258,14 @@ class ContentDatabase:
 
         # This method can be overridden in the derived classes if needed
         def gen_widget_label(self) -> QLabel:
-            """ Generate a label widget for the element. """
+            """Generate a label widget for the element."""
             label = QLabel(self.name)
             label.setToolTip(self.description)
             label.setFixedWidth(100)
             return label
-        
-        def gen_widget_full(self) -> QWidget: 
-            """ Generate a full widget for the element. """
+
+        def gen_widget_full(self) -> QWidget:
+            """Generate a full widget for the element."""
             widget = QWidget()
             layout = QHBoxLayout()
             layout.addWidget(self.gen_widget_label())
@@ -273,55 +282,61 @@ class ContentDatabase:
         Value composition :
             tuple<float, str> : (value, suffix)
         """
-        def __init__(self, name: str, value, description: str = ""):  
+
+        def __init__(self, name: str, value, description: str = ""):
             super().__init__(name, value, description)
 
-        def __str__(self): 
+        def __str__(self):
             scaled_value, suffix_prefix = float_to_scaled_suffix(self.value[0])
             return f"{scaled_value} {suffix_prefix}{self.value[1]}"
-        
-        def __repr__(self): 
+
+        def __repr__(self):
             return f"Suffixed Float: {self.name} - {self.value}"
-        
+
         def handle_text_entry(self, text_entry: QLineEdit):
             text = text_entry.text().strip()
             # Return if empty
             if not text:
                 return
-            
+
             import re
+
             # Regex captures a float number followed by optional text (suffix)
             match = re.match(r"^([-+]?\d+(?:\.\d+)?)(.*)$", text)
             if not match:
                 return  # Parsing failed
-            
+
             # Extract the numeric part and any suffix text
             numeric_str, suffix_str = match.groups()
             numeric_str = numeric_str.strip()
             suffix_str = suffix_str.strip()  # Remove extra whitespace
-            
+
             # Convert string to float and apply suffix
             try:
                 numeric_val = float(numeric_str)
             except ValueError:
                 return  # Not a valid float
-            
+
             # Now update the internal value. We reuse the original ‘second’ element of value (e.g., "Hz")
             # or you can also parse suffix_str fully if you want to re-evaluate the unit.
             new_val = scaled_suffix_to_float(numeric_val, suffix_str)
             self.set_value((new_val, self.value[1]))
-        
+
         def gen_widget_element(self) -> QWidget:
             scaled_value, suffix_prefix = float_to_scaled_suffix(self.value[0])
             widget = QWidget()
             layout = QHBoxLayout()
-            text_entry = QLineEdit(str(scaled_value) + " " + suffix_prefix) # Editable text entry
-            suffix_label = QLabel(self.value[1]) # Constant suffix (callback to update)
+            text_entry = QLineEdit(
+                str(scaled_value) + " " + suffix_prefix
+            )  # Editable text entry
+            suffix_label = QLabel(self.value[1])  # Constant suffix (callback to update)
             text_entry.returnPressed.connect(lambda: self.handle_text_entry(text_entry))
             self.register_callback(lambda value: suffix_label.setText(value[1]))
+
             def handle_text_entry_callback(value):
                 scaled_value, suffix_prefix = float_to_scaled_suffix(value[0])
                 text_entry.setText(str(scaled_value) + " " + suffix_prefix)
+
             self.register_callback(handle_text_entry_callback)
             layout.addWidget(text_entry)
             layout.addWidget(suffix_label)
@@ -335,20 +350,21 @@ class ContentDatabase:
         Value composition :
             int : value
         """
-        def __init__(self, name: str, value, description: str = ""):  
+
+        def __init__(self, name: str, value, description: str = ""):
             super().__init__(name, value, description)
 
-        def __str__(self): 
+        def __str__(self):
             return str(self.value)
-        
-        def __repr__(self): 
+
+        def __repr__(self):
             return f"Integer: {self.name} - {self.value}"
-        
+
         def gen_widget_element(self) -> QWidget:
             widget = QWidget()
             layout = QHBoxLayout()
             spin_box = QSpinBox()
-            spin_box.setRange(-2**31, 2**31 - 1)
+            spin_box.setRange(-(2**31), 2**31 - 1)
             spin_box.setValue(self.value)
             spin_box.valueChanged.connect(lambda value: self.set_value(value))
             self.register_callback(lambda value: spin_box.setValue(value))
@@ -363,17 +379,18 @@ class ContentDatabase:
         Value composition :
             tuple<int, int, int> : (value, min, max)
         """
-        def __init__(self, name: str, value, description: str = ""):  
+
+        def __init__(self, name: str, value, description: str = ""):
             super().__init__(name, value, description)
 
-        def __str__(self): 
+        def __str__(self):
             return f"{self.value[0]} ({self.value[1]}-{self.value[2]})"
-        
-        def __repr__(self): 
+
+        def __repr__(self):
             return f"Range Integer: {self.name} - {self.value}"
-        
+
         def gen_widget_element(self) -> QWidget:
-            """ Generate a widget for the range integer. """
+            """Generate a widget for the range integer."""
             widget = QWidget()
             layout = QHBoxLayout(widget)
 
@@ -390,21 +407,25 @@ class ContentDatabase:
             value_label = QLabel(str(slider.value()))
 
             # Update internal value and label on slider move
-            slider.valueChanged.connect(lambda val: (
-                self.set_value((val, self.value[1], self.value[2])),
-                value_label.setText(str(int(val)))
-            ))
+            slider.valueChanged.connect(
+                lambda val: (
+                    self.set_value((val, self.value[1], self.value[2])),
+                    value_label.setText(str(int(val))),
+                )
+            )
 
             # If this value changes from elsewhere, keep the widget in sync
-            self.register_callback(lambda val: (
-                slider.setValue(val[0]),
-                value_label.setText(str(int(val[0])))
-            ))
+            self.register_callback(
+                lambda val: (
+                    slider.setValue(val[0]),
+                    value_label.setText(str(int(val[0]))),
+                )
+            )
 
             layout.addWidget(slider)
             layout.addWidget(value_label)
             return widget
-        
+
     class RangeFloat(DatabaseElementTemplate):
         """
         Float range value
@@ -412,64 +433,73 @@ class ContentDatabase:
         Value composition:
             tuple<float, float, float> : (value, min, max)
         """
-        # Decide how many decimals you want. For 2 decimals, factor=100
-        factor = 100  
 
-        def __init__(self, name: str, value, description: str = ""):  
+        # Decide how many decimals you want. For 2 decimals, factor=100
+        factor = 100
+
+        def __init__(self, name: str, value, description: str = ""):
             super().__init__(name, value, description)
 
         def __str__(self):
             return f"{self.value[0]} ({self.value[1]}-{self.value[2]})"
-        
+
         def __repr__(self):
             return f"Range Float: {self.name} - {self.value}"
-        
+
         def _slider_to_float(self, slider_val: int) -> float:
-            """ Convert slider integer value back to a float. """
+            """Convert slider integer value back to a float."""
             return slider_val / self.factor
-        
+
         def _float_to_slider(self, float_val: float) -> int:
-            """ Convert a float to the slider’s integer scale. """
+            """Convert a float to the slider’s integer scale."""
             return int(float_val * self.factor)
-        
+
         def gen_widget_element(self) -> QWidget:
-            """ Generate a widget for the range float. """
+            """Generate a widget for the range float."""
             widget = QWidget()
             layout = QHBoxLayout(widget)
 
             # Create a horizontal QSlider
             slider = QSlider(Qt.Orientation.Horizontal)
             # Scale the min, max, and current value
-            slider.setRange(self._float_to_slider(self.value[1]), self._float_to_slider(self.value[2]))
+            slider.setRange(
+                self._float_to_slider(self.value[1]),
+                self._float_to_slider(self.value[2]),
+            )
             slider.setValue(self._float_to_slider(self.value[0]))
 
             # Show optional ticks
             slider.setTickPosition(QSlider.TickPosition.TicksBelow)
             # For a float range, pick a sensible tick interval
-            slider.setTickInterval(self._float_to_slider((self.value[2] - self.value[1]) / 10.0) or 1)
+            slider.setTickInterval(
+                self._float_to_slider((self.value[2] - self.value[1]) / 10.0) or 1
+            )
 
             # Label to show current float value
             value_label = QLabel(f"{self.value[0]:.2f}")
 
             # Update DB and label on slider move
-            slider.valueChanged.connect(lambda val_int: (
-                self.set_value(
-                    (self._slider_to_float(val_int),
-                    self.value[1], self.value[2])
-                ),
-                value_label.setText(f"{self._slider_to_float(val_int):.2f}")
-            ))
+            slider.valueChanged.connect(
+                lambda val_int: (
+                    self.set_value(
+                        (self._slider_to_float(val_int), self.value[1], self.value[2])
+                    ),
+                    value_label.setText(f"{self._slider_to_float(val_int):.2f}"),
+                )
+            )
 
             # Keep the slider/label in sync if the float is updated externally
-            self.register_callback(lambda val: (
-                slider.setValue(self._float_to_slider(val[0])),
-                value_label.setText(f"{val[0]:.2f}")
-            ))
+            self.register_callback(
+                lambda val: (
+                    slider.setValue(self._float_to_slider(val[0])),
+                    value_label.setText(f"{val[0]:.2f}"),
+                )
+            )
 
             layout.addWidget(slider)
             layout.addWidget(value_label)
             return widget
-        
+
     class Text(DatabaseElementTemplate):
         """
         Text value
@@ -477,17 +507,18 @@ class ContentDatabase:
         Value composition:
             str : value
         """
-        def __init__(self, name: str, value, description: str = ""):  
+
+        def __init__(self, name: str, value, description: str = ""):
             super().__init__(name, value, description)
 
-        def __str__(self): 
+        def __str__(self):
             return self.value
-        
-        def __repr__(self): 
+
+        def __repr__(self):
             return f"Text: {self.name} - {self.value}"
 
         def gen_widget_element(self) -> QWidget:
-            """ Generate a widget for the text element. """
+            """Generate a widget for the text element."""
             widget = QWidget()
             layout = QHBoxLayout()
             text_entry = QLineEdit(self.value)
@@ -496,7 +527,7 @@ class ContentDatabase:
             layout.addWidget(text_entry)
             widget.setLayout(layout)
             return widget
-        
+
     class Color(DatabaseElementTemplate):
         """
         Color value
@@ -504,17 +535,18 @@ class ContentDatabase:
         Value composition:
             tuple<int, int, int> : (r, g, b)
         """
-        def __init__(self, name: str, value, description: str = ""):  
+
+        def __init__(self, name: str, value, description: str = ""):
             super().__init__(name, value, description)
 
-        def __str__(self): 
+        def __str__(self):
             return f"({self.value[0]}, {self.value[1]}, {self.value[2]})"
-        
-        def __repr__(self): 
+
+        def __repr__(self):
             return f"Color: {self.name} - {self.value}"
-        
+
         def gen_widget_element(self) -> QWidget:
-            """ Generate a widget for the color element. """
+            """Generate a widget for the color element."""
             widget = QWidget()
             layout = QHBoxLayout()
             color_button = QPushButton("Choose Color")
@@ -522,13 +554,15 @@ class ContentDatabase:
                 f"background-color: rgb({self.value[0]}, {self.value[1]}, {self.value[2]});"  # Set initial color
             )
             color_button.clicked.connect(self.handle_color_dialog)
-            self.register_callback(lambda color: color_button.setStyleSheet(
-                f"background-color: rgb({color[0]}, {color[1]}, {color[2]});"
-            ))
+            self.register_callback(
+                lambda color: color_button.setStyleSheet(
+                    f"background-color: rgb({color[0]}, {color[1]}, {color[2]});"
+                )
+            )
             layout.addWidget(color_button)
             widget.setLayout(layout)
             return widget
-        
+
         def handle_color_dialog(self):
             color = QColorDialog.getColor(QtGui.QColor(*self.value), None)
             if color.isValid():
@@ -541,17 +575,18 @@ class ContentDatabase:
         Value composition:
             bool : value
         """
-        def __init__(self, name: str, value, description: str = ""):  
+
+        def __init__(self, name: str, value, description: str = ""):
             super().__init__(name, value, description)
 
-        def __str__(self): 
+        def __str__(self):
             return str(self.value)
-        
-        def __repr__(self): 
+
+        def __repr__(self):
             return f"Boolean: {self.name} - {self.value}"
-        
+
         def gen_widget_element(self) -> QWidget:
-            """ Generate a widget for the boolean element. """
+            """Generate a widget for the boolean element."""
             widget = QWidget()
             layout = QHBoxLayout()
 
@@ -566,7 +601,7 @@ class ContentDatabase:
             layout.addWidget(check_box)
             widget.setLayout(layout)
             return widget
-        
+
     class List(DatabaseElementTemplate):
         """
         List of text values
@@ -574,17 +609,18 @@ class ContentDatabase:
         Value composition:
             list<str> : value
         """
-        def __init__(self, name: str, value, description: str = ""):  
+
+        def __init__(self, name: str, value, description: str = ""):
             super().__init__(name, value, description)
 
-        def __str__(self): 
+        def __str__(self):
             return ", ".join(self.value)
-        
-        def __repr__(self): 
+
+        def __repr__(self):
             return f"List: {self.name} - {self.value}"
-        
+
         def gen_widget_element(self) -> QWidget:
-            """ Generate a widget for the list element. """
+            """Generate a widget for the list element."""
             widget = QWidget()
             layout = QVBoxLayout(widget)
 
@@ -594,14 +630,18 @@ class ContentDatabase:
                 spacer = QLabel()
                 spacer.setFixedWidth(100)
                 text_entry = QLineEdit(text)
-                
-                text_entry.textChanged.connect(lambda new_text, idx=i: (
-                    self.value.__setitem__(idx, new_text),
-                    self.set_value(self.value)
-                ))
 
-                self.register_callback(lambda new_list, idx=i, txt_entry=text_entry:
-                    txt_entry.setText(new_list[idx])
+                text_entry.textChanged.connect(
+                    lambda new_text, idx=i: (
+                        self.value.__setitem__(idx, new_text),
+                        self.set_value(self.value),
+                    )
+                )
+
+                self.register_callback(
+                    lambda new_list, idx=i, txt_entry=text_entry: txt_entry.setText(
+                        new_list[idx]
+                    )
                 )
 
                 row_layout.setContentsMargins(0, 0, 0, 0)
@@ -609,11 +649,11 @@ class ContentDatabase:
                 row_layout.addWidget(spacer)
                 row_layout.addWidget(text_entry)
                 layout.addWidget(widget_row)
-            
+
             layout.addStretch()
             widget.setLayout(layout)
             return widget
-        
+
     class Dictionary(DatabaseElementTemplate):
         """
         Dictionary of text values
@@ -621,17 +661,18 @@ class ContentDatabase:
         Value composition:
             dict<str, str> : value
         """
-        def __init__(self, name: str, value, description: str = ""):  
+
+        def __init__(self, name: str, value, description: str = ""):
             super().__init__(name, value, description)
 
-        def __str__(self): 
+        def __str__(self):
             return ", ".join([f"{key}: {val}" for key, val in self.value.items()])
-        
-        def __repr__(self): 
+
+        def __repr__(self):
             return f"Dictionary: {self.name} - {self.value}"
-        
+
         def gen_widget_element(self) -> QWidget:
-            """ Generate a widget for the dictionary element. """
+            """Generate a widget for the dictionary element."""
             widget = QWidget()
             layout = QVBoxLayout(widget)
 
@@ -642,25 +683,29 @@ class ContentDatabase:
                 key_entry.setFixedWidth(100)
                 val_entry = QLineEdit(value)
 
-                val_entry.textChanged.connect(lambda new_text, k=key: (
-                    self.value.__setitem__(k, new_text),
-                    self.set_value(self.value)
-                ))
+                val_entry.textChanged.connect(
+                    lambda new_text, k=key: (
+                        self.value.__setitem__(k, new_text),
+                        self.set_value(self.value),
+                    )
+                )
 
-                self.register_callback(lambda new_dict, k=key, val_entry=val_entry: (
-                    val_entry.setText(new_dict[k])
-                ))
+                self.register_callback(
+                    lambda new_dict, k=key, val_entry=val_entry: (
+                        val_entry.setText(new_dict[k])
+                    )
+                )
 
                 row_layout.setContentsMargins(0, 0, 0, 0)
 
                 row_layout.addWidget(key_entry)
                 row_layout.addWidget(val_entry)
                 layout.addWidget(widget_row)
-            
+
             layout.addStretch()
             widget.setLayout(layout)
             return widget
-        
+
     class File(DatabaseElementTemplate):
         """
         File value
@@ -668,17 +713,18 @@ class ContentDatabase:
         Value composition:
             pathlib.Path : value
         """
-        def __init__(self, name: str, value, description: str = ""):  
+
+        def __init__(self, name: str, value, description: str = ""):
             super().__init__(name, value, description)
 
-        def __str__(self): 
+        def __str__(self):
             return str(self.value)
-        
-        def __repr__(self): 
+
+        def __repr__(self):
             return f"File: {self.name} - {self.value}"
-        
+
         def gen_widget_element(self) -> QWidget:
-            """ Generate a widget for the file element. """
+            """Generate a widget for the file element."""
             widget = QWidget()
             layout = QHBoxLayout()
             file_entry = QLineEdit(str(self.value))
@@ -690,9 +736,11 @@ class ContentDatabase:
             layout.addWidget(file_button)
             widget.setLayout(layout)
             return widget
-        
+
         def handle_file_dialog(self):
-            file_path, _ = QFileDialog.getOpenFileName(None, "Open File", str(self.value), "All Files (*)")
+            file_path, _ = QFileDialog.getOpenFileName(
+                None, "Open File", str(self.value), "All Files (*)"
+            )
             if file_path:
                 self.set_value(pathlib.Path(file_path))
 
@@ -703,17 +751,18 @@ class ContentDatabase:
         Value composition:
             pathlib.Path : value
         """
-        def __init__(self, name: str, value, description: str = ""):  
+
+        def __init__(self, name: str, value, description: str = ""):
             super().__init__(name, value, description)
 
-        def __str__(self): 
+        def __str__(self):
             return str(self.value)
-        
-        def __repr__(self): 
+
+        def __repr__(self):
             return f"Folder: {self.name} - {self.value}"
-        
+
         def gen_widget_element(self) -> QWidget:
-            """ Generate a widget for the folder element. """
+            """Generate a widget for the folder element."""
             widget = QWidget()
             layout = QHBoxLayout()
             folder_entry = QLineEdit(str(self.value))
@@ -725,9 +774,11 @@ class ContentDatabase:
             layout.addWidget(folder_button)
             widget.setLayout(layout)
             return widget
-        
+
         def handle_folder_dialog(self):
-            folder_path = QFileDialog.getExistingDirectory(None, "Open Folder", str(self.value))
+            folder_path = QFileDialog.getExistingDirectory(
+                None, "Open Folder", str(self.value)
+            )
             if folder_path:
                 self.set_value(pathlib.Path(folder_path))
 
@@ -738,32 +789,37 @@ class ContentDatabase:
         Value composition:
             tuple<int, list<str>> : (index, choices)
         """
-        def __init__(self, name: str, value, description: str = ""):  
+
+        def __init__(self, name: str, value, description: str = ""):
             super().__init__(name, value, description)
 
-        def __str__(self): 
+        def __str__(self):
             return self.value[1][self.value[0]]
-        
-        def __repr__(self): 
+
+        def __repr__(self):
             return f"ChoiceBox: {self.name} - {self.value}"
-        
+
         def gen_widget_element(self) -> QWidget:
-            """ Generate a widget for the choice box element. """
+            """Generate a widget for the choice box element."""
             widget = QWidget()
             layout = QHBoxLayout()
             choice_box = QComboBox()
             choice_box.addItems(self.value[1])
             choice_box.setCurrentIndex(self.value[0])
-            choice_box.currentIndexChanged.connect(lambda index: self.set_value((index, self.value[1])))
+            choice_box.currentIndexChanged.connect(
+                lambda index: self.set_value((index, self.value[1]))
+            )
+
             def choice_box_callback(index):
                 choice_box.clear()
                 choice_box.addItems(index[1])
                 choice_box.setCurrentIndex(index[0])
+
             self.register_callback(choice_box_callback)
             layout.addWidget(choice_box)
             widget.setLayout(layout)
             return widget
-        
+
     class ConstantText(DatabaseElementTemplate):
         """
         Constant text value
@@ -771,26 +827,31 @@ class ContentDatabase:
         Value composition:
             str : value
         """
-        def __init__(self, name: str, value, description: str = ""):  
+
+        def __init__(self, name: str, value, description: str = ""):
             super().__init__(name, value, description)
 
-        def __str__(self): 
+        def __str__(self):
             return self.value
-        
-        def __repr__(self): 
+
+        def __repr__(self):
             return f"ConstantText: {self.name} - {self.value}"
-        
+
         def gen_widget_element(self) -> QWidget:
-            """ Generate a widget for the constant text element. """
+            """Generate a widget for the constant text element."""
             widget = QWidget()
             layout = QHBoxLayout()
             text_label = QLabel(self.value)
-            self.register_callback(lambda value: text_label.setText(value)) # Update the label
+            self.register_callback(
+                lambda value: text_label.setText(value)
+            )  # Update the label
             layout.addWidget(text_label)
             widget.setLayout(layout)
             return widget
 
+
 # ------------------ Example Usage ------------------
+
 
 def init_db(db: ContentDatabase):
     """
@@ -798,19 +859,66 @@ def init_db(db: ContentDatabase):
     and populates it with one SuffixFloat example item.
     """
     db.create_category("Audio Settings")
-    db.add_item("Audio Settings", "freq"  , db.SuffixFloat( "Freq " , (1e3, "Hz")                       , "Frequency Control"))
-    db.add_item("Audio Settings", "gain2" , db.Integer(     "Gain2 ", 1000                              , "First Gain Control"))
-    db.add_item("Audio Settings", "gain3" , db.RangeInt(    "Gain3 ", (1000, 0, 2000)                   , "Second Gain Control"))
-    db.add_item("Audio Settings", "gain4" , db.RangeFloat(  "Gain4 ", (1000, 0, 2000)                   , "Third Gain Control"))
-    db.add_item("Audio Settings", "gain5" , db.Text(        "Gain5 ", "1000"                            , "Text Gain Control"))
-    db.add_item("Audio Settings", "gain6" , db.Color(       "Gain6 ", (255, 0, 0)                       , "Color Gain Control"))
-    db.add_item("Audio Settings", "gain7" , db.Boolean(     "Gain7 ", True                              , "Boolean Gain Control"))
-    db.add_item("Audio Settings", "gain8" , db.List(        "Gain8 ", ["1000", "2000", "3000"]          , "List Gain Control"))
-    db.add_item("Audio Settings", "gain9" , db.Dictionary(  "Gain9 ", {"key1": "1000", "key2": "2000"}  , "Dictionary Gain Control"))
-    db.add_item("Audio Settings", "gain10", db.File(        "Gain10", db.app_path / "example.txt"       , "File Gain Control"))
-    db.add_item("Audio Settings", "gain11", db.Folder(      "Gain11", db.app_path                       , "Folder Gain Control"))
-    db.add_item("Audio Settings", "gain12", db.ChoiceBox(   "Gain12", (0, ["1000", "2000", "3000"])     , "ChoiceBox Gain Control"))
-    db.add_item("Audio Settings", "gain13", db.ConstantText("Gain13", "1000"                            , "ConstantText Gain Control"))
+    db.add_item(
+        "Audio Settings",
+        "freq",
+        db.SuffixFloat("Freq ", (1e3, "Hz"), "Frequency Control"),
+    )
+    db.add_item(
+        "Audio Settings", "gain2", db.Integer("Gain2 ", 1000, "First Gain Control")
+    )
+    db.add_item(
+        "Audio Settings",
+        "gain3",
+        db.RangeInt("Gain3 ", (1000, 0, 2000), "Second Gain Control"),
+    )
+    db.add_item(
+        "Audio Settings",
+        "gain4",
+        db.RangeFloat("Gain4 ", (1000, 0, 2000), "Third Gain Control"),
+    )
+    db.add_item(
+        "Audio Settings", "gain5", db.Text("Gain5 ", "1000", "Text Gain Control")
+    )
+    db.add_item(
+        "Audio Settings", "gain6", db.Color("Gain6 ", (255, 0, 0), "Color Gain Control")
+    )
+    db.add_item(
+        "Audio Settings", "gain7", db.Boolean("Gain7 ", True, "Boolean Gain Control")
+    )
+    db.add_item(
+        "Audio Settings",
+        "gain8",
+        db.List("Gain8 ", ["1000", "2000", "3000"], "List Gain Control"),
+    )
+    db.add_item(
+        "Audio Settings",
+        "gain9",
+        db.Dictionary(
+            "Gain9 ", {"key1": "1000", "key2": "2000"}, "Dictionary Gain Control"
+        ),
+    )
+    db.add_item(
+        "Audio Settings",
+        "gain10",
+        db.File("Gain10", db.app_path / "example.txt", "File Gain Control"),
+    )
+    db.add_item(
+        "Audio Settings",
+        "gain11",
+        db.Folder("Gain11", db.app_path, "Folder Gain Control"),
+    )
+    db.add_item(
+        "Audio Settings",
+        "gain12",
+        db.ChoiceBox("Gain12", (0, ["1000", "2000", "3000"]), "ChoiceBox Gain Control"),
+    )
+    db.add_item(
+        "Audio Settings",
+        "gain13",
+        db.ConstantText("Gain13", "1000", "ConstantText Gain Control"),
+    )
+
 
 class MainWindow(QMainWindow):
     def __init__(self, db: ContentDatabase):
@@ -832,12 +940,14 @@ class MainWindow(QMainWindow):
         label_function_random = QLabel("Multiplication of the 4 first values :")
         text_entry = QLineEdit("1.0")
         text_entry.setReadOnly(True)
+
         def text_entry_callback(value):
             suffix_float = db.get_item("Audio Settings", "freq").value[0]
             integer = db.get_item("Audio Settings", "gain2").value
             range_int = db.get_item("Audio Settings", "gain3").value[0]
             range_float = db.get_item("Audio Settings", "gain4").value[0]
             text_entry.setText(str(suffix_float * integer * range_int * range_float))
+
         # Register the callback to update the text entry at any change
         db.get_item("Audio Settings", "freq").register_callback(text_entry_callback)
         db.get_item("Audio Settings", "gain2").register_callback(text_entry_callback)
@@ -859,6 +969,7 @@ class MainWindow(QMainWindow):
         scroll_area.setWidget(scroll_content)
         central_layout.addWidget(scroll_area)
         self.setCentralWidget(central_widget)
+
 
 def main():
     # Create a logger
@@ -885,6 +996,7 @@ def main():
 
     # Execute the app
     sys.exit(app.exec())
+
 
 if __name__ == "__main__":
     main()

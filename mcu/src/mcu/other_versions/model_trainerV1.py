@@ -1,28 +1,30 @@
+import pickle
 import sys
-import os
-import numpy as np
+
 import librosa
+import numpy as np
+from PyQt6.QtCore import QThread, pyqtSignal
 from PyQt6.QtWidgets import (
     QApplication,
-    QVBoxLayout,
-    QHBoxLayout,
-    QPushButton,
     QFileDialog,
+    QHBoxLayout,
     QLabel,
-    QWidget,
-    QProgressBar,
-    QScrollArea,
-    QMainWindow,
     QListWidget,
+    QMainWindow,
     QMessageBox,
+    QProgressBar,
+    QPushButton,
+    QScrollArea,
+    QVBoxLayout,
+    QWidget,
 )
-from PyQt6.QtCore import Qt, QThread, pyqtSignal
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-import pickle
+from sklearn.model_selection import train_test_split
+
 
 class TaskThread(QThread):
     """Thread to handle background tasks."""
+
     progress = pyqtSignal(int)
     finished = pyqtSignal(str)
 
@@ -34,7 +36,9 @@ class TaskThread(QThread):
 
     def run(self):
         try:
-            self.task_func(*self.args, **self.kwargs, progress_callback=self.update_progress)
+            self.task_func(
+                *self.args, **self.kwargs, progress_callback=self.update_progress
+            )
         except Exception as e:
             self.finished.emit(f"Error: {e}")
         else:
@@ -127,7 +131,9 @@ class AudioProcessorApp(QMainWindow):
         if not save_path:
             return
 
-        progress_bar, task_label = self.create_task_ui(f"Saving {len(self.temp_file_list)} files to {save_path}")
+        progress_bar, task_label = self.create_task_ui(
+            f"Saving {len(self.temp_file_list)} files to {save_path}"
+        )
         thread = TaskThread(self.preprocess_audio, self.temp_file_list, save_path)
         self.setup_task_thread(thread, progress_bar, task_label)
 
@@ -143,7 +149,9 @@ class AudioProcessorApp(QMainWindow):
         if not model_path:
             return
 
-        progress_bar, task_label = self.create_task_ui(f"Training on {len(self.temp_file_list)} files")
+        progress_bar, task_label = self.create_task_ui(
+            f"Training on {len(self.temp_file_list)} files"
+        )
         thread = TaskThread(self.train_model, self.temp_file_list, model_path)
         self.setup_task_thread(thread, progress_bar, task_label)
 
@@ -162,7 +170,9 @@ class AudioProcessorApp(QMainWindow):
     def setup_task_thread(self, thread, progress_bar, task_label):
         """Set up signals for a task thread."""
         thread.progress.connect(progress_bar.setValue)
-        thread.finished.connect(lambda msg: self.on_task_finished(msg, task_label, progress_bar))
+        thread.finished.connect(
+            lambda msg: self.on_task_finished(msg, task_label, progress_bar)
+        )
         self.active_threads.append(thread)
         thread.finished.connect(lambda: self.active_threads.remove(thread))
         thread.start()
@@ -199,16 +209,22 @@ class AudioProcessorApp(QMainWindow):
             y, sr = librosa.load(file, sr=None)
             mel_spectrogram = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=20)
             mel_spectrogram = librosa.power_to_db(mel_spectrogram, ref=np.max)
-            mel_spectrogram = mel_spectrogram[:, :20] if mel_spectrogram.shape[1] >= 20 else np.pad(
-                mel_spectrogram,
-                ((0, 0), (0, 20 - mel_spectrogram.shape[1])),
-                mode="constant",
+            mel_spectrogram = (
+                mel_spectrogram[:, :20]
+                if mel_spectrogram.shape[1] >= 20
+                else np.pad(
+                    mel_spectrogram,
+                    ((0, 0), (0, 20 - mel_spectrogram.shape[1])),
+                    mode="constant",
+                )
             )
             data.append(mel_spectrogram.flatten())
             progress_callback(int((i + 1) / len(files) * 50))
 
         labels = np.random.randint(0, 2, len(data))
-        X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.2, random_state=42)
+        X_train, X_test, y_train, y_test = train_test_split(
+            data, labels, test_size=0.2, random_state=42
+        )
         model = LogisticRegression()
         model.fit(X_train, y_train)
         progress_callback(100)

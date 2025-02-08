@@ -11,31 +11,11 @@ import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from threading import Lock
-from typing import Any, Callable, Dict, List, Type, Literal
+from typing import Any, Callable, Dict, List, Type
 
 from PyQt6.QtWidgets import (
-    QApplication,
-    QCheckBox,
-    QComboBox,
-    QFileDialog,
-    QHBoxLayout,
-    QLabel,
-    QScrollArea,
-    QSpinBox,
-    QSlider,
-    QColorDialog,
-    QTabWidget,
-    QDoubleSpinBox,
     QLineEdit,
-    QGroupBox,
-    QMainWindow,
-    QPushButton,
-    QVBoxLayout,
-    QWidget,
 )
-from PyQt6.QtCore import Qt
-from PyQt6 import QtGui
-import pathlib
 
 logger = logging.getLogger(__name__)
 
@@ -55,6 +35,7 @@ class DataType(ABC):
         """Return default UI widget for this type"""
         pass
 
+
 class StringType(DataType):
     """String type with optional regex validation"""
 
@@ -64,6 +45,7 @@ class StringType(DataType):
     @classmethod
     def validate(cls, value: Any) -> bool:
         return isinstance(value, str)
+
 
 # ----------------------
 # 2. Entry System

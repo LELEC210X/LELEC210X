@@ -1,29 +1,33 @@
 import logging
-from logging import Handler, LogRecord
-from PyQt6.QtWidgets import QApplication, QTextEdit, QVBoxLayout, QWidget, QPushButton
-from PyQt6.QtGui import QTextCursor, QColor
-from PyQt6.QtCore import Qt
 import pathlib
+from logging import Handler, LogRecord
+
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QColor, QTextCursor
+from PyQt6.QtWidgets import QApplication, QPushButton, QTextEdit, QVBoxLayout, QWidget
+
 
 class ContentLogger:
     _custom_levels = {
-            'DEBUG': logging.DEBUG,
-            'TRACE': 15,
-            'INFO': logging.INFO,
-            'SUCCESS': 25,
-            'WARNING': logging.WARNING,
-            'ERROR': logging.ERROR,
-            'CRITICAL': logging.CRITICAL
-        }
+        "DEBUG": logging.DEBUG,
+        "TRACE": 15,
+        "INFO": logging.INFO,
+        "SUCCESS": 25,
+        "WARNING": logging.WARNING,
+        "ERROR": logging.ERROR,
+        "CRITICAL": logging.CRITICAL,
+    }
 
-    def __init__(self, name: str, file_path: str = "test_logs.log", use_file: bool = True):
+    def __init__(
+        self, name: str, file_path: str = "test_logs.log", use_file: bool = True
+    ):
         self.logger = logging.getLogger(name)
         self.logger.setLevel(logging.DEBUG)
         self.handlers = []
         self.file_use_toggle = use_file
         self.file_path = pathlib.Path(__file__).parent / file_path
         self.file_max_bytes = int(1e4)  # placeholder for future rotation logic
-        self.file_backup_count = 3      # placeholder for future rotation logic
+        self.file_backup_count = 3  # placeholder for future rotation logic
         self.default_formatter_str = "[%(asctime)s] %(levelname)-8s: %(message)s"
         self.default_date_format = "%Y-%m-%d %H:%M:%S"
 
@@ -31,7 +35,11 @@ class ContentLogger:
         for level_name, level_value in self._custom_levels.items():
             logging.addLevelName(level_value, level_name)
             # Create a custom logging method for each level
-            setattr(self.logger, level_name.lower(), self._create_log_method(level_name, level_value))
+            setattr(
+                self.logger,
+                level_name.lower(),
+                self._create_log_method(level_name, level_value),
+            )
 
         # Automatically add a file handler if use_file is True
         if self.file_use_toggle:
@@ -39,10 +47,12 @@ class ContentLogger:
 
     def _create_log_method(self, level_name: str, level_value: int):
         """Create a custom logging method for a specific level."""
+
         # This method will be added to the logger instance, and follows the same conventions as the built-in methods
         def log_method(msg, *args, **kwargs):
             if self.logger.isEnabledFor(level_value):
                 self.logger._log(level_value, msg, args, **kwargs)
+
         return log_method
 
     def change_level(self, level: str):
@@ -50,7 +60,9 @@ class ContentLogger:
         # Change the level of the logger instance
         self.logger.setLevel(self._custom_levels.get(level, logging.DEBUG))
 
-    def change_formatter(self, formatter_str: str = None, datefmt: str = None, CLI_only: bool = False):
+    def change_formatter(
+        self, formatter_str: str = None, datefmt: str = None, CLI_only: bool = False
+    ):
         """Change the formatter and date formatter for all handlers, or only CLI if CLI_only=True."""
         # If no formatter is provided, use the default formatter
         if not formatter_str:
@@ -71,7 +83,9 @@ class ContentLogger:
         """Change the file path for the file handler."""
         self.file_path = file_path
         # Find the file handler and update its file path
-        file_handler = next((h for h in self.handlers if isinstance(h, logging.FileHandler)), None)
+        file_handler = next(
+            (h for h in self.handlers if isinstance(h, logging.FileHandler)), None
+        )
         if file_handler:
             file_handler.baseFilename = str(self.file_path)
 
@@ -91,8 +105,13 @@ class ContentLogger:
             self.logger.removeHandler(fh)
             self.handlers.remove(fh)
 
-    def add_file_handler(self, file_path: str, level: int = logging.DEBUG,
-                         formatter_str: str = None, datefmt: str = None):
+    def add_file_handler(
+        self,
+        file_path: str,
+        level: int = logging.DEBUG,
+        formatter_str: str = None,
+        datefmt: str = None,
+    ):
         """Add a file handler with optional custom formatter and date formatter."""
         # If no formatter is provided, use the default formatter
         if not formatter_str:
@@ -107,7 +126,9 @@ class ContentLogger:
         self.logger.addHandler(handler)
         self.handlers.append(handler)
 
-    def setup_handler(self, handler: Handler, formatter_str: str = None, datefmt: str = None):
+    def setup_handler(
+        self, handler: Handler, formatter_str: str = None, datefmt: str = None
+    ):
         """Attach any logging.Handler with optional custom formatter and date formatter."""
         # If no formatter is provided, use the default formatter
         if not formatter_str:
@@ -126,6 +147,7 @@ class ContentLogger:
         """
         Generate a QTextEdit widget as a log receiver, limited to 200 lines.
         """
+
         # Custom handler for QTextEdit
         class QTextEditHandler(Handler):
             def __init__(self, text_edit: QTextEdit, max_lines: int = 200):
@@ -146,16 +168,16 @@ class ContentLogger:
             def append_colored_message(self, level, message):
                 """Append a message to the QTextEdit widget with a specific color based on the log level."""
                 color_map = {
-                    'DEBUG': 'blue',
-                    'INFO': 'black',
-                    'WARNING': 'orange',
-                    'ERROR': 'red',
-                    'CRITICAL': 'darkred',
-                    'TRACE': 'gray',
-                    'SUCCESS': 'green',
+                    "DEBUG": "blue",
+                    "INFO": "black",
+                    "WARNING": "orange",
+                    "ERROR": "red",
+                    "CRITICAL": "darkred",
+                    "TRACE": "gray",
+                    "SUCCESS": "green",
                 }
                 # Default color is black
-                color_name = color_map.get(level, 'black')
+                color_name = color_map.get(level, "black")
                 self.text_edit.setTextColor(QColor(color_name))
                 self.text_edit.append(message)
 
@@ -178,11 +200,13 @@ class ContentLogger:
         self.setup_handler(handler)
         return text_edit
 
+
 # Example usage (main guard)
 if __name__ == "__main__":
     import sys
+
     app = QApplication(sys.argv)
-    
+
     logger = ContentLogger("MyLogger", use_file=True)  # By default uses "test_logs.log"
 
     # First window
@@ -219,6 +243,7 @@ if __name__ == "__main__":
 
     # Toggle basic formatter
     formatter_toggle = False
+
     def toggle_formatter():
         global formatter_toggle
         formatter_toggle = not formatter_toggle
@@ -233,6 +258,7 @@ if __name__ == "__main__":
 
     # Toggle date format
     formatter_date_toggle = False
+
     def toggle_date_formatter():
         global formatter_date_toggle
         formatter_date_toggle = not formatter_date_toggle

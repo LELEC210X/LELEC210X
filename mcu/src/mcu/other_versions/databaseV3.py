@@ -1,44 +1,54 @@
+import logging
+import pathlib
+import sys
+from threading import Lock
+from typing import Callable, Literal
+
+import numpy as np
+from PyQt6 import QtGui
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
     QApplication,
     QCheckBox,
+    QColorDialog,
     QComboBox,
+    QDoubleSpinBox,
     QFileDialog,
+    QGroupBox,
     QHBoxLayout,
     QLabel,
-    QScrollArea,
-    QSpinBox,
-    QSlider,
-    QColorDialog,
-    QTabWidget,
-    QDoubleSpinBox,
     QLineEdit,
-    QGroupBox,
     QMainWindow,
     QPushButton,
+    QScrollArea,
+    QSlider,
+    QSpinBox,
+    QTabWidget,
     QVBoxLayout,
     QWidget,
 )
-from PyQt6.QtCore import Qt
-from PyQt6 import QtGui
-import pathlib
-from threading import Lock
-import sys
-import logging
-import numpy as np
-from typing import Literal, Callable
-import time
-
 from utilities_V1 import convertSuffix
+
 
 class DatabaseEntry:
     """Class to store the information of a database entry."""
-    def __init__(self, id: str, name: str, description: str, entry_type: "GenericEntry", entry_value: any, attributes: dict = {}, reset_value: any = None):
+
+    def __init__(
+        self,
+        id: str,
+        name: str,
+        description: str,
+        entry_type: "GenericEntry",
+        entry_value: any,
+        attributes: dict = {},
+        reset_value: any = None,
+    ):
         self.id = id
         self.name = name
         self.description = description
         self.entry_value = entry_value
         self.attributes = attributes
-        self.entry_type:DatabaseEntry.GenericEntry = entry_type
+        self.entry_type: DatabaseEntry.GenericEntry = entry_type
 
         self.reset_value = entry_value if reset_value is None else reset_value
 
@@ -66,7 +76,7 @@ class DatabaseEntry:
             "attributes": self.attributes,
             "reset_value": self.reset_value,
         }
-    
+
     @staticmethod
     def deserialize(data: dict):
         """Deserialize the entry from a dictionary."""
@@ -82,7 +92,14 @@ class DatabaseEntry:
 
     # Setters
 
-    def safe_set(self, target: Literal["name", "description", "entry_value", "attributes", "reset_value"], value: any, call_callbacks: bool = True) -> bool:
+    def safe_set(
+        self,
+        target: Literal[
+            "name", "description", "entry_value", "attributes", "reset_value"
+        ],
+        value: any,
+        call_callbacks: bool = True,
+    ) -> bool:
         """Set the class attribute with a lock, and runs the callbacks (by default)."""
         with self._value_lock:
             # Custom handlings
@@ -103,14 +120,24 @@ class DatabaseEntry:
         if call_callbacks:
             self.run_callbacks()
         return True
-    
+
     # Getters
 
     def get_value(self) -> any:
         """Get the value of the entry (more explicit function, non blocking)."""
         return self.entry_value
-    
-    def safe_get(self, target: Literal["name", "description", "entry_type", "entry_value", "attributes", "reset_value"]) -> any:
+
+    def safe_get(
+        self,
+        target: Literal[
+            "name",
+            "description",
+            "entry_type",
+            "entry_value",
+            "attributes",
+            "reset_value",
+        ],
+    ) -> any:
         """Get the class attribute with a lock."""
         with self._value_lock:
             try:
@@ -127,7 +154,7 @@ class DatabaseEntry:
                 return False
             self._callbacks[id] = callback
         return True
-    
+
     def remove_callback(self, id: str) -> bool:
         """Remove a callback from the entry."""
         with self._callbacks_lock:
@@ -136,7 +163,7 @@ class DatabaseEntry:
             except KeyError:
                 return False
         return True
-    
+
     def remove_gui_callbacks(self, id: str) -> int:
         """Remove all the callbacks from the entry."""
         with self._callbacks_lock:
@@ -145,8 +172,8 @@ class DatabaseEntry:
                 if id in key:
                     del self._callbacks[key]
                     accumulator += 1
-        return accumulator                
-    
+        return accumulator
+
     def run_callbacks(self) -> None:
         """Run all the callbacks of the entry."""
         # Prevent multiple callbacks from running at the same time
@@ -158,7 +185,7 @@ class DatabaseEntry:
         for callback in self._callbacks.values():
             callback(self)
         self._callbacks_running = False
-            
+
     # UI logic
 
     def get_name_widget(self, id: str) -> QWidget:
@@ -169,12 +196,14 @@ class DatabaseEntry:
         widget.setFont(QtGui.QFont("Arial", 10, QtGui.QFont.Weight.Bold))
         widget.setToolTip(self.description)
         widget.setWordWrap(True)
+
         def update_name(entry_obj: DatabaseEntry):
             widget.setText(self.name)
             widget.setToolTip(self.description)
+
         self.add_callback("name_up_" + id, update_name)
         return widget
-    
+
     def get_description_widget(self, id: str) -> QWidget:
         """Get the description widget of the entry."""
         widget = QLabel()
@@ -184,13 +213,17 @@ class DatabaseEntry:
         widget.setFont(QtGui.QFont("Arial", 8))
         widget.setWordWrap(True)
         widget.adjustSize()
-        widget.setMinimumHeight(widget.sizeHint().height()) # HACK : This is to make the text not get cropped if the wrap is not working properly
+        widget.setMinimumHeight(
+            widget.sizeHint().height()
+        )  # HACK : This is to make the text not get cropped if the wrap is not working properly
+
         def update_description(entry_obj: DatabaseEntry):
             widget.setText(self.description)
             widget.setToolTip(self.description)
+
         self.add_callback("description_up_" + id, update_description)
         return widget
-    
+
     def get_label_widget(self, id: str) -> QWidget:
         """Get the description widget of the entry."""
         widget = QWidget()
@@ -202,7 +235,7 @@ class DatabaseEntry:
         layout.addWidget(description)
         layout.addStretch()
         return widget
-    
+
     def get_full_widget(self, id: str) -> QWidget:
         """Get the full widget of the entry."""
         widget = QWidget()
@@ -214,7 +247,7 @@ class DatabaseEntry:
         layout.addWidget(value)
         layout.setContentsMargins(0, 0, 0, 0)
         return widget
-    
+
     # Per Class UI logic
 
     def get_value_widget(self, id: str) -> QWidget:
@@ -223,15 +256,27 @@ class DatabaseEntry:
             DatabaseEntry.GenericEntry: self._get_GenericEntry_widget,
             DatabaseEntry.StringEntry: self._get_GenericEntry_widget,
             DatabaseEntry.IntEntry: lambda id: self._get_NumberEntry_widget(id, "int"),
-            DatabaseEntry.FloatEntry: lambda id: self._get_NumberEntry_widget(id, "float"),
-            DatabaseEntry.IntRangeEntry: lambda id: self._get_RangeEntry_widget(id, "int"),
-            DatabaseEntry.FloatRangeEntry: lambda id: self._get_RangeEntry_widget(id, "float"),
+            DatabaseEntry.FloatEntry: lambda id: self._get_NumberEntry_widget(
+                id, "float"
+            ),
+            DatabaseEntry.IntRangeEntry: lambda id: self._get_RangeEntry_widget(
+                id, "int"
+            ),
+            DatabaseEntry.FloatRangeEntry: lambda id: self._get_RangeEntry_widget(
+                id, "float"
+            ),
             DatabaseEntry.BoolEntry: self._get_BoolEntry_widget,
-            DatabaseEntry.ListEntry: lambda id: self._get_BulletEntry_widget(id, "list"),
-            DatabaseEntry.DictEntry: lambda id: self._get_BulletEntry_widget(id, "dict"),
+            DatabaseEntry.ListEntry: lambda id: self._get_BulletEntry_widget(
+                id, "list"
+            ),
+            DatabaseEntry.DictEntry: lambda id: self._get_BulletEntry_widget(
+                id, "dict"
+            ),
             DatabaseEntry.SuffixEntry: self._get_SuffixEntry_widget,
             DatabaseEntry.FileEntry: lambda id: self._get_fileEntry_widget(id, "file"),
-            DatabaseEntry.FolderEntry: lambda id: self._get_fileEntry_widget(id, "folder"),
+            DatabaseEntry.FolderEntry: lambda id: self._get_fileEntry_widget(
+                id, "folder"
+            ),
             DatabaseEntry.ColorEntry: self._get_ColorEntry_widget,
             DatabaseEntry.ComboBoxEntry: self._get_ComboBoxEntry_widget,
             DatabaseEntry.ButtonEntry: self._get_ButtonEntry_widget,
@@ -244,33 +289,64 @@ class DatabaseEntry:
             logging.error(f"Error getting value widget for {self.id} : {e}")
             return QLabel("Error getting value widget")
 
-    # Classes 
+    # Classes
     class GenericEntry:
         """Generic entry widget. (Should not be used directly if possible)"""
+
         @classmethod  # Change from @staticmethod to @classmethod
         def serialize(cls) -> str:
             return cls.__name__  # Use cls instead of __class__
 
-        @staticmethod 
+        @staticmethod
         def deserialize(data: str):
-            for subclass in DatabaseEntry.GenericEntry.__subclasses__():  # Use GenericEntry explicitly
+            for subclass in (
+                DatabaseEntry.GenericEntry.__subclasses__()
+            ):  # Use GenericEntry explicitly
                 if subclass.__name__ == data:
                     return subclass
             return DatabaseEntry.GenericEntry
-    class StringEntry       (GenericEntry):"""String entry widget."""
-    class IntEntry          (GenericEntry):"""Int entry widget."""
-    class FloatEntry        (GenericEntry):"""Float entry widget."""
-    class IntRangeEntry     (GenericEntry):"""Int range entry widget."""
-    class FloatRangeEntry   (GenericEntry):"""Float range entry widget."""
-    class BoolEntry         (GenericEntry):"""Bool entry widget."""
-    class ListEntry         (GenericEntry):"""List entry widget."""
-    class DictEntry         (GenericEntry):"""Dict entry widget."""
-    class SuffixEntry       (GenericEntry):"""Suffix entry widget."""
-    class FileEntry         (GenericEntry):"""File entry widget."""
-    class FolderEntry       (GenericEntry):"""Folder entry widget."""
-    class ColorEntry        (GenericEntry):"""Color entry widget."""
-    class ComboBoxEntry     (GenericEntry):"""ComboBox entry widget."""
-    class ButtonEntry       (GenericEntry):"""Button entry widget. (No value, only callbacks)""" # There is no value for this one, just a button
+
+    class StringEntry(GenericEntry):
+        """String entry widget."""
+
+    class IntEntry(GenericEntry):
+        """Int entry widget."""
+
+    class FloatEntry(GenericEntry):
+        """Float entry widget."""
+
+    class IntRangeEntry(GenericEntry):
+        """Int range entry widget."""
+
+    class FloatRangeEntry(GenericEntry):
+        """Float range entry widget."""
+
+    class BoolEntry(GenericEntry):
+        """Bool entry widget."""
+
+    class ListEntry(GenericEntry):
+        """List entry widget."""
+
+    class DictEntry(GenericEntry):
+        """Dict entry widget."""
+
+    class SuffixEntry(GenericEntry):
+        """Suffix entry widget."""
+
+    class FileEntry(GenericEntry):
+        """File entry widget."""
+
+    class FolderEntry(GenericEntry):
+        """Folder entry widget."""
+
+    class ColorEntry(GenericEntry):
+        """Color entry widget."""
+
+    class ComboBoxEntry(GenericEntry):
+        """ComboBox entry widget."""
+
+    class ButtonEntry(GenericEntry):
+        """Button entry widget. (No value, only callbacks)"""  # There is no value for this one, just a button
 
     # UI Widgets
 
@@ -287,21 +363,28 @@ class DatabaseEntry:
                 widget.setStyleSheet("color: #707070;")
             else:
                 widget.setStyleSheet("color: #000000;")
+
         self.add_callback("value_up_" + id, update_value)
-        update_value(self) # Initial update
+        update_value(self)  # Initial update
 
         # Update the entry
         def update_entry():
             try:
                 self.safe_set("entry_value", type(self.entry_value)(widget.text()))
             except ValueError:
-                logging.error(f"Error setting value of {self.id} to {widget.text()} (default value widget)")
-                
-        #widget.editingFinished.connect(update_entry)
-        widget.textEdited.connect(update_entry) # This is better for real time updates, as its not 4 times per change (like with textChanged)
+                logging.error(
+                    f"Error setting value of {self.id} to {widget.text()} (default value widget)"
+                )
+
+        # widget.editingFinished.connect(update_entry)
+        widget.textEdited.connect(
+            update_entry
+        )  # This is better for real time updates, as its not 4 times per change (like with textChanged)
         return widget
-    
-    def _get_NumberEntry_widget(self, id: str, entry_type: Literal["str", "float"]) -> QWidget:
+
+    def _get_NumberEntry_widget(
+        self, id: str, entry_type: Literal["str", "float"]
+    ) -> QWidget:
         """Get the number entry widget."""
         if entry_type == "float":
             base_widget = QDoubleSpinBox()
@@ -322,17 +405,21 @@ class DatabaseEntry:
             else:
                 base_widget.setStyleSheet("color: #000000;")
                 base_widget.setReadOnly(False)
+
         self.add_callback("value_up_" + id, update_value)
-        update_value(self) # Initial update
+        update_value(self)  # Initial update
 
         # Update the entry
         def update_entry(value):
             self.safe_set("entry_value", value)
+
         base_widget.valueChanged.connect(update_entry)
 
         return base_widget
-    
-    def _get_RangeEntry_widget(self, id: str, entry_type: Literal["int", "float"]) -> QWidget: # TODO : Correct to safe_set of a dict
+
+    def _get_RangeEntry_widget(
+        self, id: str, entry_type: Literal["int", "float"]
+    ) -> QWidget:  # TODO : Correct to safe_set of a dict
         """Get the range entry widget."""
         PRECISION_FACTOR = 100
         containment_widget = QWidget()
@@ -345,18 +432,20 @@ class DatabaseEntry:
         numerical_entry = QDoubleSpinBox()
         numerical_entry.setDecimals(2 if entry_type == "float" else 0)
         numerical_entry.setStepType(QDoubleSpinBox.StepType.AdaptiveDecimalStepType)
-        numerical_entry.setSingleStep(1/PRECISION_FACTOR)
+        numerical_entry.setSingleStep(1 / PRECISION_FACTOR)
         layout.addWidget(slider)
         layout.addWidget(numerical_entry)
 
         # Callbacks
         def update_value(entry_obj: DatabaseEntry):
             containment_widget.setToolTip(entry_obj.description)
-            
-            value_dict:dict = entry_obj.entry_value
-            dict_values:list[float|int] = [float(value_dict.get(key, 0)) for key in ["min", "max", "value"]]
-            min_max_val_float = [float(val)*PRECISION_FACTOR for val in dict_values]
-            min_max_val_int   = [int(val) for val in min_max_val_float]
+
+            value_dict: dict = entry_obj.entry_value
+            dict_values: list[float | int] = [
+                float(value_dict.get(key, 0)) for key in ["min", "max", "value"]
+            ]
+            min_max_val_float = [float(val) * PRECISION_FACTOR for val in dict_values]
+            min_max_val_int = [int(val) for val in min_max_val_float]
 
             if not entry_obj.attributes.get("editable", True):
                 containment_widget.setStyleSheet("color: #707070;")
@@ -366,30 +455,32 @@ class DatabaseEntry:
                 containment_widget.setStyleSheet("color: #000000;")
                 slider.setDisabled(False)
                 numerical_entry.setReadOnly(False)
-            
+
             slider.setRange(min_max_val_int[0], min_max_val_int[1])
             slider.setValue(min_max_val_int[2])
-            slider.setTickInterval((min_max_val_int[1]- min_max_val_int[0])//10)
+            slider.setTickInterval((min_max_val_int[1] - min_max_val_int[0]) // 10)
             numerical_entry.setRange(dict_values[0], dict_values[1])
             numerical_entry.setValue(dict_values[2])
 
         self.add_callback("value_up_" + id, update_value)
-        update_value(self) # Initial update
+        update_value(self)  # Initial update
 
         # Slider update
         def on_slider_change(value):
-            numerical_entry.setValue(value/PRECISION_FACTOR)
-            self.entry_value["value"] = value/PRECISION_FACTOR
+            numerical_entry.setValue(value / PRECISION_FACTOR)
+            self.entry_value["value"] = value / PRECISION_FACTOR
+
         slider.valueChanged.connect(on_slider_change)
 
         # Numerical entry update
         def on_numerical_entry_change(value):
-            slider.setValue(int(value*PRECISION_FACTOR))
+            slider.setValue(int(value * PRECISION_FACTOR))
             self.entry_value["value"] = value
+
         numerical_entry.valueChanged.connect(on_numerical_entry_change)
 
         return containment_widget
-        
+
     def _get_BoolEntry_widget(self, id: str) -> QWidget:
         """Get the bool entry widget."""
         container_widget = QWidget()
@@ -410,22 +501,28 @@ class DatabaseEntry:
             else:
                 widget.setStyleSheet("color: #000000;")
                 widget.setDisabled(False)
+
         self.add_callback("value_up_" + id, update_value)
-        update_value(self) # Initial update
+        update_value(self)  # Initial update
 
         # Update the entry
         def update_entry(value):
             self.safe_set("entry_value", value)
+
         widget.stateChanged.connect(update_entry)
 
         return container_widget
 
-    def _get_BulletEntry_widget(self, id: str, entry_type: Literal["list", "dict"]) -> QWidget: # TODO : Implement the list and dict entries
+    def _get_BulletEntry_widget(
+        self, id: str, entry_type: Literal["list", "dict"]
+    ) -> QWidget:  # TODO : Implement the list and dict entries
         """Get the bullet entry widget."""
         widget = QLabel("Not implemented yet")
-        return widget       
-    
-    def _get_SuffixEntry_widget(self, id: str) -> QWidget: # TODO : Correct to safe_set of a dict
+        return widget
+
+    def _get_SuffixEntry_widget(
+        self, id: str
+    ) -> QWidget:  # TODO : Correct to safe_set of a dict
         """Get the suffix entry widget."""
         widget = QWidget()
         layout = QHBoxLayout()
@@ -434,7 +531,7 @@ class DatabaseEntry:
         suffix_box = QLabel()
         layout.addWidget(entry_box)
         layout.addWidget(suffix_box)
-        
+
         # Callbacks
         def update_value(entry_obj: DatabaseEntry):
             string_value = convertSuffix(entry_obj.entry_value["value"])
@@ -447,27 +544,33 @@ class DatabaseEntry:
             else:
                 entry_box.setStyleSheet("color: #000000;")
                 entry_box.setReadOnly(False)
+
         self.add_callback("value_up_" + id, update_value)
         update_value(self)
 
         # Update the entry
-        def update_entry(): 
+        def update_entry():
             value = entry_box.text()
-            new_entry_value = self.entry_value 
+            new_entry_value = self.entry_value
             float_value = convertSuffix(value)
             new_entry_value["value"] = float_value if float_value is not None else 0
             self.safe_set("entry_value", new_entry_value)
+
         entry_box.editingFinished.connect(update_entry)
 
         return widget
-    
-    def _get_fileEntry_widget(self, id: str, entry_type: Literal["file", "folder"]) -> QWidget:
+
+    def _get_fileEntry_widget(
+        self, id: str, entry_type: Literal["file", "folder"]
+    ) -> QWidget:
         """Get the file entry widget."""
         widget = QWidget()
         layout = QHBoxLayout()
         widget.setLayout(layout)
         entry_box = QLineEdit()
-        browse_button = QPushButton("File Dialog" if entry_type == "file" else "Folder Dialog")
+        browse_button = QPushButton(
+            "File Dialog" if entry_type == "file" else "Folder Dialog"
+        )
         layout.addWidget(entry_box)
         layout.addWidget(browse_button)
 
@@ -481,6 +584,7 @@ class DatabaseEntry:
             else:
                 entry_box.setStyleSheet("color: #000000;")
                 entry_box.setReadOnly(False)
+
         self.add_callback("value_up_" + id, update_value)
         update_value(self)
 
@@ -488,18 +592,26 @@ class DatabaseEntry:
         def update_entry_button():
             if entry_type == "file":
                 file_types = self.attributes.get("file_types", "All Files (*)")
-                file_path = QFileDialog.getOpenFileName(None, "Select a file", entry_box.text(), file_types)[0]
+                file_path = QFileDialog.getOpenFileName(
+                    None, "Select a file", entry_box.text(), file_types
+                )[0]
             else:
-                file_path = QFileDialog.getExistingDirectory(None, "Select a folder", entry_box.text())
+                file_path = QFileDialog.getExistingDirectory(
+                    None, "Select a folder", entry_box.text()
+                )
             if file_path:
                 self.safe_set("entry_value", file_path)
+
         def update_entry_text():
             self.safe_set("entry_value", entry_box.text())
+
         browse_button.clicked.connect(update_entry_button)
         entry_box.editingFinished.connect(update_entry_text)
         return widget
 
-    def _get_ColorEntry_widget(self, id: str) -> QWidget: # TODO : Implement the color entry
+    def _get_ColorEntry_widget(
+        self, id: str
+    ) -> QWidget:  # TODO : Implement the color entry
         """Get the color entry widget."""
         widget = QWidget()
         layout = QHBoxLayout()
@@ -524,6 +636,7 @@ class DatabaseEntry:
             # Update the color box preview
             color_box.setText("  ")
             color_box.setStyleSheet("background-color: " + entry_obj.entry_value + ";")
+
         self.add_callback("value_up_" + id, update_value)
         update_value(self)
 
@@ -532,6 +645,7 @@ class DatabaseEntry:
             color = QColorDialog.getColor()
             if color.isValid():
                 self.safe_set("entry_value", color.name())
+
         def update_entry_text():
             # Check if the color is valid
             if not QtGui.QColor(entry_box.text()).isValid():
@@ -539,11 +653,12 @@ class DatabaseEntry:
                 color_box.setStyleSheet("background-color: #F0F0F0;")
                 return
             self.safe_set("entry_value", entry_box.text())
+
         browse_button.clicked.connect(update_entry_button)
         entry_box.editingFinished.connect(update_entry_text)
         return widget
 
-    def _get_ComboBoxEntry_widget(self, id: str) -> QWidget: 
+    def _get_ComboBoxEntry_widget(self, id: str) -> QWidget:
         """Get the combo box entry widget."""
         widget = QWidget()
         layout = QHBoxLayout()
@@ -557,7 +672,9 @@ class DatabaseEntry:
             entry_box.blockSignals(True)
             entry_box.clear()
             entry_box.addItems(entry_obj.entry_value.get("options", []))
-            current_index = entry_obj.entry_value.get("index", entry_obj.attributes.get("default_index", 0))
+            current_index = entry_obj.entry_value.get(
+                "index", entry_obj.attributes.get("default_index", 0)
+            )
             entry_box.setCurrentIndex(current_index)
             entry_box.setToolTip(entry_obj.description)
             if not entry_obj.attributes.get("editable", True):
@@ -568,6 +685,7 @@ class DatabaseEntry:
                 entry_box.setDisabled(False)
             # Unblock signals after updating
             entry_box.blockSignals(False)
+
         self.add_callback("value_up_" + id, update_value)
         update_value(self)  # Initial update
 
@@ -579,6 +697,7 @@ class DatabaseEntry:
             new_value = self.entry_value.copy()
             new_value["index"] = value
             self.safe_set("entry_value", new_value)
+
         entry_box.currentIndexChanged.connect(update_entry)
 
         return widget
@@ -592,16 +711,20 @@ class DatabaseEntry:
         def update_value(entry_obj: DatabaseEntry):
             widget.setToolTip(entry_obj.description)
             widget.setDisabled(not entry_obj.attributes.get("editable", True))
+
         self.add_callback("value_up_" + id, update_value)
-        update_value(self) # Initial update
+        update_value(self)  # Initial update
 
         # Update the entry
         def update_entry():
             self.run_callbacks()
+
         widget.clicked.connect(update_entry)
         return widget
 
+
 ####################################################################################################
+
 
 class DatabaseClass:
     def __init__(self, id: str, name: str, description: str):
@@ -635,9 +758,11 @@ class DatabaseClass:
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "entries": {entry_id: entry.serialize() for entry_id, entry in self._entries.items()},
+            "entries": {
+                entry_id: entry.serialize() for entry_id, entry in self._entries.items()
+            },
         }
-    
+
     @staticmethod
     def deserialize(data: dict):
         """Deserialize the class from a dictionary."""
@@ -649,23 +774,33 @@ class DatabaseClass:
         for entry_id, entry_data in data["entries"].items():
             class_.add_entry(DatabaseEntry.deserialize(entry_data))
         return class_
-    
+
     # Entry management
 
-    def add_entry(self, id: str, name: str, description: str, entry_type: DatabaseEntry.GenericEntry, entry_value: any, attributes: dict = {}) -> DatabaseEntry:
+    def add_entry(
+        self,
+        id: str,
+        name: str,
+        description: str,
+        entry_type: DatabaseEntry.GenericEntry,
+        entry_value: any,
+        attributes: dict = {},
+    ) -> DatabaseEntry:
         """Add an entry to the class."""
-        entry = DatabaseEntry(id, name, description, entry_type, entry_value, attributes)
+        entry = DatabaseEntry(
+            id, name, description, entry_type, entry_value, attributes
+        )
         with self._entries_lock:
             if id in self._entries:
                 return self._entries[id]
             self._entries[id] = entry
         return entry
-    
+
     def get_entry(self, id: str) -> DatabaseEntry:
         """Get an entry from the class."""
         with self._entries_lock:
             return self._entries[id]
-        
+
     def remove_entry(self, id: str) -> bool:
         """Remove an entry from the class."""
         with self._entries_lock:
@@ -674,7 +809,7 @@ class DatabaseClass:
             except KeyError:
                 return False
         return True
-    
+
     # Class updates
 
     def safe_set(self, target: Literal["name", "description"], value: any) -> bool:
@@ -685,7 +820,7 @@ class DatabaseClass:
             except AttributeError:
                 return False
         return True
-    
+
     # Callbacks
 
     def add_callback(self, id: str, callback: Callable) -> bool:
@@ -695,7 +830,7 @@ class DatabaseClass:
                 return False
             self._callbacks[id] = callback
         return True
-    
+
     def remove_callback(self, id: str) -> bool:
         """Remove a callback from the class."""
         with self._callbacks_lock:
@@ -704,7 +839,7 @@ class DatabaseClass:
             except KeyError:
                 return False
         return True
-    
+
     def remove_gui_callbacks(self, id: str) -> int:
         """Remove all the callbacks from the class."""
         with self._callbacks_lock:
@@ -714,7 +849,7 @@ class DatabaseClass:
                     del self._callbacks[key]
                     accumulator += 1
         return accumulator
-    
+
     def run_callbacks(self) -> None:
         """Run all the callbacks of the class."""
         for callback in self._callbacks.values():
@@ -737,9 +872,11 @@ class DatabaseClass:
             layout.addWidget(entry.get_full_widget(id))
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addStretch(999)
-        return base_widget    
+        return base_widget
+
 
 ####################################################################################################
+
 
 class ContentDatabase:
     def __init__(self):
@@ -773,9 +910,12 @@ class ContentDatabase:
     def serialize(self) -> dict:
         """Serialize the database to a dictionary."""
         return {
-            "classes": {class_id: class_.serialize() for class_id, class_ in self._classes.items()},
+            "classes": {
+                class_id: class_.serialize()
+                for class_id, class_ in self._classes.items()
+            },
         }
-    
+
     @staticmethod
     def deserialize(data: dict):
         """Deserialize the database from a dictionary."""
@@ -783,7 +923,7 @@ class ContentDatabase:
         for class_id, class_data in data["classes"].items():
             database.add_class(DatabaseClass.deserialize(class_data))
         return database
-    
+
     def save_to_file(self, path: pathlib.Path) -> None:
         """Save the database to a file."""
         with open(path, "wb") as file:
@@ -807,12 +947,12 @@ class ContentDatabase:
                 return self._classes[id]
             self._classes[id] = class_
         return class_
-    
+
     def get_class(self, id: str) -> DatabaseClass:
         """Get a class from the database."""
         with self._classes_lock:
             return self._classes[id]
-        
+
     def remove_class(self, id: str) -> bool:
         """Remove a class from the database."""
         with self._classes_lock:
@@ -821,12 +961,12 @@ class ContentDatabase:
             except KeyError:
                 return False
         return True
-    
+
     def get_short(self, class_id: str, entry_id: str) -> DatabaseEntry:
         """Get an entry from a class."""
         with self._classes_lock:
             return self._classes[class_id].get_entry(entry_id)
-    
+
     # Callbacks
 
     def add_callback(self, id: str, callback: Callable) -> bool:
@@ -836,7 +976,7 @@ class ContentDatabase:
                 return False
             self._callbacks[id] = callback
         return True
-    
+
     def remove_callback(self, id: str) -> bool:
         """Remove a callback from the database."""
         with self._callbacks_lock:
@@ -845,7 +985,7 @@ class ContentDatabase:
             except KeyError:
                 return False
         return True
-    
+
     def remove_gui_callbacks(self, id: str) -> int:
         """Remove all the callbacks from the database."""
         with self._callbacks_lock:
@@ -855,7 +995,7 @@ class ContentDatabase:
                     del self._callbacks[key]
                     accumulator += 1
         return accumulator
-    
+
     def run_callbacks(self) -> None:
         """Run all the callbacks of the database."""
         for callback in self._callbacks.values():
@@ -892,17 +1032,19 @@ class ContentDatabase:
             for class_ in self._classes.values():
                 class_.remove_gui_callbacks(id)
             self.remove_gui_callbacks(id)
+
         window.destroyed.connect(remove_callbacks)
 
         # Keep a reference to the window to prevent it from being garbage collected
-        self.parameter_windows.append(window) 
+        self.parameter_windows.append(window)
 
         return window
 
+
 ####################################################################################################
 
-def db_basics(database: ContentDatabase) -> bool:
 
+def db_basics(database: ContentDatabase) -> bool:
     class1 = database.add_class(
         id="class1",
         name="Class 1",
@@ -912,8 +1054,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content1",
         name="Content 1",
         description="Content 1 description",
-        entry_type= DatabaseEntry.StringEntry,
-        entry_value= "content1.wav",
+        entry_type=DatabaseEntry.StringEntry,
+        entry_value="content1.wav",
         attributes={
             "hidden": False,
             "editable": True,
@@ -923,15 +1065,15 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content2",
         name="Content 2",
         description="Content 2 description, with content wrap, because we are that strong ! But weirdly, the auto dimentioning of the window is not working properly",
-        entry_type= DatabaseEntry.StringEntry,
-        entry_value= "content2.wav",
+        entry_type=DatabaseEntry.StringEntry,
+        entry_value="content2.wav",
     )
     class1.add_entry(
         id="content_hidden",
         name="Hidden Content",
         description="This should not be visible, and this is also a word wrap test, so that i can fix a bug",
-        entry_type= DatabaseEntry.StringEntry,
-        entry_value= "spoooky message",
+        entry_type=DatabaseEntry.StringEntry,
+        entry_value="spoooky message",
         attributes={
             "hidden": True,
         },
@@ -946,8 +1088,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content3",
         name="Content 3",
         description="Content 3 description (from class 2) - This is mainly to see if the class separation works",
-        entry_type= DatabaseEntry.StringEntry,
-        entry_value= "content3.wav",
+        entry_type=DatabaseEntry.StringEntry,
+        entry_value="content3.wav",
         attributes={
             "hidden": False,
             "editable": True,
@@ -957,8 +1099,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content4",
         name="Uneditable Content",
         description="This should not be editable, so that the user can't change it, but still copy it, whilst giving a slight hint that it is not editable",
-        entry_type= DatabaseEntry.StringEntry,
-        entry_value= "content4.wav",
+        entry_type=DatabaseEntry.StringEntry,
+        entry_value="content4.wav",
         attributes={
             "editable": False,
         },
@@ -973,8 +1115,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content5",
         name="Integer Content",
         description="I'm trying to test all the other types, so here is an integer",
-        entry_type= DatabaseEntry.IntEntry,
-        entry_value= 5,
+        entry_type=DatabaseEntry.IntEntry,
+        entry_value=5,
         attributes={
             "hidden": False,
             "editable": True,
@@ -984,8 +1126,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content6",
         name="Float Content",
         description="I'm trying to test all the other types, so here is a float (its pi*100 = 314.1592653589793)",
-        entry_type= DatabaseEntry.FloatEntry,
-        entry_value= np.pi*100,
+        entry_type=DatabaseEntry.FloatEntry,
+        entry_value=np.pi * 100,
         attributes={
             "hidden": False,
             "editable": True,
@@ -995,8 +1137,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content7",
         name="Int Range Content",
         description="I'm trying to test all the other types, so here is an int range",
-        entry_type= DatabaseEntry.IntRangeEntry,
-        entry_value= {"min": 0, "max": 10, "value": 5},
+        entry_type=DatabaseEntry.IntRangeEntry,
+        entry_value={"min": 0, "max": 10, "value": 5},
         attributes={
             "hidden": False,
             "editable": True,
@@ -1006,8 +1148,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content8",
         name="Float Range Content",
         description="I'm trying to test all the other types, so here is a float range (its pi*100 = 314.1592653589793)",
-        entry_type= DatabaseEntry.FloatRangeEntry,
-        entry_value= {"min": 0, "max": np.pi*100, "value": np.pi*50},
+        entry_type=DatabaseEntry.FloatRangeEntry,
+        entry_value={"min": 0, "max": np.pi * 100, "value": np.pi * 50},
         attributes={
             "hidden": False,
             "editable": True,
@@ -1017,8 +1159,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content9",
         name="Bool Content",
         description="I'm trying to test all the other types, so here is a bool",
-        entry_type= DatabaseEntry.BoolEntry,
-        entry_value= True,
+        entry_type=DatabaseEntry.BoolEntry,
+        entry_value=True,
         attributes={
             "hidden": False,
             "editable": True,
@@ -1028,8 +1170,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content10",
         name="List Content",
         description="I'm trying to test all the other types, so here is a list",
-        entry_type= DatabaseEntry.ListEntry,
-        entry_value= ["item1", "item2", "item3"],
+        entry_type=DatabaseEntry.ListEntry,
+        entry_value=["item1", "item2", "item3"],
         attributes={
             "hidden": False,
             "editable": True,
@@ -1039,8 +1181,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content11",
         name="Dict Content",
         description="I'm trying to test all the other types, so here is a dict",
-        entry_type= DatabaseEntry.DictEntry,
-        entry_value= {"key1": "value1", "key2": "value2", "key3": "value3"},
+        entry_type=DatabaseEntry.DictEntry,
+        entry_value={"key1": "value1", "key2": "value2", "key3": "value3"},
         attributes={
             "hidden": False,
             "editable": True,
@@ -1050,8 +1192,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content12",
         name="Suffix Content",
         description="I'm trying to test all the other types, so here is a suffix (its pi*1e9 = 3.14 G Hz)",
-        entry_type= DatabaseEntry.SuffixEntry,
-        entry_value= {"value": np.pi*1e9, "suffix": "Hz"},
+        entry_type=DatabaseEntry.SuffixEntry,
+        entry_value={"value": np.pi * 1e9, "suffix": "Hz"},
         attributes={
             "hidden": False,
             "editable": True,
@@ -1061,8 +1203,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content13",
         name="File Content",
         description="Testing the file context with a file",
-        entry_type= DatabaseEntry.FileEntry,
-        entry_value= "content13_file.wav",
+        entry_type=DatabaseEntry.FileEntry,
+        entry_value="content13_file.wav",
         attributes={
             "hidden": False,
             "editable": True,
@@ -1072,8 +1214,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content13_types",
         name="File Content Types",
         description="This is a file content with specific types",
-        entry_type= DatabaseEntry.FileEntry,
-        entry_value= "content13_file.wav",
+        entry_type=DatabaseEntry.FileEntry,
+        entry_value="content13_file.wav",
         attributes={
             "hidden": False,
             "editable": True,
@@ -1084,8 +1226,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content14",
         name="Folder Content",
         description="Testing the file context with a folder",
-        entry_type= DatabaseEntry.FolderEntry,
-        entry_value= "content14_folder",
+        entry_type=DatabaseEntry.FolderEntry,
+        entry_value="content14_folder",
         attributes={
             "hidden": False,
             "editable": True,
@@ -1095,8 +1237,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content15",
         name="Color Content",
         description="Testing the color content",
-        entry_type= DatabaseEntry.ColorEntry,
-        entry_value= "#FF0000",
+        entry_type=DatabaseEntry.ColorEntry,
+        entry_value="#FF0000",
         attributes={
             "hidden": False,
             "editable": True,
@@ -1106,8 +1248,8 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content16",
         name="ComboBox Content",
         description="Testing the combo box content",
-        entry_type= DatabaseEntry.ComboBoxEntry,
-        entry_value= {"options": ["option1", "option2", "option3"], "index": 0},
+        entry_type=DatabaseEntry.ComboBoxEntry,
+        entry_value={"options": ["option1", "option2", "option3"], "index": 0},
         attributes={
             "hidden": False,
             "editable": True,
@@ -1118,14 +1260,16 @@ def db_basics(database: ContentDatabase) -> bool:
         id="content17",
         name="Button Content",
         description="Testing the button content",
-        entry_type= DatabaseEntry.ButtonEntry,
-        entry_value= None,
+        entry_type=DatabaseEntry.ButtonEntry,
+        entry_value=None,
         attributes={
             "hidden": False,
             "editable": True,
         },
     )
-    class3.get_entry("content17").add_callback("print_button", lambda entry: logging.info("Button pressed"))
+    class3.get_entry("content17").add_callback(
+        "print_button", lambda entry: logging.info("Button pressed")
+    )
 
     return True
 
@@ -1138,11 +1282,13 @@ if __name__ == "__main__":
 
     database = ContentDatabase()
 
-    database.initialization_func(db_basics) # Make a basic database
+    database.initialization_func(db_basics)  # Make a basic database
     try:
-        database.load_from_file("database.npy") # change the values and add more entries if needed
+        database.load_from_file(
+            "database.npy"
+        )  # change the values and add more entries if needed
     except:
-        database.save_to_file("database.npy") # Save the database to a file
+        database.save_to_file("database.npy")  # Save the database to a file
 
     # Access the database
     class1 = database.get_class("class1")
@@ -1153,10 +1299,16 @@ if __name__ == "__main__":
     # Modify the database
     content1.safe_set("attributes", {"hidden": False})
     content1.safe_set("entry_value", "new_content1.wav")
-    content1.safe_set("description", "New description that is long enough to test the wrapping of the text in the GUI")
+    content1.safe_set(
+        "description",
+        "New description that is long enough to test the wrapping of the text in the GUI",
+    )
 
     # Make a system to add callbacks and remove them for stuff outside the database
-    content1.add_callback("print_change", lambda entry: logging.info(f"Entry content1 changed to {entry.get_value()}"))
+    content1.add_callback(
+        "print_change",
+        lambda entry: logging.info(f"Entry content1 changed to {entry.get_value()}"),
+    )
     # Start the app stuff for QT
     app = QApplication(sys.argv)
 
@@ -1171,7 +1323,7 @@ if __name__ == "__main__":
     window.setCentralWidget(central_widget)
 
     layout = QVBoxLayout()
-    
+
     layout.addWidget(content1.get_full_widget("content1"))
 
     class_box = QGroupBox()
@@ -1191,6 +1343,3 @@ if __name__ == "__main__":
 
     sys.exit(app.exec())
     # Anything later than here has problems with the sys.exit(app.exec()) call
-
-
-

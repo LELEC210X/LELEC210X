@@ -1,18 +1,12 @@
 # Standard Library
 import logging
 import sys
-from threading import Lock
-from typing import Optional
 import time
 from queue import Queue
 from threading import Lock
-import sys
-import logging
+from typing import Optional
 
-# Installed Libraries
-from serial import Serial, SerialException
 from PyQt6.QtCore import QThread, pyqtSignal
-from serial.tools import list_ports
 from PyQt6.QtWidgets import (
     QApplication,
     QCheckBox,
@@ -26,6 +20,11 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
+
+# Installed Libraries
+from serial import Serial, SerialException
+from serial.tools import list_ports
+
 
 class SerialController(QThread):
     """
@@ -57,7 +56,8 @@ class SerialController(QThread):
 
     # API
     def available_ports(self) -> dict:
-        """Return a list of available serial ports and their descriptions.
+        """
+        Return a list of available serial ports and their descriptions.
         Example :
             {
                 'COM1': 'Arduino Uno',
@@ -65,7 +65,7 @@ class SerialController(QThread):
             }
         """
         return {port.device: port.description for port in list_ports.comports()}
-    
+
     def register_prefix(self, prefix: str) -> None:
         """Register a prefix to be used for data_received_prefix signal."""
         self._prefixes.add(prefix)
@@ -138,7 +138,7 @@ class SerialController(QThread):
             if port not in self.available_ports():
                 self.logger.error(f"Invalid port: {port}")
                 return False
-            
+
             # Register the port and baudrate
             self._port_request = port
             self._baudrate = baudrate
@@ -176,7 +176,7 @@ class SerialController(QThread):
         try:
             if not self._port_request:
                 raise RuntimeError("No port requested")
-            
+
             with self._lock:
                 if self._serial is not None:
                     return
@@ -185,16 +185,17 @@ class SerialController(QThread):
                     port=self._port_request,
                     baudrate=self._baudrate,
                     timeout=1.0,
-                    write_timeout=1.0
+                    write_timeout=1.0,
                 )
-                
-            self.logger.success(f"Connected to {self._port_request} at {self._baudrate} baud")
+
+            self.logger.success(
+                f"Connected to {self._port_request} at {self._baudrate} baud"
+            )
             self.connection_state.emit(True)
-            
+
         except Exception as e:
             self._cleanup()
             raise RuntimeError(f"Connection failed: {e}")
-
 
     def _check_connection(self) -> bool:
         """Check if connection is still alive"""
@@ -208,7 +209,7 @@ class SerialController(QThread):
                 return True
         except (SerialException, OSError):
             return False
-    
+
     def _read_loop(self) -> None:
         """Main reading loop with connection monitoring"""
         while self._running:
@@ -225,7 +226,9 @@ class SerialController(QThread):
                 # Read available data with timeout
                 try:
                     # Read data if available and not frozen with buffering
-                    if self._serial.in_waiting > 0 and not (self._serial_freeze and self._serial_buffering):
+                    if self._serial.in_waiting > 0 and not (
+                        self._serial_freeze and self._serial_buffering
+                    ):
                         data = self._serial.readline(self._buffer_size)
                         # If the data is frozen, and we are not buffering, consume the data and continue
                         if self._serial_freeze and not self._serial_buffering:
@@ -238,7 +241,9 @@ class SerialController(QThread):
                                 # Check for prefixes
                                 for prefix in self._prefixes:
                                     if decoded.startswith(prefix):
-                                        self.data_received_prefix.emit(prefix, decoded[len(prefix):])
+                                        self.data_received_prefix.emit(
+                                            prefix, decoded[len(prefix) :]
+                                        )
                                         break
                                 else:
                                     self.data_received_normal.emit(decoded)
@@ -252,10 +257,10 @@ class SerialController(QThread):
                     # Handle decoding errors
                     self.logger.warning(f"Decode error: {e}")
                     continue
-                
+
                 # Small sleep to prevent CPU hogging (1ms)
                 time.sleep(0.001)
-                
+
             except Exception as e:
                 self._handle_error(f"Unexpected error in read loop: {e}")
                 break
@@ -275,7 +280,9 @@ class SerialController(QThread):
                         # Flush to ensure data is sent
                         self._serial.flush()
                     else:
-                        self.logger.warning("Serial port not open, cannot write, discarding data")
+                        self.logger.warning(
+                            "Serial port not open, cannot write, discarding data"
+                        )
                 # Mark task as done
                 self._write_queue.task_done()
         except Exception as e:
@@ -313,7 +320,7 @@ class SerialController(QThread):
             self.logger.error(f"Stop error: {e}")
             return False
         finally:
-            self.logger.trace("Reader stopped") # Idk if its the right level
+            self.logger.trace("Reader stopped")  # Idk if its the right level
 
     def _cleanup(self) -> None:
         """Clean up resources"""
@@ -345,8 +352,7 @@ class SerialController(QThread):
         self.data_received_normal.emit("TERMINATE")
         self.stop()
 
-        
-    
+
 # Example usage
 # -------------------------------------------------
 
@@ -358,17 +364,26 @@ logger.addHandler(logger_handler)
 
 # Add SUCCESS level to the logger
 logging.addLevelName(25, "SUCCESS")
+
+
 def success(self, message, *args, **kws):
     if self.isEnabledFor(25):
         self._log(25, message, args, **kws)
+
+
 logging.Logger.success = success
 
 # Add TRACE level to the logger
 logging.addLevelName(15, "TRACE")
+
+
 def trace(self, message, *args, **kws):
     if self.isEnabledFor(15):
         self._log(15, message, args, **kws)
+
+
 logging.Logger.trace = trace
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -504,6 +519,7 @@ class MainWindow(QMainWindow):
 
     def handle_error_occurred(self, error_msg: str):
         self.console.append(f"ERROR: {error_msg}")
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

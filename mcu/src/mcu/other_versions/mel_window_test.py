@@ -1,31 +1,37 @@
 import pickle
 import time
-from typing import Optional, List
+from typing import List, Optional
 
 import numpy as np
-import sklearn.base
-
-# PyQt imports
-from PyQt5 import QtGui
-from PyQt5.QtWidgets import (
-    QMainWindow, QWidget, QVBoxLayout, QGroupBox, QPushButton,
-    QLabel, QHBoxLayout
-)
+from matplotlib.animation import FuncAnimation
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 
 # Matplotlib imports
 from matplotlib.figure import Figure
 from matplotlib.patches import Rectangle
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
-from matplotlib.animation import FuncAnimation
+
+# PyQt imports
+from PyQt5 import QtGui
+from PyQt5.QtWidgets import (
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QMainWindow,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 # =============================================================================
 # BACKEND CLASSES
 # =============================================================================
 
+
 class MelModelManager:
     """
     Loads and verifies the classification model and its associated parameters.
     """
+
     def __init__(self, db, logger):
         self.db = db
         self.logger = logger
@@ -64,16 +70,26 @@ class MelModelManager:
 
         self.logger.info(f"Model loaded from {model_path}")
         # Overwrite default parameters if provided by the model
-        self.current_mel_length = self.current_model_dict.get("mel_len", self.current_mel_length)
-        self.current_mel_number = self.current_model_dict.get("mel_num", self.current_mel_number)
+        self.current_mel_length = self.current_model_dict.get(
+            "mel_len", self.current_mel_length
+        )
+        self.current_mel_number = self.current_model_dict.get(
+            "mel_num", self.current_mel_number
+        )
         self.current_feature_length = self.current_mel_length * self.current_mel_number
-        self.classes = self.current_model_dict.get("classes", [f"Class {i}" for i in range(10)])
+        self.classes = self.current_model_dict.get(
+            "classes", [f"Class {i}" for i in range(10)]
+        )
         self.num_classes = len(self.classes)
 
         # Verify that the model parameters match the current settings
-        if (self.current_model_dict.get("mel_len") != self.current_mel_length or
-            self.current_model_dict.get("mel_num") != self.current_mel_number):
-            self.logger.error("Model parameters do not match the current MEL parameters")
+        if (
+            self.current_model_dict.get("mel_len") != self.current_mel_length
+            or self.current_model_dict.get("mel_num") != self.current_mel_number
+        ):
+            self.logger.error(
+                "Model parameters do not match the current MEL parameters"
+            )
             self.current_model = None
 
         if "classes" not in self.current_model_dict:
@@ -85,6 +101,7 @@ class MelDataBuffer:
     """
     Maintains a rolling buffer of MEL data frames and their classification probabilities.
     """
+
     def __init__(self, feature_length: int, num_classes: int, max_history: int):
         self.feature_length = feature_length
         self.num_classes = num_classes
@@ -94,7 +111,10 @@ class MelDataBuffer:
     def reset_buffer(self):
         """Initialize the buffer with empty data."""
         self.historic_data = [
-            {"data": np.zeros(self.feature_length), "class_proba": np.zeros(self.num_classes)}
+            {
+                "data": np.zeros(self.feature_length),
+                "class_proba": np.zeros(self.num_classes),
+            }
             for _ in range(self.max_history)
         ]
 
@@ -107,14 +127,21 @@ class MelDataBuffer:
         elif current_length < new_max_history:
             additional = new_max_history - current_length
             self.historic_data.extend(
-                [{"data": np.zeros(self.feature_length), "class_proba": np.zeros(self.num_classes)}
-                 for _ in range(additional)]
+                [
+                    {
+                        "data": np.zeros(self.feature_length),
+                        "class_proba": np.zeros(self.num_classes),
+                    }
+                    for _ in range(additional)
+                ]
             )
 
     def add_data(self, data: np.ndarray):
         """Insert new data at the beginning of the buffer."""
-        self.historic_data.insert(0, {"data": data, "class_proba": np.zeros(self.num_classes)})
-        self.historic_data = self.historic_data[:self.max_history]
+        self.historic_data.insert(
+            0, {"data": data, "class_proba": np.zeros(self.num_classes)}
+        )
+        self.historic_data = self.historic_data[: self.max_history]
 
 
 class MelBackend:
@@ -122,7 +149,10 @@ class MelBackend:
     Orchestrates the model manager and data buffer as well as classification.
     Also handles serial messages.
     """
-    def __init__(self, db, logger, serial_controller, base_data: Optional[np.ndarray] = None):
+
+    def __init__(
+        self, db, logger, serial_controller, base_data: Optional[np.ndarray] = None
+    ):
         self.db = db
         self.logger = logger
         self.serial_controller = serial_controller
@@ -137,9 +167,13 @@ class MelBackend:
         max_history = self.db.get_item("MEL Settings", "max_history_length").value
 
         # Ensure we have a valid number of classes even if no model is loaded
-        self.num_classes = self.model_manager.num_classes if self.model_manager.current_model else 10
+        self.num_classes = (
+            self.model_manager.num_classes if self.model_manager.current_model else 10
+        )
 
-        self.data_buffer = MelDataBuffer(self.current_feature_length, self.num_classes, max_history)
+        self.data_buffer = MelDataBuffer(
+            self.current_feature_length, self.num_classes, max_history
+        )
         if base_data is not None and isinstance(base_data, np.ndarray):
             self.add_data(base_data)
 
@@ -159,7 +193,9 @@ class MelBackend:
             latest_data = self.data_buffer.historic_data[0]["data"]
             try:
                 # Reshape and classify
-                class_proba = self.model_manager.current_model.predict_proba(latest_data.reshape(1, -1))
+                class_proba = self.model_manager.current_model.predict_proba(
+                    latest_data.reshape(1, -1)
+                )
                 self.data_buffer.historic_data[0]["class_proba"] = class_proba[0]
             except Exception as e:
                 self.logger.error(f"Error during classification: {e}")
@@ -173,7 +209,9 @@ class MelBackend:
             try:
                 array_hex = bytes.fromhex(message)
                 # Interpret the byte data as little-endian unsigned 16-bit values
-                mel_vec = np.frombuffer(array_hex, dtype=np.dtype(np.uint16).newbyteorder("<"))
+                mel_vec = np.frombuffer(
+                    array_hex, dtype=np.dtype(np.uint16).newbyteorder("<")
+                )
                 # If there is extra data (e.g. a CBC MAC), trim it off
                 if len(mel_vec) > self.current_feature_length:
                     mel_vec = mel_vec[:-12]  # TODO: fix the trimming logic properly
@@ -181,16 +219,21 @@ class MelBackend:
             except Exception as e:
                 self.logger.error(f"Error processing serial message: {e}")
 
+
 # =============================================================================
 # FRONTEND: THE GUI WINDOW
 # =============================================================================
+
 
 class GUIMELWindow(QMainWindow):
     """
     PyQt window that displays MEL data and classifier outputs.
     Uses the MelBackend to obtain and process data.
     """
-    def __init__(self, db, logger, serial_controller, base_data: Optional[np.ndarray] = None):
+
+    def __init__(
+        self, db, logger, serial_controller, base_data: Optional[np.ndarray] = None
+    ):
         super().__init__()
         self.db = db
         self.logger = logger
@@ -199,7 +242,7 @@ class GUIMELWindow(QMainWindow):
         self.backend = MelBackend(db, logger, serial_controller, base_data)
 
         # Window setup
-        appname = self.db.get_item('_hidden', 'appname').value
+        appname = self.db.get_item("_hidden", "appname").value
         self.setWindowTitle(f"{appname} - MEL Window")
         self.setGeometry(100, 100, 800, 600)
         self.main_widget = QWidget()
@@ -228,27 +271,36 @@ class GUIMELWindow(QMainWindow):
         self.demo_box_layout = QVBoxLayout()
         self.demo_box.setLayout(self.demo_box_layout)
         self.demo_box.toggled.connect(
-            lambda state: self.demo_box.setFixedHeight(15) if not state else self.demo_box.setFixedHeight(100)
+            lambda state: self.demo_box.setFixedHeight(15)
+            if not state
+            else self.demo_box.setFixedHeight(100)
         )
         self.main_layout.addWidget(self.demo_box)
 
         btn_spawn = QPushButton("Spawn Mel Data")
         btn_spawn.clicked.connect(
-            lambda: self.backend.add_data(np.random.rand(self.backend.current_feature_length))
+            lambda: self.backend.add_data(
+                np.random.rand(self.backend.current_feature_length)
+            )
         )
         self.demo_box_layout.addWidget(btn_spawn)
 
         btn_spawn2 = QPushButton("Spawn Mel and Class Data")
         btn_spawn2.clicked.connect(
-            lambda: self.backend.add_data(np.random.rand(self.backend.current_feature_length))
+            lambda: self.backend.add_data(
+                np.random.rand(self.backend.current_feature_length)
+            )
         )
         # Also update the first frame's class probabilities randomly if not already set.
         btn_spawn2.clicked.connect(
-            lambda: self.backend.data_buffer.historic_data[0].update({
-                "class_proba": np.random.rand(self.backend.num_classes)
-                if self.backend.data_buffer.historic_data[0]["class_proba"].sum() == 0
-                else self.backend.data_buffer.historic_data[0]["class_proba"]
-            })
+            lambda: self.backend.data_buffer.historic_data[0].update(
+                {
+                    "class_proba": np.random.rand(self.backend.num_classes)
+                    if self.backend.data_buffer.historic_data[0]["class_proba"].sum()
+                    == 0
+                    else self.backend.data_buffer.historic_data[0]["class_proba"]
+                }
+            )
         )
         self.demo_box_layout.addWidget(btn_spawn2)
 
@@ -274,8 +326,9 @@ class GUIMELWindow(QMainWindow):
         self.mel_ax = self.fig_mel.add_subplot(111)
 
         # A rectangle overlay on the MEL plot
-        self.mel_rect = Rectangle((-0.625, -0.025), 1.05, 1.05,
-                                  linewidth=1, edgecolor='red', facecolor='none')
+        self.mel_rect = Rectangle(
+            (-0.625, -0.025), 1.05, 1.05, linewidth=1, edgecolor="red", facecolor="none"
+        )
 
         # The number of bins for the spectrogram is determined by the max history setting.
         max_history = self.db.get_item("MEL Settings", "max_history_length").value
@@ -314,7 +367,7 @@ class GUIMELWindow(QMainWindow):
             init_func=self._init_mel_plot,
             interval=interval_ms,
             blit=True,
-            save_count=1
+            save_count=1,
         )
         self.anim_class = FuncAnimation(
             self.fig_classifier,
@@ -322,7 +375,7 @@ class GUIMELWindow(QMainWindow):
             init_func=self._init_class_plot,
             interval=interval_ms,
             blit=True,
-            save_count=1
+            save_count=1,
         )
         self.anim_hist_class = FuncAnimation(
             self.fig_class_history,
@@ -330,7 +383,7 @@ class GUIMELWindow(QMainWindow):
             init_func=self._init_hist_class_plot,
             interval=interval_ms,
             blit=True,
-            save_count=1
+            save_count=1,
         )
 
         # Update the MEL plot if max history changes (assumes your db item supports callbacks)
@@ -358,16 +411,18 @@ class GUIMELWindow(QMainWindow):
             offset = -1.1
             X, Y = np.meshgrid(
                 np.linspace(0, 1, self.backend.current_mel_number),
-                np.linspace(0, 1, self.backend.current_mel_length)
+                np.linspace(0, 1, self.backend.current_mel_length),
             )
             image = self.mel_ax.pcolormesh(
                 X + i * offset - 1.1 + 0.5,
                 Y,
-                np.zeros((self.backend.current_mel_length, self.backend.current_mel_number)),
+                np.zeros(
+                    (self.backend.current_mel_length, self.backend.current_mel_number)
+                ),
                 vmin=0,
-                vmax=(2 ** 16),
-                cmap='viridis',
-                shading='auto'  # Avoid gridlines
+                vmax=(2**16),
+                cmap="viridis",
+                shading="auto",  # Avoid gridlines
             )
             self.mel_pcolors.append(image)
 
@@ -386,7 +441,9 @@ class GUIMELWindow(QMainWindow):
                 data = self.backend.data_buffer.historic_data[i]["data"]
             else:
                 data = np.zeros(self.backend.current_feature_length)
-            reshaped = data.reshape(self.backend.current_mel_length, self.backend.current_mel_number).T
+            reshaped = data.reshape(
+                self.backend.current_mel_length, self.backend.current_mel_number
+            ).T
             image.set_array(reshaped.ravel())
 
         # Update FPS counter
@@ -409,16 +466,18 @@ class GUIMELWindow(QMainWindow):
         self.class_ax.set_ylim(-0.05, 1.05)
         self.class_ax.autoscale(enable=False, axis="both")
         # Use model classes if available; otherwise, use defaults.
-        self.classes = (self.backend.model_manager.classes
-                        if self.backend.model_manager.current_model
-                        else [f"Class {i}" for i in range(self.backend.num_classes)])
+        self.classes = (
+            self.backend.model_manager.classes
+            if self.backend.model_manager.current_model
+            else [f"Class {i}" for i in range(self.backend.num_classes)]
+        )
         self.class_histogram = self.class_ax.hist(
             self.classes,
             bins=self.backend.num_classes,
             weights=np.zeros(self.backend.num_classes),
-            align='mid',
+            align="mid",
             rwidth=0.5,
-            color='blue',
+            color="blue",
         )
         self.class_ax.set_xticklabels(self.classes, rotation=45)
         self.fig_classifier.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.3)
@@ -439,7 +498,7 @@ class GUIMELWindow(QMainWindow):
             rect.set_height(h)
         max_class = np.argmax(class_proba)
         for i, rect in enumerate(self.class_histogram[2]):
-            rect.set_color('red' if i == max_class else 'blue')
+            rect.set_color("red" if i == max_class else "blue")
         return self.class_histogram[2]
 
     # ---------------------------
@@ -455,13 +514,17 @@ class GUIMELWindow(QMainWindow):
         self.hist_ax.autoscale(enable=False, axis="both")
         self.hist_lines = []
         for i in range(self.backend.num_classes):
-            label = (self.backend.model_manager.classes[i]
-                     if self.backend.model_manager.current_model
-                     else f"Class {i}")
-            line, = self.hist_ax.plot([], [], animated=True, label=label)
+            label = (
+                self.backend.model_manager.classes[i]
+                if self.backend.model_manager.current_model
+                else f"Class {i}"
+            )
+            (line,) = self.hist_ax.plot([], [], animated=True, label=label)
             self.hist_lines.append(line)
-        self.hist_ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
-        self.fig_class_history.subplots_adjust(left=0.15, right=0.75, top=0.9, bottom=0.2)
+        self.hist_ax.legend(loc="upper left", bbox_to_anchor=(1, 1))
+        self.fig_class_history.subplots_adjust(
+            left=0.15, right=0.75, top=0.9, bottom=0.2
+        )
 
     def _init_hist_class_plot(self):
         """Initialize the history plot for blitting."""
@@ -473,166 +536,517 @@ class GUIMELWindow(QMainWindow):
         """Update the history plot with the latest classifier probabilities over time."""
         for i, line in enumerate(self.hist_lines):
             # Create x values from negative indices (latest frame is at index 0)
-            data_points = [d["class_proba"][i] for d in self.backend.data_buffer.historic_data]
+            data_points = [
+                d["class_proba"][i] for d in self.backend.data_buffer.historic_data
+            ]
             line.set_data(-np.arange(len(data_points)), data_points)
         return self.hist_lines
+
 
 # =============================================================================
 # MAIN FUNCTION
 # =============================================================================
 
+import pathlib as pathl
+
 import databaseV2_for_V4 as dbu
 import loggingUtils as logu
 import serialUtils as seru
-import pathlib as pathl
-
 
 
 def database_init(db: dbu.ContentDatabase):
     # Add the Hidden group
     db.create_category("_hidden")
-    db.add_item("_hidden", "appname", db.ConstantText("App Name", "UART Reader", "The name of the application"))
-    db.add_item("_hidden", "appversion", db.ConstantText("App Version", "4.1", "The version of the application"))
-    db.add_item("_hidden", "author", db.ConstantText("Author", "Groupe E 2024-2025", "The author of the application"))
-    db.add_item("_hidden", "app_description", db.ConstantText("App Description", "This application reads data from a Serial port and displays it in a GUI, and handles certain prefixes.", "The description of the application"))
-    
+    db.add_item(
+        "_hidden",
+        "appname",
+        db.ConstantText("App Name", "UART Reader", "The name of the application"),
+    )
+    db.add_item(
+        "_hidden",
+        "appversion",
+        db.ConstantText("App Version", "4.1", "The version of the application"),
+    )
+    db.add_item(
+        "_hidden",
+        "author",
+        db.ConstantText(
+            "Author", "Groupe E 2024-2025", "The author of the application"
+        ),
+    )
+    db.add_item(
+        "_hidden",
+        "app_description",
+        db.ConstantText(
+            "App Description",
+            "This application reads data from a Serial port and displays it in a GUI, and handles certain prefixes.",
+            "The description of the application",
+        ),
+    )
+
     # Folder Settings
     db.create_category("Folder Settings")
     base_path = pathl.Path(__file__).parent
-    second_path = base_path.parent/"data"
-    db.add_item("Folder Settings", "app path", db.Folder("App Path", base_path, "The path to the application"))
-    db.add_item("Folder Settings", "log path", db.Folder("Log Path", base_path, "The path to the log file"))
-    db.add_item("Folder Settings", "db path", db.Folder("Database Path", second_path/"db_saves", "The path to the database file"))
-    db.add_item("Folder Settings", "audio path", db.Folder("Audio Path", second_path/"audio", "The path to the audio file"))
-    db.add_item("Folder Settings", "mel path", db.Folder("MEL Path", second_path/"mel", "The path to the MEL file"))
-    db.add_item("Folder Settings", "plot path", db.Folder("Plot Path", second_path/"plots", "The path to the plot file"))
-
+    second_path = base_path.parent / "data"
+    db.add_item(
+        "Folder Settings",
+        "app path",
+        db.Folder("App Path", base_path, "The path to the application"),
+    )
+    db.add_item(
+        "Folder Settings",
+        "log path",
+        db.Folder("Log Path", base_path, "The path to the log file"),
+    )
+    db.add_item(
+        "Folder Settings",
+        "db path",
+        db.Folder(
+            "Database Path", second_path / "db_saves", "The path to the database file"
+        ),
+    )
+    db.add_item(
+        "Folder Settings",
+        "audio path",
+        db.Folder("Audio Path", second_path / "audio", "The path to the audio file"),
+    )
+    db.add_item(
+        "Folder Settings",
+        "mel path",
+        db.Folder("MEL Path", second_path / "mel", "The path to the MEL file"),
+    )
+    db.add_item(
+        "Folder Settings",
+        "plot path",
+        db.Folder("Plot Path", second_path / "plots", "The path to the plot file"),
+    )
 
     # Serial Settings
     db.create_category("Serial Settings")
     comports = []
-    db.add_item("Serial Settings", "port", db.ChoiceBox("Port", (0,[port.device for port in comports] if len(comports) > 0 else ["-- No Ports Detected --"]), "The port to use for the serial connection"))
-    db.add_item("Serial Settings", "baud", db.ChoiceBox("Baud Rate", (0,["115200", "9600", "4800", "2400", "1200", "600", "300"]), "The baud rate to use for the serial connection"))
-    db.add_item("Serial Settings", "freeze", db.Boolean("Freeze", False, "Freeze the serial connection"))
-    db.add_item("Serial Settings", "freezebuffering", db.Boolean("Freeze Buffering", False, "To buffer or not the freezed data to avoid data loss, at the cost of possible memory overflow"))
-    db.add_item("Serial Settings", "allowwrite", db.Boolean("Allow Write", False, "Allow sending messages through the serial port"))
-    db.add_item("Serial Settings", "database_prefix", db.Text("Database Prefix", "CFG:HEX:", "The prefix to use to update the database from the connected device"))
+    db.add_item(
+        "Serial Settings",
+        "port",
+        db.ChoiceBox(
+            "Port",
+            (
+                0,
+                [port.device for port in comports]
+                if len(comports) > 0
+                else ["-- No Ports Detected --"],
+            ),
+            "The port to use for the serial connection",
+        ),
+    )
+    db.add_item(
+        "Serial Settings",
+        "baud",
+        db.ChoiceBox(
+            "Baud Rate",
+            (0, ["115200", "9600", "4800", "2400", "1200", "600", "300"]),
+            "The baud rate to use for the serial connection",
+        ),
+    )
+    db.add_item(
+        "Serial Settings",
+        "freeze",
+        db.Boolean("Freeze", False, "Freeze the serial connection"),
+    )
+    db.add_item(
+        "Serial Settings",
+        "freezebuffering",
+        db.Boolean(
+            "Freeze Buffering",
+            False,
+            "To buffer or not the freezed data to avoid data loss, at the cost of possible memory overflow",
+        ),
+    )
+    db.add_item(
+        "Serial Settings",
+        "allowwrite",
+        db.Boolean(
+            "Allow Write", False, "Allow sending messages through the serial port"
+        ),
+    )
+    db.add_item(
+        "Serial Settings",
+        "database_prefix",
+        db.Text(
+            "Database Prefix",
+            "CFG:HEX:",
+            "The prefix to use to update the database from the connected device",
+        ),
+    )
 
     # Logging Settings
     db.create_category("Logging Settings")
-    db.add_item("Logging Settings", "loglevel", db.ChoiceBox("Log Level", (1,["DEBUG", "TRACE", "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"]), "The level of logging to use"))
-    db.add_item("Logging Settings", "logformat", db.ChoiceBox("Log Format", (0,["[%(asctime)s] %(levelname)-9s: %(message)s", "%(levelname)-9s: %(message)s", "%(message)s"]), "The format of the log messages"))
-    db.add_item("Logging Settings", "logdatefmt", db.ChoiceBox("Log Date Format", (0,["%Y-%m-%d %H:%M:%S", "%H:%M:%S"]), "The format of the date in the log messages"))
-    db.add_item("Logging Settings", "use_file", db.Boolean("Use File", True, "Use a file for logging"))
-    db.add_item("Logging Settings", "file_name", db.Text("File Name", "uart_logs.log", "The name of the log file"))
-    db.add_item("Logging Settings", "logbackupcount", db.Integer("Log Backup Count", 3, "The number of log files to keep"))
-    db.add_item("Logging Settings", "logmaxsize", db.SuffixFloat("Log Max Size", (1e4, "B"), "The maximum size of the log file before it is rotated"))
+    db.add_item(
+        "Logging Settings",
+        "loglevel",
+        db.ChoiceBox(
+            "Log Level",
+            (1, ["DEBUG", "TRACE", "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"]),
+            "The level of logging to use",
+        ),
+    )
+    db.add_item(
+        "Logging Settings",
+        "logformat",
+        db.ChoiceBox(
+            "Log Format",
+            (
+                0,
+                [
+                    "[%(asctime)s] %(levelname)-9s: %(message)s",
+                    "%(levelname)-9s: %(message)s",
+                    "%(message)s",
+                ],
+            ),
+            "The format of the log messages",
+        ),
+    )
+    db.add_item(
+        "Logging Settings",
+        "logdatefmt",
+        db.ChoiceBox(
+            "Log Date Format",
+            (0, ["%Y-%m-%d %H:%M:%S", "%H:%M:%S"]),
+            "The format of the date in the log messages",
+        ),
+    )
+    db.add_item(
+        "Logging Settings",
+        "use_file",
+        db.Boolean("Use File", True, "Use a file for logging"),
+    )
+    db.add_item(
+        "Logging Settings",
+        "file_name",
+        db.Text("File Name", "uart_logs.log", "The name of the log file"),
+    )
+    db.add_item(
+        "Logging Settings",
+        "logbackupcount",
+        db.Integer("Log Backup Count", 3, "The number of log files to keep"),
+    )
+    db.add_item(
+        "Logging Settings",
+        "logmaxsize",
+        db.SuffixFloat(
+            "Log Max Size",
+            (1e4, "B"),
+            "The maximum size of the log file before it is rotated",
+        ),
+    )
 
     # Plot Settings
     db.create_category("Plot Settings")
-    db.add_item("Plot Settings", "limit_framerate", db.Boolean("Limit Framerate", False, "Limit the framerate of the plots"))
-    db.add_item("Plot Settings", "framerate", db.Integer("Framerate", 30, "The target framerate of the plots to avoid over-consumption of resources"))
-    db.add_item("Plot Settings", "number_saves", db.RangeInt("Number Of Save Types", (2, 1, 3), "The number of different save types to use"))
-    db.add_item("Plot Settings", "first_format", db.ChoiceBox("First Format", (0,["pdf", "png", "html" ,"jpg", "jpeg", "svg"]), "The format to save the plots in"))
-    db.add_item("Plot Settings", "second_format", db.ChoiceBox("Second Format", (1,["pdf", "png", "html" ,"jpg", "jpeg", "svg"]), "The format to save the plots in"))
-    db.add_item("Plot Settings", "third_format", db.ChoiceBox("Third Format", (2,["pdf", "png", "html" ,"jpg", "jpeg", "svg"]), "The format to save the plots in"))
-    db.add_item("Plot Settings", "plot_prefix", db.Text("Plot Prefix", "plot", "The prefix to use for the plot files before adding the timestamp"))
+    db.add_item(
+        "Plot Settings",
+        "limit_framerate",
+        db.Boolean("Limit Framerate", False, "Limit the framerate of the plots"),
+    )
+    db.add_item(
+        "Plot Settings",
+        "framerate",
+        db.Integer(
+            "Framerate",
+            30,
+            "The target framerate of the plots to avoid over-consumption of resources",
+        ),
+    )
+    db.add_item(
+        "Plot Settings",
+        "number_saves",
+        db.RangeInt(
+            "Number Of Save Types",
+            (2, 1, 3),
+            "The number of different save types to use",
+        ),
+    )
+    db.add_item(
+        "Plot Settings",
+        "first_format",
+        db.ChoiceBox(
+            "First Format",
+            (0, ["pdf", "png", "html", "jpg", "jpeg", "svg"]),
+            "The format to save the plots in",
+        ),
+    )
+    db.add_item(
+        "Plot Settings",
+        "second_format",
+        db.ChoiceBox(
+            "Second Format",
+            (1, ["pdf", "png", "html", "jpg", "jpeg", "svg"]),
+            "The format to save the plots in",
+        ),
+    )
+    db.add_item(
+        "Plot Settings",
+        "third_format",
+        db.ChoiceBox(
+            "Third Format",
+            (2, ["pdf", "png", "html", "jpg", "jpeg", "svg"]),
+            "The format to save the plots in",
+        ),
+    )
+    db.add_item(
+        "Plot Settings",
+        "plot_prefix",
+        db.Text(
+            "Plot Prefix",
+            "plot",
+            "The prefix to use for the plot files before adding the timestamp",
+        ),
+    )
 
     # Audio Settings
     db.create_category("Audio Settings")
-    db.add_item("Audio Settings", "serial_prefix", db.Text("Serial Prefix", "SND:HEX:", "The prefix to use for the audio data serial communication"))
-    db.add_item("Audio Settings", "nucleo_sample_rate", db.SuffixFloat("Nucleo Sample Rate", (10240, "Hz"), "The sample rate of the Nucleo board"))
-    db.add_item("Audio Settings", "file_prefix", db.Text("File Prefix", "audio", "The prefix to use for the audio files before adding the timestamp"))
-    db.add_item("Audio Settings", "audio_format", db.ChoiceBox("Audio Format", (0,["wav", "flac", "ogg", "mp3"]), "The format to save the audio files in"))
-    db.add_item("Audio Settings", "file_frequency", db.SuffixFloat("File Frequency", (44100, "Hz"), "The frequency to save the audio files in"))
-    db.add_item("Audio Settings", "file_channels", db.Integer("File Channels", 1, "The number of channels to save the audio files in"))
-    db.add_item("Audio Settings", "auto_save", db.Boolean("Auto Save", False, "Automatically save the audio files"))
-    db.add_item("Audio Settings", "audio_freeze", db.Boolean("Audio Freeze", False, "Freeze the audio data"))
-    db.add_item("Audio Settings", "save_data_raw", db.Boolean("Save Data Raw", False, "Save the raw data as well as the audio data"))
-    db.add_item("Audio Settings", "save_data_plot", db.Boolean("Save Data Plot", False, "Save the data as a plot as well as the audio data"))
-    db.add_item("Audio Settings", "raw_file_type", db.ChoiceBox("Raw File Type", (0,["npy", "csv", "txt"]), "The format to save the raw data in"))
+    db.add_item(
+        "Audio Settings",
+        "serial_prefix",
+        db.Text(
+            "Serial Prefix",
+            "SND:HEX:",
+            "The prefix to use for the audio data serial communication",
+        ),
+    )
+    db.add_item(
+        "Audio Settings",
+        "nucleo_sample_rate",
+        db.SuffixFloat(
+            "Nucleo Sample Rate", (10240, "Hz"), "The sample rate of the Nucleo board"
+        ),
+    )
+    db.add_item(
+        "Audio Settings",
+        "file_prefix",
+        db.Text(
+            "File Prefix",
+            "audio",
+            "The prefix to use for the audio files before adding the timestamp",
+        ),
+    )
+    db.add_item(
+        "Audio Settings",
+        "audio_format",
+        db.ChoiceBox(
+            "Audio Format",
+            (0, ["wav", "flac", "ogg", "mp3"]),
+            "The format to save the audio files in",
+        ),
+    )
+    db.add_item(
+        "Audio Settings",
+        "file_frequency",
+        db.SuffixFloat(
+            "File Frequency", (44100, "Hz"), "The frequency to save the audio files in"
+        ),
+    )
+    db.add_item(
+        "Audio Settings",
+        "file_channels",
+        db.Integer(
+            "File Channels", 1, "The number of channels to save the audio files in"
+        ),
+    )
+    db.add_item(
+        "Audio Settings",
+        "auto_save",
+        db.Boolean("Auto Save", False, "Automatically save the audio files"),
+    )
+    db.add_item(
+        "Audio Settings",
+        "audio_freeze",
+        db.Boolean("Audio Freeze", False, "Freeze the audio data"),
+    )
+    db.add_item(
+        "Audio Settings",
+        "save_data_raw",
+        db.Boolean(
+            "Save Data Raw", False, "Save the raw data as well as the audio data"
+        ),
+    )
+    db.add_item(
+        "Audio Settings",
+        "save_data_plot",
+        db.Boolean(
+            "Save Data Plot", False, "Save the data as a plot as well as the audio data"
+        ),
+    )
+    db.add_item(
+        "Audio Settings",
+        "raw_file_type",
+        db.ChoiceBox(
+            "Raw File Type",
+            (0, ["npy", "csv", "txt"]),
+            "The format to save the raw data in",
+        ),
+    )
 
     # MEL Settings
     db.create_category("MEL Settings")
-    db.add_item("MEL Settings", "serial_prefix", db.Text("Serial Prefix", "DF:HEX:", "The prefix to use for the MEL data serial communication"))
-    db.add_item("MEL Settings", "file_prefix", db.Text("File Prefix", "mel", "The prefix to use for the MEL files before adding the timestamp"))
-    db.add_item("MEL Settings", "max_history_length", db.Integer("Max History Length", 10, "The maximum number of data points to keep in the history"))
-    db.add_item("MEL Settings", "mel_length", db.Integer("MEL Length", 20, "The length of the MEL vectors"))
-    db.add_item("MEL Settings", "mel_number", db.Integer("MEL Number", 20, "The number of MEL vectors in the feature vector"))
+    db.add_item(
+        "MEL Settings",
+        "serial_prefix",
+        db.Text(
+            "Serial Prefix",
+            "DF:HEX:",
+            "The prefix to use for the MEL data serial communication",
+        ),
+    )
+    db.add_item(
+        "MEL Settings",
+        "file_prefix",
+        db.Text(
+            "File Prefix",
+            "mel",
+            "The prefix to use for the MEL files before adding the timestamp",
+        ),
+    )
+    db.add_item(
+        "MEL Settings",
+        "max_history_length",
+        db.Integer(
+            "Max History Length",
+            10,
+            "The maximum number of data points to keep in the history",
+        ),
+    )
+    db.add_item(
+        "MEL Settings",
+        "mel_length",
+        db.Integer("MEL Length", 20, "The length of the MEL vectors"),
+    )
+    db.add_item(
+        "MEL Settings",
+        "mel_number",
+        db.Integer("MEL Number", 20, "The number of MEL vectors in the feature vector"),
+    )
     # TODO: Add more MEL settings
-    db.add_item("MEL Settings", "auto_save", db.Boolean("Auto Save", False, "Automatically save the MEL files"))
-    db.add_item("MEL Settings", "mel_freeze", db.Boolean("MEL Freeze", False, "Freeze the MEL data"))
-    db.add_item("MEL Settings", "save_data_raw", db.Boolean("Save Data Raw", False, "Save the raw data as well as the MEL data"))
-    db.add_item("MEL Settings", "save_data_plot", db.Boolean("Save Data Plot", False, "Save the data as a plot as well as the MEL data"))
-    db.add_item("MEL Settings", "raw_file_type", db.ChoiceBox("Raw File Type", (0,["npy", "csv", "txt"]), "The format to save the raw data in"))
+    db.add_item(
+        "MEL Settings",
+        "auto_save",
+        db.Boolean("Auto Save", False, "Automatically save the MEL files"),
+    )
+    db.add_item(
+        "MEL Settings",
+        "mel_freeze",
+        db.Boolean("MEL Freeze", False, "Freeze the MEL data"),
+    )
+    db.add_item(
+        "MEL Settings",
+        "save_data_raw",
+        db.Boolean("Save Data Raw", False, "Save the raw data as well as the MEL data"),
+    )
+    db.add_item(
+        "MEL Settings",
+        "save_data_plot",
+        db.Boolean(
+            "Save Data Plot", False, "Save the data as a plot as well as the MEL data"
+        ),
+    )
+    db.add_item(
+        "MEL Settings",
+        "raw_file_type",
+        db.ChoiceBox(
+            "Raw File Type",
+            (0, ["npy", "csv", "txt"]),
+            "The format to save the raw data in",
+        ),
+    )
 
     # Classifier Settings
     db.create_category("Classifier Settings")
-    db.add_item("Classifier Settings", "model_path", db.File("Model Path", base_path.parent/"mcu"/ "model.pickle", "The path to the model file"))
+    db.add_item(
+        "Classifier Settings",
+        "model_path",
+        db.File(
+            "Model Path",
+            base_path.parent / "mcu" / "model.pickle",
+            "The path to the model file",
+        ),
+    )
     # TODO: Add more classifier settings
+
 
 def connect_db_to_log(db: dbu.ContentDatabase, log: logu.ContentLogger):
     # Change level
     def change_level(value):
         log.change_level(value[1][value[0]])
+
     change_level(db.get_item("Logging Settings", "loglevel").value)
     db.get_item("Logging Settings", "loglevel").register_callback(change_level)
 
     # Change formats
     def change_format(value):
         log.change_formatter(value[1][value[0]])
+
     change_format(db.get_item("Logging Settings", "logformat").value)
     db.get_item("Logging Settings", "logformat").register_callback(change_format)
 
     # Change date format
     def change_date_format(value):
         log.change_formatter(None, value[1][value[0]])
+
     change_date_format(db.get_item("Logging Settings", "logdatefmt").value)
     db.get_item("Logging Settings", "logdatefmt").register_callback(change_date_format)
 
     # Change file
     def change_file(value):
         log.change_file_path(str(value))
+
     change_file(db.get_item("Logging Settings", "file_name").value)
     db.get_item("Logging Settings", "file_name").register_callback(change_file)
 
     # Toggle file logging TODO
 
+
 def connect_db_to_ser(db: dbu.ContentDatabase, ser: seru.SerialController):
     # Change freeze and buffering
     def change_freeze(value):
         ser.set_freeze(value, db.get_item("Serial Settings", "freezebuffering").value)
+
     change_freeze(db.get_item("Serial Settings", "freeze").value)
     db.get_item("Serial Settings", "freeze").register_callback(change_freeze)
 
     # Change freeze and buffering
     def change_buffering(value):
         ser.set_freeze(db.get_item("Serial Settings", "freeze").value, value)
+
     change_buffering(db.get_item("Serial Settings", "freezebuffering").value)
-    db.get_item("Serial Settings", "freezebuffering").register_callback(change_buffering)
+    db.get_item("Serial Settings", "freezebuffering").register_callback(
+        change_buffering
+    )
 
     # Change write allowed
     def change_write(value):
         ser.set_write_allow(value)
+
     change_write(db.get_item("Serial Settings", "allowwrite").value)
     db.get_item("Serial Settings", "allowwrite").register_callback(change_write)
 
     prefixes = [
         db.get_item("Audio Settings", "serial_prefix"),
         db.get_item("MEL Settings", "serial_prefix"),
-        db.get_item("Serial Settings", "database_prefix")
+        db.get_item("Serial Settings", "database_prefix"),
     ]
+
     def change_prefixes(value):
         ser.unregister_all_prefixes()
         for prefix in prefixes:
             ser.register_prefix(prefix.value)
+
     change_prefixes(None)
     for prefix in prefixes:
         prefix.register_callback(change_prefixes)
 
+
 def main():
     """Main function to run the MEL window."""
     import sys
+
     from PyQt5.QtWidgets import QApplication
 
     # Create the application
@@ -643,7 +1057,7 @@ def main():
     tru_log = logger.logger
 
     # Create the database
-    db = dbu.ContentDatabase(database_init, tru_log,  False)
+    db = dbu.ContentDatabase(database_init, tru_log, False)
 
     # Create the serial controller
     serial_controller = seru.SerialController(tru_log)
@@ -656,6 +1070,7 @@ def main():
 
     # Run the application
     sys.exit(app.exec_())
+
 
 if __name__ == "__main__":
     main()

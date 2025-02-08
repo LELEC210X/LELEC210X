@@ -6,204 +6,206 @@ This module contains a easy to use GUI to train machine learning models using sc
 
 ####################################################################################################
 # Standard library imports
-from typing import Dict, Tuple, Type, List
-import os, sys
+import sys
+from typing import Dict, List, Tuple, Type
 
-# Third party imports
-from sklearn.model_selection import train_test_split
 import librosa
 import numpy as np
 
 # GUI imports
 from PyQt6.QtWidgets import (
-    # ===== LAYOUTS ===== (Used to organize widgets, not widgets themselves)
-    QVBoxLayout,  # Vertical box layout
-    QHBoxLayout,   # Horizontal box layout
-    QGridLayout,   # Grid-based layout
-    QFormLayout,   # Form layout (labels + inputs)
-    
     # ===== WIDGETS ===== (Visible UI elements)
     # Core Application/Windows
     QApplication,  # Manages app flow (technically not a widget, but required)
-    QWidget,       # Base container for all widgets
-    QMainWindow,   # Main application window (with menu/status bars)
-    QDialog,       # Dialog/popup window
-    
-    # Buttons
-    QPushButton,   # Clickable button
-    QCheckBox,     # Toggleable checkbox
-    QRadioButton,  # Exclusive group selection
-    
-    # Inputs
-    QLineEdit,     # Single-line text input
-    QTextEdit,     # Rich text editor
-    QComboBox,     # Dropdown list
-    QSpinBox,      # Integer input spinner
-    QDoubleSpinBox,# Float input spinner
-    QSlider,       # Slider for values
-    
-    # Displays
-    QLabel,        # Text/image label
-    QProgressBar,  # Progress indicator
-    QListWidget,   # Scrollable list of items
-    QListWidgetItem,# Item for QListWidget
-    QScrollArea,   # Scrollable container
-    QSizePolicy,   # Size policy for layouts
-    
+    QCheckBox,  # Toggleable checkbox
+    QComboBox,  # Dropdown list
+    QDockWidget,  # Movable window pane
+    QDoubleSpinBox,  # Float input spinner
     # Dialogs
-    QFileDialog,   # File/folder selection dialog
-    QMessageBox,   # Alert/confirmation dialog
-    QInputDialog,  # Simple input dialog
-    
-    # Containers
-    QTabWidget,    # Tabbed interface
-    QGroupBox,     # Group with title border
-    QStackedWidget,# Stack of widgets (only one visible)
-    
-    # Advanced
-    QTableWidget,  # Table with rows/columns
-    QTreeWidget,   # Hierarchical tree view
-    QTreeWidgetItem,# Item for QTreeWidget
-    QSplitter,     # Resizable frame splitter
-    QDockWidget,   # Movable window pane
-    QStatusBar,    # Status bar (in QMainWindow)
-    QToolBar,      # Toolbar (in QMainWindow)
+    QFileDialog,  # File/folder selection dialog
+    QGridLayout,  # Grid-based layout
+    QGroupBox,  # Group with title border
+    QHBoxLayout,  # Horizontal box layout
+    QLabel,  # Text/image label
+    # Inputs
+    QListWidget,  # Scrollable list of items
+    QListWidgetItem,  # Item for QListWidget
+    QMainWindow,  # Main application window (with menu/status bars)
+    QProgressBar,  # Progress indicator
+    # Buttons
+    QPushButton,  # Clickable button
+    QScrollArea,  # Scrollable container
+    QSpinBox,  # Integer input spinner
+    QTextEdit,  # Rich text editor
+    QTreeWidget,  # Hierarchical tree view
+    QTreeWidgetItem,  # Item for QTreeWidget
+    # ===== LAYOUTS ===== (Used to organize widgets, not widgets themselves)
+    QVBoxLayout,  # Vertical box layout
+    QWidget,  # Base container for all widgets
 )
-
-from PyQt6.QtCore import (
-    Qt,           # Core Qt namespace (common enums)
-    QThread,      # Worker thread for long tasks
-    pyqtSignal,   # Signal for cross-thread communication
-    QTimer,       # Timer for delays
-    QEventLoop,   # Blocking loop for synchronous tasks
-    QCoreApplication, # Core app instance (for event loop)
-    QFileInfo,    # File information (path, size, etc)
-    QDir,         # Directory handling
-    QUrl,         # URL handling (file paths)
-    QSettings,    # Persistent application settings
-    QIODevice,    # Base class for I/O operations
-    QFile,        # File I/O operations
-    QDataStream,  # Binary stream I/O
-    QByteArray,   # Raw byte array
-    QBuffer,      # Memory buffer (for I/O)
-    QMimeDatabase,# MIME type database
-    QMimeData,    # MIME content container
-    QProcess,     # External process handling
-    QTemporaryFile,# Temporary file creation
-    QTranslator,  # Internationalization (i18n)
-    QLocale,      # Locale settings (language, etc)
-    QLibraryInfo, # Qt library information
-    QSysInfo,     # System information
+from sklearn.discriminant_analysis import (
+    LinearDiscriminantAnalysis,
+    QuadraticDiscriminantAnalysis,
 )
-
-from PyQt6.QtGui import (
-    QColor,       # Color value (RGB/HSV)
-    QIcon,        # Window icon/image
-    QPixmap,      # Image/Pixmap object
-    QFont,        # Font object (family/size/etc)
-    QCursor,      # Mouse cursor icon
-    QPalette,     # Collection of GUI colors
-    QBrush,       # Paint style for elements
-    QPen,         # Line style for drawing
-)
-
-####################################################################################################
-# Model training imports
-
-from sklearn.linear_model import (
-    LogisticRegression, 
-    SGDClassifier, 
-    RidgeClassifier, 
-    PassiveAggressiveClassifier,
-    Perceptron
-)
-from sklearn.svm import SVC, NuSVC, LinearSVC
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import (
-    RandomForestClassifier,
+    AdaBoostClassifier,
+    BaggingClassifier,
     ExtraTreesClassifier,
     GradientBoostingClassifier,
     HistGradientBoostingClassifier,
-    AdaBoostClassifier,
-    BaggingClassifier
-)
-from sklearn.naive_bayes import (
-    GaussianNB, 
-    BernoulliNB, 
-    MultinomialNB, 
-    ComplementNB
-)
-from sklearn.neighbors import (
-    KNeighborsClassifier, 
-    RadiusNeighborsClassifier, 
-    NearestCentroid
-)
-from sklearn.discriminant_analysis import (
-    LinearDiscriminantAnalysis, 
-    QuadraticDiscriminantAnalysis
+    RandomForestClassifier,
 )
 from sklearn.gaussian_process import GaussianProcessClassifier
+
+####################################################################################################
+# Model training imports
+from sklearn.linear_model import (
+    LogisticRegression,
+    PassiveAggressiveClassifier,
+    Perceptron,
+    RidgeClassifier,
+    SGDClassifier,
+)
+
+# Third party imports
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import BernoulliNB, ComplementNB, GaussianNB, MultinomialNB
+from sklearn.neighbors import (
+    KNeighborsClassifier,
+    NearestCentroid,
+    RadiusNeighborsClassifier,
+)
 from sklearn.neural_network import MLPClassifier
+from sklearn.svm import SVC, LinearSVC, NuSVC
+from sklearn.tree import DecisionTreeClassifier
 
 ####################################################################################################
 # Models and constants
 
-models_dict: Dict[str, Dict[str, Tuple[Type, str]]] = { # Generated by DeepSeek-R1:32B under the MIT liscence
+models_dict: Dict[
+    str, Dict[str, Tuple[Type, str]]
+] = {  # Generated by DeepSeek-R1:32B under the MIT liscence
     "Linear Models": {
-        "Logistic Regression": (LogisticRegression, "Linear model for logistic regression classification"),
-        "Stochastic Gradient Descent": (SGDClassifier, "Linear classifier with SGD training and regularization"),
-        "Ridge Classifier": (RidgeClassifier, "Classifier using ridge regression with thresholding"),
-        "Passive-Aggressive": (PassiveAggressiveClassifier, "Online learning algorithm for large-scale learning"),
-        "Perceptron": (Perceptron, "Simple linear algorithm for binary classification")
+        "Logistic Regression": (
+            LogisticRegression,
+            "Linear model for logistic regression classification",
+        ),
+        "Stochastic Gradient Descent": (
+            SGDClassifier,
+            "Linear classifier with SGD training and regularization",
+        ),
+        "Ridge Classifier": (
+            RidgeClassifier,
+            "Classifier using ridge regression with thresholding",
+        ),
+        "Passive-Aggressive": (
+            PassiveAggressiveClassifier,
+            "Online learning algorithm for large-scale learning",
+        ),
+        "Perceptron": (Perceptron, "Simple linear algorithm for binary classification"),
     },
-    
     "Support Vector Machines": {
-        "Support Vector Machine (SVC)": (SVC, "C-support vector classification with kernel trick"),
-        "Nu-Support Vector Machine": (NuSVC, "Nu-support vector classification with margin control"),
-        "Linear Support Vector Machine": (LinearSVC, "Linear support vector classification optimized for speed")
+        "Support Vector Machine (SVC)": (
+            SVC,
+            "C-support vector classification with kernel trick",
+        ),
+        "Nu-Support Vector Machine": (
+            NuSVC,
+            "Nu-support vector classification with margin control",
+        ),
+        "Linear Support Vector Machine": (
+            LinearSVC,
+            "Linear support vector classification optimized for speed",
+        ),
     },
-    
     "Tree-based Models": {
-        "Decision Tree": (DecisionTreeClassifier, "Non-linear model using recursive partitioning"),
-        "Random Forest": (RandomForestClassifier, "Ensemble of decorrelated decision trees with bagging"),
-        "Extra Trees": (ExtraTreesClassifier, "Extremely randomized trees ensemble with reduced variance")
+        "Decision Tree": (
+            DecisionTreeClassifier,
+            "Non-linear model using recursive partitioning",
+        ),
+        "Random Forest": (
+            RandomForestClassifier,
+            "Ensemble of decorrelated decision trees with bagging",
+        ),
+        "Extra Trees": (
+            ExtraTreesClassifier,
+            "Extremely randomized trees ensemble with reduced variance",
+        ),
     },
-    
     "Boosting Models": {
-        "Gradient Boosting": (GradientBoostingClassifier, "Sequential ensemble with gradient descent optimization"),
-        "Histogram Gradient Boosting": (HistGradientBoostingClassifier, "Efficient GB implementation using histograms"),
-        "AdaBoost": (AdaBoostClassifier, "Adaptive boosting with emphasis on misclassified samples")
+        "Gradient Boosting": (
+            GradientBoostingClassifier,
+            "Sequential ensemble with gradient descent optimization",
+        ),
+        "Histogram Gradient Boosting": (
+            HistGradientBoostingClassifier,
+            "Efficient GB implementation using histograms",
+        ),
+        "AdaBoost": (
+            AdaBoostClassifier,
+            "Adaptive boosting with emphasis on misclassified samples",
+        ),
     },
-    
     "Ensemble Methods": {
-        "Bagging": (BaggingClassifier, "Meta-estimator for bagging-based ensemble learning")
+        "Bagging": (
+            BaggingClassifier,
+            "Meta-estimator for bagging-based ensemble learning",
+        )
     },
-    
     "Naive Bayes Models": {
-        "Gaussian Naive Bayes": (GaussianNB, "Gaussian likelihood with naive independence assumption"),
-        "Bernoulli Naive Bayes": (BernoulliNB, "Bernoulli distribution for binary/boolean features"),
-        "Multinomial Naive Bayes": (MultinomialNB, "Multinomial distribution for count-based features"),
-        "Complement Naive Bayes": (ComplementNB, "Adaptation of MultinomialNB for imbalanced datasets")
+        "Gaussian Naive Bayes": (
+            GaussianNB,
+            "Gaussian likelihood with naive independence assumption",
+        ),
+        "Bernoulli Naive Bayes": (
+            BernoulliNB,
+            "Bernoulli distribution for binary/boolean features",
+        ),
+        "Multinomial Naive Bayes": (
+            MultinomialNB,
+            "Multinomial distribution for count-based features",
+        ),
+        "Complement Naive Bayes": (
+            ComplementNB,
+            "Adaptation of MultinomialNB for imbalanced datasets",
+        ),
     },
-    
     "Nearest Neighbors": {
-        "k-Nearest Neighbors": (KNeighborsClassifier, "Instance-based learning using k-nearest neighbors vote"),
-        "Radius Neighbors": (RadiusNeighborsClassifier, "Neighbors within fixed radius for classification"),
-        "Nearest Centroid": (NearestCentroid, "Simple classifier based on centroid distances")
+        "k-Nearest Neighbors": (
+            KNeighborsClassifier,
+            "Instance-based learning using k-nearest neighbors vote",
+        ),
+        "Radius Neighbors": (
+            RadiusNeighborsClassifier,
+            "Neighbors within fixed radius for classification",
+        ),
+        "Nearest Centroid": (
+            NearestCentroid,
+            "Simple classifier based on centroid distances",
+        ),
     },
-    
     "Discriminant Analysis": {
-        "Linear Discriminant Analysis": (LinearDiscriminantAnalysis, "Linear decision boundaries from class statistics"),
-        "Quadratic Discriminant Analysis": (QuadraticDiscriminantAnalysis, "Quadratic decision boundaries for classification")
+        "Linear Discriminant Analysis": (
+            LinearDiscriminantAnalysis,
+            "Linear decision boundaries from class statistics",
+        ),
+        "Quadratic Discriminant Analysis": (
+            QuadraticDiscriminantAnalysis,
+            "Quadratic decision boundaries for classification",
+        ),
     },
-    
     "Neural Networks": {
-        "Multilayer Perceptron": (MLPClassifier, "Feedforward artificial neural network classifier")
+        "Multilayer Perceptron": (
+            MLPClassifier,
+            "Feedforward artificial neural network classifier",
+        )
     },
-    
     "Probabilistic Models": {
-        "Gaussian Process": (GaussianProcessClassifier, "Probabilistic classifier based on Gaussian processes")
-    }
+        "Gaussian Process": (
+            GaussianProcessClassifier,
+            "Probabilistic classifier based on Gaussian processes",
+        )
+    },
 }
 
 # Classification classes for the dataset (Not are needed to be used, only those that are setup, will then be used and saved)
@@ -215,7 +217,7 @@ classification_classes = [
     "Handsaw",
     "Helicopter",
     "Human Voice",
-    "Howling Leaves"
+    "Howling Leaves",
 ]
 
 # Default model parameters for eacch model, if its not present, the default parameters will be used
@@ -227,7 +229,7 @@ model_params_per_path = {
         "min_samples_leaf": 1,
         "min_weight_fraction_leaf": 0.0,
         "min_impurity_decrease": 0.0,
-        "ccp_alpha": 0.0
+        "ccp_alpha": 0.0,
     },
 }
 
@@ -236,16 +238,17 @@ model_params_per_path = {
 
 # Use process pools to parallelize training if needed (each job runs in a separate process)
 
+
 class ModelTrainerApp(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Model Trainer")
         self.resize(1200, 900)
-        
+
         # Central widget
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
-        
+
         # Main layout
         self.main_layout = QVBoxLayout(self.central_widget)
         self.central_widget.setLayout(self.main_layout)
@@ -274,7 +277,7 @@ class ModelTrainerApp(QMainWindow):
         self.main_layout.addWidget(self.upper_widget)
 
         self.UI_UP_LEFT()
-        #self.UI_UP_LEFT2()
+        # self.UI_UP_LEFT2()
         self.UI_UP_CENTER()
         self.UI_UP_RIGHT()
 
@@ -296,7 +299,9 @@ class ModelTrainerApp(QMainWindow):
         self.model_selection_layout.addWidget(self.model_single_select_checkbox)
 
         # Scroll area for model selection
-        self.model_selection_scroll, self.model_selection_scroll_layout = self.make_scroll_box()
+        self.model_selection_scroll, self.model_selection_scroll_layout = (
+            self.make_scroll_box()
+        )
         self.model_selection_layout.addWidget(self.model_selection_scroll)
 
         # Model selection buttons
@@ -317,13 +322,16 @@ class ModelTrainerApp(QMainWindow):
             for model_button in self.model_selection_buttons.values():
                 model_button: QCheckBox
                 model_button.setChecked(True)
+
         def deselect_all_models():
             """Deselect all models"""
             for model_button in self.model_selection_buttons.values():
                 model_button: QCheckBox
                 model_button.setChecked(False)
+
         self.model_select_all_button.clicked.connect(select_all_models)
         self.model_deselect_all_button.clicked.connect(deselect_all_models)
+
         def propagate_deselection():
             """Deselect all models except the one that was clicked if single select is enabled"""
             if self.model_single_select_checkbox.isChecked():
@@ -331,6 +339,7 @@ class ModelTrainerApp(QMainWindow):
                     model_button: QCheckBox
                     if model_button is not self.sender():
                         model_button.setChecked(False)
+
         for model_button in self.model_selection_buttons.values():
             model_button: QCheckBox
             model_button.clicked.connect(propagate_deselection)
@@ -344,7 +353,6 @@ class ModelTrainerApp(QMainWindow):
         # Use of the tree widget to select the models, and also, you need to be able to select multiple models
         # You can resize the whole left side of the window to see the models better
         self.left_dock = QDockWidget("Model Selection")
-        
 
         # Model selection buttons
         self.model_selection_buttons = {}
@@ -385,14 +393,16 @@ class ModelTrainerApp(QMainWindow):
         self.dataset_selection_layout.addWidget(self.selection_to_type_apply)
 
         # Declare the audio and mel dataset lists
-        self.audio_dataset_list: List[Tuple[str, str]] = [] # TODO : Change !!!
+        self.audio_dataset_list: List[Tuple[str, str]] = []  # TODO : Change !!!
         self.mel_dataset_list: List[Tuple[str, str]] = []
 
         # Scroll area for the audio dataset selection, with alternating colors
         self.audio_group = QGroupBox("Audio Dataset")
         self.audio_group_layout = QVBoxLayout(self.audio_group)
         self.audio_list_widget = QListWidget()
-        self.audio_list_widget.setSelectionMode(QListWidget.SelectionMode.MultiSelection)
+        self.audio_list_widget.setSelectionMode(
+            QListWidget.SelectionMode.MultiSelection
+        )
         self.audio_group_layout.addWidget(self.audio_list_widget)
         self.dataset_selection_layout.addWidget(self.audio_group)
 
@@ -413,8 +423,11 @@ class ModelTrainerApp(QMainWindow):
             if files:
                 if not self.dataset_append_checkbox.isChecked():
                     self.audio_dataset_list.clear()
-                self.audio_dataset_list.extend((file, self.selection_to_type.currentText()) for file in files)
+                self.audio_dataset_list.extend(
+                    (file, self.selection_to_type.currentText()) for file in files
+                )
                 self.update_dataset_list()
+
         def select_mel_files():
             """Add MEL files to the dataset list"""
             files, _ = QFileDialog.getOpenFileNames(
@@ -423,8 +436,11 @@ class ModelTrainerApp(QMainWindow):
             if files:
                 if not self.dataset_append_checkbox.isChecked():
                     self.mel_dataset_list.clear()
-                self.mel_dataset_list.extend((file, self.selection_to_type.currentText()) for file in files)
+                self.mel_dataset_list.extend(
+                    (file, self.selection_to_type.currentText()) for file in files
+                )
                 self.update_dataset_list()
+
         self.dataset_select_button.clicked.connect(select_audio_files)
         self.dataset_mel_button.clicked.connect(select_mel_files)
         self.dataset_append_checkbox.clicked.connect(self.update_dataset_list)
@@ -434,10 +450,17 @@ class ModelTrainerApp(QMainWindow):
             """Apply the selected classification to the selected datasets"""
             selected_type = self.selection_to_type.currentText()
             for audio_item in self.audio_list_widget.selectedItems():
-                self.audio_dataset_list[audio_item.row()] = (self.audio_dataset_list[audio_item.row()][0], selected_type)
+                self.audio_dataset_list[audio_item.row()] = (
+                    self.audio_dataset_list[audio_item.row()][0],
+                    selected_type,
+                )
             for mel_item in self.mel_list_widget.selectedItems():
-                self.mel_dataset_list[mel_item.row()] = (self.mel_dataset_list[mel_item.row()][0], selected_type)
+                self.mel_dataset_list[mel_item.row()] = (
+                    self.mel_dataset_list[mel_item.row()][0],
+                    selected_type,
+                )
             self.update_dataset_list()
+
         self.selection_to_type_apply.clicked.connect(apply_classification_assignment)
 
         # Utility function to update the list
@@ -476,7 +499,7 @@ class ModelTrainerApp(QMainWindow):
         self.mel_size_param.setRange(1, 2000)
         self.mel_size_param.setValue(20)
         make_param("MEL Vector Size:", self.mel_size_param, 1, 0)
-        
+
         self.mel_len_param = QSpinBox()
         self.mel_len_param.setRange(1, 2000)
         self.mel_len_param.setValue(20)
@@ -494,13 +517,17 @@ class ModelTrainerApp(QMainWindow):
         make_param("Random State:", self.random_state_param, 4, 0)
 
         # Audio Processing Parameters
-        self.audio_processing_subwidget = QGroupBox("Audio Processing Parameters") # TODO: Add the audio processing parameters here
+        self.audio_processing_subwidget = QGroupBox(
+            "Audio Processing Parameters"
+        )  # TODO: Add the audio processing parameters here
         self.audio_processing_grid = QGridLayout()
         self.audio_processing_subwidget.setLayout(self.audio_processing_grid)
         self.training_options_layout.addWidget(self.audio_processing_subwidget)
 
         # MEL Processing Parameters
-        self.mel_processing_subwidget = QGroupBox("MEL Processing Parameters") # TODO: Add the MEL processing parameters here
+        self.mel_processing_subwidget = QGroupBox(
+            "MEL Processing Parameters"
+        )  # TODO: Add the MEL processing parameters here
         self.mel_processing_grid = QGridLayout()
         self.mel_processing_subwidget.setLayout(self.mel_processing_grid)
         self.training_options_layout.addWidget(self.mel_processing_subwidget)
@@ -513,15 +540,19 @@ class ModelTrainerApp(QMainWindow):
 
         # List of groups with the model's parameters as a dictionary (Text entry)
         self.model_parameter_entries = {}
+
         def add_model_parameter(id, label_text):
             """Add a model parameter entry"""
-            if not id in self.model_parameter_entries:
+            if id not in self.model_parameter_entries:
                 self.model_parameter_entries[id] = (QGroupBox(label_text), QTextEdit())
                 entry_layout = QVBoxLayout()
                 self.model_parameter_entries[id][0].setLayout(entry_layout)
                 self.model_parameter_grid.addWidget(self.model_parameter_entries[id][0])
                 entry_layout.addWidget(self.model_parameter_entries[id][1])
-                self.model_parameter_entries[id][1].setPlaceholderText("Enter model parameters here as a dict, that will be applied elliptically, example : \n{\n\t\"param1\": \"value1\",\n\t\"param2\": 123,\n\t\"param3\": True\n}")
+                self.model_parameter_entries[id][1].setPlaceholderText(
+                    'Enter model parameters here as a dict, that will be applied elliptically, example : \n{\n\t"param1": "value1",\n\t"param2": 123,\n\t"param3": True\n}'
+                )
+
         def remove_model_parameter(id):
             """Remove a model parameter entry"""
             if id in self.model_parameter_entries:
@@ -529,7 +560,7 @@ class ModelTrainerApp(QMainWindow):
                 group_box.deleteLater()
                 LineEdit.deleteLater()
                 self.model_parameter_entries.pop(id)
-        
+
         # Connect the model selection to the parameter selection
         def update_model_parameters():
             """Update the model parameters based on the selected models"""
@@ -539,6 +570,7 @@ class ModelTrainerApp(QMainWindow):
                     add_model_parameter(model_name, model_name + " Parameters")
                 else:
                     remove_model_parameter(model_name)
+
         for model_button in self.model_selection_buttons.values():
             model_button: QCheckBox
             model_button.clicked.connect(update_model_parameters)
@@ -568,20 +600,20 @@ class ModelTrainerApp(QMainWindow):
         for i in range(1, 6):
             # Create item container
             item_widget = QWidget()
-            
+
             # Create components
             label = QLabel(f"Item {i}")
             progress = QProgressBar()
             progress.setValue(i * 20)  # 20%, 40%, etc.
             progress.setFixedHeight(20)
             progress.setMaximumWidth(200)
-            
+
             # Setup layout
             layout = QHBoxLayout()
             layout.addWidget(label)
             layout.addWidget(progress)
             item_widget.setLayout(layout)
-            
+
             # Add to list
             list_item = QListWidgetItem()
             list_item.setSizeHint(item_widget.sizeHint())
@@ -598,7 +630,7 @@ class ModelTrainerApp(QMainWindow):
         # Create custom item with a combo box for for the type
         for audio_file, audio_type in self.audio_dataset_list:
             pass
-        
+
     def parse_model_parameters(self, text_dict_param: str) -> Dict:
         """
         Parse the model parameters from a text dictionary, it accepts the following format:
@@ -634,35 +666,49 @@ class ModelTrainerApp(QMainWindow):
             model_button: QCheckBox
             if model_button.isChecked():
                 selected_models.append(model_name)
-        
+
         # Get the selected datasets
-        audio_datasets = [self.audio_dataset_list[i] for i in range(self.audio_list_widget.count())]
-        mel_datasets = [self.mel_dataset_list[i] for i in range(self.mel_list_widget.count())]
-        
+        audio_datasets = [
+            self.audio_dataset_list[i] for i in range(self.audio_list_widget.count())
+        ]
+        mel_datasets = [
+            self.mel_dataset_list[i] for i in range(self.mel_list_widget.count())
+        ]
+
         # Transform the audio datasets into MEL datasets
-        audio_mel_datasets = [self.process_audio(audio_file) for audio_file in audio_datasets]
-        mel_datasets       = [np.load(mel_file) for mel_file in mel_datasets]
-        mel_vec_size = self.mel_size_param.value() # 20
-        mel_vec_len = self.mel_len_param.value() # 20
+        audio_mel_datasets = [
+            self.process_audio(audio_file) for audio_file in audio_datasets
+        ]
+        mel_datasets = [np.load(mel_file) for mel_file in mel_datasets]
+        mel_vec_size = self.mel_size_param.value()  # 20
+        mel_vec_len = self.mel_len_param.value()  # 20
 
         # Optionaly fuse the 2 datasets
-        fuse_datasets = self.test_split_mode.currentText() # FUSE, ONLY AUDIO, ONLY MEL
+        fuse_datasets = self.test_split_mode.currentText()  # FUSE, ONLY AUDIO, ONLY MEL
         if "FUSE" in fuse_datasets:
             # Fuse the datasets
-            fused_datasets = [np.concatenate((audio_mel_datasets[i], mel_datasets[i])) for i in range(len(audio_mel_datasets))]
+            fused_datasets = [
+                np.concatenate((audio_mel_datasets[i], mel_datasets[i]))
+                for i in range(len(audio_mel_datasets))
+            ]
         elif "ONLY AUDIO" in fuse_datasets:
             fused_datasets = audio_mel_datasets
         elif "ONLY MEL" in fuse_datasets:
             fused_datasets = mel_datasets
 
         # Transform the datasets a bit more (if needed)
-        fuse_datasets = [self.process_mel(mel_data, mel_vec_size, mel_vec_len) for mel_data in fused_datasets]
+        fuse_datasets = [
+            self.process_mel(mel_data, mel_vec_size, mel_vec_len)
+            for mel_data in fused_datasets
+        ]
 
         # Split the dataset into training and testing
-        test_size = self.test_size_param.value() # 0.2
-        random_state = self.random_state_param.value() # 42
+        test_size = self.test_size_param.value()  # 0.2
+        random_state = self.random_state_param.value()  # 42
         X, y = fused_datasets, [0] * len(fused_datasets)
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=test_size, random_state=random_state
+        )
 
         # TODO: Add the model training here
 
@@ -672,11 +718,12 @@ class ModelTrainerApp(QMainWindow):
         mel_data = librosa.feature.melspectrogram(audio_data[0], sr=audio_data[1])
         # TODO: Add signal processing here
         return mel_data
-    
+
     def process_mel(self, mel_data, mel_vec_size, mel_vec_len):
         """Process a MEL spectrogram into a fixed-size vector"""
         # TODO: Add MELVEC processing here
         return mel_data
+
 
 ####################################################################################################
 # Entry point
