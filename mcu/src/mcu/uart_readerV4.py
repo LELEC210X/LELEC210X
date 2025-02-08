@@ -335,7 +335,7 @@ class GUIMELWindow(QMainWindow):
         if True:
             self.demo_box = QGroupBox("Test Box")
             self.demo_box.setCheckable(True)
-            self.demo_box.setChecked(True)
+            self.demo_box.setChecked(False)
             self.demo_box_layout = QVBoxLayout()
             self.demo_box.setLayout(self.demo_box_layout)
             self.demo_box.toggled.connect(lambda state: self.demo_box.setFixedHeight(15) if not state else self.demo_box.setFixedHeight(100))
@@ -816,7 +816,6 @@ class GUIMainWindow(QMainWindow):
             self.logger.info(f"New configuration received: {message}")
         elif prefix == self.db.get_item("Audio Settings", "serial_prefix").value:
             self.logger.info(f"New audio data received of length {len(message)}")
-            # Ill have to pass the message in the init of the window, so that it can be displayed
             self.open_audio_window(message)
         elif prefix == self.db.get_item("MEL Settings", "serial_prefix").value:
             self.logger.info(f"New MEL data received of length {len(message)}")
