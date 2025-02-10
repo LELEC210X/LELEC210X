@@ -106,8 +106,7 @@ def main(
         sys.exit(1)
     else:
         logger.info(
-            "The ratio of source duration / required duraction per piece is "
-            f"{frac:.2}"
+            f"The ratio of source duration / required duraction per piece is {frac:.2}"
         )
 
     max_start = len(audio) - duration_millis
