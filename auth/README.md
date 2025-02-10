@@ -39,5 +39,5 @@ read messages from the TCP address that GNU Radio talks to.
 > ```
 >
 > The script(s) will automatically detect and read environment variables when present.
-> 
+>
 > If you work on Windows, the easiest way is to modify the default value of the `--auth-key` option to the key selected by your group in the `auth/src/auth/__main__.py` file.
