@@ -9,6 +9,7 @@ import numpy as np
 import requests
 import json
 
+import model_prediction
 import common
 from common.env import load_dotenv
 from common.logging import logger
@@ -164,7 +165,8 @@ def main(
             logger.debug(f"From {sender}, received packet: {payload.hex()}")
             # myType = type(payload)
             # output.write(f'my type is {myType}\n')
-            myClass = int.from_bytes(payload, 'big')%5
+            # myClass = int.from_bytes(payload, 'big')%5
+            myClass = model_prediction.model_prediction(payload)
             response = requests.post(f'{hostname}/lelec210x/leaderboard/submit/{key}/{myClass}', timeout=1)
             output.write(f'my class is {myClass}\n')
             # output.write(PRINT_PREFIX + payload.hex() + "\n")
