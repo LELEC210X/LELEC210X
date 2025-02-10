@@ -5,6 +5,9 @@ from typing import Optional
 import click
 import serial
 import zmq
+import numpy as np
+import requests
+import json
 
 import common
 from common.env import load_dotenv
@@ -14,6 +17,8 @@ from . import PRINT_PREFIX, packet
 
 load_dotenv()
 
+hostname = "http://localhost:5000"
+key = "V_Uy207CdoePKVIQ_vguo_WsAr1iISYoz41FJX-m"
 
 def parse_packet(line: str) -> bytes:
     """Parse a line into a packet."""
@@ -157,7 +162,12 @@ def main(
         try:
             sender, payload = unwrapper.unwrap_packet(msg)
             logger.debug(f"From {sender}, received packet: {payload.hex()}")
-            output.write(PRINT_PREFIX + payload.hex() + "\n")
+            # myType = type(payload)
+            # output.write(f'my type is {myType}\n')
+            myClass = int.from_bytes(payload, 'big')%5
+            response = requests.post(f'{hostname}/lelec210x/leaderboard/submit/{key}/{myClass}', timeout=1)
+            output.write(f'my class is {myClass}\n')
+            # output.write(PRINT_PREFIX + payload.hex() + "\n")
             output.flush()
 
         except packet.InvalidPacket as e:
