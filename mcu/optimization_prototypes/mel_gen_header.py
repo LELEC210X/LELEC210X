@@ -50,6 +50,8 @@ def add_triangle_struct(header_lines:List, triangle_max_len:int):
          "    size_t idx_offset;",
         f"    const q15_t values[{triangle_max_len}];",
         "} mel_trian_t;",
+        "",
+        f"#define MEL_TRIANGLE_MAX_LEN {triangle_max_len}",
         ""
     ]
 
