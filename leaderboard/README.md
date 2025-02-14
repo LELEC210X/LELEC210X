@@ -215,8 +215,12 @@ The server access is only possible via SSH, from a specific set of IP addresses,
 specified in `/etc/iptables/rules.v4`.
 If you do not have access, you need to ask the I.T. staff (or one of the member
 that already has such access).
+After manually updating the iptable (eg. with `vim` or `nano`), it needs to be reloaded to be effective.
+```bash
+iptables-restore < /etc/iptables/rules.v4
+```
 
-In the terminal:
+To connect to the server, use :
 
 ```bash
 ssh -4 -p 22 username@lelec210x.sipr.ucl.ac.be
