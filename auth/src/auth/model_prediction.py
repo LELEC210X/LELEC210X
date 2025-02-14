@@ -10,6 +10,7 @@ def model_prediction(payload):
     filename = "auth/src/auth/model.pickle"
     model = pickle.load(open(filename, "rb"))
     mat = np.zeros((2, len(this_fv)))
+    this_fv = this_fv / np.linalg.norm(this_fv)
     mat[0] = this_fv
     prediction = model.predict(mat)
     return prediction[0]
