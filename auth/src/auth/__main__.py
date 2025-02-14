@@ -18,14 +18,20 @@ from . import PRINT_PREFIX, packet
 
 load_dotenv()
 
-hostname = "http://localhost:5000"
-key = "V_Uy207CdoePKVIQ_vguo_WsAr1iISYoz41FJX-m"
+local_hostname = "http://localhost:5000"
+local_key = "V_Uy207CdoePKVIQ_vguo_WsAr1iISYoz41FJX-m"
+
+remote_hostname = "http://lelec210x.sipr.ucl.ac.be"
+remote_key = "pKRQWoIQTgQ9YLfKFlESrQJ3cHk2ZKnNi1yltxQu"
+
+REMOTE = True
+
 
 def parse_packet(line: str) -> bytes:
     """Parse a line into a packet."""
     line = line.strip()
     if line.startswith(PRINT_PREFIX):
-        return bytes.fromhex(line[len(PRINT_PREFIX) :])
+        return bytes.fromhex(line[len(PRINT_PREFIX):])
     else:
         return None
 
@@ -167,7 +173,14 @@ def main(
             # output.write(f'my type is {myType}\n')
             # myClass = int.from_bytes(payload, 'big')%5
             myClass = mp.model_prediction(payload)
-            response = requests.post(f'{hostname}/lelec210x/leaderboard/submit/{key}/{myClass}', timeout=1)
+            if REMOTE:
+                hostname = remote_hostname
+                key = remote_key
+            else:
+                hostname = local_hostname
+                key = local_key
+            response = requests.post(
+                f'{hostname}/lelec210x/leaderboard/submit/{key}/{myClass}', timeout=1)
             output.write(f'my class is {myClass}\n')
             # output.write(PRINT_PREFIX + payload.hex() + "\n")
             output.flush()
