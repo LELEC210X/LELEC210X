@@ -215,8 +215,12 @@ The server access is only possible via SSH, from a specific set of IP addresses,
 specified in `/etc/iptables/rules.v4`.
 If you do not have access, you need to ask the I.T. staff (or one of the member
 that already has such access).
+After manually updating the iptable (eg. with `vim` or `nano`), it needs to be reloaded to be effective.
+```bash
+iptables-restore < /etc/iptables/rules.v4
+```
 
-In the terminal:
+To connect to the server, use :
 
 ```bash
 ssh -4 -p 22 username@lelec210x.sipr.ucl.ac.be
@@ -299,6 +303,19 @@ Note that deploying on requires a few changes:
 where you need to (un)comment some lines.
 
 Next, everything should run as expected.
+
+First, check that you can run the leaderboard and access it through your webbrowser:
+
+```bash
+rye run leaderboard serve
+```
+
+> [!TIP]
+> If you encounter an error saying that the port is already in use, you need
+> to stop the process that is currently using the port (i.e., Apache2), with:
+> ```bash
+> systemctl stop apache2
+> ```
 
 A simple way to run the server in background is with `screen`:
 
