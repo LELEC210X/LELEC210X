@@ -393,7 +393,7 @@ pytz==2024.1
     # via pandas
 pywin32==308
     # via jupyter-core
-pywinpty==2.0.13
+pywinpty==2.0.15
     # via jupyter-server
     # via jupyter-server-terminals
     # via terminado
