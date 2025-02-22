@@ -6,12 +6,13 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2025 STMicroelectronics.
-  * All rights reserved.
+  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
@@ -26,6 +27,18 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
+#include <string.h>
+#include "arm_math.h"
+#include "adc_dblbuf.h"
+#include "retarget.h"
+#include "s2lp.h"
+#include "spectrogram.h"
+#include "eval_radio.h"
+#include "packet.h"
+#include "config.h"
+#include "utils.h"
+#include "usart.h"
 
 /* USER CODE END Includes */
 
@@ -48,6 +61,8 @@
 
 /* USER CODE BEGIN PV */
 
+volatile uint8_t btn_press;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -58,6 +73,50 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	if (GPIO_Pin == B1_Pin) {
+		btn_press = 1;
+	}
+	else if (GPIO_Pin == RADIO_INT_Pin)
+		S2LP_IRQ_Handler();
+}
+
+static void acquire_and_send_packet() {
+	if (StartADCAcq(N_MELVECS) != HAL_OK) {
+		DEBUG_PRINT("Error while enabling the DMA\r\n");
+	}
+	while (!IsADCFinished()) {
+		__WFI();
+	}
+}
+
+void run(void)
+{
+	btn_press = 0;
+
+	while (1)
+	{
+	  while (!btn_press) {
+		  HAL_GPIO_WritePin(GPIOB, LD2_Pin, GPIO_PIN_SET);
+		  HAL_Delay(200);
+		  HAL_GPIO_WritePin(GPIOB, LD2_Pin, GPIO_PIN_RESET);
+		  HAL_Delay(200);
+	  }
+	  btn_press = 0;
+#if (CONTINUOUS_ACQ == 1)
+	  while (!btn_press) {
+		  acquire_and_send_packet();
+	  }
+	  btn_press = 0;
+#elif (CONTINUOUS_ACQ == 0)
+	  acquire_and_send_packet();
+#else
+#error "Wrong value for CONTINUOUS_ACQ."
+#endif
+	}
+}
 
 /* USER CODE END 0 */
 
@@ -95,17 +154,48 @@ int main(void)
   MX_TIM3_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
+  if (ENABLE_UART) {
+	  MX_LPUART1_UART_Init();
+  }
 
+  RetargetInit(&hlpuart1);
+  DEBUG_PRINT("Hello world\r\n");
+
+#if ENABLE_RADIO
+  // Enable S2LP Radio
+  HAL_StatusTypeDef err = S2LP_Init(&hspi1);
+  if (err)  {
+	  DEBUG_PRINT("[S2LP] Error while initializing: %u\r\n", err);
+	  Error_Handler();
+  } else {
+	  DEBUG_PRINT("[S2LP] Init OK\r\n");
+  }
+#endif
+
+  if (HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED) != HAL_OK) {
+	  DEBUG_PRINT("Error while calibrating the ADC\r\n");
+	  Error_Handler();
+  }
+  if (HAL_TIM_Base_Start(&htim3) != HAL_OK) {
+	  DEBUG_PRINT("Error while enabling timer TIM3\r\n");
+	  Error_Handler();
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+#if (RUN_CONFIG == MAIN_APP)
+  run();
+#elif (RUN_CONFIG == EVAL_RADIO)
+  eval_radio();
+#else
+#error "Wrong value for RUN_CONFIG."
+#endif
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+
   /* USER CODE END 3 */
 }
 
@@ -164,10 +254,15 @@ void SystemClock_Config(void)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
+  DEBUG_PRINT("Entering error Handler\r\n");
   while (1)
   {
+	  // Blink LED3 (red)
+	  HAL_GPIO_WritePin(GPIOB, LD3_Pin, GPIO_PIN_SET);
+	  for (volatile int i=0; i < SystemCoreClock/200; i++);
+	  HAL_GPIO_WritePin(GPIOB, LD3_Pin, GPIO_PIN_RESET);
+	  for (volatile int i=0; i < SystemCoreClock/200; i++);
   }
   /* USER CODE END Error_Handler_Debug */
 }
@@ -184,7 +279,7 @@ void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+     ex: DEBUG_PRINT("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
