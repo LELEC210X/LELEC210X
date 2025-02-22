@@ -54,7 +54,8 @@ optimization_main_app.list \
 
 
 # All Target
-all: main-build
+all:
+	+@$(MAKE) --no-print-directory pre-build && $(MAKE) --no-print-directory main-build
 
 # Main-build Target
 main-build: optimization_main_app.elf secondary-outputs
@@ -80,6 +81,10 @@ clean:
 	-$(RM) default.size.stdout optimization_main_app.elf optimization_main_app.list optimization_main_app.map
 	-@echo ' '
 
+pre-build:
+	rye run python ..\Scripts\pre_build_pre_processor.py
+	-@echo ' '
+
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
 
 fail-specified-linker-script-missing:
@@ -89,6 +94,6 @@ fail-specified-linker-script-missing:
 warn-no-linker-script-specified:
 	@echo 'Warning: No linker script specified. Check the linker settings in the build configuration.'
 
-.PHONY: all clean dependents main-build fail-specified-linker-script-missing warn-no-linker-script-specified
+.PHONY: all clean dependents main-build fail-specified-linker-script-missing warn-no-linker-script-specified pre-build
 
 -include ../makefile.targets

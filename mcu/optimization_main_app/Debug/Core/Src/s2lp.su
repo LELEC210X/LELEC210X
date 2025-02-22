@@ -1,0 +1,17 @@
+../Core/Src/s2lp.c:21:19:S2LP_Command	32	static,ignoring_inline_asm
+../Core/Src/s2lp.c:36:19:S2LP_ReadReg	40	static,ignoring_inline_asm
+../Core/Src/s2lp.c:54:19:S2LP_WriteReg	32	static,ignoring_inline_asm
+../Core/Src/s2lp.c:70:19:S2LP_WriteTxFIFO	64	static,ignoring_inline_asm
+../Core/Src/s2lp.c:89:19:S2LP_Send	32	static,ignoring_inline_asm
+../Core/Src/s2lp.c:171:6:S2LP_PrintStatus	24	static
+../Core/Src/s2lp.c:221:6:S2LP_PLLConf	152	static
+../Core/Src/s2lp.c:283:10:ComputeDatarate	96	static
+../Core/Src/s2lp.c:302:6:SearchDatarateME	216	static
+../Core/Src/s2lp.c:338:10:ComputeFreqDeviation	80	static
+../Core/Src/s2lp.c:349:6:SearchFreqDevME	168	static
+../Core/Src/s2lp.c:388:6:S2LP_SetModulation	32	static
+../Core/Src/s2lp.c:407:6:S2LP_SetPALeveldBm	24	static
+../Core/Src/s2lp.c:424:19:S2LP_Sleep	16	static
+../Core/Src/s2lp.c:440:19:S2LP_WakeUp	16	static
+../Core/Src/s2lp.c:456:19:S2LP_Init	32	static,ignoring_inline_asm
+../Core/Src/s2lp.c:507:6:S2LP_IRQ_Handler	16	static

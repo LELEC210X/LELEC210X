@@ -1,0 +1,2 @@
+../Core/Src/spectrogram.c:20:6:Spectrogram_Format	24	static
+../Core/Src/spectrogram.c:50:6:Spectrogram_Compute	80	static

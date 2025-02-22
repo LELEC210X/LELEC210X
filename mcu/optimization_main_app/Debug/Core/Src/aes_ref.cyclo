@@ -1,0 +1,10 @@
+../Core/Src/aes_ref.c:133:7:mul	3
+../Core/Src/aes_ref.c:142:6:AddRoundKey	3
+../Core/Src/aes_ref.c:150:6:SubBytes	3
+../Core/Src/aes_ref.c:160:6:ShiftRows	8
+../Core/Src/aes_ref.c:182:6:MixColumns	5
+../Core/Src/aes_ref.c:195:6:InvMixColumns	5
+../Core/Src/aes_ref.c:209:5:KeyExpansion	19
+../Core/Src/aes_ref.c:251:5:Encrypt	2
+../Core/Src/aes_ref.c:273:5:Decrypt	2
+../Core/Src/aes_ref.c:312:6:AES128_encrypt	5

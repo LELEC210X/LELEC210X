@@ -1,0 +1,3 @@
+../Core/Src/utils.c:37:6:start_cycle_count	4	static
+../Core/Src/utils.c:38:6:stop_cycle_count	16	static
+../Core/Src/utils.c:45:6:hex_encode	32	static
