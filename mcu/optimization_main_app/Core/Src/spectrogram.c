@@ -12,9 +12,46 @@
 #include "utils.h"
 #include "arm_absmax_q15.h"
 
+#include "mel_filter_bank.h"
+#define MEL_MODE_FILTERBANK 0 // DO NOT TOUCH
+#define MEL_MODE_MATRIX 1     // DO NOT TOUCH
+
+// Mel mode selection
+#define MEL_MODE MEL_MODE_MATRIX
+
+// Measure cycle count
+#define MEASURE_CYCLE_COUNT
+
+
+
+#ifdef MEASURE_CYCLE_COUNT
+	#define START_CYCLE_COUNT() start_cycle_count()
+	#define STOP_CYCLE_COUNT(str) stop_cycle_count(str)
+#else
+	#define START_CYCLE_COUNT()
+	#define STOP_CYCLE_COUNT(str)
+#endif
+
 q15_t buf    [  SAMPLES_PER_MELVEC  ]; // Windowed samples
 q15_t buf_fft[2*SAMPLES_PER_MELVEC  ]; // Double size (real|imag) buffer needed for arm_rfft_q15
 q15_t buf_tmp[  SAMPLES_PER_MELVEC/2]; // Intermediate buffer for arm_mat_mult_fast_q15
+
+void mel_filter_apply(q15_t *fft_array, q15_t *mel_array, size_t fft_len, size_t mel_len) {
+    for (size_t i = 0; i < mel_len; i++) {
+        mel_trian_t mel_triangle = mel_triangles[i];
+		if (mel_triangle.idx_offset + mel_triangle.triangle_len > fft_len) {
+			// Error: Mel triangle is too large for the FFT array
+			DEBUG_PRINT("Error: Mel triangle is too large for the FFT array\n");
+			return;
+		}
+		q15_t* fft_samples = &fft_array[mel_triangle.idx_offset];
+		q63_t mel_result;
+		// Compute the dot product of the FFT samples and the Mel triangle
+        arm_dot_prod_q15(fft_samples, mel_triangle.values, mel_triangle.triangle_len, &mel_result);
+		// Store the result in the Mel array
+		mel_array[i] = clip_q63_to_q15(mel_result);
+    }
+}
 
 // Convert 12-bit DC ADC samples to Q1.15 fixed point signal and remove DC component
 void Spectrogram_Format(q15_t *buf)
@@ -120,11 +157,19 @@ void Spectrogram_Compute(q15_t *samples, q15_t *melvec)
 	// /!\ In order to avoid overflows completely the input signals should be scaled down. Scale down one of the input matrices by log2(numColsA) bits to avoid overflows,
 	// as a total of numColsA additions are computed internally for each output element. Because our hz2mel_mat matrix contains lots of zeros in its rows, this is not necessary.
 	
-	arm_matrix_instance_q15 hz2mel_inst, fftmag_inst, melvec_inst;
+	START_CYCLE_COUNT();
+	#if MEL_MODE == MEL_MODE_FILTERBANK
+		mel_filter_apply(buf, melvec, SAMPLES_PER_MELVEC, MELVEC_LENGTH);
+		STOP_CYCLE_COUNT("Mel filter bank");
+	#elif MEL_MODE == MEL_MODE_MATRIX
+		arm_matrix_instance_q15 hz2mel_inst, fftmag_inst, melvec_inst;
 
-	arm_mat_init_q15(&hz2mel_inst, MELVEC_LENGTH, SAMPLES_PER_MELVEC/2, hz2mel_mat);
-	arm_mat_init_q15(&fftmag_inst, SAMPLES_PER_MELVEC/2, 1, buf);
-	arm_mat_init_q15(&melvec_inst, MELVEC_LENGTH, 1, melvec);
+		arm_mat_init_q15(&hz2mel_inst, MELVEC_LENGTH, SAMPLES_PER_MELVEC/2, hz2mel_mat);
+		arm_mat_init_q15(&fftmag_inst, SAMPLES_PER_MELVEC/2, 1, buf);
+		arm_mat_init_q15(&melvec_inst, MELVEC_LENGTH, 1, melvec);
 
-	arm_mat_mult_fast_q15(&hz2mel_inst, &fftmag_inst, &melvec_inst, buf_tmp);
+		arm_mat_mult_fast_q15(&hz2mel_inst, &fftmag_inst, &melvec_inst, buf_tmp);
+		STOP_CYCLE_COUNT("Mel matrix");
+	#endif
+	
 }

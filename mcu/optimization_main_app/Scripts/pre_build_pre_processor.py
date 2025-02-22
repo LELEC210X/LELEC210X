@@ -2,6 +2,7 @@ import numpy as np
 from librosa import filters
 import os, sys
 from typing import List
+from time import time
 
 ### Helper functions
 
@@ -179,7 +180,8 @@ def read_and_verify_header():
 
 if __name__ == "__main__":
     print("[PYTHON PRE RUNNER] Running the mel filter bank header generation script")
+    start_time = time()
     main()
-    print("[PYTHON PRE RUNNER] Finished running the mel filter bank header generation script")
+    print(f"[PYTHON PRE RUNNER] Finished running the mel filter bank header generation script in {time()-start_time:.2f} seconds")
     if len(sys.argv) > 1:
         read_and_verify_header()
