@@ -17,7 +17,7 @@
 #define MEL_MODE_MATRIX 1     // DO NOT TOUCH
 
 // Mel mode selection
-#define MEL_MODE MEL_MODE_MATRIX
+#define MEL_MODE MEL_MODE_FILTERBANK
 
 // Measure cycle count
 #define MEASURE_CYCLE_COUNT

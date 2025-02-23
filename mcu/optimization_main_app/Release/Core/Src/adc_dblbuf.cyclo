@@ -1,0 +1,5 @@
+../Core/Src/adc_dblbuf.c:81:13:send_spectrogram	4
+../Core/Src/adc_dblbuf.c:22:5:StartADCAcq	2
+../Core/Src/adc_dblbuf.c:32:5:IsADCFinished	1
+../Core/Src/adc_dblbuf.c:119:6:HAL_ADC_ConvCpltCallback	5
+../Core/Src/adc_dblbuf.c:124:6:HAL_ADC_ConvHalfCpltCallback	5
