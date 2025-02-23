@@ -1,2 +1,2 @@
-../Core/Src/packet.c:17:6:tag_cbc_mac	64	static
-../Core/Src/packet.c:48:5:make_packet	32	static
+../Core/Src/packet.c:17:6:tag_cbc_mac	48	static
+../Core/Src/packet.c:48:5:make_packet	56	static

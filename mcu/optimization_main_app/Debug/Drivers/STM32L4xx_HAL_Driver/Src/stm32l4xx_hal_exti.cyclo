@@ -1,5 +1,5 @@
 ../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c:143:19:HAL_EXTI_SetConfigLine	9
-../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c:268:19:HAL_EXTI_GetConfigLine	9
+../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c:268:19:HAL_EXTI_GetConfigLine	7
 ../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c:362:19:HAL_EXTI_ClearConfigLine	4
 ../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c:428:19:HAL_EXTI_RegisterCallback	2
 ../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c:454:19:HAL_EXTI_GetHandle	2
