@@ -23,7 +23,9 @@ from distutils.version import LooseVersion
 
 import numpy as np
 from gnuradio import gr
+
 from .utils import logging
+
 
 class flag_detector(gr.basic_block):
     """
@@ -64,14 +66,14 @@ class flag_detector(gr.basic_block):
 
     def forecast_v38(self, noutput_items, ninput_items_required):
         """
-        input items are samples (with oversampling factor)
+        Input items are samples (with oversampling factor)
         output items are samples (with oversampling factor)
         """
         ninput_items_required[0] = noutput_items
 
     def forecast_v310(self, noutput_items, ninputs):
         """
-        forecast is only called from a general block
+        Forecast is only called from a general block
         this is the default implementation
         """
         ninput_items_required = [0] * ninputs
@@ -104,9 +106,9 @@ class flag_detector(gr.basic_block):
                     pos = None
                 else:
                     pos = pos + 1
-                    #self.logger.info(
+                    # self.logger.info(
                     #    f"flag  @ {self.nitems_read(0) + pos}"
-                    #)
+                    # )
             else:
                 pos = None
 
@@ -118,7 +120,7 @@ class flag_detector(gr.basic_block):
 
             # A window corresponding to the length of a full packet + 1 byte + 1 symbol
             # is transferred to the output
-            self.rem_samples = 8 * self.osr * (self.packet_len + 1) + self.osr 
+            self.rem_samples = 8 * self.osr * (self.packet_len + 1) + self.osr
 
             n_out = min(N - pos, self.rem_samples)
             output_items[0][:n_out] = input_items[0][pos : (pos + n_out)]
