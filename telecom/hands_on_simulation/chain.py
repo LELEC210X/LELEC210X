@@ -9,36 +9,37 @@ SYNC_WORD = np.array([int(bit) for bit in f"{0x3E2A54B7:0>32b}"])
 
 class Chain:
 
-    def __init__(self, *,
-                 name: str = "",
-                 # Communication parameters
-                 bit_rate: float = BIT_RATE,
-                 freq_dev: float = BIT_RATE / 4,
-                 osr_tx: int = 64,
-                 osr_rx: int = 8,
-                 preamble: np.ndarray = PREAMBLE,
-                 sync_word: np.ndarray = SYNC_WORD,
-                 payload_len: int = 50,  # Number of bits per packet
-                 # Simulation parameters
-                 n_packets: int = 100,  # Number of sent packets
-                 # Channel parameters
-                 sto_val: float = 0,
-                 sto_range: float = 10 / BIT_RATE,  # defines the delay range when random
-                 cfo_val: float = 0,
-                 cfo_range: float = (
-                     # defines the CFO range when random (in Hz) #(1000 in old repo)
-                     1000
-                 ),
-                 cfo_Moose_N: int = 4,
-                 snr_range: np.ndarray = np.arange(-10, 35),
-                 # Lowpass filter parameters
-                 numtaps: int = 100,
-                 cutoff: float = 0.0,
-                 bypass_preamble_detect: bool = True,
-                 bypass_cfo_estimation: bool = True,
-                 bypass_sto_estimation: bool = True,
-                 **kwargs
-                 ):
+    def __init__(
+        self, *,
+        name: str = "",
+        # Communication parameters
+        bit_rate: float = BIT_RATE,
+        freq_dev: float = BIT_RATE / 4,
+        osr_tx: int = 64,
+        osr_rx: int = 8,
+        preamble: np.ndarray = PREAMBLE,
+        sync_word: np.ndarray = SYNC_WORD,
+        payload_len: int = 50,  # Number of bits per packet
+        # Simulation parameters
+        n_packets: int = 100,  # Number of sent packets
+        # Channel parameters
+        sto_val: float = 0,
+        sto_range: float = 1 / BIT_RATE,  # defines the delay range when random
+        cfo_val: float = 0,
+        cfo_range: float = (
+            # defines the CFO range when random (in Hz) #(1000 in old repo)
+            1000
+        ),
+        cfo_Moose_N: int = 4,
+        snr_range: np.ndarray = np.arange(-10, 35),
+        # Lowpass filter parameters
+        numtaps: int = 100,
+        cutoff: float = 0.0,
+        bypass_preamble_detect: bool = True,
+        bypass_cfo_estimation: bool = True,
+        bypass_sto_estimation: bool = True,
+        **kwargs
+    ):
         self.name = name
         self.bit_rate = bit_rate
         self.freq_dev = freq_dev
@@ -200,6 +201,7 @@ class BasicChain(Chain):
 
         return cfo_est
 
+
     def sto_estimation(self, y: np.array) -> float:
         """
         Estimates the STO based on the received signal.
@@ -273,3 +275,45 @@ class BasicChain(Chain):
             print(f"bits at receiver : {bits_hat}\n")
 
         return bits_hat
+
+class OptimizedChain(BasicChain):
+
+    def __init__(
+        self, *, name="Basic Tx/Rx chain",
+        cfo_Moose_N_list: list[int] = [2, 4, 8, 16],
+        **kwargs
+    ):
+        
+        super().__init__(name=name, freq_dev=BIT_RATE/2, **kwargs)
+        self.cfo_Moose_N_list = cfo_Moose_N_list
+    
+
+    def cfo_estimation(self, y: np.array) -> float:
+        """
+        Estimates the CFO based on the received signal.
+        Estimates CFO using Moose algorithm, on first samples of preamble.
+
+        :param y: The received signal, (N * R,).
+        :return: The estimated CFO.
+        """
+        N_Moose_list = self.cfo_Moose_N_list  # max should be total bits per preamble / 2
+        R = self.osr_rx
+        B = self.bit_rate
+        T = 1 / B
+
+        first_est = True
+        cfo_est_off = 0.
+        for N_Moose in N_Moose_list:
+            N_t = N_Moose * R
+            alpha_est = np.vdot(y[:N_t], y[N_t:2*N_t])
+            new_cfo_est = np.angle(alpha_est) * R / (2 * np.pi * N_t * T)
+
+            if first_est:
+                first_est = not first_est
+            elif abs(cfo_est - new_cfo_est) > 1/(2*N_Moose*T): # Ambiguity detected
+                cfo_est_off += np.sign(cfo_est) * 1 / (N_Moose*T)
+            cfo_est = new_cfo_est
+        
+        return cfo_est + cfo_est_off
+
+        

@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 try:
-    from chain import Chain, BasicChain
+    from chain import Chain, BasicChain, OptimizedChain
 except ModuleNotFoundError:
-    from .chain import Chain, BasicChain
+    from .chain import Chain, BasicChain, OptimizedChain
 from scipy.signal import firwin, freqz
 from scipy.special import erfc
 from tqdm import tqdm
@@ -236,7 +236,7 @@ def run_sim(chain: Chain, filename="sim"):
                 / (R * B)
                 - (detect_idx + tau_hat + start_frame * chain.osr_rx) / (R * B)
             ) ** 2
-
+    
     Cu = np.correlate(taps, taps, mode="full")  # such that Cu[len(taps)-1] = 1
     sum_Cu = 0
     for r in range(0, R):
@@ -580,21 +580,21 @@ def main(arg_list: list[str] = None):
     args = parse_args(arg_list)
 
     # Change the chain parameters here, for example:
-    # args.bypass_preamble_detect = True
+    args.bypass_preamble_detect = True
     # args.bypass_cfo_estimation = True
-    # args.bypass_sto_estimation = True
-    # args.payload_len = 1600
-    # args.n_packets = 500
-    # args.cfo_Moose_N = 16
-    # args.cfo_range = 1_500
+    args.bypass_sto_estimation = True
+    args.payload_len = 400
+    args.n_packets = 500
+    # args.cfo_Moose_N = 4
+    args.cfo_range = 10_000
 
     # Change the simulation parameters here, for example:
-    # args.force_simulation = True
+    args.force_simulation = True
     # args.FIR = True
     # args.no_show = True
-    # args.no_save = True
+    args.no_save = True
 
-    chain = BasicChain(cutoff=150e3, numtaps=31, **vars(args))
+    chain = OptimizedChain(cutoff=150e3, numtaps=31, **vars(args))
 
     filename = f"sim_p_{chain.payload_len}_n_{chain.n_packets}_" + \
         f"pre_det_{'OFF' if chain.bypass_preamble_detect else 'ON'}_" + \
