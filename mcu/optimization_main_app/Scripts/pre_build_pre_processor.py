@@ -4,6 +4,12 @@ import os, sys
 from typing import List
 from time import time
 
+
+TRIANGLE_COEFF_MULTIPLIER = 80 
+# 80 alows for good sensitivity and little to no saturation
+# 50 is probably the lowest value that can be used without saturation
+# 100 is the highest value that can be used without saturation
+
 ### Helper functions
 
 def get_script_path():
@@ -81,7 +87,7 @@ def gen_mel_triangle_liners(triangle_sizes:List, triangle_offsets:List, triangle
     return mel_triangles_liners
 
 def gen_trianlge_stuff(f_sample:int, num_fft:int, num_mel:int): # FIX
-    mel_filter_bank = filters.mel(sr=f_sample, n_fft=num_fft, n_mels=num_mel)
+    mel_filter_bank = filters.mel(sr=f_sample, n_fft=num_fft, n_mels=num_mel)*TRIANGLE_COEFF_MULTIPLIER
     # Get max triangle length
     max_triangle_length = np.max(np.sum(mel_filter_bank>0, axis=1))
     # Get triangle sizes
