@@ -157,9 +157,9 @@ class RoundsConfig(BaseModel):
 
         for round_config in rounds:
             lap_duration = round_config.lap_duration
-            assert (
-                lap_duration >= total
-            ), f"Lap duration is not long enough: {lap_duration} is shorted than {total}"
+            assert lap_duration >= total, (
+                f"Lap duration is not long enough: {lap_duration} is shorted than {total}"
+            )
 
         return values
 

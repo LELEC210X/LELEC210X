@@ -83,13 +83,13 @@ class packet_parser(gr.basic_block):
     docstring for block packet_parser
     """
 
-    def __init__(self, hdr_len, payload_len, crc_len, address,log_payload):
+    def __init__(self, hdr_len, payload_len, crc_len, address, log_payload):
         self.hdr_len = hdr_len
         self.payload_len = payload_len
         self.crc_len = crc_len
         self.nb_packet = 0
         self.nb_error = 0
-        self.log_payload=log_payload
+        self.log_payload = log_payload
 
         self.packet_len = self.hdr_len + self.payload_len + self.crc_len
         self.address = address
@@ -115,7 +115,7 @@ class packet_parser(gr.basic_block):
 
     def forecast_v310(self, noutput_items, ninputs):
         """
-        forecast is only called from a general block
+        Forecast is only called from a general block
         this is the default implementation
         """
         ninput_items_required = [0] * ninputs
@@ -123,7 +123,7 @@ class packet_parser(gr.basic_block):
             ninput_items_required[i] = self.packet_len + 1  # in bytes
 
         return ninput_items_required
-    
+
     def set_log_payload(self, log_payload):
         self.log_payload = log_payload
 
@@ -166,7 +166,9 @@ class packet_parser(gr.basic_block):
         )
         if is_correct:
             if self.log_payload:
-                self.logger.info(f"packet successfully demodulated: {payload} (CRC: {crc})")
+                self.logger.info(
+                    f"packet successfully demodulated: {payload} (CRC: {crc})"
+                )
             output_items[0][: self.payload_len] = payload
             self.logger.info(
                 f"{self.nb_packet} packets received with {self.nb_error} error(s)"
@@ -174,7 +176,9 @@ class packet_parser(gr.basic_block):
             return 1
         else:
             if self.log_payload:
-                self.logger.error(f"incorrect CRC, packet dropped: {payload} (CRC: {crc})")
+                self.logger.error(
+                    f"incorrect CRC, packet dropped: {payload} (CRC: {crc})"
+                )
             self.nb_error += 1
             self.logger.info(
                 f"{self.nb_packet} packets received with {self.nb_error} error(s)"
