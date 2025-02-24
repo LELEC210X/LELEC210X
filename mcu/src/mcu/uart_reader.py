@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sklearn
 from matplotlib.animation import FuncAnimation
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 from matplotlib.patches import Rectangle
 from PyQt6 import QtGui
@@ -31,17 +31,11 @@ from PyQt6.QtWidgets import (
 )
 from serial.tools import list_ports
 
-# Custom modules
-try:
-    import libraries.databaseV2_for_V4 as dbu
-    import libraries.loggingUtils as logu
-    import libraries.serialUtils as seru
-    from model_formatter_for_V4 import *
-except:
-    import mcu.libraries.databaseV2_for_V4 as dbu
-    import mcu.libraries.loggingUtils as logu
-    import mcu.libraries.serialUtils as seru
-    from mcu.model_formatter_for_V4 import *
+# Custom modules (if not running, remove the mcu. prefix)
+import mcu.libraries.database_utils as dbu
+import mcu.libraries.logging_utils as logu
+import mcu.libraries.serial_utils as seru
+from mcu.model_formating_template import *
 
 
 class GUIParamWindow(QMainWindow):
