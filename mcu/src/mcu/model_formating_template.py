@@ -210,7 +210,10 @@ def example():
     X_hist = [(np.random.rand(400) * ADC_MAX_VALUE).reshape(1, -1) for _ in range(10)]
     print(loaded_model.model.predict_hist(X_hist))
 
+def main():
+    example()
 
 # Run the example (or the user code)
 if __name__ == "__main__":
-    example()
+    print("Please run this through rye instead, using >> rye run model_trainer <<")
+    main()

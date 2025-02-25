@@ -182,7 +182,7 @@ class ContentDatabase:
         with self.lock:
             try:
                 # Load the data from the numpy file
-                data = np.load(npy_file, allow_pickle=True)
+                data = np.load(npy_file, allow_pickle=True).item()
                 # Iterate over all categories and items to set their values
                 for category_name, category in data.items():
                     for item_name, item_value in category.items():

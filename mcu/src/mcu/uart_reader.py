@@ -871,7 +871,7 @@ class GUIMainWindow(QMainWindow):
     def import_settings(self):
         # Get the file name
         file_name, _ = QFileDialog.getOpenFileName(
-            self, "Import Settings", pathl.Path(__file__).parent, "NPY Files (*.npy)"
+            self, "Import Settings", str(pathl.Path(__file__).parent), "NPY Files (*.npy)"
         )
         if file_name:
             self.logger.info(f"Importing settings from {file_name}")
@@ -880,7 +880,7 @@ class GUIMainWindow(QMainWindow):
     def export_settings(self):
         # Get the file name
         file_name, _ = QFileDialog.getSaveFileName(
-            self, "Export Settings", pathl.Path(__file__).parent, "NPY Files (*.npy)"
+            self, "Export Settings", str(pathl.Path(__file__).parent), "NPY Files (*.npy)"
         )
         if file_name:
             self.logger.info(f"Exporting settings to {file_name}")

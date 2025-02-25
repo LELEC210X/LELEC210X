@@ -1110,3 +1110,16 @@
 [2025-02-25 23:59:36] INFO    : Model loaded from C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\mcu\model.pickle
 [2025-02-26 00:01:06] INFO    : Opening the MEL Window
 [2025-02-26 00:01:06] INFO    : Model loaded from C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\mcu\model.pickle
+[2025-02-26 00:20:40] INFO    : Exporting settings to C:/Dev/GIT/LELEC210X_Contribution_Group_E/mcu/src/mcu/database_backup.npy
+[2025-02-26 00:20:40] INFO    : Database exported: C:/Dev/GIT/LELEC210X_Contribution_Group_E/mcu/src/mcu/database_backup.npy
+[2025-02-26 00:20:49] INFO    : Importing settings from C:/Dev/GIT/LELEC210X_Contribution_Group_E/mcu/src/mcu/database_backup.npy
+[2025-02-26 00:20:49] ERROR   : Failed to import database: 'numpy.ndarray' object has no attribute 'items'
+[2025-02-26 00:21:41] INFO    : Importing settings from C:/Dev/GIT/LELEC210X_Contribution_Group_E/mcu/src/mcu/database_backup.npy
+[2025-02-26 00:21:41] ERROR   : Failed to import database: 'numpy.ndarray' object has no attribute 'items'
+[2025-02-26 00:22:10] INFO    : Importing settings from C:/Dev/GIT/LELEC210X_Contribution_Group_E/mcu/src/mcu/database_backup.npy
+[2025-02-26 00:22:10] ERROR   : Failed to import database: iteration over a 0-d array
+[2025-02-26 00:22:53] INFO    : Importing settings from C:/Dev/GIT/LELEC210X_Contribution_Group_E/mcu/src/mcu/database_backup.npy
+[2025-02-26 00:23:54] INFO    : Importing settings from C:/Dev/GIT/LELEC210X_Contribution_Group_E/mcu/src/mcu/database_backup.npy
+[2025-02-26 00:24:24] INFO    : Importing settings from C:/Dev/GIT/LELEC210X_Contribution_Group_E/mcu/src/mcu/database_backup.npy
+[2025-02-26 00:25:54] INFO    : Importing settings from C:/Dev/GIT/LELEC210X_Contribution_Group_E/mcu/src/mcu/database_backup.npy
+[2025-02-26 00:25:54] INFO    : Database imported: C:/Dev/GIT/LELEC210X_Contribution_Group_E/mcu/src/mcu/database_backup.npy
