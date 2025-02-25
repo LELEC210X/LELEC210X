@@ -37,6 +37,9 @@ import mcu.libraries.logging_utils as logu
 import mcu.libraries.serial_utils as seru
 from mcu.model_formating_template import *
 
+# Audio file imports
+import scipy.io.wavfile as wav
+import soundfile as sf
 
 class GUIParamWindow(QMainWindow):
     """Parameters GUI window for the application"""
@@ -133,13 +136,28 @@ class GUIAudioWindow(QMainWindow):
         self.main_widget.setLayout(self.main_layout)
         self.setCentralWidget(self.main_widget)
 
+        # Freeze the audio data
+        self.audio_freeze = False
+
         # Create the UI
         self.create_ui()
 
+    def update_audio_data(self, data):
+        self.audio_freeze = self.db.get_item("Audio Settings", "audio_freeze").value
+        if not self.audio_freeze:
+            self.audio_data = data
+        if self.db.get_item("Audio Settings", "auto_save").value:
+            self.save_audio_data_npy(self.audio_data)
+
     def prefix_message_handler(self, prefix, message):
         if prefix == self.db.get_item("Audio Settings", "serial_prefix").value:
-            self.audio_data = np.zeros(10240)
-            # TODO : Change this to proper handling
+            array_hex = bytes.fromhex(message)
+            audio_vec = np.frombuffer(
+                array_hex, dtype=np.dtype(np.int16).newbyteorder("<")
+            )
+            if len(audio_vec) > 10240:
+                audio_vec = audio_vec[:10240]
+            self.update_audio_data(audio_vec)
 
     def create_ui(self):
         # Add title to the window
@@ -151,6 +169,27 @@ class GUIAudioWindow(QMainWindow):
         self.fps_counter = QLabel("FPS: 0")
         self.main_layout.addWidget(self.fps_counter)
         self.current_time = time.time()
+
+        # Add Demo Box for data spawning and testing
+        if True:
+            self.demo_box = QGroupBox("Demo Box")
+            self.demo_box.setCheckable(True)
+            self.demo_box.setChecked(False)
+            self.demo_box.setFixedHeight(15)
+            self.demo_box_layout = QVBoxLayout()
+            self.demo_box.setLayout(self.demo_box_layout)
+            self.demo_box.toggled.connect(
+                lambda state: self.demo_box.setFixedHeight(15)
+                if not state
+                else self.demo_box.setFixedHeight(100)
+            )
+            self.main_layout.addWidget(self.demo_box)
+
+            self.demo_super_spawn = QPushButton("Push Random Audio Data")
+            def super_spawn():
+                self.update_audio_data((np.random.rand(10240) * 2 - 1) * 1/2)
+            self.demo_super_spawn.clicked.connect(super_spawn)
+            self.demo_box_layout.addWidget(self.demo_super_spawn)
 
         # Create the 2 figures for the audio signal and FFT
         self.fig_audio = Figure(figsize=(8, 6))
@@ -211,7 +250,31 @@ class GUIAudioWindow(QMainWindow):
             save_count=1,
         )
 
-        # TODO : Add the save buttons and the rest of the functionality
+        # Add the save button
+        self.save_button_widget = QWidget()
+        self.save_button_layout = QHBoxLayout()
+        self.save_button_widget.setLayout(self.save_button_layout)
+        self.save_button_npy = QPushButton("Save Audio Data (NPY/CSV/TXT)")
+        self.save_button_npy.clicked.connect(lambda: self.save_audio_data_npy(self.audio_data))
+        self.save_button_layout.addWidget(self.save_button_npy)
+        self.main_layout.addWidget(self.save_button_widget)
+        self.save_button_audio = QPushButton("Save Audio Data (WAV/FLAC/OGG/MP3)")
+        self.save_button_audio.clicked.connect(lambda: self.save_audio_data_wav(self.audio_data))
+        self.save_button_layout.addWidget(self.save_button_audio)
+        self.save_button_plots = QPushButton("Save Plots")
+        self.save_button_layout.addWidget(self.save_button_plots)
+
+        # Add the ability to freeze the audio data and auto save it
+        self.freeze_widget_group = QWidget()
+        self.freeze_widget_layout = QHBoxLayout()
+        self.freeze_widget_group.setLayout(self.freeze_widget_layout)
+        self.freeze_checkbox = self.db.get_item("Audio Settings", "audio_freeze").gen_widget_full()
+        self.freeze_widget_layout.addWidget(self.freeze_checkbox)
+
+        self.auto_save_checkbox = self.db.get_item("Audio Settings", "auto_save").gen_widget_full()
+        self.freeze_widget_layout.addWidget(self.auto_save_checkbox)
+
+        self.main_layout.addWidget(self.freeze_widget_group)
 
     def _init_audio_plot(self):
         """Initialize audio line for blitting."""
@@ -247,6 +310,45 @@ class GUIAudioWindow(QMainWindow):
         self.fps_counter.setText(f"FPS: {fps:.2f}")
         return (self.line_fft,)
 
+    def _get_audio_file_name(self):
+        prefix = self.db.get_item("Audio Settings", "file_prefix").value
+        time_stamp = time.strftime("%Y%m%d-%H%M%S")
+        folder = self.db.get_item("Folder Settings","audio path").value
+        # Gen folder if not yet created
+        pathl.Path(folder).mkdir(parents=True, exist_ok=True)
+        return f"{folder}/{prefix}_{time_stamp}"
+    
+    def save_audio_data_npy(self, data=None):
+        file_name = self._get_audio_file_name()
+        file_extension_raw = self.db.get_item("Audio Settings", "raw_file_type").value
+        file_extension_raw = file_extension_raw[1][file_extension_raw[0]]
+        file_name_raw = f"{file_name}.{file_extension_raw}"
+        if file_extension_raw == "npy":
+            np.save(file_name_raw, data)
+        elif file_extension_raw == "csv":
+            np.savetxt(file_name_raw, data, delimiter=",")
+        elif file_extension_raw == "txt":
+            np.savetxt(file_name_raw, data)
+        else:
+            self.logger.error(f"Unknown file extension {file_extension_raw}")
+        self.logger.info(f"Saved audio data to {file_name_raw}")
+
+    def save_audio_data_wav(self, data=None):
+        file_name = self._get_audio_file_name()
+        file_extension_audio = self.db.get_item("Audio Settings", "audio_format").value
+        file_extension_audio = file_extension_audio[1][file_extension_audio[0]]
+        file_name_audio = f"{file_name}.{file_extension_audio}"
+        if file_extension_audio == "wav":
+            wav.write(file_name_audio, 44100, data)
+        elif file_extension_audio == "flac":
+            sf.write(file_name_audio, data, 44100, "FLAC")
+        elif file_extension_audio == "ogg":
+            sf.write(file_name_audio, data, 44100, "OGG")
+        elif file_extension_audio == "mp3":
+            sf.write(file_name_audio, data, 44100, "MP3")
+        else:
+            self.logger.error(f"Unknown file extension {file_extension_audio}")
+        self.logger.info(f"Saved audio data to {file_name_audio}")
 
 class GUIMELWindow(QMainWindow):
     """MEL GUI window for the application and the classifier"""
@@ -353,9 +455,10 @@ class GUIMELWindow(QMainWindow):
 
         # Add demo box for data spawning and testing
         if True:
-            self.demo_box = QGroupBox("Test Box")
+            self.demo_box = QGroupBox("Demo Box")
             self.demo_box.setCheckable(True)
             self.demo_box.setChecked(False)
+            self.demo_box.setFixedHeight(15)
             self.demo_box_layout = QVBoxLayout()
             self.demo_box.setLayout(self.demo_box_layout)
             self.demo_box.toggled.connect(
@@ -365,7 +468,7 @@ class GUIMELWindow(QMainWindow):
             )
             self.main_layout.addWidget(self.demo_box)
 
-            self.demo_super_spawn = QPushButton("Spawn Mel Data")
+            self.demo_super_spawn = QPushButton("Push Random Mel Data")
             self.demo_super_spawn.clicked.connect(
                 lambda: self.add_data(
                     np.random.randint(0, 2**16, self.current_feature_length)
@@ -373,7 +476,7 @@ class GUIMELWindow(QMainWindow):
             )
             self.demo_box_layout.addWidget(self.demo_super_spawn)
 
-            self.demo_super_spawn = QPushButton("Spawn Mel and Class Data")
+            self.demo_super_spawn = QPushButton("Push Random Mel and Random Class Data (if no model)")
             self.demo_super_spawn.clicked.connect(
                 lambda: self.add_data(
                     np.random.randint(0, 2**16, self.current_feature_length)
@@ -426,7 +529,7 @@ class GUIMELWindow(QMainWindow):
                 array_hex, dtype=np.dtype(np.uint16).newbyteorder("<")
             )
             if len(mel_vec) > self.current_feature_length:
-                mel_vec = mel_vec[:-12]  # TODO : Fix this properly (12 is the CBC mac)
+                mel_vec = mel_vec[6:-6]  # TODO : Fix this properly (12 is the CBC mac)
             self.add_data(mel_vec)
 
     def create_ui(self):
@@ -439,6 +542,16 @@ class GUIMELWindow(QMainWindow):
         self.fps_counter = QLabel("FPS: 0")
         self.main_layout.addWidget(self.fps_counter)
         self.current_time = time.time()
+
+        # Say if the model is loaded
+        if self.current_model is not None:
+            self.model_loaded = QLabel("Model Loaded : " + self.current_model_path)
+            self.model_loaded.setStyleSheet("color: green")
+        else:
+            self.model_loaded = QLabel("No Model Loaded")
+            self.model_loaded.setStyleSheet("color: red")
+
+        self.main_layout.addWidget(self.model_loaded)
 
         # Add the MEL graph
         self.fig_mel = Figure(figsize=(8, 6))
@@ -616,6 +729,7 @@ class GUIMELWindow(QMainWindow):
             edgecolor="black",
         )
         # Make the class titles vertical
+        self.class_ax.set_xticks(np.arange(0, self.num_classes, 1))
         self.class_ax.set_xticklabels(self.classes, rotation=45)
         # Make the figure slightly smaller in height to compensate for the vertical labels
         self.fig_classifier.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.3)
@@ -934,9 +1048,13 @@ class GUIMainWindow(QMainWindow):
         elif prefix == self.db.get_item("Audio Settings", "serial_prefix").value:
             self.logger.info(f"New audio data received of length {len(message)}")
             self.open_audio_window(message)
+            # Print the received data only to the log file
+            self.logger.debug(f"Received audio data: {message}")
         elif prefix == self.db.get_item("MEL Settings", "serial_prefix").value:
             self.logger.info(f"New MEL data received of length {len(message)}")
             self.open_mel_window(message)
+            # Print the received data only to the log file
+            self.logger.debug(f"Received MEL data: {message}")
         else:
             self.logger.warning(
                 f"Unknown prefix {prefix} (message length: {len(message)})"
@@ -1118,20 +1236,6 @@ def database_init(db: dbu.ContentDatabase):
         "file_name",
         db.Text("File Name", "uart_logs.log", "The name of the log file"),
     )
-    db.add_item(
-        "Logging Settings",
-        "logbackupcount",
-        db.Integer("Log Backup Count", 3, "The number of log files to keep"),
-    )
-    db.add_item(
-        "Logging Settings",
-        "logmaxsize",
-        db.SuffixFloat(
-            "Log Max Size",
-            (1e4, "B"),
-            "The maximum size of the log file before it is rotated",
-        ),
-    )
 
     # Plot Settings
     db.create_category("Plot Settings")
@@ -1236,13 +1340,6 @@ def database_init(db: dbu.ContentDatabase):
         "file_frequency",
         db.SuffixFloat(
             "File Frequency", (44100, "Hz"), "The frequency to save the audio files in"
-        ),
-    )
-    db.add_item(
-        "Audio Settings",
-        "file_channels",
-        db.Integer(
-            "File Channels", 1, "The number of channels to save the audio files in"
         ),
     )
     db.add_item(

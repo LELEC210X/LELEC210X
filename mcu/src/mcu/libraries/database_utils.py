@@ -1,7 +1,7 @@
 import logging
 import pathlib
 import sys
-from threading import Lock
+from threading import RLock as Lock
 
 import numpy as np
 from PyQt6 import QtGui

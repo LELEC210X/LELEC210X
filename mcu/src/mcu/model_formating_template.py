@@ -163,7 +163,7 @@ def example():
     """Example usage of the model serialization functions."""
     # Define model and class labels
     model_to_use = DecisionTreeClassifier(max_depth=5, min_samples_split=2)
-    classes = ["class1", "class2", "class3"]
+    classes = ["class1", "class2", "class3", "class4", "class5", "class6"]
 
     # Generate sample training data
     X = np.random.rand(40, 400) * ADC_MAX_VALUE
@@ -191,10 +191,11 @@ def example():
     )
 
     # Save the model
-    save_model(model_format, "model.pickle")
+    file_origin = os.path.dirname(os.path.abspath(__file__))
+    save_model(model_format, os.path.join(file_origin, "model.pickle"))
 
     # Load the model
-    loaded_model = load_model("model.pickle")
+    loaded_model = load_model(os.path.join(file_origin, "model.pickle"))
     if loaded_model is not None:
         print("Model loaded successfully!")
     else:

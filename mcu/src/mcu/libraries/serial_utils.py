@@ -235,20 +235,26 @@ class SerialController(QThread):
                             continue
                         # If the data is not frozen, then process it
                         if data:
-                            # Decode and emit signals
-                            decoded = data.decode("ascii").strip()
-                            if self._prefixes:
-                                # Check for prefixes
-                                for prefix in self._prefixes:
-                                    if decoded.startswith(prefix):
-                                        self.data_received_prefix.emit(
-                                            prefix, decoded[len(prefix) :]
-                                        )
-                                        break
+                            try:
+                                # Decode and emit signals
+                                decoded = data.decode("ascii").strip()
+                                if self._prefixes:
+                                    # Check for prefixes
+                                    for prefix in self._prefixes:
+                                        if decoded.startswith(prefix):
+                                            self.data_received_prefix.emit(
+                                                prefix, decoded[len(prefix) :]
+                                            )
+                                            break
+                                    else:
+                                        self.data_received_normal.emit(decoded)
                                 else:
                                     self.data_received_normal.emit(decoded)
-                            else:
-                                self.data_received_normal.emit(decoded)
+                            except UnicodeDecodeError as e:
+                                self.logger.warning(f"Decode error: {e}")
+                    else:
+                        # Small sleep to prevent CPU hogging (1ms)
+                        time.sleep(0.001)
                 except (SerialException, OSError) as e:
                     # Handle serial port errors
                     self._handle_error(f"Serial port error: {e}")
