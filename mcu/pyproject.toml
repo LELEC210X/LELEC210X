@@ -20,6 +20,7 @@ version = "0.1.0"
 
 [project.scripts]
 uart_reader = "mcu.uart_reader:main"
+model_trainer = "mcu.model_formating_template:example"
 
 [tool.hatch.build.targets.wheel]
 packages = [

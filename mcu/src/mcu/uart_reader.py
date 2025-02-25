@@ -32,10 +32,15 @@ from PyQt6.QtWidgets import (
 from serial.tools import list_ports
 
 # Custom modules (if not running, remove the mcu. prefix)
-import mcu.libraries.database_utils as dbu
+from .libraries import database_utils as dbu # ????
 import mcu.libraries.logging_utils as logu
 import mcu.libraries.serial_utils as seru
-from mcu.model_formating_template import *
+from mcu.model_formating_template import (
+    AbstractModelWrapper, 
+    DecisionTreeWrapper, 
+    ModelPickleFormat,
+    load_model
+)
 
 # Audio file imports
 import scipy.io.wavfile as wav
@@ -267,12 +272,15 @@ class GUIAudioWindow(QMainWindow):
         # Add the ability to freeze the audio data and auto save it
         self.freeze_widget_group = QWidget()
         self.freeze_widget_layout = QHBoxLayout()
+        self.freeze_widget_layout.setContentsMargins(0, 0, 0, 0)
         self.freeze_widget_group.setLayout(self.freeze_widget_layout)
         self.freeze_checkbox = self.db.get_item("Audio Settings", "audio_freeze").gen_widget_full()
         self.freeze_widget_layout.addWidget(self.freeze_checkbox)
+        self.freeze_checkbox.setStyleSheet("padding: 0px; margin: 0px;")
 
         self.auto_save_checkbox = self.db.get_item("Audio Settings", "auto_save").gen_widget_full()
         self.freeze_widget_layout.addWidget(self.auto_save_checkbox)
+        self.auto_save_checkbox.setStyleSheet("padding: 0px; margin: 0px;")
 
         self.main_layout.addWidget(self.freeze_widget_group)
 
@@ -370,6 +378,7 @@ class GUIMELWindow(QMainWindow):
         self.current_mel_length = self.db.get_item("MEL Settings", "mel_length").value
         self.current_mel_number = self.db.get_item("MEL Settings", "mel_number").value
         self.current_feature_length = self.current_mel_length * self.current_mel_number
+        self.max_hist_length = self.db.get_item("MEL Settings", "max_history_length").value
 
         # Load the current model
         self.current_model_path = self.db.get_item(
@@ -434,7 +443,7 @@ class GUIMELWindow(QMainWindow):
                 "data": np.zeros(self.current_feature_length),
                 "class_proba": np.zeros(self.num_classes),
             }
-            for _ in range(10)
+            for _ in range(self.max_hist_length)
         ]
         if base_data is not None and type(base_data) == np.ndarray:
             self.add_data(base_data)
@@ -545,13 +554,18 @@ class GUIMELWindow(QMainWindow):
 
         # Say if the model is loaded
         if self.current_model is not None:
-            self.model_loaded = QLabel("Model Loaded : " + self.current_model_path)
+            self.model_loaded = QLabel("Model Loaded : " + str(self.current_model_path))
             self.model_loaded.setStyleSheet("color: green")
         else:
             self.model_loaded = QLabel("No Model Loaded")
             self.model_loaded.setStyleSheet("color: red")
-
         self.main_layout.addWidget(self.model_loaded)
+
+        # Add a text that is invisible if there are no errors on the hist graph
+        self.error_text = QLabel("Error : ")
+        self.error_text.setStyleSheet("color: red")
+        self.error_text.setVisible(False)
+        self.main_layout.addWidget(self.error_text)
 
         # Add the MEL graph
         self.fig_mel = Figure(figsize=(8, 6))
@@ -620,7 +634,7 @@ class GUIMELWindow(QMainWindow):
         self.hist_ax.set_xlim(-9, 0)
         self.hist_ax.set_ylim(-0.05, 1.45)
         self.hist_ax.autoscale(enable=False, axis="both")
-
+        
         self.hist_lines = []
         for i in range(len(self.classes)):
             (line,) = self.hist_ax.plot([], [], animated=True, label=self.classes[i])
@@ -767,10 +781,14 @@ class GUIMELWindow(QMainWindow):
     def _update_hist_class_plot(self, frame):
         """Update class history plot for animation."""
         for i, line in enumerate(self.hist_lines):
-            line.set_data(
-                -np.arange(0, len(self.historic_data)),
-                [data["class_proba"][i] for data in self.historic_data],
-            )
+            try:
+                line.set_data(
+                    -np.arange(0, len(self.historic_data)),
+                    [data["class_proba"][i] for data in self.historic_data],
+                )
+            except Exception as e:
+                self.error_text.setVisible(True)
+                self.error_text.setText(f"Classifier History Error (suppressed) : {e}")
 
         return self.hist_lines
 
@@ -794,7 +812,7 @@ class GUIMainWindow(QMainWindow):
 
         # Create the main window
         self.screen_resolution = self.screen().geometry()
-        print(f"Screen resolution: {self.screen_resolution}")
+        #print(f"Screen resolution: {self.screen_resolution}")
         self.setWindowTitle(
             f"{self.db.get_item('_hidden', 'appname').value} - Main Window"
         )
