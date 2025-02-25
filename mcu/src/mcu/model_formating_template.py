@@ -155,6 +155,7 @@ def load_model(path: str) -> Optional[ModelPickleFormat]:
 
 ####################################################################################################
 # Example Usage
+# (Tip: Use tqdm and regularly backup your model to avoid losing progress if the training fails or gets interrupted)
 
 ADC_MAX_VALUE = 2**16
 
@@ -215,5 +216,5 @@ def main():
 
 # Run the example (or the user code)
 if __name__ == "__main__":
-    print("Please run this through rye instead, using >> rye run model_trainer <<")
+    print("Please run this through rye instead, using >> rye run model_trainer <<, else, the model will not be interpreted correctly on load.")
     main()

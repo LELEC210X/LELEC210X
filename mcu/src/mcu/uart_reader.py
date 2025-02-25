@@ -1569,7 +1569,9 @@ def connect_db_to_ser(db: dbu.ContentDatabase, ser: seru.SerialController):
     default=pathl.Path(__file__).parent / "uart_logs.log",
     help="Log file to write to",
 )
-def main(cli: bool, debug: bool, port: Optional[str], baud: int, log: str):
+@click.option("--opaudio", is_flag=True, help="Open the audio window")
+@click.option("--opmel", is_flag=True, help="Open the MEL window")
+def main(cli: bool, debug: bool, port: Optional[str], baud: int, log: str, opaudio: bool, opmel: bool):
     print("Starting the application ...")
     # Create the main application
     app = QApplication(sys.argv)
@@ -1596,6 +1598,14 @@ def main(cli: bool, debug: bool, port: Optional[str], baud: int, log: str):
 
     # Connect the database to the serial controller
     connect_db_to_ser(db, ser)
+
+    # Open the audio window if requested
+    if opaudio:
+        main_window.open_audio_window()
+
+    # Open the MEL window if requested
+    if opmel:
+        main_window.open_mel_window()
 
     # Execute the application
     sys.exit(app.exec())
