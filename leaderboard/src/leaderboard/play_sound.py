@@ -97,7 +97,6 @@ def play_sound(
     so they never have any penalty on that regard.
     """
     from pydub import AudioSegment
-    from pydub.generators import WhiteNoise
     from pydub.playback import play
 
     url = url or get_url()
@@ -111,6 +110,9 @@ def play_sound(
         dataset_kwargs["format"] = _format
 
     dataset = Dataset(**dataset_kwargs)
+
+    # TODO: Load background noise and set music level proportionally to the background noise level.
+    noise_dBFS = 0.0  # TODO: fixme
 
     # Wait for server to be up
     # and checks if admin rights
@@ -164,7 +166,7 @@ def play_sound(
         time_before_next_lap = json["time_before_next_lap"]
         time_before_playing = json["time_before_playing"]
         category = json["current_correct_guess"]
-        with_noise = json["current_with_noise"]
+        sound_gain = json["current_sound_gain"]
 
         sound_key = (current_round + 1, current_lap + 1)
 
@@ -189,21 +191,10 @@ def play_sound(
             AudioSegment.from_file(sound_file, format=_format)
             .set_channels(1)
             .normalize_dBFS()
+            .apply_gain(noise_dBFS + sound_gain)
             .fade_in(250)
             .fade_out(250)
         )
-
-        if with_noise and current_lap >= 10:
-            relative_gain = -20 + 2 * (current_lap - 10)  # TODO: find better value
-            logger.info(
-                "Adding random noise on top of audio segment "
-                f"with a relative volume gain of {relative_gain} dB."
-            )
-            sound = sound.overlay(
-                WhiteNoise().to_audio_segment(
-                    duration=len(sound), volume=sound.dBFS + relative_gain
-                )
-            )
 
         time.sleep(time_before_playing - max(0, time.time() - start))
 
