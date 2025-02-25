@@ -216,6 +216,7 @@ specified in `/etc/iptables/rules.v4`.
 If you do not have access, you need to ask the I.T. staff (or one of the member
 that already has such access).
 After manually updating the iptable (eg. with `vim` or `nano`), it needs to be reloaded to be effective.
+
 ```bash
 iptables-restore < /etc/iptables/rules.v4
 ```
@@ -313,6 +314,7 @@ rye run leaderboard serve
 > [!TIP]
 > If you encounter an error saying that the port is already in use, you need
 > to stop the process that is currently using the port (i.e., Apache2), with:
+>
 > ```bash
 > systemctl stop apache2
 > ```

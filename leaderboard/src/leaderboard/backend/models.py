@@ -501,7 +501,11 @@ class Config(BaseModel):
         current_correct_guess = self.rounds_config.get_current_correct_guess()
         current_round = self.rounds_config.get_current_round()
         current_lap = self.rounds_config.get_current_lap()
-        current_gain = -(current_lap // 4) * 3.0 if self.rounds_config.get_current_round_config().reduce_level else 0.0
+        current_gain = (
+            -(current_lap // 4) * 3.0
+            if self.rounds_config.get_current_round_config().reduce_level
+            else 0.0
+        )
         number_of_rounds = self.rounds_config.get_number_of_rounds()
         number_of_laps = self.rounds_config.get_current_number_of_laps()
         paused = self.rounds_config.is_paused()
