@@ -26,7 +26,7 @@ uart-reader = [
 ]
 
 [project.scripts]
-model-trainer = "contrib.model_formating_template:main"
+model-trainer = "contrib.uart_reader.model_trainer:main"
 uart-reader = "contrib.uart_reader.__main__:main"
 
 [tool.hatch.build.targets.wheel]

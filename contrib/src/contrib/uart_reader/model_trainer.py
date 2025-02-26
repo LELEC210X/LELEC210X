@@ -212,13 +212,16 @@ def example():
     print(loaded_model.model.predict_hist(X_hist))
 
 
+# Run the Main Function (Example or user code)
 def main():
-    example()
+    example() # COMMENT THIS LINE TO RUN USER CODE
+
+    # USER CODE HERE
 
 
-# Run the example (or the user code)
+# Run the function
 if __name__ == "__main__":
     print(
-        "Please run this through rye instead, using >> rye run model_trainer <<, else, the model will not be interpreted correctly on load."
+        "Please run this through rye instead, using >> rye run model-trainer <<, else, the model will not be interpreted correctly on load."
     )
     main()

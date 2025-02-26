@@ -30,14 +30,13 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QWidget,
     QGridLayout,
-    QCheckBox,
 )
 from serial.tools import list_ports
 
 from .libraries import database_utils as dbu
 from .libraries import logging_utils as logu
 from .libraries import serial_utils as seru
-from .model_formating_template import (
+from .model_trainer import (
     load_model,
 )
 
@@ -396,7 +395,11 @@ class GUIMELWindow(QMainWindow):
         # Structure of the model :
         #  {"model": AbstractModelWrapper, "mel_len": int, "mel_num": int, "classes": List[str]}
         try:
-            self.current_model_dict = load_model(self.current_model_path).to_dict()
+            self.current_model_dict = load_model(self.current_model_path)
+            if self.current_model_dict is None:
+                self.logger.error("Error loading the model : No model found")
+            else:
+                self.current_model_dict = self.current_model_dict.to_dict()
         except Exception as e:
             self.current_model_dict = {}
             self.logger.error(f"Error loading the model : {e}")
@@ -411,7 +414,7 @@ class GUIMELWindow(QMainWindow):
 
         # Check if the model is loaded
         if self.current_model is None:
-            self.logger.error("No model loaded, please load a model in the settings")
+            self.logger.error("No model loaded, please select a model in the classification settings, or use >> rye run model-trainer << to train a model")
             self.current_model = None
         else:
             self.logger.info(f"Model loaded from {self.current_model_path}")
@@ -1534,7 +1537,7 @@ def database_init(db: dbu.ContentDatabase):
         "model_path",
         db.File(
             "Model Path",
-            base_path.parent / "mcu" / "model.pickle",
+            base_path.parent / "uart_reader" / "model.pickle",
             "The path to the model file",
         ),
     )
