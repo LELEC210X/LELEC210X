@@ -30,7 +30,6 @@ from PyQt6.QtWidgets import (
     QTabWidget,
     QVBoxLayout,
     QWidget,
-    QGridLayout,
 )
 from serial.tools import list_ports
 
@@ -415,7 +414,9 @@ class GUIMELWindow(QMainWindow):
 
         # Check if the model is loaded
         if self.current_model is None:
-            self.logger.error("No model loaded, please select a model in the classification settings, or use >> rye run model-trainer << to train a model")
+            self.logger.error(
+                "No model loaded, please select a model in the classification settings, or use >> rye run model-trainer << to train a model"
+            )
             self.current_model = None
         else:
             self.logger.info(f"Model loaded from {self.current_model_path}")
