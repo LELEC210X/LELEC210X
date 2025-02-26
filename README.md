@@ -21,6 +21,8 @@ Subdirectories are organized as follows:
   shared tools across different parts.
 - [`classification/`](classification/):
   hands-on related to the classification part.
+- [`contrib/`](contrib/):
+  contributions from students.
 - [`fpga`](fpga/):
   hands-on related to the FPGA part and Quartus project for the LimeSDR Mini.
 - [`leaderboard/`](leaderboard/):
