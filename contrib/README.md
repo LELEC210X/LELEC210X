@@ -8,6 +8,7 @@ If you think you also have a piece of code that is worth adding to this project,
 please do not hesitate to reach out (via a pull request or by contacting a teaching assistant)!
 
 ## List of contributions
+
 - [Contribution 1 - UART Reader](#uart-reader)
   - [UART Reader Manual](#uart-reader-in-depth-manual)
 
@@ -61,6 +62,7 @@ rye run model-trainer
 ### Accessing the old stable version
 
 <!--ADD TAG HERE-->
+
 Please visit the tag <?> to use the previous version of the utility. This older version features a fully implemented and tested CLI interface, so that you can tie it to a command line pipeline. Though, it has only support for audio files, and not the interpretation of mel spectrograms.
 
 <!-- TODO, Add a picture of the old utility here, and the command -->
@@ -109,15 +111,15 @@ Please visit the tag <?> to use the previous version of the utility. This older 
 We will use the following wording to discribe the different parts of the program.
 | Term | Definition |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GUI                             | Graphical User Interface                                                                                                                          |
-| CLI                             | Command Line Interface                                                                                                                            |
-| ADC                             | Analog-to-Digital Converter                                                                                                                       |
-| UART                            | Universal Asynchronous Receiver/Transmitter                                                                                                       |
-| UART Reader/Utility/App/program | The uart-reader program that this manual talks about, its contained in `contrib/src/contrib/uart_reader/__main__.py`                              |
-| Model Trainer                   | A script that creates a classification model file that can be used by the utility, situated in `contrib/src/contrib/uart_reader/model_trainer.py` |
-| Optional Flags                  | The command line therms that have to be added to the end of the rye command for launching the utility, they follow the `--<name>` notation        |
-| Pickling                        | The process of serializing and deserializing Python objects, converting them to a byte stream for storage or transfer, and restoring them later   |
-| Database                        | The storage structure for the parameters such as the baud rate, the file paths, and the rest                                                      | 
+| GUI | Graphical User Interface |
+| CLI | Command Line Interface |
+| ADC | Analog-to-Digital Converter |
+| UART | Universal Asynchronous Receiver/Transmitter |
+| UART Reader/Utility/App/program | The uart-reader program that this manual talks about, its contained in `contrib/src/contrib/uart_reader/__main__.py` |
+| Model Trainer | A script that creates a classification model file that can be used by the utility, situated in `contrib/src/contrib/uart_reader/model_trainer.py` |
+| Optional Flags | The command line therms that have to be added to the end of the rye command for launching the utility, they follow the `--<name>` notation |
+| Pickling | The process of serializing and deserializing Python objects, converting them to a byte stream for storage or transfer, and restoring them later |
+| Database | The storage structure for the parameters such as the baud rate, the file paths, and the rest |
 
 <!-- Chapter 1 - Basic stuff-->
 
@@ -197,9 +199,11 @@ As each group is allowed to create anything they like as a classifier, i had to 
 ### Section 2.2 - GUI Architecture
 
 ### Section 2.3 - Saving Graphs from the utility itself
-Currently, there is no way to save graphs directly from the GUI. So appart if you take screenshots of the graphs, i would recommend that you take the data from the `.npy` files, and that you plot them with your favourite aesthetic. 
+
+Currently, there is no way to save graphs directly from the GUI. So appart if you take screenshots of the graphs, i would recommend that you take the data from the `.npy` files, and that you plot them with your favourite aesthetic.
 
 A little tip here, is to use VSCode/VSCodium extension that allow for reading these files, so you can get a idea of what is inside them, sush as :
+
 - `vscode-pydata-viewer` with `vscode-numpy-viewer` (Both are required)
 
 <!-- Chapter 3 - Future development if need-be -->
@@ -224,10 +228,13 @@ Many things can be improved, but some more than others. One such thing, is defin
 ### Section 3.3 - Architectureal ideas
 
 ### Section 3.4 - Credits and thanks
+
 This manual and utility is provided to you by the following group(s) :
+
 - Group E, 2024-2025
 
 Big thanks to @jeertmans for his amazing help and guidance for the pull requests.
 
 ---
+
 ---
