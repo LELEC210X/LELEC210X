@@ -1,3 +1,48 @@
+# Contributions
+
+This package contains sub-packages that are contributions from students.
+
+Teaching Assistants reviewed the code before merging, but are not responsible for it.
+
+If you think you also have a piece of code that is worth adding to this project,
+please do not hesitate to reach out (via a pull request or by contacting a teaching assistant)!
+
+
+## UART Reader
+
+* **Location:** `src/contrib/uart_reader.py`;
+* **Contributed by:** group E, 2024-2025;
+* **Description:** provide a graphical interface to read from UART;
+* **Script(s):** `uart-reader`, see usage below.
+
+### Usage
+
+```bash
+rye run uart_reader
+```
+
+> [!NOTE]
+> The utility will launch in GUI mode by default, if needed in CLI mode, please use the `-c, --cli` flag.
+
+### Options
+
+- `-c, --cli`: Whether to run the CLI application.
+- `-p, --port TEXT`: The serial port to read data from (default: `-- No COM --`).
+- `-b, --baudrate INTEGER`: The baudrate of the serial port (default: `115200`).
+- `-s, --sampling-frequency INTEGER`: The sampling frequency of the ADC (default: `10200`).
+- `-m, --max-adc-value INTEGER`: The maximum value of the ADC (default: `4096`).
+- `-v, --vdd FLOAT`: The voltage of the power supply (default: `3.3`).
+- `-o, --plot-output-type [WEB|FILE]`: The type of output for the plot (default: `WEB`).
+- `-l, --log-level [DEBUG|INFO|WARNING|ERROR|CRITICAL]`: The level of logging (default: `INFO`).
+- `-f, --log-file`: Whether to log to a file (Not modifiable at runtime).
+- `-w, --overwrite-audio`: Whether to overwrite the audio folder.
+- `-a, --audio-output-type [WAV|OGG]`: The type of output for the audio (default: `WAV`).
+- `-d, --audio-output-folder TEXT`: The folder to save the audio files (default: `audio_files`).
+
+<!-- TODO, update the text above to include the information below -->
+
+---
+
 # UART Reader Manual
 
 ## How to use
@@ -32,7 +77,7 @@ The Mel window has bugs (acknowledged further), its also the trickiest to use, a
 
 To redefine the default settings, please go to the `def database_initialization(db)` function, and change the values of the entries, be careful to not break the tuples, as the databaseV2 is a bit tricky in that aspect.
 
-![alt text](readme_images/databaseV2_picture_init.PNG)
+![alt text](assets/databaseV2_picture_init.PNG)
 
 ### Structure of the pickle file of the classifier model
 
@@ -60,7 +105,7 @@ The mel window is the most patched up window in the whole program, as i had a ha
 ## Internal Structure/Architecture of the `uart_readerV4`
 
 Here is a very simple diagram of the architecture of the application, keep in mind that a lot of the complexities and problems can't really be seen from this view.
-![architecure](readme_images/app_architecture.png)
+![architecure](assets/app_architecture.png)
 
 ## Problems, Choices and future evolution
 

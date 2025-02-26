@@ -1,10 +1,8 @@
-# Standard Library
 import pathlib as pathl
 import sys
 import time
 from typing import Optional
 
-# Installed Libraries
 import click
 import matplotlib
 import matplotlib.pyplot as plt
@@ -31,7 +29,6 @@ from PyQt6.QtWidgets import (
 )
 from serial.tools import list_ports
 
-# Custom modules (if not running, remove the mcu. prefix)
 from .libraries import database_utils as dbu # ????
 import mcu.libraries.logging_utils as logu
 import mcu.libraries.serial_utils as seru
@@ -42,7 +39,6 @@ from mcu.model_formating_template import (
     load_model
 )
 
-# Audio file imports
 import scipy.io.wavfile as wav
 import soundfile as sf
 
@@ -1552,11 +1548,6 @@ def connect_db_to_ser(db: dbu.ContentDatabase, ser: seru.SerialController):
         prefix.register_callback(change_prefixes)
 
 
-####################################################################################################
-# Main execution
-####################################################################################################
-
-
 @click.command()
 @click.option(
     "--cli", is_flag=True, help="Run the command line interface instead of the GUI"
@@ -1611,7 +1602,5 @@ def main(cli: bool, debug: bool, port: Optional[str], baud: int, log: str, opaud
     sys.exit(app.exec())
 
 
-####################################################################################################
-# Main Entry Point
 if __name__ == "__main__":
     main()
