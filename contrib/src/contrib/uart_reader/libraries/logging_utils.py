@@ -1,6 +1,7 @@
 import logging
 import pathlib
 from logging import Handler, LogRecord
+import os
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor, QTextCursor
@@ -25,7 +26,7 @@ class ContentLogger:
         self.logger.setLevel(logging.DEBUG)
         self.handlers = []
         self.file_use_toggle = use_file
-        self.file_path = pathlib.Path(__file__).parent / file_path
+        self.file_path = pathlib.Path(__file__).parent / file_path if not os.path.isabs(file_path) else file_path
         self.file_max_bytes = int(1e4)  # placeholder for future rotation logic
         self.file_backup_count = 3  # placeholder for future rotation logic
         self.default_formatter_str = "[%(asctime)s] %(levelname)-8s: %(message)s"

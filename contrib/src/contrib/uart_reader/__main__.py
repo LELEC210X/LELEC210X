@@ -1625,26 +1625,26 @@ def connect_db_to_ser(db: dbu.ContentDatabase, ser: seru.SerialController):
 
 @click.command()
 @click.option(
-    "--cli", is_flag=True, help="Run the command line interface instead of the GUI"
-)
-@click.option("--debug", is_flag=True, help="Enable debug mode")
-@click.option("--port", default=None, help="Serial port to use")
-@click.option("--baud", default=115200, help="Baud rate to use")
-@click.option(
-    "--log",
-    default=pathl.Path(__file__).parent / "uart_logs.log",
+    "--logfile",
+    default="../uart_logs.log",
     help="Log file to write to",
 )
 @click.option("--opaudio", is_flag=True, help="Open the audio window")
 @click.option("--opmel", is_flag=True, help="Open the MEL window")
+@click.option("--modelfile", default="None", help="Classifier model to use")
+@click.option("--mel_length", default=20, help="Length of the MEL vectors")
+@click.option("--mel_number", default=20, help="Number of MEL vectors in the feature vector")
+@click.option("--automel", is_flag=True, help="Automatically save the MEL files")
+@click.option("--autoaudio", is_flag=True, help="Automatically save the audio files")
 def main(
-    cli: bool,
-    debug: bool,
-    port: Optional[str],
-    baud: int,
-    log: str,
+    logfile: str,
     opaudio: bool,
     opmel: bool,
+    modelfile: str,
+    mel_length: int,
+    mel_number: int,
+    automel: bool,
+    autoaudio: bool,
 ):
     print("Starting the application ...")
     # Create the main application
@@ -1655,10 +1655,18 @@ def main(
     matplotlib.use("Qt5Agg")
 
     # Create the logger
-    logelem = logu.ContentLogger(__name__, "../uart_logs.log", True)
+    logelem = logu.ContentLogger(__name__, logfile, True)
 
     # Create the database
     db = dbu.ContentDatabase(database_init, logelem.logger, False)
+
+    ## DB config from CLI
+    db.get_item("MEL Settings", "mel_length").set_value(mel_length)
+    db.get_item("MEL Settings", "mel_number").set_value(mel_number)
+    db.get_item("MEL Settings", "auto_save").set_value(automel)
+    db.get_item("Audio Settings", "auto_save").set_value(autoaudio)
+    if modelfile != "None":
+        db.get_item("Classifier Settings", "model_path").set_value(modelfile)
 
     # Create the serial controller
     ser = seru.SerialController(logelem.logger)

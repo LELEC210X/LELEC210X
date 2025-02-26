@@ -271,6 +271,8 @@ class ContentDatabase:
             layout.addWidget(self.gen_widget_label())
             layout.addWidget(self.gen_widget_element())
             widget.setLayout(layout)
+            widget.setContentsMargins(0, 0, 0, 0)
+            widget.setStyleSheet("padding-top: 0px; padding-bottom: 0px;")
             return widget
 
     # ------------------ Database Element Types ------------------
@@ -341,6 +343,11 @@ class ContentDatabase:
             layout.addWidget(text_entry)
             layout.addWidget(suffix_label)
             widget.setLayout(layout)
+
+            # Make the widget narrower
+            widget.setContentsMargins(0, 0, 0, 0)
+            widget.setStyleSheet("padding-top: 0px; padding-bottom: 0px;")
+
             return widget
 
     class Integer(DatabaseElementTemplate):
@@ -370,6 +377,10 @@ class ContentDatabase:
             self.register_callback(lambda value: spin_box.setValue(value))
             layout.addWidget(spin_box)
             widget.setLayout(layout)
+
+            # Make the widget narrower
+            widget.setContentsMargins(0, 0, 0, 0)
+            widget.setStyleSheet("padding-top: 0px; padding-bottom: 0px;")
             return widget
 
     class RangeInt(DatabaseElementTemplate):
@@ -424,6 +435,9 @@ class ContentDatabase:
 
             layout.addWidget(slider)
             layout.addWidget(value_label)
+
+            widget.setContentsMargins(0, 0, 0, 0)
+            widget.setStyleSheet("padding-top: 0px; padding-bottom: 0px;")
             return widget
 
     class RangeFloat(DatabaseElementTemplate):
@@ -498,6 +512,9 @@ class ContentDatabase:
 
             layout.addWidget(slider)
             layout.addWidget(value_label)
+
+            widget.setContentsMargins(0, 0, 0, 0)
+            widget.setStyleSheet("padding-top: 0px; padding-bottom: 0px;")
             return widget
 
     class Text(DatabaseElementTemplate):
@@ -561,6 +578,9 @@ class ContentDatabase:
             )
             layout.addWidget(color_button)
             widget.setLayout(layout)
+
+            widget.setContentsMargins(0, 0, 0, 0)
+            widget.setStyleSheet("padding-top: 0px; padding-bottom: 0px;")
             return widget
 
         def handle_color_dialog(self):
@@ -587,8 +607,7 @@ class ContentDatabase:
 
         def gen_widget_element(self) -> QWidget:
             """Generate a widget for the boolean element."""
-            widget = QWidget()
-            layout = QHBoxLayout()
+            widget = ...
 
             check_box = QCheckBox()
             check_box.setChecked(self.value)
@@ -598,8 +617,9 @@ class ContentDatabase:
 
             self.register_callback(lambda new_value: check_box.setChecked(new_value))
 
-            layout.addWidget(check_box)
-            widget.setLayout(layout)
+            widget = check_box
+            widget.setContentsMargins(0, 0, 0, 0)
+            widget.setStyleSheet("padding-top: 0px; padding-bottom: 0px;")
             return widget
 
     class List(DatabaseElementTemplate):
@@ -652,6 +672,9 @@ class ContentDatabase:
 
             layout.addStretch()
             widget.setLayout(layout)
+
+            widget.setContentsMargins(0, 0, 0, 0)
+            widget.setStyleSheet("padding-top: 0px; padding-bottom: 0px;")
             return widget
 
     class Dictionary(DatabaseElementTemplate):
@@ -704,6 +727,9 @@ class ContentDatabase:
 
             layout.addStretch()
             widget.setLayout(layout)
+
+            widget.setContentsMargins(0, 0, 0, 0)
+            widget.setStyleSheet("padding-top: 0px; padding-bottom: 0px;")
             return widget
 
     class File(DatabaseElementTemplate):
@@ -735,6 +761,9 @@ class ContentDatabase:
             layout.addWidget(file_entry)
             layout.addWidget(file_button)
             widget.setLayout(layout)
+
+            widget.setContentsMargins(0, 0, 0, 0)
+            widget.setStyleSheet("padding-top: 0px; padding-bottom: 0px;")
             return widget
 
         def handle_file_dialog(self):
@@ -773,6 +802,9 @@ class ContentDatabase:
             layout.addWidget(folder_entry)
             layout.addWidget(folder_button)
             widget.setLayout(layout)
+
+            widget.setContentsMargins(0, 0, 0, 0)
+            widget.setStyleSheet("padding-top: 0px; padding-bottom: 0px;")
             return widget
 
         def handle_folder_dialog(self):
@@ -818,6 +850,9 @@ class ContentDatabase:
             self.register_callback(choice_box_callback)
             layout.addWidget(choice_box)
             widget.setLayout(layout)
+
+            widget.setContentsMargins(0, 0, 0, 0)
+            widget.setStyleSheet("padding-top: 0px; padding-bottom: 0px;")
             return widget
 
     class ConstantText(DatabaseElementTemplate):
@@ -847,6 +882,9 @@ class ContentDatabase:
             )  # Update the label
             layout.addWidget(text_label)
             widget.setLayout(layout)
+
+            widget.setContentsMargins(0, 0, 0, 0)
+            widget.setStyleSheet("padding-top: 0px; padding-bottom: 0px;")
             return widget
 
 
