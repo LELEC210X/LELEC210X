@@ -1634,7 +1634,9 @@ def connect_db_to_ser(db: dbu.ContentDatabase, ser: seru.SerialController):
 @click.option("--opmel", is_flag=True, help="Open the MEL window")
 @click.option("--modelfile", default="None", help="Classifier model to use")
 @click.option("--mel_length", default=20, help="Length of the MEL vectors")
-@click.option("--mel_number", default=20, help="Number of MEL vectors in the feature vector")
+@click.option(
+    "--mel_number", default=20, help="Number of MEL vectors in the feature vector"
+)
 @click.option("--automel", is_flag=True, help="Automatically save the MEL files")
 @click.option("--autoaudio", is_flag=True, help="Automatically save the audio files")
 def main(
