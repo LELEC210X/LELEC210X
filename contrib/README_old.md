@@ -12,18 +12,20 @@ please do not hesitate to reach out (via a pull request or by contacting a teach
 - **Location:** `src/contrib/uart_reader/__main__.py`;
 - **Contributed by:** Group E, 2024-2025;
 - **Description:** provide a graphical interface to read from UART;
-- **Script(s):** 
-    - `uart-reader`, see usage below.
-    - `model-trainer`, see usage below.
+- **Script(s):**
+  - `uart-reader`, see usage below.
+  - `model-trainer`, see usage below.
 
 ### Usage
 
 Launching the UART Reader utility requires this command :
+
 ```bash
 rye run uart-reader <optional flags>
 ```
 
 To create a classification model that can be used by the UART Reader utilty requires the modification of the `src/contrib/uart_reader/model_trainer.py` file, and you must run this command for it to be correctly interpreted by the utility :
+
 ```bash
 rye run model-trainer
 ```
@@ -62,6 +64,7 @@ rye run model-trainer
 <!-- TODO, update the text above to include the information below -->
 
 ### Accessing the old stable version
+
 Please visit the tag <?> to use the previous version of the utility. This older version features a fully implemented and tested CLI interface, so that you can tie it to a command line pipeline. Though, it has only support for audio files, and not the interpretation of mel spectrograms.
 
 <!-- TODO, Add a picture of the old utility here, and the command -->
@@ -127,18 +130,10 @@ Why use a custom wrapper for the model ? This is simply to let the user implemen
 
 The mel window is the most patched up window in the whole program, as i had a hard time implementing it without a complete rewrite as i will explain further on in the document. This means that, if you want to use it with for example: a feature vector of 30x30 and a different model path, then you will first have to modify the parametters in the parametter window or initialization function for the database. Only then, can you open the Mel Window, and make the graphs work properly and not create errors or crash because of weird data formats (Because of how i had to implemement the UI).
 
-
-
-
-
 ## Internal Structure/Architecture of the `uart_readerV4`
 
 Here is a very simple diagram of the architecture of the application, keep in mind that a lot of the complexities and problems can't really be seen from this view.
 ![architecure](assets/app_architecture.png)
-
-
-
-
 
 ## Problems, Choices and future evolution
 
