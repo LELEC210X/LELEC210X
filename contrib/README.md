@@ -9,21 +9,29 @@ please do not hesitate to reach out (via a pull request or by contacting a teach
 
 ## UART Reader
 
-- **Location:** `src/contrib/uart_reader.py`;
-- **Contributed by:** group E, 2024-2025;
+- **Location:** `src/contrib/uart_reader/__main__.py`;
+- **Contributed by:** Group E, 2024-2025;
 - **Description:** provide a graphical interface to read from UART;
-- **Script(s):** `uart-reader`, see usage below.
+- **Script(s):** 
+    - `uart-reader`, see usage below.
+    - `model-trainer`, see usage below.
 
 ### Usage
 
+Launching the UART Reader utility requires this command :
 ```bash
-rye run uart_reader
+rye run uart-reader <optional flags>
+```
+
+To create a classification model that can be used by the UART Reader utilty requires the modification of the `src/contrib/uart_reader/model_trainer.py` file, and you must run this command for it to be correctly interpreted by the utility :
+```bash
+rye run model-trainer
 ```
 
 > [!NOTE]
-> The utility will launch in GUI mode by default, if needed in CLI mode, please use the `-c, --cli` flag.
+> The utility is for the moment only a GUI based application, and does not have the capacity to run only in the console. If you do need such an application, please refer to the tag bellow to a previous version of this application that has this feature.
 
-### Options
+### Optional Flags
 
 - `-c, --cli`: Whether to run the CLI application.
 - `-p, --port TEXT`: The serial port to read data from (default: `-- No COM --`).
@@ -37,102 +45,165 @@ rye run uart_reader
 - `-w, --overwrite-audio`: Whether to overwrite the audio folder.
 - `-a, --audio-output-type [WAV|OGG]`: The type of output for the audio (default: `WAV`).
 - `-d, --audio-output-folder TEXT`: The folder to save the audio files (default: `audio_files`).
+<!--
+@click.option(
+    "--logfile",
+    default="../uart_logs.log",
+    help="Log file to write to",
+)
+@click.option("--opaudio", is_flag=True, help="Open the audio window")
+@click.option("--opmel", is_flag=True, help="Open the MEL window")
+@click.option("--modelfile", default="None", help="Classifier model to use")
+@click.option("--mel_length", default=20, help="Length of the MEL vectors")
+@click.option("--mel_number", default=20, help="Number of MEL vectors in the feature vector")
+@click.option("--automel", is_flag=True, help="Automatically save the MEL files")
+@click.option("--autoaudio", is_flag=True, help="Automatically save the audio files")>
 
 <!-- TODO, update the text above to include the information below -->
 
+### Making your own classifier
+
+### Accessing the old stable version
+Please visit the tag <?> to use the previous version of the utility. This older version features a fully implemented and tested CLI interface, so that you can tie it to a command line pipeline. Though, it has only support for audio files, and not the interpretation of mel spectrograms.
+
+<!-- TODO, Add a picture of the old utility here, and the command -->
+
+
+---
 ---
 
-# UART Reader Manual
+# UART Reader, In Depth Manual
 
-## How to use
+<!-- Chapter 0 - Wording -->
+## Chapter 0 - Table of content, Terminology and wording
+### Table of Contents
 
-### How to run the old version
+- [Contributions](#contributions)
+  - [UART Reader](#uart-reader)
+    - [Usage](#usage)
+    - [Optional Flags](#optional-flags)
+    - [Making your own classifier](#making-your-own-classifier)
+    - [Accessing the old stable version](#accessing-the-old-stable-version)
+- [UART Reader, In Depth Manual](#uart-reader-in-depth-manual)
+  - [Chapter 0 - Table of content, Terminology and wording](#chapter-0---table-of-content-terminology-and-wording)
+    - [Table of Contents](#table-of-contents)
+    - [Terminology](#terminology)
+  - [Chapter 1 - Basic use of the utility](#chapter-1---basic-use-of-the-utility)
+    - [Section 1.1 - Launching the GUI](#section-11---launching-the-gui)
+    - [Section 1.2 - Launching the old utility](#section-12---launching-the-old-utility)
+    - [Section 1.3 - Training and using your own classifier](#section-13---training-and-using-your-own-classifier)
+    - [Section 1.4 - Changing parameters in the GUI](#section-14---changing-parameters-in-the-gui)
+    - [Section 1.5 - Tips, tricks and known bugs](#section-15---tips-tricks-and-known-bugs)
+  - [Chapter 2 - Advanced use and internals](#chapter-2---advanced-use-and-internals)
+    - [Section 2.1 - Model trainer and abstract wrappers](#section-21---model-trainer-and-abstract-wrappers)
+    - [Section 2.2 - GUI Architecture](#section-22---gui-architecture)
+    - [Section 2.3 - Saving Graphs from the utility itself](#section-23---saving-graphs-from-the-utility-itself)
+  - [Chapter 3 - Motivation, ideals and pushing development](#chapter-3---motivation-ideals-and-pushing-development)
+    - [Section 3.1 - Motivation for creating the utility](#section-31---motivation-for-creating-the-utility)
+    - [Section 3.2 - What could be improved ?](#section-32---what-could-be-improved-)
+    - [Section 3.3 - Architectureal ideas](#section-33---architectureal-ideas)
+    - [Section 3.4 - Thanks](#section-34---thanks)
+  
+### Terminology
+We will use the following wording to discribe the different parts of the program.
+| Term                            | Definition                                                                                                                                        |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GUI                             | Graphical User Interface                                                                                                                          |
+| CLI                             | Command Line Interface                                                                                                                            |
+| ADC                             | Analog-to-Digital Converter                                                                                                                       |
+| UART                            | Universal Asynchronous Receiver/Transmitter                                                                                                       |
+| UART Reader/Utility/App/program | The uart-reader program that this manual talks about, its contained in `contrib/src/contrib/uart_reader/__main__.py`                              |
+| Model Trainer                   | A script that creates a classification model file that can be used by the utility, situated in `contrib/src/contrib/uart_reader/model_trainer.py` |
+| Optional Flags                  | The command line therms that have to be added to the end of the rye command for launching the utility, they follow the `--<name>` notation        |
+| Pickling                        | The process of serializing and deserializing Python objects, converting them to a byte stream for storage or transfer, and restoring them later.  |
 
-Through rye :
+<!-- Chapter 1 - Basic stuff-->
+## Chapter 1 - Basic use of the utility
 
-> `rye run uart_reader`
+### Section 1.1 - Launching the GUI
+To launch the GUI, you will need to use rye, or you could try to tweak the import chain to launch it, but its not recommended for simplicity. Rye will launch the main entry point and allows for a few optional therms that can be useful to go faster while using the utility.
 
-Through python :
-
-> `python3 uart_readerV1.py`
-
-### How to run the new version
-
-Through rye :
-
-> `rye run uart_reader2`
-
-Through python :
-
-> `python3 uart_readerV4.py`
-
-### Program entry point
-
-The brand new uart-reader is the file named `uart_readerV4.py`, located next to this readme. This app allows the user to connect to a serial port, and liscen to it. When it receives certain packets, it can open one of 2 windows : Audio window, for audio packets from hands_on_audio_acquisition, and Mel window that is there to receive packets as mel vectors or full packets from the main app (only tested with the main app, usage may vary).
-
-The Mel window has bugs (acknowledged further), its also the trickiest to use, as it requires the use of a classification model generated by the `model_formatter_for_V4.py` script to work. The window itself is the processor of everything, so, if a error has happened with the model, you just have to close and re-open the window to retry (If the program didn't crash).
-
-### Re-define default settings
-
-To redefine the default settings, please go to the `def database_initialization(db)` function, and change the values of the entries, be careful to not break the tuples, as the databaseV2 is a bit tricky in that aspect.
-
-![Database picture](assets/databaseV2_picture_init.PNG)
-
-### Structure of the pickle file of the classifier model
-
-Its structure is essentially just a dictionary containing the model and a bit more info to make it easy to run. You can generate such a pickled file using the `model_formatter_for_V4.py` file. It follows this convention :
-
-```Python
-pickled_data = {
-    "model": AbstractModelWrapper, # The pre-trained classifier (fitted), and wrapped with a custom class of this type
-    "mel_len": 20, # Length of the mel-vector of the feature vector
-    "mel_num": 20, # Number of mel-vectors in the feature vector
-    "classes": ["gun", "chainsaw", "bird", "fire"],
-    "mel_flat": False, # Do you need it to be N*Mx1 of size (np.ndarray[]) or NxM size (np.ndarray[np.ndarray[]]) ?
-    "needs_hist": False, # Does it need more than 1 melvec ?
-    "concat_hist": False, # Does the history need to be concatenated after each feature vector ?
-    "num_hist": 1, # Number of historical ellements to use, this is a maximum, if there are not enough, then i can't give you more.
-}
+To run the utility, please use :
+```bash
+rye run uart-reader <optional flags>
 ```
 
-Why use a custom wrapper for the model ? This is simply to let the user implement whatever they want as the backend, it only exposes a simple API to the application that it can follow. If you are not respecting this, then you could get problems.
+When you launch the GUI, by default, a uart_logs.log file will appear next to the `__main__.py` file. If you want to keep it, you will have to remove its exclusion in the .gitignore. 
 
-### Instruction on use of the Mel Window (WARNING BUGS)
+### Section 1.2 - Launching the old utility
+The old uart-reader utility GUI had a CLI interface that the new one doesn't, but lacks the features of the new GUI interface. The old app was a bit snappier and simpler, only capable on processing audio from the hands_on_audio_acquisition. All of this makes it great for automatization and editability.
 
-The mel window is the most patched up window in the whole program, as i had a hard time implementing it without a complete rewrite as i will explain further on in the document. This means that, if you want to use it with for example: a feature vector of 30x30 and a different model path, then you will first have to modify the parametters in the parametter window or initialization function for the database. Only then, can you open the Mel Window, and make the graphs work properly and not create errors or crash because of weird data formats (Because of how i had to implemement the UI).
+First, to obtain it, you will have to git checkout onto a tag in the project's origin. To do so, run this command :
+<!--TODO : Add the tag-->
+```bash
+git checkout <tag name> 
+```
+Then, you will have to run the utility using the following command :
+```bash
+rye run uart_reader <old optional flags>
+```
 
-## Internal Structure/Architecture of the `uart_readerV4`
+The old optional flags where the following : 
+- `-c, --cli`: Whether to run the CLI application (runs the backend of the GUI, without the GUI itself).
+- `-p, --port TEXT`: The serial port to read data from (default: `-- No COM --`).
+- `-b, --baudrate INTEGER`: The baudrate of the serial port (default: `115200`).
+- `-s, --sampling-frequency INTEGER`: The sampling frequency of the ADC (default: `10200`).
+- `-m, --max-adc-value INTEGER`: The maximum value of the ADC (default: `4096`).
+- `-v, --vdd FLOAT`: The voltage of the power supply (default: `3.3`).
+- `-o, --plot-output-type [WEB|FILE]`: The type of output for the plot (default: `WEB`).
+- `-l, --log-level [DEBUG|INFO|WARNING|ERROR|CRITICAL]`: The level of logging (default: `INFO`).
+- `-f, --log-file`: Whether to log to a file (Not modifiable at runtime).
+- `-w, --overwrite-audio`: Whether to overwrite the audio folder.
+- `-a, --audio-output-type [WAV|OGG]`: The type of output for the audio (default: `WAV`).
+- `-d, --audio-output-folder TEXT`: The folder to save the audio files (default: `audio_files`).
 
-Here is a very simple diagram of the architecture of the application, keep in mind that a lot of the complexities and problems can't really be seen from this view.
-![architecure](assets/app_architecture.png)
+There where some instabilities with the serial port, as the `pyserial` package has a C backend, that is prone to occasional segfaults and other problems, that are not correctly handled in the old utility.
 
-## Problems, Choices and future evolution
+A thing to note is, that the utility did have a plotting function for the audio signals it received, but it was quite basic, as it would open a new plotly graph each time, which would tab out the user each time a audio packet is received. It will also save the audio automatically whenever its received into a `audio` folder
 
-### State of the pushed app
+Here is a image of the old utility :
 
-Because of time and mental health constraints (i have rewritten too many times all of this) in 2025, i have decided to release only the uart_readerV4, and not the V5 as it was already further along in development (front and backend almost finished). The V4 is quite flawed, and is based on a flawed implementation of the database (V2) that made it hard to use. I had to be crafty in a lot of places to allow for certain features, and because of the bad database design, it was almost impossible to do proper cleanup and support for multiple windows. So crashes can easilly happen because of the callbacks.
+<p align="center">
+    <img src="assets/uart_reader_GUI_V1.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="27%" >
+</p>
 
-### What i wanted to improve
+### Section 1.3 - Training and using your own classifier
+As each group is allowed to create anything they like as a classifier, i had to make a unified interface so that the UART Reader could use the classifier
 
-After writing the V2 of the database, and using it in the V4 of the reader, i quickly realised that i was missing a lot of critical and tested implementations for each of the entries of the database (settings and stuff). This lead to the writing of the database V3. In this database, polymorphism was maximised, and a uniformity in the API was attempted, whilst trying to have as many type hints to know what to expect where. The only real issue i had with it is that there is apparently a problem with dark mode of Qt, making the text unreadable. In my optinion its perfectly capable, and and abstracts a lot of the complexities, whilst leaving a lot of functionality. But i will leave this to be fixed by whoever wants to use it. V3 was used to try to make the uart_readerV5, but this is still only the first brick of a skyscraper.
+### Section 1.4 - Changing parameters in the GUI
 
-V4 of the database is a bit of a sketch version, as i tried to apply much more advanced concepts to it, and try to separate the API from the backed logick, while using python at its full potential (the code is probably still far off from peak python, and i also had to keep in mind to not use python 3.12+ features or very new stuff)
+### Section 1.5 - Tips, tricks and known bugs
 
-### If someone is up to it
 
-I would recommend you to use the database V3 as its quite good, and has everything implemented and tested (even de serialization), whilst V4 still lacks quite a bit, but you do you.
+<!-- Chapter 2 - Advanced stuff -->
+## Chapter 2 - Advanced use and internals
 
-One thing to keep in mind, is that the hardest part of this whole thing was probably the MEL vector part, its still giving me nightmares because of the fact that feature vectors can be NxM with N not always equal to M. And making it update with the rest of the things, gave me a headache.
+### Section 2.1 - Model trainer and abstract wrappers
 
-Good luck to you if you take on this challenge.
+### Section 2.2 - GUI Architecture
 
-### Ramble on the architecture to aim for
+### Section 2.3 - Saving Graphs from the utility itself
 
-The perfect architecture is a architecture that devides the application into 2 independent parts (Frontend, backend), that can mutate at their own rate. For instance, if you made a graph, you would want to have the UI read a array in memory, and update itself using that array. And when you have to change the data of the array, you can change it as fast as you want, as the GUI will just handle it. This separation allows you to make clear procedural generation of the UI ellements at each update loop. It also allows you to change the underlying stuff, and re-render the whole ui with new parameters in a easier way. (Libraries such as dash, are faster and more oriented towards this paradigm; but Qt is fast enough, and much easier to use/read)
 
-Another feature that is quite crititcal, but that is only handled by the latests versions of the database (V3 and V4). Is the ability to use callbacks, as they allows you to not only update the UI when some value/array or anything else changes, but also allows you to add custom handlers for when you have to pre-process stuff. Though, one word of warning, the database is meant for non dynamic storage, as its quite heavy, if you wanted to make for example a update to a dynamically assembled list of plots on the UI (You would have to delete them all, then create new ones or only delete some), by changing a array, then you would have to create something else than the database. As the overhead would be a bit too big, and i also haven't updated it.
+<!-- Chapter 3 - Future development if need-be -->
+## Chapter 3 - Motivation, ideals and pushing development
 
-## Authors (Expand as needed)
+### Section 3.1 - Motivation for creating the utility
+From the first week of the project, we found ourselves struggling to use correctly the uart-reader.py files with the different `hands_on`'s. We had time, and where motivated, so we wrote a GUI for it, so we could more easilly focus on the nitty gritty of the project. We then published it on the forum, that then led to a pull request, and after many revision (4 weeks of revisions), we finally contributed to the project. This program then became quickly obscolete as we learned about the mel spectrogram part, and the classification and authentification. We also had less and less time to work on it, so we left it as is. But after the midbreak between Q1 and Q2, we decided to rewrite it all, we went ahead and tried to make it more modular (serialUtils, loggingUtils, databaseUtils, ...). As we wrote and used more the modules, we could see where we could improve and we rewrote about 6 entire versions of the databaseUtils, before being kinda ok with it. But then the courses started again, and we had to finish it, so we scrambled to finish the only prototype closest to finish. This led to this version of the uart-reader program. That uses the V4 of the GUI, and the V2 of the database (as you can see, we didn't use the V6, as we would of have needed to rewrite too much, and we wanted it pulled as fast as possible for the Q2). All this has concluded in a mess of a codebase, but that works ok enough to be presentable.
 
-- Group E 2024-2025
-- (Future You ?)
+After this big ramble, let me say that this was a very enjoyable experience, and tha twe learned a lot about how to build professional modular UI's that are easy to maintain and expand. I would definitely recommend you try it, if you have a light enough year, and want to learn more about UI's and user focused systems.
+
+### Section 3.2 - What could be improved ?
+Many things can be improved, but some more than others. One such thing, is definitely the separation between backend and frontend ! The mel window is a perfect example of what not to do, with a mish-mash of code to try to make something kinda performant. We could reformat it into the simple structure bellow :
+
+<p align="center">
+    <img src="assets/simple_UI_structure_revised.svg">
+</p>
+
+### Section 3.3 - Architectureal ideas
+
+### Section 3.4 - Thanks
+---
+---
+
+
