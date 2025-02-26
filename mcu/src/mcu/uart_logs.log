@@ -1131,3 +1131,30 @@
 [2025-02-26 00:30:14] ERROR   : No model loaded, please load a model in the settings
 [2025-02-26 00:32:24] INFO    : Opening the MEL Window
 [2025-02-26 00:32:24] INFO    : Model loaded from C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\mcu\model.pickle
+[2025-02-26 14:09:30] INFO    : Opening the MEL Window
+[2025-02-26 14:09:30] INFO    : Model loaded from C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\mcu\model.pickle
+[2025-02-26 14:10:02] INFO    : Opening the MEL Window
+[2025-02-26 14:10:02] INFO    : Model loaded from C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\mcu\model.pickle
+[2025-02-26 14:10:15] INFO    : Opening the Parameters Window
+[2025-02-26 14:10:48] INFO    : Saving mel data to C:/Dev/GIT/LELEC210X_Contribution_Group_E/mcu/src/mcu/test.npy
+[2025-02-26 14:20:19] INFO    : Opening the MEL Window
+[2025-02-26 14:20:19] INFO    : Model loaded from C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\mcu\model.pickle
+[2025-02-26 14:20:32] INFO    : Saving mel data to C:/Dev/GIT/LELEC210X_Contribution_Group_E/mcu/src/mcu/ttttt.npy
+[2025-02-26 14:21:26] INFO    : Opening the MEL Window
+[2025-02-26 14:21:26] INFO    : Model loaded from C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\mcu\model.pickle
+[2025-02-26 14:21:59] INFO    : Opening the MEL Window
+[2025-02-26 14:21:59] INFO    : Model loaded from C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\mcu\model.pickle
+[2025-02-26 14:23:34] INFO    : Opening the MEL Window
+[2025-02-26 14:23:34] INFO    : Model loaded from C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\mcu\model.pickle
+[2025-02-26 14:23:41] INFO    : Auto saving mel data to C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\data\mel/mel_20250226-142341
+[2025-02-26 14:23:41] INFO    : Auto saving mel data to C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\data\mel/mel_20250226-142341
+[2025-02-26 14:23:41] INFO    : Auto saving mel data to C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\data\mel/mel_20250226-142341
+[2025-02-26 14:23:41] INFO    : Auto saving mel data to C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\data\mel/mel_20250226-142341
+[2025-02-26 14:23:41] INFO    : Auto saving mel data to C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\data\mel/mel_20250226-142341
+[2025-02-26 14:23:41] INFO    : Auto saving mel data to C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\data\mel/mel_20250226-142341
+[2025-02-26 14:24:57] INFO    : Opening the MEL Window
+[2025-02-26 14:24:57] INFO    : Model loaded from C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\mcu\model.pickle
+[2025-02-26 14:30:50] INFO    : Opening the MEL Window
+[2025-02-26 14:30:50] INFO    : Model loaded from C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\mcu\model.pickle
+[2025-02-26 14:30:55] INFO    : Auto saving mel data to C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\data\mel/mel_20250226-143055-745193
+[2025-02-26 14:30:55] INFO    : Auto saving mel data to C:\Dev\GIT\LELEC210X_Contribution_Group_E\mcu\src\data\mel/mel_20250226-143055-924083
