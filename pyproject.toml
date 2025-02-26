@@ -5,7 +5,7 @@ authors = [
 description = "The best project for the best students"
 name = "LELEC210X"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = "==3.9.*"
 version = "0.1.0"
 
 [tool.ruff]
@@ -25,7 +25,7 @@ extend-ignore = [
   "E501",
 ]
 extend-select = ["B", "C90", "D", "I", "N", "RUF", "UP", "T"]
-isort = {known-first-party = ["auth", "classification", "common", "leaderboard", "mcu"]}
+isort = {known-first-party = ["auth", "classification", "common", "contrib", "leaderboard"]}
 line-length = 88
 
 [tool.rye]
@@ -39,7 +39,7 @@ managed = true
 virtual = true
 
 [tool.rye.workspace]
-members = ["auth", "classification", "common", "leaderboard", "mcu"]
+members = ["auth", "classification", "common", "contrib", "leaderboard"]
 
 [tool.uv]
 dev-dependencies = [
@@ -47,8 +47,8 @@ dev-dependencies = [
   "auth",
   "classification",
   "common",
+  "contrib[all]",
   "leaderboard",
-  "mcu",
   # Dev dependencies
   "pre-commit>=3.5.0",
   "pygments>=2.18.0",
@@ -60,8 +60,8 @@ dev-dependencies = [
 auth = {workspace = true}
 classification = {workspace = true}
 common = {workspace = true}
+contrib = {workspace = true}
 leaderboard = {workspace = true}
-mcu = {workspace = true}
 
 [tool.uv.workspace]
-members = ["auth", "classification", "common", "leaderboard", "mcu"]
+members = ["auth", "classification", "common", "contrib", "leaderboard"]
