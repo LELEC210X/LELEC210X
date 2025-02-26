@@ -102,7 +102,8 @@ Please visit the tag <?> to use the previous version of the utility. This older 
     - [Section 3.1 - Motivation for creating the utility](#section-31---motivation-for-creating-the-utility)
     - [Section 3.2 - What could be improved ?](#section-32---what-could-be-improved-)
     - [Section 3.3 - Architectureal ideas](#section-33---architectureal-ideas)
-    - [Section 3.4 - Thanks](#section-34---thanks)
+    - [Section 3.4 - Credits and thanks](#section-34---credits-and-thanks)
+  - [Big thanks to @jeertmans for his amazing help and guidance for the pull requests.](#big-thanks-to-jeertmans-for-his-amazing-help-and-guidance-for-the-pull-requests)
   
 ### Terminology
 We will use the following wording to discribe the different parts of the program.
@@ -115,7 +116,8 @@ We will use the following wording to discribe the different parts of the program
 | UART Reader/Utility/App/program | The uart-reader program that this manual talks about, its contained in `contrib/src/contrib/uart_reader/__main__.py`                              |
 | Model Trainer                   | A script that creates a classification model file that can be used by the utility, situated in `contrib/src/contrib/uart_reader/model_trainer.py` |
 | Optional Flags                  | The command line therms that have to be added to the end of the rye command for launching the utility, they follow the `--<name>` notation        |
-| Pickling                        | The process of serializing and deserializing Python objects, converting them to a byte stream for storage or transfer, and restoring them later.  |
+| Pickling                        | The process of serializing and deserializing Python objects, converting them to a byte stream for storage or transfer, and restoring them later   |
+| Database                        | The storage structure for the parameters such as the baud rate, the file paths, and the rest                                                      | 
 
 <!-- Chapter 1 - Basic stuff-->
 ## Chapter 1 - Basic use of the utility
@@ -170,6 +172,8 @@ Here is a image of the old utility :
 ### Section 1.3 - Training and using your own classifier
 As each group is allowed to create anything they like as a classifier, i had to make a unified interface so that the UART Reader could use the classifier
 
+<!-- TODO : DEVELOP FURTHER HERE-->
+
 ### Section 1.4 - Changing parameters in the GUI
 
 ### Section 1.5 - Tips, tricks and known bugs
@@ -183,7 +187,10 @@ As each group is allowed to create anything they like as a classifier, i had to 
 ### Section 2.2 - GUI Architecture
 
 ### Section 2.3 - Saving Graphs from the utility itself
+Currently, there is no way to save graphs directly from the GUI. So appart if you take screenshots of the graphs, i would recommend that you take the data from the `.npy` files, and that you plot them with your favourite aesthetic. 
 
+A little tip here, is to use VSCode/VSCodium extension that allow for reading these files, so you can get a idea of what is inside them, sush as :
+- `vscode-pydata-viewer` with `vscode-numpy-viewer` (Both are required)
 
 <!-- Chapter 3 - Future development if need-be -->
 ## Chapter 3 - Motivation, ideals and pushing development
@@ -199,10 +206,15 @@ Many things can be improved, but some more than others. One such thing, is defin
 <p align="center">
     <img src="assets/simple_UI_structure_revised.svg">
 </p>
+<!-- TODO : DEVELOP FURTHER HERE-->
 
 ### Section 3.3 - Architectureal ideas
 
-### Section 3.4 - Thanks
+### Section 3.4 - Credits and thanks
+This manual and utility is provided to you by the following groups
+- Group E 2024-2025
+
+Big thanks to @jeertmans for his amazing help and guidance for the pull requests.
 ---
 ---
 
