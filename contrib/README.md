@@ -7,7 +7,11 @@ Teaching Assistants reviewed the code before merging, but are not responsible fo
 If you think you also have a piece of code that is worth adding to this project,
 please do not hesitate to reach out (via a pull request or by contacting a teaching assistant)!
 
-## UART Reader
+## List of contributions
+- [Contribution 1 - UART Reader](#uart-reader)
+  - [UART Reader Manual](#uart-reader-in-depth-manual)
+
+## Contribution 1 - UART Reader
 
 - **Location:** `src/contrib/uart_reader/__main__.py`;
 - **Contributed by:** Group E, 2024-2025;
@@ -35,18 +39,6 @@ rye run model-trainer
 
 ### Optional Flags
 
-- `-c, --cli`: Whether to run the CLI application.
-- `-p, --port TEXT`: The serial port to read data from (default: `-- No COM --`).
-- `-b, --baudrate INTEGER`: The baudrate of the serial port (default: `115200`).
-- `-s, --sampling-frequency INTEGER`: The sampling frequency of the ADC (default: `10200`).
-- `-m, --max-adc-value INTEGER`: The maximum value of the ADC (default: `4096`).
-- `-v, --vdd FLOAT`: The voltage of the power supply (default: `3.3`).
-- `-o, --plot-output-type [WEB|FILE]`: The type of output for the plot (default: `WEB`).
-- `-l, --log-level [DEBUG|INFO|WARNING|ERROR|CRITICAL]`: The level of logging (default: `INFO`).
-- `-f, --log-file`: Whether to log to a file (Not modifiable at runtime).
-- `-w, --overwrite-audio`: Whether to overwrite the audio folder.
-- `-a, --audio-output-type [WAV|OGG]`: The type of output for the audio (default: `WAV`).
-- `-d, --audio-output-folder TEXT`: The folder to save the audio files (default: `audio_files`).
 <!--
 @click.option(
     "--logfile",
@@ -59,7 +51,8 @@ rye run model-trainer
 @click.option("--mel_length", default=20, help="Length of the MEL vectors")
 @click.option("--mel_number", default=20, help="Number of MEL vectors in the feature vector")
 @click.option("--automel", is_flag=True, help="Automatically save the MEL files")
-@click.option("--autoaudio", is_flag=True, help="Automatically save the audio files")>
+@click.option("--autoaudio", is_flag=True, help="Automatically save the audio files")
+-->
 
 <!-- TODO, update the text above to include the information below -->
 
@@ -67,6 +60,7 @@ rye run model-trainer
 
 ### Accessing the old stable version
 
+<!--ADD TAG HERE-->
 Please visit the tag <?> to use the previous version of the utility. This older version features a fully implemented and tested CLI interface, so that you can tie it to a command line pipeline. Though, it has only support for audio files, and not the interpretation of mel spectrograms.
 
 <!-- TODO, Add a picture of the old utility here, and the command -->
@@ -84,7 +78,8 @@ Please visit the tag <?> to use the previous version of the utility. This older 
 ### Table of Contents
 
 - [Contributions](#contributions)
-  - [UART Reader](#uart-reader)
+  - [List of contributions](#list-of-contributions)
+  - [Contribution 1 - UART Reader](#contribution-1---uart-reader)
     - [Usage](#usage)
     - [Optional Flags](#optional-flags)
     - [Making your own classifier](#making-your-own-classifier)
@@ -93,7 +88,6 @@ Please visit the tag <?> to use the previous version of the utility. This older 
   - [Chapter 0 - Table of content, Terminology and wording](#chapter-0---table-of-content-terminology-and-wording)
     - [Table of Contents](#table-of-contents)
     - [Terminology](#terminology)
-- [| Database                        | The storage structure for the parameters such as the baud rate, the file paths, and the rest                                                      |](#-database-------------------------the-storage-structure-for-the-parameters-such-as-the-baud-rate-the-file-paths-and-the-rest------------------------------------------------------)
   - [Chapter 1 - Basic use of the utility](#chapter-1---basic-use-of-the-utility)
     - [Section 1.1 - Launching the GUI](#section-11---launching-the-gui)
     - [Section 1.2 - Launching the old utility](#section-12---launching-the-old-utility)
@@ -109,18 +103,12 @@ Please visit the tag <?> to use the previous version of the utility. This older 
     - [Section 3.2 - What could be improved ?](#section-32---what-could-be-improved-)
     - [Section 3.3 - Architectureal ideas](#section-33---architectureal-ideas)
     - [Section 3.4 - Credits and thanks](#section-34---credits-and-thanks)
-  - [Big thanks to @jeertmans for his amazing help and guidance for the pull requests.](#big-thanks-to-jeertmans-for-his-amazing-help-and-guidance-for-the-pull-requests)
-  
-=======
-    - [Section 3.4 - Thanks](#section-34---thanks)
 
->>>>>>> df7218a144c2c5d7ed99def5973ac02f944f92d0
 ### Terminology
 
 We will use the following wording to discribe the different parts of the program.
 | Term | Definition |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-<<<<<<< HEAD
 | GUI                             | Graphical User Interface                                                                                                                          |
 | CLI                             | Command Line Interface                                                                                                                            |
 | ADC                             | Analog-to-Digital Converter                                                                                                                       |
@@ -130,16 +118,6 @@ We will use the following wording to discribe the different parts of the program
 | Optional Flags                  | The command line therms that have to be added to the end of the rye command for launching the utility, they follow the `--<name>` notation        |
 | Pickling                        | The process of serializing and deserializing Python objects, converting them to a byte stream for storage or transfer, and restoring them later   |
 | Database                        | The storage structure for the parameters such as the baud rate, the file paths, and the rest                                                      | 
-=======
-| GUI | Graphical User Interface |
-| CLI | Command Line Interface |
-| ADC | Analog-to-Digital Converter |
-| UART | Universal Asynchronous Receiver/Transmitter |
-| UART Reader/Utility/App/program | The uart-reader program that this manual talks about, its contained in `contrib/src/contrib/uart_reader/__main__.py` |
-| Model Trainer | A script that creates a classification model file that can be used by the utility, situated in `contrib/src/contrib/uart_reader/model_trainer.py` |
-| Optional Flags | The command line therms that have to be added to the end of the rye command for launching the utility, they follow the `--<name>` notation |
-| Pickling | The process of serializing and deserializing Python objects, converting them to a byte stream for storage or transfer, and restoring them later. |
->>>>>>> df7218a144c2c5d7ed99def5973ac02f944f92d0
 
 <!-- Chapter 1 - Basic stuff-->
 
@@ -246,11 +224,10 @@ Many things can be improved, but some more than others. One such thing, is defin
 ### Section 3.3 - Architectureal ideas
 
 ### Section 3.4 - Credits and thanks
-This manual and utility is provided to you by the following groups
-- Group E 2024-2025
+This manual and utility is provided to you by the following group(s) :
+- Group E, 2024-2025
 
 Big thanks to @jeertmans for his amazing help and guidance for the pull requests.
----
----
 
+---
 ---
