@@ -1,7 +1,7 @@
+import datetime
 import pathlib as pathl
 import sys
 import time
-import datetime
 from typing import Optional
 
 import click
@@ -19,6 +19,7 @@ from PyQt6 import QtGui
 from PyQt6.QtWidgets import (
     QApplication,
     QFileDialog,
+    QGridLayout,
     QGroupBox,
     QHBoxLayout,
     QLabel,
@@ -326,7 +327,7 @@ class GUIAudioWindow(QMainWindow):
     def _get_audio_file_name(self):
         prefix = self.db.get_item("Audio Settings", "file_prefix").value
         time_stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S-%f")
-        folder = self.db.get_item("Folder Settings","audio path").value
+        folder = self.db.get_item("Folder Settings", "audio path").value
         # Gen folder if not yet created
         pathl.Path(folder).mkdir(parents=True, exist_ok=True)
         return f"{folder}/{prefix}_{time_stamp}"
@@ -699,17 +700,19 @@ class GUIMELWindow(QMainWindow):
         self.save_group.setLayout(self.save_group_layout)
 
         # Add the mel saving options (for the melvectors and the class probabilities raw data)
-        self.auto_save_mel = self.db.get_item("MEL Settings", "auto_save").gen_widget_full()
+        self.auto_save_mel = self.db.get_item(
+            "MEL Settings", "auto_save"
+        ).gen_widget_full()
         self.save_group_layout.addWidget(self.auto_save_mel, 0, 0)
-        self.mel_freeze = self.db.get_item("MEL Settings", "mel_freeze").gen_widget_full()
+        self.mel_freeze = self.db.get_item(
+            "MEL Settings", "mel_freeze"
+        ).gen_widget_full()
         self.save_group_layout.addWidget(self.mel_freeze, 0, 1)
         self.save_melbox = QPushButton("Save Mel Data (NPY)")
         self.save_group_layout.addWidget(self.save_melbox, 1, 0)
         self.save_melbox.clicked.connect(self.save_mel_data)
 
-
         self.main_layout.addWidget(self.save_group)
-
 
     def setup_mel_plots(self, number_of_bins=10):
         self.mel_pcolors = []
@@ -832,7 +835,10 @@ class GUIMELWindow(QMainWindow):
         if not single:
             # Get the file name
             file_name, _ = QFileDialog.getSaveFileName(
-                self, "Save Mel Data", str(pathl.Path(__file__).parent), "NPY Files (*.npy)"
+                self,
+                "Save Mel Data",
+                str(pathl.Path(__file__).parent),
+                "NPY Files (*.npy)",
             )
             if file_name:
                 self.logger.info(f"Saving mel data to {file_name}")
@@ -846,10 +852,11 @@ class GUIMELWindow(QMainWindow):
     def _get_mel_file_name(self):
         prefix = self.db.get_item("MEL Settings", "file_prefix").value
         time_stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S-%f")
-        folder = self.db.get_item("Folder Settings","mel path").value
+        folder = self.db.get_item("Folder Settings", "mel path").value
         # Gen folder if not yet created
         pathl.Path(folder).mkdir(parents=True, exist_ok=True)
         return f"{folder}/{prefix}_{time_stamp}"
+
 
 ####################################################################################################
 class GUIMainWindow(QMainWindow):
