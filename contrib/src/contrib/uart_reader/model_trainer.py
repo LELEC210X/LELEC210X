@@ -214,7 +214,7 @@ def example():
 
 # Run the Main Function (Example or user code)
 def main():
-    example() # COMMENT THIS LINE TO RUN USER CODE
+    example()  # COMMENT THIS LINE TO RUN USER CODE
 
     # USER CODE HERE
 
