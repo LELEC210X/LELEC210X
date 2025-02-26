@@ -6,6 +6,7 @@ __pycache__/
 *-checkpoint.ipynb/
 *.pickle
 *.log
+*.egg-info/
 
 # Leaderboard
 

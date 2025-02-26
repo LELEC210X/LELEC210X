@@ -7,13 +7,12 @@ Teaching Assistants reviewed the code before merging, but are not responsible fo
 If you think you also have a piece of code that is worth adding to this project,
 please do not hesitate to reach out (via a pull request or by contacting a teaching assistant)!
 
-
 ## UART Reader
 
-* **Location:** `src/contrib/uart_reader.py`;
-* **Contributed by:** group E, 2024-2025;
-* **Description:** provide a graphical interface to read from UART;
-* **Script(s):** `uart-reader`, see usage below.
+- **Location:** `src/contrib/uart_reader.py`;
+- **Contributed by:** group E, 2024-2025;
+- **Description:** provide a graphical interface to read from UART;
+- **Script(s):** `uart-reader`, see usage below.
 
 ### Usage
 
@@ -77,7 +76,7 @@ The Mel window has bugs (acknowledged further), its also the trickiest to use, a
 
 To redefine the default settings, please go to the `def database_initialization(db)` function, and change the values of the entries, be careful to not break the tuples, as the databaseV2 is a bit tricky in that aspect.
 
-![alt text](assets/databaseV2_picture_init.PNG)
+![Database picture](assets/databaseV2_picture_init.PNG)
 
 ### Structure of the pickle file of the classifier model
 
