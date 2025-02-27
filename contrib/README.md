@@ -44,9 +44,11 @@ rye run model-trainer
 > The utility is for the moment, only a GUI based application, and does not have the sufficient capabilities to run only in the console. If you do need such an application, please refer to [Section 1.2 of the Manual](./UART_READER.md#section-12---launching-the-old-utility) on how to use the old version of the uart-reader application. With reduced functionality.
 
 ### Optional Flags
+
 For more information, please refer to [Section 1.1 of the Manual](./UART_READER.md#section-11---launching-the-gui)
 
 ### Making your own classifier
+
 For more information, please refer to [Section 1.3 of the Manual](./UART_READER.md#section-13---training-and-using-your-own-classifier)
 
 ### Accessing the old stable version
