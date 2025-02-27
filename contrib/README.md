@@ -54,4 +54,5 @@ For more information, please refer to [Section 1.3 of the Manual](./UART_READER.
 If you want for some reason to use the old version of the uart-reader, then please refer to [Section 1.2 of the Manual](./UART_READER.md#section-12---launching-the-old-utility). Where all steps are given with detail.
 
 ---
+
 ---

@@ -72,6 +72,7 @@ Here is the list of all optional flags (They are not needed, but can help save t
 >When launching the GUI, by default, a uart_logs.log file will appear next to the `__main__.py` file. If you want to keep it in your repository, you will have to remove its exclusion in the .gitignore.
 
 These 2 following images are the main GUI windows, you also have a audio window and a paramaters window, but they are simpler and more straightforward, so we did not deem necessary to add them to the list of images.
+
 <p align="center">
     <img src="./assets/uart_reader_gui_v4.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="27%" >
     <img src="./assets/uart_reader_gui_v4_mel.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="27%" >
