@@ -109,17 +109,17 @@ Please visit the tag <?> to use the previous version of the utility. This older 
 ### Terminology
 
 We will use the following wording to discribe the different parts of the program.
-| Term                            | Definition                                                                                                                                        |
+| Term | Definition |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GUI                             | Graphical User Interface                                                                                                                          |
-| CLI                             | Command Line Interface                                                                                                                            |
-| ADC                             | Analog-to-Digital Converter                                                                                                                       |
-| UART                            | Universal Asynchronous Receiver/Transmitter                                                                                                       |
-| UART Reader/Utility/App/program | The uart-reader program that this manual talks about, its contained in `contrib/src/contrib/uart_reader/__main__.py`                              |
-| Model Trainer                   | A script that creates a classification model file that can be used by the utility, situated in `contrib/src/contrib/uart_reader/model_trainer.py` |
-| Optional Flags                  | The command line therms that have to be added to the end of the rye command for launching the utility, they follow the `--<name>` notation        |
-| Pickling                        | The process of serializing and deserializing Python objects, converting them to a byte stream for storage or transfer, and restoring them later   |
-| Database                        | The storage structure for the parameters such as the baud rate, the file paths, and the rest                                                      |
+| GUI | Graphical User Interface |
+| CLI | Command Line Interface |
+| ADC | Analog-to-Digital Converter |
+| UART | Universal Asynchronous Receiver/Transmitter |
+| UART Reader/Utility/App/program | The uart-reader program that this manual talks about, its contained in `contrib/src/contrib/uart_reader/__main__.py` |
+| Model Trainer | A script that creates a classification model file that can be used by the utility, situated in `contrib/src/contrib/uart_reader/model_trainer.py` |
+| Optional Flags | The command line therms that have to be added to the end of the rye command for launching the utility, they follow the `--<name>` notation |
+| Pickling | The process of serializing and deserializing Python objects, converting them to a byte stream for storage or transfer, and restoring them later |
+| Database | The storage structure for the parameters such as the baud rate, the file paths, and the rest |
 
 <!-- Chapter 1 - Basic stuff-->
 
@@ -181,9 +181,11 @@ Here is a image of the old utility :
 </p>
 
 ### Section 1.3 - Training and using your own classifier
+
 The main reason why a model trainer was needed here, was to unify all possible implementations through a singular interface that you can wrapp arround any model implementation. This led to a complex abstract class that you will have to implement like the example class provided.
 
 When creating a model, you will ahve to create a `ModelPickleFormat` object, this object contains all the information that is needed for the uart-reader to be able to run confortably the classification. Here is its structure :
+
 ```Python
 class ModelPickleFormat:
     """Data structure for storing model metadata and parameters."""
@@ -197,7 +199,9 @@ class ModelPickleFormat:
     concat_hist: bool  # Whether history is concatenated
     num_hist:    int  # Number of history elements
 ```
+
 As you can see, the model has a special structure abstraction that adds a unified interface for ease of use. This means that you will have to implement a few things to make everything work with your model. There are only **2** things that you **should modify or create** :
+
 - A class implementation of `AbstractModelWrapper`
   - Implement the `__init__(self, model, classes)` with a `super().__init__(model, classes)` reference
   - Implement the serialization and deszerialization with `__getstate__(self)` and `__setstate(self, state)` used for the pickling of the model (if the model is not from a pre-made library like sklearn)
@@ -205,20 +209,23 @@ As you can see, the model has a special structure abstraction that adds a unifie
   - Implement the prediction for a list of melvecs of size N x M `predict_hist(self, X:List)`
 - The main training method in `main()`
 
-To run the trainer, you have to be very careful, due to problems with virtual environments and other python things, whenever you have used `save_model(model_format: ModelPickleFormat, path: str)`, the file becomes local to that version of python. This means that, if you used a VSCode extension or python3 to run the model-trainer, then you will not be able to run it in the uart-reader application, as its only runnable through rye. 
+To run the trainer, you have to be very careful, due to problems with virtual environments and other python things, whenever you have used `save_model(model_format: ModelPickleFormat, path: str)`, the file becomes local to that version of python. This means that, if you used a VSCode extension or python3 to run the model-trainer, then you will not be able to run it in the uart-reader application, as its only runnable through rye.
 
 To run it, use this command :
+
 ```bash
 rye run model-trainer
 ```
 
 When opening the mel window, you could get 2 different errors (here with the example model):
+
 - Model not trained using rye : ` Error loading the model : Can't get attribute 'DecisionTreeWrapper' on <module '__main__' from '[path]\.venv\Scripts\uart-reader.exe\__main__.py'>`
 - Model not found : `Error loading the model : No model found`
 
 For more information, please refer to [Section 2.1 - Model trainer and abstract wrappers](#section-21---model-trainer-and-abstract-wrappers), for ease of implementation and re-use of the model files in your own programs.
 
 ### Section 1.4 - Changing parameters in the GUI
+
 The uart-reader utility is a bit tricky, as its written with a naive database as its core, this made the parameter initialisation not intuitive, so here is a breakdown of what you will have to do.
 
 To edit default settings, you will have to modify the `database_init(db)` function (about 400 spaced lines). This function is responsible for the initialization oft he entire database values, and the tricky part is the custom types it uses, as they were made too generalised, but not made the same, making it harder to use.
@@ -232,33 +239,35 @@ Here is a picture of the `database_init(db)`:
 > NOTE : We have expanded the functions intitializations to comply with good writing practices, this image was taken before this step
 
 For the custom types, here are their basic structure :
+
 ```Python
 class DatabaseElementTemplate:
     name:        str
     value:       Any # Tricky bit
     description: str
 ```
-Now, for the value differences depending on the type:
-| Database Element Type | Value Type             | Description                                                                    |
-| --------------------- | ---------------------- | ------------------------------------------------------------------------------ |
-| `SuffixFloat`         | (float, str)           | Represents a float with a suffix (e.g., 90MHz stored as (9e+7, "Hz"))          |
-| `Integer`             | int                    | Represents an integer value                                                    |
-| `RangeInt`            | (int, int, int)        | Represents an integer range as (value, min, max)                               |
-| `RangeFloat`          | (float, float, float)  | Represents a float range as (value, min, max)                                  |
-| `Text`                | str                    | Represents a text value                                                        |
-| `Color`               | (int, int, int)        | Represents a color value as an RGB tuple (red, green, blue)                    |
-| `Boolean`             | bool                   | Represents a boolean value                                                     |
-| `List`                | list&lt;str&gt;        | Represents a list of text values                                               |
-| `Dictionary`          | dict&lt;str, str&gt;   | Represents a dictionary of text values                                         |
-| `File`                | pathlib.Path           | Represents a file path                                                         |
-| `Folder`              | pathlib.Path           | Represents a folder path                                                       |
-| `ChoiceBox`           | (int, list&lt;str&gt;) | Represents a choice box value, storing the current index and available choices |
-| `ConstantText`        | str                    | Represents constant text that does not change                                  |
 
+Now, for the value differences depending on the type:
+| Database Element Type | Value Type | Description |
+| --------------------- | ---------------------- | ------------------------------------------------------------------------------ |
+| `SuffixFloat` | (float, str) | Represents a float with a suffix (e.g., 90MHz stored as (9e+7, "Hz")) |
+| `Integer` | int | Represents an integer value |
+| `RangeInt` | (int, int, int) | Represents an integer range as (value, min, max) |
+| `RangeFloat` | (float, float, float) | Represents a float range as (value, min, max) |
+| `Text` | str | Represents a text value |
+| `Color` | (int, int, int) | Represents a color value as an RGB tuple (red, green, blue) |
+| `Boolean` | bool | Represents a boolean value |
+| `List` | list&lt;str&gt; | Represents a list of text values |
+| `Dictionary` | dict&lt;str, str&gt; | Represents a dictionary of text values |
+| `File` | pathlib.Path | Represents a file path |
+| `Folder` | pathlib.Path | Represents a folder path |
+| `ChoiceBox` | (int, list&lt;str&gt;) | Represents a choice box value, storing the current index and available choices |
+| `ConstantText` | str | Represents constant text that does not change |
 
 ### Section 1.5 - Tips, tricks and known bugs
-- When training your model, if you name it model.pickle, and save it in the same folder as the uart-reader files, then it will automatically be detected and loaded by the mel window, and openend. 
--  
+
+- When training your model, if you name it model.pickle, and save it in the same folder as the uart-reader files, then it will automatically be detected and loaded by the mel window, and openend.
+-
 
 <!--TODO : COMPLETE MORE HERE -->
 
@@ -279,6 +288,7 @@ A little tip here, is to use VSCode/VSCodium extension that allow for reading th
 - `vscode-pydata-viewer` with `vscode-numpy-viewer` (Both are required)
 
 <!-- Chapter 3 - Future development if need-be -->
+
 ## Chapter 3 - Motivation, ideals and pushing development
 
 ### Section 3.1 - Motivation for creating the utility
