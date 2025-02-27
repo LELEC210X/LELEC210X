@@ -33,6 +33,7 @@ from PyQt6.QtWidgets import (
 )
 from serial.tools import list_ports
 
+from .__version__ import __version__
 from .libraries import database_utils as dbu
 from .libraries import logging_utils as logu
 from .libraries import serial_utils as seru
@@ -1167,7 +1168,7 @@ def database_init(db: dbu.ContentDatabase):
     db.add_item(
         "_hidden",
         "appversion",
-        db.ConstantText("App Version", "4.1", "The version of the application"),
+        db.ConstantText("App Version", __version__, "The version of the application"),
     )
     db.add_item(
         "_hidden",
