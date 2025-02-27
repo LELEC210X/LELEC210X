@@ -225,7 +225,7 @@ Now, for the value differences depending on the type:
 ### Section 2.2 - GUI Architecture
 
 <p align="center">
-    <img src="./assets/uart_reader_app_arch.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="27%" >
+    <img src="./assets/uart_reader_app_arch3.svg" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="27%" >
 </p>
 
 ### Section 2.3 - Saving Graphs from the utility itself
