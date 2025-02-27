@@ -7,10 +7,10 @@ Teaching Assistants reviewed the code before merging, but are not responsible fo
 If you think you also have a piece of code that is worth adding to this project,
 please do not hesitate to reach out (via a pull request or by contacting a teaching assistant)!
 
-## List of contributions
+**List of contributions:**
 
-- [Contribution 1 - UART Reader](#uart-reader)
-  - [UART Reader Manual](#uart-reader-in-depth-manual)
+- [UART Reader](#uart-reader)
+  - [Manual](#uart-reader-in-depth-manual)
 
 ## Contribution 1 - UART Reader
 
