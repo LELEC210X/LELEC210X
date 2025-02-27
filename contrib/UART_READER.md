@@ -29,17 +29,17 @@
 ### Terminology
 
 We will use the following wording to discribe the different parts of the program.
-| Term | Definition |
+| Term                            | Definition                                                                                                                                        |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GUI | Graphical User Interface |
-| CLI | Command Line Interface |
-| ADC | Analog-to-Digital Converter |
-| UART | Universal Asynchronous Receiver/Transmitter |
-| UART Reader/Utility/App/program | The uart-reader program that this manual talks about, its contained in `contrib/src/contrib/uart_reader/__main__.py` |
-| Model Trainer | A script that creates a classification model file that can be used by the utility, situated in `contrib/src/contrib/uart_reader/model_trainer.py` |
-| Optional Flags | The command line therms that have to be added to the end of the rye command for launching the utility, they follow the `--<name>` notation |
-| Pickling | The process of serializing and deserializing Python objects, converting them to a byte stream for storage or transfer, and restoring them later |
-| Database | The storage structure for the parameters such as the baud rate, the file paths, and the rest |
+| GUI                             | Graphical User Interface                                                                                                                          |
+| CLI                             | Command Line Interface                                                                                                                            |
+| ADC                             | Analog-to-Digital Converter                                                                                                                       |
+| UART                            | Universal Asynchronous Receiver/Transmitter                                                                                                       |
+| UART Reader/Utility/App/program | The uart-reader program that this manual talks about, its contained in `contrib/src/contrib/uart_reader/__main__.py`                              |
+| Model Trainer                   | A script that creates a classification model file that can be used by the utility, situated in `contrib/src/contrib/uart_reader/model_trainer.py` |
+| Optional Flags                  | The command line therms that have to be added to the end of the rye command for launching the utility, they follow the `--<name>` notation        |
+| Pickling                        | The process of serializing and deserializing Python objects, converting them to a byte stream for storage or transfer, and restoring them later   |
+| Database                        | The storage structure for the parameters such as the baud rate, the file paths, and the rest                                                      |
 
 <!-- Chapter 1 - Basic stuff-->
 
@@ -55,7 +55,21 @@ To run the utility, please use :
 rye run uart-reader <optional flags>
 ```
 
-When you launch the GUI, by default, a uart_logs.log file will appear next to the `__main__.py` file. If you want to keep it, you will have to remove its exclusion in the .gitignore.
+Here is the list of all optional flags (They are not needed, but can help save time) :
+| Flag                     | Default            | Description                                 |
+| ------------------------ | ------------------ | ------------------------------------------- |
+| `--logfile <str/path>`   | `../uart_logs.log` | Log file to write to                        |
+| `--opaudio`              | `False` (implicit) | Open the audio window when launching        |
+| `--opmel`                | `False` (implicit) | Open the MEL window when launching          |
+| `--modelfile <str/path>` | `None`             | Classifier model to use (None means default)|
+| `--mel_length <int>`     | `20`               | Length of the MEL vectors                   |
+| `--mel_number <int>`     | `20`               | Number of MEL vectors in the feature vector |
+| `--automel`              | `False` (implicit) | Toggle the automatic melvec saver           |
+| `--autoaudio`            | `False` (implicit) | Toggle the automatic audio file saver       |
+> Implicit means that you only have to declare the flag, and it requires no other input
+
+>[!TIP]
+>When launching the GUI, by default, a uart_logs.log file will appear next to the `__main__.py` file. If you want to keep it in your repository, you will have to remove its exclusion in the .gitignore.
 
 These 2 following images are the main GUI windows, you also have a audio window and a paramaters window, but they are simpler and more straightforward, so we did not deem necessary to add them to the list of images.
 <p align="center">
@@ -135,7 +149,8 @@ As you can see, the model has a special structure abstraction that adds a unifie
   - Implement the prediction for a list of melvecs of size N x M `predict_hist(self, X:List)`
 - The main training method in `main()`
 
-To run the trainer, you have to be very careful, due to problems with virtual environments and other python things, whenever you have used `save_model(model_format: ModelPickleFormat, path: str)`, the file becomes local to that version of python. This means that, if you used a VSCode extension or python3 to run the model-trainer, then you will not be able to run it in the uart-reader application, as its only runnable through rye.
+>[!CAUTION]
+>To run the trainer, you have to be very careful, due to problems with virtual environments and other python things, whenever you have used `save_model(model_format: ModelPickleFormat, path: str)`, the file becomes local to that version of python. This means that, if you used a VSCode extension or python3 to run the model-trainer, then you will not be able to run it in the uart-reader application, as its only runnable through rye.
 
 To run it, use this command :
 
@@ -174,21 +189,21 @@ class DatabaseElementTemplate:
 ```
 
 Now, for the value differences depending on the type:
-| Database Element Type | Value Type | Description |
+| Database Element Type | Value Type             | Description                                                                    |
 | --------------------- | ---------------------- | ------------------------------------------------------------------------------ |
-| `SuffixFloat` | (float, str) | Represents a float with a suffix (e.g., 90MHz stored as (9e+7, "Hz")) |
-| `Integer` | int | Represents an integer value |
-| `RangeInt` | (int, int, int) | Represents an integer range as (value, min, max) |
-| `RangeFloat` | (float, float, float) | Represents a float range as (value, min, max) |
-| `Text` | str | Represents a text value |
-| `Color` | (int, int, int) | Represents a color value as an RGB tuple (red, green, blue) |
-| `Boolean` | bool | Represents a boolean value |
-| `List` | list&lt;str&gt; | Represents a list of text values |
-| `Dictionary` | dict&lt;str, str&gt; | Represents a dictionary of text values |
-| `File` | pathlib.Path | Represents a file path |
-| `Folder` | pathlib.Path | Represents a folder path |
-| `ChoiceBox` | (int, list&lt;str&gt;) | Represents a choice box value, storing the current index and available choices |
-| `ConstantText` | str | Represents constant text that does not change |
+| `SuffixFloat`         | (float, str)           | Represents a float with a suffix (e.g., 90MHz stored as (9e+7, "Hz"))          |
+| `Integer`             | int                    | Represents an integer value                                                    |
+| `RangeInt`            | (int, int, int)        | Represents an integer range as (value, min, max)                               |
+| `RangeFloat`          | (float, float, float)  | Represents a float range as (value, min, max)                                  |
+| `Text`                | str                    | Represents a text value                                                        |
+| `Color`               | (int, int, int)        | Represents a color value as an RGB tuple (red, green, blue)                    |
+| `Boolean`             | bool                   | Represents a boolean value                                                     |
+| `List`                | list&lt;str&gt;        | Represents a list of text values                                               |
+| `Dictionary`          | dict&lt;str, str&gt;   | Represents a dictionary of text values                                         |
+| `File`                | pathlib.Path           | Represents a file path                                                         |
+| `Folder`              | pathlib.Path           | Represents a folder path                                                       |
+| `ChoiceBox`           | (int, list&lt;str&gt;) | Represents a choice box value, storing the current index and available choices |
+| `ConstantText`        | str                    | Represents constant text that does not change                                  |
 
 ### Section 1.5 - Tips, tricks and known bugs
 
@@ -204,7 +219,13 @@ Now, for the value differences depending on the type:
 
 ### Section 2.1 - Model trainer and abstract wrappers
 
+<!--TODO : ADD ARCHIECTURE HERE and other stuff-->
+
 ### Section 2.2 - GUI Architecture
+
+<p align="center">
+    <img src="./assets/uart_reader_app_arch.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="27%" >
+</p>
 
 ### Section 2.3 - Saving Graphs from the utility itself
 

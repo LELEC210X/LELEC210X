@@ -41,36 +41,17 @@ rye run model-trainer
 ```
 
 > [!NOTE]
-> The utility is for the moment only a GUI based application, and does not have the capacity to run only in the console. If you do need such an application, please refer to the tag bellow to a previous version of this application that has this feature.
+> The utility is for the moment, only a GUI based application, and does not have the sufficient capabilities to run only in the console. If you do need such an application, please refer to [Section 1.2 of the Manual](./UART_READER.md#section-12---launching-the-old-utility) on how to use the old version of the uart-reader application. With reduced functionality.
 
 ### Optional Flags
-
-<!--
-@click.option(
-    "--logfile",
-    default="../uart_logs.log",
-    help="Log file to write to",
-)
-@click.option("--opaudio", is_flag=True, help="Open the audio window")
-@click.option("--opmel", is_flag=True, help="Open the MEL window")
-@click.option("--modelfile", default="None", help="Classifier model to use")
-@click.option("--mel_length", default=20, help="Length of the MEL vectors")
-@click.option("--mel_number", default=20, help="Number of MEL vectors in the feature vector")
-@click.option("--automel", is_flag=True, help="Automatically save the MEL files")
-@click.option("--autoaudio", is_flag=True, help="Automatically save the audio files")
--->
-
-<!-- TODO, update the text above to include the information below -->
+For more information, please refer to [Section 1.1 of the Manual](./UART_READER.md#section-11---launching-the-gui)
 
 ### Making your own classifier
+For more information, please refer to [Section 1.3 of the Manual](./UART_READER.md#section-13---training-and-using-your-own-classifier)
 
 ### Accessing the old stable version
 
-<!--ADD TAG HERE-->
-
-Please visit the tag <?> to use the previous version of the utility. This older version features a fully implemented and tested CLI interface, so that you can tie it to a command line pipeline. Though, it has only support for audio files, and not the interpretation of mel spectrograms.
-
-<!-- TODO, Add a picture of the old utility here, and the command -->
+If you want for some reason to use the old version of the uart-reader, then please refer to [Section 1.2 of the Manual](./UART_READER.md#section-12---launching-the-old-utility). Where all steps are given with detail.
 
 ---
 ---
