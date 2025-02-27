@@ -8,6 +8,7 @@ If you think you also have a piece of code that is worth adding to this project,
 please do not hesitate to reach out (via a pull request or by contacting a teaching assistant)!
 
 ## List of contributions
+
 - [Contribution 1 - UART Reader](#uart-reader)
   - [UART Reader Manual](#uart-reader-in-depth-manual)
 
@@ -61,6 +62,7 @@ rye run model-trainer
 ### Accessing the old stable version
 
 <!--ADD TAG HERE-->
+
 Please visit the tag <?> to use the previous version of the utility. This older version features a fully implemented and tested CLI interface, so that you can tie it to a command line pipeline. Though, it has only support for audio files, and not the interpretation of mel spectrograms.
 
 <!-- TODO, Add a picture of the old utility here, and the command -->
@@ -269,9 +271,11 @@ Now, for the value differences depending on the type:
 ### Section 2.2 - GUI Architecture
 
 ### Section 2.3 - Saving Graphs from the utility itself
-Currently, there is no way to save graphs directly from the GUI. So appart if you take screenshots of the graphs, i would recommend that you take the data from the `.npy` files, and that you plot them with your favourite aesthetic. 
+
+Currently, there is no way to save graphs directly from the GUI. So appart if you take screenshots of the graphs, i would recommend that you take the data from the `.npy` files, and that you plot them with your favourite aesthetic.
 
 A little tip here, is to use VSCode/VSCodium extension that allow for reading these files, so you can get a idea of what is inside them, sush as :
+
 - `vscode-pydata-viewer` with `vscode-numpy-viewer` (Both are required)
 
 <!-- Chapter 3 - Future development if need-be -->
@@ -298,10 +302,13 @@ Another thing to be improved is the database, or more correctly said, the parame
 ### Section 3.3 - Architectureal ideas
 
 ### Section 3.4 - Credits and thanks
+
 This manual and utility is provided to you by the following group(s) :
+
 - Group E, 2024-2025
 
 Big thanks to @jeertmans for his amazing help and guidance for the pull requests.
 
 ---
+
 ---
