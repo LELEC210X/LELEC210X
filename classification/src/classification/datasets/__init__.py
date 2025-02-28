@@ -21,7 +21,7 @@ def get_cls_from_path(file: Path) -> str:
 
 class Dataset:
     def __init__(
-        self, folder: Path = Path(__file__).parent / "soundfiles_augmented", format: str = "wav"
+        self, folder: Path = Path(__file__).parent / "soundfiles", format: str = "wav"
     ):
         """
         Initialize a dataset from a given folder, including
@@ -92,12 +92,12 @@ class Dataset:
         """
         return list(self.files.keys())
     
-    
-# Added by students
 
-class Dataset_trimmed:
+# added by students
+
+class Dataset_augmented:
     def __init__(
-        self, folder: Path = Path(__file__).parent / "soundfiles_3", format: str = "wav"
+        self, folder: Path = Path(__file__).parent / "soundfiles_augmented", format: str = "wav"
     ):
         """
         Initialize a dataset from a given folder, including

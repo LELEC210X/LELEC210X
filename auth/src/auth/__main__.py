@@ -179,9 +179,14 @@ def main(
             else:
                 hostname = local_hostname
                 key = local_key
-            response = requests.post(
-                f'{hostname}/lelec210x/leaderboard/submit/{key}/{myClass}', timeout=1)
-            output.write(f'my class is {myClass}\n')
+            
+            #Checking the threshold
+            if myClass == None:
+                pass
+            else:
+                response = requests.post(
+                    f'{hostname}/lelec210x/leaderboard/submit/{key}/{myClass}', timeout=1)
+                output.write(f'my class is {myClass}\n')
             # output.write(PRINT_PREFIX + payload.hex() + "\n")
             output.flush()
 
