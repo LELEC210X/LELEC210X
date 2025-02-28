@@ -3,8 +3,8 @@ from typing import Optional
 import numpy as np
 
 BIT_RATE = 50e3
-PREAMBLE = np.array([int(bit) for bit in f"{0xAAAAAAAA:0>32b}"])
-SYNC_WORD = np.array([int(bit) for bit in f"{0x3E2A54B7:0>32b}"])
+PREAMBLE = [int(bit) for bit in f"{0xAAAAAAAA:0>32b}"]
+SYNC_WORD = [int(bit) for bit in f"{0x3E2A54B7:0>32b}"]
 
 
 class Chain:
@@ -17,8 +17,8 @@ class Chain:
         freq_dev: float = BIT_RATE / 4,
         osr_tx: int = 64,
         osr_rx: int = 8,
-        preamble: np.ndarray = PREAMBLE,
-        sync_word: np.ndarray = SYNC_WORD,
+        preamble: list[int] = PREAMBLE,
+        sync_word: list[int] = SYNC_WORD,
         payload_len: int = 50,  # Number of bits per packet
         # Simulation parameters
         n_packets: int = 100,  # Number of sent packets
@@ -31,13 +31,13 @@ class Chain:
             1000
         ),
         cfo_Moose_N: int = 4,
-        snr_range: np.ndarray = np.arange(-10, 35),
+        snr_range: list[int] = list(range(-10, 35)),
         # Lowpass filter parameters
         numtaps: int = 100,
         cutoff: float = 0.0,
-        bypass_preamble_detect: bool = True,
-        bypass_cfo_estimation: bool = True,
-        bypass_sto_estimation: bool = True,
+        enable_preamble_detect: bool = False,
+        enable_cfo_estimation: bool = False,
+        enable_sto_estimation: bool = False,
         **kwargs
     ):
         self.name = name
@@ -60,9 +60,9 @@ class Chain:
             self.cutoff = BIT_RATE * self.osr_rx / 2.0001  # or 2*BIT_RATE,...
         else:
             self.cutoff = cutoff
-        self.bypass_preamble_detect = bypass_preamble_detect
-        self.bypass_cfo_estimation = bypass_cfo_estimation
-        self.bypass_sto_estimation = bypass_sto_estimation
+        self.enable_preamble_detect = enable_preamble_detect
+        self.enable_cfo_estimation = enable_cfo_estimation
+        self.enable_sto_estimation = enable_sto_estimation
 
     # Tx methods
 
@@ -156,7 +156,7 @@ class Chain:
 
 class BasicChain(Chain):
 
-    def __init__(self, *, name="Basic Tx/Rx chain", cfo_val=np.nan, sto_val=np.nan, **kwargs):
+    def __init__(self, *, name="Basic Tx/Rx chain", cfo_val=float('nan'), sto_val=float('nan'), **kwargs):
 
         super().__init__(name=name, cfo_val=cfo_val, sto_val=sto_val, **kwargs)
 

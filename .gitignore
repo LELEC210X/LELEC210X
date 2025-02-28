@@ -62,9 +62,6 @@ mcu/*.launch
 
 # Telecom
 
-telecom/hands_on_simulation/*.csv
-telecom/hands_on_simulation/*.png
-telecom/hands_on_simulation/data/
 telecom/gr-limesdr-3-8/build/
 telecom/gr-limesdr-3-10-3-8/build/
 telecom/gr-limesdr-3-10/build/
