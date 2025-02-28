@@ -86,10 +86,8 @@ The old uart-reader utility (also named version 1), had a GUI, and CLI interface
 First, to obtain it, you will have to git checkout onto a tag in the project's origin. To do so, run this command :
 
 ```bash
-git checkout <TBD>
+git checkout "uart-reader-v1"
 ```
-
-<!--TODO : Add the tag-->
 
 > [!NOTE]
 > For more information on this command, please reffer to the official documentation : [https://git-scm.com/book/en/v2/Git-Basics-Tagging](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
@@ -237,7 +235,9 @@ The model-trainer has a much simpler architecture than the main app, as its focu
     <img src="./assets/model_trainer_structure.svg" alt="Inner structure of the model trainer" title="Inner structure of the model trainer" width="45%" >
 </p>
 
-<!--TODO : ADD ARCHIECTURE HERE and other stuff-->
+Because of this structure, the pickling requires serialization and deserialization using the same classes, classes are bound to libraries. And if you compile it using python3 or a vscode extension, you will be adding in the pickled (serialized) file, references to classes that are not in the same library as per-se. Because of that, you have to use the same environment as rye to create the models.
+
+You are free to modify however you want everything, as long as you don't add more non-default therms to the `predict(X)` and `predict_hist(X)` functions. By default parameters, i mean parameters initialized like this : `predict(X, is_some_configuration=True)`
 
 ### Section 2.2 - GUI Architecture
 
