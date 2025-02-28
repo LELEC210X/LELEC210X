@@ -502,7 +502,7 @@ class Config(BaseModel):
         current_round = self.rounds_config.get_current_round()
         current_lap = self.rounds_config.get_current_lap()
         current_gain = (
-            -(current_lap // 4) * 3.0
+            -(current_lap // 4) * 5.0
             if self.rounds_config.get_current_round_config().reduce_level
             else 0.0
         )
