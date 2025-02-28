@@ -213,7 +213,7 @@ Tips:
 - When training your model, if you name it model.pickle, and save it in the same folder as the uart-reader files, then it will automatically be detected and loaded by the mel window, and openend.
   
 Bugs:
-- Dark mode computer makes the ui go in dark mode, making the prints in the gui console hard to see for the "info" log level (since black on dark is hard to see).
+- Dark mode computers make the ui go in dark mode, rendering the prints (text) in the gui console hard to see for the "info" log level (since black on dark is hard to see).
 - When closing and re-opening the windows many times, undefined behaviour may occur, as all the functions that trigger events to propagate UI changes stay in memory. Which has a undefined behaviour.
 
 <!-- Chapter 2 - Advanced stuff -->
@@ -225,10 +225,23 @@ Bugs:
 <!--TODO : ADD ARCHIECTURE HERE and other stuff-->
 
 ### Section 2.2 - GUI Architecture
+The app truly only has a separation of database as backend and everything else as frontend, even the processing. This is a flawed architecture, but it works, and we where pressed on time. The app is devided in 3 windows plus one to edit the database. The first window is the main window, that is called with `main()`, and handles the UI and the access to other features of the app. It displays the serial feed, and launches the appropriate window depending on whitch serial packet has been received. We then have the audio window, that displays the sound intensity, and the fft of that sound for quick analysis. You can save the raw data in multiple types of files. The final important window is the mel spectrogram window, that receives mel-spectrograms (or full packets) and displays them in from right to left depending on the past history (the newer ones are on the right). Then, you have the 2 classification graphs, that use the classifier generated from the model-trainer, and shows you a barchart of the current probabilities of the classes and histogram of past probabilities also from right to left. 
 
+Here is a overview of the architecture of the whole app :
 <p align="center">
     <img src="./assets/uart_reader_app_arch3.svg" alt="Architecture of the application" title="Flow chart of the application" width="45%" >
 </p>
+
+The architecture of the mel window is cleaner on the graph than in reality, as everything is executing inside the window instead of having a clear separation backend-frontend. Here is a shema of the architecture of the mel window as its the other most complex system, that requires a little bit more details :
+<p align="center">
+    <img src="./assets/uart_reader_app_arch_mel.svg" alt="Architecture of the application" title="Flow chart of the application" width="60%" >
+</p>
+
+Through the writing of the mel window, we have tried our best to make it as robust to unexpected things as possible, but because of how we used a flowed based to write it, we had problems with trying to make the proper checks and proper handling.
+
+A few words on the database architecture, we have used a system where, whenever a value is changed, it will trigger callbacks (functions to handle the change), these callbacks range from updating the UI elements through different UI windows, to changing settings in other modules. 
+
+<!--TODO : Add section for the files-->
 
 ### Section 2.3 - Saving Graphs from the utility itself
 
