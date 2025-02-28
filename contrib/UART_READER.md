@@ -99,8 +99,9 @@ Then, you will have to run the utility using the following command :
 ```bash
 rye run uart_reader <old optional flags>
 ```
->[!WARNING]
->The old version uses the name `uart_reader` and not `uart-reader` !
+
+> [!WARNING]
+> The old version uses the name `uart_reader` and not `uart-reader` !
 
 The old optional flags where the following :
 
@@ -253,11 +254,11 @@ Through the writing of the mel window, we have tried our best to make it as robu
 
 A few words on the database architecture, we have used a system where, whenever a value is changed, it will trigger callbacks (functions to handle the change), these callbacks range from updating the UI elements through different UI windows, to changing settings in other modules.
 
-Lets talk about the file structure, the uart-reader has its entry point in `__main__.py`, and uses `__version__.py` to read the version of the application. It then imports 3 custom modules situated in `libraries/` and are the following : 
+Lets talk about the file structure, the uart-reader has its entry point in `__main__.py`, and uses `__version__.py` to read the version of the application. It then imports 3 custom modules situated in `libraries/` and are the following :
 
 - `database_utils.py` : Implementation of the database, with all its elements.
 - `logging_utils.py` : Unification of the logging system, and abstraction of the configurations and other aspects.
-- `serial_utils.py` : Implmenetaion of a serial thread, where the serial port communicates using qtSignal's, and handles all the edge cases where the port has to disconnect or got suddenly disconnected. 
+- `serial_utils.py` : Implmenetaion of a serial thread, where the serial port communicates using qtSignal's, and handles all the edge cases where the port has to disconnect or got suddenly disconnected.
 
 When rye calls the utility, it will call the `main()` of `__main__.py`, and give click (the argument/flags parser) the options given by the user. If you call the application using python3 or a vscode extension, then you will have a import problem, we have yet to find a way to fix this problem, if you find a solution, don't hesitate to make a pull request to fix it.
 
