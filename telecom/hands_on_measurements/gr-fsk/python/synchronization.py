@@ -41,14 +41,23 @@ def cfo_estimation(y, B, R, Fdev):
     # extract 2 blocks of size N*R at the start of y
 
     # apply the Moose algorithm on these two blocks to estimate the CFO
-    N_Moose = 16 # max should be total bits per preamble / 2
-    N_t = N_Moose * R
+    N_Moose_list = [2, 4, 8, 16] # max should be total bits per preamble / 2
     T = 1 / B # 1/Bitrate
-    
-    alpha_est = np.vdot(y[:N_t], y[N_t:2*N_t])
-    
-    cfo_est = np.angle(alpha_est) * R / (2 * np.pi * N_t * T)
 
+    first_est = True
+    cfo_est_off = 0.
+
+    for N_Moose in N_Moose_list:
+        N_t = N_Moose * R
+        alpha_est = np.vdot(y[:N_t], y[N_t:2*N_t])
+        new_cfo_est = np.angle(alpha_est) * R / (2 * np.pi * N_t * T)
+
+        if first_est:
+            first_est = not first_est
+        elif abs(cfo_est - new_cfo_est) > 1/(2*N_Moose*T): # Ambiguity detected
+            cfo_est_off += np.sign(cfo_est) * 1 / (N_Moose*T)
+        cfo_est = new_cfo_est
+    
     # TO IMPROVE
     # 1) Dynamic Range Search
     #    --> Iterate through possible N values
@@ -73,7 +82,7 @@ def cfo_estimation(y, B, R, Fdev):
     #        doesn't have enough diversity to distinguish between delayed copies of the signal.
     #    --> Combine STO and CFO estimations since a frame (timing) error induces phase shift
 
-    return cfo_est
+    return cfo_est + cfo_est_off
 
 
 def sto_estimation(y, B, R, Fdev):

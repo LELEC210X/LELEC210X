@@ -91,3 +91,79 @@ class Dataset:
         :return: The list of classes.
         """
         return list(self.files.keys())
+    
+
+# added by students
+
+class Dataset_augmented:
+    def __init__(
+        self, folder: Path = Path(__file__).parent / "soundfiles_augmented", format: str = "wav"
+    ):
+        """
+        Initialize a dataset from a given folder, including
+        subfolders. Uses :func:`get_cls_from_path` to determine
+        the sound class of each file.
+
+        Note: we sort files because directory traversal is
+        not consistent accross OSes, and returning different
+        file orderings may confuse students :'-).
+
+        :param folder: Where to find the soundfiles.
+        :param format: The sound files format, use
+            `'*'` to include all formats.
+        """
+        files = {}
+
+        for file in sorted(folder.glob("**/*." + format)):
+            cls = get_cls_from_path(file)
+            files.setdefault(cls, []).append(file)
+
+        self.files = files
+        self.nclass = len(files)
+        self.naudio = len(files[list(files.keys())[0]])
+        self.size = self.nclass * self.naudio
+
+    def __len__(self) -> int:
+        """
+        Return the number of sounds in the dataset.
+        """
+        return self.size
+
+    def __getitem__(self, cls_index: Tuple[str, int]) -> Path:
+        """
+        Return the file path corresponding the
+        the (class name, index) pair.
+
+        :cls_index: Class name and index.
+        :return: The file path.
+        """
+        cls, index = cls_index
+        return self.files[cls][index]
+
+    def __getname__(self, cls_index: Tuple[str, int]) -> str:
+        """
+        Return the name of the sound selected.
+
+        :cls_index: Class name and index.
+        :return: The name of the sound.
+        """
+        cls, index = cls_index
+        return self.files[cls][index].stem
+
+    def get_class_files(self, cls_name: str) -> List[Path]:
+        """
+        Return the list of files of a given class.
+
+        :cls_name: Class name.
+        :return: The list of file paths.
+        """
+        return self.files[cls_name]
+
+    def list_classes(self) -> List[str]:
+        """
+        Return the list of classes
+        in the given dataset.
+
+        :return: The list of classes.
+        """
+        return list(self.files.keys())
