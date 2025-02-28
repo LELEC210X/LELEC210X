@@ -22,8 +22,8 @@ please do not hesitate to reach out (via a pull request or by contacting a teach
   - `model-trainer`, see usage below.
 
 <p align="center">
-    <img src="./assets/uart_reader_gui_v4.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="27%" >
-    <img src="./assets/uart_reader_gui_v4_mel.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="27%" >
+    <img src="./assets/uart_reader_gui_v4.png" alt="Main window of the new uart-reader" title="Screenshot of the main window" width="45%" >
+    <img src="./assets/uart_reader_gui_v4_mel.png" alt="Mel window of the new uart-reader" title="Screenshot of the mel window" width="45%" >
 </p>
 
 ### Usage

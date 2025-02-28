@@ -75,8 +75,8 @@ Here is the list of all optional flags (They are not needed, but can help save t
 These 2 following images are the main GUI windows, you also have a audio window and a paramaters window, but they are simpler and more straightforward, so we did not deem necessary to add them to the list of images.
 
 <p align="center">
-    <img src="./assets/uart_reader_gui_v4.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="27%" >
-    <img src="./assets/uart_reader_gui_v4_mel.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="27%" >
+    <img src="./assets/uart_reader_gui_v4.png" alt="Main window of the new uart-reader" title="Screenshot of the main window" width="45%" >
+    <img src="./assets/uart_reader_gui_v4_mel.png" alt="Mel window of the new uart-reader" title="Screenshot of the mel window" width="45%" >
 </p>
 
 ### Section 1.2 - Launching the old utility
@@ -119,7 +119,7 @@ A thing to note is, that the utility did have a plotting function for the audio 
 Here is a image of the old utility :
 
 <p align="center">
-    <img src="assets/uart_reader_gui_v1.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="27%" >
+    <img src="assets/uart_reader_gui_v1.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="45%" >
 </p>
 
 ### Section 1.3 - Training and using your own classifier
@@ -176,10 +176,10 @@ To edit default settings, you will have to modify the `database_init(db)` functi
 Here is a picture of the `database_init(db)`:
 
 <p align="center">
-    <img src="assets/uart_reader_database_init.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="27%" >
+    <img src="assets/uart_reader_database_init.png" alt="Screenshot of the function" title="Screenshot of the initialization function of the database" width="45%" >
 </p>
-
-> NOTE : We have expanded the functions intitializations to comply with good writing practices, this image was taken before this step
+> [!NOTE]
+> We have expanded the functions intitializations to comply with good writing practices, this image was taken before this step
 
 For the custom types, here are their basic structure :
 
@@ -226,7 +226,7 @@ Now, for the value differences depending on the type:
 ### Section 2.2 - GUI Architecture
 
 <p align="center">
-    <img src="./assets/uart_reader_app_arch3.svg" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="27%" >
+    <img src="./assets/uart_reader_app_arch3.svg" alt="Architecture of the application" title="Flow chart of the application" width="45%" >
 </p>
 
 ### Section 2.3 - Saving Graphs from the utility itself
@@ -252,7 +252,7 @@ After this big ramble, let me say that this was a very enjoyable experience, and
 Many things can be improved, but some more than others. One such thing, is definitely the separation between backend and frontend ! The mel window is a perfect example of what not to do, with a mish-mash of code to try to make something kinda performant. We could reformat it into the simple structure bellow :
 
 <p align="center">
-    <img src="./assets/uart_reader_alternative_app_arch.svg">
+    <img src="./assets/uart_reader_alternative_app_arch.svg" alt="Alternative App Architecture" title="Alternative App Architecture" width="45%" >
 </p>
 
 Another thing to be improved is the database, or more correctly said, the parametter storage of the program. To start with, its quite the mess ....
@@ -260,6 +260,18 @@ Another thing to be improved is the database, or more correctly said, the parame
 <!-- TODO : DEVELOP FURTHER HERE-->
 
 ### Section 3.3 - Architectureal ideas
+After many rewrite, we have had a few ideas that could be useful for anyone trying to make this utility better. Here is a non exhaustive list of ideas, and a final architecture for the whole thing.
+
+List :
+- Use YAML files to define and save the database, use a `.yaml.distribute` in a `distribute` folder, where only the definition of the database parameters is located, with default values. You then use `pyyaml` to read this file, and create a version unique to that user, that they can edit. This means that there won't be import/export buttons, but probably only a CLI flag.
+- Make a automatically synchronized database, in the sense that every 1s that something has changed, you save into the file, appart if the user presses the save params button to force the procedure. You can then turn off this feature by unchecking a parameter for the real-time sync of the YAML file.
+- Make a separation between a "static" and "dynamic" databases, the static database, is for parametters, its meant to be accessed more than written to. Whilst the dynamic database, is meant for high data flow, such as the storage of mel-spectrograms, audio signals, ... This dynamic system is meant to be a sort of limited queue, where very old things will be fogotten if over a certain ammount of them. This way, we can keep the separation between data and GUI. And even make a storage manager for save files of that data, if need be (for higher efficiency and less errors due heavy file calls).
+- Make a clear separation between the DATA and GUI, never mix them up, and make each window be the one to `get` and `set` data, instead of callbacks (or only one callback signal that is easy to remove later), so that you can have defined behaviour when opening multiple windows and close some of them. Whithout having to make a window event manager to properly close and de-allocate memory, as we are using python and not C.
+- Use more spetialized libraries for the graphs and other ellements, such as QtGraphs or fastplotlib. These libraries are designed for speed, and when the user wants to save the graph, you could call a new window titled "Plot Editting Window" that focuses on giving the user the ability to edit the graph by croping it, smoothing it, changing its colour, its axes, title, add comments, ... Such a window could also be called for a list of signals or values such as the classification history. You should also make it possible to save mel-spectrograms that are received as images, such as PNG, SVG, JPEG or GIF. 
+- Use a thread pool for the classification model, so that you can have many tasks that can be processed at the same time when they get received. Show the progress of running it using QLoadingBar's, and use the estimated time for a run of the classifier as the completion percentage, when its donne, change its colour from blue to green or something similar. This shouldn't be too hard to do.
+- Use RLock instead of Lock, as it allows for speedups inside the main thread where is was called, as that thread can't mess it up.
+- Make a serial thread that can be disconnected and reconnected when parameters change, and add a port blacklist to it, so that, user with wifi cards with serial ports (Intel cards) can skip these cards during the auto selection of the port when ports are detected.
+- Startup times are slow, to speed them up, you could try to first load part of the backend that does not require a lot of libraries, and launch the main window. Then, you can import the rest of the libraries on a thread and launch the rest of the backend and frontend. But this will be very hard to implement correctly for a minimal speedup. Another option is to use JIT (Just in time compilation) using `numba`, but this won't work on all functions, and is harder to use, and could cause pickling problems if used in a multicore system (by experience).
 
 ### Section 3.4 - Credits and thanks
 
