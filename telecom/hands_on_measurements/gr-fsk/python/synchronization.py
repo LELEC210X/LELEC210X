@@ -42,6 +42,7 @@ def cfo_estimation(y, B, R, Fdev):
 
     # apply the Moose algorithm on these two blocks to estimate the CFO
     N_Moose_list = [2, 4, 8, 16] # max should be total bits per preamble / 2
+    N_Moose_list = [2, 4, 8, 16] # max should be total bits per preamble / 2
     T = 1 / B # 1/Bitrate
 
     first_est = True
