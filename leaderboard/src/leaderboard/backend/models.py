@@ -41,11 +41,10 @@ class Status(str, Enum):
 
 
 class Guess(str, Enum):
-    birds = "birds"
     chainsaw = "chainsaw"
     fire = "fire"
-    handsaw = "handsaw"
-    helicopter = "helicopter"
+    fireworks = "fireworks"
+    gunshot = "gunshot"
     nothing = "nothing"
     received = "received"
     penalized = "penalized"
