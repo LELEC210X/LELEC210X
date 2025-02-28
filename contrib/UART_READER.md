@@ -81,15 +81,15 @@ These 2 following images are the main GUI windows, you also have a audio window 
 
 ### Section 1.2 - Launching the old utility
 
-The old uart-reader utility GUI had a CLI interface that the new one doesn't, but lacks the features of the new GUI interface. The old app was a bit snappier and simpler, only capable on processing audio from the hands_on_audio_acquisition. All of this makes it great for automatization and editability.
+The old uart-reader utility (also named version 1), had a GUI, and CLI interface that the new one doesn't, but lacks the features of the new GUI interface. The old app was a bit snappier and simpler, only capable on processing audio from the hands_on_audio_acquisition. All of this makes it great for automatization and editability.
 
 First, to obtain it, you will have to git checkout onto a tag in the project's origin. To do so, run this command :
-
-<!--TODO : Add the tag-->
-
 ```bash
-git checkout <tag name>
+git checkout <TBD>
 ```
+<!--TODO : Add the tag-->
+>[!NOTE]
+>For more information on this command, please reffer to the official documentation : [https://git-scm.com/book/en/v2/Git-Basics-Tagging](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
 
 Then, you will have to run the utility using the following command :
 
@@ -119,7 +119,7 @@ A thing to note is, that the utility did have a plotting function for the audio 
 Here is a image of the old utility :
 
 <p align="center">
-    <img src="assets/uart_reader_gui_v1.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="45%" >
+    <img src="./assets/uart_reader_gui_v1_old.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="45%" >
 </p>
 
 ### Section 1.3 - Training and using your own classifier
@@ -176,7 +176,7 @@ To edit default settings, you will have to modify the `database_init(db)` functi
 Here is a picture of the `database_init(db)`:
 
 <p align="center">
-    <img src="assets/uart_reader_database_init.png" alt="Screenshot of the function" title="Screenshot of the initialization function of the database" width="45%" >
+    <img src="./assets/uart_reader_database_init.png" alt="Screenshot of the function" title="Screenshot of the initialization function of the database" width="45%" >
 </p>
 > [!NOTE]
 > We have expanded the functions intitializations to comply with good writing practices, this image was taken before this step
@@ -209,11 +209,12 @@ Now, for the value differences depending on the type:
 
 ### Section 1.5 - Tips, tricks and known bugs
 
+Tips:
 - When training your model, if you name it model.pickle, and save it in the same folder as the uart-reader files, then it will automatically be detected and loaded by the mel window, and openend.
-- Dark mode computer makes the ui go in dark mode, making the prints in the gui console hard to see for the "info" log level.
-- When closing and re-opening the windows many times, undefined behaviour could happen, as all the functions that trigger events to propagate UI changes stay in memory. Which has a undefined behaviour.
-
-<!--TODO : COMPLETE MORE HERE -->
+  
+Bugs:
+- Dark mode computer makes the ui go in dark mode, making the prints in the gui console hard to see for the "info" log level (since black on dark is hard to see).
+- When closing and re-opening the windows many times, undefined behaviour may occur, as all the functions that trigger events to propagate UI changes stay in memory. Which has a undefined behaviour.
 
 <!-- Chapter 2 - Advanced stuff -->
 
