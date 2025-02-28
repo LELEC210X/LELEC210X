@@ -536,7 +536,7 @@ class Config(BaseModel):
                 else:
                     correct = guess == correct_answer
 
-                    if not correct:  # We penalize incorrect guesses
+                    if guess != Guess.nothing and not correct:  # We penalize incorrect guesses (only if we submitted something)
                         score -= 0.5
 
                 if correct:
