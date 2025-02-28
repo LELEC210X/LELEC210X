@@ -41,11 +41,10 @@ class Status(str, Enum):
 
 
 class Guess(str, Enum):
-    birds = "birds"
     chainsaw = "chainsaw"
     fire = "fire"
-    handsaw = "handsaw"
-    helicopter = "helicopter"
+    fireworks = "fireworks"
+    gunshot = "gunshot"
     nothing = "nothing"
     received = "received"
     penalized = "penalized"
@@ -81,7 +80,7 @@ class RoundConfig(BaseModel):
     lap_count: PositiveInt = 16
     lap_duration: PositiveFloat = 10.0
     only_check_for_presence: bool = False
-    with_noise: bool = False
+    reduce_level: bool = False
 
 
 def hex_bytes_validator(val: Any) -> bytes:
@@ -113,19 +112,19 @@ class SecurityGuess(BaseModel):
 class RoundsConfig(BaseModel):
     rounds: List[RoundConfig] = [
         RoundConfig(name="Functionality", only_check_for_presence=True),
-        RoundConfig(name="Robustness of detection", only_check_for_presence=True),
         RoundConfig(name="Communication range", only_check_for_presence=True),
         RoundConfig(name="Power consumption", only_check_for_presence=True),
-        RoundConfig(name="Classification accuracy", lap_count=20, with_noise=True),
+        RoundConfig(name="Detection accuracy", lap_count=20, reduce_level=True),
+        RoundConfig(name="Global performance", lap_count=20, reduce_level=True),
     ]
     security_round: SecurityRound = SecurityRound()
     seed: Optional[PositiveInt] = None
     start_paused: bool = True
     restart_when_finished: bool = False
     pause_between_rounds: bool = True
-    latency_margin: PositiveFloat = 1.0
-    delay_before_playing: PositiveFloat = 2.0
-    delay_after_playing: PositiveFloat = 1.0
+    latency_margin: PositiveFloat = 2.0
+    delay_before_playing: PositiveFloat = 0.5
+    delay_after_playing: PositiveFloat = 0.5
     sound_duration: PositiveFloat = 5.0
     __answers: List[List[Guess]] = PrivateAttr()
     __play_delays: List[List[PositiveFloat]] = PrivateAttr()
@@ -133,7 +132,6 @@ class RoundsConfig(BaseModel):
     __time_when_paused: float = PrivateAttr()
     __paused: bool = PrivateAttr()
     __current_round: conint(ge=0) = PrivateAttr()
-    __current_lap: conint(ge=0) = PrivateAttr()
     __finished: bool = PrivateAttr()
     __submissions: List[Submission] = PrivateAttr([])
     __security_round_submissions: Dict[str, SecurityGuess] = PrivateAttr({})
@@ -431,7 +429,7 @@ class LeaderboardRow(BaseModel):
 class LeaderboardStatus(BaseModel):
     round_name: str
     current_correct_guess: Guess
-    current_with_noise: bool
+    current_gain: float
     current_round: conint(ge=0)
     current_lap: conint(ge=0)
     number_of_rounds: conint(ge=0)
@@ -500,9 +498,13 @@ class Config(BaseModel):
 
     def get_leaderboard_status(self) -> LeaderboardStatus:
         current_correct_guess = self.rounds_config.get_current_correct_guess()
-        current_with_noise = self.rounds_config.get_current_round_config().with_noise
         current_round = self.rounds_config.get_current_round()
         current_lap = self.rounds_config.get_current_lap()
+        current_gain = (
+            -(current_lap // 4) * 3.0
+            if self.rounds_config.get_current_round_config().reduce_level
+            else 0.0
+        )
         number_of_rounds = self.rounds_config.get_number_of_rounds()
         number_of_laps = self.rounds_config.get_current_number_of_laps()
         paused = self.rounds_config.is_paused()
@@ -534,6 +536,9 @@ class Config(BaseModel):
                 else:
                     correct = guess == correct_answer
 
+                    if not correct:  # We penalize incorrect guesses
+                        score -= 0.5
+
                 if correct:
                     status = Status.correct
                     score += 1.0
@@ -543,7 +548,7 @@ class Config(BaseModel):
                 if self.rounds_config.is_penalized(
                     group_config.key, current_round, lap
                 ):
-                    score -= 0.25
+                    score -= 0.5  # We penalize guesses outside permitted time
 
                     if correct:
                         status = Status.correct_penalized
@@ -573,7 +578,7 @@ class Config(BaseModel):
         return LeaderboardStatus(
             round_name=self.rounds_config.get_current_round_config().name,
             current_correct_guess=current_correct_guess,
-            current_with_noise=current_with_noise,
+            current_gain=current_gain,
             current_round=current_round,
             current_lap=current_lap,
             number_of_rounds=number_of_rounds,
