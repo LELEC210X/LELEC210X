@@ -7,7 +7,19 @@
 #include "packet.h"
 #include "main.h"
 #include "utils.h"
+#include <string.h>
+#include "aes.h"
 
+// BUG : VSCode does not recognize the AES macro, so this is a quick fix, that does not impact the code
+#ifndef AES
+#define AES
+#endif
+#include "stm32l4xx_hal_cryp.h"
+#include "stm32l4xx_hal_cryp_ex.h"
+
+// BUG : VSCode does not recognize many of the types, such as uint32_t, i couldn't find a fix for this
+
+// The AES key used for CBC-MAC (for software crypto)
 const uint8_t AES_Key[16]  = {
                             0x00,0x00,0x00,0x00,
 							0x00,0x00,0x00,0x00,
@@ -42,6 +54,24 @@ void tag_cbc_mac(uint8_t *tag, const uint8_t *msg, size_t msg_len) {
     for (size_t j=0; j<16; j++) {
     	tag[j] = state[j];
     }
+}
+
+/**
+ * @brief  This function calculates the AES CMAC tag of a message. (Different from the CBC-MAC)
+ * @param  tag: pointer to the tag buffer.
+ * @param  msg: pointer to the message buffer.
+ * @param  msg_len: length of the message buffer in bytes.
+ * @retval None
+ */
+void tag_cbc_mac_hardware(uint8_t *tag, const uint8_t *msg, size_t msg_len) {
+	/**
+	 * CRYP_HandleTypeDef *hcryp : pointer to the CRYP_HandleTypeDef structure that contains the configuration information for the CRYP peripheral.
+	 * uint8_t *pInputData : pointer to the input data buffer.
+	 * uint64_t Size : length of the input data buffer in bytes.
+	 * uint8_t *pOutputData : pointer to the output data buffer.
+	 * uint32_t Timeout : Timeout duration.
+	 */
+	HAL_CRYPEx_AES_Auth(&hcryp, (uint8_t*)msg, msg_len, tag, 1000);
 }
 
 // Assumes payload is already in place in the packet
@@ -88,7 +118,11 @@ int make_packet(uint8_t *packet, size_t payload_len, uint8_t sender_id, uint32_t
 
 	// For the tag field, you have to calculate the tag. The function call below is correct but
 	// tag_cbc_mac function, calculating the tag, is not implemented.
+	#if USE_CRYPTO == USE_HARDWARE_CRYPTO
+	tag_cbc_mac_hardware(packet + payload_len + PACKET_HEADER_LENGTH, packet, payload_len + PACKET_HEADER_LENGTH);
+	#else
     tag_cbc_mac(packet + payload_len + PACKET_HEADER_LENGTH, packet, payload_len + PACKET_HEADER_LENGTH);
+	#endif
 
     return packet_len;
 }

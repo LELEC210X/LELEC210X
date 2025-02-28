@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "aes.h"
 #include "dma.h"
 #include "spi.h"
 #include "tim.h"
@@ -153,7 +154,9 @@ int main(void)
   MX_SPI1_Init();
   MX_TIM3_Init();
   MX_ADC1_Init();
+  MX_AES_Init();
   /* USER CODE BEGIN 2 */
+
   if (ENABLE_UART) {
 	  MX_LPUART1_UART_Init();
   }

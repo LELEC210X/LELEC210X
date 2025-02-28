@@ -23,6 +23,12 @@
 // In non-continuous mode, we send a single packet on button press.
 #define CONTINUOUS_ACQ 1
 
+// Packet parameters
+#define USE_SOFTWARE_CRYPTO 0
+#define USE_HARDWARE_CRYPTO 1 
+#define USE_CRYPTO USE_HARDWARE_CRYPTO  // Select hardware or software crypto
+
+
 // Spectrogram parameters
 #define SAMPLES_PER_MELVEC 512
 #define MELVEC_LENGTH 20
