@@ -14,10 +14,6 @@ Moreover, change the random `seed` in the config file to some random integer!
 
 ## Rounds
 
-The default sound level (on your computer) should be 60%.
-
-1. Functionnality: nothing to do;
-2. Sound levels: 60%, 50%, 40%, and 30%, for laps 1, 5, 9, and 13;
-3. Range: put 10 dB attenuators, and increase the range for laps 1, 5, 9, and 13;
-4. Light: decrease the light level for laps 1, 5, 9, and 13;
-5. Classification accuracy: this should be handled by the script.
+The default sound level (on your computer) should be set so that the background
+noise is barely hearable. The audio volume of sound events will be adjusted automatically,
+relative to the level of the background noise.
