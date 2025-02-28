@@ -536,8 +536,12 @@ class Config(BaseModel):
                     else:
                         if guess == correct_answer:
                             score += 1
+                            status = Status.correct
                         else:
                             score -= 0.5
+                            status = Status.incorrect
+                else:
+                    status = Status.not_submitted
 
                 if self.rounds_config.is_penalized(
                     group_config.key, current_round, lap
