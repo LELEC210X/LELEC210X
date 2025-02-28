@@ -84,12 +84,15 @@ These 2 following images are the main GUI windows, you also have a audio window 
 The old uart-reader utility (also named version 1), had a GUI, and CLI interface that the new one doesn't, but lacks the features of the new GUI interface. The old app was a bit snappier and simpler, only capable on processing audio from the hands_on_audio_acquisition. All of this makes it great for automatization and editability.
 
 First, to obtain it, you will have to git checkout onto a tag in the project's origin. To do so, run this command :
+
 ```bash
 git checkout <TBD>
 ```
+
 <!--TODO : Add the tag-->
->[!NOTE]
->For more information on this command, please reffer to the official documentation : [https://git-scm.com/book/en/v2/Git-Basics-Tagging](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
+
+> [!NOTE]
+> For more information on this command, please reffer to the official documentation : [https://git-scm.com/book/en/v2/Git-Basics-Tagging](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
 
 Then, you will have to run the utility using the following command :
 
@@ -210,8 +213,9 @@ Now, for the value differences depending on the type:
 ### Section 1.5 - Tips, tricks and known bugs
 
 Tips:
+
 - When training your model, if you name it model.pickle, and save it in the same folder as the uart-reader files, then it will automatically be detected and loaded by the mel window, and openend.
-  
+
 Bugs:
 - Dark mode computers make the ui go in dark mode, rendering the prints (text) in the gui console hard to see for the "info" log level (since black on dark is hard to see).
 - When closing and re-opening the windows many times, undefined behaviour may occur, as all the functions that trigger events to propagate UI changes stay in memory. Which has a undefined behaviour.
