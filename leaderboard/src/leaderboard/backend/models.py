@@ -34,6 +34,7 @@ class GroupConfig(BaseModel):
 
 
 class Status(str, Enum):
+    not_submitted = "not_submitted"
     correct = "correct"
     incorrect = "incorrect"
     correct_penalized = "correct_penalized"
@@ -60,7 +61,7 @@ class Guess(str, Enum):
 
 class Answer(BaseModel):
     guess: Guess
-    status: Status = Status.incorrect
+    status: Status = Status.not_submitted
     hide: bool = False
 
 
@@ -542,7 +543,7 @@ class Config(BaseModel):
                 if correct:
                     status = Status.correct
                     score += 1.0
-                else:
+                elif guess != Guess.nothing:
                     status = Status.incorrect
 
                 if self.rounds_config.is_penalized(
@@ -555,7 +556,7 @@ class Config(BaseModel):
                     else:
                         status = Status.incorrect_penalized
 
-                hide = lap > current_lap
+                hide = (lap > current_lap) or Status.not_submitted
 
                 answers.append(Answer(guess=guess, status=status, hide=hide))
 
