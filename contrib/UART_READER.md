@@ -99,6 +99,8 @@ Then, you will have to run the utility using the following command :
 ```bash
 rye run uart_reader <old optional flags>
 ```
+>[!WARNING]
+>The old version uses the name `uart_reader` and not `uart-reader` !
 
 The old optional flags where the following :
 
@@ -220,6 +222,8 @@ Bugs:
 
 - Dark mode computers make the ui go in dark mode, rendering the prints (text) in the gui console hard to see for the "info" log level (since black on dark is hard to see).
 - When closing and re-opening the windows many times, undefined behaviour may occur, as all the functions that trigger events to propagate UI changes stay in memory. Which has a undefined behaviour.
+- If you have trained the model with python3 or a vscode extension instead of doing `rye run model-trainer`, then the utility that was launched with `rye run uart-reader` won't be able to find it.
+- There is a import error when trying to launch the program with something else than rye.
 
 <!-- Chapter 2 - Advanced stuff -->
 
@@ -249,7 +253,13 @@ Through the writing of the mel window, we have tried our best to make it as robu
 
 A few words on the database architecture, we have used a system where, whenever a value is changed, it will trigger callbacks (functions to handle the change), these callbacks range from updating the UI elements through different UI windows, to changing settings in other modules.
 
-<!--TODO : Add section for the files-->
+Lets talk about the file structure, the uart-reader has its entry point in `__main__.py`, and uses `__version__.py` to read the version of the application. It then imports 3 custom modules situated in `libraries/` and are the following : 
+
+- `database_utils.py` : Implementation of the database, with all its elements.
+- `logging_utils.py` : Unification of the logging system, and abstraction of the configurations and other aspects.
+- `serial_utils.py` : Implmenetaion of a serial thread, where the serial port communicates using qtSignal's, and handles all the edge cases where the port has to disconnect or got suddenly disconnected. 
+
+When rye calls the utility, it will call the `main()` of `__main__.py`, and give click (the argument/flags parser) the options given by the user. If you call the application using python3 or a vscode extension, then you will have a import problem, we have yet to find a way to fix this problem, if you find a solution, don't hesitate to make a pull request to fix it.
 
 ### Section 2.3 - Saving Graphs from the utility itself
 
