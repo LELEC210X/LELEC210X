@@ -553,7 +553,7 @@ class Config(BaseModel):
                     elif status == Status.incorrect:
                         status = Status.incorrect_penalized
 
-                hide = lap > current_lap
+                hide = (lap > current_lap) or status == Status.not_submitted
 
                 answers.append(Answer(guess=guess, status=status, hide=hide))
 
