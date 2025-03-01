@@ -219,7 +219,6 @@ Tips:
 
 Bugs:
 
-- Dark mode computers make the ui go in dark mode, rendering the prints (text) in the gui console hard to see for the "info" log level (since black on dark is hard to see).
 - When closing and re-opening the windows many times, undefined behaviour may occur, as all the functions that trigger events to propagate UI changes stay in memory. Which has a undefined behaviour.
 - If you have trained the model with python3 or a vscode extension instead of doing `rye run model-trainer`, then the utility that was launched with `rye run uart-reader` won't be able to find it.
 - There is a import error when trying to launch the program with something else than rye.

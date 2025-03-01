@@ -153,6 +153,9 @@ class ContentLogger:
         Generate a QTextEdit widget as a log receiver, limited to 200 lines.
         """
 
+        # Check for dark mode
+        dark_mode = QApplication.instance().property("darkMode")
+
         # Custom handler for QTextEdit
         class QTextEditHandler(Handler):
             def __init__(self, text_edit: QTextEdit, max_lines: int = 200):
@@ -174,7 +177,7 @@ class ContentLogger:
                 """Append a message to the QTextEdit widget with a specific color based on the log level."""
                 color_map = {
                     "DEBUG": "blue",
-                    "INFO": "black",
+                    "INFO": "black" if dark_mode else "white",
                     "WARNING": "orange",
                     "ERROR": "red",
                     "CRITICAL": "darkred",
