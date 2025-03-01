@@ -554,12 +554,15 @@ class GUIMELWindow(QMainWindow):
 
     def prefix_message_handler(self, prefix, message):
         if prefix == self.db.get_item("MEL Settings", "serial_prefix").value:
+            # Message is a packet of mel data
+            if len(message) >= 2 * self.current_feature_length:
+                message = message[16:-32]
+            
+            # Convert the message to a mel vector
             array_hex = bytes.fromhex(message)
             mel_vec = np.frombuffer(
                 array_hex, dtype=np.dtype(np.uint16).newbyteorder("<")
             )
-            if len(mel_vec) > self.current_feature_length:
-                mel_vec = mel_vec[6:-6]  # TODO : Fix this properly (12 is the CBC mac)
             self.add_data(mel_vec)
 
     def create_ui(self):
