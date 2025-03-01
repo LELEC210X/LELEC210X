@@ -288,7 +288,7 @@ After this big ramble, let me say that this was a very enjoyable experience, and
 
 ### Section 3.2 - What could be improved ?
 
-Many things can be improved, but some more than others. One such thing, is definitely the separation between backend and frontend ! The mel window is a perfect example of what not to do, with a mish-mash of code to try to make something kinda performant. 
+Many things can be improved, but some more than others. One such thing, is definitely the separation between backend and frontend ! The mel window is a perfect example of what not to do, with a mish-mash of code to try to make something kinda performant.
 
 In this section, we will suggest the following architecture for a more robust and responding app, optimized for desktop machines and not the web :
 
