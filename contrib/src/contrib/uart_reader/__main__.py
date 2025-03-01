@@ -1136,6 +1136,14 @@ class GUIMainWindow(QMainWindow):
         self.logger.info(f">>{message}")
 
     def prefix_message_handler(self, prefix, message):
+        # Print to the log file the received data
+        log_path = self.db.get_item("Folder Settings", "log path").value
+        log_file = self.db.get_item("Logging Settings", "file_name").value
+        log_message = f"[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {prefix} : {message}"
+        with open(str(log_path / log_file), "a") as f:
+            f.write(log_message + "\n")
+        print(log_message)
+
         # self.logger.info(f"Received {len(message)} bytes for prefix {prefix}")
         if prefix == self.db.get_item("Serial Settings", "database_prefix").value:
             self.logger.info(f"New configuration received: {message}")

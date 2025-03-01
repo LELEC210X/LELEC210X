@@ -356,176 +356,175 @@ class SerialController(QThread):
         self.data_received_normal.emit("TERMINATE")
         self.stop()
 
-
 # Example usage
 # -------------------------------------------------
 
-logger = logging.getLogger("SerialExample")
-logger.setLevel(logging.DEBUG)
-logger_handler = logging.StreamHandler(sys.stdout)
-logger_handler.setLevel(logging.DEBUG)
-logger.addHandler(logger_handler)
-
-# Add SUCCESS level to the logger
-logging.addLevelName(25, "SUCCESS")
-
-
-def success(self, message, *args, **kws):
-    if self.isEnabledFor(25):
-        self._log(25, message, args, **kws)
-
-
-logging.Logger.success = success
-
-# Add TRACE level to the logger
-logging.addLevelName(15, "TRACE")
-
-
-def trace(self, message, *args, **kws):
-    if self.isEnabledFor(15):
-        self._log(15, message, args, **kws)
-
-
-logging.Logger.trace = trace
-
-
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Serial Communication Test")
-        self.resize(600, 500)
-
-        self.serial_controller = SerialController(logger)
-        self._setup_ui()
-        self._connect_signals()
-
-    def _setup_ui(self):
-        # Central widget
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
-        self.layout = QVBoxLayout(central_widget)
-
-        # Port selection
-        port_layout = QHBoxLayout()
-        port_layout.addWidget(QLabel("Select Port:"))
-        self.port_combo = QComboBox()
-        for port, desc in self.serial_controller.available_ports().items():
-            self.port_combo.addItem(port)
-        port_layout.addWidget(self.port_combo)
-        self.connect_button = QPushButton("Connect")
-        self.disconnect_button = QPushButton("Disconnect")
-        port_layout.addWidget(self.connect_button)
-        port_layout.addWidget(self.disconnect_button)
-        self.layout.addLayout(port_layout)
-
-        # Send message
-        send_layout = QHBoxLayout()
-        self.message_input = QLineEdit()
-        self.message_input.setPlaceholderText("Enter message...")
-        self.send_button = QPushButton("Send")
-        send_layout.addWidget(self.message_input)
-        send_layout.addWidget(self.send_button)
-        self.layout.addLayout(send_layout)
-
-        # Register prefix
-        prefix_layout = QHBoxLayout()
-        self.prefix_input = QLineEdit()
-        self.prefix_input.setPlaceholderText("Prefix to register")
-        self.register_prefix_button = QPushButton("Register Prefix")
-        self.unregister_prefix_button = QPushButton("Unregister Prefix")
-        prefix_layout.addWidget(self.prefix_input)
-        prefix_layout.addWidget(self.register_prefix_button)
-        prefix_layout.addWidget(self.unregister_prefix_button)
-        self.layout.addLayout(prefix_layout)
-
-        # Freeze and write allow
-        check_layout = QHBoxLayout()
-        self.freeze_check = QCheckBox("Freeze Serial")
-        self.write_allow_check = QCheckBox("Allow Writes")
-        self.write_allow_check.setChecked(True)  # default
-        check_layout.addWidget(self.freeze_check)
-        check_layout.addWidget(self.write_allow_check)
-        self.layout.addLayout(check_layout)
-
-        # Console
-        self.console = QTextEdit()
-        self.console.setReadOnly(True)
-        self.layout.addWidget(self.console)
-
-    def _connect_signals(self):
-        # Buttons
-        self.connect_button.clicked.connect(self.on_connect)
-        self.disconnect_button.clicked.connect(self.on_disconnect)
-        self.send_button.clicked.connect(self.on_send)
-        self.register_prefix_button.clicked.connect(self.on_register_prefix)
-        self.unregister_prefix_button.clicked.connect(self.on_unregister_prefix)
-        self.freeze_check.toggled.connect(self.on_freeze_toggled)
-        self.write_allow_check.toggled.connect(self.on_write_allow_toggled)
-
-        # Serial signals
-        self.serial_controller.data_received_normal.connect(self.handle_normal)
-        self.serial_controller.data_received_prefix.connect(self.handle_prefix)
-        self.serial_controller.connection_state.connect(self.handle_connection_state)
-        self.serial_controller.error_occurred.connect(self.handle_error_occurred)
-
-    # --------------- Event Handlers ---------------
-    def on_connect(self):
-        port = self.port_combo.currentText()
-        # Use a default baud rate
-        baudrate = 115200
-        if self.serial_controller.try_start(port, baudrate):
-            self.console.append(f"Attempting to connect to {port}...")
-        else:
-            self.console.append(f"Failed to connect to {port}.")
-
-    def on_disconnect(self):
-        self.serial_controller.stop()
-        self.console.append("Disconnected")
-
-    def on_send(self):
-        message = self.message_input.text().strip()
-        if message:
-            self.serial_controller.write_message(message)
-            self.console.append(f"Sent: {message}")
-            self.message_input.clear()
-
-    def on_register_prefix(self):
-        prefix = self.prefix_input.text().strip()
-        if prefix:
-            self.serial_controller.register_prefix(prefix)
-            self.console.append(f"Registered prefix: {prefix}")
-            self.prefix_input.clear()
-
-    def on_unregister_prefix(self):
-        prefix = self.prefix_input.text().strip()
-        if prefix:
-            self.serial_controller.unregister_prefix(prefix)
-            self.console.append(f"Unregistered prefix: {prefix}")
-            self.prefix_input.clear()
-
-    def on_freeze_toggled(self, checked: bool):
-        self.serial_controller.set_freeze(checked, buffering=False)
-        self.console.append(f"Freeze={checked}")
-
-    def on_write_allow_toggled(self, checked: bool):
-        self.serial_controller.set_write_allow(checked)
-        self.console.append(f"Write allowed={checked}")
-
-    # --------------- Serial Signal Slots ---------------
-    def handle_normal(self, line: str):
-        self.console.append(f"(normal) {line}")
-
-    def handle_prefix(self, prefix: str, data: str):
-        self.console.append(f"(prefix={prefix}) {data}")
-
-    def handle_connection_state(self, connected: bool):
-        self.console.append(f"Connection state changed: {connected}")
-
-    def handle_error_occurred(self, error_msg: str):
-        self.console.append(f"ERROR: {error_msg}")
-
-
 if __name__ == "__main__":
+    
+    logger = logging.getLogger("SerialExample")
+    logger.setLevel(logging.DEBUG)
+    logger_handler = logging.StreamHandler(sys.stdout)
+    logger_handler.setLevel(logging.DEBUG)
+    logger.addHandler(logger_handler)
+
+    # Add SUCCESS level to the logger
+    logging.addLevelName(25, "SUCCESS")
+
+
+    def success(self, message, *args, **kws):
+        if self.isEnabledFor(25):
+            self._log(25, message, args, **kws)
+
+
+    logging.Logger.success = success
+
+    # Add TRACE level to the logger
+    logging.addLevelName(15, "TRACE")
+
+
+    def trace(self, message, *args, **kws):
+        if self.isEnabledFor(15):
+            self._log(15, message, args, **kws)
+
+
+    logging.Logger.trace = trace
+
+
+    class MainWindow(QMainWindow):
+        def __init__(self):
+            super().__init__()
+            self.setWindowTitle("Serial Communication Test")
+            self.resize(600, 500)
+
+            self.serial_controller = SerialController(logger)
+            self._setup_ui()
+            self._connect_signals()
+
+        def _setup_ui(self):
+            # Central widget
+            central_widget = QWidget()
+            self.setCentralWidget(central_widget)
+            self.layout = QVBoxLayout(central_widget)
+
+            # Port selection
+            port_layout = QHBoxLayout()
+            port_layout.addWidget(QLabel("Select Port:"))
+            self.port_combo = QComboBox()
+            for port, desc in self.serial_controller.available_ports().items():
+                self.port_combo.addItem(port)
+            port_layout.addWidget(self.port_combo)
+            self.connect_button = QPushButton("Connect")
+            self.disconnect_button = QPushButton("Disconnect")
+            port_layout.addWidget(self.connect_button)
+            port_layout.addWidget(self.disconnect_button)
+            self.layout.addLayout(port_layout)
+
+            # Send message
+            send_layout = QHBoxLayout()
+            self.message_input = QLineEdit()
+            self.message_input.setPlaceholderText("Enter message...")
+            self.send_button = QPushButton("Send")
+            send_layout.addWidget(self.message_input)
+            send_layout.addWidget(self.send_button)
+            self.layout.addLayout(send_layout)
+
+            # Register prefix
+            prefix_layout = QHBoxLayout()
+            self.prefix_input = QLineEdit()
+            self.prefix_input.setPlaceholderText("Prefix to register")
+            self.register_prefix_button = QPushButton("Register Prefix")
+            self.unregister_prefix_button = QPushButton("Unregister Prefix")
+            prefix_layout.addWidget(self.prefix_input)
+            prefix_layout.addWidget(self.register_prefix_button)
+            prefix_layout.addWidget(self.unregister_prefix_button)
+            self.layout.addLayout(prefix_layout)
+
+            # Freeze and write allow
+            check_layout = QHBoxLayout()
+            self.freeze_check = QCheckBox("Freeze Serial")
+            self.write_allow_check = QCheckBox("Allow Writes")
+            self.write_allow_check.setChecked(True)  # default
+            check_layout.addWidget(self.freeze_check)
+            check_layout.addWidget(self.write_allow_check)
+            self.layout.addLayout(check_layout)
+
+            # Console
+            self.console = QTextEdit()
+            self.console.setReadOnly(True)
+            self.layout.addWidget(self.console)
+
+        def _connect_signals(self):
+            # Buttons
+            self.connect_button.clicked.connect(self.on_connect)
+            self.disconnect_button.clicked.connect(self.on_disconnect)
+            self.send_button.clicked.connect(self.on_send)
+            self.register_prefix_button.clicked.connect(self.on_register_prefix)
+            self.unregister_prefix_button.clicked.connect(self.on_unregister_prefix)
+            self.freeze_check.toggled.connect(self.on_freeze_toggled)
+            self.write_allow_check.toggled.connect(self.on_write_allow_toggled)
+
+            # Serial signals
+            self.serial_controller.data_received_normal.connect(self.handle_normal)
+            self.serial_controller.data_received_prefix.connect(self.handle_prefix)
+            self.serial_controller.connection_state.connect(self.handle_connection_state)
+            self.serial_controller.error_occurred.connect(self.handle_error_occurred)
+
+        # --------------- Event Handlers ---------------
+        def on_connect(self):
+            port = self.port_combo.currentText()
+            # Use a default baud rate
+            baudrate = 115200
+            if self.serial_controller.try_start(port, baudrate):
+                self.console.append(f"Attempting to connect to {port}...")
+            else:
+                self.console.append(f"Failed to connect to {port}.")
+
+        def on_disconnect(self):
+            self.serial_controller.stop()
+            self.console.append("Disconnected")
+
+        def on_send(self):
+            message = self.message_input.text().strip()
+            if message:
+                self.serial_controller.write_message(message)
+                self.console.append(f"Sent: {message}")
+                self.message_input.clear()
+
+        def on_register_prefix(self):
+            prefix = self.prefix_input.text().strip()
+            if prefix:
+                self.serial_controller.register_prefix(prefix)
+                self.console.append(f"Registered prefix: {prefix}")
+                self.prefix_input.clear()
+
+        def on_unregister_prefix(self):
+            prefix = self.prefix_input.text().strip()
+            if prefix:
+                self.serial_controller.unregister_prefix(prefix)
+                self.console.append(f"Unregistered prefix: {prefix}")
+                self.prefix_input.clear()
+
+        def on_freeze_toggled(self, checked: bool):
+            self.serial_controller.set_freeze(checked, buffering=False)
+            self.console.append(f"Freeze={checked}")
+
+        def on_write_allow_toggled(self, checked: bool):
+            self.serial_controller.set_write_allow(checked)
+            self.console.append(f"Write allowed={checked}")
+
+        # --------------- Serial Signal Slots ---------------
+        def handle_normal(self, line: str):
+            self.console.append(f"(normal) {line}")
+
+        def handle_prefix(self, prefix: str, data: str):
+            self.console.append(f"(prefix={prefix}) {data}")
+
+        def handle_connection_state(self, connected: bool):
+            self.console.append(f"Connection state changed: {connected}")
+
+        def handle_error_occurred(self, error_msg: str):
+            self.console.append(f"ERROR: {error_msg}")
+
     app = QApplication(sys.argv)
     main_window = MainWindow()
     main_window.show()
