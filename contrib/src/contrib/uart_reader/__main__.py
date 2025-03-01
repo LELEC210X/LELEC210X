@@ -557,7 +557,7 @@ class GUIMELWindow(QMainWindow):
             # Message is a packet of mel data
             if len(message) >= 2 * self.current_feature_length:
                 message = message[16:-32]
-            
+
             # Convert the message to a mel vector
             array_hex = bytes.fromhex(message)
             mel_vec = np.frombuffer(

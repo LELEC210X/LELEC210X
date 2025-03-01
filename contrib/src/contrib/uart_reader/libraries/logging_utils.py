@@ -152,7 +152,6 @@ class ContentLogger:
         """
         Generate a QTextEdit widget as a log receiver, limited to 200 lines.
         """
-
         # Check for dark mode
         dark_mode = QApplication.instance().property("darkMode")
 

@@ -356,11 +356,11 @@ class SerialController(QThread):
         self.data_received_normal.emit("TERMINATE")
         self.stop()
 
+
 # Example usage
 # -------------------------------------------------
 
 if __name__ == "__main__":
-    
     logger = logging.getLogger("SerialExample")
     logger.setLevel(logging.DEBUG)
     logger_handler = logging.StreamHandler(sys.stdout)
@@ -370,25 +370,20 @@ if __name__ == "__main__":
     # Add SUCCESS level to the logger
     logging.addLevelName(25, "SUCCESS")
 
-
     def success(self, message, *args, **kws):
         if self.isEnabledFor(25):
             self._log(25, message, args, **kws)
-
 
     logging.Logger.success = success
 
     # Add TRACE level to the logger
     logging.addLevelName(15, "TRACE")
 
-
     def trace(self, message, *args, **kws):
         if self.isEnabledFor(15):
             self._log(15, message, args, **kws)
 
-
     logging.Logger.trace = trace
-
 
     class MainWindow(QMainWindow):
         def __init__(self):
@@ -466,7 +461,9 @@ if __name__ == "__main__":
             # Serial signals
             self.serial_controller.data_received_normal.connect(self.handle_normal)
             self.serial_controller.data_received_prefix.connect(self.handle_prefix)
-            self.serial_controller.connection_state.connect(self.handle_connection_state)
+            self.serial_controller.connection_state.connect(
+                self.handle_connection_state
+            )
             self.serial_controller.error_occurred.connect(self.handle_error_occurred)
 
         # --------------- Event Handlers ---------------
