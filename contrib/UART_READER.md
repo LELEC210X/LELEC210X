@@ -231,6 +231,7 @@ Bugs:
 ### Section 2.1 - Model trainer and abstract wrappers
 
 The model-trainer has a much simpler architecture than the main app, as its focus if to be modified by others. Here is a overview of this structure :
+
 <p align="center">
     <img src="./assets/model_trainer_structure.svg" alt="Inner structure of the model trainer" title="Inner structure of the model trainer" width="60%" >
 </p>
