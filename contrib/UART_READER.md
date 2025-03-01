@@ -232,7 +232,7 @@ Bugs:
 
 The model-trainer has a much simpler architecture than the main app, as its focus if to be modified by others. Here is a overview of this structure :
 <p align="center">
-    <img src="./assets/model_trainer_structure.svg" alt="Inner structure of the model trainer" title="Inner structure of the model trainer" width="45%" >
+    <img src="./assets/model_trainer_structure.svg" alt="Inner structure of the model trainer" title="Inner structure of the model trainer" width="60%" >
 </p>
 
 Because of this structure, the pickling requires serialization and deserialization using the same classes, classes are bound to libraries. And if you compile it using python3 or a vscode extension, you will be adding in the pickled (serialized) file, references to classes that are not in the same library as per-se. Because of that, you have to use the same environment as rye to create the models.
@@ -287,21 +287,31 @@ After this big ramble, let me say that this was a very enjoyable experience, and
 
 ### Section 3.2 - What could be improved ?
 
-Many things can be improved, but some more than others. One such thing, is definitely the separation between backend and frontend ! The mel window is a perfect example of what not to do, with a mish-mash of code to try to make something kinda performant. We could reformat it into the simple structure bellow :
+Many things can be improved, but some more than others. One such thing, is definitely the separation between backend and frontend ! The mel window is a perfect example of what not to do, with a mish-mash of code to try to make something kinda performant. 
+
+In this section, we will suggest the following architecture for a more robust and responding app, optimized for desktop machines and not the web :
 
 <p align="center">
     <img src="./assets/uart_reader_alternative_app_arch.svg" alt="Alternative App Architecture" title="Alternative App Architecture" width="45%" >
 </p>
 
-Another thing to be improved is the database, or more correctly said, the parametter storage of the program. To start with, its quite the mess ....
+Another thing to be improved is the database, or more correctly said, the parametter storage of the program. To start with, we could ditch the entire callback system that is more approriate for advanced efficient webapps. Instead, we could take advantage of the settings backup into a file to shedule UI updates, or if need be, make it create a qtSignal with the name of the thing that changes for inter UI synchronization, but this is just an absurd way of doing thigs. As you could just sync the data when the user presses save, or when he finished editing the value of a UI element (text elements can call callbacks for each character you type, and sometimes more depending on the keyboard). This would be the static database block in the proposed app architecture.
 
-<!-- TODO : DEVELOP FURTHER HERE-->
+Something mentioned above, is that we could save the parameters in a file so they are persistent between session. If we really wanted to make a nightmare of a program, we could even use registry keys to save parameters, but this is more than overkill for such a simple python app. So we will consider using a file, but there are many formats that are available. I would suggest here the use of YAML, as its a pretty modern, easy to read and compact system that goes beyond what json can do, but is not as annoying to write to as XML.
+
+One of the bottlenecks we have when creating graphs, is how do you update it fast enough so that data can be buffered and rendered ? Simple ! Use a limited size queue of about 100 to 1000 elements (memory constraints need to be considered), to store the influx of data, and discard old data. This way, you can buffer then write a bunch of files at once, instead of making your file manager try to keep up with the fast data rates. And since you have historic data, you can then just make a small agent thread that processes that data, and passes it to another limited queue, that then could be rendered at 30FPS for example. This is exactly the situation of the mel window, so we solve many of the problems there. In the proposed architecture, this would be the dynamic database block.
+
+Lets now talk about the serial thread, it uses pyserial, a wrapper for a C library. Because its written in C, it can sometimes have segfaults and other issues due to how it works. What i would suggest here, is to wrap it in as many try-except as possible, and of course log everything back to the user. Also, you will have to make it have a simple interface with at least 4 functions : `connect(port)`, `disconnect()`, `reconnect()`, `configure(config)`. With arguably, having the configuration function use reconnect to change settings such as the baudrate, ...
+
+Another block to consider is the logging part, it consists of 3 streams of information : GUI, CLI and Log File. You don't necessarily want the same information everywhere at the same time, but the `logging` library is sometimes hard to use for this, as it was not meant for a interactive reconfiguration (you would have to unregister handlers, and it will be uter chaos). So here i would say that you should implement it yourself, this way, you can send to the GUI only the normal serial text (without stuff like `DF:HEX:`, that can be handled elsewhere in the program). You can push everything to the CLI, and the logging file, though, you will have to manage the files. For instance, if the user wants or not the file, if they want a new file each time they start the application with a maximum of N files (deletes older ones), or if they wanted to limit the size of the log files, so it can overspill onto a new file.
+
+Now, lets discuss the graphs, here we can use `QtGraphs` for a native implementation of the graphs, the big advantage here is speed in exchange for aesthetics (if we consider the quick fix of matplotlib "aesthetic"). Here, we can derive multiple things, first, a grah is a heavy operation that has to update very fast, such a graph must also be readable, and convey all needed information. We can also add statistics such as the mean, variance, entropy, linearity, ... These statistics allow for quicker analysis of the signals and spectrograms, and can be essential in verifying theories. Also, the user may need to save the raw data or even want to plot a matplotlib plot that is well made. On this last part, i would suggest the creation of a window that allows for the formatting of data for a `matplotlib` plot in a very interactive way, maybe even using `fastplotlib` to allow for real time controls for the following operations : croping, centering, smoothing, extrapolating, assembling, composing, renaming, scaling, ... All these operations allow the user to make custom plots faster, of course, this could be tied to the YAML parameters from the static database to save the user's preferences, and you could also make a unified wrapper that the user can then use to make their own plots instead.
+
+We will list more ideas as bulletpoints in the next section.
 
 ### Section 3.3 - Architectureal ideas
 
-After many rewrite, we have had a few ideas that could be useful for anyone trying to make this utility better. Here is a non exhaustive list of ideas, and a final architecture for the whole thing.
-
-List :
+After many rewrites, we have had a few other ideas that we wanted to add, though, we felt that developing them further in text would just be wasteful, so here are a few more ideas that are slightly closer to the code :
 
 - Use YAML files to define and save the database, use a `.yaml.distribute` in a `distribute` folder, where only the definition of the database parameters is located, with default values. You then use `pyyaml` to read this file, and create a version unique to that user, that they can edit. This means that there won't be import/export buttons, but probably only a CLI flag.
 - Make a automatically synchronized database, in the sense that every 1s that something has changed, you save into the file, appart if the user presses the save params button to force the procedure. You can then turn off this feature by unchecking a parameter for the real-time sync of the YAML file.
