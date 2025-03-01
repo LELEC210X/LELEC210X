@@ -1055,6 +1055,10 @@ class GUIMainWindow(QMainWindow):
         self.db.get_item("Serial Settings", "allowwrite").register_callback(
             self.write_box_state_callback
         )
+        # Add the console clear button
+        self.clear_button = QPushButton("Clear Console")
+        self.clear_button.clicked.connect(self.console.clear)
+        self.main_layout.addWidget(self.clear_button)
 
         # Trigger the first callbacks :
         self.refresh_ports()
