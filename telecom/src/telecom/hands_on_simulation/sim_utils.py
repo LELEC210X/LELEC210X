@@ -3,10 +3,7 @@ import numpy as np
 import os
 from scipy.signal import firwin, freqz
 from scipy.special import erfc
-try:
-    from chain import Chain
-except ModuleNotFoundError:
-    from .chain import Chain
+from telecom.hands_on_simulation.chain import Chain
 
 
 shift_SNR_out: float

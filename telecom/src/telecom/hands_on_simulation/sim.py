@@ -3,16 +3,10 @@ from scipy.signal import firwin
 from tqdm import tqdm
 import os
 import json
-try:
-    from chain import Chain, BasicChain, OptimizedChain
-    from load_simdata import (parse_args, register_simulation,
-                              find_simulation, simdata_path, load_chain)
-    from sim_utils import plot_graphs
-except ModuleNotFoundError:
-    from .chain import Chain, BasicChain, OptimizedChain
-    from .load_simdata import (parse_args, register_simulation,
-                               find_simulation, simdata_path, load_chain)
-    from .sim_utils import plot_graphs
+from telecom.hands_on_simulation.chain import Chain, BasicChain, OptimizedChain
+from telecom.hands_on_simulation.load_simdata import (parse_args, register_simulation,
+                            find_simulation, simdata_path, load_chain)
+from telecom.hands_on_simulation.sim_utils import plot_graphs
 
 
 def add_delay(chain: Chain, x: np.ndarray, tau: float):

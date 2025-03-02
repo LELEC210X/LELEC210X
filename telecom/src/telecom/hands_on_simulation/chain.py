@@ -305,7 +305,9 @@ class OptimizedChain(BasicChain):
         **kwargs
     ):
         
-        super().__init__(name=name, freq_dev=BIT_RATE/2, **kwargs)
+        super().__init__(**kwargs)
+        self.name=name
+        self.freq_dev=BIT_RATE/2
         self.cfo_Moose_N_list = cfo_Moose_N_list
     
 

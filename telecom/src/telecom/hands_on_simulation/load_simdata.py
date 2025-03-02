@@ -6,10 +6,7 @@ import json
 import argparse
 import os
 import numpy as np
-try:
-    from chain import Chain, BasicChain, OptimizedChain
-except ModuleNotFoundError:
-    from .chain import Chain, BasicChain, OptimizedChain
+from telecom.hands_on_simulation.chain import Chain, BasicChain, OptimizedChain
 
 simdata_path = os.path.dirname(__file__)+'/data/'
 

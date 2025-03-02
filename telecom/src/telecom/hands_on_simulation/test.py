@@ -4,8 +4,8 @@ Test file, provided to easily check your implementations.
 
 import numpy as np
 import pytest
-from chain import BasicChain
-from sim import add_cfo, add_delay
+from telecom.hands_on_simulation.chain import BasicChain
+from telecom.hands_on_simulation.sim import add_cfo, add_delay
 
 
 @pytest.fixture(scope="session")
