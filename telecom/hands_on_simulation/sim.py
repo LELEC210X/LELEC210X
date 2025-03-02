@@ -301,7 +301,7 @@ def main(arg_list: list[str] = None):
 
     chain: Chain
     chain_class: str
-    sim_id: str
+    sim_id: str = None
     if sim_params.sim_id:
         sim_id = f'simulation_{sim_params.sim_id:04d}'
         chain, chain_class = load_chain(sim_id)
@@ -323,7 +323,7 @@ def main(arg_list: list[str] = None):
             register_simulation(chain.get_json(), chain_class, sim_id=sim_id, status='completed')
         run_sim(chain, sim_id)
     else:
-        next((sim_id for sim_id, _, status in sim_details if status == 'completed'), None)
+        sim_id = next((sim_id for sim_id, _, status in sim_details if status == 'completed'), None)
 
     if not sim_params.no_show or not sim_params.no_save:
         plot_graphs(chain, sim_id=sim_id, show=not sim_params.no_show,

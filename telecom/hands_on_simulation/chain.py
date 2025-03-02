@@ -1,6 +1,7 @@
 from typing import Optional
 
 import numpy as np
+from scipy.signal import savgol_filter
 
 BIT_RATE = 50e3
 PREAMBLE = [int(bit) for bit in f"{0xAAAAAAAA:0>32b}"]
@@ -341,5 +342,32 @@ class OptimizedChain(BasicChain):
             cfo_est = new_cfo_est
         
         return cfo_est + cfo_est_off
+    
+
+    def sto_estimation(self, y: np.array) -> float:
+        """
+        Estimates the STO based on the received signal.
+        Estimates symbol timing (fractional) based on phase shifts.
+
+        :param y: The received signal, (N * R,).
+        :return: The estimated STO.
+        """
+        R = self.osr_rx
+
+        # Computation of derivatives of phase function
+        phase_function = np.unwrap(np.angle(y))
+        phase_function_smooth = savgol_filter(phase_function, window_length=5, polyorder=3)
+        phase_derivative_1 = savgol_filter(phase_function, window_length=5, polyorder=3, deriv=1)
+        phase_derivative_2 = np.abs(savgol_filter(phase_function, window_length=5, polyorder=3, deriv=2))
+        sum_der_saved = -np.inf
+        save_i = 0
+        for i in range(0, R):
+            sum_der = np.sum(phase_derivative_2[i::R])  # Sum every R samples
+
+            if sum_der > sum_der_saved:
+                sum_der_saved = sum_der
+                save_i = i
+
+        return np.mod(save_i + 1, R)
 
         
