@@ -75,8 +75,8 @@ Here is the list of all optional flags (They are not needed, but can help save t
 These 2 following images are the main GUI windows, you also have a audio window and a paramaters window, but they are simpler and more straightforward, so we did not deem necessary to add them to the list of images.
 
 <p align="center">
-    <img src="./assets/uart_reader_gui_v4.png" alt="Main window of the new uart-reader" title="Screenshot of the main window" width="45%" >
-    <img src="./assets/uart_reader_gui_v4_mel.png" alt="Mel window of the new uart-reader" title="Screenshot of the mel window" width="45%" >
+    <img src="./assets/uart_reader_gui.png" alt="Main window of the new uart-reader" title="Screenshot of the main window" width="45%" >
+    <img src="./assets/uart_reader_gui_mel.png" alt="Mel window of the new uart-reader" title="Screenshot of the mel window" width="45%" >
 </p>
 
 ### Section 1.2 - Launching the old utility
@@ -123,7 +123,7 @@ A thing to note is, that the utility did have a plotting function for the audio 
 Here is a image of the old utility :
 
 <p align="center">
-    <img src="./assets/uart_reader_gui_v1_old.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="45%" >
+    <img src="./assets/uart_reader_gui_old.png" alt="Old Utility Interface" title="Screenshot of the old UART utility interface" width="45%" >
 </p>
 
 ### Section 1.3 - Training and using your own classifier
@@ -246,7 +246,7 @@ The app truly only has a separation of database as backend and everything else a
 Here is a overview of the architecture of the whole app :
 
 <p align="center">
-    <img src="./assets/uart_reader_app_arch3.svg" alt="Architecture of the application" title="Flow chart of the application" width="45%" >
+    <img src="./assets/uart_reader_app_arch.svg" alt="Architecture of the application" title="Flow chart of the application" width="45%" >
 </p>
 
 The architecture of the mel window is cleaner on the graph than in reality, as everything is executing inside the window instead of having a clear separation backend-frontend. Here is a shema of the architecture of the mel window as its the other most complex system, that requires a little bit more details :

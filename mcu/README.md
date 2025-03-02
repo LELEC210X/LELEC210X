@@ -12,4 +12,4 @@ You can run it with:
 rye run uart-reader
 ```
 
-Read the documentation from the [`contrib`](../contrib/) package for more information.
+Read the documentation from the [`README in the contrib folder`](../contrib/README.md) package for more information.
