@@ -5,9 +5,32 @@
 import json
 import argparse
 import os
-import math
+import numpy as np
+try:
+    from chain import Chain, BasicChain, OptimizedChain
+except ModuleNotFoundError:
+    from .chain import Chain, BasicChain, OptimizedChain
 
 simdata_path = os.path.dirname(__file__)+'/data/'
+
+
+def same_params(params1, params2):
+    forward = True
+    backward = True
+    for key, val1 in params1.items():
+        val2 = params2.get(key, None)
+        if val1 != val2:
+            if not (np.isnan(val1) and np.isnan(val2)):
+                forward = False
+                break
+    for key, val2 in params2.items():
+        val1 = params1.get(key, None)
+        if val1 != val2:
+            if not (np.isnan(val1) and np.isnan(val2)):
+                forward = False
+                break
+    return all((forward, backward))
+
 
 def find_simulation(params, chain_class, simdata_path=simdata_path+'simdata.json'):
     with open(simdata_path, 'r') as f:
@@ -15,13 +38,24 @@ def find_simulation(params, chain_class, simdata_path=simdata_path+'simdata.json
 
     details_list = []
     for sim_id, details in simdata.items():
-        if (all((params.get(key, None) == val) for key, val in details['parameters'].items()) and
-        details['chain_class'] == chain_class):
-            details_list.append((sim_id, details['csv_path'], details['status']))
-        elif all(details['parameters'].get(key, None) == val for key, val in params.items()):
-            details_list.append((sim_id, details['csv_path'], details['status']))
+        if details['chain_class'] == chain_class:
+            if same_params(params, details['parameters']):
+                details_list.append((sim_id, details['csv_path'], details['status']))
     
     return details_list
+
+
+def load_chain(sim_id, simdata_path=simdata_path+'simdata.json'):
+    with open(simdata_path, 'r') as f:
+        simdata = json.load(f)
+    chain_class = simdata[sim_id]['chain_class']
+    chain: Chain
+    if chain_class == 'BasicChain':
+        chain = BasicChain(**simdata[sim_id]['parameters'])
+    elif chain_class == 'OptimizedChain':
+        chain = OptimizedChain(**simdata[sim_id]['parameters'])
+    return chain
+
 
 def register_simulation(params, chain_class, status='pending', simdata_path=simdata_path+'simdata.json'):
     try:
@@ -43,6 +77,22 @@ def register_simulation(params, chain_class, status='pending', simdata_path=simd
         json.dump(simdata, f, indent=4)
 
     return sim_id
+
+
+def refactor(simdata_path=simdata_path+'simdata.json'):
+
+    with open(simdata_path, 'r') as f:
+        simdata = json.load(f)
+    for sim_id, details in simdata.items():
+        chain: Chain
+        if details['chain_class'] == 'BasicChain':
+            chain = BasicChain(**details['parameters'])
+        elif details['chain_class'] == 'OptimizedChain':
+            chain = OptimizedChain(**details['parameters'])
+        simdata[sim_id]['parameters'] = chain.get_json()
+    
+    with open(simdata_path+'simdata.json', 'w') as f:
+        json.dump(simdata, f, indent=4)
 
 
 def parse_args(arg_list: list[str] = None):
@@ -77,12 +127,12 @@ def parse_args(arg_list: list[str] = None):
     chain_group.add_argument("-r", "--cfo_range", type=int, default=1e3,
                               help="CFO range- max value should be Bitrate / (2 * cfo_Moose_N) - default to 1e3 -  "
                               "higher values could greatly decrease performances")
-    chain_group.add_argument("-pre", "--enable_preamble_detect",
-                              action="store_true", help="if set, enables preamble detection")
-    chain_group.add_argument("-cfo", "--enable_cfo_estimation",
-                              action="store_true", help="if set, enables CFO estimation")
-    chain_group.add_argument("-sto", "--enable_sto_estimation",
-                              action="store_true", help="if set, enables STO estimation")
+    chain_group.add_argument("-pre", "--bypass_preamble_detect",
+                              action="store_true", help="if set, bypasses preamble detection")
+    chain_group.add_argument("-cfo", "--bypass_cfo_estimation",
+                              action="store_true", help="if set, bypasses CFO estimation")
+    chain_group.add_argument("-sto", "--bypass_sto_estimation",
+                              action="store_true", help="if set, bypasses STO estimation")
     
     args = parser.parse_args(arg_list)
 
@@ -95,11 +145,4 @@ def parse_args(arg_list: list[str] = None):
         setattr(chain_params, action.dest, getattr(args, action.dest))
 
     return sim_params, chain_params
-
-if __name__ == '__main__':
-    params = {'p': 50, 'n': 100000, 'pre_det': True, 'sto_est': True}
-    for csv_path, status in find_simulation(params):
-        print(f'CSV Path: {csv_path}, Status: {status}')
-    sim_id = register_simulation(params, status='completed')
-    print(f'Simulation registered as: {sim_id}')
-    
+   

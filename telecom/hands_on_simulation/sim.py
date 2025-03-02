@@ -6,12 +6,12 @@ import json
 try:
     from chain import Chain, BasicChain, OptimizedChain
     from load_simdata import (parse_args, register_simulation,
-                              find_simulation, simdata_path)
+                              find_simulation, simdata_path, load_chain)
     from sim_utils import plot_graphs
 except ModuleNotFoundError:
     from .chain import Chain, BasicChain, OptimizedChain
     from .load_simdata import (parse_args, register_simulation,
-                               find_simulation, simdata_path)
+                               find_simulation, simdata_path, load_chain)
     from .sim_utils import plot_graphs
 
 
@@ -51,7 +51,7 @@ def add_cfo(chain: Chain, x: np.ndarray, cfo: float):
     return y
 
 
-def run_sim(chain: Chain, filename="sim"):
+def run_sim(chain: Chain, sim_id):
     """
     Main function, running the simulations of the communication chain provided, for several SNRs.
     Compute and display the different metrics to evaluate the performances.
@@ -143,7 +143,7 @@ def run_sim(chain: Chain, filename="sim"):
             SNR_est_matrix[k, n] = SNR_est
 
             # Preamble detection stage
-            if not chain.enable_preamble_detect:
+            if chain.bypass_preamble_detect:
                 detect_idx = start_idx
             else:
                 detect_idx = chain.preamble_detect(y_filt)
@@ -176,7 +176,7 @@ def run_sim(chain: Chain, filename="sim"):
 
                 # Synchronization stage
                 # CFO estimation and correction
-                if not chain.enable_cfo_estimation:
+                if chain.bypass_cfo_estimation:
                     cfo_hat = cfo
                 else:
                     cfo_hat = chain.cfo_estimation(y_detect)
@@ -185,9 +185,9 @@ def run_sim(chain: Chain, filename="sim"):
                 y_sync = np.exp(-1j * 2 * np.pi * cfo_hat * t) * y_detect
 
                 # STO estimation and correction
-                if not chain.enable_sto_estimation:
+                if chain.bypass_sto_estimation:
                     if (
-                        not chain.enable_preamble_detect
+                        chain.bypass_preamble_detect
                     ):  # In this case, starting index of preamble already contains sto
                         tau_hat = 0
                     else:
@@ -201,7 +201,7 @@ def run_sim(chain: Chain, filename="sim"):
                 bits_hat = chain.demodulate(y_sync)
 
                 if (
-                    not chain.enable_sto_estimation and not chain.enable_preamble_detect
+                    chain.bypass_sto_estimation and chain.bypass_preamble_detect
                 ):  # In this case, also assume perfect frame syncrhonization
                     start_frame = len(chain.preamble) + len(chain.sync_word)
                 elif len(bits_hat) == 0:
@@ -274,21 +274,8 @@ def run_sim(chain: Chain, filename="sim"):
     if not os.path.exists("data"):
         os.makedirs("data")
 
-    np.savetxt(simdata_path+filename+'.csv', save_var, delimiter=",", comments='',
+    np.savetxt(simdata_path+sim_id+'.csv', save_var, delimiter=",", comments='',
                header=f"SNR_o [dB],SNR_e [dB],BER,PER,RMSE cfo,RMSE sto,preamble miss rate,preamble false rate,SNR estimation matrix ({chain.n_packets} columns)")
-
-
-def refactor():
-
-    with open(simdata_path+'simdata.json', 'r') as f:
-        simdata = json.load(f)
-    for sim_id, details in simdata.items():
-        chain = BasicChain(**details['parameters'])
-        simdata[sim_id]['parameters'] = vars(chain)
-    
-    with open(simdata_path+'simdata.json', 'w') as f:
-        json.dump(simdata, f, indent=4)
-
 
 
 def main(arg_list: list[str] = None):
@@ -296,13 +283,13 @@ def main(arg_list: list[str] = None):
     sim_params, chain_params = parse_args(arg_list)
 
     # Change the chain parameters here, for example:
-    chain_params.payload_len = 50
-    chain_params.n_packets = 100
+    # chain_params.payload_len = 50
+    # chain_params.n_packets = 100
     # chain_params.cfo_Moose_N = 2
     # chain_params.cfo_range = 10_000
-    chain_params.enable_preamble_detect = True
-    chain_params.enable_cfo_estimation = True
-    chain_params.enable_sto_estimation = True
+    # chain_params.bypass_preamble_detect = True
+    # chain_params.bypass_cfo_estimation = True
+    # chain_params.bypass_sto_estimation = True
 
     # Change the simulation parameters here, for example:
     # sim_params.force_simulation = True
@@ -310,34 +297,32 @@ def main(arg_list: list[str] = None):
     # sim_params.sim_id = 1
     # sim_params.no_show = True
     # sim_params.no_save = True
-    # sim_params.FIR = True
+    # sim_params.FIR = True 
 
     chain: Chain
     chain_class: str
-    if sim_params.basic:
-        chain_class = 'BasicChain'
-        chain = BasicChain(**vars(chain_params))
-    else:
-        chain_class = 'OptimizedChain'
-        chain = OptimizedChain(**vars(chain_params))
-    # You can also change the chain parameters here
-    # chain.cutoff=150e3
-    # chain.numtaps=31
-    # chain.cfo_val=8_000, 
-    
-    print(vars(chain_params))
-    sim_details = find_simulation(vars(chain), chain_class=chain_class)
     sim_id: str
-    if (not any([status == 'completed' for *_, status in sim_details]) or
-        sim_params.force_simulation):
-        sim_id = register_simulation(vars(chain_params), chain_class, status='completed')
-        run_sim(chain, filename=sim_id)
+    if sim_params.sim_id:
+        sim_id = f'simulation_{sim_params.sim_id:04d}'
+        chain = load_chain(sim_id)
     else:
-        for sim_id, filename, status in sim_details:
-            if status == 'completed':
-                break
+        if sim_params.basic:
+            chain_class = 'BasicChain'
+            chain = BasicChain(**vars(chain_params))
+        else:
+            chain_class = 'OptimizedChain'
+            chain = OptimizedChain(**vars(chain_params))
+            # You can also change the chain parameters here
+            # chain.cfo_val=8_000,
 
-    if (not sim_params.no_show) or (not sim_params.no_save):
+        sim_details = find_simulation(chain.get_json(), chain_class=chain_class)
+        if not any(status == 'completed' for *_, status in sim_details) or sim_params.force_simulation:
+            sim_id = register_simulation(chain.get_json(), chain_class, status='completed')
+            run_sim(chain, sim_id)
+        else:
+            next((sim_id for sim_id, _, status in sim_details if status == 'completed'), None)
+
+    if not sim_params.no_show or not sim_params.no_save:
         plot_graphs(chain, sim_id=sim_id, show=not sim_params.no_show,
                     save=not sim_params.no_save, FIR=sim_params.FIR)
 

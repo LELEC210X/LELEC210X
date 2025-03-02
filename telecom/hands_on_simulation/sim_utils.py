@@ -278,12 +278,12 @@ def plot_graphs(chain: Chain, FIR=False, SNR_est=True, sim_id=None, save=True, s
         FIR_fig = plot_FIR(chain, **plot_kwargs)
     BER_fig, PER_fig, _, _, _, _ = plot_BER_PER(
         chain, SNRs_dB, BER, PER, **plot_kwargs)
-    if chain.enable_preamble_detect:
+    if not chain.bypass_preamble_detect:
         preamble_metrics_fig = plot_preamble_metrics(
             SNRs_dB, preamble_mis, preamble_false, **plot_kwargs)
-    if chain.enable_cfo_estimation:
+    if not chain.bypass_cfo_estimation:
         RMSE_cfo_fig = plot_RMSE_cfo(SNRs_dB, RMSE_cfo, **plot_kwargs)
-    if chain.enable_sto_estimation:
+    if not chain.bypass_sto_estimation:
         RMSE_sto_fig = plot_RMSE_sto(SNRs_dB, RMSE_sto, **plot_kwargs)
     if SNR_est:
         SNR_est_fig = plot_SNR_est(SNRs_dB, SNR_est_matrix, **plot_kwargs)
@@ -301,12 +301,12 @@ def plot_graphs(chain: Chain, FIR=False, SNR_est=True, sim_id=None, save=True, s
                 f"{chain.cutoff:.0f}_fs_{fs:.0f}.pdf", dpi=300)
         BER_fig.savefig(curdir+f"/graphs/{sim_id}/BER.pdf", dpi=300)
         PER_fig.savefig(curdir+f"/graphs/{sim_id}/PER.pdf", dpi=300)
-        if chain.enable_preamble_detect:
+        if not chain.bypass_preamble_detect:
             preamble_metrics_fig.savefig(curdir+
                 f"/graphs/{sim_id}/preamble_metrics.pdf", dpi=300)
-        if chain.enable_cfo_estimation:
+        if not chain.bypass_cfo_estimation:
             RMSE_cfo_fig.savefig(curdir+f"/graphs/{sim_id}/RMSE_cfo.pdf", dpi=300)
-        if chain.enable_sto_estimation:
+        if not chain.bypass_sto_estimation:
             RMSE_sto_fig.savefig(curdir+f"/graphs/{sim_id}/RMSE_sto.pdf", dpi=300)
         if SNR_est:
             SNR_est_fig.savefig(curdir+f"/graphs/{sim_id}/SNR_est.pdf", dpi=300)

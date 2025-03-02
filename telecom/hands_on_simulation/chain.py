@@ -33,11 +33,11 @@ class Chain:
         cfo_Moose_N: int = 4,
         snr_range: list[int] = list(range(-10, 35)),
         # Lowpass filter parameters
-        numtaps: int = 100,
-        cutoff: float = 0.0,
-        enable_preamble_detect: bool = False,
-        enable_cfo_estimation: bool = False,
-        enable_sto_estimation: bool = False,
+        numtaps: int = 31,
+        cutoff: float = 150e3,
+        bypass_preamble_detect: bool = False,
+        bypass_cfo_estimation: bool = False,
+        bypass_sto_estimation: bool = False,
         **kwargs
     ):
         self.name = name
@@ -60,9 +60,29 @@ class Chain:
             self.cutoff = BIT_RATE * self.osr_rx / 2.0001  # or 2*BIT_RATE,...
         else:
             self.cutoff = cutoff
-        self.enable_preamble_detect = enable_preamble_detect
-        self.enable_cfo_estimation = enable_cfo_estimation
-        self.enable_sto_estimation = enable_sto_estimation
+        self.bypass_preamble_detect = bypass_preamble_detect
+        self.bypass_cfo_estimation = bypass_cfo_estimation
+        self.bypass_sto_estimation = bypass_sto_estimation
+    
+
+    def get_json(self):
+        chain_json = {
+            'bit_rate': self.bit_rate,
+            'freq_dev': self.freq_dev,
+            'osr_rx': self.osr_rx,
+            'osr_tx': self.osr_tx,
+            'payload_len': self.payload_len,
+            'n_packets': self.n_packets,
+            'sto_val': self.sto_val,
+            'sto_range': self.sto_range,
+            'cfo_val': self.cfo_val,
+            'cfo_range': self.cfo_range,
+            'cfo_Moose_N': self.cfo_Moose_N,
+            'bypass_preamble_detect': self.bypass_preamble_detect,
+            'bypass_cfo_estimation': self.bypass_cfo_estimation,
+            'bypass_sto_estimation': self.bypass_sto_estimation
+        }
+        return chain_json
 
     # Tx methods
 
@@ -287,6 +307,12 @@ class OptimizedChain(BasicChain):
         super().__init__(name=name, freq_dev=BIT_RATE/2, **kwargs)
         self.cfo_Moose_N_list = cfo_Moose_N_list
     
+
+    def get_json(self):
+        chain_json = super().get_json()
+        chain_json['cfo_Moose_N_list'] = self.cfo_Moose_N_list
+        return chain_json
+  
 
     def cfo_estimation(self, y: np.array) -> float:
         """
