@@ -4,6 +4,9 @@ __pycache__/
 .mypy_cache/
 .ipynb_checkpoints
 *-checkpoint.ipynb/
+*.pickle
+*.log
+*.egg-info/
 
 # Leaderboard
 
