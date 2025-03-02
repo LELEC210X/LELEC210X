@@ -1,0 +1,24 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[project]
+dependencies = [
+    "json5>=0.10.0",
+    "argparse>=1.4.0",
+]
+name = "telecom"
+requires-python = ">= 3.9"
+version = "0.1.0"
+
+[project.scripts]
+sim = "telecom.hands_on_simulation.sim:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/telecom"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.rye]
+managed = true

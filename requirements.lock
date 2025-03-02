@@ -14,6 +14,7 @@
 -e file:common
 -e file:leaderboard
 -e file:mcu
+-e file:telecom
 aniso8601==9.0.1
     # via flask-restx
 anyio==4.4.0
@@ -25,6 +26,8 @@ argon2-cffi==23.1.0
     # via jupyter-server
 argon2-cffi-bindings==21.2.0
     # via argon2-cffi
+argparse==1.4.0
+    # via telecom
 arrow==1.3.0
     # via isoduration
 asttokens==2.4.1
@@ -185,8 +188,9 @@ jinja2==3.1.4
 joblib==1.4.2
     # via librosa
     # via scikit-learn
-json5==0.9.25
+json5==0.10.0
     # via jupyterlab-server
+    # via telecom
 jsonpointer==3.0.0
     # via jsonschema
 jsonschema==4.23.0

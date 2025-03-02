@@ -12,7 +12,7 @@ from matplotlib import cm, colors
 import matplotlib as mpl
 import numpy as np
 import pandas as pd
-from hands_on_simulation import sim, chain
+from telecom.hands_on_simulation import sim, chain
 
 
 def read_measurements(

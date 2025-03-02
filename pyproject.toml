@@ -29,7 +29,7 @@ extend-ignore = [
   "E501",
 ]
 extend-select = ["B", "C90", "D", "I", "N", "RUF", "UP", "T"]
-isort = {known-first-party = ["auth", "classification", "common", "leaderboard", "mcu"]}
+isort = {known-first-party = ["auth", "classification", "common", "leaderboard", "mcu", "telecom"]}
 line-length = 88
 
 [tool.rye]
@@ -43,7 +43,7 @@ managed = true
 virtual = true
 
 [tool.rye.workspace]
-members = ["auth", "classification", "common", "leaderboard", "mcu"]
+members = ["auth", "classification", "common", "leaderboard", "mcu", "telecom"]
 
 [tool.uv]
 dev-dependencies = [
@@ -53,6 +53,7 @@ dev-dependencies = [
   "common",
   "leaderboard",
   "mcu",
+  "telecom",
   # Dev dependencies
   "pre-commit>=3.5.0",
   "pygments>=2.18.0",
@@ -66,6 +67,7 @@ classification = {workspace = true}
 common = {workspace = true}
 leaderboard = {workspace = true}
 mcu = {workspace = true}
+telecom = {workspace = true}
 
 [tool.uv.workspace]
-members = ["auth", "classification", "common", "leaderboard", "mcu"]
+members = ["auth", "classification", "common", "leaderboard", "mcu", "telecom"]
