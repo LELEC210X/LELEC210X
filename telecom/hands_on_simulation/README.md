@@ -1,49 +1,76 @@
-# Telecom Simulation
+# Telecommunication Chain Simulation
 
-Only the `sim.py` and `test.py` files should be executed.
+## Overview
+`sim.py` is a Python script designed to run a telecommunication chain simulation. It allows users to configure various parameters for both the simulation process and the chain itself. The results are stored in `.csv` files, and optional graphs can be generated.
 
-When doing so, make sure to run them with Rye, e.g., do:
+## Usage
+The script follows the format:
+```bash
+rye run python sim.py [SIMULATION_PARAMETERS] [CHAIN_PARAMETERS]
+```
 
+## Parameters
+
+### Simulation Parameters
+These parameters control how the simulation runs and how results are displayed.
+
+| Argument | Alias | Description |
+|----------|-------|-------------|
+| `--basic` | | Uses `BasicChain` instead of `OptimizedChain` (default). |
+| `-f` | `--force_simulation` | Forces simulation execution, even if data already exists. |
+| `-s SIM_ID` | `--sim_id SIM_ID` | Uses a specific precomputed simulation (`simulation_{SIM_ID}`). Skips new execution if provided. |
+| `--no_show` | `--dont_show_graphs` | Disables displaying graphs after simulation. |
+| `--no_save` | `--dont_save_graphs` | Disables saving graphs. |
+| `--FIR` | | Generates the FIR graph of the chain. |
+
+### Chain Parameters
+These parameters define the characteristics of the telecommunication chain.
+
+| Argument | Alias | Description |
+|----------|-------|-------------|
+| `-p PAYLOAD_LEN` | `--payload_len PAYLOAD_LEN` | Payload length (default: 50). |
+| `-n N_PACKETS` | `--n_packets N_PACKETS` | Number of packets (default: 100). |
+| `-m CFO_MOOSE_N` | `--cfo_Moose_N CFO_MOOSE_N` | `N` parameter in Moose algorithm (default: 4). |
+| `-r CFO_RANGE` | `--cfo_range CFO_RANGE` | CFO range (default: 1000). |
+| `-pre` | `--bypass_preamble_detect` | Bypasses preamble detection. |
+| `-cfo` | `--bypass_cfo_estimation` | Bypasses CFO estimation. |
+| `-sto` | `--bypass_sto_estimation` | Bypasses STO estimation. |
+
+## Examples
+
+### 1. Run a simulation with default parameters:
 ```bash
 rye run python sim.py
 ```
+
+### 2. Use a precomputed simulation with ID 5:
 ```bash
-rye run python sim.py -h
+rye run python sim.py -s 5
 ```
 
-to run the simulation or to see the simulation options, or:
-
+### 3. Run a simulation with a specific chain configuration:
 ```bash
-rye run pytest test.py
+rye run python sim.py -p 100 -n 500 -m 8 -r 5000
 ```
 
-to test your chain implementation.
-
-Finally, the `chain.py` file contains two classes: `Chain` and `BasicChain`.
-You should only change the latter, by filling the missing code lines.
-
-
-## Additional
-
-To (re)generate the datafiles and/or graphs, use these commands :
-
+### 4. Force re-execution of the simulation:
 ```bash
-rye run python sim.py --no_show -n 100000
-rye run python sim.py --no_show -n 100000 -m 16
-rye run python sim.py --no_show -n 100000 -m 16 -r 10000
-rye run python sim.py --no_show -n 100000 -d
-rye run python sim.py --no_show -n 100000 -d -m 16
-rye run python sim.py --no_show -n 100000 -d -m 16 -r 10000
-rye run python sim.py --no_show -n 100000 -s
-rye run python sim.py --no_show -n 100000 -s -m 16
-rye run python sim.py --no_show -n 100000 -s -m 16 -r 10000
-rye run python sim.py --no_show -n 100000 -d -s
-rye run python sim.py --no_show -n 100000 -d -s -m 16
-rye run python sim.py --no_show -n 100000 -d -s -m 16 -r 10000
-rye run python sim.py --no_show -n 100000 -c
-rye run python sim.py --no_show -n 100000 -c -d
-rye run python sim.py --no_show -n 100000 -c -s
-rye run python sim.py --no_show -n 100000 -c -d -s
+rye run python sim.py -f
+rye run python sim.py -f -s 5
+rye run python sim.py -f -p 100 -n 500 -m 8 -r 5000
 ```
 
-Caution ! If you regenerate the datafiles (for example if you deleted them or if you're running sim.py with new set of parameters), generation time may be extremely long (approx 30 min for any line here above on my laptop)
+### 5. Run a simulation without displaying or saving graphs:
+```bash
+rye run python sim.py --no_show --no_save
+```
+
+### 6. Generate the FIR graph:
+```bash
+rye run python sim.py --FIR
+```
+
+## Notes
+- If `-s SIM_ID` is provided, the script **forces the use of that specific simulation**.
+- If `-f` is used, a **new simulation** is executed regardless of existing data.
+- All results are stored in `.csv` files, and graphs are optional.

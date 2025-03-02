@@ -304,7 +304,7 @@ def main(arg_list: list[str] = None):
     sim_id: str
     if sim_params.sim_id:
         sim_id = f'simulation_{sim_params.sim_id:04d}'
-        chain = load_chain(sim_id)
+        chain, chain_class = load_chain(sim_id)
     else:
         if sim_params.basic:
             chain_class = 'BasicChain'
@@ -315,12 +315,15 @@ def main(arg_list: list[str] = None):
             # You can also change the chain parameters here
             # chain.cfo_val=8_000,
 
-        sim_details = find_simulation(chain.get_json(), chain_class=chain_class)
-        if not any(status == 'completed' for *_, status in sim_details) or sim_params.force_simulation:
+    sim_details = find_simulation(chain.get_json(), chain_class=chain_class)
+    if not any(status == 'completed' for *_, status in sim_details) or sim_params.force_simulation:
+        if sim_id is None:
             sim_id = register_simulation(chain.get_json(), chain_class, status='completed')
-            run_sim(chain, sim_id)
         else:
-            next((sim_id for sim_id, _, status in sim_details if status == 'completed'), None)
+            register_simulation(chain.get_json(), chain_class, sim_id=sim_id, status='completed')
+        run_sim(chain, sim_id)
+    else:
+        next((sim_id for sim_id, _, status in sim_details if status == 'completed'), None)
 
     if not sim_params.no_show or not sim_params.no_save:
         plot_graphs(chain, sim_id=sim_id, show=not sim_params.no_show,

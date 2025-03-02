@@ -54,17 +54,18 @@ def load_chain(sim_id, simdata_path=simdata_path+'simdata.json'):
         chain = BasicChain(**simdata[sim_id]['parameters'])
     elif chain_class == 'OptimizedChain':
         chain = OptimizedChain(**simdata[sim_id]['parameters'])
-    return chain
+    return chain, chain_class
 
 
-def register_simulation(params, chain_class, status='pending', simdata_path=simdata_path+'simdata.json'):
+def register_simulation(params, chain_class, sim_id=None, status='pending', simdata_path=simdata_path+'simdata.json'):
     try:
         with open(simdata_path, 'r') as f:
             simdata = json.load(f)
     except FileNotFoundError:
         simdata = {}
 
-    sim_id = f'simulation_{len(simdata) + 1:04d}'
+    if sim_id is None:
+        sim_id = f'simulation_{len(simdata) + 1:04d}'
     csv_path = sim_id+'.csv'
     simdata[sim_id] = {
         'chain_class': chain_class,
