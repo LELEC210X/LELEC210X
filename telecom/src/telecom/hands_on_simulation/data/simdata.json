@@ -639,19 +639,136 @@
         "status": "completed"
     },
     "simulation_0030": {
+        "chain_class": "BasicChain",
+        "parameters": {
+            "bit_rate": 50000.0,
+            "freq_dev": 12500.0,
+            "osr_rx": 8,
+            "osr_tx": 64,
+            "payload_len": 50,
+            "n_packets": 100,
+            "sto_val": NaN,
+            "sto_range": 2e-05,
+            "cfo_val": NaN,
+            "cfo_range": 1000.0,
+            "cfo_Moose_N": 4,
+            "bypass_preamble_detect": true,
+            "bypass_cfo_estimation": false,
+            "bypass_sto_estimation": true
+        },
+        "csv_path": "simulation_0030.csv",
+        "status": "completed"
+    },
+    "simulation_0031": {
+        "chain_class": "BasicChain",
+        "parameters": {
+            "bit_rate": 50000.0,
+            "freq_dev": 12500.0,
+            "osr_rx": 8,
+            "osr_tx": 64,
+            "payload_len": 50,
+            "n_packets": 100,
+            "sto_val": NaN,
+            "sto_range": 2e-05,
+            "cfo_val": NaN,
+            "cfo_range": 10000,
+            "cfo_Moose_N": 4,
+            "bypass_preamble_detect": true,
+            "bypass_cfo_estimation": false,
+            "bypass_sto_estimation": true
+        },
+        "csv_path": "simulation_0031.csv",
+        "status": "completed"
+    },
+    "simulation_0032": {
         "chain_class": "OptimizedChain",
         "parameters": {
             "bit_rate": 50000.0,
             "freq_dev": 25000.0,
             "osr_rx": 8,
             "osr_tx": 64,
-            "payload_len": 1600,
-            "n_packets": 50000,
+            "payload_len": 50,
+            "n_packets": 100,
             "sto_val": NaN,
             "sto_range": 2e-05,
             "cfo_val": NaN,
-            "cfo_range": 1500,
-            "cfo_Moose_N": 16,
+            "cfo_range": 10000,
+            "cfo_Moose_N": 4,
+            "bypass_preamble_detect": true,
+            "bypass_cfo_estimation": false,
+            "bypass_sto_estimation": true,
+            "cfo_Moose_N_list": [
+                2,
+                4,
+                8,
+                16
+            ]
+        },
+        "csv_path": "simulation_0032.csv",
+        "status": "completed"
+    },
+    "simulation_0033": {
+        "chain_class": "BasicChain",
+        "parameters": {
+            "bit_rate": 50000.0,
+            "freq_dev": 12500.0,
+            "osr_rx": 8,
+            "osr_tx": 64,
+            "payload_len": 50,
+            "n_packets": 100,
+            "sto_val": NaN,
+            "sto_range": 2e-05,
+            "cfo_val": NaN,
+            "cfo_range": 1000.0,
+            "cfo_Moose_N": 4,
+            "bypass_preamble_detect": true,
+            "bypass_cfo_estimation": true,
+            "bypass_sto_estimation": false
+        },
+        "csv_path": "simulation_0033.csv",
+        "status": "completed"
+    },
+    "simulation_0034": {
+        "chain_class": "OptimizedChain",
+        "parameters": {
+            "bit_rate": 50000.0,
+            "freq_dev": 25000.0,
+            "osr_rx": 8,
+            "osr_tx": 64,
+            "payload_len": 50,
+            "n_packets": 100,
+            "sto_val": NaN,
+            "sto_range": 2e-05,
+            "cfo_val": NaN,
+            "cfo_range": 1000.0,
+            "cfo_Moose_N": 4,
+            "bypass_preamble_detect": true,
+            "bypass_cfo_estimation": true,
+            "bypass_sto_estimation": false,
+            "cfo_Moose_N_list": [
+                2,
+                4,
+                8,
+                16
+            ]
+        },
+        "csv_path": "simulation_0034.csv",
+        "status": "completed"
+    },
+    "simulation_0035": {
+        "chain_class": "OptimizedChain",
+        "parameters": {
+            "bit_rate": 50000.0,
+            "freq_dev": 25000.0,
+            "osr_rx": 8,
+            "osr_tx": 64,
+            "payload_len": 64,
+            "n_packets": 1000,
+            "sto_val": NaN,
+            "sto_range": 2e-05,
+            "cfo_val": NaN,
+            "cfo_range": 1000.0,
+            "cfo_Moose_N": 4,
             "bypass_preamble_detect": false,
             "bypass_cfo_estimation": false,
             "bypass_sto_estimation": false,
@@ -662,7 +779,88 @@
                 16
             ]
         },
-        "csv_path": "simulation_0030.csv",
+        "csv_path": "simulation_0035.csv",
+        "status": "completed"
+    },
+    "simulation_0036": {
+        "chain_class": "OptimizedChain",
+        "parameters": {
+            "bit_rate": 50000.0,
+            "freq_dev": 25000.0,
+            "osr_rx": 8,
+            "osr_tx": 64,
+            "payload_len": 6400,
+            "n_packets": 10,
+            "sto_val": NaN,
+            "sto_range": 2e-05,
+            "cfo_val": NaN,
+            "cfo_range": 1000.0,
+            "cfo_Moose_N": 4,
+            "bypass_preamble_detect": false,
+            "bypass_cfo_estimation": false,
+            "bypass_sto_estimation": false,
+            "cfo_Moose_N_list": [
+                2,
+                4,
+                8,
+                16
+            ]
+        },
+        "csv_path": "simulation_0036.csv",
+        "status": "completed"
+    },
+    "simulation_0037": {
+        "chain_class": "OptimizedChain",
+        "parameters": {
+            "bit_rate": 50000.0,
+            "freq_dev": 25000.0,
+            "osr_rx": 8,
+            "osr_tx": 64,
+            "payload_len": 64,
+            "n_packets": 1000,
+            "sto_val": NaN,
+            "sto_range": 2e-05,
+            "cfo_val": NaN,
+            "cfo_range": 10000,
+            "cfo_Moose_N": 4,
+            "bypass_preamble_detect": false,
+            "bypass_cfo_estimation": false,
+            "bypass_sto_estimation": false,
+            "cfo_Moose_N_list": [
+                2,
+                4,
+                8,
+                16
+            ]
+        },
+        "csv_path": "simulation_0037.csv",
+        "status": "completed"
+    },
+    "simulation_0038": {
+        "chain_class": "OptimizedChain",
+        "parameters": {
+            "bit_rate": 50000.0,
+            "freq_dev": 25000.0,
+            "osr_rx": 8,
+            "osr_tx": 64,
+            "payload_len": 6400,
+            "n_packets": 10,
+            "sto_val": NaN,
+            "sto_range": 2e-05,
+            "cfo_val": NaN,
+            "cfo_range": 10000,
+            "cfo_Moose_N": 4,
+            "bypass_preamble_detect": false,
+            "bypass_cfo_estimation": false,
+            "bypass_sto_estimation": false,
+            "cfo_Moose_N_list": [
+                2,
+                4,
+                8,
+                16
+            ]
+        },
+        "csv_path": "simulation_0038.csv",
         "status": "completed"
     }
 }

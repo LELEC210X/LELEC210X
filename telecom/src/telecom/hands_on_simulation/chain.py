@@ -361,6 +361,7 @@ class OptimizedChain(BasicChain):
         phase_function_smooth = savgol_filter(phase_function, window_length=5, polyorder=3)
         phase_derivative_1 = savgol_filter(phase_function, window_length=5, polyorder=3, deriv=1)
         phase_derivative_2 = np.abs(savgol_filter(phase_function, window_length=5, polyorder=3, deriv=2))
+        
         sum_der_saved = -np.inf
         save_i = 0
         for i in range(0, R):
