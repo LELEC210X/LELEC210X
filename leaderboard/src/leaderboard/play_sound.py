@@ -1,5 +1,6 @@
 import random
 import time
+from multiprocessing import Process
 from pathlib import Path
 from threading import Thread
 from typing import Optional
@@ -7,6 +8,7 @@ from typing import Optional
 import click
 import requests
 from pydub import AudioSegment
+from pydub.generators import WhiteNoise
 from pydub.utils import register_pydub_effect
 
 from classification.datasets import Dataset
@@ -78,6 +80,15 @@ def normalize_dBFS(  # noqa: N802
     show_envvar=True,
     help="The sound files format to include, use '*' to include all formats.",
 )
+@click.option(
+    "--bg-noise",
+    default=None,
+    envvar="LEADERBOARD_BG_NOISE",
+    show_envvar=True,
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    help="An optional path to an MP3 sound file playing background noise during the contest. "
+    "If not set, a white noise will be played.",
+)
 @verbosity
 def play_sound(
     url: Optional[str],
@@ -85,6 +96,7 @@ def play_sound(
     random_key: Optional[str],
     soundfiles: Optional[Path],
     _format=Optional[str],
+    bg_noise: Optional[Path] = None,
 ):
     """
     Play "correct" sound according to the leaderboard status.
@@ -97,7 +109,6 @@ def play_sound(
     so they never have any penalty on that regard.
     """
     from pydub import AudioSegment
-    from pydub.generators import WhiteNoise
     from pydub.playback import play
 
     url = url or get_url()
@@ -111,6 +122,21 @@ def play_sound(
         dataset_kwargs["format"] = _format
 
     dataset = Dataset(**dataset_kwargs)
+
+    bg_noise_sound = (
+        AudioSegment.from_file(bg_noise)
+        if bg_noise
+        else WhiteNoise().to_audio_segment(duration=10_000)
+    )
+    bg_noise_sound = bg_noise_sound.set_channels(1).normalize_dBFS(-20)
+
+    def play_bg_noise(sound):
+        while True:
+            play(sound)
+
+    bg_noise = Process(target=play_bg_noise, args=(bg_noise_sound,), daemon=True)
+    bg_noise.start()
+    logger.info("Playing background noise...")
 
     # Wait for server to be up
     # and checks if admin rights
@@ -144,6 +170,8 @@ def play_sound(
 
     played_sounds = set()
 
+    logger.info("Server is ready, starting to play sounds...")
+
     while True:
         start = time.time()
         json = session.get(
@@ -164,7 +192,7 @@ def play_sound(
         time_before_next_lap = json["time_before_next_lap"]
         time_before_playing = json["time_before_playing"]
         category = json["current_correct_guess"]
-        with_noise = json["current_with_noise"]
+        sound_gain = json["current_gain"]
 
         sound_key = (current_round + 1, current_lap + 1)
 
@@ -188,22 +216,10 @@ def play_sound(
         sound = (
             AudioSegment.from_file(sound_file, format=_format)
             .set_channels(1)
-            .normalize_dBFS()
+            .normalize_dBFS(sound_gain)
             .fade_in(250)
             .fade_out(250)
         )
-
-        if with_noise and current_lap >= 10:
-            relative_gain = -20 + 2 * (current_lap - 10)  # TODO: find better value
-            logger.info(
-                "Adding random noise on top of audio segment "
-                f"with a relative volume gain of {relative_gain} dB."
-            )
-            sound = sound.overlay(
-                WhiteNoise().to_audio_segment(
-                    duration=len(sound), volume=sound.dBFS + relative_gain
-                )
-            )
 
         time.sleep(time_before_playing - max(0, time.time() - start))
 

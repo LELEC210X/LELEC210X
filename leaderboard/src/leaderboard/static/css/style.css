@@ -159,15 +159,15 @@ tr:nth-child(even) {
 }
 
 /* Icons */
-.helicopter {
-  background-image: url("./class_icons/helicopter.png");
+.gunshot {
+  background-image: url("./class_icons/gunshot.png");
   background-position: center;
   background-size: auto 75%;
   background-repeat: no-repeat;
 }
 
-.birds {
-  background-image: url("./class_icons/bird.png");
+.fireworks {
+  background-image: url("./class_icons/fireworks.png");
   background-position: center;
   background-size: auto 75%;
   background-repeat: no-repeat;
@@ -182,13 +182,6 @@ tr:nth-child(even) {
 
 .chainsaw {
   background-image: url("./class_icons/chainsaw.png");
-  background-position: center;
-  background-size: auto 75%;
-  background-repeat: no-repeat;
-}
-
-.handsaw {
-  background-image: url("./class_icons/handsaw.png");
   background-position: center;
   background-size: auto 75%;
   background-repeat: no-repeat;

@@ -12,8 +12,8 @@
 -e file:auth
 -e file:classification
 -e file:common
+-e file:contrib
 -e file:leaderboard
--e file:mcu
 -e file:telecom
 aniso8601==9.0.1
     # via flask-restx
@@ -283,7 +283,6 @@ numpy==2.0.2
     # via contourpy
     # via librosa
     # via matplotlib
-    # via mcu
     # via numba
     # via pandas
     # via scikit-learn
@@ -304,7 +303,6 @@ packaging==24.1
     # via limits
     # via matplotlib
     # via nbconvert
-    # via plotly
     # via pooch
 pandas==2.2.2
     # via seaborn
@@ -355,7 +353,6 @@ pyqt6-sip==13.8.0
     # via pyqt6
 pyserial==3.5
     # via auth
-    # via mcu
 python-dateutil==2.9.0.post0
     # via arrow
     # via flask-apscheduler
@@ -417,7 +414,6 @@ scikit-learn==1.5.1
 scipy==1.13.1
     # via classification
     # via librosa
-    # via mcu
     # via scikit-learn
     # via xgboost
 seaborn==0.13.2
@@ -447,15 +443,12 @@ sounddevice==0.5.0
 soundfile==0.12.1
     # via classification
     # via librosa
-    # via mcu
 soupsieve==2.6
     # via beautifulsoup4
 soxr==0.5.0
     # via librosa
 stack-data==0.6.3
     # via ipython
-tenacity==9.0.0
-    # via plotly
 terminado==0.18.1
     # via jupyter-server
     # via jupyter-server-terminals

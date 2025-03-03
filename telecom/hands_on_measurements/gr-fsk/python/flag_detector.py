@@ -23,7 +23,9 @@ from distutils.version import LooseVersion
 
 import numpy as np
 from gnuradio import gr
+
 from .utils import logging
+
 
 class flag_detector(gr.basic_block):
     """
@@ -104,9 +106,9 @@ class flag_detector(gr.basic_block):
                     pos = None
                 else:
                     pos = pos + 1
-                    #self.logger.info(
+                    # self.logger.info(
                     #    f"flag  @ {self.nitems_read(0) + pos}"
-                    #)
+                    # )
             else:
                 pos = None
 
@@ -118,7 +120,7 @@ class flag_detector(gr.basic_block):
 
             # A window corresponding to the length of a full packet + 1 byte + 1 symbol
             # is transferred to the output
-            self.rem_samples = 8 * self.osr * (self.packet_len + 1) + self.osr 
+            self.rem_samples = 8 * self.osr * (self.packet_len + 1) + self.osr
 
             n_out = min(N - pos, self.rem_samples)
             output_items[0][:n_out] = input_items[0][pos : (pos + n_out)]

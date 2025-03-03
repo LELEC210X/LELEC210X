@@ -5,8 +5,7 @@ import logging
 from rich.logging import RichHandler
 
 handler = RichHandler(
-    keywords=RichHandler.KEYWORDS
-    + ["birds", "chainsaw", "fire", "handsaw", "helicopter"]
+    keywords=RichHandler.KEYWORDS + ["chainsaw", "fireworks", "fire", "gunshot"]
 )
 
 logging.basicConfig(

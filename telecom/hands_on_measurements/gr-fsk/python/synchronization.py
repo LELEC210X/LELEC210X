@@ -88,7 +88,7 @@ class synchronization(gr.basic_block):
     docstring for block synchronization
     """
 
-    def __init__(self, drate, fdev, fsamp, hdr_len, packet_len, tx_power,enable_log):
+    def __init__(self, drate, fdev, fsamp, hdr_len, packet_len, tx_power, enable_log):
         self.drate = drate
         self.fdev = fdev
         self.fsamp = fsamp
@@ -123,16 +123,15 @@ class synchronization(gr.basic_block):
         else:
             self.forecast = self.forecast_v310
 
-
     def forecast_v38(self, noutput_items, ninput_items_required):
         """
         input items are samples (with oversampling factor)
         output items are samples (with oversampling factor)
         """
         if self.rem_samples == 0:  # looking for a new packet
-            ninput_items_required[0] = (
-                    min(8000, 8 * self.osr * (self.packet_len + 1) + self.osr)
-                )  # enough samples to find a header inside
+            ninput_items_required[0] = min(
+                8000, 8 * self.osr * (self.packet_len + 1) + self.osr
+            )  # enough samples to find a header inside
         else:  # processing a previously found packet
             ninput_items_required[0] = (
                 noutput_items  # pass remaining samples in packet to next block
@@ -146,8 +145,8 @@ class synchronization(gr.basic_block):
         ninput_items_required = [0] * ninputs
         for i in range(ninputs):
             if self.rem_samples == 0:  # looking for a new packet
-                ninput_items_required[i] = (
-                    min(8000, 8 * self.osr * (self.packet_len + 1) + self.osr)
+                ninput_items_required[i] = min(
+                    8000, 8 * self.osr * (self.packet_len + 1) + self.osr
                 )  # enough samples to find a header inside
             else:  # processing a previously found packet
                 ninput_items_required[i] = (
