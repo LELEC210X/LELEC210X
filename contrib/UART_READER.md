@@ -79,6 +79,9 @@ These 2 following images are the main GUI windows, you also have a audio window 
     <img src="./assets/uart_reader_gui_mel.png" alt="Mel window of the new uart-reader" title="Screenshot of the mel window" width="45%" >
 </p>
 
+> [!WARNING]
+> By default, while using the uart-reader, a [uart_logs.log](./src/contrib/uart_reader/uart_logs.log) file will be created, and will grow as you get packets. This file is local, but has no limit in size ! So don't forget to clear it out sometimes, before it reaches problematic sizes.
+
 ### Section 1.2 - Launching the old utility
 
 The old uart-reader utility (also named version 1), had a GUI, and CLI interface that the new one doesn't, but lacks the features of the new GUI interface. The old app was a bit snappier and simpler, only capable on processing audio from the hands_on_audio_acquisition. All of this makes it great for automatization and editability.

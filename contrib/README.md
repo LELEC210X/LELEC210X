@@ -43,6 +43,9 @@ rye run model-trainer
 > [!NOTE]
 > The utility is for the moment, only a GUI based application, and does not have the sufficient capabilities to run only in the console. If you do need such an application, please refer to [Section 1.2 of the Manual](./UART_READER.md#section-12---launching-the-old-utility) on how to use the old version of the uart-reader application. With reduced functionality.
 
+> [!WARNING]
+> By default, while using the uart-reader, a [uart_logs.log](./src/contrib/uart_reader/uart_logs.log) file will be created, and will grow as you get packets. This file is local, but has no limit in size ! So don't forget to clear it out sometimes, before it reaches problematic sizes.
+
 ### Optional Flags
 
 For more information, please refer to [Section 1.1 of the Manual](./UART_READER.md#section-11---launching-the-gui)
