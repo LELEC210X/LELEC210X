@@ -4,7 +4,7 @@ import pathlib
 from logging import Handler, LogRecord
 
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QColor, QTextCursor, QPalette
+from PyQt6.QtGui import QColor, QPalette, QTextCursor
 from PyQt6.QtWidgets import QApplication, QPushButton, QTextEdit, QVBoxLayout, QWidget
 
 
@@ -184,13 +184,16 @@ class ContentLogger:
                 # Default color is black
                 color_name = color_map.get(level, "black")
                 if color_name == "black":
-                    self.text_edit.setTextColor(self.text_edit.palette().color(QPalette.ColorRole.Text))
+                    self.text_edit.setTextColor(
+                        self.text_edit.palette().color(QPalette.ColorRole.Text)
+                    )
                 else:
                     self.text_edit.setTextColor(QColor(color_name))
                 self.text_edit.append(message)
                 # Reset the text color to whatever qt uses by default
-                self.text_edit.setTextColor(self.text_edit.palette().color(QPalette.ColorRole.Text))
-
+                self.text_edit.setTextColor(
+                    self.text_edit.palette().color(QPalette.ColorRole.Text)
+                )
 
             def trim_lines(self):
                 cursor = self.text_edit.textCursor()
