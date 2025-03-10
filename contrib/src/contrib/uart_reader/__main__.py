@@ -118,8 +118,9 @@ class GUIAudioWindow(QMainWindow):
         self.logger = log.logger
 
         self.audio_data = np.zeros(12000)
-        self.prefix_message_handler(self.db.get_item("Audio Settings", "serial_prefix").value,
-                                    message=base_data)
+        self.prefix_message_handler(
+            self.db.get_item("Audio Settings", "serial_prefix").value, message=base_data
+        )
 
         self.ser.data_received_prefix.connect(self.prefix_message_handler)
 
@@ -156,7 +157,7 @@ class GUIAudioWindow(QMainWindow):
             audio_vec = np.frombuffer(
                 array_hex, dtype=np.dtype(np.int16).newbyteorder("<")
             )
-            self.update_audio_data((audio_vec/(2**11)) - 0.5)
+            self.update_audio_data((audio_vec / (2**11)) - 0.5)
 
     def create_ui(self):
         # Add title to the window
@@ -1145,8 +1146,12 @@ class GUIMainWindow(QMainWindow):
         log_message = f"[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {prefix} : {message}"
         with open(str(log_path / log_file), "a") as f:
             f.write(log_message + "\n")
-        print(f"Received {len(message)} bytes for prefix {prefix}, check the log file for the whole message")
-        self.logger.info(f"Received {len(message)} bytes for prefix {prefix}, check the log file for the whole message")
+        print(
+            f"Received {len(message)} bytes for prefix {prefix}, check the log file for the whole message"
+        )
+        self.logger.info(
+            f"Received {len(message)} bytes for prefix {prefix}, check the log file for the whole message"
+        )
 
         # self.logger.info(f"Received {len(message)} bytes for prefix {prefix}")
         if prefix == self.db.get_item("Serial Settings", "database_prefix").value:
