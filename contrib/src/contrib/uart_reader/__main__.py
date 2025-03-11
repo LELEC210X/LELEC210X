@@ -117,10 +117,9 @@ class GUIAudioWindow(QMainWindow):
         self.ser = ser
         self.logger = log.logger
 
-        self.audio_data = (
-            base_data
-            if base_data is not None and type(base_data) == np.ndarray
-            else np.zeros(10240)
+        self.audio_data = np.zeros(12000)
+        self.prefix_message_handler(
+            self.db.get_item("Audio Settings", "serial_prefix").value, message=base_data
         )
 
         self.ser.data_received_prefix.connect(self.prefix_message_handler)
@@ -146,19 +145,19 @@ class GUIAudioWindow(QMainWindow):
     def update_audio_data(self, data):
         self.audio_freeze = self.db.get_item("Audio Settings", "audio_freeze").value
         if not self.audio_freeze:
+            print("Updating audio data")
             self.audio_data = data
         if self.db.get_item("Audio Settings", "auto_save").value:
             self.save_audio_data_npy(self.audio_data)
 
     def prefix_message_handler(self, prefix, message):
+        print(prefix)
         if prefix == self.db.get_item("Audio Settings", "serial_prefix").value:
             array_hex = bytes.fromhex(message)
             audio_vec = np.frombuffer(
                 array_hex, dtype=np.dtype(np.int16).newbyteorder("<")
             )
-            if len(audio_vec) > 10240:
-                audio_vec = audio_vec[:10240]
-            self.update_audio_data(audio_vec)
+            self.update_audio_data((audio_vec / (2**11)) - 0.5)
 
     def create_ui(self):
         # Add title to the window
@@ -189,7 +188,7 @@ class GUIAudioWindow(QMainWindow):
             self.demo_super_spawn = QPushButton("Push Random Audio Data")
 
             def super_spawn():
-                self.update_audio_data((np.random.rand(10240) * 2 - 1) * 1 / 2)
+                self.update_audio_data((np.random.rand(12000) * 2 - 1) * 1 / 2)
 
             self.demo_super_spawn.clicked.connect(super_spawn)
             self.demo_box_layout.addWidget(self.demo_super_spawn)
@@ -314,7 +313,7 @@ class GUIAudioWindow(QMainWindow):
         fft_data = np.abs(np.fft.fft(self.audio_data))
         fft_data = 20 * np.log10(fft_data + 1e-12)  # Avoid log(0)
         fft_data = np.fft.fftshift(fft_data)
-        freqs = np.linspace(-10200, 10200, len(fft_data))
+        freqs = np.fft.fftshift(np.fft.fftfreq(len(fft_data), 1 / 44100))
         self.line_fft.set_data(freqs, fft_data)
 
         # Update FPS
@@ -1137,7 +1136,8 @@ class GUIMainWindow(QMainWindow):
     def normal_message_handler(self, message):
         if message == "TERMINATE":
             return
-        self.logger.info(f">>{message}")
+        self.logger.info(message)
+        print(f">>{message}")
 
     def prefix_message_handler(self, prefix, message):
         # Print to the log file the received data
@@ -1146,18 +1146,21 @@ class GUIMainWindow(QMainWindow):
         log_message = f"[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {prefix} : {message}"
         with open(str(log_path / log_file), "a") as f:
             f.write(log_message + "\n")
-        print(log_message)
+        print(
+            f"Received {len(message)} bytes for prefix {prefix}, check the log file for the whole message"
+        )
+        self.logger.info(
+            f"Received {len(message)} bytes for prefix {prefix}, check the log file for the whole message"
+        )
 
         # self.logger.info(f"Received {len(message)} bytes for prefix {prefix}")
         if prefix == self.db.get_item("Serial Settings", "database_prefix").value:
             self.logger.info(f"New configuration received: {message}")
         elif prefix == self.db.get_item("Audio Settings", "serial_prefix").value:
-            self.logger.info(f"New audio data received of length {len(message)}")
             self.open_audio_window(message)
             # Print the received data only to the log file
             self.logger.debug(f"Received audio data: {message}")
         elif prefix == self.db.get_item("MEL Settings", "serial_prefix").value:
-            self.logger.info(f"New MEL data received of length {len(message)}")
             self.open_mel_window(message)
             # Print the received data only to the log file
             self.logger.debug(f"Received MEL data: {message}")

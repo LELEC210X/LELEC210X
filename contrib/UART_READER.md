@@ -35,8 +35,8 @@ We will use the following wording to discribe the different parts of the program
 | CLI | Command Line Interface |
 | ADC | Analog-to-Digital Converter |
 | UART | Universal Asynchronous Receiver/Transmitter |
-| UART Reader/Utility/App/program | The uart-reader program that this manual talks about, its contained in `contrib/src/contrib/uart_reader/__main__.py` |
-| Model Trainer | A script that creates a classification model file that can be used by the utility, situated in `contrib/src/contrib/uart_reader/model_trainer.py` |
+| UART Reader/Utility/App/program | The uart-reader program that this manual talks about, its contained in `<root>/contrib/src/contrib/uart_reader/__main__.py` |
+| Model Trainer | A script that creates a classification model file that can be used by the utility, situated in `<root>/contrib/src/contrib/uart_reader/model_trainer.py` |
 | Optional Flags | The command line therms that have to be added to the end of the rye command for launching the utility, they follow the `--<name>` notation |
 | Pickling | The process of serializing and deserializing Python objects, converting them to a byte stream for storage or transfer, and restoring them later |
 | Database | The storage structure for the parameters such as the baud rate, the file paths, and the rest |
@@ -78,6 +78,9 @@ These 2 following images are the main GUI windows, you also have a audio window 
     <img src="./assets/uart_reader_gui.png" alt="Main window of the new uart-reader" title="Screenshot of the main window" width="45%" >
     <img src="./assets/uart_reader_gui_mel.png" alt="Mel window of the new uart-reader" title="Screenshot of the mel window" width="45%" >
 </p>
+
+> [!WARNING]
+> By default, while using the uart-reader, a [uart_logs.log](./src/contrib/uart_reader/uart_logs.log) file will be created, and will grow as you get packets and serial data. This file is local and alternates between 2 files, as it fills up, it will switch files when it reaches 5MB. This file is at `<root>/contrib/src/contrib/uart_reader/uart_logs.log`.
 
 ### Section 1.2 - Launching the old utility
 

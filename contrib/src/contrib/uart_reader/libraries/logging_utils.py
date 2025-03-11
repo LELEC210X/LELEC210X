@@ -1,10 +1,11 @@
 import logging
+import logging.handlers
 import os
 import pathlib
 from logging import Handler, LogRecord
 
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QColor, QTextCursor
+from PyQt6.QtGui import QColor, QPalette, QTextCursor
 from PyQt6.QtWidgets import QApplication, QPushButton, QTextEdit, QVBoxLayout, QWidget
 
 
@@ -125,7 +126,15 @@ class ContentLogger:
         if not datefmt:
             datefmt = self.default_date_format
 
-        handler = logging.FileHandler(file_path)
+        MAX_FILE_SIZE = 5  # 5MB
+        handler = logging.handlers.RotatingFileHandler(
+            file_path,
+            mode="a",
+            maxBytes=MAX_FILE_SIZE * 1024 * 1024,
+            backupCount=2,
+            encoding=None,
+            delay=0,
+        )
         handler.setLevel(level)
         handler.setFormatter(logging.Formatter(formatter_str, datefmt=datefmt))
         self.logger.addHandler(handler)
@@ -152,8 +161,6 @@ class ContentLogger:
         """
         Generate a QTextEdit widget as a log receiver, limited to 200 lines.
         """
-        # Check for dark mode
-        dark_mode = QApplication.instance().property("darkMode")
 
         # Custom handler for QTextEdit
         class QTextEditHandler(Handler):
@@ -176,7 +183,7 @@ class ContentLogger:
                 """Append a message to the QTextEdit widget with a specific color based on the log level."""
                 color_map = {
                     "DEBUG": "blue",
-                    "INFO": "black" if dark_mode else "white",
+                    "INFO": "black",
                     "WARNING": "orange",
                     "ERROR": "red",
                     "CRITICAL": "darkred",
@@ -185,8 +192,17 @@ class ContentLogger:
                 }
                 # Default color is black
                 color_name = color_map.get(level, "black")
-                self.text_edit.setTextColor(QColor(color_name))
+                if color_name == "black":
+                    self.text_edit.setTextColor(
+                        self.text_edit.palette().color(QPalette.ColorRole.Text)
+                    )
+                else:
+                    self.text_edit.setTextColor(QColor(color_name))
                 self.text_edit.append(message)
+                # Reset the text color to whatever qt uses by default
+                self.text_edit.setTextColor(
+                    self.text_edit.palette().color(QPalette.ColorRole.Text)
+                )
 
             def trim_lines(self):
                 cursor = self.text_edit.textCursor()

@@ -34,7 +34,7 @@ Launching the UART Reader utility requires this command :
 rye run uart-reader <optional flags>
 ```
 
-To create a classification model that can be used by the UART Reader utilty requires the modification of the `src/contrib/uart_reader/model_trainer.py` file, and you must run this command for it to be correctly interpreted by the utility :
+To create a classification model that can be used by the UART Reader utilty requires the modification of the `<root>/contrib/src/contrib/uart_reader/model_trainer.py` file, and you must run this command for it to be correctly interpreted by the utility :
 
 ```bash
 rye run model-trainer
@@ -42,6 +42,9 @@ rye run model-trainer
 
 > [!NOTE]
 > The utility is for the moment, only a GUI based application, and does not have the sufficient capabilities to run only in the console. If you do need such an application, please refer to [Section 1.2 of the Manual](./UART_READER.md#section-12---launching-the-old-utility) on how to use the old version of the uart-reader application. With reduced functionality.
+
+> [!WARNING]
+> By default, while using the uart-reader, a [uart_logs.log](./src/contrib/uart_reader/uart_logs.log) file will be created, and will grow as you get packets and serial data. This file is local and alternates between 2 files, as it fills up, it will switch files when it reaches 5MB. This file is at `<root>/contrib/src/contrib/uart_reader/uart_logs.log`.
 
 ### Optional Flags
 

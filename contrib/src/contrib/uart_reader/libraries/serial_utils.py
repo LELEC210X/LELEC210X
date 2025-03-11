@@ -20,7 +20,7 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-from serial import Serial, SerialException
+from serial import STOPBITS_ONE, Serial, SerialException
 from serial.tools import list_ports
 
 
@@ -184,6 +184,8 @@ class SerialController(QThread):
                     baudrate=self._baudrate,
                     timeout=1.0,
                     write_timeout=1.0,
+                    bytesize=8,
+                    stopbits=STOPBITS_ONE,
                 )
 
             self.logger.success(
@@ -210,6 +212,8 @@ class SerialController(QThread):
 
     def _read_loop(self) -> None:
         """Main reading loop with connection monitoring"""
+        accumulated_data = bytearray()
+
         while self._running:
             try:
                 # Check connection status
@@ -227,39 +231,55 @@ class SerialController(QThread):
                     if self._serial.in_waiting > 0 and not (
                         self._serial_freeze and self._serial_buffering
                     ):
-                        data = self._serial.readline(self._buffer_size)
-                        # If the data is frozen, and we are not buffering, consume the data and continue
+                        # Read a chunk of data (not an entire line)
+                        data = self._serial.read(min(self._serial.in_waiting, 1024))
+
+                        # If frozen but not buffering, just discard the data
                         if self._serial_freeze and not self._serial_buffering:
                             continue
-                        # If the data is not frozen, then process it
+
+                        # If we have data to process
                         if data:
-                            try:
-                                # Decode and emit signals
-                                decoded = data.decode("ascii").strip()
-                                if self._prefixes:
-                                    # Check for prefixes
-                                    for prefix in self._prefixes:
-                                        if decoded.startswith(prefix):
-                                            self.data_received_prefix.emit(
-                                                prefix, decoded[len(prefix) :]
-                                            )
-                                            break
+                            # Add to our accumulated data
+                            accumulated_data.extend(data)
+
+                            # Check if we have complete messages (separated by newlines)
+                            while b"\n" in accumulated_data:
+                                # Split at the first newline
+                                line, accumulated_data = accumulated_data.split(
+                                    b"\n", 1
+                                )
+
+                                try:
+                                    # Decode and emit signals
+                                    decoded = line.decode("ascii").strip()
+
+                                    # Process prefixes
+                                    if self._prefixes:
+                                        # Check for prefixes
+                                        for prefix in self._prefixes:
+                                            if decoded.startswith(prefix):
+                                                self.data_received_prefix.emit(
+                                                    prefix, decoded[len(prefix) :]
+                                                )
+                                                break
+                                        else:
+                                            self.data_received_normal.emit(decoded)
                                     else:
                                         self.data_received_normal.emit(decoded)
-                                else:
-                                    self.data_received_normal.emit(decoded)
-                            except UnicodeDecodeError as e:
-                                self.logger.warning(f"Decode error: {e}")
+
+                                except UnicodeDecodeError as e:
+                                    self.logger.warning(f"Decode error: {e}")
                     else:
                         # Small sleep to prevent CPU hogging (1ms)
                         time.sleep(0.001)
+
                 except (SerialException, OSError) as e:
                     # Handle serial port errors
                     self._handle_error(f"Serial port error: {e}")
                     break
-                except UnicodeDecodeError as e:
-                    # Handle decoding errors
-                    self.logger.warning(f"Decode error: {e}")
+                except Exception as e:
+                    self.logger.warning(f"Processing error: {e}")
                     continue
 
                 # Small sleep to prevent CPU hogging (1ms)
