@@ -80,7 +80,7 @@ These 2 following images are the main GUI windows, you also have a audio window 
 </p>
 
 > [!WARNING]
-> By default, while using the uart-reader, a [uart_logs.log](./src/contrib/uart_reader/uart_logs.log) file will be created, and will grow as you get packets. This file is local, but has no limit in size ! So don't forget to clear it out sometimes, before it reaches problematic sizes. This file is in `<root>/contrib/src/contrib/uart_reader/uart_logs.log`.
+> By default, while using the uart-reader, a [uart_logs.log](./src/contrib/uart_reader/uart_logs.log) file will be created, and will grow as you get packets and serial data. This file is local and alternates between 2 files, as it fills up, it will switch files when it reaches 5MB. This file is at `<root>/contrib/src/contrib/uart_reader/uart_logs.log`.
 
 ### Section 1.2 - Launching the old utility
 

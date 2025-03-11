@@ -1,4 +1,5 @@
 import logging
+import logging.handlers
 import os
 import pathlib
 from logging import Handler, LogRecord
@@ -125,7 +126,9 @@ class ContentLogger:
         if not datefmt:
             datefmt = self.default_date_format
 
-        handler = logging.FileHandler(file_path)
+        MAX_FILE_SIZE = 5 # 5MB
+        handler = logging.handlers.RotatingFileHandler(file_path, mode='a', maxBytes=MAX_FILE_SIZE*1024*1024, 
+                                 backupCount=2, encoding=None, delay=0)
         handler.setLevel(level)
         handler.setFormatter(logging.Formatter(formatter_str, datefmt=datefmt))
         self.logger.addHandler(handler)
