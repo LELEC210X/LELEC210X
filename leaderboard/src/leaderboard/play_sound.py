@@ -128,7 +128,7 @@ def play_sound(
         if bg_noise
         else WhiteNoise().to_audio_segment(duration=10_000)
     )
-    bg_noise_sound = bg_noise_sound.set_channels(1).normalize_dBFS(-20)
+    bg_noise_sound = bg_noise_sound.set_channels(1).normalize_dBFS(-30)
 
     def play_bg_noise(sound):
         while True:

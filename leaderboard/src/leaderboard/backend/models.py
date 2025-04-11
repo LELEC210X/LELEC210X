@@ -538,7 +538,7 @@ class Config(BaseModel):
                             score += 1
                             status = Status.correct
                         else:
-                            score -= 0.5
+                            score += 0.5
                             status = Status.incorrect
                 else:
                     status = Status.not_submitted
