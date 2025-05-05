@@ -81,7 +81,7 @@ class preamble_detect(gr.basic_block):
 
     def forecast_v310(self, noutput_items, ninputs):
         """
-        forecast is only called from a general block
+        Forecast is only called from a general block
         this is the default implementation
         """
         ninput_items_required = [0] * ninputs
