@@ -168,7 +168,7 @@ def play_sound(
             logger.info("Waiting server to be ready...")
             time.sleep(0.2)
 
-    played_sounds = set()
+    last_played = None
 
     logger.info("Server is ready, starting to play sounds...")
 
@@ -196,12 +196,12 @@ def play_sound(
 
         sound_key = (current_round + 1, current_lap + 1)
 
-        if sound_key in played_sounds:
+        if sound_key == last_played:
             logger.info(f"A song has already been played for round, lap: {sound_key}.")
             time.sleep(time_before_next_lap)
             continue
-
-        played_sounds.add(sound_key)
+        
+        last_played = sound_key
 
         sound_file = random.choice(dataset.get_class_files(category))
 

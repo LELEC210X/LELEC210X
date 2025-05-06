@@ -528,30 +528,35 @@ class Config(BaseModel):
                     group_config.key, current_round, lap
                 )
 
+                lap_score = 0.0
+
                 if guess != Guess.nothing:
                     if self.rounds_config.get_current_round_config().only_check_for_presence:
                         guess = Guess.received
                         status = Status.correct
-                        score += 1
+                        lap_score = 1
                     else:
                         if guess == correct_answer:
-                            score += 1
+                            lap_score = 1
                             status = Status.correct
                         else:
-                            score += 0.5
+                            lap_score = 0.5
                             status = Status.incorrect
                 else:
                     status = Status.not_submitted
 
                 if self.rounds_config.is_penalized(
                     group_config.key, current_round, lap
-                ):
-                    score -= 0.5  # We penalize guesses outside permitted time
+                ):  # We penalize guesses outside permitted time
 
                     if status == Status.correct:
                         status = Status.correct_penalized
+                        lap_score = 0.5
                     elif status == Status.incorrect:
                         status = Status.incorrect_penalized
+                        lap_score = 0.0
+
+                score += lap_score
 
                 hide = (lap > current_lap) or status == Status.not_submitted
 
