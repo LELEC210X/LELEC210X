@@ -200,7 +200,7 @@ def play_sound(
             logger.info(f"A song has already been played for round, lap: {sound_key}.")
             time.sleep(time_before_next_lap)
             continue
-        
+
         last_played = sound_key
 
         sound_file = random.choice(dataset.get_class_files(category))
