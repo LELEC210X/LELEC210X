@@ -156,9 +156,9 @@ class RoundsConfig(BaseModel):
 
         for round_config in rounds:
             lap_duration = round_config.lap_duration
-            assert (
-                lap_duration >= total
-            ), f"Lap duration is not long enough: {lap_duration} is shorted than {total}"
+            assert lap_duration >= total, (
+                f"Lap duration is not long enough: {lap_duration} is shorted than {total}"
+            )
 
         return values
 
@@ -548,7 +548,6 @@ class Config(BaseModel):
                 if self.rounds_config.is_penalized(
                     group_config.key, current_round, lap
                 ):  # We penalize guesses outside permitted time
-
                     if status == Status.correct:
                         status = Status.correct_penalized
                         lap_score = 0.5
