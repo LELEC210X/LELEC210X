@@ -66,14 +66,14 @@ class flag_detector(gr.basic_block):
 
     def forecast_v38(self, noutput_items, ninput_items_required):
         """
-        input items are samples (with oversampling factor)
+        Input items are samples (with oversampling factor)
         output items are samples (with oversampling factor)
         """
         ninput_items_required[0] = noutput_items
 
     def forecast_v310(self, noutput_items, ninputs):
         """
-        forecast is only called from a general block
+        Forecast is only called from a general block
         this is the default implementation
         """
         ninput_items_required = [0] * ninputs
