@@ -5,7 +5,7 @@ separate parts of this project into one working pipeline.
 
 ## Requirements
 
-We assume that you have completed all previous assigments,
+We assume that you have completed all previous assignments,
 and that missing code fragments have been successfully filled.
 
 Make sure that your repository is up-to-date with our main branch, and
@@ -14,11 +14,11 @@ that you installed the latest Python dependencies with:
 <!-- tell users to run commands from within the root directory or subdirectories -->
 
 ```
-rye sync
+uv sync
 ```
 
 Also, make sure to run the above command from the repository directory, or from
-any of its subdirectories. The same applies for all `rye` commands.
+any of its subdirectories. The same applies for all `uv` commands.
 
 ## Steps
 
@@ -32,11 +32,11 @@ summarized in the figure above, and explained hereafter[^1]:
 3. _(Linux)_ open the project files with GNU Radio,
    and generate the Python script(s);
 4. _(Linux)_ run your GNU Radio script either from GNU Radio or from the terminal;
-5. _(Any)_ in another terminal window, run `rye run auth | rye run classify`;
+5. _(Any)_ in another terminal window, run `uv run auth | uv run classify`;
 6. and that's all!
 
 > [!IMPORTANT]
-> Running `rye run classify` does not actually submit your classification
+> Running `uv run classify` does not actually submit your classification
 > guesses to the leaderboard server. To do so, you will need to add a few
 > lines of codes, see the corresponding [README](leaderboard/README.md).
 
@@ -51,12 +51,12 @@ files, via command-line options, or via environ variables.
 
 For parameters that are use in multiple places, like `melvec_length`,
 it is very important to use the same values all across your different
-project parts. For those, it is better to use an environ variable,
+project parts. For those, it is better to use environment variables,
 e.g., `MELVEC_LENGTH=20`.
 
-To setup environ variables, the easiest is to populate the [`.env`](.env) file with
-the environ variables. This file is automatically loaded when calling
-`rye run auth` or `rye run classify`.
+To set up environment variables, the easiest is to populate the [`.env`](.env) file with
+environment variables. This file is automatically loaded when calling
+`uv run auth` or `uv run classify`.
 
 ## How the complete chain works
 
@@ -68,11 +68,11 @@ The chain is made of multiple consecutive blocks, that need to communicate with 
    send them through the USB-driver to GNU Radio for further processing;
 3. GNU Radio receives packets from the USB, and publishes the decoded packets to some TCP address, using
    the ZMQ message passing protocol;
-4. `rye run auth` reads packets published at the provided TCP address, performs authentification on them,
+4. `uv run auth` reads packets published at the provided TCP address, performs authentication on them,
    and extracts the payload, containing the useful information, and print each payload on a new line;
-5. `rye run classify` reads the consecutive payloads from an input and performs a classification on each of them (e.g.,
-   by predicting a `fire` event). Using `rye run auth | rye run classify` allows to run both commands simultaneously,
-   while redirecting the output of authentification to the input of classification.decodes the packets and
+5. `uv run classify` reads the consecutive payloads from an input and performs a classification on each of them (e.g.,
+   by predicting a `fire` event). Using `uv run auth | uv run classify` allows to run both commands simultaneously,
+   while redirecting the output of authentication to the input of classification.
 
 During the contest, guesses must be sent to the leaderboard. Hence, one should modify the
 [`classify` script](./classification/src/classification/__main__.py) to send guesses to the leaderboard using

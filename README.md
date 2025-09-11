@@ -145,7 +145,7 @@ linters is usually much larger than those of a formatter.
 To this end, we use `pre-commit`. It can be used as follows:
 
 ```bash
-rye run pre-commit run --all-files
+uv run pre-commit run --all-files
 ```
 
 > [!TIP]
@@ -159,9 +159,9 @@ rye run pre-commit run --all-files
 If you want to run `pre-commit` on a subset of your files, use the following:
 
 ```bash
-rye run pre-commit run --files file1 file2 ...
+uv run pre-commit run --files file1 file2 ...
 # E.g., on all files in `tex/`
-find tex/ | xargs rye run pre-commit run --files
+find tex/ | xargs uv run pre-commit run --files
 ```
 
 > [!NOTE]
@@ -170,18 +170,18 @@ find tex/ | xargs rye run pre-commit run --files
 If you want to disallow you from pushing unformatted code,
 you can install a git hook.
 A git hook is simply an action that will run every time you try to commit
-and check wether you passe or not the format rules.
+and check whether you passed or not the format rules.
 
 To this end, please run:
 
 ```bash
-rye run pre-commit install
+uv run pre-commit install
 ```
 
 After this, you should always run:
 
 ```bash
-rye pre-commit run
+uv pre-commit run
 ```
 
 to format staged files, before committing them.

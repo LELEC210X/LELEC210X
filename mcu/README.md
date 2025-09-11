@@ -9,7 +9,7 @@ One of contributions from students includes a graphical interface to read from U
 You can run it with:
 
 ```bash
-rye run uart-reader
+uv run uart-reader
 ```
 
 Read the documentation from the [`README in the contrib folder`](../contrib/README.md) package for more information.

@@ -1,6 +1,6 @@
-# Leadeboard
+# Leaderboard
 
-This folder contains everything you need to run a local version of the leadeboard.
+This folder contains everything you need to run a local version of the leaderboard.
 
 > [!NOTE]
 > If you are a student,
@@ -9,7 +9,7 @@ This folder contains everything you need to run a local version of the leadeboar
 >
 > **However**, we will not run the public server every hour
 > of every day until the contest. So you are encouraged
-> to do all your testing on a local server, deployed on
+> to do all the testing on a local server, deployed on
 > your computer. For that purpose, read the sections
 > below.
 
@@ -18,7 +18,7 @@ This folder contains everything you need to run a local version of the leadeboar
 All dependencies should be installed with the following command:
 
 ```bash
-rye sync
+uv sync
 ```
 
 ## Setup
@@ -26,13 +26,13 @@ rye sync
 The first time you use this server, you must create a config file:
 
 ```bash
-rye run leaderboard config init
+uv run leaderboard config init
 ```
 
 and populate it when some group(s):
 
 ```bash
-rye run leaderboard config generate-key "Teaching Assistants"
+uv run leaderboard config generate-key "Teaching Assistants"
 ```
 
 The key will be useful to send your guesses to the server.
@@ -40,13 +40,13 @@ The key will be useful to send your guesses to the server.
 Then, the server must be launched with:
 
 ```bash
-rye run leaderboard serve
+uv run leaderboard serve
 ```
 
-Alernatively, you can open the server in webbrowser window with:
+Alternatively, you can open the server in a web browser window with:
 
 ```bash
-rye run leaderboard serve --open
+uv run leaderboard serve --open
 ```
 
 > [!TIP]
@@ -56,7 +56,7 @@ rye run leaderboard serve --open
 For other commands, see:
 
 ```bash
-rye run leaderboard --help
+uv run leaderboard --help
 ```
 
 ## Usage
@@ -64,7 +64,7 @@ rye run leaderboard --help
 Once the server is launched, the configuration file cannot be modified,
 so make sure to update it before.
 
-To submit a guess, you need to do a HTTP request.
+To submit a guess, you need to do an HTTP request.
 There exists many HTTP methods,
 but this project only uses `POST` (posting a value),
 `GET` (getting), and `DELETE` (deleting).
@@ -76,14 +76,14 @@ The simplest way to do so is to use the `requests` library, see the example belo
 ### (Optional) If you run your own server
 
 ```bash
-> rye run leaderboard config generate-key "The Besties"
+> uv run leaderboard config generate-key "The Besties"
 Group The Besties now has key: aqH27o66E8xz-IotBk11ZZo1ix7Vbs5H2pTXlSra
 ```
 
 To test everything locally, you also need to create a group with admin rights:
 
 ```bash
-> rye run leaderboard config generate-key --admin "Teaching Assistants"
+> uv run leaderboard config generate-key --admin "Teaching Assistants"
 Group Teaching Assistants now has key: EdY7unM6C6ZFwt9uTjmaMv6eX9nM7pljGADmcudJ
 ```
 
@@ -119,7 +119,7 @@ response_as_dict = json.loads(response.text)
 This is also possible to submit a guess with:
 
 ```bash
-rye run leaderboard submit fire --key="aqH27o66E8xz-IotBk11ZZo1ix7Vbs5H2pTXlSra"
+uv run leaderboard submit fire --key="aqH27o66E8xz-IotBk11ZZo1ix7Vbs5H2pTXlSra"
 ```
 
 Please only use this command for testing purposes.
@@ -155,7 +155,7 @@ for more details.
 
 ### Playing sound files
 
-The leaderboard server does not actually play the soundfiles,
+The leaderboard server does not actually play the sound files,
 because the actual computer does not have access to any speaker.
 
 To play sound files, a group with admin rights, i.e., the teaching
@@ -165,7 +165,7 @@ and receiving leaderboard statuses to play the right sound files.
 This is done with this command:
 
 ```bash
-rye run leaderboard play-sound --key EdY7unM6C6ZFwt9uTjmaMv6eX9nM7pljGADmcudJ
+uv run leaderboard play-sound --key EdY7unM6C6ZFwt9uTjmaMv6eX9nM7pljGADmcudJ
 ```
 
 ## Submitting a Key for the Security Round
@@ -204,8 +204,8 @@ guess_str = urllib.parse.quote_from_bytes(guess_bytes, safe="")
 > online, such that students can access it remotely.
 >
 > If you have any issue, contact the UCLouvain desk service
-> (https://uclouvain.be/8282) and specify the server adress
-> (lelec210x.sipr.ucl.ac.be) in your message.
+> (https://uclouvain.be/8282) and specify the server address
+> (`lelec210x.sipr.ucl.ac.be`) in your message.
 
 ### Server access
 
@@ -215,7 +215,7 @@ The server access is only possible via SSH, from a specific set of IP addresses,
 specified in `/etc/iptables/rules.v4`.
 If you do not have access, you need to ask the I.T. staff (or one of the member
 that already has such access).
-After manually updating the iptable (eg. with `vim` or `nano`), it needs to be reloaded to be effective.
+After manually updating the IP table (e.g., with `vim` or `nano`), it needs to be reloaded to be effective.
 
 ```bash
 iptables-restore < /etc/iptables/rules.v4
@@ -230,7 +230,7 @@ ssh -4 -p 22 username@lelec210x.sipr.ucl.ac.be
 where `username` is your username. You will be prompted to enter your password.
 
 > [!NOTE]
-> The `-4` flag is to force IPv4. While this may work without explicitely specifying it,
+> The `-4` flag is to force IPv4. While this may work without explicitly specifying it,
 > it has been observed that using the VPN (with `openvpn3`) uses IPv6 for SSH by default,
 > which will fail to connect properly.
 
@@ -260,7 +260,7 @@ git https://github.com/LELEC210X/LELEC210X.git
 You will only have `pull` rights to the repository, so do not make important changes
 because you will not be able to push them.
 
-Install Rye, if not already.
+Install uv, if not already.
 
 #### Apache2 server
 
@@ -289,7 +289,7 @@ Before starting the server, this is always good to do the following commands:
 ```bash
 cd /var/www/LELEC210X
 git pull
-rye sync
+uv sync
 ```
 
 This will download the latest changes and update the packages (if needed).
@@ -305,10 +305,10 @@ where you need to (un)comment some lines.
 
 Next, everything should run as expected.
 
-First, check that you can run the leaderboard and access it through your webbrowser:
+First, check that you can run the leaderboard and access it through your web browser:
 
 ```bash
-rye run leaderboard serve
+uv run leaderboard serve
 ```
 
 > [!TIP]
@@ -322,5 +322,5 @@ rye run leaderboard serve
 A simple way to run the server in background is with `screen`:
 
 ```bash
-screen -d -m rye run leaderboard serve
+screen -d -m uv run leaderboard serve
 ```

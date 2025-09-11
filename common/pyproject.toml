@@ -17,6 +17,3 @@ packages = ["src/common"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
-
-[tool.rye]
-managed = true

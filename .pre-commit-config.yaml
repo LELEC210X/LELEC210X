@@ -22,7 +22,6 @@ repos:
   rev: v1.4.4
   hooks:
   - id: american-eg-ie
-  - id: consistent-spelling
   - id: csquotes
   - id: no-space-in-cite
   - id: unique-labels

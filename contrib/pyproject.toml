@@ -34,7 +34,3 @@ packages = ["src/contrib"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
-
-[tool.rye]
-dev-dependencies = ["contrib[all]"]
-managed = true

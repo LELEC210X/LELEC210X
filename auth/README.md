@@ -7,28 +7,28 @@ Files related to the authentification part.
 All dependencies should be installed with the following command:
 
 ```bash
-rye sync
+uv sync
 ```
 
 ## Usage
 
-Currently, there is only one script that is installed by `rye` and that is `auth`:
+Currently, there is only one script that is installed by `uv` and that is `auth`:
 
 ```bash
-rye run auth --help
+uv run auth --help
 ```
 
-Many options exist, but you should be able to run with the default ones, i.e., `rye run auth`, and
+Many options exist, but you should be able to run with the default ones, i.e., `uv run auth`, and
 read messages from the TCP address that GNU Radio talks to.
 
 > [!TIP]
-> If you did not implement authentification, you can bypass it
-> with `rye run auth --no-authenticate`.
+> If you did not implement authentication, you can bypass it
+> with `uv run auth --no-authenticate`.
 
 > [!WARNING]
 > Please make sure to use the correct number of Mel vectors and the correct length.
 > A default value is automatically set, but you change it
-> to match the one you are using! See `rye run auth --help`.
+> to match the one you are using! See `uv run auth --help`.
 
 > [!TIP]
 > For secret variables, such as `--auth-key`,
