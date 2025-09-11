@@ -1,0 +1,8 @@
+\section*{Introduction}
+\addcontentsline{toc}{section}{Forewords}
+
+ The goal of the wireless communication part of the project LELEC2102-3 is to send packets from the MCU containing the extracted features. These packets are then received and demodulated using a Software Defined Radio (SDR) running on GnuRadio, that is interfaced with the LimeSDR.\\
+
+This means that digital signals (payload bits) must be transferred from the transmitter (TX) to the receiver (RX). To transform these digital signals to the analog domain for the transmission, the chosen modulation scheme is Frequency Shift Keying (FSK). The idea behind such a modulation is to transfer signals at different frequencies based on the input bit sequence. In practice, a 2-CPFSK (Continuous Phase Frequency Shift Keying) is used, meaning that only two different frequencies are considered while ensuring that the phase of the sent signal is continuous.\\
+
+This first hands-on about wireless communication focuses on the theoretical aspects of a complete 2-CPFSK reception chain. In order to study the demodulation and synchronization performances of the chain, a \textbf{simulation framework} has been designed by the teaching team. In this hands-on, you will learn how to use this framework and complete some missing parts. The practical aspects of the communication chain will be covered in the next hands-on.

@@ -1,0 +1,25 @@
+\section*{Material \& preparation}
+
+\begin{comment}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{}
+\vspace{0.2cm}
+\end{comment}
+For this hands-on session, you will need:
+\begin{itemize}
+    \item The Nucleo MCU board with its sensing and power-management board ;
+    \item A USB cable to connect your computer to the Nucleo.
+    \item A working Virtual Machine (VM) with
+        \begin{itemize}
+            \item the MCU project from H3b loaded on the MCU,
+            \item the following python packages installed\footnote{%
+                    Install them with \texttt{sudo pip install package-name}.
+                }:
+                \texttt{cryptography}, \texttt{pyserial},
+            \item the H\handsOnN{} script (\texttt{packet\_inspector.py}).
+        \end{itemize}
+        You should be able to run the H\handsOnN{} code package:
+        program the MCU, then, in the directory containing the
+        H\handsOnN{} code, run \texttt{python packet\_inspector.py -{}-input
+        /dev/ttyACM0} (change \texttt{ttyACM0} to something else if needed).
+        If the MCU is in acquisition mode (blue LED not blinking), you should
+        see that that packets are received and decoded.
+\end{itemize}

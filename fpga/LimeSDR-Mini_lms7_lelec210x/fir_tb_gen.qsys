@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system name="$${FILENAME}">
+ <component
+   name="$${FILENAME}"
+   displayName="$${FILENAME}"
+   version="1.0"
+   description=""
+   tags=""
+   categories="System" />
+ <parameter name="bonusData"><![CDATA[bonusData 
+{
+   element clk_0
+   {
+      datum _sortIndex
+      {
+         value = "0";
+         type = "int";
+      }
+   }
+   element fir_compiler_ii_0
+   {
+      datum _sortIndex
+      {
+         value = "1";
+         type = "int";
+      }
+   }
+}
+]]></parameter>
+ <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
+ <parameter name="device" value="10M16SAU169C8G" />
+ <parameter name="deviceFamily" value="MAX 10" />
+ <parameter name="deviceSpeedGrade" value="8" />
+ <parameter name="fabricMode" value="QSYS" />
+ <parameter name="generateLegacySim" value="false" />
+ <parameter name="generationId" value="0" />
+ <parameter name="globalResetBus" value="false" />
+ <parameter name="hdlLanguage" value="VERILOG" />
+ <parameter name="hideFromIPCatalog" value="false" />
+ <parameter name="lockedInterfaceDefinition" value="" />
+ <parameter name="maxAdditionalLatency" value="1" />
+ <parameter name="projectName">LimeSDR-Mini_lms7_lelec210x.qpf</parameter>
+ <parameter name="sopcBorderPoints" value="false" />
+ <parameter name="systemHash" value="0" />
+ <parameter name="testBenchDutName" value="" />
+ <parameter name="timeStamp" value="0" />
+ <parameter name="useTestBenchNamingPattern" value="false" />
+ <instanceScript></instanceScript>
+ <interface name="clk" internal="clk_0.clk_in" type="clock" dir="end" />
+ <interface
+   name="fir_compiler_ii_0_avalon_streaming_sink"
+   internal="fir_compiler_ii_0.avalon_streaming_sink"
+   type="avalon_streaming"
+   dir="end" />
+ <interface
+   name="fir_compiler_ii_0_avalon_streaming_source"
+   internal="fir_compiler_ii_0.avalon_streaming_source"
+   type="avalon_streaming"
+   dir="start" />
+ <interface name="reset" internal="clk_0.clk_in_reset" type="reset" dir="end" />
+ <module name="clk_0" kind="clock_source" version="18.1" enabled="1">
+  <parameter name="clockFrequency" value="125000000" />
+  <parameter name="clockFrequencyKnown" value="true" />
+  <parameter name="inputClockFrequency" value="0" />
+  <parameter name="resetSynchronousEdges" value="NONE" />
+ </module>
+ <module
+   name="fir_compiler_ii_0"
+   kind="altera_fir_compiler_ii"
+   version="18.1"
+   enabled="1">
+  <parameter name="L_bandsFilter" value="1" />
+  <parameter name="MODE_STRING" value="None Set" />
+  <parameter name="backPressure" value="false" />
+  <parameter name="bankCount" value="1" />
+  <parameter name="bankDisplay" value="0" />
+  <parameter name="baseAddress" value="0" />
+  <parameter name="channelModes" value="0,1,2,3" />
+  <parameter name="clockRate" value="0.4" />
+  <parameter name="clockSlack" value="0" />
+  <parameter name="coeffBitWidth" value="8" />
+  <parameter name="coeffComplex" value="false" />
+  <parameter name="coeffFracBitWidth" value="7" />
+  <parameter name="coeffReload" value="false" />
+  <parameter name="coeffScaling" value="auto" />
+  <parameter name="coeffSetRealValue">-0.001201261290430126,0.0020488944185569607,-0.0020751053507837938,4.910806933254215E-18,0.004754535968663148,-0.00987450755161552,0.00995675888032359,-1.4391882903962387E-17,-0.018922538981281996,0.036214375130954504,-0.03468641976116993,2.4803862788187382E-17,0.06848299151299582,-0.15293237705130486,0.22297239138994396,0.7505245253702963,0.22297239138994396,-0.15293237705130486,0.06848299151299582,2.4803862788187385E-17,-0.034686419761169936,0.036214375130954504,-0.018922538981282003,-1.4391882903962393E-17,0.00995675888032359,-0.009874507551615532,0.004754535968663151,4.910806933254215E-18,-0.0020751053507837946,0.0020488944185569607,-0.001201261290430126</parameter>
+  <parameter name="coeffSetRealValueImag">0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0530093, -0.04498, 0.0, 0.0749693, 0.159034, 0.224907, 0.249809, 0.224907, 0.159034, 0.0749693, 0.0, -0.04498, -0.0530093, -0.0321283, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0</parameter>
+  <parameter name="coeffType" value="frac" />
+  <parameter name="decimFactor" value="1" />
+  <parameter name="delayRAMBlockThreshold" value="20" />
+  <parameter name="deviceFamily" value="MAX 10" />
+  <parameter name="dualMemDistRAMThreshold" value="1280" />
+  <parameter name="filterType" value="single" />
+  <parameter name="hardMultiplierThreshold" value="-1" />
+  <parameter name="inputBitWidth" value="12" />
+  <parameter name="inputChannelNum" value="2" />
+  <parameter name="inputFracBitWidth" value="11" />
+  <parameter name="inputRate" value="0.4" />
+  <parameter name="inputType" value="frac" />
+  <parameter name="interpFactor" value="1" />
+  <parameter name="karatsuba" value="false" />
+  <parameter name="mRAMThreshold" value="1000000" />
+  <parameter name="num_modes" value="2" />
+  <parameter name="outLSBRound" value="trunc" />
+  <parameter name="outLsbBitRem" value="9" />
+  <parameter name="outMSBRound" value="trunc" />
+  <parameter name="outMsbBitRem" value="4" />
+  <parameter name="outType" value="frac" />
+  <parameter name="readWriteMode" value="read_write" />
+  <parameter name="reconfigurable" value="false" />
+  <parameter name="reconfigurable_list" value="0" />
+  <parameter name="speedGrade" value="slow" />
+  <parameter name="symmetryMode" value="nsym" />
+ </module>
+ <connection
+   kind="clock"
+   version="18.1"
+   start="clk_0.clk"
+   end="fir_compiler_ii_0.clk" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="clk_0.clk_reset"
+   end="fir_compiler_ii_0.rst" />
+ <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
+ <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
+</system>

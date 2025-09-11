@@ -1,0 +1,104 @@
+
+
+The low-pass filter (LPF) is the first block from the SDR receiver to be accelerated in hardware, even before the preamble detection. To avoid rewriting an entire filter implementation from scratch, we here use an IP (\textit{Intellectual Property}) block provided by Altera\footnote{See \texttt{ug\_fir\_compiler\_ii.pdf} on Moodle for details.}. The FPGA project provided by the teaching team already instantiates a LPF using the FIR Compiler II IP. This finite-impulse-response (FIR) filter\footnote{FIR filters
+have already been introduced in LEPL1106. We assume in this document that the basic concepts of FIR filters are well-known by the reader.} is implemented using fixed point arithmetic. In this additional tutorial, you will learn how to modify the different parameters of the FIR to properly filter the transmitted signal. We will especially show you how to increase the number of taps and decrease the cut-off frequency, reducing the integrated noise further in the receiver chain.
+
+\section{Computing the coefficients of the LPF}
+
+Beside the FPGA project, the teaching team also designed a suite of Python scripts to configure and verify the configuration of the LPF. These scripts are all located in the folder \\ \texttt{LimeSDR-Mini\_lms7\_lelec210x/ip/fir/testbench/python/} and \textbf{need to be executed from the the top level directory of the Git}. \\
+
+To obtain a new frequency response of the FIR filter, one needs to modify its coefficients. First, you need to select a cut-off frequency $f_c$ based on the transmitted signal specifications, more specifically its bandwidth.
+The script \texttt{1\_taps\_gen.py} computes the coefficients of a FIR LPF using the \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.firwin.html}{\texttt{firwin} function of scipy}. The parameters of the function are the number of coefficients, the cut-off frequency and the sampling rate. The impulse and frequency responses are subsequently displayed, and the computed coefficients are saved \textbf{in floating point format} to the file \\ \texttt{LimeSDR-Mini\_lms7\_lelec210x/ip/fir/testbench/mentor/coefficients\_float.txt}. \\
+
+Modify the parameter \texttt{cutoff} of the script to the desired one and launch it. Observe the slope of the magnitude of the frequency response. You can now modify the number of taps, i.e., \texttt{numtaps}, by increasing or decreasing it. How does the number of coefficients of a FIR filter affect its frequency response? How many coefficients are used in your current design? You can look for this information in the FIR description of the \texttt{lms\_dsp} module in the \textit{Platform Designer}. Please note that increasing the number of taps will require more resource to be implemented.
+
+\section{Converting floating-point coefficients to fixed-point representation}
+
+The coefficients produced by \texttt{firwin} are stored in floating point representation, whereas the FIR filter carries its arithmetic computations in fixed point representation.
+We define the FIR filter as \\
+\begin{equation}
+    y[n] = T\left( \sum^{N-1}_{k=0} h[k] x[n-k] \right),
+\end{equation}
+where
+\begin{itemize}
+    \item $x[n]$ is the input signal from the RF front-end, in Q1.11 format.
+    \item $h[n]$ represents the $N$ coefficients of the FIR filter. To limit the resource usage on the FPGA, we restrain the widths of the coefficient $h[n]$ to 8 bits.
+    \item $y[n]$ is the output signal, with a size of 12 bits, but not necessarily in the Q1.11 format.
+    \item $T$ is a truncation function.
+\end{itemize}
+
+Due to the $N$ multiply and accumulate (MAC) operations inside the FIR filter, the output of the convolution needs to be stored using a larger bit width, e.g., 26 bits when $N = 31$. This width of 26 bits is greater than the width of the output signal $y[n]$, which is equal to 12 bits. The truncation function $T$ hence removes a certain amount of the $K_M$ most significant bits (MSBs) and the $K_L$ least significant bits (LSBs) from the convolution output, such that the final signal $y[n]$ fits on 12 bits.
+
+The FIR Compiler II IP inherently performs the truncation on the convolution output, but the tool does not compute the optimal values of the parameters $K_M$ and $K_L$. The optimal values depend on the coefficients $h[n]$. It is essential that these two variables are correctly set, as overflows or a precision loss may occur if $K_M$ or $K_L$ are too small, respectively.
+The Python script \texttt{2\_compute\_bounds.py} computes the optimal fixed point format Q$p.q$ of the output signal $y[n]$ based on the coefficients previously computed. Run the script. The optimal format of $y[n]$ is given for two behaviors of the FIR Compiler II IP:
+\begin{itemize}
+    \item Without scaling: the provided coefficients are directly converted to fixed point and used as is.
+    \item With scaling: the coefficients are first normalized in floating point. All coefficients $h[n]$ are divided by the tap $L = \max_n \left| h[n] \right|$ of greatest amplitude, i.e., $h'[n] = \frac{h[n]}{L}$.
+\end{itemize}
+The objective of the coefficients scaling is to improve the accuracy of the computations in the FIR filtering, while minimizing the number of bits used in the number representations.
+
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Fixed point format with and witout scaling}
+    When running the script, you should observe that the optimal format of $y[n]$ without scaling is Q2.10, whereas the optimal format with scaling is Q4.8. Are you able to explain the reasons behind these choices of formats? If some parts are unclear, ask a teaching assistant for help.
+\end{bclogo}
+
+\section{Simulating and verifying the LPF}
+
+Now that both the FIR coefficients and the output format are known, we need to modify the instantiation of the LPF in Quartus, and subsequently verify its proper working in simulation.
+
+\textbf{1) Generation of the simulation stimuli:}
+To verify that the new LPF is correctly designed, a simulation framework has been written by the teaching team.
+This framework requires a stimuli signal written in a text file. The script \texttt{3.1\_input\_gen.py} generates this stimuli. Run this script and look at the files
+\texttt{LimeSDR-Mini\_lms7\_lelec210x/ip/fir/testbench/mentor/input\_float.txt} and
+\texttt{LimeSDR-Mini\_lms7\_lelec210x/ip/fir/testbench/mentor/input\_fpga.txt}. What is the default stimuli signal? How are these two files related to each other?
+
+\textbf{2) Configuration of the IP:}
+Open the \\ \texttt{LimeSDR-Mini\_lms7\_lelec210x/LimeSDR-Mini\_lms7\_lelec210x.qpf} project in Quartus, and then open the \textit{Platform Designer} (its icon is highlighted in Fig.~\ref{fig:quartus}). In the platform designer, open the design \texttt{fir\_tb\_gen.qsys}. In the design window, double-click on the instance \texttt{fir\_compiler\_ii\_0}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{figures/quartus_toolbar.PNG}
+    \caption{Toolbar of Quartus. The Platform Designer shortcut is highlighted in yellow.}
+    \label{fig:quartus}
+\end{figure}
+
+To modify the frequency response of the filter, the following parameters need to be modified:
+\begin{itemize}
+    \item \textit{Coefficient Settings -> Coefficient Scaling}: enables (\textit{Auto}) or disables (\textit{None}) the scaling of the filter coefficients.
+    \item \textit{Coefficient Settings -> Coefficient Fractional Width}: number of fractional bits of the coefficients.
+    \item \textit{Coefficients}: the coefficients are modified by importing the text file \texttt{coefficients\_float.txt} generated by the script \texttt{1\_coefficients\_gen.py}.
+    \item \textit{Input/Output Options -> MSB/LSB Bits to remove}: Values of the parameters $K_M$ and $K_L$. These values should be set such that the output width is always equal to 12, and such that the output fractional width corresponds to the fixed point format returned by the Python script.
+\end{itemize}
+
+Modify these parameters such that 1) the new 31 coefficients you previously generated for $f_c = B$ are used 2) the coefficients scaling is enabled 3) the fixed point formats are identical to those returned by the script \texttt{2\_compute\_bounds.py}.
+
+The script \texttt{3.2\_coefficients\_quantize.py} allows to verify the configuration of the FIR filter in the platform designer. \texttt{3.2\_coefficients\_quantize.py} shows the time and frequency responses of the designed filter in a) floating point representation b) fixed point without scaling c) fixed point with scaling. Modify the variables \texttt{nbit} (number of bits per filter coefficient) and \texttt{qbit} (number of fractional bits per filter coefficient) of \texttt{3.2\_coefficients\_quantize.py} such that they match the values inside the Platform Designer. Run the script. If all parameters are correctly set, the floating and fixed point frequency responses in the \textit{Coefficients} panel of the Platform Designer are identical to the responses shown by the Python script. The frequency scale might however be different since the input sample rate in the \textit{Filter specification} panel is not set coherently. You can change it to your actual value to observe matching frequency response. The input sample rate has no effect on the FIR implementation, but you must use the default value otherwise the tool adds useless configuration signals, leading to compilation errors.
+
+\textbf{3) Running the testbench:}
+When the frequency response is correctly shown, we need to run the testbench to verify the entire implementation of the LPF. To this end, execute the following operations:
+\begin{enumerate}
+    \item Save the design inside the Platform Designer (Control-S).
+    \item Generate a new testbench using \texttt{Generate -> Generate Testbench System ...}. Provide the following path
+    \texttt{.../LimeSDR-Mini\_lms7\_lelec210x/ip/fir/}, and click on \textit{Generate}.
+    \item Generate the reference output signal that the LPF should produce by running the script \\ \texttt{3.3\_output\_gen.py}.
+    \item Open ModelSim. Change the current directory (\textit{File -> Change Directory}) to \\ \texttt{LimeSDR-Mini\_lms7\_lelec210x/ip/fir/testbench/mentor} and then execute the simulation by running \texttt{do run\_sim.tcl} in the console.
+    This simulation reads the input stimuli generated by
+    \texttt{3.1\_input\_gen.py} and transfers it to the LPF. The output signal $y[n]$ is then saved. Observe the different waveforms displayed.
+    \item Run the script \texttt{4\_compare.py}, which compares the reference output generated in floating point arithmetic with Python to the output of the hardware simulation. If both the time and frequency responses look very similar, the design is validated.
+    You may need to modify the variables \texttt{nbit} and \texttt{qbit} of both the filter coefficients $h[n]$ and of the output signal $y[n]$ in \texttt{4\_compare.py} for the responses to be correct.
+\end{enumerate}
+
+\section{Synthesizing the LPF}
+
+The previous modifications in the Platform Designer only affected the design \texttt{fir\_tb\_gen.qsys}, which is solely used to verify the parameters of the LPF IP. The same modifications to the IP need to be reproduced in the actual design.
+
+To this end, execute the following operations:
+\begin{enumerate}
+    \item Open the design \texttt{lms\_dsp.qsys} in the \textit{Platform Designer}. Reproduce the same modifications to the \texttt{fir\_compiler\_ii\_0} module as before and then save the design (Control-S).
+    \item On the bottom right of the window, press on "Generate HDL ..." and update the path to \\
+    \texttt{LimeSDR-Mini\_lms7\_lelec210x/lms\_dsp/}. Once the generation is completed, close the window using the "Finish" button.
+\end{enumerate}
+
+You can now synthesize the new design and flash it to the FPGA using LimeSuiteGUI. Refer to the Hands-on related to the FPGA for more detailed explanations. Be careful to always analyse the timing reports after the synthesis to ensure you have no timing violations. \\
+
+
+When launching a GNU Radio application, you should now observe that the noise is effectively filtered outside the selected frequency band. You can apply the different steps of this tutorial to adapt the frequency response of the filter to your specifications.

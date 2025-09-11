@@ -1,0 +1,156 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 0 0 464 392)
+	(text "lms_dsp" (rect 208 -1 242 11)(font "Arial" (font_size 10)))
+	(text "inst" (rect 8 376 20 388)(font "Arial" ))
+	(port
+		(pt 0 72)
+		(input)
+		(text "clk_clk" (rect 0 0 27 12)(font "Arial" (font_size 8)))
+		(text "clk_clk" (rect 4 61 46 72)(font "Arial" (font_size 8)))
+		(line (pt 0 72)(pt 176 72)(line_width 1))
+	)
+	(port
+		(pt 0 112)
+		(input)
+		(text "fifo_in_wdata[47..0]" (rect 0 0 79 12)(font "Arial" (font_size 8)))
+		(text "fifo_in_wdata[47..0]" (rect 4 101 124 112)(font "Arial" (font_size 8)))
+		(line (pt 0 112)(pt 176 112)(line_width 3))
+	)
+	(port
+		(pt 0 128)
+		(input)
+		(text "fifo_in_wrreq" (rect 0 0 53 12)(font "Arial" (font_size 8)))
+		(text "fifo_in_wrreq" (rect 4 117 82 128)(font "Arial" (font_size 8)))
+		(line (pt 0 128)(pt 176 128)(line_width 1))
+	)
+	(port
+		(pt 0 224)
+		(input)
+		(text "ppd_cfg_passthrough_len[15..0]" (rect 0 0 127 12)(font "Arial" (font_size 8)))
+		(text "ppd_cfg_passthrough_len[15..0]" (rect 4 213 184 224)(font "Arial" (font_size 8)))
+		(line (pt 0 224)(pt 176 224)(line_width 3))
+	)
+	(port
+		(pt 0 240)
+		(input)
+		(text "ppd_cfg_threshold[7..0]" (rect 0 0 94 12)(font "Arial" (font_size 8)))
+		(text "ppd_cfg_threshold[7..0]" (rect 4 229 142 240)(font "Arial" (font_size 8)))
+		(line (pt 0 240)(pt 176 240)(line_width 3))
+	)
+	(port
+		(pt 0 256)
+		(input)
+		(text "ppd_cfg_clear_rs" (rect 0 0 71 12)(font "Arial" (font_size 8)))
+		(text "ppd_cfg_clear_rs" (rect 4 245 100 256)(font "Arial" (font_size 8)))
+		(line (pt 0 256)(pt 176 256)(line_width 1))
+	)
+	(port
+		(pt 0 272)
+		(input)
+		(text "ppd_cfg_enable" (rect 0 0 63 12)(font "Arial" (font_size 8)))
+		(text "ppd_cfg_enable" (rect 4 261 88 272)(font "Arial" (font_size 8)))
+		(line (pt 0 272)(pt 176 272)(line_width 1))
+	)
+	(port
+		(pt 0 360)
+		(input)
+		(text "reset_reset_n" (rect 0 0 56 12)(font "Arial" (font_size 8)))
+		(text "reset_reset_n" (rect 4 349 82 360)(font "Arial" (font_size 8)))
+		(line (pt 0 360)(pt 176 360)(line_width 1))
+	)
+	(port
+		(pt 0 168)
+		(output)
+		(text "fifo_out_wrdata[47..0]" (rect 0 0 88 12)(font "Arial" (font_size 8)))
+		(text "fifo_out_wrdata[47..0]" (rect 4 157 136 168)(font "Arial" (font_size 8)))
+		(line (pt 0 168)(pt 176 168)(line_width 3))
+	)
+	(port
+		(pt 0 184)
+		(output)
+		(text "fifo_out_wrreq" (rect 0 0 59 12)(font "Arial" (font_size 8)))
+		(text "fifo_out_wrreq" (rect 4 173 88 184)(font "Arial" (font_size 8)))
+		(line (pt 0 184)(pt 176 184)(line_width 1))
+	)
+	(port
+		(pt 0 288)
+		(output)
+		(text "ppd_debug_count[31..0]" (rect 0 0 94 12)(font "Arial" (font_size 8)))
+		(text "ppd_debug_count[31..0]" (rect 4 277 136 288)(font "Arial" (font_size 8)))
+		(line (pt 0 288)(pt 176 288)(line_width 3))
+	)
+	(port
+		(pt 0 304)
+		(output)
+		(text "ppd_debug_long_sum[31..0]" (rect 0 0 112 12)(font "Arial" (font_size 8)))
+		(text "ppd_debug_long_sum[31..0]" (rect 4 293 154 304)(font "Arial" (font_size 8)))
+		(line (pt 0 304)(pt 176 304)(line_width 3))
+	)
+	(port
+		(pt 0 320)
+		(output)
+		(text "ppd_debug_short_sum[31..0]" (rect 0 0 116 12)(font "Arial" (font_size 8)))
+		(text "ppd_debug_short_sum[31..0]" (rect 4 309 160 320)(font "Arial" (font_size 8)))
+		(line (pt 0 320)(pt 176 320)(line_width 3))
+	)
+	(drawing
+		(text "clk" (rect 161 43 340 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "clk" (rect 181 67 380 144)(font "Arial" (color 0 0 0)))
+		(text "fifo_in" (rect 139 83 320 179)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "wdata" (rect 181 107 392 224)(font "Arial" (color 0 0 0)))
+		(text "wrreq" (rect 181 123 392 256)(font "Arial" (color 0 0 0)))
+		(text "fifo_out" (rect 131 139 310 291)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "wrdata" (rect 181 163 398 336)(font "Arial" (color 0 0 0)))
+		(text "wrreq" (rect 181 179 392 368)(font "Arial" (color 0 0 0)))
+		(text "ppd" (rect 156 195 330 403)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "cfg_passthrough_len" (rect 181 219 476 448)(font "Arial" (color 0 0 0)))
+		(text "cfg_threshold" (rect 181 235 440 480)(font "Arial" (color 0 0 0)))
+		(text "cfg_clear_rs" (rect 181 251 434 512)(font "Arial" (color 0 0 0)))
+		(text "cfg_enable" (rect 181 267 422 544)(font "Arial" (color 0 0 0)))
+		(text "debug_count" (rect 181 283 428 576)(font "Arial" (color 0 0 0)))
+		(text "debug_long_sum" (rect 181 299 446 608)(font "Arial" (color 0 0 0)))
+		(text "debug_short_sum" (rect 181 315 452 640)(font "Arial" (color 0 0 0)))
+		(text "reset" (rect 147 331 324 675)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "reset_n" (rect 181 355 404 720)(font "Arial" (color 0 0 0)))
+		(text " lms_dsp " (rect 425 376 904 762)(font "Arial" ))
+		(line (pt 176 32)(pt 288 32)(line_width 1))
+		(line (pt 288 32)(pt 288 376)(line_width 1))
+		(line (pt 176 376)(pt 288 376)(line_width 1))
+		(line (pt 176 32)(pt 176 376)(line_width 1))
+		(line (pt 177 52)(pt 177 76)(line_width 1))
+		(line (pt 178 52)(pt 178 76)(line_width 1))
+		(line (pt 177 92)(pt 177 132)(line_width 1))
+		(line (pt 178 92)(pt 178 132)(line_width 1))
+		(line (pt 177 148)(pt 177 188)(line_width 1))
+		(line (pt 178 148)(pt 178 188)(line_width 1))
+		(line (pt 177 204)(pt 177 324)(line_width 1))
+		(line (pt 178 204)(pt 178 324)(line_width 1))
+		(line (pt 177 340)(pt 177 364)(line_width 1))
+		(line (pt 178 340)(pt 178 364)(line_width 1))
+		(line (pt 0 0)(pt 464 0)(line_width 1))
+		(line (pt 464 0)(pt 464 392)(line_width 1))
+		(line (pt 0 392)(pt 464 392)(line_width 1))
+		(line (pt 0 0)(pt 0 392)(line_width 1))
+	)
+)

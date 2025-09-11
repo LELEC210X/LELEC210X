@@ -1,0 +1,11 @@
+	component packet_presence_detection_tb_gen is
+		port (
+			clock_clk    : in  std_logic                     := 'X';             -- clk
+			reset_reset  : in  std_logic                     := 'X';             -- reset
+			sink_data    : in  std_logic_vector(23 downto 0) := (others => 'X'); -- data
+			sink_valid   : in  std_logic                     := 'X';             -- valid
+			source_data  : out std_logic_vector(23 downto 0);                    -- data
+			source_valid : out std_logic                                         -- valid
+		);
+	end component packet_presence_detection_tb_gen;
+

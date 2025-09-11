@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system name="$${FILENAME}">
+ <component
+   name="$${FILENAME}"
+   displayName="$${FILENAME}"
+   version="1.0"
+   description=""
+   tags=""
+   categories="System" />
+ <parameter name="bonusData"><![CDATA[bonusData 
+{
+   element conduit_bfm_0
+   {
+      datum _sortIndex
+      {
+         value = "1";
+         type = "int";
+      }
+   }
+   element packet_presence_detection_0
+   {
+      datum _sortIndex
+      {
+         value = "0";
+         type = "int";
+      }
+   }
+   element packet_presence_detection_tb_gen
+   {
+      datum _originalDeviceFamily
+      {
+         value = "MAX 10";
+         type = "String";
+      }
+   }
+   element packet_presence_detection_tb_gen
+   {
+      datum _originalDeviceFamily
+      {
+         value = "MAX 10";
+         type = "String";
+      }
+   }
+   element packet_presence_detection_tb_gen
+   {
+      datum _originalDeviceFamily
+      {
+         value = "MAX 10";
+         type = "String";
+      }
+   }
+}
+]]></parameter>
+ <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
+ <parameter name="device" value="10M16SAU169C8G" />
+ <parameter name="deviceFamily" value="MAX 10" />
+ <parameter name="deviceSpeedGrade" value="8" />
+ <parameter name="fabricMode" value="QSYS" />
+ <parameter name="generateLegacySim" value="false" />
+ <parameter name="generationId" value="0" />
+ <parameter name="globalResetBus" value="false" />
+ <parameter name="hdlLanguage" value="VERILOG" />
+ <parameter name="hideFromIPCatalog" value="false" />
+ <parameter name="lockedInterfaceDefinition" value="" />
+ <parameter name="maxAdditionalLatency" value="1" />
+ <parameter name="projectName">LimeSDR-Mini_lms7_lelec210x.qpf</parameter>
+ <parameter name="sopcBorderPoints" value="false" />
+ <parameter name="systemHash" value="0" />
+ <parameter name="testBenchDutName" value="" />
+ <parameter name="timeStamp" value="0" />
+ <parameter name="useTestBenchNamingPattern" value="false" />
+ <instanceScript></instanceScript>
+ <interface
+   name="clock"
+   internal="packet_presence_detection_0.clock_sink"
+   type="clock"
+   dir="end" />
+ <interface
+   name="reset"
+   internal="packet_presence_detection_0.reset_sink"
+   type="reset"
+   dir="end" />
+ <interface
+   name="sink"
+   internal="packet_presence_detection_0.avalon_streaming_sink"
+   type="avalon_streaming"
+   dir="end" />
+ <interface
+   name="source"
+   internal="packet_presence_detection_0.avalon_streaming_source"
+   type="avalon_streaming"
+   dir="start" />
+ <module
+   name="conduit_bfm_0"
+   kind="altera_conduit_bfm"
+   version="18.1"
+   enabled="1">
+  <parameter name="CLOCKED_SIGNAL" value="false" />
+  <parameter name="ENABLE_RESET" value="false" />
+  <parameter name="SIGNAL_DIRECTIONS">output,output,output,output,input,input,input</parameter>
+  <parameter name="SIGNAL_ROLES">cfg_enable,cfg_threshold,cfg_clear_rs,cfg_passthrough_len,debug_short_sum,debug_count,debug_long_sum</parameter>
+  <parameter name="SIGNAL_WIDTHS" value="1,8,1,16,32,32,32" />
+ </module>
+ <module
+   name="packet_presence_detection_0"
+   kind="packet_presence_detection"
+   version="1.0"
+   enabled="1">
+  <parameter name="DATA_WIDTH" value="12" />
+  <parameter name="PASSTHROUGH_LEN_WIDTH" value="16" />
+ </module>
+ <connection
+   kind="conduit"
+   version="18.1"
+   start="packet_presence_detection_0.cfg"
+   end="conduit_bfm_0.conduit">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
+ <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
+</system>

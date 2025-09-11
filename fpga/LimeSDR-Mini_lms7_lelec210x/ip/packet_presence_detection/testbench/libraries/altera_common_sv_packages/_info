@@ -1,0 +1,56 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dD:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench
+Xavalon_utilities_pkg
+Z0 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+Z1 !s110 1699431421
+!i10b 1
+!s100 7Z6I@>cG<^^zXcl1Q`88O0
+I9HlKon>426g5Ozio7mS442
+V9HlKon>426g5Ozio7mS442
+S1
+Z2 dD:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench
+Z3 w1699408999
+8./packet_presence_detection_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv
+F./packet_presence_detection_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv
+L0 40
+Z4 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z5 !s108 1699431421.000000
+!s107 ./packet_presence_detection_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv|
+!s90 -reportprogress|300|-sv|./packet_presence_detection_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv|-work|altera_common_sv_packages|
+!i113 1
+Z6 o-sv -work altera_common_sv_packages
+Z7 tCvgOpt 0
+Xverbosity_pkg
+R0
+R1
+!i10b 1
+!s100 1LKXk98oFzia^4f:_THR]1
+IT]5@JPilfi]7CJNJ4C0ih1
+VT]5@JPilfi]7CJNJ4C0ih1
+S1
+R2
+R3
+8./packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
+F./packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
+L0 61
+R4
+r1
+!s85 0
+31
+R5
+!s107 ./packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv|
+!s90 -reportprogress|300|-sv|./packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv|-work|altera_common_sv_packages|
+!i113 1
+R6
+R7

@@ -1,0 +1,24 @@
+
+WORK > DEFAULT
+DEFAULT:                                                       ./libraries/work/                                                         
+work:                                                          ./libraries/work/                                                         
+altera_common_sv_packages:                                     ./libraries/altera_common_sv_packages/                                    
+rst_controller:                                                ./libraries/rst_controller/                                               
+fir_compiler_ii_0:                                             ./libraries/fir_compiler_ii_0/                                            
+fir_tb_gen_inst_reset_bfm:                                     ./libraries/fir_tb_gen_inst_reset_bfm/                                    
+fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm: ./libraries/fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_source_bfm/
+fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm:   ./libraries/fir_tb_gen_inst_fir_compiler_ii_0_avalon_streaming_sink_bfm/  
+fir_tb_gen_inst_clk_bfm:                                       ./libraries/fir_tb_gen_inst_clk_bfm/                                      
+fir_tb_gen_inst:                                               ./libraries/fir_tb_gen_inst/                                              
+altera_ver:                                                    ./libraries/altera_ver/                                                   
+lpm_ver:                                                       ./libraries/lpm_ver/                                                      
+sgate_ver:                                                     ./libraries/sgate_ver/                                                    
+altera_mf_ver:                                                 ./libraries/altera_mf_ver/                                                
+altera_lnsim_ver:                                              ./libraries/altera_lnsim_ver/                                             
+fiftyfivenm_ver:                                               ./libraries/fiftyfivenm_ver/                                              
+altera:                                                        ./libraries/altera/                                                       
+lpm:                                                           ./libraries/lpm/                                                          
+sgate:                                                         ./libraries/sgate/                                                        
+altera_mf:                                                     ./libraries/altera_mf/                                                    
+altera_lnsim:                                                  ./libraries/altera_lnsim/                                                 
+fiftyfivenm:                                                   ./libraries/fiftyfivenm/                                                  

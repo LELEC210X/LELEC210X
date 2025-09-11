@@ -1,0 +1,23 @@
+\section{Demonstration}
+
+%\subsection{Demonstration}
+
+On next Wednesday's session, we expect from each group a quick demonstration showing a correct reception of 5 packets transmitted over the air using the radio evaluation mode
+at the default Tx power level of -16~dBm, with both the hardware LPF and PPD enabled.
+
+
+\subsection{Report}
+
+Please upload a report of \textbf{maximum} 2 pages in which we  expect you to provide:
+
+\begin{enumerate}
+    \item The output of the Python testbench of the packet presence detector (\textit{2\_compare.py} script), either real or imaginary part.
+    \item A summary of the resource usage  and worst slack (setup) for your final working design. See compilation report.
+    \item A breakdown of the resource usage of lms\_dsp sub-modules, specially FIR and PPD. If possible, further decompose the PPD with its sub-blocks. We want you to :
+    \begin{enumerate}
+        \item show the logic elements usage of the sub-modules. You can use a pie chart for example.
+        \item describe which modules use memory bits, with M9K blocks for example, and DSP. Moreover, try to verify this results based on calculations. For example, what will be the size in terms of memory bits of the long-term sum?
+      \end{enumerate}    
+    \item Discuss the relevancy of the accelerated FIR that is currently in the design. To do so, open the lms\_dsp design in the \textit{Platform Designer} , click on the FIR and navigate through the tabs. Is its transfer function adapted to our wireless communication specifications?
+     
+\end{enumerate}

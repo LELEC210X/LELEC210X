@@ -1,0 +1,34 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dD:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/fir/testbench/mentor
+vtop_tb
+DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+!s110 1698826577
+!i10b 1
+!s100 B[>:[[3SkL[0oU^dA?:b@2
+IQSmPhb;m<hYoC^jTiP9eS3
+VDg1SIo80bB@j0V0VzS_@n1
+!s105 top_tb_sv_unit
+S1
+R0
+w1669390063
+8./../fir_tb_gen_tb/simulation/top_tb.sv
+F./../fir_tb_gen_tb/simulation/top_tb.sv
+L0 4
+OV;L;10.5b;63
+r1
+!s85 0
+31
+!s108 1698826577.000000
+!s107 ./../fir_tb_gen_tb/simulation/top_tb.sv|
+!s90 -reportprogress|300|-sv|./../fir_tb_gen_tb/simulation/top_tb.sv|
+!i113 1
+o-sv
+tCvgOpt 0

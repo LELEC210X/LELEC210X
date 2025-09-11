@@ -1,0 +1,20 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst lms_dsp.fir_compiler_ii_0 -pg 1 -lvl 3 -y 110
+preplace inst lms_dsp.AVS2FIFO_0 -pg 1 -lvl 5 -y 250
+preplace inst lms_dsp.clk_0 -pg 1 -lvl 1 -y 30
+preplace inst lms_dsp.packet_presence_detection_0 -pg 1 -lvl 4 -y 170
+preplace inst lms_dsp -pg 1 -lvl 1 -y 40 -regy -20
+preplace inst lms_dsp.FIFO2AVS_0 -pg 1 -lvl 2 -y 70
+preplace netloc EXPORT<net_container>lms_dsp</net_container>(SLAVE)lms_dsp.clk,(SLAVE)clk_0.clk_in) 1 0 1 NJ
+preplace netloc POINT_TO_POINT<net_container>lms_dsp</net_container>(SLAVE)packet_presence_detection_0.avalon_streaming_sink,(MASTER)fir_compiler_ii_0.avalon_streaming_source) 1 3 1 840
+preplace netloc EXPORT<net_container>lms_dsp</net_container>(SLAVE)packet_presence_detection_0.cfg,(SLAVE)lms_dsp.ppd) 1 0 4 NJ 200 NJ 200 NJ 200 NJ
+preplace netloc EXPORT<net_container>lms_dsp</net_container>(SLAVE)lms_dsp.reset,(SLAVE)clk_0.clk_in_reset) 1 0 1 NJ
+preplace netloc FAN_OUT<net_container>lms_dsp</net_container>(MASTER)clk_0.clk_reset,(SLAVE)fir_compiler_ii_0.rst,(SLAVE)AVS2FIFO_0.reset_sink,(SLAVE)FIFO2AVS_0.reset_sink,(SLAVE)packet_presence_detection_0.reset_sink) 1 1 4 270 180 590 240 820 320 NJ
+preplace netloc FAN_OUT<net_container>lms_dsp</net_container>(SLAVE)fir_compiler_ii_0.clk,(SLAVE)AVS2FIFO_0.clock_sink,(SLAVE)FIFO2AVS_0.clock_sink,(SLAVE)packet_presence_detection_0.clock_sink,(MASTER)clk_0.clk) 1 1 4 290 160 570 220 840 280 NJ
+preplace netloc EXPORT<net_container>lms_dsp</net_container>(SLAVE)lms_dsp.fifo_in,(SLAVE)FIFO2AVS_0.conduit_in) 1 0 2 NJ 100 NJ
+preplace netloc POINT_TO_POINT<net_container>lms_dsp</net_container>(MASTER)packet_presence_detection_0.avalon_streaming_source,(SLAVE)AVS2FIFO_0.avalon_streaming_sink) 1 4 1 1070
+preplace netloc EXPORT<net_container>lms_dsp</net_container>(SLAVE)AVS2FIFO_0.conduit_end,(SLAVE)lms_dsp.fifo_out) 1 0 5 NJ 300 NJ 300 NJ 300 NJ 300 NJ
+preplace netloc POINT_TO_POINT<net_container>lms_dsp</net_container>(MASTER)FIFO2AVS_0.avalon_streaming_source,(SLAVE)fir_compiler_ii_0.avalon_streaming_sink) 1 2 1 570
+levelinfo -pg 1 0 60 1270
+levelinfo -hier lms_dsp 70 100 320 620 870 1100 1260

@@ -1,0 +1,68 @@
+Info: Starting: Create simulation model
+Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen.qsys --simulation=VERILOG --allow-mixed-language-simulation --output-directory=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen\simulation --family="MAX 10" --part=10M16SAU169C8G
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen.qsys
+Progress: Reading input file
+Progress: Adding packet_presence_detection_0 [packet_presence_detection 1.0]
+Progress: Parameterizing module packet_presence_detection_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Warning: packet_presence_detection_tb_gen.packet_presence_detection_0: packet_presence_detection_0.cfg must be exported, or connected to a matching conduit.
+Info: packet_presence_detection_tb_gen: Generating packet_presence_detection_tb_gen "packet_presence_detection_tb_gen" for SIM_VERILOG
+Info: packet_presence_detection_0: "packet_presence_detection_tb_gen" instantiated packet_presence_detection "packet_presence_detection_0"
+Info: packet_presence_detection_tb_gen: Done "packet_presence_detection_tb_gen" with 2 modules, 4 files
+Info: qsys-generate succeeded.
+Info: Finished: Create simulation model
+Info: Starting: Create Modelsim Project.
+Info: sim-script-gen --spd=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen\packet_presence_detection_tb_gen.spd --output-directory=D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/simulation/ --use-relative-paths=true
+Info: Doing: ip-make-simscript --spd=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen\packet_presence_detection_tb_gen.spd --output-directory=D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/simulation/ --use-relative-paths=true
+Info: Generating the following file(s) for MODELSIM simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/simulation/ directory:
+Info: 	mentor/msim_setup.tcl
+Info: Generating the following file(s) for VCS simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/simulation/ directory:
+Info: 	synopsys/vcs/vcs_setup.sh
+Info: Generating the following file(s) for VCSMX simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/simulation/ directory:
+Info: 	synopsys/vcsmx/synopsys_sim.setup
+Info: 	synopsys/vcsmx/vcsmx_setup.sh
+Info: Generating the following file(s) for NCSIM simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/simulation/ directory:
+Info: 	cadence/cds.lib
+Info: 	cadence/hdl.var
+Info: 	cadence/ncsim_setup.sh
+Info: 	1 .cds.lib files in cadence/cds_libs/ directory
+Info: Generating the following file(s) for RIVIERA simulator in D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/simulation/ directory:
+Info: 	aldec/rivierapro_setup.tcl
+Info: For information on how to simulate your IP, see the explanatory comments in the simulator-specific subdirectories under D:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen/simulation/.
+Info: Regenerate these scripts whenever you make any change to any Quartus-generated IP in your project.
+Info: Finished: Create Modelsim Project.
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen.qsys --block-symbol-file --output-directory=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen --family="MAX 10" --part=10M16SAU169C8G
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen.qsys
+Progress: Reading input file
+Progress: Adding packet_presence_detection_0 [packet_presence_detection 1.0]
+Progress: Parameterizing module packet_presence_detection_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Warning: packet_presence_detection_tb_gen.packet_presence_detection_0: packet_presence_detection_0.cfg must be exported, or connected to a matching conduit.
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen.qsys --synthesis=VERILOG --greybox --output-directory=D:\Pol\Documents\Courses\LELEC2102\GIT\Git_teachers\golden\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen\synthesis --family="MAX 10" --part=10M16SAU169C8G
+Progress: Loading LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen.qsys
+Progress: Reading input file
+Progress: Adding packet_presence_detection_0 [packet_presence_detection 1.0]
+Progress: Parameterizing module packet_presence_detection_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Warning: packet_presence_detection_tb_gen.packet_presence_detection_0: packet_presence_detection_0.cfg must be exported, or connected to a matching conduit.
+Info: packet_presence_detection_tb_gen: Generating packet_presence_detection_tb_gen "packet_presence_detection_tb_gen" for QUARTUS_SYNTH
+Info: packet_presence_detection_0: "packet_presence_detection_tb_gen" instantiated packet_presence_detection "packet_presence_detection_0"
+Info: packet_presence_detection_tb_gen: Done "packet_presence_detection_tb_gen" with 2 modules, 4 files
+Info: Generating third-party timing and resource estimation model ...
+Error: Third-party timing and resource estimation model project creation failed: C:/intelfpga/18.1/quartus\bin64/quartus_sh -t quartus_greybox.tcl
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis

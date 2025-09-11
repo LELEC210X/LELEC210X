@@ -1,0 +1,25 @@
+
+\section{Demo}
+
+We expect from you a working and verified implementation.
+To validate your implementation, we expect you to generate \emph{test vectors}
+and validate your test vectors against the given python implementation.
+Your test vectors should cover many \texttt{app\_data} length (e.g. all lengths
+from 0 to 1000) and various values for all the parameters (including the key).
+
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Test vector testing tips}
+In order to be efficient in your testing, do not perform the tests manually! Here are some tips:
+\begin{itemize}
+    \item In order to test the authentication, you don't need to run the full
+        application: you may simply hard-code a set of messages that you send
+        from the \texttt{main} function.
+    \item You may generate random data on the MCU, but you may also (which
+        makes your test results easier to reproduce) write a script that
+        generates a C file that contains the test vectors.
+    \item Keep using the UART to send packets and modify the given python
+        script to check every incoming packet, signal only the failing test
+        cases and report test statistics (e.g. how many test passed and failed,
+        for which message lengths, etc.).
+    \item Don't hesitate to use many test vectors!
+\end{itemize}
+\end{bclogo}

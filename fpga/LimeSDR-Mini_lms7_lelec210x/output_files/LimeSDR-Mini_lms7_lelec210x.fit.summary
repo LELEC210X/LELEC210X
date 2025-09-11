@@ -1,0 +1,18 @@
+Fitter Status : Successful - Wed Nov 08 03:12:19 2023
+Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Standard Edition
+Revision Name : LimeSDR-Mini_lms7_lelec210x
+Top-level Entity Name : lms7_trx_top
+Family : MAX 10
+Device : 10M16SAU169C8G
+Timing Models : Final
+Total logic elements : 13,530 / 15,840 ( 85 % )
+    Total combinational functions : 9,314 / 15,840 ( 59 % )
+    Dedicated logic registers : 10,619 / 15,840 ( 67 % )
+Total registers : 10691
+Total pins : 117 / 130 ( 90 % )
+Total virtual pins : 0
+Total memory bits : 244,624 / 562,176 ( 44 % )
+Embedded Multiplier 9-bit elements : 0 / 90 ( 0 % )
+Total PLLs : 1 / 1 ( 100 % )
+UFM blocks : 1 / 1 ( 100 % )
+ADC blocks : 0 / 1 ( 0 % )

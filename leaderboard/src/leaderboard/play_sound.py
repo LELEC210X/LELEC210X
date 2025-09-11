@@ -1,0 +1,239 @@
+import random
+import time
+from multiprocessing import Process
+from pathlib import Path
+from threading import Thread
+from typing import Optional
+
+import click
+import requests
+from pydub import AudioSegment
+from pydub.generators import WhiteNoise
+from pydub.utils import register_pydub_effect
+
+from classification.datasets import Dataset
+from common.click import verbosity
+from common.logging import logger
+
+from .utils import get_url
+
+session = requests.Session()
+
+
+@register_pydub_effect
+def normalize_dBFS(  # noqa: N802
+    seg: AudioSegment,
+    target_dBFS: float = -20,  # noqa: N803
+) -> AudioSegment:
+    """
+    Normalize an audio segment to a given loudness (dBFS).
+
+    The loudness of the audio segment is determined by the
+    average energy of each audio sample.
+    """
+    gain = target_dBFS - seg.dBFS
+
+    return seg.apply_gain(gain)
+
+
+@click.command()
+@click.option(
+    "-u",
+    "--url",
+    default=None,
+    envvar="LEADERBOARD_URL",
+    show_default=True,
+    show_envvar=True,
+    help="Base API url. If not specified, will use FLASK_RUN_HOST and FLASK_RUN_PORT.",
+)
+@click.option(
+    "-k",
+    "--key",
+    required=True,
+    envvar="LEADERBOARD_ADMIN_KEY",
+    show_envvar=True,
+    help="Key granting admin rights.",
+)
+@click.option(
+    "-r",
+    "--random-key",
+    default=None,
+    envvar="LEADERBOARD_RANDOM_KEY",
+    show_envvar=True,
+    help="Key for a group that will always guess randomly. "
+    "This is useful to compare your performances to a random classifier.",
+)
+@click.option(
+    "--soundfiles",
+    default=None,
+    envvar="LEADERBOARD_SOUNDFILES",
+    show_envvar=True,
+    type=click.Path(exists=True, file_okay=False, path_type=Path),
+    help="An optional path to a directory that contains soundfiles. "
+    "This may be used during the contest to use different soundfiles.",
+)
+@click.option(
+    "--format",
+    "_format",
+    default="wav",
+    envvar="LEADERBOARD_SOUNDFILES_FORMAT",
+    show_envvar=True,
+    help="The sound files format to include, use '*' to include all formats.",
+)
+@click.option(
+    "--bg-noise",
+    default=None,
+    envvar="LEADERBOARD_BG_NOISE",
+    show_envvar=True,
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    help="An optional path to an MP3 sound file playing background noise during the contest. "
+    "If not set, a white noise will be played.",
+)
+@verbosity
+def play_sound(
+    url: Optional[str],
+    key: str,
+    random_key: Optional[str],
+    soundfiles: Optional[Path],
+    _format=Optional[str],
+    bg_noise: Optional[Path] = None,
+):
+    """
+    Play "correct" sound according to the leaderboard status.
+
+    Admin group will always guess to correct class.
+
+    If specified, random group will guess classes randomly.
+
+    Both groups always submit guesses during the valid timing window,
+    so they never have any penalty on that regard.
+    """
+    from pydub import AudioSegment
+    from pydub.playback import play
+
+    url = url or get_url()
+
+    dataset_kwargs = {}
+
+    if soundfiles:
+        dataset_kwargs["folder"] = soundfiles
+
+    if soundfiles:
+        dataset_kwargs["format"] = _format
+
+    dataset = Dataset(**dataset_kwargs)
+
+    bg_noise_sound = (
+        AudioSegment.from_file(bg_noise)
+        if bg_noise
+        else WhiteNoise().to_audio_segment(duration=10_000)
+    )
+    bg_noise_sound = bg_noise_sound.set_channels(1).normalize_dBFS(-30)
+
+    def play_bg_noise(sound):
+        while True:
+            play(sound)
+
+    bg_noise = Process(target=play_bg_noise, args=(bg_noise_sound,), daemon=True)
+    bg_noise.start()
+    logger.info("Playing background noise...")
+
+    # Wait for server to be up
+    # and checks if admin rights
+    while True:
+        logger.debug("Checking if the server is up and the admin key is valid.")
+        # Timeout issue?
+        # https://stackoverflow.com/questions/70917108/python-requests-get-only-responds-if-adding-a-time-out
+        response = session.get(f"{url}/lelec210x/leaderboard/check/{key}", timeout=1)
+
+        code = response.status_code
+
+        if code == 200:
+            assert response.json()["admin"], "key must belong to an admin!"
+
+            if random_key:
+                logger.debug("Checking if the server is up and the 'random' is valid.")
+                response = session.get(
+                    f"{url}/lelec210x/leaderboard/check/{random_key}",
+                    timeout=1,
+                )
+
+                if response.status_code != 200:
+                    raise ValueError(response.json())
+
+            break
+        elif code == 401:
+            raise ValueError(response.json())
+        else:
+            logger.info("Waiting server to be ready...")
+            time.sleep(0.2)
+
+    last_played = None
+
+    logger.info("Server is ready, starting to play sounds...")
+
+    while True:
+        start = time.time()
+        json = session.get(
+            f"{url}/lelec210x/leaderboard/status/{key}", timeout=1
+        ).json()
+        delay = time.time() - start
+        logger.info(f"Took {delay:.4f}s for the status request.")
+
+        if json["paused"]:
+            logger.info("Leaderboard is paused...")
+            time.sleep(0.2)
+            continue
+
+        logger.info(str(json))
+
+        current_round = json["current_round"]
+        current_lap = json["current_lap"]
+        time_before_next_lap = json["time_before_next_lap"]
+        time_before_playing = json["time_before_playing"]
+        category = json["current_correct_guess"]
+        sound_gain = json["current_gain"]
+
+        sound_key = (current_round + 1, current_lap + 1)
+
+        if sound_key == last_played:
+            logger.info(f"A song has already been played for round, lap: {sound_key}.")
+            time.sleep(time_before_next_lap)
+            continue
+
+        last_played = sound_key
+
+        sound_file = random.choice(dataset.get_class_files(category))
+
+        if time_before_playing < 0:
+            logger.info(f"Too late for playing: {category}.")
+            time.sleep(time_before_next_lap)
+            continue
+
+        logger.info(f"Playing sound in {time_before_playing}.")
+
+        start = time.time()
+        sound = (
+            AudioSegment.from_file(sound_file, format=_format)
+            .set_channels(1)
+            .normalize_dBFS(sound_gain)
+            .fade_in(250)
+            .fade_out(250)
+        )
+
+        time.sleep(time_before_playing - max(0, time.time() - start))
+
+        thread = Thread(target=play, args=(sound,))
+        thread.start()
+        logger.info(f"Playing sound now: {sound_file}.")
+
+        # Admins are always correct :-)
+        session.post(f"{url}/lelec210x/leaderboard/submit/{key}/{category}", timeout=1)
+
+        if random_key:  # Random player
+            guess = random.choice(dataset.list_classes())
+            session.post(
+                f"{url}/lelec210x/leaderboard/submit/{random_key}/{guess}", timeout=1
+            )
+
+        thread.join()
