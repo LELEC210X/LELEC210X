@@ -1,5 +1,4 @@
 import random
-from typing import Tuple
 
 import librosa
 import matplotlib.pyplot as plt
@@ -23,7 +22,7 @@ class AudioUtil:
     Define a new class with util functions to process an audio signal.
     """
 
-    def open(audio_file) -> Tuple[ndarray, int]:
+    def open(audio_file) -> tuple[ndarray, int]:
         """
         Load an audio file.
 
@@ -44,7 +43,7 @@ class AudioUtil:
         sig, sr = audio
         sd.play(sig, sr)
 
-    def normalize(audio, target_dB=52) -> Tuple[ndarray, int]:
+    def normalize(audio, target_dB=52) -> tuple[ndarray, int]:
         """
         Normalize the energy of the signal.
 
@@ -57,7 +56,7 @@ class AudioUtil:
         sign *= C
         return (sign, sr)
 
-    def resample(audio, newsr=11025) -> Tuple[ndarray, int]:
+    def resample(audio, newsr=11025) -> tuple[ndarray, int]:
         """
         Resample to target sampling frequency.
 
@@ -70,7 +69,7 @@ class AudioUtil:
 
         return (resig, newsr)
 
-    def pad_trunc(audio, max_ms) -> Tuple[ndarray, int]:
+    def pad_trunc(audio, max_ms) -> tuple[ndarray, int]:
         """
         Pad (or truncate) the signal to a fixed length 'max_ms' in milliseconds.
 
@@ -101,7 +100,7 @@ class AudioUtil:
 
         return (sig, sr)
 
-    def time_shift(audio, shift_limit=0.4) -> Tuple[ndarray, int]:
+    def time_shift(audio, shift_limit=0.4) -> tuple[ndarray, int]:
         """
         Shifts the signal to the left or right by some percent. Values at the end are 'wrapped around' to the start of the transformed signal.
 
@@ -113,7 +112,7 @@ class AudioUtil:
         shift_amt = int(random.random() * shift_limit * sig_len)
         return (np.roll(sig, shift_amt), sr)
 
-    def scaling(audio, scaling_limit=5) -> Tuple[ndarray, int]:
+    def scaling(audio, scaling_limit=5) -> tuple[ndarray, int]:
         """
         Augment the audio signal by scaling it by a random factor.
 
@@ -126,7 +125,7 @@ class AudioUtil:
 
         return audio
 
-    def add_noise(audio, sigma=0.05) -> Tuple[ndarray, int]:
+    def add_noise(audio, sigma=0.05) -> tuple[ndarray, int]:
         """
         Augment the audio signal by adding gaussian noise.
 
@@ -139,7 +138,7 @@ class AudioUtil:
 
         return audio
 
-    def echo(audio, nechos=2) -> Tuple[ndarray, int]:
+    def echo(audio, nechos=2) -> tuple[ndarray, int]:
         """
         Add echo to the audio signal by convolving it with an impulse response. The taps are regularly spaced in time and each is twice smaller than the previous one.
 
@@ -157,7 +156,7 @@ class AudioUtil:
         sig = fftconvolve(sig, echo_sig, mode="full")[:sig_len]
         return (sig, sr)
 
-    def filter(audio, filt) -> Tuple[ndarray, int]:
+    def filter(audio, filt) -> tuple[ndarray, int]:
         """
         Filter the audio signal with a provided filter. Note the filter is given for positive frequencies only and is thus symmetrized in the function.
 
@@ -172,7 +171,7 @@ class AudioUtil:
 
     def add_bg(
         audio, dataset, num_sources=1, max_ms=5000, amplitude_limit=0.1
-    ) -> Tuple[ndarray, int]:
+    ) -> tuple[ndarray, int]:
         """
         Adds up sounds uniformly chosen at random to audio.
 
@@ -298,7 +297,7 @@ class Feature_vector_DS:
         """
         return len(self.dataset) * self.data_aug_factor
 
-    def get_audiosignal(self, cls_index: Tuple[str, int]) -> Tuple[ndarray, int]:
+    def get_audiosignal(self, cls_index: tuple[str, int]) -> tuple[ndarray, int]:
         """
         Get temporal signal of i'th item in dataset.
 
@@ -329,7 +328,7 @@ class Feature_vector_DS:
         aud = (aud[0] / np.max(np.abs(aud[0])), aud[1])
         return aud
 
-    def __getitem__(self, cls_index: Tuple[str, int]) -> Tuple[ndarray, int]:
+    def __getitem__(self, cls_index: tuple[str, int]) -> tuple[ndarray, int]:
         """
         Get i'th item in dataset.
 
@@ -351,7 +350,7 @@ class Feature_vector_DS:
             fv = self.pca.transform([fv])[0]
         return fv
 
-    def display(self, cls_index: Tuple[str, int]):
+    def display(self, cls_index: tuple[str, int]):
         """
         Play sound and display i'th item in dataset.
 

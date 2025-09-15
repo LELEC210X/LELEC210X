@@ -4,7 +4,6 @@ import sys
 import time
 from queue import Queue
 from threading import Lock
-from typing import Optional
 
 from PyQt6.QtCore import QThread, pyqtSignal
 from PyQt6.QtWidgets import (
@@ -112,7 +111,7 @@ class SerialController(QThread):
     def __init__(self, logger: logging.Logger):
         super().__init__()
         self.logger = logger
-        self._serial: Optional[Serial] = None
+        self._serial: Serial | None = None
         self._running = False
         self._write_queue = Queue()
         self._lock = Lock()

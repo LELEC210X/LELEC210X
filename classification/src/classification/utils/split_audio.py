@@ -1,7 +1,6 @@
 import random
 import sys
 from pathlib import Path
-from typing import Optional
 
 import click
 from pydub import AudioSegment
@@ -70,10 +69,10 @@ def main(
     source: Path,
     num_pieces: int,
     duration: float,
-    seed: Optional[int],
-    zero_padding: Optional[int],
+    seed: int | None,
+    zero_padding: int | None,
     directory: Path,
-    prefix: Optional[str],
+    prefix: str | None,
 ) -> None:
     """
     Split SOURCE audio file (.wav) into many pieces of fixed duration.

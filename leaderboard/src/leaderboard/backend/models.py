@@ -1,11 +1,11 @@
 import random
 import time
-from collections.abc import Generator
+from collections.abc import Callable, Generator
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from secrets import token_bytes
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any
 
 from pydantic import (
     BaseModel,
@@ -111,7 +111,7 @@ class SecurityGuess(BaseModel):
 
 
 class RoundsConfig(BaseModel):
-    rounds: List[RoundConfig] = [
+    rounds: list[RoundConfig] = [
         RoundConfig(name="Functionality", only_check_for_presence=True),
         RoundConfig(name="Communication range", only_check_for_presence=True),
         RoundConfig(name="Power consumption", only_check_for_presence=True),
@@ -119,7 +119,7 @@ class RoundsConfig(BaseModel):
         RoundConfig(name="Global performance", lap_count=20, reduce_level=True),
     ]
     security_round: SecurityRound = SecurityRound()
-    seed: Optional[PositiveInt] = None
+    seed: PositiveInt | None = None
     start_paused: bool = True
     restart_when_finished: bool = False
     pause_between_rounds: bool = True
@@ -127,15 +127,15 @@ class RoundsConfig(BaseModel):
     delay_before_playing: PositiveFloat = 0.5
     delay_after_playing: PositiveFloat = 0.5
     sound_duration: PositiveFloat = 5.0
-    __answers: List[List[Guess]] = PrivateAttr()
-    __play_delays: List[List[PositiveFloat]] = PrivateAttr()
+    __answers: list[list[Guess]] = PrivateAttr()
+    __play_delays: list[list[PositiveFloat]] = PrivateAttr()
     __round_start_time: float = PrivateAttr()
     __time_when_paused: float = PrivateAttr()
     __paused: bool = PrivateAttr()
     __current_round: conint(ge=0) = PrivateAttr()
     __finished: bool = PrivateAttr()
-    __submissions: List[Submission] = PrivateAttr([])
-    __security_round_submissions: Dict[str, SecurityGuess] = PrivateAttr({})
+    __submissions: list[Submission] = PrivateAttr([])
+    __security_round_submissions: dict[str, SecurityGuess] = PrivateAttr({})
     __await_next_round: bool = PrivateAttr(False)
 
     def __init__(self, *args, **kwargs):
@@ -170,7 +170,7 @@ class RoundsConfig(BaseModel):
         guess = bytearray(guess)
 
         score = 0
-        for left, right in zip(correct[::-1], guess[::-1]):
+        for left, right in zip(correct[::-1], guess[::-1], strict=False):
             if left == right:
                 score += 1
 
@@ -180,7 +180,7 @@ class RoundsConfig(BaseModel):
             score=score, traces=traces, time=time.strftime("%H:%M:%S")
         )
 
-    def get_security_round_submission(self, key: str) -> Optional[SecurityGuess]:
+    def get_security_round_submission(self, key: str) -> SecurityGuess | None:
         """
         Returns the security round submission by the given group.
         """
@@ -193,8 +193,8 @@ class RoundsConfig(BaseModel):
         self.__submissions.append(submission)
 
     def get_submissions(
-        self, key: str, round: Optional[int], lap: Optional[int]
-    ) -> List[Guess]:
+        self, key: str, round: int | None, lap: int | None
+    ) -> list[Guess]:
         """
         Returns the guesses submitted by a group for a given round and lap.
 
@@ -213,8 +213,8 @@ class RoundsConfig(BaseModel):
         return list(guesses) or [Guess.nothing]
 
     def get_submissions_as_dict(
-        self, key: str, round: Optional[int], lap: Optional[int]
-    ) -> List[dict]:
+        self, key: str, round: int | None, lap: int | None
+    ) -> list[dict]:
         """
         Returns the submissions as dictonaries by a group for a given round and lap.
         """
@@ -226,7 +226,7 @@ class RoundsConfig(BaseModel):
             and (submissions.lap == lap or lap is None)
         )
 
-    def delete_submissions(self, key: str, round: Optional[int], lap: Optional[int]):
+    def delete_submissions(self, key: str, round: int | None, lap: int | None):
         """
         Deletes the guesses submitted by a group for a given round and lap.
         """
@@ -391,7 +391,7 @@ class RoundsConfig(BaseModel):
     def get_current_number_of_laps(self) -> int:
         return self.rounds[self.get_current_round()].lap_count
 
-    def get_current_round_answers(self) -> List[Guess]:
+    def get_current_round_answers(self) -> list[Guess]:
         return self.__answers[self.get_current_round()]
 
     def is_paused(self) -> bool:
@@ -422,9 +422,9 @@ class RoundsConfig(BaseModel):
 
 class LeaderboardRow(BaseModel):
     name: str
-    answers: List[Answer]
+    answers: list[Answer]
     score: float
-    security_round: Optional[SecurityGuess]
+    security_round: SecurityGuess | None
 
 
 class LeaderboardStatus(BaseModel):
@@ -439,14 +439,14 @@ class LeaderboardStatus(BaseModel):
     time_before_next_lap: float
     time_before_playing: float
     finished: bool
-    leaderboard: List[LeaderboardRow]
+    leaderboard: list[LeaderboardRow]
 
     class Config:
         extra = Extra.forbid
 
 
 class Config(BaseModel):
-    group_configs: List[GroupConfig] = []
+    group_configs: list[GroupConfig] = []
     rounds_config: RoundsConfig = RoundsConfig()
 
     class Config:
