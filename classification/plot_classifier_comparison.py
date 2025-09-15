@@ -91,7 +91,7 @@ for ds_cnt, ds in enumerate(datasets):
     i += 1
 
     # iterate over classifiers
-    for name, clf in zip(names, classifiers):
+    for name, clf in zip(names, classifiers, strict=False):
         ax = plt.subplot(len(datasets), len(classifiers) + 1, i)
         clf.fit(X_train, y_train)
         score = clf.score(X_test, y_test)

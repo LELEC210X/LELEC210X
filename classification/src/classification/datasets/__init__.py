@@ -53,7 +53,7 @@ class Dataset:
         """
         return self.size
 
-    def __getitem__(self, cls_index: Tuple[str, int]) -> Path:
+    def __getitem__(self, cls_index: tuple[str, int]) -> Path:
         """
         Return the file path corresponding the
         the (class name, index) pair.
@@ -64,7 +64,7 @@ class Dataset:
         cls, index = cls_index
         return self.files[cls][index]
 
-    def __getname__(self, cls_index: Tuple[str, int]) -> str:
+    def __getname__(self, cls_index: tuple[str, int]) -> str:
         """
         Return the name of the sound selected.
 
@@ -74,7 +74,7 @@ class Dataset:
         cls, index = cls_index
         return self.files[cls][index].stem
 
-    def get_class_files(self, cls_name: str) -> List[Path]:
+    def get_class_files(self, cls_name: str) -> list[Path]:
         """
         Return the list of files of a given class.
 
@@ -83,7 +83,7 @@ class Dataset:
         """
         return self.files[cls_name]
 
-    def list_classes(self) -> List[str]:
+    def list_classes(self) -> list[str]:
         """
         Return the list of classes
         in the given dataset.

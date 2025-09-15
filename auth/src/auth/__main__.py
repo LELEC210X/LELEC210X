@@ -1,6 +1,5 @@
 import os
 from collections.abc import Iterator
-from typing import Optional
 
 import click
 import serial
@@ -80,9 +79,9 @@ def hex_to_bytes(ctx: click.Context, param: click.Parameter, value: str) -> byte
 @common.click.n_melvecs
 @common.click.verbosity
 def main(
-    _input: Optional[click.File],
+    _input: click.File | None,
     output: click.File,
-    serial_port: Optional[str],
+    serial_port: str | None,
     tcp_address: str,
     auth_key: bytes,
     authenticate: bool,

@@ -1,5 +1,4 @@
 import json
-from typing import Optional
 
 import click
 import requests
@@ -32,7 +31,7 @@ from .utils import get_url
 )
 def submit(
     guess: str,
-    url: Optional[str],
+    url: str | None,
     key: str,
 ):
     """

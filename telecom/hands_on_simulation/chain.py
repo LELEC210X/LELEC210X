@@ -1,5 +1,3 @@
-from typing import Optional
-
 import numpy as np
 
 BIT_RATE = 50e3
@@ -78,7 +76,7 @@ class Chain:
     # Rx methods
     bypass_preamble_detect: bool = False
 
-    def preamble_detect(self, y: np.array) -> Optional[int]:
+    def preamble_detect(self, y: np.array) -> int | None:
         """
         Detects the preamlbe in a given received signal.
 

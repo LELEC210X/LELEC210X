@@ -91,12 +91,12 @@ def normalize_dBFS(  # noqa: N802
 )
 @verbosity
 def play_sound(
-    url: Optional[str],
+    url: str | None,
     key: str,
-    random_key: Optional[str],
-    soundfiles: Optional[Path],
+    random_key: str | None,
+    soundfiles: Path | None,
     _format=Optional[str],
-    bg_noise: Optional[Path] = None,
+    bg_noise: Path | None = None,
 ):
     """
     Play "correct" sound according to the leaderboard status.

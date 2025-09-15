@@ -1,6 +1,5 @@
 import pickle
 from pathlib import Path
-from typing import Optional
 
 import click
 
@@ -34,8 +33,8 @@ load_dotenv()
 @common.click.n_melvecs
 @common.click.verbosity
 def main(
-    _input: Optional[click.File],
-    model: Optional[Path],
+    _input: click.File | None,
+    model: Path | None,
     melvec_length: int,
     n_melvecs: int,
 ) -> None:

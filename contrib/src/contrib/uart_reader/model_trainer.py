@@ -2,7 +2,7 @@ import os
 import pickle
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 from sklearn.base import BaseEstimator
@@ -16,9 +16,9 @@ class AbstractModelWrapper(ABC):
     """Abstract base class for a model wrapper."""
 
     model: BaseEstimator
-    classes: List[str]
+    classes: list[str]
 
-    def __init__(self, model: BaseEstimator, classes: List[str]):
+    def __init__(self, model: BaseEstimator, classes: list[str]):
         self.model = model
         self.classes = classes
 
@@ -41,7 +41,7 @@ class AbstractModelWrapper(ABC):
         pass
 
     @abstractmethod
-    def predict_hist(self, X: List[np.ndarray[np.ndarray]]) -> np.ndarray:
+    def predict_hist(self, X: list[np.ndarray[np.ndarray]]) -> np.ndarray:
         """
         Predict the probabilities of the classes for the whole history.
         The input X is a list of 2D arrays of shape (n_samples, n_features).
@@ -57,9 +57,9 @@ class DecisionTreeWrapper(AbstractModelWrapper):
     """Decision tree model wrapper that supports pickling."""
 
     model: DecisionTreeClassifier
-    classes: List[str]
+    classes: list[str]
 
-    def __init__(self, model: DecisionTreeClassifier, classes: List[str]):
+    def __init__(self, model: DecisionTreeClassifier, classes: list[str]):
         super().__init__(model, classes)
 
     def __getstate__(self):
@@ -73,7 +73,7 @@ class DecisionTreeWrapper(AbstractModelWrapper):
         """Predict class probabilities."""
         return self.model.predict_proba(X)
 
-    def predict_hist(self, X: List[np.ndarray[np.ndarray]]) -> np.ndarray:
+    def predict_hist(self, X: list[np.ndarray[np.ndarray]]) -> np.ndarray:
         """Predict class probabilities over a sequence and return the average."""
         proba_list = [self.model.predict_proba(x) for x in X]
         return np.mean(proba_list, axis=0)
@@ -91,7 +91,7 @@ class ModelPickleFormat:
     """Data structure for storing model metadata and parameters."""
 
     model: AbstractModelWrapper  # Model wrapper object
-    classes: List[str]  # List of class labels
+    classes: list[str]  # List of class labels
     mel_len: int  # Mel vector length
     mel_num: int  # Number of mel vectors
     mel_flat: bool  # Whether mel vectors are flattened
@@ -99,7 +99,7 @@ class ModelPickleFormat:
     concat_hist: bool  # Whether history is concatenated
     num_hist: int  # Number of history elements
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert the model format to a dictionary."""
         return {
             "model": self.model,
@@ -113,7 +113,7 @@ class ModelPickleFormat:
         }
 
     @staticmethod
-    def from_dict(model_dict: Dict[str, Any]) -> Optional["ModelPickleFormat"]:
+    def from_dict(model_dict: dict[str, Any]) -> Optional["ModelPickleFormat"]:
         """Convert a dictionary back into a ModelPickleFormat object."""
         if "model" not in model_dict:
             return None
@@ -141,7 +141,7 @@ def save_model(model_format: ModelPickleFormat, path: str):
         pickle.dump(model_dict, file)
 
 
-def load_model(path: str) -> Optional[ModelPickleFormat]:
+def load_model(path: str) -> ModelPickleFormat | None:
     """Load the model and its metadata from a pickle file."""
     if not os.path.exists(path):
         return None

@@ -2,7 +2,6 @@ import datetime
 import pathlib as pathl
 import sys
 import time
-from typing import Optional
 
 import click
 import matplotlib
@@ -543,7 +542,7 @@ class GUIMELWindow(QMainWindow):
             # Take the lastest data
             data = self.historic_data[0]["data"]
             # Classify the data
-            self.current_model: Optional[sklearn.base.BaseEstimator]
+            self.current_model: sklearn.base.BaseEstimator | None
             class_proba = self.current_model.predict(data.reshape(1, -1))
             self.historic_data[0].update({"class_proba": class_proba[0]})
 
@@ -802,7 +801,7 @@ class GUIMELWindow(QMainWindow):
             class_proba = np.zeros(self.num_classes)
 
         # Update the histogram
-        for rect, h in zip(self.class_histogram[2], class_proba):
+        for rect, h in zip(self.class_histogram[2], class_proba, strict=False):
             rect.set_height(h)
 
         # Make red and add text to the highest bar

@@ -1,9 +1,10 @@
 import atexit
 import logging
 import statistics as stats
+from collections.abc import Callable
 from functools import wraps
 from time import time
-from typing import Any, Callable, List
+from typing import Any
 
 logging.basicConfig(level=logging.INFO)
 
@@ -39,7 +40,7 @@ def timeit(fun: Callable[..., Any]) -> Callable[..., Any]:
     Note that you can use this decorator as many times as you want.
     """
     f_name = getattr(fun, "__name__", "<unnamed function>")
-    data: List[float] = []
+    data: list[float] = []
 
     def print_stats() -> None:
         mean = stats.mean(data)
