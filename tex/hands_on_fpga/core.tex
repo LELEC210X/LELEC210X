@@ -11,7 +11,7 @@ The custom design brings new runtime parameters that can be set by a GNU Radio a
 \begin{lstlisting}[language=bash, keepspaces=true, columns=fullflexible]
     $ sudo apt install liblimesuite-dev swig4.0 liborc-0.4-dev
 \end{lstlisting}
-Then, go into the \texttt{./telecom/gr-limesdr-3-X} directory (X depending on the GNU Radio version you have) and install it:
+Then, go into the \texttt{./telecom/gr-limesdr} directory and install it:
 \begin{lstlisting}[language=bash, keepspaces=true, columns=fullflexible]
     $ mkdir build
     $ cd build/
@@ -19,5 +19,13 @@ Then, go into the \texttt{./telecom/gr-limesdr-3-X} directory (X depending on th
     $ sudo make install
     $ sudo ldconfig
 \end{lstlisting}
+
+If the compilation error \texttt{Python bindings for XXX.h are out of sync} occurs, just go back in the \texttt{./telecom/gr-limesdr} folder and use the following commands :
+
+\begin{lstlisting}[language=bash, keepspaces=true, columns=fullflexible]
+    $ gr_modtool bind -u XXX
+\end{lstlisting}
+
+You might need to do this command for multiples blocks, most probably sink\_fpga and source\_fpga. \\
 
 Finally, you may now open in the GNU Radio Companion the application \texttt{eval\_limesdr\_fpga.grc}. Do not forget to change the carrier frequency in the design. Observe that the low-pass filter block is no longer present, since it is accelerated in hardware. The software preamble detection has been replaced by a much more simple Flag detector. Using the MCU code from the hands-on last week, try to receive 5 packets over the air with this new GRC application. Do not hesitate to change the RX gain to receive the packets. You may want to adapt the K factor of the threshold if needed. However, your main tuning knob should be the gain.
