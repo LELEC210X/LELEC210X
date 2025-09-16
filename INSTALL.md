@@ -28,9 +28,8 @@ on your host system, i.e., your every-day OS. Moreover,
 **the Git associated with the project should be cloned on your host system.**
 Python and STM32CubeIDE are supported on every common OS,
 **but GNU Radio is only properly supported on Linux distributions**.
-The project is now supported on both GNU Radio 3.8 and 3.10, the first one
-being only available on Ubuntu 20.04. GNU Radio 3.10 can be installed on
-Ubuntu 22.04. The 24.04 could be supported but has not been tested.
+The project is supported on GNU Radio 3.10, which can be installed on
+Ubuntu 22.04. Ubuntu 24.04 could be supported but has not been tested.
 
 > [!TIP]
 > We strongly recommend students with a Windows OS to only
@@ -39,7 +38,7 @@ Ubuntu 22.04. The 24.04 could be supported but has not been tested.
 
 ## Prerequisites
 
-If you plan to use GNU Radio 3.8, installed on Ubuntu 20.04, beware
+<!---If you plan to use GNU Radio 3.8, installed on Ubuntu 20.04, beware
 that it requires Python 3.8, which is the default version installed on this
 Ubuntu release. **However**, the rest of the project
 works with any version of Python above 3.8. Moreover, uv, the tool
@@ -65,15 +64,12 @@ please follow one of next subsections.
     The reason is that the default versions for packages installed on
     Ubuntu-20.04 are, most likely, not the same if installed on, e.g.,
     Ubuntu-22.04.
+--->
 
-### Install on VirtualBox
+In order to install GNU Radio, you need to have access to a Linux system. If your host system does not run a Linux distribution, you will find some suggestions for obtaining access to one below.
 
-You can get Ubuntu running with a virtual machine (VM) using VirtualBox.
-As you will have to run a complete Linux image from your Windows system,
-this solution has a **significant overhead** in terms of processing capability and also in terms of accessibility.
-Indeed, you will work in desktop entirely contained in a window which might be impractical.
 
-### Install via Windows Subsystem for Linux
+### Install Ubuntu via Windows Subsystem for Linux
 
 Windows Subsystem for Linux (WSL) is a Windows program that makes running a Linux image super simple!
 WSL allows for true Windows and Linux interoperability.
@@ -84,10 +80,10 @@ It will allow you to clone the git of the course on your Windows system and **do
 e.g., programming the MCU, modify the telecom and classification parts,
 while **only using WSL to compile** the code and run the Linux applications, i.e., GNU Radio.
 
-We recommend using one of the latest Ubuntu releases, Ubuntu-22.04, for the project. However,
-if it is not available on your computer, you can use Ubuntu-20.04.
+We recommend using one of the latest Ubuntu releases, Ubuntu-22.04, for the project. 
+<!---However, if it is not available on your computer, you can use Ubuntu-20.04.--->
 
-In order to install the WSL and Ubuntu-22.04 (or 20.04) on your Windows system,
+In order to install the WSL and Ubuntu-22.04 on your Windows system,
 we will use the following [guide](https://learn.microsoft.com/en-us/windows/wsl/install) from Microsoft.
 
 If you have WSL 1 installed (`wsl --version`), please
@@ -128,8 +124,8 @@ wsl
 wsl -t Ubuntu−22.04
 ```
 
-If you were to use Ubuntu-20.04, just adapt the previous commands with the release version.
-If you encounter any issue, please refer to the official website provided at the start of this section.
+<!--- If you were to use Ubuntu-20.04, just adapt the previous commands with the release version.
+If you encounter any issue, please refer to the official website provided at the start of this section. --->
 
 ### Install Ubuntu on your computer
 
@@ -140,6 +136,15 @@ Ubuntu in dual boot. Please make sure to install the correct version.
 This is going to be, by far, the most performant solution, but will also require
 much more disk space. This solution is recommended for people that might
 want to use Linux later-on, and have at least 60 Go of free memory.
+
+
+### Install on VirtualBox
+
+You can get Ubuntu running with a virtual machine (VM) using VirtualBox.
+As you will have to run a complete Linux image from your Windows system,
+this solution has a **significant overhead** in terms of processing capability and also in terms of accessibility.
+Indeed, you will work in desktop entirely contained in a window which might be impractical.
+
 
 ## Installation steps
 
@@ -244,25 +249,12 @@ sudo apt-get install cmake
 
 ### Ubuntu - Install GNU Radio
 
-**/!\ Depending on the Ubuntu release you have, we will install GNU Radio differently**
-
 #### Ubuntu-22.04
 
 ```bash
 sudo add-apt-repository ppa:gnuradio/gnuradio-releases
 sudo apt-get update
 sudo apt-get install gnuradio python3-packaging
-```
-
-#### Ubuntu-20.04
-
-For the LimeSDR to work, we need to install GNU Radio **3.8** and not any more recent version.
-To do so:
-
-```bash
-sudo add-apt-repository ppa:gnuradio/gnuradio−releases−3.8
-sudo apt-get update
-sudo apt-get install gnuradio xterm python3-gi gobject-introspection gir1.2-gtk-3.0
 ```
 
 #### Launching GNU Radio
@@ -366,14 +358,6 @@ sudo make install
 sudo ldconfig
 ```
 
-##### Ubuntu-20.04
-
-```bash
-sudo add-apt-repository ppa:myriadrf/gnuradio
-sudo apt-get update
-sudo apt-get install gr-limesdr
-```
-
 #### Install gr-fsk and ensure the `PYTHONPATH` is properly set up
 
 During the H3b, you are going demodulate actual sent packets using
@@ -419,13 +403,6 @@ echo "export PYTHONPATH='/usr/local/XXX/dist-packages/:$PYTHONPATH'" >> ~/.bashr
 
 #### (After H4) Ubuntu - Install Gr-LimeSDR custom components
 
-#### On Ubuntu-20.04
-
-You need to install the following components:
-
-```bash
-sudo apt install liblimesuite-dev swig4.0 liborc-0.4-dev
-```
 
 #### For everyone
 
@@ -438,6 +415,12 @@ cmake ..
 sudo make install
 sudo ldconfig
 ```
+
+If the compilation error "Python bindings for XXX.h are out of sync" occurs, just go back in the `./telecom/gr-limesdr` folder and use the following commands :
+```bash
+gr_modtool bind -u XXX
+```
+You might need to do this command for multiples blocks, most probably sink_fpga and source_fpga.
 
 #### Ubuntu - Testing the installation of LimeSDR
 
@@ -494,7 +477,7 @@ You might be asked to create an account. You can then proceed to the download an
 
 ### Ubuntu - STM32Cube IDE additional package
 
-If Ubuntu-20.04 is your host system and thus STM32CubeIDE is installed on it, you might need to install a package in order to flash the MCU. To do so:
+If Ubuntu is your host system and thus STM32CubeIDE is installed on it, you might need to install a package in order to flash the MCU. To do so:
 
 ```bash
 sudo apt-get install libncurses5
