@@ -68,7 +68,6 @@ please follow one of next subsections.
 
 In order to install GNU Radio, you need to have access to a Linux system. If your host system does not run a Linux distribution, you will find some suggestions for obtaining access to one below.
 
-
 ### Install Ubuntu via Windows Subsystem for Linux
 
 Windows Subsystem for Linux (WSL) is a Windows program that makes running a Linux image super simple!
@@ -80,7 +79,8 @@ It will allow you to clone the git of the course on your Windows system and **do
 e.g., programming the MCU, modify the telecom and classification parts,
 while **only using WSL to compile** the code and run the Linux applications, i.e., GNU Radio.
 
-We recommend using one of the latest Ubuntu releases, Ubuntu-22.04, for the project. 
+We recommend using one of the latest Ubuntu releases, Ubuntu-22.04, for the project.
+
 <!---However, if it is not available on your computer, you can use Ubuntu-20.04.--->
 
 In order to install the WSL and Ubuntu-22.04 on your Windows system,
@@ -137,14 +137,12 @@ This is going to be, by far, the most performant solution, but will also require
 much more disk space. This solution is recommended for people that might
 want to use Linux later-on, and have at least 60 Go of free memory.
 
-
 ### Install on VirtualBox
 
 You can get Ubuntu running with a virtual machine (VM) using VirtualBox.
 As you will have to run a complete Linux image from your Windows system,
 this solution has a **significant overhead** in terms of processing capability and also in terms of accessibility.
 Indeed, you will work in desktop entirely contained in a window which might be impractical.
-
 
 ## Installation steps
 
@@ -403,7 +401,6 @@ echo "export PYTHONPATH='/usr/local/XXX/dist-packages/:$PYTHONPATH'" >> ~/.bashr
 
 #### (After H4) Ubuntu - Install Gr-LimeSDR custom components
 
-
 #### For everyone
 
 Then, through an Ubuntu terminal, go into the `./telecom/gr-limesdr` directory and install:
@@ -417,9 +414,11 @@ sudo ldconfig
 ```
 
 If the compilation error "Python bindings for XXX.h are out of sync" occurs, just go back in the `./telecom/gr-limesdr` folder and use the following commands :
+
 ```bash
 gr_modtool bind -u XXX
 ```
+
 You might need to do this command for multiples blocks, most probably sink_fpga and source_fpga.
 
 #### Ubuntu - Testing the installation of LimeSDR
