@@ -249,7 +249,7 @@ sudo apt-get install cmake
 
 ### Ubuntu - Install GNU Radio
 
-#### Ubuntu-22.04
+#### Ubuntu-22.04 and 24.04
 
 ```bash
 sudo add-apt-repository ppa:gnuradio/gnuradio-releases
@@ -327,11 +327,51 @@ by the company who sells the LimeSDR, _Myriad-RF_.
 We start by installing _LimeSuite_, i.e.,
 a collection of software supporting several hardware platforms including the LimeSDR.
 
+##### Ubuntu-22.04
+
 ```bash
 sudo add-apt-repository -y ppa:myriadrf/drivers
 sudo apt-get update
 sudo apt-get install limesuite liblimesuite-dev limesuite-udev limesuite-images
 sudo apt-get install soapysdr-tools
+```
+
+##### Ubuntu-24.04
+
+Some packages, like `limesuite-images`, are not built for Ubuntu-24.04. As a result, we recommend building
+_LimeSuite_ from source (adapted from [this page](https://wiki.myriadrf.org/Lime_Suite)). Because we install from source,
+you need to open a terminal in a folder where you will download source files (see below). Don't do that inside the project folder.
+
+First, install the build depedencies:
+
+```bash
+#packages for soapysdr available at myriadrf PPA
+sudo add-apt-repository -y ppa:myriadrf/drivers
+sudo apt-get update
+
+#install core library and build dependencies
+sudo apt-get install git g++ cmake libsqlite3-dev
+
+#install hardware support dependencies
+sudo apt-get install libsoapysdr-dev libi2c-dev libusb-1.0-0-dev
+
+#install graphics dependencies
+sudo apt-get install libwxgtk3.0-dev freeglut3-dev
+```
+
+Then, clone the repository and build from source:
+
+```bash
+git clone https://github.com/myriadrf/LimeSuite.git
+cd LimeSuite
+git checkout stable
+mkdir builddir && cd builddir
+cmake ../
+make -j4
+sudo make install
+sudo ldconfig
+sudo ../udev-rules
+sudo ./install.sh
 ```
 
 #### Ubuntu - Install Gr-LimeSDR
@@ -341,13 +381,12 @@ To do so, we use the following command,
 taken from the [official website](https://wiki.myriadrf.org/Gr-limesdr_Plugin_for_GNURadio).
 **/!\ Again, this step will vary depending on your Ubuntu release**
 
-##### Ubuntu-22.04
+##### Ubuntu-22.04 and 24.04
 
-In this case, we are going to install _Gr-LimeSDR_ from source. On Ubuntu, go to any directory in
-which you can store and install the program. It can be `/root` for example.
+In this case, we are going to install _Gr-LimeSDR_ from source. In a terminal, go to any directory in
+which you can store and install the program, but we recommend not doing that in the projet folder.
 
 ```bash
-cd /root
 git clone https://github.com/chrisjohgorman/gr-limesdr.git
 cd gr-limesdr
 mkdir build
@@ -368,7 +407,7 @@ so that GNU Radio knows where this custom python package has been installed.
 First, go **through an Ubuntu terminal** to the location of this git on your Host system
 (it might be Windows, in which case you have to go through the `/mnt/XX` directory in the Ubuntu terminal).
 As it can be quite cumbersome of typing this path every time you want to recompile a GNU Radio package,
-we advise you to create some environment variables for their path on Ubuntu. For example :
+we advise you to create some environment variables for their path on Ubuntu. For example:
 
 ```bash
 echo "export GRFSK='/mnt/d/XXX/telecom/hands_on_measurements/gr-fsk'" >> ~/.bashrc
@@ -387,7 +426,7 @@ sudo ldconfig
 
 To ensure the Python packages you installed will be found when running GNU Radio we must
 ensure the `PYTHONPATH` variable is properly set. In the prompted log of the above installation commands,
-you should see multiple lines such as `... /usr/local/XXX/dist-packages/fsk/XXX`.
+you should see multiple lines such as `... /usr/local/lib/python3.XX/dist-packages/fsk/XXX`.
 Now run the command :
 
 ```bash
@@ -403,24 +442,35 @@ echo "export PYTHONPATH='/usr/local/XXX/dist-packages/:$PYTHONPATH'" >> ~/.bashr
 
 #### (After H4) Ubuntu - Install Gr-LimeSDR custom components
 
-
 #### For everyone
 
 Then, through an Ubuntu terminal, go into the `./telecom/gr-limesdr` directory and install:
 
 ```bash
 mkdir build
-cd build /
+cd build
 cmake ..
 sudo make install
 sudo ldconfig
 ```
 
-If the compilation error "Python bindings for XXX.h are out of sync" occurs, just go back in the `./telecom/gr-limesdr` folder and use the following commands :
+If the compilation error `Python bindings for {sink,source}_fpga.h are out of sync` occurs, just go back in the parent folder (with `cd -`) folder and use the following commands :
 ```bash
-gr_modtool bind -u XXX
+gr_modtool bind -u sink_fpga
+gr_modtool bind -u source_fpga
 ```
-You might need to do this command for multiples blocks, most probably sink_fpga and source_fpga.
+
+Then, go back to the build folder (with `cd -` or `cd build`) and re-try to compile from source:
+
+```bash
+cmake ..
+sudo make install
+sudo ldconfig
+```
+
+If you encounter errors on other blocks than `sink_fpga` and `source_fpga`,
+please try `gr_modtool bind -u XXX`, where `XXX` is the block name,
+and please report the issue on this GitHub repository!
 
 #### Ubuntu - Testing the installation of LimeSDR
 
