@@ -52,6 +52,7 @@ def add_cfo(chain: Chain, x: np.ndarray, cfo: float) -> np.ndarray:
     "-s",
     "--seed",
     default=1234,
+    show_default=True,
     help="Random seed. Same seed => same results.",
 )
 def main(chain_name: str, seed: int):  # noqa: C901
