@@ -1,0 +1,26 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[dependency-groups]
+dev = [
+  {include-group = "tests"},
+]
+tests = ["pytest>=7.4.3"]
+
+[project]
+dependencies = [
+]
+name = "telecom"
+requires-python = ">= 3.10"
+version = "0.1.0"
+
+[project.scripts]
+read-measurements = "telecom.read_measurements:main"
+simulate = "telecom.simulate:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["python/telecom"]
+
+[tool.hatch.metadata]
+allow-direct-references = true

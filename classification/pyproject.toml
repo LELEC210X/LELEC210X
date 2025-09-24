@@ -2,6 +2,12 @@
 build-backend = "hatchling.build"
 requires = ["hatchling"]
 
+[dependency-groups]
+dev = [
+  {include-group = "tests"},
+]
+tests = ["pytest>=7.4.3"]
+
 [project]
 dependencies = [
   "click>=8.1.7",

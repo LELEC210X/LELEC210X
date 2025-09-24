@@ -49,20 +49,19 @@ mcu/*.launch
 # Telecom
 
 telecom/hands_on_simulation/test.csv
-telecom/gr-limesdr-3-8/build/
-telecom/gr-limesdr-3-10/build/
-telecom/hands_on_measurements/gr-fsk/build/
-telecom/hands_on_measurements/gr-fsk/apps/*.py
-telecom/hands_on_measurements/gr-fsk/apps/*.txt
+telecom/**/build/
+telecom/**/gr-fsk/apps/*.py
+telecom/**/gr-fsk/apps/*.txt
+
 # FPGA
 
-# Bitstreams
+## Bitstreams
 fpga/LimeSDR-Mini_bitstreams/*.map
 fpga/LimeSDR-Mini_bitstreams/*.pof
 fpga/LimeSDR-Mini_bitstreams/*.sof
 fpga/LimeSDR-Mini_bitstreams/*.rpd
 
-# ignore Quartus II generated files
+## ignore Quartus II generated files
 fpga/*_generation_script*
 fpga/*_inst.vhd
 fpga/*.bak
@@ -90,7 +89,7 @@ fpga/*~
 fpga/*example*
 fpga/*sopc_*
 
-# ignore Quartus II generated folders
+## ignore Quartus II generated folders
 fpga/*/db/
 fpga/*/incremental_db/
 fpga/*/simulation/

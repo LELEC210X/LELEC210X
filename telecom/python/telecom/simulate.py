@@ -1,11 +1,14 @@
+# ruff: noqa: N806
+import click
 import matplotlib.pyplot as plt
 import numpy as np
-from chain import Chain
 from scipy.signal import firwin, freqz
 from scipy.special import erfc
 
+from .chain import Chain
 
-def add_delay(chain: Chain, x: np.ndarray, tau: float):
+
+def add_delay(chain: Chain, x: np.ndarray, tau: float) -> tuple[np.ndarray, int]:
     """
     Apply the channel between TX and RX, handling the different oversampling factors
     and the addition of a delay.
@@ -28,10 +31,8 @@ def add_delay(chain: Chain, x: np.ndarray, tau: float):
     return y, np.mod(sto_int, chain.osr_rx)
 
 
-def add_cfo(chain: Chain, x: np.ndarray, cfo: float):
-    """
-    Add a frequency offset on the signal x.
-    """
+def add_cfo(chain: Chain, x: np.ndarray, cfo: float) -> np.ndarray:
+    """Add a frequency offset on the signal x."""
     fs = chain.bit_rate * chain.osr_rx
 
     t = np.arange(len(x)) / fs  # Time vector
@@ -39,11 +40,28 @@ def add_cfo(chain: Chain, x: np.ndarray, cfo: float):
     return y
 
 
-def run_sim(chain: Chain):
+@click.command()
+@click.option(
+    "-c",
+    "--chain-name",
+    default="telecom.chain.BasicChain",
+    show_default=True,
+    help="Chain to simulate, in the form 'module.ClassName'.",
+)
+@click.option(
+    "-s",
+    "--seed",
+    default=1234,
+    help="Random seed. Same seed => same results.",
+)
+def main(chain_name: str, seed: int):  # noqa: C901
     """
-    Main function, running the simulations of the communication chain provided, for several SNRs.
+    Simulate the communication chain provided, for several SNRs.
     Compute and display the different metrics to evaluate the performances.
     """
+    mod_path, class_name = chain_name.rsplit(".", 1)
+    chain_mod = __import__(mod_path, fromlist=[class_name])
+    chain: Chain = getattr(chain_mod, class_name)()
     SNRs_dB = chain.snr_range
     R = chain.osr_rx
     B = chain.bit_rate
@@ -70,7 +88,7 @@ def run_sim(chain: Chain):
     # Lowpass filter taps
     taps = firwin(chain.numtaps, chain.cutoff, fs=fs)
 
-    rng = np.random.default_rng()
+    rng = np.random.default_rng(seed)
 
     # For loop on the number of packets to send
     for n in range(chain.n_packets):
@@ -246,24 +264,24 @@ def run_sim(chain: Chain):
     BER_th_noncoh = 0.5 * np.exp(-(10 ** (SNR_th / 10.0)) / 2)
 
     # Bit error rate
-    fig, ax = plt.subplots(constrained_layout=True)
+    _fig, ax = plt.subplots(constrained_layout=True)
     ax.plot(np.arange(len(Cu)), Cu)
     ax.plot(np.arange(len(Cu)), np.abs(Cu))
     ax.grid(True)
     ax.set_title("Correlation")
 
-    print(Cu)
-    print(sum_Cu)
-    print(R**2 / sum_Cu)
-    print(np.sum(np.abs(taps) ** 2))
-    print(SNRs_dB)
-    print(SNR_th)
-    print(SNRs_dB - shift_SNR_filter + shift_SNR_out)
-    print(shift_SNR_out)
-    print(shift_SNR_filter)
+    click.echo(Cu)
+    click.echo(sum_Cu)
+    click.echo(R**2 / sum_Cu)
+    click.echo(np.sum(np.abs(taps) ** 2))
+    click.echo(SNRs_dB)
+    click.echo(SNR_th)
+    click.echo(SNRs_dB - shift_SNR_filter + shift_SNR_out)
+    click.echo(shift_SNR_out)
+    click.echo(shift_SNR_filter)
     ### Plot dashboard
 
-    fig, ax1 = plt.subplots()
+    _fig, ax1 = plt.subplots()
     w, h = freqz(taps)
     f = w * fs * 0.5 / np.pi
     ax1.set_title("FIR response")
@@ -279,7 +297,7 @@ def run_sim(chain: Chain):
     plt.show()
 
     # Bit error rate
-    fig, ax = plt.subplots(constrained_layout=True)
+    _fig, ax = plt.subplots(constrained_layout=True)
     ax.plot(SNRs_dB + shift_SNR_out, BER, "-s", label="Simulation")
     ax.plot(SNR_th, BER_th, label="AWGN Th. FSK")
     ax.plot(SNR_th, BER_th_noncoh, label="AWGN Th. FSK non-coh.")
@@ -310,7 +328,7 @@ def run_sim(chain: Chain):
         ax2.tick_params(axis="x", colors="b")
 
     # Packet error rate
-    fig, ax = plt.subplots(constrained_layout=True)
+    _fig, ax = plt.subplots(constrained_layout=True)
     ax.plot(SNRs_dB + shift_SNR_out, PER, "-s", label="Simulation")
     ax.plot(SNR_th, 1 - (1 - BER_th) ** chain.payload_len, label="AWGN Th. FSK")
     ax.plot(
@@ -396,7 +414,4 @@ def run_sim(chain: Chain):
 
 
 if __name__ == "__main__":
-    from chain import BasicChain
-
-    chain = BasicChain()
-    run_sim(chain)
+    main()

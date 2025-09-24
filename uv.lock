@@ -10,6 +10,7 @@ members = [
     "contrib",
     "leaderboard",
     "lelec210x",
+    "telecom",
 ]
 
 [[package]]
@@ -299,6 +300,14 @@ dependencies = [
     { name = "tqdm" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+tests = [
+    { name = "pytest" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "click", specifier = ">=8.1.7" },
@@ -310,6 +319,10 @@ requires-dist = [
     { name = "soundfile", specifier = ">=0.12.1" },
     { name = "tqdm", specifier = ">=4.66.5" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=7.4.3" }]
+tests = [{ name = "pytest", specifier = ">=7.4.3" }]
 
 [[package]]
 name = "click"
@@ -1260,6 +1273,7 @@ dev = [
     { name = "leaderboard" },
     { name = "pre-commit" },
     { name = "pytest" },
+    { name = "telecom" },
     { name = "youtube-dl" },
 ]
 local-packages = [
@@ -1268,6 +1282,7 @@ local-packages = [
     { name = "common" },
     { name = "contrib", extra = ["all"] },
     { name = "leaderboard" },
+    { name = "telecom" },
 ]
 tests = [
     { name = "pytest" },
@@ -1287,6 +1302,7 @@ dev = [
     { name = "leaderboard", editable = "leaderboard" },
     { name = "pre-commit", specifier = ">=3.5.0" },
     { name = "pytest", specifier = ">=7.4.3" },
+    { name = "telecom", editable = "telecom" },
     { name = "youtube-dl", git = "https://github.com/ytdl-org/youtube-dl.git" },
 ]
 local-packages = [
@@ -1295,6 +1311,7 @@ local-packages = [
     { name = "common", editable = "common" },
     { name = "contrib", extras = ["all"], editable = "contrib" },
     { name = "leaderboard", editable = "leaderboard" },
+    { name = "telecom", editable = "telecom" },
 ]
 tests = [{ name = "pytest", specifier = ">=7.4.3" }]
 youtube-dl = [{ name = "youtube-dl", git = "https://github.com/ytdl-org/youtube-dl.git" }]
@@ -2363,6 +2380,25 @@ sdist = { url = "https://files.pythonhosted.org/packages/28/e3/55dcc2cfbc3ca9c29
 wheels = [
     { url = "https://files.pythonhosted.org/packages/f1/7b/ce1eafaf1a76852e2ec9b22edecf1daa58175c090266e9f6c64afcd81d91/stack_data-0.6.3-py3-none-any.whl", hash = "sha256:d5558e0c25a4cb0853cddad3d77da9891a08cb85dd9f9f91b9f8cd66e511e695", size = 24521, upload-time = "2023-09-30T13:58:03.53Z" },
 ]
+
+[[package]]
+name = "telecom"
+version = "0.1.0"
+source = { editable = "telecom" }
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+tests = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=7.4.3" }]
+tests = [{ name = "pytest", specifier = ">=7.4.3" }]
 
 [[package]]
 name = "terminado"

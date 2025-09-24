@@ -1,3 +1,4 @@
+# ruff: noqa: N806
 import numpy as np
 
 BIT_RATE = 50e3
@@ -78,7 +79,7 @@ class Chain:
 
     def preamble_detect(self, y: np.array) -> int | None:
         """
-        Detects the preamlbe in a given received signal.
+        Detect the preamble in a given received signal.
 
         :param y: The received signal, (N * R,).
         :return: The index where the preamble starts,
@@ -126,9 +127,7 @@ class BasicChain(Chain):
     bypass_preamble_detect = True
 
     def preamble_detect(self, y):
-        """
-        Detect a preamble computing the received energy (average on a window).
-        """
+        """Detect a preamble computing the received energy (average on a window)."""
         L = 4 * self.osr_rx
         y_abs = np.abs(y)
 
@@ -142,9 +141,7 @@ class BasicChain(Chain):
     bypass_cfo_estimation = True
 
     def cfo_estimation(self, y):
-        """
-        Estimates CFO using Moose algorithm, on first samples of preamble.
-        """
+        """Estimates CFO using Moose algorithm, on first samples of preamble."""
         # TO DO: extract 2 blocks of size N*R at the start of y
 
         # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
@@ -155,9 +152,7 @@ class BasicChain(Chain):
     bypass_sto_estimation = True
 
     def sto_estimation(self, y):
-        """
-        Estimates symbol timing (fractional) based on phase shifts.
-        """
+        """Estimates symbol timing (fractional) based on phase shifts."""
         R = self.osr_rx
 
         # Computation of derivatives of phase function
@@ -177,9 +172,7 @@ class BasicChain(Chain):
         return np.mod(save_i + 1, R)
 
     def demodulate(self, y):
-        """
-        Non-coherent demodulator.
-        """
+        """Non-coherent demodulator."""
         R = self.osr_rx  # Receiver oversampling factor
         nb_syms = len(y) // R  # Number of CPFSK symbols in y
 

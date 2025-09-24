@@ -1,16 +1,15 @@
-"""
-Test file, provided to easily check your implementations.
-"""
+"""Test file, provided to easily check your implementations."""
 
 import numpy as np
 import pytest
 from chain import BasicChain
-from sim import add_cfo, add_delay
+
+from telecom.python.telecom.simulate import add_cfo, add_delay
 
 
 @pytest.fixture(scope="session")
 def rng() -> np.random.Generator:
-    return np.random.default_rng()
+    return np.random.default_rng(1234)
 
 
 class TestBasicChain:
@@ -22,7 +21,7 @@ class TestBasicChain:
         x_pay = self.chain.modulate(bits)  # modulated signal with payload
         x = x_pay
 
-        y, delay = add_delay(
+        y, _delay = add_delay(
             self.chain, x, 0
         )  # application of ideal channel (if TX and RX oversampling factors are different)
 
@@ -44,7 +43,7 @@ class TestBasicChain:
         )  # modulated signal containing sync_word
         x = np.concatenate((x_pr, x_sync, x_pay))
 
-        y, delay = add_delay(self.chain, x, 0)  # application of ideal channel
+        y, _delay = add_delay(self.chain, x, 0)  # application of ideal channel
         y_cfo = add_cfo(self.chain, y, cfo_val)  # adding CFO
         cfo_hat = self.chain.cfo_estimation(y_cfo)
 
