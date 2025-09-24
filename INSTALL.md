@@ -80,8 +80,7 @@ It will allow you to clone the git of the course on your Windows system and **do
 e.g., programming the MCU, modify the telecom and classification parts,
 while **only using WSL to compile** the code and run the Linux applications, i.e., GNU Radio.
 
-We recommend using one of the latest Ubuntu releases, Ubuntu-22.04, for the project. 
-<!---However, if it is not available on your computer, you can use Ubuntu-20.04.--->
+We recommend using Ubuntu-22.04 (**best**) or Ubuntu-24.04, for the project.
 
 In order to install the WSL and Ubuntu-22.04 on your Windows system,
 we will use the following [guide](https://learn.microsoft.com/en-us/windows/wsl/install) from Microsoft.
