@@ -1,20 +1,10 @@
 # Telecom Simulation
 
-Only the `sim.py` and `test.py` files should be executed.
+Three files are provided for the simulation:
+- `chain.py`, defining the base class for a telecom chain: your implementation should subclass `Chain` or directly modify `BasicChain` and implement the missing blocks.
+- `test_chain.py`, testing the chain implementation (executated with `uv run pytest`).
+- `simulate.py`, running the actual simulations (executed with `uv run simulate`).
 
-When doing so, make sure to run them with uv, e.g., do:
+# SDR
 
-```bash
-uv run python sim.py
-```
-
-to run the simulation or:
-
-```bash
-uv run pytest test.py
-```
-
-to test your chain implementation.
-
-Finally, the `chain.py` file contains two classes: `Chain` and `BasicChain`.
-You should only change the latter, by filling the missing code lines.
+TODO.
