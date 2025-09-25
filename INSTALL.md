@@ -562,7 +562,7 @@ it will then automatically detect the MAX 10 device support file. You can procee
 To install the Python dependencies, you can simply run:
 
 ```bash
-uv sync run
+uv sync
 ```
 
 You should only perform this once (if `pyproject.toml` does not change).
