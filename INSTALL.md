@@ -190,7 +190,7 @@ some script
 before you can work with them, and it's also possible to have an arbitrary number of nested
 venvs, which makes it hard to know which environment is activated.
 To avoid this issue, we use
-[uv](https://uv.astral.sh).
+[uv](https://docs.astral.sh/uv/).
 uv works in pair with `pyproject.toml` files,
 so that you can specify requirements for your project, and much more!
 
@@ -200,8 +200,7 @@ so that you can specify requirements for your project, and much more!
 > assistants to debug.
 
 **Please** read the
-[detailed installation guide](https://uv.astral.sh/guide/installation/),
-as well as the section on "_Add Shims to Path_".
+[detailed installation guide](https://docs.astral.sh/uv/getting-started/installation/).
 
 ### Host or Ubuntu - Install FFmpeg
 
