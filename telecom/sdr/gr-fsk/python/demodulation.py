@@ -24,6 +24,7 @@ import numpy as np
 from gnuradio import gr
 
 
+
 def demodulate(y, B, R, Fdev):
     """
     Non-coherent demodulator.
@@ -31,6 +32,7 @@ def demodulate(y, B, R, Fdev):
     nb_syms = int(len(y) / R)
     bits_hat = np.zeros(nb_syms, dtype=int)
     return bits_hat  # TODO
+
 
 
 class demodulation(gr.basic_block):
@@ -51,22 +53,7 @@ class demodulation(gr.basic_block):
 
         self.gr_version = gr.version()
 
-        # Redefine function based on version
-        if LooseVersion(self.gr_version) < LooseVersion("3.9.0"):
-            print("Compiling the Python codes for GNU Radio 3.8")
-            self.forecast = self.forecast_v38
-        else:
-            print("Compiling the Python codes for GNU Radio 3.10")
-            self.forecast = self.forecast_v310
-
-    def forecast_v38(self, noutput_items, ninput_items_required):
-        """
-        Input items are samples (with oversampling factor)
-        output items are bytes
-        """
-        ninput_items_required[0] = noutput_items * self.osr * 8
-
-    def forecast_v310(self, noutput_items, ninputs):
+    def forecast(self, noutput_items, ninputs):
         """
         Forecast is only called from a general block
         this is the default implementation

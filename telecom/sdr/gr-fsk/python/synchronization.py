@@ -89,27 +89,7 @@ class synchronization(gr.basic_block):
 
         self.gr_version = gr.version()
 
-        # Redefine function based on version
-        if LooseVersion(self.gr_version) < LooseVersion("3.9.0"):
-            self.forecast = self.forecast_v38
-        else:
-            self.forecast = self.forecast_v310
-
-    def forecast_v38(self, noutput_items, ninput_items_required):
-        """
-        Input items are samples (with oversampling factor)
-        output items are samples (with oversampling factor)
-        """
-        if self.rem_samples == 0:  # looking for a new packet
-            ninput_items_required[0] = min(
-                8000, 8 * self.osr * (self.packet_len + 1) + self.osr
-            )  # enough samples to find a header inside
-        else:  # processing a previously found packet
-            ninput_items_required[0] = (
-                noutput_items  # pass remaining samples in packet to next block
-            )
-
-    def forecast_v310(self, noutput_items, ninputs):
+    def forecast(self, noutput_items, ninputs):
         """
         Forecast is only called from a general block
         this is the default implementation

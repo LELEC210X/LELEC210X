@@ -56,16 +56,8 @@ class onQuery_noise_estimation(gr.basic_block):
 
         self.gr_version = gr.version()
 
-        # Redefine function based on version
-        if LooseVersion(self.gr_version) < LooseVersion("3.9.0"):
-            self.forecast = self.forecast_v38
-        else:
-            self.forecast = self.forecast_v310
 
-    def forecast_v38(self, noutput_items, ninput_items_required):
-        ninput_items_required[0] = self.n_samples
-
-    def forecast_v310(self, noutput_items, ninputs):
+    def forecast(self, noutput_items, ninputs):
         """
         Forecast is only called from a general block
         this is the default implementation
