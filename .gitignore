@@ -98,4 +98,4 @@ fpga/*/*_sim/
 fpga/incremental_db/
 
 ## ignore vscode files
-./vscode.
+.vscode/
