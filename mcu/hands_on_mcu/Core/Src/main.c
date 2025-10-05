@@ -99,7 +99,16 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1){}
+  while (1){
+	  // Power consumption tests
+
+	  // 2nd test
+	  //HAL_Delay(1000);
+
+	  // 3rd test
+	  //__WFI(); // Wait For Interrupt
+
+  }
   /* USER CODE END WHILE */
 }
 
