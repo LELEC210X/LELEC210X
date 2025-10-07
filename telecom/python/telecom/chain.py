@@ -11,7 +11,7 @@ class Chain:
 
     # Communication parameters
     bit_rate: float = BIT_RATE
-    freq_dev: float = BIT_RATE / 4
+    freq_dev: float = BIT_RATE / 2
 
     osr_tx: int = 64
     osr_rx: int = 8
@@ -33,7 +33,7 @@ class Chain:
         10000  # defines the CFO range when random (in Hz) #(1000 in old repo)
     )
 
-    snr_range: np.ndarray = np.arange(-10, 25)
+    EsN0_range: np.ndarray = np.arange(-10, 25)
 
     # Lowpass filter parameters
     numtaps: int = 100

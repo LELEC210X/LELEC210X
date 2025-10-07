@@ -63,21 +63,21 @@ def main(chain_name: str, seed: int):  # noqa: C901
     mod_path, class_name = chain_name.rsplit(".", 1)
     chain_mod = __import__(mod_path, fromlist=[class_name])
     chain: Chain = getattr(chain_mod, class_name)()
-    SNRs_dB = chain.snr_range
+    EsN0s_dB = chain.EsN0_range
+
     R = chain.osr_rx
     B = chain.bit_rate
     fs = B * R
 
     # Error counters/metric initialisation
-    bit_errors = np.zeros(len(SNRs_dB))
-    packet_errors = np.zeros(len(SNRs_dB))
-    cfo_err = np.zeros(len(SNRs_dB))
-    sto_err = np.zeros(len(SNRs_dB))
-    preamble_misdetect = np.zeros(len(SNRs_dB))  # Preamble miss detection (not found)
+    bit_errors = np.zeros(len(EsN0s_dB))
+    packet_errors = np.zeros(len(EsN0s_dB))
+    cfo_err = np.zeros(len(EsN0s_dB))
+    sto_err = np.zeros(len(EsN0s_dB))
+    preamble_misdetect = np.zeros(len(EsN0s_dB))  # Preamble miss detection (not found)
     preamble_false_detect = np.zeros(
-        len(SNRs_dB)
+        len(EsN0s_dB)
     )  # Preamble false detection (found in noise)
-    SNR_est_matrix = np.zeros((len(SNRs_dB), chain.n_packets))
 
     # Transmitted signals that are independent of the payload bits
     x_pr = chain.modulate(chain.preamble)  # Modulated signal containing preamble
@@ -123,25 +123,13 @@ def main(chain_name: str, seed: int):  # noqa: C901
         )  # Normalized complex normal vector CN(0, 1)
 
         # For loop on the SNRs
-        for k, SNR_dB in enumerate(SNRs_dB):
+        for k, EsN0_dB in enumerate(EsN0s_dB):
             # Add noise
-            SNR = 10 ** (SNR_dB / 10.0)
-            y_noisy = y_cfo + w * np.sqrt(1 / SNR)
+            EsN0 = 10 ** (EsN0_dB / 10.0)
+            y_noisy = y_cfo + w * np.sqrt(chain.osr_rx / EsN0)
 
             # Low-pass filtering
             y_filt = np.convolve(y_noisy, taps, mode="same")
-
-            # SNR estimation
-            noise_power_est = np.mean(
-                np.abs(y_filt[0 : chain.payload_len * chain.osr_rx]) ** 2
-            )
-            signal_energy_est = (
-                np.mean(np.abs(y_filt[-chain.payload_len * chain.osr_rx :]) ** 2)
-                - noise_power_est
-            )
-            SNR_est = signal_energy_est / noise_power_est
-
-            SNR_est_matrix[k, n] = SNR_est
 
             ## Preamble detection stage
             if chain.bypass_preamble_detect:
@@ -256,10 +244,11 @@ def main(chain_name: str, seed: int):  # noqa: C901
     for r in range(0, R):
         for rt in range(0, R):
             sum_Cu += Cu[len(taps) - 1 + r - rt]
-    shift_SNR_out = 10 * np.log10(R**2 / sum_Cu)  # 10*np.log10(chain.osr_rx)
-    shift_SNR_filter = 10 * np.log10(1 / np.sum(np.abs(taps) ** 2))
+    shift_SNR_out = 10 * np.log10(R**2 / sum_Cu)
 
-    SNR_th = np.arange(SNRs_dB[0], SNRs_dB[-1] + shift_SNR_out)
+    EsN0_th = np.arange(EsN0s_dB[0], EsN0s_dB[-1])
+    SNR_th = EsN0_th - 10*np.log10(chain.osr_rx) + shift_SNR_out
+
     BER_th = 0.5 * erfc(np.sqrt(10 ** (SNR_th / 10.0) / 2))
     BER_th_BPSK = 0.5 * erfc(np.sqrt(10 ** (SNR_th / 10.0)))
     BER_th_noncoh = 0.5 * np.exp(-(10 ** (SNR_th / 10.0)) / 2)
@@ -271,17 +260,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
     ax.grid(True)
     ax.set_title("Correlation")
 
-    click.echo(Cu)
-    click.echo(sum_Cu)
-    click.echo(R**2 / sum_Cu)
-    click.echo(np.sum(np.abs(taps) ** 2))
-    click.echo(SNRs_dB)
-    click.echo(SNR_th)
-    click.echo(SNRs_dB - shift_SNR_filter + shift_SNR_out)
-    click.echo(shift_SNR_out)
-    click.echo(shift_SNR_filter)
     ### Plot dashboard
-
     _fig, ax1 = plt.subplots()
     w, h = freqz(taps)
     f = w * fs * 0.5 / np.pi
@@ -299,39 +278,23 @@ def main(chain_name: str, seed: int):  # noqa: C901
 
     # Bit error rate
     _fig, ax = plt.subplots(constrained_layout=True)
-    ax.plot(SNRs_dB + shift_SNR_out, BER, "-s", label="Simulation")
-    ax.plot(SNR_th, BER_th, label="AWGN Th. FSK")
-    ax.plot(SNR_th, BER_th_noncoh, label="AWGN Th. FSK non-coh.")
-    ax.plot(SNR_th, BER_th_BPSK, label="AWGN Th. BPSK")
+    ax.plot(EsN0s_dB, BER, "-s", label="Simulation")
+    ax.plot(EsN0_th, BER_th, label="AWGN Th. FSK")
+    ax.plot(EsN0_th, BER_th_noncoh, label="AWGN Th. FSK non-coh.")
+    ax.plot(EsN0_th, BER_th_BPSK, label="AWGN Th. BPSK")
     ax.set_ylabel("BER")
-    ax.set_xlabel("SNR$_{o}$ [dB]")
+    ax.set_xlabel("$E_{s}/N_{0}$ [dB]")
     ax.set_yscale("log")
     ax.set_ylim((1e-6, 1))
-    ax.set_xlim((0, 30))
+    ax.set_xlim((EsN0s_dB[0], EsN0s_dB[-1]))
     ax.grid(True)
     ax.set_title("Average Bit Error Rate")
     ax.legend()
 
-    # add second axis
-    bool_2_axis = True
-    if bool_2_axis:
-        ax2 = ax.twiny()
-        # ax2.set_xticks(SNRs_dB + shift_SNR_out)
-        ax2.set_xticks(SNRs_dB - shift_SNR_filter + shift_SNR_out)
-        ax2.set_xticklabels(SNRs_dB)
-        ax2.xaxis.set_ticks_position("bottom")
-        ax2.xaxis.set_label_position("bottom")
-        ax2.spines["bottom"].set_position(("outward", 36))
-        # ax2.set_xlabel('SNR [dB]')
-        ax2.set_xlabel(r"$SNR_e$ [dB]")
-        ax2.set_xlim(ax.get_xlim())
-        ax2.xaxis.label.set_color("b")
-        ax2.tick_params(axis="x", colors="b")
-
     # Packet error rate
     _fig, ax = plt.subplots(constrained_layout=True)
-    ax.plot(SNRs_dB + shift_SNR_out, PER, "-s", label="Simulation")
-    ax.plot(SNR_th, 1 - (1 - BER_th) ** chain.payload_len, label="AWGN Th. FSK")
+    ax.plot(EsN0s_dB, PER, "-s", label="Simulation")
+    ax.plot(EsN0_th, 1 - (1 - BER_th) ** chain.payload_len, label="AWGN Th. FSK")
     ax.plot(
         SNR_th,
         1 - (1 - BER_th_noncoh) ** chain.payload_len,
@@ -339,66 +302,49 @@ def main(chain_name: str, seed: int):  # noqa: C901
     )
     ax.plot(SNR_th, 1 - (1 - BER_th_BPSK) ** chain.payload_len, label="AWGN Th. BPSK")
     ax.set_ylabel("PER")
-    ax.set_xlabel("SNR$_{o}$ [dB]")
+    ax.set_xlabel("$E_{s}/N_{0}$ [dB]")
     ax.set_yscale("log")
     ax.set_ylim((1e-6, 1))
-    ax.set_xlim((0, 30))
+    ax.set_xlim((EsN0s_dB[0], EsN0s_dB[-1]))
     ax.grid(True)
     ax.set_title("Average Packet Error Rate")
     ax.legend()
 
-    # add second axis
-    bool_2_axis = True
-    if bool_2_axis:
-        ax2 = ax.twiny()
-        # ax2.set_xticks(SNRs_dB + shift_SNR_out)
-        ax2.set_xticks(SNRs_dB - shift_SNR_filter + shift_SNR_out)
-        ax2.set_xticklabels(SNRs_dB)
-        ax2.xaxis.set_ticks_position("bottom")
-        ax2.xaxis.set_label_position("bottom")
-        ax2.spines["bottom"].set_position(("outward", 36))
-        # ax2.set_xlabel('SNR [dB]')
-        ax2.set_xlabel(r"$SNR_e$ [dB]")
-        ax2.set_xlim(ax.get_xlim())
-        ax2.xaxis.label.set_color("b")
-        ax2.tick_params(axis="x", colors="b")
-
     # Preamble metrics
     plt.figure()
-    plt.plot(SNRs_dB, preamble_mis * 100, "-s", label="Miss-detection")
-    plt.plot(SNRs_dB, preamble_false * 100, "-s", label="False-detection")
+    plt.plot(EsN0s_dB, preamble_mis * 100, "-s", label="Miss-detection")
+    plt.plot(EsN0s_dB, preamble_false * 100, "-s", label="False-detection")
     plt.title("Preamble detection error ")
     plt.ylabel("[%]")
-    plt.xlabel("SNR [dB]")
+    plt.xlabel("$E_{s}/N_{0}$ [dB]")
     plt.ylim([-1, 101])
     plt.grid()
     plt.legend()
     plt.show()
 
-    # RMSE CFO
-    #    plt.figure()
-    #    plt.semilogy(SNRs_dB, RMSE_cfo, "-s")
-    #    plt.title("RMSE CFO")
-    #    plt.ylabel("RMSE [-]")
-    #    plt.xlabel("SNR [dB]")
-    #    plt.grid()
-    #    plt.show()
-    #
-    #    # RMSE STO
-    #    plt.figure()
-    #    plt.semilogy(SNRs_dB, RMSE_sto, "-s")
-    #    plt.title("RMSE STO")
-    #    plt.ylabel("RMSE [-]")
-    #    plt.xlabel("SNR [dB]")
-    #    plt.grid()
-    #    plt.show()
+    # # RMSE CFO
+    # plt.figure()
+    # plt.semilogy(EsN0s_dB, RMSE_cfo, "-s")
+    # plt.title("RMSE CFO")
+    # plt.ylabel("RMSE [-]")
+    # plt.xlabel("$E_{s}/N_{0}$ [dB]")
+    # plt.grid()
+    # plt.show()
+
+    # # RMSE STO
+    # plt.figure()
+    # plt.semilogy(EsN0s_dB, RMSE_sto, "-s")
+    # plt.title("RMSE STO")
+    # plt.ylabel("RMSE [-]")
+    # plt.xlabel("$E_{s}/N_{0}$ [dB]")
+    # plt.grid()
+    # plt.show()
 
     # Save simulation outputs (for later post-processing, building new figures,...)
-    test_name = "test"
+    filename = "sim_outputs"
     save_var = np.column_stack(
         (
-            SNRs_dB,
-            SNRs_dB + shift_SNR_out,
+            EsN0s_dB,
             BER,
             PER,
             RMSE_cfo,
@@ -407,7 +353,8 @@ def main(chain_name: str, seed: int):  # noqa: C901
             preamble_false,
         )
     )
-    np.savetxt(f"{test_name}.csv", save_var, delimiter="\t")
+    np.savetxt(f"{filename}.csv", save_var, delimiter="\t")
+    
     # Read file:
     # data = np.loadtxt('test.csv')
     # SNRs_dB = data[:,0]
