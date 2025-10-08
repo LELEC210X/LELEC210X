@@ -20,7 +20,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "dma.h"
 #include "usart.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -41,14 +43,15 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+volatile uint32_t adc_val = 0;
+volatile uint32_t last_push_time = 0; // to avoid multiple prints
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
 volatile int state;
-volatile uint16_t ADCBuffer[2*ADC_BUF_SIZE]; /* ADC group regular conversion data (array of data) */
+volatile uint16_t ADCBuffer[2*ADC_BUF_SIZE];
 volatile uint16_t* ADCData1;
 volatile uint16_t* ADCData2;
 
@@ -65,22 +68,29 @@ uint32_t get_signal_power(uint16_t *buffer, size_t len);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint32_t adc_val = 0;
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == B1_Pin) {
-		// state = 1-state;
-		if(state == 0){
-			HAL_ADC_Start(&hadc1);
-			if (HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK) {
-			    adc_val = HAL_ADC_GetValue(&hadc1);
-			    printf("ADC Value: %lu\r\n", adc_val);
-			}
-			HAL_ADC_Stop(&hadc1);
-		}
+		// to avoid multiple prints
+		uint32_t current_time = HAL_GetTick();
+		if((current_time - last_push_time) < 200) return;
+		last_push_time = current_time;
+
+		HAL_TIM_Base_Start(&htim3);
+		HAL_ADC_Start_DMA(&hadc1, (uint32_t*)ADCBuffer, ADC_BUF_SIZE);
 	}
 }
 
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
+    if (hadc->Instance == ADC1) {
+        HAL_TIM_Base_Stop(&htim3);
+        HAL_ADC_Stop_DMA(&hadc1);
+        print_buffer((uint16_t*)ADCBuffer);
+    }
+}
+
 void hex_encode(char* s, const uint8_t* buf, size_t len) {
+	// The code provided is a baseline: feel free to
+	// reuse it to improve and extend the functionalities !
     s[2*len] = '\0'; // A string terminated by a zero char.
     for (size_t i=0; i<len; i++) {
         s[i*2] = "0123456789abcdef"[buf[i] >> 4];
@@ -132,8 +142,10 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_LPUART1_UART_Init();
   MX_ADC1_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   RetargetInit(&hlpuart1);
   printf("Hello world!\r\n");
