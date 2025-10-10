@@ -247,7 +247,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
     shift_SNR_out = 10 * np.log10(R**2 / sum_Cu)
 
     EsN0_th = np.arange(EsN0s_dB[0], EsN0s_dB[-1])
-    SNR_th = EsN0_th - 10*np.log10(chain.osr_rx) + shift_SNR_out
+    SNR_th = EsN0_th - 10 * np.log10(chain.osr_rx) + shift_SNR_out
 
     BER_th = 0.5 * erfc(np.sqrt(10 ** (SNR_th / 10.0) / 2))
     BER_th_BPSK = 0.5 * erfc(np.sqrt(10 ** (SNR_th / 10.0)))
@@ -354,7 +354,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
         )
     )
     np.savetxt(f"{filename}.csv", save_var, delimiter="\t")
-    
+
     # Read file:
     # data = np.loadtxt('test.csv')
     # SNRs_dB = data[:,0]

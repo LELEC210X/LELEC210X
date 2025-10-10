@@ -68,7 +68,6 @@ please follow one of next subsections.
 
 In order to install GNU Radio, you need to have access to a Linux system. If your host system does not run a Linux distribution, you will find some suggestions for obtaining access to one below.
 
-
 ### Install Ubuntu via Windows Subsystem for Linux
 
 Windows Subsystem for Linux (WSL) is a Windows program that makes running a Linux image super simple!
@@ -136,14 +135,12 @@ This is going to be, by far, the most performant solution, but will also require
 much more disk space. This solution is recommended for people that might
 want to use Linux later-on, and have at least 60 Go of free memory.
 
-
 ### Install on VirtualBox
 
 You can get Ubuntu running with a virtual machine (VM) using VirtualBox.
 As you will have to run a complete Linux image from your Windows system,
 this solution has a **significant overhead** in terms of processing capability and also in terms of accessibility.
 Indeed, you will work in desktop entirely contained in a window which might be impractical.
-
 
 ## Installation steps
 
@@ -453,6 +450,7 @@ sudo ldconfig
 ```
 
 If the compilation error `Python bindings for {sink,source}_fpga.h are out of sync` occurs, just go back in the parent folder (with `cd -`) folder and use the following commands :
+
 ```bash
 gr_modtool bind -u sink_fpga
 gr_modtool bind -u source_fpga
