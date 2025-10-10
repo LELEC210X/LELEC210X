@@ -39,6 +39,9 @@
  static const char *__doc_gr_limesdr_fpga_source_fpga_set_digital_filter = R"doc()doc";
 
 
+ static const char *__doc_gr_limesdr_fpga_source_fpga_set_gain_sep = R"doc()doc";
+
+ 
  static const char *__doc_gr_limesdr_fpga_source_fpga_set_gain = R"doc()doc";
 
 
@@ -71,6 +74,18 @@
  
  static const char *__doc_gr_limesdr_fpga_source_fpga_set_dspcfg_preamble = R"doc()doc";
 
+ 
+ static const char *__doc_gr_limesdr_fpga_source_fpga_set_dspcfg_fir_en = R"doc()doc";
+ 
+ 
+ static const char *__doc_gr_limesdr_fpga_source_fpga_set_agc = R"doc()doc";
+
+
+ static const char *__doc_gr_limesdr_fpga_source_fpga_set_dspcfg_pass_sum_signal = R"doc()doc";
+
+
+ static const char *__doc_gr_limesdr_fpga_source_fpga_set_dspcfg_red_sum_signal = R"doc()doc";
+ 
  
  static const char *__doc_gr_limesdr_fpga_source_fpga_get_dspcfg_long_sum = R"doc()doc";
 

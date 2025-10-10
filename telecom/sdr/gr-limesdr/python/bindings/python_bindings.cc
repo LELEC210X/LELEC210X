@@ -19,6 +19,7 @@ namespace py = pybind11;
 // BINDING_FUNCTION_PROTOTYPES(
     void bind_sink_fpga(py::module& m);
     void bind_source_fpga(py::module& m);
+    void bind_flag_detector(py::module& m);
 // ) END BINDING_FUNCTION_PROTOTYPES
 
 
@@ -49,5 +50,6 @@ PYBIND11_MODULE(limesdr_fpga_python, m)
     // BINDING_FUNCTION_CALLS(
         bind_sink_fpga(m);
         bind_source_fpga(m);
+        bind_flag_detector(m);
     // ) END BINDING_FUNCTION_CALLS
 }

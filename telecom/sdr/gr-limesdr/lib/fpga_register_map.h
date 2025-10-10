@@ -26,8 +26,13 @@ struct DSPCFGParameter
 
 static const struct DSPCFGParameter DSPCFG_PASSTHROUGH_LEN = { 0x000b, 15, 0, 255, "" };
 static const struct DSPCFGParameter DSPCFG_THRESHOLD       = { 0x000d, 7, 0, 12, "" };
-static const struct DSPCFGParameter DSPCFG_CLEAR_RS   = { 0x000e, 1, 1, 0, "" };
-static const struct DSPCFGParameter DSPCFG_PREAMBLE_EN = { 0x000e, 0, 0, 0, "" };
+//static const struct DSPCFGParameter DSPCFG_CLEAR_RS   = { 0x000e, 1, 1, 0, "" };
+//static const struct DSPCFGParameter DSPCFG_PREAMBLE_EN = { 0x000e, 0, 0, 0, "" };
+static const struct DSPCFGParameter DSPCFG_RED_SUM_SIGNAL   = { 0x000e, 4, 4, 0, "" };
+static const struct DSPCFGParameter DSPCFG_PASS_SUM_SIGNAL  = { 0x000e, 3, 3, 0, "" };
+static const struct DSPCFGParameter DSPCFG_FIR_EN           = { 0x000e, 2, 2, 0, "" };
+static const struct DSPCFGParameter DSPCFG_CLEAR_RS         = { 0x000e, 1, 1, 0, "" };
+static const struct DSPCFGParameter DSPCFG_PREAMBLE_EN      = { 0x000e, 0, 0, 0, "" };
 static const struct DSPCFGParameter DSPCFG_PREAMBLE_SHORT_SUM_MSB = { 0x000f, 15, 0, 0, "" };
 static const struct DSPCFGParameter DSPCFG_PREAMBLE_SHORT_SUM_LSB = { 0x0010, 15, 0, 0, "" };
 static const struct DSPCFGParameter DSPCFG_PREAMBLE_LONG_SUM_MSB = { 0x0011, 15, 0, 0, "" };

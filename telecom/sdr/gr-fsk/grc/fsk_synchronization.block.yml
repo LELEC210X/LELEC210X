@@ -4,9 +4,9 @@ category: "[FSK]"
 
 templates:
   imports: import fsk
-  make: fsk.synchronization(${drate}, ${fdev}, ${fsamp}, ${hdr_len}, ${packet_len}, ${tx_power},${enable_log})
+  make: fsk.synchronization(${drate}, ${fdev}, ${fsamp}, ${hdr_len}, ${packet_len}, ${Grx},${enable_log})
   callbacks:
-  - set_tx_power(${tx_power})
+  - set_Grx(${Grx})
   - set_enable_log(${enable_log})
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
@@ -30,8 +30,8 @@ parameters:
   - id: packet_len
     label: Packet Length (bytes)
     dtype: int
-  - id: tx_power
-    label: TX power used
+  - id: Grx
+    label: RX Gain used
     dtype: float
   - id: enable_log
     label: Print packet metrics

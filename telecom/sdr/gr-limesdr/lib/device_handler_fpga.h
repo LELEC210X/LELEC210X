@@ -331,6 +331,8 @@ public:
 
     int read_spi_reg_bits(lms_device_t *device, const uint16_t address, const uint8_t msb, const uint8_t lsb);
 
+    int modify_spi_reg_bits(lms_device_t *device, const LMS7Parameter &param, const uint16_t value);
+
     int modify_spi_reg_bits(lms_device_t *device, const DSPCFGParameter &param, const uint16_t value);
 
     int modify_spi_reg_bits(lms_device_t *device, const uint16_t address, const uint8_t msb, const uint8_t lsb, const uint16_t value);
@@ -352,9 +354,13 @@ public:
      *
      * @param   dspcfg_THRESHOLD  Default value is 2048 range is [1,65535]
      */
-    void set_dspcfg_preamble(int device_number, uint16_t dspcfg_PASSTHROUGH_LEN, uint8_t dspcfg_THRESHOLD, int dspcfg_preamble_en);
+    void set_dspcfg_preamble(int device_number, uint16_t dspcfg_PASSTHROUGH_LEN, float dspcfg_THRESHOLD, int dspcfg_preamble_en);
 
+    void set_dspcfg_fir_en(int device_number, int dspcfg_fir_en);
 
+    void set_dspcfg_pass_sum_signal(int device_number, int dspcfg_pass_sum_signal);
+
+    void set_dspcfg_red_sum_signal(int device_number, int dspcfg_red_sum_signal);
     /**
      * Set the number of samples to let through the Preamble Detector once the threshold is reached.
      * 
@@ -372,6 +378,10 @@ public:
      * @param   dspcfg_THRESHOLD  Default value is 2048 range is [1,4294967295]
      */
     void set_dspcfg_THRESHOLD(int device_number, uint8_t dspcfg_THRESHOLD);
+
+    void set_agc(int device_number, int agc_enable, int K, int desired_output, int RSSI_mode,int AGC_mode, int AGC_window);
+    
+    void set_gain_sep(int device_number, int lna, int tia, int pga);
 
     void set_dspcfg_clear_rs(int device_number, int setting);
 

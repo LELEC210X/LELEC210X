@@ -20,5 +20,6 @@
 install(FILES
     limesdr_fpga_source.block.yml
     limesdr_fpga_sink.block.yml
+    limesdr_fpga_flag_detector.block.yml
     DESTINATION share/gnuradio/grc/blocks
 )

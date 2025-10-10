@@ -124,6 +124,7 @@ public:
      *
      * @return actual gain in dB
      */
+    
     virtual unsigned set_gain(unsigned gain_dB, int channel = 0) = 0;
 
     /**
@@ -189,7 +190,17 @@ public:
      * @param   dspcfg_PASSTHROUGH_LEN  Default value is 100 range is [1,1024]
      * @param   dspcfg_THRESHOLD  Default value is 100 range is [1,65535]
      */
-    virtual void set_dspcfg_preamble( uint16_t dspcfg_PASSTHROUGH_LEN = 100u, uint8_t dspcfg_THRESHOLD = 100u, int dspcfg_preamble_en = 0) = 0;
+    virtual void set_dspcfg_preamble( uint16_t dspcfg_PASSTHROUGH_LEN = 100u, float dspcfg_THRESHOLD = 100u, int dspcfg_preamble_en = 0) = 0;
+
+    virtual void set_dspcfg_fir_en( int dspcfg_fir_en = 0) = 0;
+    
+    virtual void set_dspcfg_pass_sum_signal( int dspcfg_pass_sum_signal = 0) = 0;
+    
+    virtual void set_dspcfg_red_sum_signal( int dspcfg_red_sum_signal = 0) = 0;
+    
+    virtual void set_agc( int agc_enable=0, int K=0, int desired_output=0, int RSSI_mode=0,int AGC_mode=0, int AGC_window=0) = 0;
+    
+    virtual void set_gain_sep(int lna=0, int tia=0, int pga=0) = 0;
 
     virtual uint32_t get_dspcfg_long_sum() = 0;
 

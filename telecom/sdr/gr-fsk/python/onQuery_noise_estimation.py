@@ -39,7 +39,8 @@ class onQuery_noise_estimation(gr.basic_block):
             self.mean_noise_est = 0
             self.do_a_query = 1
 
-    def __init__(self, n_samples, n_est, query):
+    def __init__(self, n_samples, n_est, query, osr):
+        self.osr = osr
         self.n_samples = n_samples
         self.n_est = n_est
         self.mean_noise_est = 0
