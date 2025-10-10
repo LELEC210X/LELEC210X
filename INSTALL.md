@@ -438,7 +438,7 @@ to the `PYTHONPATH` variable with the following command you should adapt to your
 echo "export PYTHONPATH='/usr/local/XXX/dist-packages/:$PYTHONPATH'" >> ~/.bashrc
 ```
 
-#### (After H4) Ubuntu - Install Gr-LimeSDR custom components
+#### (After H3b) Ubuntu - Install Gr-LimeSDR custom components
 
 #### For everyone
 
