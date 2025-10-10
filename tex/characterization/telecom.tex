@@ -8,7 +8,7 @@ When running the flowgraph, you will be able to specify manually the transmit po
 
 Once all packets have been transmitted, you can post-process the \texttt{measurements.txt} file using the following Python script:
     \begin{center}
-    \texttt{python read\_measurements.py measurements.txt}\\
+    \texttt{uv run read-measurements measurements.txt}\\
     \end{center}
 The script extracts different metrics for each of the packet received, successfully or not. You can then use the output dataframe as you wish in order to create your PER-SNR curves. It is not mandatory to use this script if you prefer to start from scratch.
 

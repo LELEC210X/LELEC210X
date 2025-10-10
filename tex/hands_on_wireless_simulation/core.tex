@@ -81,14 +81,14 @@ The demodulator recovers the symbol sequence based on the CPFSK modulated signal
 Finally, the packet parser is responsible for determining the beginning of the payload bits in the bit sequence coming from the demodulator. As such, it recovers the frame delay $kT$. The CRC is also checked to determine if all bits have been demodulated properly.
 
 \subsection{Simulation framework}
-The provided simulation framework contains four files:
+The provided simulation framework contains three files:
 \begin{itemize}
-    \item \textbf{sim.py}: this is the body of the simulation framework. It modulates the sent packets, applies the channel and uses the synchronization and demodulation functions implemented by \texttt{Chain} subclasses. It provides several performance metrics as outputs. Normally, you should not modify anything in this file, except the plots at the end if you want to customize them and the simulated chain at the very bottom. You can also add an automatic save of the simulation data to post-process it later on. Nevertheless, you are highly encouraged to skim through the file and the comments to understand the different steps involved.
-    \item \textbf{chain.py}: this contains the \texttt{Chain} with most of the modulation parameters and the prototypes of the modulation, demodulation and synchronization functions. You can change the modulation parameters in this file if you want to study their effects but you will implement the functions in subclasses, e.g., \texttt{BasicChain}.
-    \item \textbf{test.py}: the purpose of this file is to help you to implement the demodulation and CFO estimation functions. Indeed, it contains a simplified version of the communication chain, useful for debugging your implementation.
+    \item \textbf{simulate.py}: this is the body of the simulation framework. It modulates the packets, applies the channel and uses the synchronization and demodulation functions implemented by \texttt{Chain} subclasses. It provides several performance metrics as outputs. Normally, you should not modify anything in this file, except the plots at the end if you want to customize them and the simulated chain at the very bottom. You can also add an automatic save of the simulation data to post-process it later on. Nevertheless, you are highly encouraged to skim through the file and the comments to understand the different steps involved.
+    \item \textbf{chain.py}: this contains the \texttt{Chain} with most of the modulation parameters and the prototypes of the modulation, demodulation and synchronization functions. You can change the modulation parameters in this file if you want to study their effects, but you will implement the functions in subclasses, e.g., \texttt{BasicChain}.
+    \item \textbf{test_chain.py}: the purpose of this file is to help you to implement the demodulation and CFO estimation functions. Indeed, it contains a simplified version of the communication chain, useful for debugging your implementation.
 \end{itemize}
 
-In order to launch the simulation, you only have to execute the \textbf{sim.py} file as it includes and calls the two other files. Try to run the simulation. You should observe a bit error rate (BER) of 0.5 since the demodulation is not implemented.
+In order to launch the simulation, you only have to execute the \textbf{simulate.py} file as it includes and calls the two other files. Try to run the simulation. You should observe a bit error rate (BER) of 0.5 since the demodulation is not implemented.
 
 In the next sections, we will investigate step by step the different blocks of the simulation framework.
 
@@ -112,7 +112,7 @@ Assuming a symbol mapping such as the bit $0$ (resp. bit $1$) corresponds to the
 
 
 
-As an example, the 2-CPFSK signal of the bit sequence "$0010110$" modulated with a bit rate $B$ of \SI{50}{\kilo\hertz}, a frequency deviation $\Delta_f=\frac{B}{4}$ and a TX oversampling factor $R_{\text{TX}}=4$ is given in \autoref{fig:2CPFSKbaseband}\footnote{You can generate figures similar to this one using the file \textbf{test.py}.}. You can also observe the continuous analog waveform $x(t)$ in light blue. Make sure you understand the different representations given in the figure (complex baseband representations). Determine the symbol period and, looking at the evolution of the phase, try to recover the sent bits.
+As an example, the 2-CPFSK signal of the bit sequence "$0010110$" modulated with a bit rate $B$ of \SI{50}{\kilo\hertz}, a frequency deviation $\Delta_f=\frac{B}{4}$ and a TX oversampling factor $R_{\text{TX}}=4$ is given in \autoref{fig:2CPFSKbaseband}\footnote{You can generate figures similar to this one using the file \textbf{test_chain.py}.}. You can also observe the continuous analog waveform $x(t)$ in light blue. Make sure you understand the different representations given in the figure (complex baseband representations). Determine the symbol period and, looking at the evolution of the phase, try to recover the sent bits.
 
 \begin{figure}[h]
     \centering
@@ -134,7 +134,7 @@ Classically, for 2-FSK or 2-CPFSK modulations, one tends to demodulate the recei
 
 The \textbf{coherent detection} then compares the \textbf{real part} of $r_1$ and $r_0$ to select the largest as the most likely sent symbol. However, this assumes that the phase of the received signal is known, which is not the case here (as this would imply to add another synchronization block dedicated to the phase estimation).
 
-In the case of \textbf{non-coherent detection}, the \textbf{modulus} of $r_1$ and $r_0$ is compared and the decision is taken as follows:
+In the case of \textbf{non-coherent detection}, the \textbf{modulus} of $r_1$ and $r_0$ is compared, and the decision is taken as follows:
 \begin{align*}
     &\hat{I}[k]=1 \: \:\:\:\:\:\:\:\text{if}\:\:\: |r_1| > |r_0|,\\
     &\hat{I}[k]=-1 \:\: \:\:\text{if}\:\:\: |r_1| < |r_0|.
@@ -154,7 +154,7 @@ Therefore, the decision variables $r_1$ and $r_0$ for the symbol $I[k]$ are appr
 \end{small}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Implementation of demodulation}
-Complete the \py{demodulate()} function in the file \textbf{chain.py} based on the development presented above (non-coherent detection) and the comments. Test your implementation using \textbf{test.py} and make sure the demodulated bits are the same as the sent ones (since there is no added noise).
+Complete the \py{demodulate()} function in the file \textbf{chain.py} based on the development presented above (non-coherent detection) and the comments. Test your implementation using \textbf{test_chain.py} and make sure the demodulated bits are the same as the sent ones (since there is no added noise).
 \end{bclogo}
 
 \subsection{BER-SNR curve}
@@ -173,36 +173,20 @@ Often, the demodulation performances of a communication chain are determined by 
 
 This simulated BER-SNR curve can then be compared to some theoretical curves, obtained thanks to mathematical developments based on the decision variable and the model of the noise (AWGN). For example, the bit error probability in the case of a BPSK transmission is given by
 \begin{equation*}
-    p_{e,\text{BPSK}}\:=\:\frac{1}{2} \text{erfc}\left(\sqrt{\text{SNR}_o}\right),
+    p_{e,\text{BPSK}}\:=\:\frac{1}{2} \text{erfc}\left(\sqrt{\frac{\varepsilon}{N_0}}\right).
 \end{equation*}
-where $\text{SNR}_o$ is the SNR on the decision variable.
 
 In the case of a FSK transmission with orthogonal signals, the bit error probability is
 \begin{equation*}
-    p_{e,\text{FSK}}\:=\:\frac{1}{2} \text{erfc}\left(\sqrt{\frac{\text{SNR}_o}{2}}\right).
+    p_{e,\text{FSK}}\:=\:\frac{1}{2} \text{erfc}\left(\sqrt{\frac{\varepsilon}{2N_0}}\right).
 \end{equation*}
 
 Finally, when non-coherent (nc) detection is used with (CP)FSK orthogonal signals:
 \begin{equation*}
-    p_{e,\text{FSK nc}}\:=\:\frac{1}{2}e^{-\text{SNR}_o/2}.
+    p_{e,\text{FSK nc}}\:=\:\frac{1}{2}e^{-\varepsilon/2N_0}.
 \end{equation*}
 
-The expressions of these theoretical curves enable you to compare your simulation results with the theory. However, the theoretical expressions involve the SNR on the decision variable, denoted $\text{SNR}_o$, and not directly the SNR defined previously, on each sample. The link between these two quantities is extracted from the definition of the decision variable. For example, the decision variable $r_1$ when the sent symbol $I[k]$ is a $1$ is (looking only over one symbol, assuming $k=0$ for simplicity):
-\begin{small}
-\begin{align*}
-    r_1\: &= \:\frac{1}{R_{\text{RX}}}\sum_{n=0}^{R_{\text{RX}}-1} y[n] \:\exp \left(-j2\pi \Delta_f \frac{nT}{R_{\text{RX}}}\right)\\
-    &=\:\frac{1}{R_{\text{RX}}}\sum_{n=0}^{R_{\text{RX}}-1} \left(\exp \left(j2\pi \Delta_f \frac{nT}{R_{\text{RX}}}\right)+w[n]\right) \:\exp \left(-j2\pi \Delta_f  \frac{nT}{R_{\text{RX}}}\right)\\
-    &=\:1\:+\:\frac{1}{R_{\text{RX}}}\sum_{n=0}^{R_{\text{RX}}-1} \underbrace{w[n] \:\exp \left(-j2\pi \Delta_f \frac{nT}{R_{\text{RX}}}\right)}_{w'[n] \:\sim\: \mathcal{CN}(0,\sigma_w^2)}\:=\:1\:+\:\underbrace{\frac{1}{R_{\text{RX}}}\sum_{n=0}^{R_{\text{RX}}-1} w'[n]}_{\tilde{w}},
-\end{align*}
-\end{small}
-because the exponential is just introducing a phase shift of the noise and thus does not change its variance. Since the $w'[n]$ are independent and identically distributed, the variable $\sum_{n=0}^{R_{\text{RX}}-1} w'[n]$ follows a distribution $\mathcal{CN}(0,R_{\text{RX}}\sigma_w^2)$ and $\tilde{w}\:\sim\:\mathcal{CN}(0,\frac{\sigma_w^2}{R_{\text{RX}}})$. The $\text{SNR}_o$ on the decision variable $r_1$ is therefore given by the ratio between the power of the useful signal ($=1$) and the power of the noise ($=\sigma_w^2/R_{\text{RX}}$):
-\begin{equation*}
-    \text{SNR}_{o}\:=\:\frac{R_{\text{RX}}}{\sigma_w^2}\:=\:R_{\text{RX}}\: \text{SNR}.
-\end{equation*}
-\textbf{This expression is only valid if the noise is white. If it has been filtered (i.e. the noise samples are correlated), it must be adapted.} Nevertheless,
-this explains the SNR shift (in dB) that you can find in the simulation framework. Intuitively, it comes from the fact that $R_{\text{RX}}$ samples are aggregated together in the decision variable and add up coherently, whereas the $R_{\text{RX}}$ noise samples does not add coherently.
-
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of BER-SNR curve}
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of BER-SNR\footnote{Actually, it is the BER-$\varepsilon/N_0$ curve.} curve}
 You now have all the necessary explanations to understand the generation of BER-SNR curves by the simulation framework and compare them with the theory. In \textbf{chain.py}, make sure all the booleans bypassing the synchronization are set to \py{True}. Then, run the file and observe the generated BER-SNR curves. Do they stick to the theoretical curves?
 
 Normally, your curve should have a trend similar to the theoretical curve, hinting that your demodulate function works properly. However, you can expect some differences but do not investigate them now. This will be part of the characterization report as well as of future improvements in the communication part of the project.
@@ -319,7 +303,7 @@ From the estimation of the frequency offset, the frequency offset correction is 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Implementation of Moose algorithm}
 Implement the Moose algorithm in the \py{cfo_estimation()} function in \textbf{chain.py}. The preamble has already been detected, such that the first samples of the input vector $y$ contains repeating sequence of modulated "$10$". Use blocks of 4 bits ($N=4$) and return $\widehat{\Delta f_c}$.
 
-To test your implementation, first use \textbf{test.py} and make sure the estimated CFO corresponds to the applied one. You can then use the \textbf{chain.py} file, setting the CFO bypass boolean to \py{False}. Look at the RMSE, does it decrease with larger SNR?
+To test your implementation, first use \textbf{test_chain.py} and make sure the estimated CFO corresponds to the applied one. You can then use the \textbf{chain.py} file, setting the CFO bypass boolean to \py{False}. Look at the RMSE, does it decrease with larger SNR?
 
 By default, the CFOs applied in the simulation are random, in the range specified in \textbf{chain.py}. You can also decide to apply a constant frequency offset by giving a non-zero value to \py{cfo_val} in \textbf{chain.py} and removing \py{cfo_val = np.nan} in \textbf{chain.py}.
 \end{bclogo}
@@ -389,7 +373,7 @@ def sto_estimation(self, y):
 \subsection{Frame estimation}
 Finally, only the frame estimation remains and is implemented in the packet parser. At this stage, bits have been demodulated and one is interested in knowing where the payload bits start.
 
-Since the sent packets contain a sequence known by the receiver (the sync word sequence), the receiver can locate this sequence in the demodulated bits. Then the bits after this sequence will be the payload bits. This is achieved by performing a correlation between the demodulated bit sequence and the known sequence (\py{sync_word}, encoded in \textbf{chain.py}). This correlation is computed in \textbf{sim.py} by first converting the bit sequences into symbol sequences of $-1$ and $1$. The Python code is given in \autoref{fig:code_fr}.
+Since the sent packets contain a sequence known by the receiver (the sync word sequence), the receiver can locate this sequence in the demodulated bits. Then the bits after this sequence will be the payload bits. This is achieved by performing a correlation between the demodulated bit sequence and the known sequence (\py{sync_word}, encoded in \textbf{chain.py}). This correlation is computed in \textbf{simulate.py} by first converting the bit sequences into symbol sequences of $-1$ and $1$. The Python code is given in \autoref{fig:code_fr}.
 \begin{listing}[H]
 \begin{python}
 import numpy as np
@@ -399,7 +383,7 @@ start_frame = np.argmax(v)+1
 bits_hat_pay = bits_hat[start_frame:start_frame+chain.payload_len]
 
 \end{python}
-\caption{Python code for frame estimation (from \textbf{sim.py}).}
+\caption{Python code for frame estimation (from \textbf{simulate.py}).}
 \label{fig:code_fr}
 \end{listing}
 
