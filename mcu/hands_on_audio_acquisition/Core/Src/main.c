@@ -38,7 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define ADC_BUF_SIZE 256
+#define ADC_BUF_SIZE 30000 //256
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -71,20 +71,55 @@ uint32_t get_signal_power(uint16_t *buffer, size_t len);
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == B1_Pin) {
 		// to avoid multiple prints
+
+
 		uint32_t current_time = HAL_GetTick();
 		if((current_time - last_push_time) < 200) return;
 		last_push_time = current_time;
 
-		HAL_TIM_Base_Start(&htim3);
-		HAL_ADC_Start_DMA(&hadc1, (uint32_t*)ADCBuffer, ADC_BUF_SIZE);
+		state = 1- state;
+		if(state == 1){
+			HAL_TIM_Base_Start(&htim3);
+			HAL_ADC_Start_DMA(&hadc1, (uint32_t*)ADCBuffer, 2*ADC_BUF_SIZE);
+		}
+		else{
+    		printf("Button stop\r\n");
+    		print_buffer((uint16_t*)ADCBuffer);
+    		HAL_TIM_Base_Stop(&htim3);
+    		HAL_ADC_Stop_DMA(&hadc1);
+		}
+
 	}
 }
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
     if (hadc->Instance == ADC1) {
-        HAL_TIM_Base_Stop(&htim3);
-        HAL_ADC_Stop_DMA(&hadc1);
-        print_buffer((uint16_t*)ADCBuffer);
+
+    	uint32_t p = get_signal_power((uint16_t*)ADCData2, ADC_BUF_SIZE);
+
+    	if(p > 50){
+    		printf("full\r\n");
+    		state = 0;
+    		print_buffer((uint16_t*)ADCBuffer);
+    		HAL_TIM_Base_Stop(&htim3);
+    		HAL_ADC_Stop_DMA(&hadc1);
+    	}
+
+    }
+}
+
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc) {
+    if (hadc->Instance == ADC1) {
+
+    	uint32_t p = get_signal_power((uint16_t*)ADCData1, ADC_BUF_SIZE);
+    	if(p > 50){
+    		printf("half\r\n");
+    		state = 0;
+    		print_buffer((uint16_t*)ADCBuffer);
+    		HAL_TIM_Base_Stop(&htim3);
+    		HAL_ADC_Stop_DMA(&hadc1);
+    	}
+
     }
 }
 
