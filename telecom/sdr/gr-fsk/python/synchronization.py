@@ -158,10 +158,10 @@ class synchronization(gr.basic_block):
                     self.logger.info(
                         f"CFO {self.cfo:.2f} Hz, STO {self.init_sto}, SRNest: {10 * np.log10(SNR_est):.2f} dB, Avg. Amplitude: {np.mean(np.abs(y)):.2e}"
                     )
-                    
+
                 measurements_logger.info(f"CFO={self.cfo},STO={self.init_sto}")
                 measurements_logger.info(f"SNRdB={10 * np.log10(SNR_est):.2f},GRXdB={self.Grx}"                )
-            
+
                 self.consume_each(win_size + self.osr - self.init_sto)
             else:
                 self.consume_each(win_size)

@@ -70,7 +70,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
     fs = B * R
 
     # Error counters/metric initialisation
-    snr_est    = np.zeros((len(EsN0s_dB),2))
+    snr_est = np.zeros((len(EsN0s_dB), 2))
     bit_errors = np.zeros(len(EsN0s_dB))
     packet_errors = np.zeros(len(EsN0s_dB))
     cfo_err = np.zeros(len(EsN0s_dB))
@@ -88,7 +88,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
     )  # Padding some zeros before the packets
 
     # Lowpass filter taps
-    if chain.numtaps!=0 :
+    if chain.numtaps != 0:
         taps = firwin(chain.numtaps, chain.cutoff, fs=fs)
 
     rng = np.random.default_rng(seed)
@@ -132,9 +132,9 @@ def main(chain_name: str, seed: int):  # noqa: C901
             y_noisy = y_cfo + noise
 
             # Low-pass filtering
-            if chain.numtaps!=0 :
+            if chain.numtaps != 0:
                 y_filt = np.convolve(y_noisy, taps, mode="same")
-            else :
+            else:
                 y_filt = y_noisy
 
             ## Preamble detection stage
@@ -167,9 +167,17 @@ def main(chain_name: str, seed: int):  # noqa: C901
                     preamble_misdetect[k] += 1
                     preamble_error = True
 
-
-                snr_est[k,0] += (np.var(y_noisy[chain.payload_len*chain.osr_rx+chain.osr_tx:-(2*chain.osr_tx)] )- np.var(noise))/np.var(noise)
-                snr_est[k,1] += 1
+                snr_est[k, 0] += (
+                    np.var(
+                        y_noisy[
+                            chain.payload_len * chain.osr_rx + chain.osr_tx : -(
+                                2 * chain.osr_tx
+                            )
+                        ]
+                    )
+                    - np.var(noise)
+                ) / np.var(noise)
+                snr_est[k, 1] += 1
 
                 y_detect = y_filt[detect_idx:]
                 ## Synchronization stage
@@ -248,8 +256,8 @@ def main(chain_name: str, seed: int):  # noqa: C901
     preamble_false = preamble_false_detect / chain.n_packets
 
     # Theoretical curves - normalization
-    
-    if chain.numtaps!=0 :
+
+    if chain.numtaps != 0:
         Cu = np.correlate(taps, taps, mode="full")  # such that Cu[len(taps)-1] = 1
         sum_Cu = 0
         for r in range(0, R):
@@ -257,12 +265,12 @@ def main(chain_name: str, seed: int):  # noqa: C901
                 sum_Cu += Cu[len(taps) - 1 + r - rt]
         shift_SNR_out = 10 * np.log10(R**2 / sum_Cu)
         # Filter correlation
-        _fig, ax = plt.subplots(1, 2, constrained_layout=True, figsize = (10,4))
+        _fig, ax = plt.subplots(1, 2, constrained_layout=True, figsize=(10, 4))
         ax[0].plot(np.arange(len(Cu)), Cu)
         ax[0].plot(np.arange(len(Cu)), np.abs(Cu))
         ax[0].grid(True)
         ax[0].set_title("Correlation")
-        #Filter transfer function
+        # Filter transfer function
         w, h = freqz(taps)
         f = w * fs * 0.5 / np.pi
         ax[1].set_title("FIR response")
@@ -275,8 +283,8 @@ def main(chain_name: str, seed: int):  # noqa: C901
         ax2.set_ylabel("Angle (radians)", color="g")
         ax2.grid(True)
         ax2.axis("tight")
-    else :
-        shift_SNR_out =  10 * np.log10(chain.osr_rx)
+    else:
+        shift_SNR_out = 10 * np.log10(chain.osr_rx)
 
     EsN0_th = np.arange(EsN0s_dB[0], EsN0s_dB[-1])
     SNR_th = EsN0_th - 10 * np.log10(chain.osr_rx) + shift_SNR_out
@@ -285,8 +293,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
     BER_th_BPSK = 0.5 * erfc(np.sqrt(10 ** (SNR_th / 10.0)))
     BER_th_noncoh = 0.5 * np.exp(-(10 ** (SNR_th / 10.0)) / 2)
 
-
-    _fig, ax = plt.subplots(1, 2, constrained_layout=True, figsize = (10,4))
+    _fig, ax = plt.subplots(1, 2, constrained_layout=True, figsize=(10, 4))
     ax[0].plot(EsN0s_dB, BER, "-s", label="Simulation")
     ax[0].plot(EsN0_th, BER_th, label="AWGN Th. FSK")
     ax[0].plot(EsN0_th, BER_th_noncoh, label="AWGN Th. FSK non-coh.")
@@ -307,7 +314,9 @@ def main(chain_name: str, seed: int):  # noqa: C901
         1 - (1 - BER_th_noncoh) ** chain.payload_len,
         label="AWGN Th. FSK non-coh.",
     )
-    ax[1].plot(SNR_th, 1 - (1 - BER_th_BPSK) ** chain.payload_len, label="AWGN Th. BPSK")
+    ax[1].plot(
+        SNR_th, 1 - (1 - BER_th_BPSK) ** chain.payload_len, label="AWGN Th. BPSK"
+    )
     ax[1].set_ylabel("PER")
     ax[1].set_xlabel("$E_{s}/N_{0}$ [dB]")
     ax[1].set_yscale("log")
@@ -318,7 +327,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
     ax[1].legend()
 
     # Preamble metrics
-    _fig, ax = plt.subplots(1, 3, constrained_layout=True, figsize = (10,4))
+    _fig, ax = plt.subplots(1, 3, constrained_layout=True, figsize=(10, 4))
     ax[0].plot(EsN0s_dB, preamble_mis * 100, "-s", label="Miss-detection")
     ax[0].plot(EsN0s_dB, preamble_false * 100, "-s", label="False-detection")
     ax[0].set_title("Preamble detection error ")

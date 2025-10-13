@@ -2,10 +2,9 @@ from collections import defaultdict
 from pathlib import Path
 
 import click
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 
 @click.command()
@@ -30,7 +29,6 @@ import seaborn as sns
     show_default=True,
     help="Show plots.",
 )
-
 def main(
     file: Path,
     snr_tol: float,
@@ -59,15 +57,12 @@ def main(
             elif line.startswith("packet"):
                 *_, payload = line.split(",", maxsplit=2)
                 payload = list(map(int, payload.split("=")[1][1:-1].split(",")))
-                biterror = (
-                    np.unpackbits(
-                        expected_payload ^ np.array(payload, dtype=np.uint8)
-                    ).sum()
-                )
+                biterror = np.unpackbits(
+                    expected_payload ^ np.array(payload, dtype=np.uint8)
+                ).sum()
                 invalid = 1 if biterror > 0 else 0
                 data["biterror"].append(biterror)
                 data["invalid"].append(invalid)
-
 
     if not quiet or plot:
         df = pd.DataFrame.from_dict(data)
@@ -78,13 +73,15 @@ def main(
 
             def remove_outliers(group):
                 median_snr = group["snr"].median()
-                return group[(group["snr"] >= median_snr - snr_tol) &
-                             (group["snr"] <= median_snr + snr_tol)]
-            
-            _fig, ax = plt.subplots(1, 2, constrained_layout=True, figsize = (10,4))
-            df.boxplot       (ax=ax[0],column="snr", by="Grx", grid=True)
+                return group[
+                    (group["snr"] >= median_snr - snr_tol)
+                    & (group["snr"] <= median_snr + snr_tol)
+                ]
+
+            _fig, ax = plt.subplots(1, 2, constrained_layout=True, figsize=(10, 4))
+            df.boxplot(ax=ax[0], column="snr", by="Grx", grid=True)
             df = df.groupby("Grx", group_keys=False).apply(remove_outliers)
-            df.boxplot       (ax=ax[1],column="snr", by="Grx", grid=True)
+            df.boxplot(ax=ax[1], column="snr", by="Grx", grid=True)
             ax[0].set_ylabel("Measured SNR (dB)")
             ax[0].set_xlabel("RX Gain used (dB)")
             ax[0].grid(True)
@@ -100,26 +97,30 @@ def main(
             plt.xlabel("Number")
             plt.ylabel("Frequency (Hz)")
 
-            agg = df.groupby("Grx").agg(
-                snr_mean=("snr",     "mean"),
-                per_mean=("invalid", "mean"),
-                biterror=("biterror", "sum"),
-                count=("biterror", "count")
-            ).reset_index()
-            
-            ber = agg["biterror"]/(agg["count"]*num_bits)
+            agg = (
+                df.groupby("Grx")
+                .agg(
+                    snr_mean=("snr", "mean"),
+                    per_mean=("invalid", "mean"),
+                    biterror=("biterror", "sum"),
+                    count=("biterror", "count"),
+                )
+                .reset_index()
+            )
+
+            ber = agg["biterror"] / (agg["count"] * num_bits)
 
             includeSimData = True
             if includeSimData:
-                data    = np.loadtxt('./telecom/python/telecom/sim_outputs.csv')
-                EsN0_db = data[:,0]
-                sim_BER = data[:,1]
-                sim_PER = data[:,2]
+                data = np.loadtxt("./telecom/python/telecom/sim_outputs.csv")
+                EsN0_db = data[:, 0]
+                sim_BER = data[:, 1]
+                sim_PER = data[:, 2]
 
-                SNR_th = 10**(EsN0_db/10)           
+                SNR_th = 10 ** (EsN0_db / 10)
                 BER_th_noncoh = 0.5 * np.exp(-(10 ** (EsN0_db / 10.0)) / 2)
-                        
-            _fig, ax = plt.subplots(1, 2, constrained_layout=True, figsize = (10,4))
+
+            _fig, ax = plt.subplots(1, 2, constrained_layout=True, figsize=(10, 4))
             ax[0].plot(agg["snr_mean"], ber, "-s", label="Measurement")
             ax[0].plot(EsN0_db, BER_th_noncoh, label="AWGN Th. FSK non-coh.")
             ax[0].plot(EsN0_db, sim_BER, label="Simulation")
@@ -132,7 +133,11 @@ def main(
             ax[0].legend()
 
             ax[1].plot(agg["snr_mean"], agg["per_mean"], "-s", label="Measurement")
-            ax[1].plot(EsN0_db, 1 - (1 - BER_th_noncoh) ** num_bits, label="AWGN Th. FSK non-coh.")
+            ax[1].plot(
+                EsN0_db,
+                1 - (1 - BER_th_noncoh) ** num_bits,
+                label="AWGN Th. FSK non-coh.",
+            )
             ax[1].plot(EsN0_db, sim_PER, label="Simulation")
             ax[1].set_ylabel("PER")
             ax[1].set_xlabel("$E_{s}/N_{0}$ [dB]")
@@ -142,7 +147,6 @@ def main(
             ax[1].set_title("Average Packet Error Rate")
             ax[1].legend()
 
-    
             plt.show()
 
 
