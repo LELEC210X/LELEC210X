@@ -85,7 +85,7 @@ The provided simulation framework contains three files:
 \begin{itemize}
     \item \textbf{simulate.py}: this is the body of the simulation framework. It modulates the packets, applies the channel and uses the synchronization and demodulation functions implemented by \texttt{Chain} subclasses. It provides several performance metrics as outputs. Normally, you should not modify anything in this file, except the plots at the end if you want to customize them and the simulated chain at the very bottom. You can also add an automatic save of the simulation data to post-process it later on. Nevertheless, you are highly encouraged to skim through the file and the comments to understand the different steps involved.
     \item \textbf{chain.py}: this contains the \texttt{Chain} with most of the modulation parameters and the prototypes of the modulation, demodulation and synchronization functions. You can change the modulation parameters in this file if you want to study their effects, but you will implement the functions in subclasses, e.g., \texttt{BasicChain}.
-    \item \textbf{test_chain.py}: the purpose of this file is to help you to implement the demodulation and CFO estimation functions. Indeed, it contains a simplified version of the communication chain, useful for debugging your implementation.
+    \item \textbf{test\_chain.py}: the purpose of this file is to help you to implement the demodulation and CFO estimation functions. Indeed, it contains a simplified version of the communication chain, useful for debugging your implementation.
 \end{itemize}
 
 In order to launch the simulation, you only have to execute the \textbf{simulate.py} file as it includes and calls the two other files. Try to run the simulation. You should observe a bit error rate (BER) of 0.5 since the demodulation is not implemented.
@@ -112,7 +112,7 @@ Assuming a symbol mapping such as the bit $0$ (resp. bit $1$) corresponds to the
 
 
 
-As an example, the 2-CPFSK signal of the bit sequence "$0010110$" modulated with a bit rate $B$ of \SI{50}{\kilo\hertz}, a frequency deviation $\Delta_f=\frac{B}{4}$ and a TX oversampling factor $R_{\text{TX}}=4$ is given in \autoref{fig:2CPFSKbaseband}\footnote{You can generate figures similar to this one using the file \textbf{test_chain.py}.}. You can also observe the continuous analog waveform $x(t)$ in light blue. Make sure you understand the different representations given in the figure (complex baseband representations). Determine the symbol period and, looking at the evolution of the phase, try to recover the sent bits.
+As an example, the 2-CPFSK signal of the bit sequence "$0010110$" modulated with a bit rate $B$ of \SI{50}{\kilo\hertz}, a frequency deviation $\Delta_f=\frac{B}{4}$ and a TX oversampling factor $R_{\text{TX}}=4$ is given in \autoref{fig:2CPFSKbaseband}\footnote{You can generate figures similar to this one using the file \textbf{test\_chain.py}.}. You can also observe the continuous analog waveform $x(t)$ in light blue. Make sure you understand the different representations given in the figure (complex baseband representations). Determine the symbol period and, looking at the evolution of the phase, try to recover the sent bits.
 
 \begin{figure}[h]
     \centering
@@ -154,7 +154,7 @@ Therefore, the decision variables $r_1$ and $r_0$ for the symbol $I[k]$ are appr
 \end{small}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Implementation of demodulation}
-Complete the \py{demodulate()} function in the file \textbf{chain.py} based on the development presented above (non-coherent detection) and the comments. Test your implementation using \textbf{test_chain.py} and make sure the demodulated bits are the same as the sent ones (since there is no added noise).
+Complete the \py{demodulate()} function in the file \textbf{chain.py} based on the development presented above (non-coherent detection) and the comments. Test your implementation using \textbf{test\_chain.py} and make sure the demodulated bits are the same as the sent ones (since there is no added noise).
 \end{bclogo}
 
 \subsection{BER-SNR curve}
@@ -303,7 +303,7 @@ From the estimation of the frequency offset, the frequency offset correction is 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Implementation of Moose algorithm}
 Implement the Moose algorithm in the \py{cfo_estimation()} function in \textbf{chain.py}. The preamble has already been detected, such that the first samples of the input vector $y$ contains repeating sequence of modulated "$10$". Use blocks of 4 bits ($N=4$) and return $\widehat{\Delta f_c}$.
 
-To test your implementation, first use \textbf{test_chain.py} and make sure the estimated CFO corresponds to the applied one. You can then use the \textbf{chain.py} file, setting the CFO bypass boolean to \py{False}. Look at the RMSE, does it decrease with larger SNR?
+To test your implementation, first use \textbf{test\_chain.py} and make sure the estimated CFO corresponds to the applied one. You can then use the \textbf{chain.py} file, setting the CFO bypass boolean to \py{False}. Look at the RMSE, does it decrease with larger SNR?
 
 By default, the CFOs applied in the simulation are random, in the range specified in \textbf{chain.py}. You can also decide to apply a constant frequency offset by giving a non-zero value to \py{cfo_val} in \textbf{chain.py} and removing \py{cfo_val = np.nan} in \textbf{chain.py}.
 \end{bclogo}
