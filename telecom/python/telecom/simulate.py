@@ -1,4 +1,6 @@
 # ruff: noqa: N806
+from pathlib import Path
+
 import click
 import matplotlib.pyplot as plt
 import numpy as np
@@ -55,7 +57,14 @@ def add_cfo(chain: Chain, x: np.ndarray, cfo: float) -> np.ndarray:
     show_default=True,
     help="Random seed. Same seed => same results.",
 )
-def main(chain_name: str, seed: int):  # noqa: C901
+@click.option(
+    "--dest",
+    type=click.Path(dir_okay=False, path_type=Path),
+    default=Path(__file__).parents[2] / "sim_outputs.csv",
+    show_default=True,
+    help="Write output to this file.",
+)
+def main(chain_name: str, seed: int, dest: Path):  # noqa: C901
     """
     Simulate the communication chain provided, for several SNRs.
     Compute and display the different metrics to evaluate the performances.
@@ -94,7 +103,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
     rng = np.random.default_rng(seed)
 
     # For loop on the number of packets to send
-    for n in range(chain.n_packets):
+    for _ in range(chain.n_packets):
         # Random generation of payload bits
         bits = rng.integers(2, size=chain.payload_len)
 
@@ -138,7 +147,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
                 y_filt = y_noisy
 
             ## Preamble detection stage
-            if chain.ideal_preamble_detect:
+            if chain.bypass_preamble_detect:
                 detect_idx = start_idx
             else:
                 detect_idx = chain.preamble_detect(y_filt)
@@ -182,7 +191,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
                 y_detect = y_filt[detect_idx:]
                 ## Synchronization stage
                 # CFO estimation and correction
-                if chain.ideal_cfo_estimation:
+                if chain.bypass_cfo_estimation:
                     cfo_hat = cfo
                 else:
                     cfo_hat = chain.cfo_estimation(y_detect)
@@ -191,9 +200,9 @@ def main(chain_name: str, seed: int):  # noqa: C901
                 y_sync = np.exp(-1j * 2 * np.pi * cfo_hat * t) * y_detect
 
                 # STO estimation and correction
-                if chain.ideal_sto_estimation:
+                if chain.bypass_sto_estimation:
                     if (
-                        chain.ideal_preamble_detect
+                        chain.bypass_preamble_detect
                     ):  # In this case, starting index of preamble already contains sto
                         tau_hat = 0
                     else:
@@ -207,7 +216,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
                 bits_hat = chain.demodulate(y_sync)
 
                 if (
-                    chain.ideal_sto_estimation and chain.ideal_preamble_detect
+                    chain.bypass_sto_estimation and chain.bypass_preamble_detect
                 ):  # In this case, also assume perfect frame syncrhonization
                     start_frame = len(chain.preamble) + len(chain.sync_word)
                 elif len(bits_hat) == 0:
@@ -352,7 +361,6 @@ def main(chain_name: str, seed: int):  # noqa: C901
     plt.show()
 
     # Save simulation outputs (for later post-processing, building new figures,...)
-    filename = "./telecom/python/telecom/sim_outputs"
     save_var = np.column_stack(
         (
             EsN0s_dB,
@@ -364,7 +372,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
             preamble_false,
         )
     )
-    np.savetxt(f"{filename}.csv", save_var, delimiter="\t")
+    np.savetxt(dest, save_var, delimiter="\t")
 
     # Read file:
     # data = np.loadtxt('test.csv')
