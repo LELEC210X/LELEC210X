@@ -30,7 +30,8 @@ class Chain:
 
     cfo_val: float = np.nan
     cfo_range: tuple[float, float] = (
-        8_000, 10_000  # defines the CFO range when random (in Hz) #(1000 in old repo)
+        8_000,
+        10_000,  # defines the CFO range when random (in Hz) #(1000 in old repo)
     )
 
     EsN0_range: np.ndarray = np.arange(0, 30, 1)
