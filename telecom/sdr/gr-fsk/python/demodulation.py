@@ -33,7 +33,6 @@ def demodulate(y, B, R, Fdev):
     nb_syms = int(len(y) / R)
     bits_hat = np.zeros(nb_syms, dtype=int)
     return bits_hat  # TODO
-    return bits_hat
 
 
 
