@@ -154,7 +154,9 @@ Therefore, the decision variables $r_1$ and $r_0$ for the symbol $I[k]$ are appr
 \end{small}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Implementation of demodulation}
-Complete the \py{demodulate()} function in the file \textbf{chain.py} based on the development presented above (non-coherent detection) and the comments. Test your implementation using \textbf{test\_chain.py} and make sure the demodulated bits are the same as the sent ones (since there is no added noise).
+Complete the \py{demodulate()} function in the file \textbf{chain.py} based on the development presented above (non-coherent detection) and the comments.
+
+Test your implementation using \textbf{test\_chain.py} and make sure the demodulated bits are the same as the sent ones (since there is no added noise).
 \end{bclogo}
 
 \subsection{BER-SNR curve}
@@ -186,8 +188,8 @@ Finally, when non-coherent (nc) detection is used with (CP)FSK orthogonal signal
     p_{e,\text{FSK nc}}\:=\:\frac{1}{2}e^{-\varepsilon/2N_0}.
 \end{equation*}
 
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of BER-SNR\footnote{Actually, it is the BER-$\varepsilon/N_0$ curve.} curve}
-You now have all the necessary explanations to understand the generation of BER-SNR curves by the simulation framework and compare them with the theory. In \textbf{chain.py}, make sure all the booleans bypassing the synchronization are set to \py{True}. Then, run the file and observe the generated BER-SNR curves. Do they stick to the theoretical curves?
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of BER-SNR curve}
+You now have all the necessary explanations to understand the generation of BER-SNR\footnote{Actually, it is the BER-$\varepsilon/N_0$ curve.} curves by the simulation framework and compare them with the theory. In \textbf{chain.py}, make sure all the booleans bypassing (i.e., \py{ideal_* = True}) the synchronization are set to \py{True}. Then, run the file and observe the generated BER-SNR curves. Do they stick to the theoretical curves?
 
 Normally, your curve should have a trend similar to the theoretical curve, hinting that your demodulate function works properly. However, you can expect some differences but do not investigate them now. This will be part of the characterization report as well as of future improvements in the communication part of the project.
 
@@ -251,7 +253,7 @@ def preamble_detect(self, y: np.array) -> Optional[int]:
 \end{itemize}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of preamble detection}
-Set the bypassing boolean of the preamble detection to \py{False} in \textbf{chain.py}. Launch the simulation and observe the preamble detection metrics automatically displayed.
+Set the bypassing boolean of the preamble detection to \py{False} in \textbf{chain.py}  (i.e.,\\\py{ideal_preamble_detect = False}). Launch the simulation and observe the preamble detection metrics automatically displayed.
 \end{bclogo}
 
 \subsection{Frequency offset estimation}

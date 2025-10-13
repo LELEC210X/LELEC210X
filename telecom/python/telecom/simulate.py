@@ -114,7 +114,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
         )  # Delay + noise in beginning, for STO metric
 
         if np.isnan(chain.cfo_val):  # CFO should be random
-            cfo = rng.uniform(low=-chain.cfo_range, high=chain.cfo_range)
+            cfo = rng.uniform(low=chain.cfo_range[0], high=chain.cfo_range[1])
         else:
             cfo = chain.cfo_val
         y_cfo = add_cfo(chain, y, cfo)  # Frequency offset addition
@@ -138,7 +138,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
                 y_filt = y_noisy
 
             ## Preamble detection stage
-            if chain.bypass_preamble_detect:
+            if chain.ideal_preamble_detect:
                 detect_idx = start_idx
             else:
                 detect_idx = chain.preamble_detect(y_filt)
@@ -182,7 +182,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
                 y_detect = y_filt[detect_idx:]
                 ## Synchronization stage
                 # CFO estimation and correction
-                if chain.bypass_cfo_estimation:
+                if chain.ideal_cfo_estimation:
                     cfo_hat = cfo
                 else:
                     cfo_hat = chain.cfo_estimation(y_detect)
@@ -191,9 +191,9 @@ def main(chain_name: str, seed: int):  # noqa: C901
                 y_sync = np.exp(-1j * 2 * np.pi * cfo_hat * t) * y_detect
 
                 # STO estimation and correction
-                if chain.bypass_sto_estimation:
+                if chain.ideal_sto_estimation:
                     if (
-                        chain.bypass_preamble_detect
+                        chain.ideal_preamble_detect
                     ):  # In this case, starting index of preamble already contains sto
                         tau_hat = 0
                     else:
@@ -207,7 +207,7 @@ def main(chain_name: str, seed: int):  # noqa: C901
                 bits_hat = chain.demodulate(y_sync)
 
                 if (
-                    chain.bypass_sto_estimation and chain.bypass_preamble_detect
+                    chain.ideal_sto_estimation and chain.ideal_preamble_detect
                 ):  # In this case, also assume perfect frame syncrhonization
                     start_frame = len(chain.preamble) + len(chain.sync_word)
                 elif len(bits_hat) == 0:
