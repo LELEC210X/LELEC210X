@@ -10,7 +10,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
 /* BINDTOOL_HEADER_FILE(source_fpga.h)                                                  */
-/* BINDTOOL_HEADER_FILE_HASH(d4c33ddd07c37d83f006e5113b417276)                     */
+/* BINDTOOL_HEADER_FILE_HASH(7f13e065e14ea01789ed528f1b5b261a)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -164,7 +164,37 @@ void bind_source_fpga(py::module& m)
             D(source_fpga,set_dspcfg_preamble)
         )
 
+        .def("set_dspcfg_fir_en",&source_fpga::set_dspcfg_fir_en,       
+            py::arg("dspcfg_fir_en"),
+            D(source_fpga,set_dspcfg_fir_en)
+        )
+        
+        .def("set_dspcfg_pass_sum_signal",&source_fpga::set_dspcfg_pass_sum_signal,       
+            py::arg("dspcfg_pass_sum_signal"),
+            D(source_fpga,set_dspcfg_pass_sum_signal)
+        )
 
+        .def("set_dspcfg_red_sum_signal",&source_fpga::set_dspcfg_red_sum_signal,       
+            py::arg("dspcfg_red_sum_signal"),
+            D(source_fpga,set_dspcfg_red_sum_signal)
+        )
+
+        .def("set_agc",&source_fpga::set_agc,       
+            py::arg("agc_enable"),
+            py::arg("K"),
+            py::arg("desired_output"),      
+            py::arg("RSSI_mode"),
+            py::arg("AGC_mode"),
+            py::arg("AGC_window"),
+            D(source_fpga,set_agc)
+        )
+
+        .def("set_gain_sep",&source_fpga::set_gain_sep,       
+            py::arg("lna"),
+            py::arg("tia"),
+            py::arg("pga"),      
+            D(source_fpga,set_gain_sep)
+        )
         
         .def("get_dspcfg_long_sum",&source_fpga::get_dspcfg_long_sum,      
             D(source_fpga,get_dspcfg_long_sum) 

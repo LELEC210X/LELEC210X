@@ -393,8 +393,28 @@ uint8_t source_fpga_impl::read_gpio()
     return device_handler_fpga::getInstance().read_gpio(stored.device_number);
 }
 
-void source_fpga_impl::set_dspcfg_preamble(uint16_t dspcfg_PASSTHROUGH_LEN, uint8_t dspcfg_THRESHOLD, int dspcfg_preamble_en) {
+void source_fpga_impl::set_dspcfg_preamble(uint16_t dspcfg_PASSTHROUGH_LEN, float dspcfg_THRESHOLD, int dspcfg_preamble_en) {
     device_handler_fpga::getInstance().set_dspcfg_preamble(stored.device_number,  dspcfg_PASSTHROUGH_LEN, dspcfg_THRESHOLD, dspcfg_preamble_en);
+}
+
+void source_fpga_impl::set_dspcfg_fir_en(int dspcfg_fir_en) {
+    device_handler_fpga::getInstance().set_dspcfg_fir_en(stored.device_number,  dspcfg_fir_en);
+}
+
+void source_fpga_impl::set_dspcfg_pass_sum_signal(int dspcfg_pass_sum_signal) {
+    device_handler_fpga::getInstance().set_dspcfg_pass_sum_signal(stored.device_number,  dspcfg_pass_sum_signal);
+}
+
+void source_fpga_impl::set_dspcfg_red_sum_signal(int dspcfg_red_sum_signal) {
+    device_handler_fpga::getInstance().set_dspcfg_red_sum_signal(stored.device_number,  dspcfg_red_sum_signal);
+}
+
+void source_fpga_impl::set_agc(int agc_enable, int K, int desired_output, int RSSI_mode,int AGC_mode, int AGC_window){
+    device_handler_fpga::getInstance().set_agc(stored.device_number,agc_enable, K,  desired_output,  RSSI_mode, AGC_mode,  AGC_window);
+}
+
+void source_fpga_impl::set_gain_sep(int lna, int tia, int pga){
+    device_handler_fpga::getInstance().set_gain_sep(stored.device_number,lna, tia, pga);
 }
 
 uint32_t source_fpga_impl::get_dspcfg_long_sum() {

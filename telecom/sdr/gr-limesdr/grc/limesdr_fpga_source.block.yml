@@ -157,8 +157,49 @@ parameters:
   hide: part
   category: Advanced
 
+- id: lna
+  label: LNA Gain
+  dtype: int
+  default: 1
+  hide: part
+  category: AGC
+
+- id: tia
+  label: TIA gain
+  dtype: int
+  default: 1
+  hide: part
+  category: AGC
+
+- id: pga
+  label: PGA gain
+  dtype: int
+  default: 1
+  hide: part
+  category: AGC
+
+
 - id: dspcfg_preamble_en
   label: Enable Packet Presence Detector
+  dtype: int
+  hide: part
+  category: Custom FPGA
+
+
+- id: dspcfg_fir_en
+  label: Enable FPGA FIR Filter
+  dtype: int
+  hide: part
+  category: Custom FPGA
+  
+- id: dspcfg_pass_sum_signal
+  label: Pass signals of short and long/sum of PPD
+  dtype: int
+  hide: part
+  category: Custom FPGA
+  
+- id: dspcfg_red_sum_signal
+  label: Reduce signals of short and long/sum of PPD
   dtype: int
   hide: part
   category: Custom FPGA
@@ -172,11 +213,53 @@ parameters:
 
 - id: dspcfg_THRESHOLD
   label: Detection Threshold
-  dtype: int
+  dtype: float
   default: 15
   hide: part
   category: Custom FPGA
 
+- id: agc_enable
+  label: AGC enable
+  dtype: int
+  default: 0
+  hide: part
+  category: AGC
+
+- id: K
+  label: AGC K factor
+  dtype: int
+  default: 0
+  hide: part
+  category: AGC
+
+- id: desired_output
+  label: AGC Vdesired
+  dtype: int
+  default: 0
+  hide: part
+  category: AGC
+
+- id: RSSI_mode
+  label: RSSI mode
+  dtype: int
+  default: 0
+  hide: part
+  category: AGC
+
+- id: AGC_mode
+  label: AGC mode
+  dtype: int
+  default: 0
+  hide: part
+  category: AGC
+
+- id: AGC_window
+  label: AGC Window size
+  dtype: int
+  default: 0
+  hide: part
+  category: AGC
+  
 templates:
   imports: import limesdr_fpga
   make: |-
@@ -247,6 +330,17 @@ templates:
     % endif
 
     self.${id}.set_dspcfg_preamble(${dspcfg_PASSTHROUGH_LEN}, ${dspcfg_THRESHOLD}, ${dspcfg_preamble_en})
+    
+    self.${id}.set_dspcfg_fir_en(${dspcfg_fir_en})
+
+    self.${id}.set_dspcfg_pass_sum_signal(${dspcfg_pass_sum_signal})
+    
+    self.${id}.set_dspcfg_red_sum_signal(${dspcfg_red_sum_signal})
+
+    self.${id}.set_agc(${agc_enable}, ${K}, ${desired_output},${RSSI_mode}, ${AGC_mode}, ${AGC_window})
+    
+    self.${id}.set_gain_sep(${lna}, ${tia}, ${pga})
+
 
   callbacks:
   - set_center_freq(${rf_freq}, 0)
@@ -262,7 +356,12 @@ templates:
   - set_gain(${gain_dB_ch1}, 1)
   - set_tcxo_dac(${dacVal})
   - set_dspcfg_preamble(${dspcfg_PASSTHROUGH_LEN}, ${dspcfg_THRESHOLD}, ${dspcfg_preamble_en})
-    
+  - set_dspcfg_fir_en(${dspcfg_fir_en}) 
+  - set_dspcfg_pass_sum_signal(${dspcfg_pass_sum_signal})
+  - set_dspcfg_red_sum_signal(${dspcfg_red_sum_signal})
+  - set_agc(${agc_enable}, ${K}, ${desired_output},${RSSI_mode}, ${AGC_mode}, ${AGC_window})
+  - set_gain_sep(${lna}, ${tia}, ${pga})
+
 cpp_templates:
   packages: ["gnuradio-limesdr_fpga"]
   includes: ["#include <limesdr_fpga/source_fpga.h>"]
@@ -341,6 +440,8 @@ cpp_templates:
     % endif
 
     this->${id}->set_dspcfg_preamble(${dspcfg_PASSTHROUGH_LEN}, ${dspcfg_THRESHOLD}, ${dspcfg_preamble_en})
+    this->${id}->set_agc(${agc_enable}, ${K}, ${desired_output},${RSSI_mode}, ${AGC_mode}, ${AGC_window})
+    this->${id}->set_gain_sep(${lna}, ${tia}, ${pga})
 
   callbacks:
   - set_center_freq(${rf_freq}, 0)
@@ -356,6 +457,8 @@ cpp_templates:
   - set_gain(${gain_dB_ch1}, 1)
   - set_tcxo_dac(${dacVal})
   - set_dspcfg_preamble(${dspcfg_PASSTHROUGH_LEN}, ${dspcfg_THRESHOLD}, ${dspcfg_preamble_en})
+  - set_agc(${agc_enable}, ${K}, ${desired_output},${RSSI_mode}, ${AGC_mode}, ${AGC_window})
+  - set_gain_sep(${lna}, ${tia}, ${pga})
 
 asserts:
 - ${ int(channel_mode) >= 0 }
@@ -390,9 +493,19 @@ asserts:
 - ${ samp_rate > 0 }
 - ${ 61.44e6 >= samp_rate }
 
-- ${ dspcfg_PASSTHROUGH_LEN > 0 and dspcfg_PASSTHROUGH_LEN < 65535 }
-- ${ dspcfg_THRESHOLD > 0 and dspcfg_THRESHOLD < 255 }
 
+- ${ lna>=0               and lna<=14}
+- ${ tia>=0               and tia<=2}
+- ${ pga>=0               and pga<=31}
+
+- ${ dspcfg_PASSTHROUGH_LEN > 0 and dspcfg_PASSTHROUGH_LEN < 65535 }
+- ${ dspcfg_THRESHOLD > 0       and dspcfg_THRESHOLD < 31 }
+- ${ agc_enable>=0              and agc_enable<=1}
+- ${ K>=0                       and K<=262143}
+- ${ desired_output>=0          and desired_output<=2047}
+- ${ RSSI_mode>=0               and RSSI_mode<=2}
+- ${ AGC_mode>=0                and AGC_mode<=3}
+- ${ AGC_window>=0              and AGC_window<=7}
 
 outputs:
 - label: out

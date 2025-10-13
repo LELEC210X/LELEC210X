@@ -13,5 +13,6 @@ install(FILES
     api.h
     sink_fpga.h
     source_fpga.h
+    flag_detector.h
     DESTINATION include/limesdr_fpga
 )

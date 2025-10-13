@@ -11,7 +11,7 @@ class Chain:
 
     # Communication parameters
     bit_rate: float = BIT_RATE
-    freq_dev: float = BIT_RATE / 2
+    freq_dev: float = BIT_RATE / 4
 
     osr_tx: int = 64
     osr_rx: int = 8
@@ -19,7 +19,7 @@ class Chain:
     preamble: np.ndarray = PREAMBLE
     sync_word: np.ndarray = SYNC_WORD
 
-    payload_len: int = 50  # Number of bits per packet
+    payload_len: int = 8 * 100  # Number of bits per packet
 
     # Simulation parameters
     n_packets: int = 100  # Number of sent packets
@@ -33,11 +33,11 @@ class Chain:
         10000  # defines the CFO range when random (in Hz) #(1000 in old repo)
     )
 
-    EsN0_range: np.ndarray = np.arange(-10, 25)
+    EsN0_range: np.ndarray = np.arange(0,30 ,1)
 
     # Lowpass filter parameters
-    numtaps: int = 100
-    cutoff: float = BIT_RATE * osr_rx / 2.0001  # or 2*BIT_RATE,...
+    numtaps: int  = 100
+    cutoff: float = 150e3 #BIT_RATE * osr_rx / 2.0001  # or 2*BIT_RATE,...
 
     # Tx methods
 
@@ -119,24 +119,50 @@ class Chain:
         raise NotImplementedError
 
 
+
+
 class BasicChain(Chain):
     name = "Basic Tx/Rx chain"
 
     cfo_val, sto_val = np.nan, np.nan  # CFO and STO are random
 
     bypass_preamble_detect = True
-
+    
     def preamble_detect(self, y):
+        """Detect a preamble computing the received energy (average on a window)."""
+        long_term_sum_W = 256
+        short_term_sum_W = 32
+
+        K = 5 * (short_term_sum_W/long_term_sum_W) 
+
+        long_window  = np.ones(long_term_sum_W)
+        short_window = np.ones(short_term_sum_W)
+
+        yabs = np.abs(y)
+        ylen = len(y)
+        long_sum  = np.convolve(yabs, long_window,  mode='full')
+        short_sum = np.convolve(yabs, short_window, mode='full')
+
+        long_sum    = long_sum [long_term_sum_W                     :  ylen]
+        short_sum   = short_sum[long_term_sum_W+short_term_sum_W-1  :  ]
+
+        detection   = short_sum > (long_sum * K)
+        detected_indices = np.where(detection)[0]
+        first_idx = (detected_indices[0]+long_term_sum_W+short_term_sum_W) if detected_indices.size > 0 else None
+        return first_idx
+
+    def preamble_detect_hard_threshold(self, y):
         """Detect a preamble computing the received energy (average on a window)."""
         L = 4 * self.osr_rx
         y_abs = np.abs(y)
-
+    
         for i in range(0, int(len(y) / L)):
             sum_abs = np.sum(y_abs[i * L : (i + 1) * L])
             if sum_abs > (L - 1):  # fix threshold
                 return i * L
-
+    
         return None
+
 
     bypass_cfo_estimation = True
 
@@ -170,6 +196,7 @@ class BasicChain(Chain):
                 save_i = i
 
         return np.mod(save_i + 1, R)
+    
 
     def demodulate(self, y):
         """Non-coherent demodulator."""

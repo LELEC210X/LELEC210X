@@ -31,6 +31,7 @@ include(GrPybind)
 list(APPEND limesdr_fpga_python_files
     sink_fpga_python.cc
     source_fpga_python.cc
+    flag_detector_python.cc
     python_bindings.cc)
 
 
