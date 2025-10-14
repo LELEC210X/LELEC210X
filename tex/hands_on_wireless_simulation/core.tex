@@ -159,7 +159,7 @@ Complete the \py{demodulate()} function in the file \textbf{chain.py} based on t
 Test your implementation using \textbf{test\_chain.py} and make sure the demodulated bits are the same as the sent ones (since there is no added noise).
 \end{bclogo}
 
-\subsection{BER vs $\bm{\varepsilon / N_0}$ curve}
+\subsection{BER vs $\protect \bm{\varepsilon / N_0}$ curve}
 Due to the noise on the received signal, the demodulation may suffer from errors. In the simulation, the noise is added on each sample by taking an independent realisation of a complex normal random variable with zero-mean $\mathcal{CN}(0,\sigma_w^2)$. The noise power in discrete time is given by the variance $\sigma_w^2$ of the complex normal random variable and can be linked to the input signal-to-noise ratio (SNR), knowing that the sent waveforms are normalized (i.e., power of 1):
 \begin{equation*}
     \text{SNR}\:=\:\frac{1}{\sigma_w^2}.
@@ -187,7 +187,7 @@ Finally, when non-coherent (nc) detection is used with (CP)FSK orthogonal signal
     p_{e,\text{FSK nc}}\:=\:\frac{1}{2}e^{-\varepsilon/2N_0}.
 \end{equation*}
 
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of BER vs $\varepsilon / N_0$ curve}
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of BER vs $\protect \varepsilon / N_0$ curve}
 You now have all the necessary explanations to understand the generation of BER vs $\varepsilon / N_0$ curves by the simulation framework and compare them with the theory. In \textbf{chain.py}, make sure all the booleans bypassing (i.e., \py{ideal_* = True}) the synchronization are set to \py{True}. Then, run the file and observe the generated BER vs $\varepsilon / N_0$ curves. Do they stick to the theoretical curves?
 
 Normally, your curve should have a trend similar to the theoretical curve, hinting that your demodulate function works properly. However, you can expect some differences but do not investigate them now. This will be part of the characterization report as well as of future improvements in the communication part of the project.
@@ -199,7 +199,7 @@ If needed, you can change the range of $\varepsilon / N_0$ as well as the number
     P_e\:=\:1- (1-p_e)^{N_b},
 \end{equation*}
 where $N_b$ is the number of bits in a packet and $(1-p_e)^{N_b}$ is the probability that all the bits of the packet are demodulated properly.
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of PER vs $\varepsilon / N_0$ curve}
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of PER vs $\protect \varepsilon / N_0$ curve}
 In simulation, to obtain a meaningful PER curve, do not forget to increase the number of sent packets in \textbf{chain.py}.
 \end{bclogo}
 
