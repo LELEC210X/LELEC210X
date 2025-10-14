@@ -72,8 +72,8 @@ def main(chain_name: str, seed: int, dest: Path):  # noqa: C901
     mod_path, class_name = chain_name.rsplit(".", 1)
     chain_mod = __import__(mod_path, fromlist=[class_name])
     chain: Chain = getattr(chain_mod, class_name)()
-    
-    EsN0s_dB = chain.EsN0_range # Es is the energy of a symbol
+
+    EsN0s_dB = chain.EsN0_range  # Es is the energy of a symbol
     R = chain.osr_rx
     B = chain.bit_rate
     fs = B * R
@@ -252,7 +252,7 @@ def main(chain_name: str, seed: int, dest: Path):  # noqa: C901
     preamble_mis = preamble_misdetect / chain.n_packets
     preamble_false = preamble_false_detect / chain.n_packets
 
-    # FIR response plot 
+    # FIR response plot
     if chain.numtaps != 0:
         # Filter transfer function
         w, h = freqz(taps)
@@ -272,9 +272,9 @@ def main(chain_name: str, seed: int, dest: Path):  # noqa: C901
     # Theoretical curves
     EsN0_th = np.arange(EsN0s_dB[0], EsN0s_dB[-1])
 
-    BER_th = 0.5 * erfc(np.sqrt(10 ** (EsN0_th/10) / 2))
-    BER_th_BPSK = 0.5 * erfc(np.sqrt(10 ** (EsN0_th/10)))
-    BER_th_noncoh = 0.5 * np.exp(-10**(EsN0_th/10) / 2)
+    BER_th = 0.5 * erfc(np.sqrt(10 ** (EsN0_th / 10) / 2))
+    BER_th_BPSK = 0.5 * erfc(np.sqrt(10 ** (EsN0_th / 10)))
+    BER_th_noncoh = 0.5 * np.exp(-(10 ** (EsN0_th / 10)) / 2)
 
     _fig, ax = plt.subplots(1, 2, constrained_layout=True, figsize=(10, 4))
     ax[0].plot(EsN0s_dB, BER, "-s", label="Simulation")
