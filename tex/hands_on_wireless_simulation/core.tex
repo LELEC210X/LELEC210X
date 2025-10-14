@@ -159,21 +159,20 @@ Complete the \py{demodulate()} function in the file \textbf{chain.py} based on t
 Test your implementation using \textbf{test\_chain.py} and make sure the demodulated bits are the same as the sent ones (since there is no added noise).
 \end{bclogo}
 
-\subsection{BER-SNR curve}
-Due to the noise on the received signal, the demodulation may suffer from errors. In the simulation, the noise is added on each sample by taking an independent realisation of a complex normal random variable with zero-mean $\mathcal{CN}(0,\sigma_w^2)$. The noise power in discrete time is given by the variance $\sigma_w^2$ of the complex normal random variable and can be linked to the signal-to-noise ratio (SNR), knowing that the sent waveforms are normalized (i.e., power of 1):
+\subsection{BER vs $\frac{\varepsilon}{N_0}$ curve}
+Due to the noise on the received signal, the demodulation may suffer from errors. In the simulation, the noise is added on each sample by taking an independent realisation of a complex normal random variable with zero-mean $\mathcal{CN}(0,\sigma_w^2)$. The noise power in discrete time is given by the variance $\sigma_w^2$ of the complex normal random variable and can be linked to the input signal-to-noise ratio (SNR), knowing that the sent waveforms are normalized (i.e., power of 1):
 \begin{equation*}
     \text{SNR}\:=\:\frac{1}{\sigma_w^2}.
 \end{equation*}
 
-This SNR is therefore defined on each sample, meaning that a SNR of 0 dB implies that the instantaneous power of the signal is equal to the average power of the noise. This SNR is known in the simulation framework but in practice you may have to estimate it, see appendix \ref{appA}.
-
+This SNR is therefore defined on each sample, meaning that a SNR of 0 dB implies that the instantaneous power of the signal is equal to the average power of the noise. The link between SNR and $\frac{\varepsilon}{N_0}$ will be covered in the next hands-on.
 
 
 
 \paragraph{Bit error rate}
-Often, the demodulation performances of a communication chain are determined by measuring the bit error rate (BER). It is defined as the probability of making a demodulation error on a bit. To compute it in simulation, many iterations are performed with thousands of bits sent and the error probability is simply obtained by counting the number of bits demodulated properly and the ones suffering from a demodulation error. Thus the simulation framework can directly output a simulated BER-SNR curve, for the range of SNRs specified in \textbf{chain.py}.
+Often, the demodulation performances of a communication chain are determined by measuring the bit error rate (BER). It is defined as the probability of making a demodulation error on a bit. To compute it in simulation, many iterations are performed with thousands of bits sent and the error probability is simply obtained by counting the number of bits demodulated properly and the ones suffering from a demodulation error. Thus the simulation framework can directly output a simulated BER vs $\frac{\varepsilon}{N_0}$ curve, for the range of $\frac{\varepsilon}{N_0}$ specified in \textbf{chain.py}.
 
-This simulated BER-SNR curve can then be compared to some theoretical curves, obtained thanks to mathematical developments based on the decision variable and the model of the noise (AWGN). For example, the bit error probability in the case of a BPSK transmission is given by
+This simulated BER vs $\frac{\varepsilon}{N_0}$ curve can then be compared to some theoretical curves, obtained thanks to mathematical developments based on the decision variable and the model of the noise (AWGN). For example, the bit error probability in the case of a BPSK transmission is given by
 \begin{equation*}
     p_{e,\text{BPSK}}\:=\:\frac{1}{2} \text{erfc}\left(\sqrt{\frac{\varepsilon}{N_0}}\right).
 \end{equation*}
@@ -188,19 +187,19 @@ Finally, when non-coherent (nc) detection is used with (CP)FSK orthogonal signal
     p_{e,\text{FSK nc}}\:=\:\frac{1}{2}e^{-\varepsilon/2N_0}.
 \end{equation*}
 
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of BER-SNR curve}
-You now have all the necessary explanations to understand the generation of BER-SNR\footnote{Actually, it is the BER-$\varepsilon/N_0$ curve.} curves by the simulation framework and compare them with the theory. In \textbf{chain.py}, make sure all the booleans bypassing (i.e., \py{ideal_* = True}) the synchronization are set to \py{True}. Then, run the file and observe the generated BER-SNR curves. Do they stick to the theoretical curves?
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of BER vs $\frac{\varepsilon}{N_0}$ curve}
+You now have all the necessary explanations to understand the generation of BER vs $\frac{\varepsilon}{N_0}$ curves by the simulation framework and compare them with the theory. In \textbf{chain.py}, make sure all the booleans bypassing (i.e., \py{ideal_* = True}) the synchronization are set to \py{True}. Then, run the file and observe the generated BER vs $\frac{\varepsilon}{N_0}$ curves. Do they stick to the theoretical curves?
 
 Normally, your curve should have a trend similar to the theoretical curve, hinting that your demodulate function works properly. However, you can expect some differences but do not investigate them now. This will be part of the characterization report as well as of future improvements in the communication part of the project.
 
-If needed, you can change the range of SNRs as well as the number of packets and the number of bits per packet in \textbf{chain.py}.
+If needed, you can change the range of $\frac{\varepsilon}{N_0}$ as well as the number of packets and the number of bits per packet in \textbf{chain.py}.
 \end{bclogo}
 \paragraph{Packet error rate (PER)} A packet is said to be erroneous if at least one bit of the packet is not demodulated properly. Following this definition, the probability of packet error $P_e$ is related to the bit error rate $p_e$ by
 \begin{equation*}
     P_e\:=\:1- (1-p_e)^{N_b},
 \end{equation*}
 where $N_b$ is the number of bits in a packet and $(1-p_e)^{N_b}$ is the probability that all the bits of the packet are demodulated properly.
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of PER-SNR curve}
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of PER vs $\frac{\varepsilon}{N_0}$ curve}
 In simulation, to obtain a meaningful PER curve, do not forget to increase the number of sent packets in \textbf{chain.py}.
 \end{bclogo}
 
@@ -253,7 +252,7 @@ def preamble_detect(self, y: np.array) -> Optional[int]:
 \end{itemize}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of preamble detection}
-Set the bypassing boolean of the preamble detection to \py{False} in \textbf{chain.py}  (i.e.,\\\py{ideal_preamble_detect = False}). Launch the simulation and observe the preamble detection metrics automatically displayed.
+Set the bypassing boolean of the preamble detection to \py{False} in \textbf{chain.py}  (i.e.,\\\py{ideal_preamble_detect = False}). Launch the simulation and observe the preamble detection metrics automatically displayed.\ In practice, what limitations could affect the performance of an energy-based preamble detector compared to this idealized simulation (e.g., considering variable TX and RX gain or channel effects)?
 \end{bclogo}
 
 \subsection{Frequency offset estimation}
@@ -305,7 +304,7 @@ From the estimation of the frequency offset, the frequency offset correction is 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Implementation of Moose algorithm}
 Implement the Moose algorithm in the \py{cfo_estimation()} function in \textbf{chain.py}. The preamble has already been detected, such that the first samples of the input vector $y$ contains repeating sequence of modulated "$10$". Use blocks of 4 bits ($N=4$) and return $\widehat{\Delta f_c}$.
 
-To test your implementation, first use \textbf{test\_chain.py} and make sure the estimated CFO corresponds to the applied one. You can then use the \textbf{chain.py} file, setting the CFO bypass boolean to \py{False}. Look at the RMSE, does it decrease with larger SNR?
+To test your implementation, first use \textbf{test\_chain.py} and make sure the estimated CFO corresponds to the applied one. You can then use the \textbf{chain.py} file, setting the CFO bypass boolean to \py{False}. Look at the RMSE, does it decrease with larger $\frac{\varepsilon}{N_0}$?
 
 By default, the CFOs applied in the simulation are random, in the range specified in \textbf{chain.py}. You can also decide to apply a constant frequency offset by giving a non-zero value to \py{cfo_val} in \textbf{chain.py} and removing \py{cfo_val = np.nan} in \textbf{chain.py}.
 \end{bclogo}
@@ -398,7 +397,7 @@ where $\hat{d}$ comes from the symbol timing estimation and $\hat{k}$ comes from
 
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of frame and symbol timing estimations}
-Set the bypassing boolean of the symbol timing estimation to \py{False} in \textbf{chain.py}. Launch the simulation and observe the symbol timing RMSE automatically displayed. Does it decrease with increasing SNRs?
+Set the bypassing boolean of the symbol timing estimation to \py{False} in \textbf{chain.py}. Launch the simulation and observe the symbol timing RMSE automatically displayed. Does it decrease with increasing $\frac{\varepsilon}{N_0}$?
 
 By default, the delays applied in the simulation are random, in the range specified by \py{sto_range} in \textbf{chain.py}. You can also decide to apply a constant timing offset by giving a non-zero value to \py{sto_val} in \textbf{chain.py} and removing \py{sto_val = np.nan} in \textbf{chain.py}.
 

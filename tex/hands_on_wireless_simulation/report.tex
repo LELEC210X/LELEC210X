@@ -35,28 +35,28 @@ If you finish before the 2x2 hours allocated for this hands-on, do not hesitate 
 \end{bclogo}
 
 
-\pagebreak
-\appendix
-\section{Appendix - SNR estimation}
-\label{appA}
-In the simulation, the SNR is known as the addition of the noise is performed in \textbf{sim.py} with the SNR range specified in \textbf{chain.py}. Nevertheless, in practice, the SNR must be estimated based on the received signal. An estimator of the SNR can be derived by first computing the noise power when no useful signal is sent and then computing the received signal power. A possible estimator for the noise power is
-\begin{equation*}
-    \widehat{\sigma}_{w}^2 \:=\: \frac{1}{N} \sum_{n=0}^{N-1} |y[n]|^2 \:=\: \frac{1}{N} \sum_{n=0}^{N-1} |w[n]|^2,
-\end{equation*}
-when no useful signal is sent, i.e., $y[n]=w[n]$.
+% \pagebreak
+% \appendix
+% \section{Appendix - SNR estimation}
+% \label{appA}
+% In the simulation, the SNR is known as the addition of the noise is performed in \textbf{sim.py} with the SNR range specified in \textbf{chain.py}. Nevertheless, in practice, the SNR must be estimated based on the received signal. An estimator of the SNR can be derived by first computing the noise power when no useful signal is sent and then computing the received signal power. A possible estimator for the noise power is
+% \begin{equation*}
+%     \widehat{\sigma}_{w}^2 \:=\: \frac{1}{N} \sum_{n=0}^{N-1} |y[n]|^2 \:=\: \frac{1}{N} \sum_{n=0}^{N-1} |w[n]|^2,
+% \end{equation*}
+% when no useful signal is sent, i.e., $y[n]=w[n]$.
 
-Instead, the signal power is given by, adding an attenuation $a$ ($y[n]=a x[n] +w[n]$):
-\begin{equation*}
-    \sigma_y^2\:=\: \mathbb{E}\left[|y[n]|^2\right]\:=\:\mathbb{E}\left[ |a|^2 |x[n]|^2 + |w[n]|^2 + 2 \Re{\left\{a x[n] w^*[n]\right\}}\right]\:=\:|a|^2 + \sigma_w^2,
-\end{equation*}
-since the noise has zero-mean and the sent waveforms have a modulus of 1. Hence, when a signal $x[n]$ is sent, an estimation of the received power can be obtained by:
-\begin{equation*}
-    \widehat{\sigma}_y^2 = \frac{1}{N} \sum_{n=0}^{N-1} |y[n]|^2 \approx |a|^2 + \widehat{\sigma}_w^2,
-\end{equation*}
- Finally the SNR is estimated by
-\begin{equation*}
-    \widehat{\text{SNR}}\:=\:\frac{\widehat{\sigma}_y^2 - \widehat{\sigma}_{w}^2}{\widehat{\sigma}_{w}^2}.
-\end{equation*}
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{SNR estimator}
-This SNR estimator has already been implemented in the simulation (in \textbf{sim.py}), storing in a matrix the values of all estimated SNR. You \textbf{should not spend time using it for the moment} as the SNR is known in the simulation. Nevertheless, it will be particularly useful for measuring the performance of the practical implementation later.
-\end{bclogo}
+% Instead, the signal power is given by, adding an attenuation $a$ ($y[n]=a x[n] +w[n]$):
+% \begin{equation*}
+%     \sigma_y^2\:=\: \mathbb{E}\left[|y[n]|^2\right]\:=\:\mathbb{E}\left[ |a|^2 |x[n]|^2 + |w[n]|^2 + 2 \Re{\left\{a x[n] w^*[n]\right\}}\right]\:=\:|a|^2 + \sigma_w^2,
+% \end{equation*}
+% since the noise has zero-mean and the sent waveforms have a modulus of 1. Hence, when a signal $x[n]$ is sent, an estimation of the received power can be obtained by:
+% \begin{equation*}
+%     \widehat{\sigma}_y^2 = \frac{1}{N} \sum_{n=0}^{N-1} |y[n]|^2 \approx |a|^2 + \widehat{\sigma}_w^2,
+% \end{equation*}
+%  Finally the SNR is estimated by
+% \begin{equation*}
+%     \widehat{\text{SNR}}\:=\:\frac{\widehat{\sigma}_y^2 - \widehat{\sigma}_{w}^2}{\widehat{\sigma}_{w}^2}.
+% \end{equation*}
+% \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{SNR estimator}
+% This SNR estimator has already been implemented in the simulation (in \textbf{sim.py}), storing in a matrix the values of all estimated SNR. You \textbf{should not spend time using it for the moment} as the SNR is known in the simulation. Nevertheless, it will be particularly useful for measuring the performance of the practical implementation later.
+% \end{bclogo}
