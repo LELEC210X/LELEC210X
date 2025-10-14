@@ -16,6 +16,7 @@ list(APPEND limesdr_fpga_sources
     logging_fpga.cc
     source_fpga_impl.cc
     sink_fpga_impl.cc
+    flag_detector_impl.cc
     device_handler_fpga.cc
 )
 

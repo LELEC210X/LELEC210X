@@ -558,7 +558,7 @@ unsigned
 device_handler_fpga::set_gain(int device_number, bool direction, int channel, unsigned gain_dB)
 {
     unsigned gain_value = 0;
-
+    
     if (gain_dB >= 0 && gain_dB <= 73) {
         GR_LOG_DEBUG(d_debug_logger, "device_handler_fpga::set_gain(): ");
 
@@ -566,7 +566,7 @@ device_handler_fpga::set_gain(int device_number, bool direction, int channel, un
         
         uint32_t short_sum = get_dspcfg_short_sum(device_number);
         uint32_t long_sum  = get_dspcfg_long_sum(device_number);
-        std::cout << "Actual : Short = " << short_sum << " /  Long = " << long_sum << std::endl;
+        std::cout << "Actual : Short = " << short_sum << " /  Long = " << long_sum << std::endl; 
         set_dspcfg_clear_rs(device_number, 1);
         short_sum = get_dspcfg_short_sum(device_number);
         long_sum  = get_dspcfg_long_sum(device_number);
@@ -714,6 +714,10 @@ void device_handler_fpga::write_lms_reg(int device_number, uint32_t address, uin
         device_handler_fpga::getInstance().get_device(device_number), address, val);
 }
 
+int device_handler_fpga::modify_spi_reg_bits(lms_device_t *device, const LMS7Parameter &param, const uint16_t value)
+{
+    return modify_spi_reg_bits(device, param.address, param.msb, param.lsb, value);
+}
 
 int device_handler_fpga::modify_spi_reg_bits(lms_device_t *device, const DSPCFGParameter &param, const uint16_t value)
 {
@@ -751,6 +755,8 @@ int device_handler_fpga::read_spi_reg_bits(lms_device_t *device, const uint16_t 
     return spiDataReg;
 }
 
+
+
 void device_handler_fpga::set_gpio_dir(int device_number, uint8_t dir)
 {
   LMS_GPIODirWrite(device_handler_fpga::getInstance().get_device(device_number), &dir, 1);
@@ -770,50 +776,178 @@ uint8_t device_handler_fpga::read_gpio(int device_number)
   return res;
 }
 
-void device_handler_fpga::set_dspcfg_preamble(int device_number, uint16_t dspcfg_PASSTHROUGH_LEN, uint8_t dspcfg_THRESHOLD, int dspcfg_preamble_en) { 
-    std::cout << "INFO: device_handler_fpga::set_dspcfg_preamble(): ";
+void device_handler_fpga::set_dspcfg_preamble(int device_number, uint16_t dspcfg_PASSTHROUGH_LEN, float dspcfg_THRESHOLD, int dspcfg_preamble_en) { 
+    //std::cout << "INFO: device_handler_fpga::set_dspcfg_preamble(): ";
     if (modify_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number),DSPCFGparam(PREAMBLE_EN), dspcfg_preamble_en) != LMS_SUCCESS) {
         std::cout
             << "ERROR: device_handler_fpga::set_dspcfg_preamble_en(): cannot modify the register"
             << std::endl;
-    }
-    if (dspcfg_preamble_en) {
-        std::cout << "Preamble Detector Enabled" << std::endl;
+    } else  {
+        //sum-count
+        uint16_t spiDataRegThresh;
+        uint32_t spiDataReg_Long;
+        uint32_t spiDataReg_Short;
+        uint16_t spiDataReg_MSB_Long;
+        uint16_t spiDataReg_LSB_Long;
+        uint16_t spiDataReg_MSB_Short;
+        uint16_t spiDataReg_LSB_Short;
+
+        spiDataRegThresh = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_THRESHOLD); 
+        spiDataReg_MSB_Long = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PREAMBLE_LONG_SUM_MSB);
+        spiDataReg_LSB_Long = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PREAMBLE_LONG_SUM_LSB);
+    	spiDataReg_Long = ((uint32_t) spiDataReg_MSB_Long) << 16 | ((uint32_t) spiDataReg_LSB_Long);
+        spiDataReg_MSB_Short = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PREAMBLE_SHORT_SUM_MSB);
+        spiDataReg_LSB_Short = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PREAMBLE_SHORT_SUM_LSB);
+    	spiDataReg_Short = ((uint32_t) spiDataReg_MSB_Short) << 16 | ((uint32_t) spiDataReg_LSB_Short);
+        std::cout << std::dec << "Pre  : K factor: " << spiDataRegThresh << ",   SUM : SHORT: " << spiDataReg_Short << ",   LONG: " << spiDataReg_Long << std::endl;
+
         set_dspcfg_clear_rs(device_number, 1);
-        
         set_dspcfg_PASSTHROUGH_LEN(device_number, dspcfg_PASSTHROUGH_LEN);
-        set_dspcfg_THRESHOLD(device_number, dspcfg_THRESHOLD);
-        
+        set_dspcfg_THRESHOLD(device_number, (int)(dspcfg_THRESHOLD*8));
         set_dspcfg_clear_rs(device_number, 0);
     
-        uint16_t spiDataRegX;
-        spiDataRegX = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PASSTHROUGH_LEN); 
-        std::cout << "Passthrough length: " << spiDataRegX << std::endl;
-        
-        uint16_t spiDataRegThresh;
-        spiDataRegThresh = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_THRESHOLD); 
-        std::cout << "Detection threshold: " << spiDataRegThresh << std::endl;
-        
-        
-        //sum-count
-        uint32_t spiDataReg;
-        uint16_t spiDataReg_MSB;
-        uint16_t spiDataReg_LSB;
-        spiDataReg_MSB = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PREAMBLE_SHORT_SUM_MSB);
-        spiDataReg_LSB = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PREAMBLE_SHORT_SUM_LSB);
-    	spiDataReg = ((uint32_t) spiDataReg_MSB) << 16 | ((uint32_t) spiDataReg_LSB);
-        std::cout << "Short sum: " << spiDataReg << std::endl;
+        //uint16_t spiDataRegX;
+        //spiDataRegX = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PASSTHROUGH_LEN); 
+        //std::cout << std::dec << "Passthrough length: " << spiDataRegX << std::endl;
 
-        spiDataReg_MSB = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PREAMBLE_LONG_SUM_MSB);
-        spiDataReg_LSB = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PREAMBLE_LONG_SUM_LSB);
-    	spiDataReg = ((uint32_t) spiDataReg_MSB) << 16 | ((uint32_t) spiDataReg_LSB);
-        std::cout << "Long sum: " << spiDataReg << std::endl;
-        
-        spiDataReg_MSB = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PREAMBLE_COUNT_MSB);
-        spiDataReg_LSB = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PREAMBLE_COUNT_LSB);
-        spiDataReg = ((uint32_t) spiDataReg_MSB) << 16 | ((uint32_t) spiDataReg_LSB);
-        std::cout << "count: " << spiDataReg << std::endl;
+        spiDataRegThresh = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_THRESHOLD); 
+        spiDataReg_MSB_Long = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PREAMBLE_LONG_SUM_MSB);
+        spiDataReg_LSB_Long = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PREAMBLE_LONG_SUM_LSB);
+    	spiDataReg_Long = ((uint32_t) spiDataReg_MSB_Long) << 16 | ((uint32_t) spiDataReg_LSB_Long);
+        spiDataReg_MSB_Short = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PREAMBLE_SHORT_SUM_MSB);
+        spiDataReg_LSB_Short = read_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number), DSPCFG_PREAMBLE_SHORT_SUM_LSB);
+    	spiDataReg_Short = ((uint32_t) spiDataReg_MSB_Short) << 16 | ((uint32_t) spiDataReg_LSB_Short);
+        std::cout << std::dec << "Post : K factor: " << spiDataRegThresh << ",   SUM : SHORT: " << spiDataReg_Short << ",   LONG: " << spiDataReg_Long << std::endl;
+
     }
+}
+
+void device_handler_fpga::set_dspcfg_fir_en(int device_number,  int dspcfg_fir_en) { 
+    std::cout << "INFO: set_dspcfg_fir_en::set_dspcfg_fir_en(): ";
+    if (modify_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number),DSPCFGparam(FIR_EN), dspcfg_fir_en) != LMS_SUCCESS) {
+        std::cout
+            << "ERROR: device_handler_fpga::set_dspcfg_fir_en(): cannot modify the register"
+            << std::endl;
+    }
+    if (dspcfg_fir_en) {
+        set_dspcfg_clear_rs(device_number, 1);
+        std::cout << "FPGA FIR Filter Enabled" << std::endl;
+        set_dspcfg_clear_rs(device_number, 0);   
+    }
+}
+
+void device_handler_fpga::set_dspcfg_pass_sum_signal(int device_number,  int dspcfg_pass_sum_signal) { 
+    std::cout << "INFO: set_dspcfg_pass_sum_signal::set_dspcfg_pass_sum_signal(): ";
+    if (modify_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number),DSPCFGparam(PASS_SUM_SIGNAL), dspcfg_pass_sum_signal) != LMS_SUCCESS) {
+        std::cout
+            << "ERROR: device_handler_fpga::set_dspcfg_pass_sum_signal(): cannot modify the register"
+            << std::endl;
+    }
+    if (dspcfg_pass_sum_signal) {
+        set_dspcfg_clear_rs(device_number, 1);
+        std::cout << "FPGA Pass sum signals" << std::endl;
+        set_dspcfg_clear_rs(device_number, 0);   
+    }
+}
+
+void device_handler_fpga::set_dspcfg_red_sum_signal(int device_number,  int dspcfg_red_sum_signal) { 
+    std::cout << "INFO: set_dspcfg_red_sum_signal::set_dspcfg_red_sum_signal(): ";
+    if (modify_spi_reg_bits(device_handler_fpga::getInstance().get_device(device_number),DSPCFGparam(RED_SUM_SIGNAL), dspcfg_red_sum_signal) != LMS_SUCCESS) {
+        std::cout
+            << "ERROR: device_handler_fpga::set_dspcfg_red_sum_signal(): cannot modify the register"
+            << std::endl;
+    }
+    if (dspcfg_red_sum_signal) {
+        set_dspcfg_clear_rs(device_number, 1);
+        std::cout << "FPGA Reduce sum signals" << std::endl;
+        set_dspcfg_clear_rs(device_number, 0);   
+    }
+}
+
+void device_handler_fpga::set_agc(int device_number, int agc_enable, int K, int desired_output, int RSSI_mode,int AGC_mode, int AGC_window) { 
+        //uint16_t K_lsb           = 0x00FF;
+        //uint16_t K_msb           = 0x0;
+        //uint16_t desired_output  = 0x1FF;
+        //uint16_t RSSI_mode       = 0x0;
+        //uint16_t AGC_mode        = 0x0;
+        //uint16_t AGC_avg         = 0x0;
+
+        int K_msb_int = (K & 0x0F00)>>16;
+
+        uint16_t K_lsb              = 0x00FF & K ;
+        uint16_t K_msb              = 0x00FF & K_msb_int;
+        uint16_t desired_output_16  = 0x1FF & desired_output ;
+        uint16_t RSSI_mode_16       = RSSI_mode;
+        uint16_t AGC_mode_16        = AGC_mode;
+        uint16_t AGC_avg            = AGC_window;
+        uint16_t AGC_enable16       = 1-agc_enable;
+
+        uint16_t data_reg;
+        //Configure K_lsb
+        LMS_ReadLMSReg(device_handler_fpga::getInstance().get_device(device_number),0x0408, &data_reg);
+        std::cout << "0X0408: " << std::hex <<  data_reg << std::endl;
+        LMS_WriteLMSReg(device_handler_fpga::getInstance().get_device(device_number),0x0408, K_lsb);
+
+        //Configure K_msb and desired output
+        LMS_ReadLMSReg(device_handler_fpga::getInstance().get_device(device_number),0x0409, &data_reg);
+        std::cout << "0X0409: " << std::hex <<  data_reg << std::endl;
+        data_reg = (data_reg & 0x000C) | (desired_output_16 << 4) | (K_msb & 0x3);
+        LMS_WriteLMSReg(device_handler_fpga::getInstance().get_device(device_number),0x0409, data_reg);
+
+        //Configure RSSI, AGC mode and average
+        LMS_ReadLMSReg(device_handler_fpga::getInstance().get_device(device_number),0x040A, &data_reg);
+        std::cout << "0X040A: " << std::hex <<  data_reg << std::endl;
+        data_reg = (data_reg & 0x0FF8) | ((RSSI_mode_16 & 0x3) << 14) | ((AGC_mode_16 & 0x3) << 12) | (AGC_avg & 0x7);
+        LMS_WriteLMSReg(device_handler_fpga::getInstance().get_device(device_number),0x040A, data_reg);
+
+        //Enable the AGC
+        LMS_ReadLMSReg(device_handler_fpga::getInstance().get_device(device_number),0x040C, &data_reg);
+        std::cout << "0X040C: " << std::hex <<  data_reg << std::endl;
+        data_reg = (data_reg & 0xFFBF) | ((AGC_enable16&0x0001)<<6) ;
+        LMS_WriteLMSReg(device_handler_fpga::getInstance().get_device(device_number),0x040C, data_reg);
+
+        /*unsigned int gain_value0;
+        unsigned int gain_value1;
+        LMS_GetGaindB(device_handler_fpga::getInstance().get_device(device_number),
+                      LMS_CH_RX,LMS_CH_0,
+                      &gain_value0);
+        GR_LOG_INFO(
+            d_logger,
+            boost::format("CH0 gain set: %s.")
+                % gain_value0);*/
+
+}
+
+
+void device_handler_fpga::set_gain_sep(int device_number, int lna, int tia, int pga) { 
+  
+        int rcc_ctl_pga_rbb = (430*(pow(0.65,((double)pga/10)))-110.35)/20.4516+16; //from datasheet
+
+        //if ((lms->Modify_SPI_Reg_bits(LMS7param(G_LNA_RFE),lna+1)!=0)
+        //  ||(lms->Modify_SPI_Reg_bits(LMS7param(G_TIA_RFE),tia+1)!=0)
+        //  ||(lms->Modify_SPI_Reg_bits(LMS7param(G_PGA_RBB),pga)!=0)
+        //  ||(lms->Modify_SPI_Reg_bits(LMS7param(RCC_CTL_PGA_RBB),rcc_ctl_pga_rbb)!=0))
+        //    return -1;
+
+        if(   (LMS_WriteParam(device_handler_fpga::getInstance().get_device(device_number),LMS7param(G_LNA_RFE),lna+1) != LMS_SUCCESS)
+            ||(LMS_WriteParam(device_handler_fpga::getInstance().get_device(device_number),LMS7param(G_TIA_RFE),tia+1) != LMS_SUCCESS)
+            ||(LMS_WriteParam(device_handler_fpga::getInstance().get_device(device_number),LMS7param(G_PGA_RBB),pga) != LMS_SUCCESS)
+            ||(LMS_WriteParam(device_handler_fpga::getInstance().get_device(device_number),LMS7param(RCC_CTL_PGA_RBB),rcc_ctl_pga_rbb) != LMS_SUCCESS)) 
+            {std::cout << "ERROR: device_handler_fpga::set_gain_sep(): cannot modify the register" << std::endl;}
+        
+
+        unsigned int gain_value0;
+        unsigned int gain_value1;
+        LMS_GetGaindB(device_handler_fpga::getInstance().get_device(device_number),
+                      LMS_CH_RX,LMS_CH_0,
+                      &gain_value0);
+
+        uint16_t lna_gain, tia_gain,pga_gain; 
+        LMS_ReadParam(device_handler_fpga::getInstance().get_device(device_number),LMS7param(G_LNA_RFE), &lna_gain);
+        LMS_ReadParam(device_handler_fpga::getInstance().get_device(device_number),LMS7param(G_TIA_RFE), &tia_gain);
+        LMS_ReadParam(device_handler_fpga::getInstance().get_device(device_number),LMS7param(G_PGA_RBB), &pga_gain);
+        std::cout << "Gains : LNA=" << lna_gain << ", TIA=" << tia_gain << ", PGA=" <<pga_gain << ", Tot=" <<gain_value0 << std::endl;
+
 }
 
 void device_handler_fpga::set_dspcfg_PASSTHROUGH_LEN(int device_number, uint16_t dspcfg_PASSTHROUGH_LEN) {

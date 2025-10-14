@@ -111,8 +111,18 @@ public:
     // Read GPIO inputs, one bit per pin
     uint8_t read_gpio();
 
-    void set_dspcfg_preamble(uint16_t dspcfg_PASSTHROUGH_LEN = 100u, uint8_t dspcfg_THRESHOLD = 100u, int dspcfg_preamble_en = 0);
+    void set_dspcfg_preamble(uint16_t dspcfg_PASSTHROUGH_LEN = 100u, float dspcfg_THRESHOLD = 100, int dspcfg_preamble_en = 0);
+    
+    void set_dspcfg_fir_en( int dspcfg_fir_en = 0);
 
+    void set_dspcfg_pass_sum_signal( int dspcfg_pass_sum_signal = 0);
+    
+    void set_dspcfg_red_sum_signal( int dspcfg_red_sum_signal = 0);
+
+    void set_agc( int agc_enable=0, int K=0, int desired_output=0, int RSSI_mode=0,int AGC_mode=0, int AGC_window=0);
+
+    void set_gain_sep( int lna=0, int tia=0, int pga=0);
+    
     uint32_t get_dspcfg_short_sum() ;
 
     uint32_t get_dspcfg_long_sum() ;

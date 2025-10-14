@@ -148,7 +148,7 @@ What happens if we want to sample audio continuously? We will have to tweak a bi
 In this example, we asked you to acquire data during 3 seconds. Obviously, the quantity of data that it represents depends directly on the sampling frequency and the total size also depends on the type chosen for each sample. When you are programming on your computer, you usually are not limited to such small amounts of data of constraints as you have massive amount of memory available. This is not true anymore when dealing with embedded programming as the hardware you are using is a way more constrained.
 \begin{itemize}
     \item In your system, what is the amount of memory available (flash and RAM)? You can find this information in the datasheet of the MCU or in the \textit{Build Analyser} panel of STM32CubeIDE (you may need to refresh it).
-    \item Given the data type chosen for your ADC samples, what is a good approximation of the theoretical maximal size of your buffer? 
+    \item Given the data type chosen for your ADC samples, what is a good approximation of the theoretical maximal size of your buffer?
     \item What are the trade-offs between sampling frequency, resolution and hardware requirements?
     \item Would we be able to send all the samples directly onto the UART stream with the current baudrate of 115200?
 \end{itemize}

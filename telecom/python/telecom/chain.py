@@ -19,7 +19,7 @@ class Chain:
     preamble: np.ndarray = PREAMBLE
     sync_word: np.ndarray = SYNC_WORD
 
-    payload_len: int = 50  # Number of bits per packet
+    payload_len: int = 8 * 100  # Number of bits per packet
 
     # Simulation parameters
     n_packets: int = 100  # Number of sent packets
@@ -28,16 +28,17 @@ class Chain:
     sto_val: float = 0
     sto_range: float = 10 / BIT_RATE  # defines the delay range when random
 
-    cfo_val: float = 0
-    cfo_range: float = (
-        10000  # defines the CFO range when random (in Hz) #(1000 in old repo)
+    cfo_val: float = np.nan
+    cfo_range: tuple[float, float] = (
+        8_000,
+        10_000,  # defines the CFO range when random (in Hz) #(1000 in old repo)
     )
 
-    snr_range: np.ndarray = np.arange(-10, 25)
+    EsN0_range: np.ndarray = np.arange(0, 30, 1)
 
     # Lowpass filter parameters
     numtaps: int = 100
-    cutoff: float = BIT_RATE * osr_rx / 2.0001  # or 2*BIT_RATE,...
+    cutoff: float = 150e3  # BIT_RATE * osr_rx / 2.0001  # or 2*BIT_RATE,...
 
     # Tx methods
 
@@ -75,7 +76,7 @@ class Chain:
         return x
 
     # Rx methods
-    bypass_preamble_detect: bool = False
+    ideal_preamble_detect: bool = False
 
     def preamble_detect(self, y: np.array) -> int | None:
         """
@@ -87,7 +88,7 @@ class Chain:
         """
         raise NotImplementedError
 
-    bypass_cfo_estimation: bool = False
+    ideal_cfo_estimation: bool = False
 
     def cfo_estimation(self, y: np.array) -> float:
         """
@@ -98,7 +99,7 @@ class Chain:
         """
         raise NotImplementedError
 
-    bypass_sto_estimation: bool = False
+    ideal_sto_estimation: bool = False
 
     def sto_estimation(self, y: np.array) -> float:
         """
@@ -124,7 +125,34 @@ class BasicChain(Chain):
 
     cfo_val, sto_val = np.nan, np.nan  # CFO and STO are random
 
-    bypass_preamble_detect = True
+    ideal_preamble_detect = True
+
+    def preamble_detect_ppd(self, y):
+        """Detect a preamble computing the received energy (average on a window)."""
+        long_term_sum_W = 256
+        short_term_sum_W = 32
+
+        K = 5 * (short_term_sum_W / long_term_sum_W)
+
+        long_window = np.ones(long_term_sum_W)
+        short_window = np.ones(short_term_sum_W)
+
+        yabs = np.abs(y)
+        ylen = len(y)
+        long_sum = np.convolve(yabs, long_window, mode="full")
+        short_sum = np.convolve(yabs, short_window, mode="full")
+
+        long_sum = long_sum[long_term_sum_W:ylen]
+        short_sum = short_sum[long_term_sum_W + short_term_sum_W - 1 :]
+
+        detection = short_sum > (long_sum * K)
+        detected_indices = np.where(detection)[0]
+        first_idx = (
+            (detected_indices[0] + long_term_sum_W + short_term_sum_W)
+            if detected_indices.size > 0
+            else None
+        )
+        return first_idx
 
     def preamble_detect(self, y):
         """Detect a preamble computing the received energy (average on a window)."""
@@ -138,18 +166,18 @@ class BasicChain(Chain):
 
         return None
 
-    bypass_cfo_estimation = True
+    ideal_cfo_estimation = True
 
     def cfo_estimation(self, y):
         """Estimates CFO using Moose algorithm, on first samples of preamble."""
         # TO DO: extract 2 blocks of size N*R at the start of y
-
+        N = 4  # You can change this value if needed
         # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
         cfo_est = 0
 
         return cfo_est
 
-    bypass_sto_estimation = True
+    ideal_sto_estimation = True
 
     def sto_estimation(self, y):
         """Estimates symbol timing (fractional) based on phase shifts."""
