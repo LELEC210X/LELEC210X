@@ -165,7 +165,7 @@ Due to the noise on the received signal, the demodulation may suffer from errors
     \text{SNR}\:=\:\frac{1}{\sigma_w^2}.
 \end{equation*}
 
-This SNR is therefore defined on each sample, meaning that a SNR of 0 dB implies that the instantaneous power of the signal is equal to the average power of the noise. The link between SNR and $\varepsilon / N_0$ will be covered in the next hands-on.
+This SNR is therefore defined on each sample, meaning that a SNR of 0 dB implies that the instantaneous power of the signal is equal to the average power of the noise. The link between SNR and $\frac{\varepsilon}{N_0}$ will be covered in the next hands-on.
 
 
 
@@ -187,7 +187,7 @@ Finally, when non-coherent (nc) detection is used with (CP)FSK orthogonal signal
     p_{e,\text{FSK nc}}\:=\:\frac{1}{2}e^{-\varepsilon/2N_0}.
 \end{equation*}
 
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of BER vs $\bm{\varepsilon / N_0}$ curve}
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bccrayon]{Simulation of BER vs $\frac{\varepsilon}{N_0}$ curve}
 You now have all the necessary explanations to understand the generation of BER vs $\frac{\varepsilon}{N_0}$ curves by the simulation framework and compare them with the theory. In \textbf{chain.py}, make sure all the booleans bypassing (i.e., \py{ideal_* = True}) the synchronization are set to \py{True}. Then, run the file and observe the generated BER vs $\frac{\varepsilon}{N_0}$ curves. Do they stick to the theoretical curves?
 
 Normally, your curve should have a trend similar to the theoretical curve, hinting that your demodulate function works properly. However, you can expect some differences but do not investigate them now. This will be part of the characterization report as well as of future improvements in the communication part of the project.
