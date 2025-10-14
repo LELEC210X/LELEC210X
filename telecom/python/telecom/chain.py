@@ -76,7 +76,7 @@ class Chain:
         return x
 
     # Rx methods
-    idea_preamble_detect: bool = False
+    ideal_preamble_detect: bool = False
 
     def preamble_detect(self, y: np.array) -> int | None:
         """
