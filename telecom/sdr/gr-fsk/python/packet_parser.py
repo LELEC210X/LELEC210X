@@ -83,13 +83,14 @@ class packet_parser(gr.basic_block):
     docstring for block packet_parser
     """
 
-    def __init__(self, hdr_len, payload_len, crc_len, address, log_payload):
+    def __init__(self, hdr_len, payload_len, crc_len, address, log_payload,enable_log):
         self.hdr_len = hdr_len
         self.payload_len = payload_len
         self.crc_len = crc_len
         self.nb_packet = 0
         self.nb_error = 0
         self.log_payload = log_payload
+        self.enable_log = enable_log
 
         self.packet_len = self.hdr_len + self.payload_len + self.crc_len
         self.address = address
@@ -104,16 +105,7 @@ class packet_parser(gr.basic_block):
 
         self.gr_version = gr.version()
 
-        # Redefine function based on version
-        if LooseVersion(self.gr_version) < LooseVersion("3.9.0"):
-            self.forecast = self.forecast_v38
-        else:
-            self.forecast = self.forecast_v310
-
-    def forecast_v38(self, noutput_items, ninput_items_required):
-        ninput_items_required[0] = self.packet_len + 1  # in bytes
-
-    def forecast_v310(self, noutput_items, ninputs):
+    def forecast(self, noutput_items, ninputs):
         """
         Forecast is only called from a general block
         this is the default implementation
@@ -126,6 +118,9 @@ class packet_parser(gr.basic_block):
 
     def set_log_payload(self, log_payload):
         self.log_payload = log_payload
+
+    def set_enable_log(self, enable_log):
+        self.enable_log = enable_log
 
     def general_work(self, input_items, output_items):
         # we process maximum one packet at a time
@@ -170,9 +165,10 @@ class packet_parser(gr.basic_block):
                     f"packet successfully demodulated: {payload} (CRC: {crc})"
                 )
             output_items[0][: self.payload_len] = payload
-            self.logger.info(
-                f"{self.nb_packet} packets received with {self.nb_error} error(s)"
-            )
+            if self.enable_log:
+                self.logger.info(
+                    f"{self.nb_packet} packets received with {self.nb_error} error(s)"
+                )
             return 1
         else:
             if self.log_payload:
@@ -180,7 +176,8 @@ class packet_parser(gr.basic_block):
                     f"incorrect CRC, packet dropped: {payload} (CRC: {crc})"
                 )
             self.nb_error += 1
-            self.logger.info(
-                f"{self.nb_packet} packets received with {self.nb_error} error(s)"
-            )
+            if self.enable_log:
+                self.logger.info(
+                    f"{self.nb_packet} packets received with {self.nb_error} error(s)"
+                )
             return 0

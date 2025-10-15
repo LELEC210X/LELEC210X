@@ -58,20 +58,7 @@ class flag_detector(gr.basic_block):
         self.gr_version = gr.version()
         self.logger = logging.getLogger("sync")
 
-        # Redefine function based on version
-        if LooseVersion(self.gr_version) < LooseVersion("3.9.0"):
-            self.forecast = self.forecast_v38
-        else:
-            self.forecast = self.forecast_v310
-
-    def forecast_v38(self, noutput_items, ninput_items_required):
-        """
-        Input items are samples (with oversampling factor)
-        output items are samples (with oversampling factor)
-        """
-        ninput_items_required[0] = noutput_items
-
-    def forecast_v310(self, noutput_items, ninputs):
+    def forecast(self, noutput_items, ninputs):
         """
         Forecast is only called from a general block
         this is the default implementation
@@ -101,20 +88,17 @@ class flag_detector(gr.basic_block):
             y = input_items[0][:N]
 
             if self.enable == 1:
-                pos = np.argmax(np.real(y))
-                if np.real(y[pos]) < self.flag or np.imag(y[pos]) < self.flag:
-                    pos = None
+                idx = np.flatnonzero(np.real(y) > self.flag)
+
+                if idx.size>0:
+                    pos = idx[0] + 1
                 else:
-                    pos = pos + 1
-                    # self.logger.info(
-                    #    f"flag  @ {self.nitems_read(0) + pos}"
-                    # )
+                    pos = None
+                    self.consume_each(N)
+                    return 0
+
             else:
                 pos = None
-
-            if (
-                pos is None
-            ):  # no preamble found, we discard the processed samples (no output_items)
                 self.consume_each(N)
                 return 0
 

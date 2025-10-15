@@ -160,7 +160,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /mnt/d/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/telecom/hands_on_measurements/gr-fsk/misc/fsk_capture.mat
+    file: /mnt/d/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/telecom/sdr/gr-fsk/misc/fsk_capture.mat
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -239,7 +239,9 @@ blocks:
     alias: ''
     comment: ''
     crc_len: crc_len
+    enable_log: '1'
     hdr_len: hdr_len
+    log_payload: '1'
     maxoutbuf: '0'
     minoutbuf: '0'
     payload_len: payload_len
@@ -274,17 +276,18 @@ blocks:
 - name: fsk_synchronization_0
   id: fsk_synchronization
   parameters:
+    Grx: '0'
     affinity: ''
     alias: ''
     comment: ''
     drate: data_rate
+    enable_log: '0'
     fdev: fdev
     fsamp: samp_rate
     hdr_len: hdr_len
     maxoutbuf: '0'
     minoutbuf: '0'
     packet_len: packet_len
-    tx_power: '0'
   states:
     bus_sink: false
     bus_source: false

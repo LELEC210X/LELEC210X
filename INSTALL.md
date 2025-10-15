@@ -68,7 +68,6 @@ please follow one of next subsections.
 
 In order to install GNU Radio, you need to have access to a Linux system. If your host system does not run a Linux distribution, you will find some suggestions for obtaining access to one below.
 
-
 ### Install Ubuntu via Windows Subsystem for Linux
 
 Windows Subsystem for Linux (WSL) is a Windows program that makes running a Linux image super simple!
@@ -136,14 +135,12 @@ This is going to be, by far, the most performant solution, but will also require
 much more disk space. This solution is recommended for people that might
 want to use Linux later-on, and have at least 60 Go of free memory.
 
-
 ### Install on VirtualBox
 
 You can get Ubuntu running with a virtual machine (VM) using VirtualBox.
 As you will have to run a complete Linux image from your Windows system,
 this solution has a **significant overhead** in terms of processing capability and also in terms of accessibility.
 Indeed, you will work in desktop entirely contained in a window which might be impractical.
-
 
 ## Installation steps
 
@@ -190,7 +187,7 @@ some script
 before you can work with them, and it's also possible to have an arbitrary number of nested
 venvs, which makes it hard to know which environment is activated.
 To avoid this issue, we use
-[uv](https://uv.astral.sh).
+[uv](https://docs.astral.sh/uv/).
 uv works in pair with `pyproject.toml` files,
 so that you can specify requirements for your project, and much more!
 
@@ -200,8 +197,7 @@ so that you can specify requirements for your project, and much more!
 > assistants to debug.
 
 **Please** read the
-[detailed installation guide](https://uv.astral.sh/guide/installation/),
-as well as the section on "_Add Shims to Path_".
+[detailed installation guide](https://docs.astral.sh/uv/getting-started/installation/).
 
 ### Host or Ubuntu - Install FFmpeg
 
@@ -439,7 +435,7 @@ to the `PYTHONPATH` variable with the following command you should adapt to your
 echo "export PYTHONPATH='/usr/local/XXX/dist-packages/:$PYTHONPATH'" >> ~/.bashrc
 ```
 
-#### (After H4) Ubuntu - Install Gr-LimeSDR custom components
+#### (After H3b) Ubuntu - Install Gr-LimeSDR custom components
 
 #### For everyone
 
@@ -454,6 +450,7 @@ sudo ldconfig
 ```
 
 If the compilation error `Python bindings for {sink,source}_fpga.h are out of sync` occurs, just go back in the parent folder (with `cd -`) folder and use the following commands :
+
 ```bash
 gr_modtool bind -u sink_fpga
 gr_modtool bind -u source_fpga
@@ -563,7 +560,7 @@ it will then automatically detect the MAX 10 device support file. You can procee
 To install the Python dependencies, you can simply run:
 
 ```bash
-uv sync run
+uv sync
 ```
 
 You should only perform this once (if `pyproject.toml` does not change).

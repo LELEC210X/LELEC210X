@@ -22,7 +22,7 @@ body:
       required: true
     - label: Read the [best practice](https://github.com/LELEC210X/LELEC210X/wiki/Best-practice-guide) and checked if my bug was not one of the common bugs documented in the Wiki;
       required: true
-    - label: Updated my Python virtual environment with `rye sync`;
+    - label: Updated my Python virtual environment with `uv sync`;
       required: true
 
 - type: textarea

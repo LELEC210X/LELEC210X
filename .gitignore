@@ -48,10 +48,11 @@ mcu/*.launch
 
 # Telecom
 
-telecom/hands_on_simulation/test.csv
+telecom/python/telecom/sim_outputs.csv
 telecom/**/build/
 telecom/**/gr-fsk/apps/*.py
 telecom/**/gr-fsk/apps/*.txt
+
 
 # FPGA
 

@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Starting from the H2b baseline code}
-We provide you again with a baseline project already present inthe \texttt{mcu} folder of the git. Do not forget to syncrhonize your git before starting the Hands-On. The baseline code is almost the same as the H2a baseline code, except the interrupt line for the button that has been activated and a few functions for formatting the prints. Import and open the project as explained in the previous Hands-On and flash it on your MCU. The LED2 should be blinking. We will build onto this project.
+We provide you again with a baseline project already present inthe \texttt{mcu} folder of the git. Do not forget to synchronize your git before starting the Hands-On. The baseline code is almost the same as the H2a baseline code, except for the button's interrupt line that has been activated and a few functions for formatting the prints. Import and open the project as explained in the previous Hands-On and flash it on your MCU. The LED2 should be blinking. We will build onto this project.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -33,7 +33,7 @@ For a basic usage of the ADC, that's all there is to it. We advise you to take a
 The MCU is a sensitive device, it is not designed to handle any kind of voltage on its pins. Take a look at Section 6.2 of the MCU datasheet, you can find here that the maximum voltage on a pin cannot be higher than 4 volts. The ADALM2000 can go beyond that, pay attention to never go above this value, it is recommended to stay below \textbf{VDD}: 3.3V.
 \end{bclogo}
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{Digitized values}
-Take a look at the values given by your ADC. How many possible values are possible? How many bits are used for the quantization?
+Take a look at the values given by your ADC. How many different values are possible? Based on that, how many bits are used for the quantization by the ADC?
 \end{bclogo}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{Reading a schematic}
@@ -44,7 +44,7 @@ How do we know that the microphone/mini-jack input is connected to the pin \text
 
 \subsection{Advanced management of audio acquisition: using ADC, DMA and a TIMER}
 
-\noindent As our ultimate goal is to be able to sample an audio signal, we must have a steady sampling at a defined frequency (in order not to introduce distortion in the signal and to make sure Nyquist criterion is fulfilled). To do this, we will use a TIMER. However, this time we won't link the timer to a external pin but an internal signal. Similarly, we won't use C code to trigger an ADC conversion but rather use the signal of the timer. Finally, we won't use C code either to retrieve the ADC value, but rather set up the DMA to copy directly to an array in memory that will be accessed by the C code. The \textbf{DMA} (Direct Memory Access) is a new peripheral that we will have to introduce in this project. Its purpose is to transfer data from one address to an other one, without using the CPU to perform this action. This allows more advanced sampling and lower power consumption as we do not need the CPU to be running and awake. In this project, the life of one sample starts by the timer triggering an ADC conversion. Then when the conversion is done, the ADC will trigger the DMA to transfer the sample to the correct address. \\
+\noindent As our ultimate goal is to be able to sample an audio signal, we must have a steady sampling at a defined frequency (in order not to introduce distortion in the signal and to make sure Nyquist criterion is fulfilled). To do this, we will use a TIMER. However, this time we won't link the timer to a external pin but an internal signal. Similarly, we won't use C code to trigger an ADC conversion but rather use the signal of the timer. Finally, we won't use C code either to retrieve the ADC value, but rather set up the DMA to copy directly to an array in memory that will be accessed by the C code. The \textbf{DMA} (Direct Memory Access) is a new peripheral that we will have to introduce in this project. Its purpose is to transfer data from one address to another, without using the CPU to perform this action. This allows more advanced sampling and lower power consumption as we do not need the CPU to be running and awake. In this project, the life of one sample starts by the timer triggering an ADC conversion. Then when the conversion is done, the ADC will trigger the DMA to transfer the sample to the correct address. \\
 
 \noindent We will start by setting up the timer TIM3, open this peripheral in the \texttt{.ioc} file. Set the \textbf{Clock source} as \textbf{Internal clock} to activate the timer. Our sampling frequency will be 11kHz, so as our clock is set 32MHz, we will use 15 as prescaler and 195 as period values. This will provide a timer frequency of just under 11kHz, i.e., 10.2 kHz. Next, we need to set up the periodic signal that will trigger the ADC. To do so, open the parameters of the TIMER and in the bottom panel under \textbf{Trigger Output (TRGO) Parameters} , choose \textbf{Update event} for \textbf{Trigger event selection (TRGO)}. \\
 
@@ -115,7 +115,7 @@ Did you understand how the script manages to handle new data coming from UART, e
 \noindent How are "packets" of data separated?
 \end{bclogo}
 
-\noindent When you have understood the script, you can create a new folder called \texttt{audio\_files} in the same directory. It is now time to run it in the terminal by using the command \texttt{python3 uart-reader.py}. It will run until you press on \texttt{Ctrl+C}. Each time new data is coming from the UART, you should see a Figure plotting the data that has been received and an audio file should be generated in the \texttt{audio\_files} folder. The file format (\texttt{.ogg}) is the same as the one of the database you discovered during the first week. If everything worked as expected, you should see your sine wave and even be able to listen to the corresponding audio file.
+\noindent When you have understood the script, you can create a new folder called \texttt{audio\_files} in the same directory. It is now time to run it in the terminal by using the command \texttt{uv run uart-reader.py}. It will run until you press on \texttt{Ctrl+C}. Each time new data is coming from the UART, you should see a Figure plotting the data that has been received and an audio file should be generated in the \texttt{audio\_files} folder. The file format (\texttt{.ogg}) is the same as the one of the database you discovered during the first week. If everything worked as expected, you should see your sine wave and even be able to listen to the corresponding audio file.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -139,7 +139,7 @@ What happens if we want to sample audio continuously? We will have to tweak a bi
 
 \noindent In the C code, when you call the \texttt{HAL\_ADC\_Start\_DMA} function, make sure to adjust the sampling size by doubling it. The \texttt{ADCBuffer} array is already sized for double buffering. You can also access easily the first or second buffer thanks to the \texttt{ADCData1} and \texttt{ADCData2} pointers.\\
 
-\noindent With this, the double buffering technique is ready. We expect you to program the following functionality : When you press on the button, the ADC starts in a double buffering mode, for each half buffer, calculate the power contained in the digitized signal and print its value to the UART stream, if it exceeds a threshold value of 50\footnote{This value was choosen using the mini-jack cable, you might need to update this value if you use the microphone based on the ambient noise.}, you sample one more buffer, stop the sampling and send the data through the same way as before. Use the script detailled in the previous section to save your audio files. You can adjust the buffer size easily on the MCU with the \textbf{ADC\_BUF\_SIZE} constant which corresponds to the number of samples. You can safely go up to 30000 samples($\approx$3 seconds). Finally, don't worry, the UART transfer might take several seconds to process. \\
+\noindent With this, the double buffering technique is ready. We expect you to program the following functionality : When you press on the button, the ADC starts in a double buffering mode, for each half buffer, calculate the power contained in the digitized signal and print its value to the UART stream. If it exceeds a threshold value of 50\footnote{This value was choosen using the mini-jack cable, you might need to update this value if you use the microphone based on the ambient noise.}, you finish the sampling of the current buffer then stop it and send the data through the same way as before. Use the script detailled in the previous section to save your audio files. You can adjust the buffer size easily on the MCU with the \textbf{ADC\_BUF\_SIZE} constant which corresponds to the number of samples. You can safely go up to 30000 samples($\approx$3 seconds). Finally, don't worry, the UART transfer might take several seconds to process. \\
 
 \noindent The function to calculate the signal power is the following : \texttt{get\_signal\_power(uint16\_t *buffer, size\_t len)}.
 
@@ -147,11 +147,10 @@ What happens if we want to sample audio continuously? We will have to tweak a bi
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{Hardware constraints}
 In this example, we asked you to acquire data during 3 seconds. Obviously, the quantity of data that it represents depends directly on the sampling frequency and the total size also depends on the type chosen for each sample. When you are programming on your computer, you usually are not limited to such small amounts of data of constraints as you have massive amount of memory available. This is not true anymore when dealing with embedded programming as the hardware you are using is a way more constrained.
 \begin{itemize}
-    \item In your system, what is the amount of memory available (flash and RAM)?
-    \item Given the type chosen for your ADC samples, what is a good approximation of the theoretical maximal size of your buffer? You can find this information in the datasheet of the MCU.
+    \item In your system, what is the amount of memory available (flash and RAM)? You can find this information in the datasheet of the MCU or in the \textit{Build Analyser} panel of STM32CubeIDE (you may need to refresh it).
+    \item Given the data type chosen for your ADC samples, what is a good approximation of the theoretical maximal size of your buffer?
     \item What are the trade-offs between sampling frequency, resolution and hardware requirements?
     \item Would we be able to send all the samples directly onto the UART stream with the current baudrate of 115200?
-    \item What is the limit of the ADC buffer size in samples and what limits it?
 \end{itemize}
 
 \end{bclogo}
