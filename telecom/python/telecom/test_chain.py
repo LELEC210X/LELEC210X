@@ -3,9 +3,8 @@
 import numpy as np
 import pytest
 
-from telecom.python.telecom.simulate import add_cfo, add_delay
-
 from .chain import BasicChain
+from .simulate import add_cfo, add_delay
 
 
 @pytest.fixture(scope="session")
