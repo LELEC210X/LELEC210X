@@ -185,9 +185,9 @@ class BasicChain(Chain):
 
         # --- Moose algorithm implementation ---
         # The preamble repeats "10", so we can assume the first 2 blocks are identical up to the CFO phase rotation
-        numerator = 0 + 0j
-        for l in range(Nt):
-            numerator += y[l + Nt] * np.conj(y[l])
+        # vectorized complex correlation between the two blocks
+        # numerator = sum_{l=0..Nt-1} y[l+Nt] * conj(y[l])
+        numerator = np.vdot(y[:Nt], y[Nt : Nt + Nt])
 
         # Compute the angle of the complex correlation term
         angle = np.angle(numerator)
@@ -241,20 +241,13 @@ class BasicChain(Chain):
         ref0 = np.exp(+1j * 2 * np.pi * fd * n * T / R)  # waveform for bit=0
 
         # === TO DO: compute the correlations with the two reference waveforms (r0 and r1) ===
-        bits_hat = np.zeros(nb_syms, dtype=int)
+        # vectorized correlation: compute dot product of each row with ref1/ref0
+        # y has shape (nb_syms, R), ref* has shape (R,)
+        # result r1_vec[k] = sum_j y[k,j] * ref1[j]
+        r1_vec = (y * ref1).sum(axis=1) / R
+        r0_vec = (y * ref0).sum(axis=1) / R
 
-        for k in range(nb_syms):
-            # extract symbol samples
-            y_k = y[k, :]
-
-            # approximate integrals with discrete sums (normalized by R)
-            r1 = np.sum(y_k * ref1) / R
-            r0 = np.sum(y_k * ref0) / R
-
-            # === TO DO: performs the decision based on r0 and r1 ===
-            if abs(r1) > abs(r0):
-                bits_hat[k] = 1   # symbol +1
-            else:
-                bits_hat[k] = 0   # symbol -1
+        # Decide based on magnitude comparison
+        bits_hat = (np.abs(r1_vec) > np.abs(r0_vec)).astype(int)
 
         return bits_hat
