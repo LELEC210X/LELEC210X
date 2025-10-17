@@ -369,6 +369,10 @@ cd ../udev-rules
 sudo ./install.sh
 ```
 
+> [!IMPORTANT]
+> If the above fails, delete `builddir` (with `sudo rm -rf builddir`),
+> then redo the procedure with `git checkout master` instead.
+
 #### Ubuntu - Install Gr-LimeSDR
 
 Finally, we need to install _Gr-LimeSDR_ which is a low cost, open source software defined radio (SDR) platform.
@@ -392,6 +396,11 @@ sudo make install
 sudo ldconfig
 ```
 
+> [!IMPORTANT]
+> If the above fails, complaining that some `CMakelist.txt` file is missing,
+> copy-paste the `CMakelist.txt` file from `gr-limesdr/apps/` into
+> `gr-frk/apps`.
+
 #### Install gr-fsk and ensure the `PYTHONPATH` is properly set up
 
 During the H3b, you are going demodulate actual sent packets using
@@ -405,7 +414,7 @@ As it can be quite cumbersome of typing this path every time you want to recompi
 we advise you to create some environment variables for their path on Ubuntu. For example:
 
 ```bash
-echo "export GRFSK='/mnt/d/XXX/telecom/hands_on_measurements/gr-fsk'" >> ~/.bashrc
+echo "export GRFSK='/mnt/d/XXX/telecom/sdr/gr-fsk'" >> ~/.bashrc
 ```
 
 The variable export will only be effective in new, fresh, terminals in which you can do `cd $GRFSK`.
