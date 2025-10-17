@@ -365,7 +365,7 @@ cmake ../
 make -j4
 sudo make install
 sudo ldconfig
-sudo ../udev-rules
+cd ../udev-rules
 sudo ./install.sh
 ```
 
