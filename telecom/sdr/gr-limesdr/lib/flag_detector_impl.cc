@@ -69,7 +69,7 @@ int flag_detector_impl::general_work(int noutput_items,
         while (in_idx < ninput && out_idx < noutput_items) {
             const gr_complex &s = in[in_idx];
             if (!d_triggered) {
-                if (std::abs(s.real()) > d_threshold || std::abs(s.imag()) > d_threshold) {
+                if ((s.real() > d_threshold) && (s.imag() > d_threshold)) {
                     d_triggered = true;
                     d_remaining = d_burst_len;
                     signalPower    = 0;

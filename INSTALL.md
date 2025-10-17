@@ -435,7 +435,7 @@ to the `PYTHONPATH` variable with the following command you should adapt to your
 echo "export PYTHONPATH='/usr/local/XXX/dist-packages/:$PYTHONPATH'" >> ~/.bashrc
 ```
 
-#### (After H3b) Ubuntu - Install Gr-LimeSDR custom components
+#### Install Gr-LimeSDR custom components
 
 #### For everyone
 
@@ -449,11 +449,12 @@ sudo make install
 sudo ldconfig
 ```
 
-If the compilation error `Python bindings for {sink,source}_fpga.h are out of sync` occurs, just go back in the parent folder (with `cd -`) folder and use the following commands :
+If the compilation error `Python bindings for {sink_fpga,source_fpga,flag_detector}.h are out of sync` occurs, just go back in the parent folder (with `cd -`) folder and use the following commands :
 
 ```bash
 gr_modtool bind -u sink_fpga
 gr_modtool bind -u source_fpga
+gr_modtool bind -u flag_detector
 ```
 
 Then, go back to the build folder (with `cd -` or `cd build`) and re-try to compile from source:

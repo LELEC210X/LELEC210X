@@ -387,7 +387,7 @@ blocks:
     enable: Enable_detection
     maxoutbuf: '0'
     minoutbuf: '0'
-    threshold: '0.9'
+    threshold: '0.99'
   states:
     bus_sink: false
     bus_source: false
