@@ -54,6 +54,9 @@ inputs:
   - domain: message
     label: NoisePow
     id: noisePow
+  - domain: message
+    label: SignalPow
+    id: SignalPow
 
 outputs:
   - label: Output

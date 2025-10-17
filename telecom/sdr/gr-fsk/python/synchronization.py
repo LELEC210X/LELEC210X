@@ -77,15 +77,19 @@ class synchronization(gr.basic_block):
         self.init_sto = 0
         self.cfo = 0.0
         self.t0 = 0.0
-        self.power_est = 0
-        self.estimated_noise_power = 0
+        self.estimated_noise_power  = 0
+        self.estimated_signal_power = 0
 
         gr.basic_block.__init__(
             self, name="Synchronization", in_sig=[np.complex64], out_sig=[np.complex64]
         )
         self.logger = logging.getLogger("sync")
         self.message_port_register_in(pmt.intern("NoisePow"))
-        self.set_msg_handler(pmt.intern("NoisePow"), self.handle_msg)
+        self.set_msg_handler(pmt.intern("NoisePow"), self.handle_msg_noise)
+
+        
+        self.message_port_register_in(pmt.intern("SignalPow"))
+        self.set_msg_handler(pmt.intern("SignalPow"), self.handle_msg_signal)
 
         self.gr_version = gr.version()
 
@@ -110,8 +114,11 @@ class synchronization(gr.basic_block):
     def set_enable_log(self, enable_log):
         self.enable_log = enable_log
 
-    def handle_msg(self, msg):
+    def handle_msg_noise(self, msg):
         self.estimated_noise_power = pmt.to_double(msg)
+
+    def handle_msg_signal(self, msg):
+        self.estimated_signal_power = pmt.to_float(msg)
 
     def set_Grx(self, Grx):
         self.Grx = Grx
@@ -138,7 +145,6 @@ class synchronization(gr.basic_block):
             win_size = min(len(output_items[0]), self.rem_samples)
             y = input_items[0][:win_size]
 
-            self.power_est   += np.sum(np.abs(y)**2) #+= np.var(y)
             # Correct CFO before transferring samples to demodulation stage
             t = self.t0 + np.arange(1, len(y) + 1) / (self.drate * self.osr)
             y_corr = np.exp(-1j * 2 * np.pi * self.cfo * t) * y
@@ -150,17 +156,16 @@ class synchronization(gr.basic_block):
 
             self.rem_samples -= win_size
             if (self.rem_samples == 0):  # Thow away the extra OSR samples from the preamble detection stage
-                self.power_est= self.power_est/(   (self.packet_len + 1) * 8 * self.osr)
                 SNR_est = self.osr*(
-                    (self.power_est) - self.estimated_noise_power
+                    (self.estimated_signal_power) - self.estimated_noise_power
                 ) / self.estimated_noise_power
                 if self.enable_log:
                     self.logger.info(
-                        f"CFO {self.cfo:.2f} Hz, STO {self.init_sto}, SRNest: {10 * np.log10(SNR_est):.2f} dB, Avg. Amplitude: {np.mean(np.abs(y)):.2e}"
+                        f"CFO {self.cfo:.2f} Hz, STO {self.init_sto}, EsN0est: {10 * np.log10(SNR_est):.2f} dB, Avg. Amplitude: {np.mean(np.abs(y)):.2e}"
                     )
 
                 measurements_logger.info(f"CFO={self.cfo},STO={self.init_sto}")
-                measurements_logger.info(f"SNRdB={10 * np.log10(SNR_est):.2f},GRXdB={self.Grx}"                )
+                measurements_logger.info(f"EsN0dB={10 * np.log10(SNR_est):.2f},GRXdB={self.Grx}"                )
 
                 self.consume_each(win_size + self.osr - self.init_sto)
             else:

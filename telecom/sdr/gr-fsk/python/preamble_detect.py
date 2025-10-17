@@ -22,6 +22,7 @@
 from distutils.version import LooseVersion
 
 import numpy as np
+import pmt
 from gnuradio import gr
 
 
@@ -68,6 +69,8 @@ class preamble_detect(gr.basic_block):
 
         self.gr_version = gr.version()
 
+        self.message_port_register_out(pmt.intern("SignalPow"))
+
     def forecast(self, noutput_items, ninputs):
         """
         Forecast is only called from a general block
@@ -93,16 +96,22 @@ class preamble_detect(gr.basic_block):
             n_out = min(self.rem_samples, N)
 
             # the block is transparent, i.e., all input goes to output
+            self.power_est   += np.sum(np.abs(input_items[0][:n_out])**2) 
             output_items[0][:n_out] = input_items[0][:n_out]
             self.consume_each(n_out)
 
             self.rem_samples -= n_out
+            if (self.rem_samples == 0) :
+                PMT_msg = pmt.from_double(self.power_est/ (8 * self.osr * (self.packet_len + 1) + self.osr))
+                self.message_port_pub(pmt.intern("SignalPow"), PMT_msg)
+
             return n_out
         else:
             N = len(output_items[0]) - len(output_items[0]) % self.filter_len
             if self.enable == 1:
                 y = input_items[0][: N + self.filter_len]
                 pos = preamble_detect_energy(y, self.filter_len, self.threshold)
+                self.power_est = 0
 
                 if (
                     pos is None
@@ -120,6 +129,9 @@ class preamble_detect(gr.basic_block):
                 self.rem_samples = 8 * self.osr * (self.packet_len + 1) + self.osr
 
                 n_out = N - pos
+
+                
+                self.power_est   += np.sum(np.abs(input_items[0][pos:N])**2) 
 
                 output_items[0][:n_out] = input_items[0][pos:N]
                 self.consume_each(N)

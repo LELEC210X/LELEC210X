@@ -98,7 +98,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1448, 252.0]
+    coordinate: [1440, 244.0]
     rotation: 0
     state: true
 - name: carrier_freq
@@ -513,6 +513,7 @@ connections:
 - [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
 - [fsk_preamble_detect_0, '0', fsk_synchronization_0, '0']
 - [fsk_preamble_detect_0, '0', low_pass_filter_0, '0']
+- [fsk_preamble_detect_0, SignalPow, fsk_synchronization_0, SignalPow]
 - [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
 - [limesdr_source_0, '0', fsk_onQuery_noise_estimation_0, '0']
 - [limesdr_source_0, '0', fsk_preamble_detect_0, '0']

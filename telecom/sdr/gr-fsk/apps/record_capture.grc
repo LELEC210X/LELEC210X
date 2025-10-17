@@ -88,7 +88,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: /mnt/d/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/telecom/sdr/gr-fsk/misc/fsk_capture.mat
+    file: /mnt/d/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/telecom/sdr/gr-fsk/misc/my_fsk_capture.mat
     type: complex
     unbuffered: 'False'
     vlen: '1'
