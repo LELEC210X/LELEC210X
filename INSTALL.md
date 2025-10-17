@@ -396,11 +396,6 @@ sudo make install
 sudo ldconfig
 ```
 
-> [!IMPORTANT]
-> If the above fails, complaining that some `CMakelist.txt` file is missing,
-> copy-paste the `CMakelist.txt` file from `gr-limesdr/apps/` into
-> `gr-frk/apps`.
-
 #### Install gr-fsk and ensure the `PYTHONPATH` is properly set up
 
 During the H3b, you are going demodulate actual sent packets using
@@ -427,6 +422,11 @@ cmake ..
 sudo make install
 sudo ldconfig
 ```
+
+> [!IMPORTANT]
+> If the above fails, complaining that some `CMakelist.txt` file is missing,
+> copy-paste the `CMakelist.txt` file from `gr-limesdr/apps/` into
+> `gr-frk/apps`.
 
 To ensure the Python packages you installed will be found when running GNU Radio we must
 ensure the `PYTHONPATH` variable is properly set. In the prompted log of the above installation commands,
