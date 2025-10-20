@@ -359,7 +359,7 @@ Then, clone the repository and build from source:
 ```bash
 git clone https://github.com/myriadrf/LimeSuite.git
 cd LimeSuite
-git checkout stable
+git checkout master
 mkdir builddir && cd builddir
 cmake ../
 make -j4
@@ -368,10 +368,6 @@ sudo ldconfig
 cd ../udev-rules
 sudo ./install.sh
 ```
-
-> [!IMPORTANT]
-> If the above fails, delete `builddir` (with `sudo rm -rf builddir`),
-> then redo the procedure with `git checkout master` instead.
 
 #### Ubuntu - Install Gr-LimeSDR
 
@@ -422,11 +418,6 @@ cmake ..
 sudo make install
 sudo ldconfig
 ```
-
-> [!IMPORTANT]
-> If the above fails, complaining that some `CMakelist.txt` file is missing,
-> copy-paste the `CMakelist.txt` file from `gr-limesdr/apps/` into
-> `gr-frk/apps`.
 
 To ensure the Python packages you installed will be found when running GNU Radio we must
 ensure the `PYTHONPATH` variable is properly set. In the prompted log of the above installation commands,
