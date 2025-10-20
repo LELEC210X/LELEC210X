@@ -96,7 +96,7 @@ class preamble_detect(gr.basic_block):
             n_out = min(self.rem_samples, N)
 
             # the block is transparent, i.e., all input goes to output
-            self.power_est   += np.sum(np.abs(input_items[0][:n_out])**2) 
+            self.power_est   += np.sum(np.abs(input_items[0][:n_out])**2)
             output_items[0][:n_out] = input_items[0][:n_out]
             self.consume_each(n_out)
 
@@ -130,8 +130,8 @@ class preamble_detect(gr.basic_block):
 
                 n_out = N - pos
 
-                
-                self.power_est   += np.sum(np.abs(input_items[0][pos:N])**2) 
+
+                self.power_est   += np.sum(np.abs(input_items[0][pos:N])**2)
 
                 output_items[0][:n_out] = input_items[0][pos:N]
                 self.consume_each(N)

@@ -87,7 +87,7 @@ class synchronization(gr.basic_block):
         self.message_port_register_in(pmt.intern("NoisePow"))
         self.set_msg_handler(pmt.intern("NoisePow"), self.handle_msg_noise)
 
-        
+
         self.message_port_register_in(pmt.intern("SignalPow"))
         self.set_msg_handler(pmt.intern("SignalPow"), self.handle_msg_signal)
 
