@@ -68,7 +68,7 @@ class synchronization(gr.basic_block):
         self.osr = int(fsamp / drate)
         self.hdr_len = hdr_len
         self.packet_len = packet_len  # in bytes
-        self.estimated_noise_power = 0
+        self.estimated_noise_power = None
         self.Grx = Grx
         self.enable_log = enable_log
 
@@ -77,7 +77,7 @@ class synchronization(gr.basic_block):
         self.init_sto = 0
         self.cfo = 0.0
         self.t0 = 0.0
-        self.estimated_noise_power  = 0
+        self.estimated_noise_power  = None
         self.estimated_signal_power = 0
 
         gr.basic_block.__init__(
@@ -156,16 +156,23 @@ class synchronization(gr.basic_block):
 
             self.rem_samples -= win_size
             if (self.rem_samples == 0):  # Thow away the extra OSR samples from the preamble detection stage
-                SNR_est = self.osr*(
-                    (self.estimated_signal_power) - self.estimated_noise_power
-                ) / self.estimated_noise_power
-                if self.enable_log:
-                    self.logger.info(
-                        f"CFO {self.cfo:.2f} Hz, STO {self.init_sto}, EsN0est: {10 * np.log10(SNR_est):.2f} dB, Avg. Amplitude: {np.mean(np.abs(y)):.2e}"
-                    )
 
-                measurements_logger.info(f"CFO={self.cfo},STO={self.init_sto}")
-                measurements_logger.info(f"EsN0dB={10 * np.log10(SNR_est):.2f},GRXdB={self.Grx}"                )
+                # No Noise estimation has been performed yet
+                if self.estimated_noise_power is None:
+                    if self.enable_log:
+                        self.logger.info(
+                            f"CFO {self.cfo:.2f} Hz, STO {self.init_sto}, Avg. Amplitude: {np.mean(np.abs(y)):.2e}"
+                        )
+                
+                # A noise estimation has already been performed
+                else :
+                    SNR_est = self.osr*( (self.estimated_signal_power) - self.estimated_noise_power ) / self.estimated_noise_power
+                    if self.enable_log:
+                        self.logger.info(
+                            f"CFO {self.cfo:.2f} Hz, STO {self.init_sto}, EsN0est: {10 * np.log10(SNR_est):.2f} dB, Avg. Amplitude: {np.mean(np.abs(y)):.2e}"
+                        )
+                    measurements_logger.info(f"CFO={self.cfo},STO={self.init_sto}")
+                    measurements_logger.info(f"EsN0dB={10 * np.log10(SNR_est):.2f},GRXdB={self.Grx}")
 
                 self.consume_each(win_size + self.osr - self.init_sto)
             else:
