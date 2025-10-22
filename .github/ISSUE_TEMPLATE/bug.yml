@@ -41,7 +41,7 @@ body:
       Enter the command or program that failed.
       This will be automatically formatted into code, so no need for backticks.
       If the bug occred inside a program, like GNU Radio, insert the name of the program.
-    placeholder: rye sync
+    placeholder: uv sync
   validations:
     required: true
 

@@ -359,13 +359,13 @@ Then, clone the repository and build from source:
 ```bash
 git clone https://github.com/myriadrf/LimeSuite.git
 cd LimeSuite
-git checkout stable
+git checkout master
 mkdir builddir && cd builddir
 cmake ../
 make -j4
 sudo make install
 sudo ldconfig
-sudo ../udev-rules
+cd ../udev-rules
 sudo ./install.sh
 ```
 
@@ -405,7 +405,7 @@ As it can be quite cumbersome of typing this path every time you want to recompi
 we advise you to create some environment variables for their path on Ubuntu. For example:
 
 ```bash
-echo "export GRFSK='/mnt/d/XXX/telecom/hands_on_measurements/gr-fsk'" >> ~/.bashrc
+echo "export GRFSK='/mnt/d/XXX/telecom/sdr/gr-fsk'" >> ~/.bashrc
 ```
 
 The variable export will only be effective in new, fresh, terminals in which you can do `cd $GRFSK`.
