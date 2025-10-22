@@ -85,7 +85,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '1'
+    value: '0'
   states:
     bus_sink: false
     bus_source: false
@@ -175,6 +175,38 @@ blocks:
     coordinate: [16, 52.0]
     rotation: 0
     state: true
+- name: blocks_message_debug_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1240, 280.0]
+    rotation: 0
+    state: true
+- name: blocks_message_strobe_0
+  id: blocks_message_strobe
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: pmt.intern("TEST")
+    period: '1000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [856, 360.0]
+    rotation: 0
+    state: true
 - name: blocks_throttle_0
   id: blocks_throttle
   parameters:
@@ -208,7 +240,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [80, 564.0]
+    coordinate: [72, 572.0]
     rotation: 0
     state: true
 - name: fsk_demodulation_0
@@ -349,6 +381,7 @@ connections:
 - [fsk_demodulation_0, '0', fsk_packet_parser_0, '0']
 - [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
 - [fsk_preamble_detect_0, '0', fsk_synchronization_0, '0']
+- [fsk_preamble_detect_0, SignalPow, fsk_synchronization_0, SignalPow]
 - [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
 - [low_pass_filter_0, '0', fsk_preamble_detect_0, '0']
 

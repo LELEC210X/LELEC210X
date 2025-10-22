@@ -22,6 +22,7 @@ private:
     int d_burst_len;
     bool d_triggered;
     int d_remaining;
+    float signalPower;
 
 public:
     flag_detector_impl(bool enable, float threshold, int burst_len);

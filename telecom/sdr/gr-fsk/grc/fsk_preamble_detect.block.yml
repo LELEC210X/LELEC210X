@@ -49,6 +49,9 @@ outputs:
   - domain: stream
     label: Output
     dtype: complex
+  - domain: message
+    label: SignalPow
+    id: SignalPow
 
 #  'file_format' specifies the version of the GRC yml format used in the file
 #  and should usually not be changed.

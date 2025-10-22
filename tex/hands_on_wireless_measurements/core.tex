@@ -47,15 +47,15 @@ and demodulates it using the FSK receiver architecture that has been explained i
     In the GNU Radio GUI, the low-pass filter might be highlighted in red due to an error depending on the Ubuntu release you are using. Double-click on it and on the part highlighted in red and select the corresponding one. (Normally the error, if present, is on the \textit{Window} parameter which should be set to \textit{Hamming})
 \end{bclogo}
 
-\texttt{.grc} files are designs which can be graphically edited in the companion, but they cannot directly be executed.
-Instead, the companion generates Python scripts based on the \texttt{.grc} design. To generate the corresponding script, press the second button starting from the left (i.e., the one with a box and an arrow) shown in Fig.~\ref{fig:buttons}.
-The generated script can then be executed by pressing the \textit{Run} button (third button starting from the left).
 \begin{figure}[H]
     \centering
     \includegraphics[scale=1]{figures/buttons.PNG}
     \caption{GNU Radio buttons to generate the Python script, running and stopping the application.}
     \label{fig:buttons}
 \end{figure}
+\texttt{.grc} files are designs which can be graphically edited in the companion, but they cannot directly be executed.
+Instead, the companion generates Python scripts based on the \texttt{.grc} design. To generate the corresponding script, press the second button starting from the left (i.e., the one with a box and an arrow) shown in Fig.~\ref{fig:buttons}.
+The generated script can then be executed by pressing the \textit{Run} button (third button starting from the left).
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Setting the path of the \textit{File Source}}
     You may need to fix the path of capture in the block \textit{File Source}.
@@ -133,11 +133,11 @@ The reference datasheet of the radio is available at the following link: \href{h
     \item If on VirtualBox, pass both devices to the guest system (\textit{"Devices -> USB -> ..."}). On WSL, see install guidelines how to attach the LimeSDR.
 \end{enumerate}
 
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Passing the LimeSDR Mini to the VM}
-    Depending on your computer, you may have difficulties to pass the LimeSDR Mini to the guest system.
-    When passing the devices in the VirtualBox menu, use the command \texttt{lsusb} in a terminal to verify if the device has correctly been passed.
-    If you are unable to pass the board after a few trials, shutdown the VM, \textbf{close the VirtualBox manager and restart it}, and relaunch the VM.
-\end{bclogo}
+%\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Passing the LimeSDR Mini to the VM}
+%    Depending on your computer, you may have difficulties to pass the LimeSDR Mini to the guest system.
+%    When passing the devices in the VirtualBox menu, use the command \texttt{lsusb} in a terminal to verify if the device has correctly been passed.
+%    If you are unable to pass the board after a few trials, shutdown the VM, \textbf{close the VirtualBox manager and restart it}, and relaunch the VM.
+%\end{bclogo}
 
 \subsection{Setting up the MCU}
 
@@ -166,13 +166,19 @@ Open the application \texttt{gr-fsk/apps/eval\_limesdr.grc}. Instead of reading 
 to retrieve samples. Try to understand the effects of the following variables in the application:
 \begin{itemize}
     \item \texttt{packet\_len}: length of the packet, in bytes.
-    \item \texttt{rx\_gain}: gain of the amplification stage in the receiver chain, in decibels. It can be change during operation.
-    \item \texttt{detect\_threshold\_entry}: threshold of the preamble detection. You can also change it during operation.\\
+    \item \texttt{rx\_gain}: gain of the amplification stage in the receiver chain, in decibels. It can be change during operation using a slider.
+    \item \texttt{detect\_threshold\_entry}: threshold of the preamble detection. You can also change it during operation using a slider.\\
     Open the Python file \texttt{gr-fsk/python/preamble\_detection.py} to understand its behavior.
     \item The cut-off frequency and transition width of the low pass filter.
 \end{itemize}
+
 If the role of some of these parameters are unclear to you, please ask the assistant for clarifications.
-Moreover, to allow the calculation of the SNR and to ease the setting of the threshold, the \textit{Noise estimation on query} can be activated during operation through the GUI during operation. It computes the noise power $K$ times over $N$ samples. It can be used to evaluate the noise before you enable the chain with the \textit{Enable chain} check box, or when you change the receiver gain.
+Moreover, to allow the calculation of the SNR and the related $\boldsymbol{\sfrac{\varepsilon}{N_0}}$, the \textit{Noise estimation on query} can be activated during operation through the GUI by pressing the button. It computes the noise power $K$ times over $M$ samples. When a packet is received, the \textit{Synchronization}  block computes the signal power and uses the noise power evaluation previously made to evaluate the $\boldsymbol{\sfrac{\varepsilon}{N_0}}$. Be sure to evaluate the noise power before you enable the chain with the \textit{Enable chain} check box, or when you change the receiver gain. We advice you to look at Section~\ref{sec:appendix} to understand the mathematical derivation of the $\boldsymbol{\sfrac{\varepsilon}{N_0}}$ estimation.
+
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Usage of the build folder}
+    In the GNU Radio GUI, the low pass filter initially appear gray. This indicates the block is currently disabled. You can easily enable or disable a block by selecting it and pressing E or B respectively. Do not forget to route the signal accordingly.
+\end{bclogo}
+
 
 When launching the GNU Radio application, the procedure is the following:
 \begin{enumerate}
@@ -236,22 +242,14 @@ You should now be able to receive packets over the air.
 You might need to try several distances (between 1 and 5 meters) and different values of the variable \texttt{detect\_threshold} to achieve a functional communication.
 
 \subsection{Measuring the noise level}
+\label{sec:appendix}
 
-When receiving a packet, the receiver estimates its signal-to-noise ratio (SNR), defined as
+To estimate $\boldsymbol{\sfrac{\varepsilon}{N_0}}$ in measurement, we first estimate the SNR based on the symbol power $P_S$ and the noise power $P_N$. The noise power can be evaluated by computing the variance of the received signal when no packet is transmitted,  $\sigma_w^2$. To compute $P_S$, we evaluate the signal variance  when a packet is received, $\sigma_p^2$, and remove the noise contribution. Thereby, the SNR is computed as
 \begin{equation}
-    \textrm{SNR} = \frac{P}{\sigma^2},
+    \textrm{SNR} = \frac{P_S}{P_N} = \frac{\sigma_p^2 - \sigma_w^2}{\sigma_w^2}.
 \end{equation}
-with $P$ being the power of the received signal and $\sigma^2$ is the variance of the additive white gaussian noise (AWGN).
-Estimating the SNR is required to experimentally evaluate the performance of the receiver.
-The theoretical explanation of the estimation of both random variables has been provided in the appendix of the previous hands-on.
-In short, the power of the received signal is dynamically estimated using the preamble of the packet.
-On the contrary, the power of the noise is a fixed value which has to be estimated before the application is launched.
-
-In practice, an estimate of the noise power $\sigma^2$ can be obtained using the \textit{"Noise estimation query"} block during operation and \textbf{when the antenna is connected to the LimeSDR Mini}.
-Several estimation of $\sigma^2$ are made and their mean is calculated.
-
-\begin{enumerate}
-    \item Estimate the noise power using the query with a Rx gain of \SI{60}{\decibel}.
-    \item Repeat the operation by bypassing the low-pass filter (right-click on the block to enable/bypass it, or select if and press D or E).
-    What is the effect of the low-pass filter on the noise power?
-\end{enumerate}
+We can now derive $\boldsymbol{\sfrac{\varepsilon}{N_0}}$ by expressing $P_N$ based on the noise bandwidth which is equal to $B*R_{RX}$ prior to the low-pass filter. On the other hand, $P_S$ can be written with respect to the symbol energy $\varepsilon$ and its duration $\sfrac{1}{B}$. We thereby obtain the expression
+\begin{equation}
+    \frac{P_S}{P_N} = \frac{\varepsilon B}{N_0 B R_{RX}} = \frac{\varepsilon}{N_0 R_{RX}} \leftrightarrow \frac{\varepsilon}{N_0} = R_{RX}\textrm{SNR}.
+\end{equation}
+In practice, an estimate of the noise power $\sigma_w^2$ can be obtained using the \textit{"Noise estimation query"} block during operation. Several estimation of $\sigma_w^2$ are made and their mean is calculated.

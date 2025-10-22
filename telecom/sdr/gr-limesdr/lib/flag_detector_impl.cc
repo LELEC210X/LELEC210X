@@ -6,6 +6,7 @@
  */
 
 #include "flag_detector_impl.h"
+#include <pmt/pmt.h>
 #include <gnuradio/io_signature.h>
 
 namespace gr {
@@ -25,13 +26,16 @@ flag_detector::sptr flag_detector::make(bool enable, float threshold, int burst_
 flag_detector_impl::flag_detector_impl(bool enable, float threshold, int burst_len)
     : gr::block("flag_detector",
                         gr::io_signature::make(1, 1, sizeof(gr_complex)),
-                        gr::io_signature::make(1, 1, sizeof(gr_complex))),
-      d_enable(enable),
-      d_threshold(threshold),
-      d_burst_len(burst_len),
-      d_triggered(false),
-      d_remaining(0)
+                        gr::io_signature::make(1, 1, sizeof(gr_complex)))
 {
+        d_enable        =enable; 
+        d_threshold     =threshold; 
+        d_burst_len     =burst_len; 
+        d_triggered     =false; 
+        d_remaining     =0; 
+        signalPower     =0;
+
+        message_port_register_out(pmt::mp("SignalPow"));
 }
 
 /*
@@ -65,15 +69,18 @@ int flag_detector_impl::general_work(int noutput_items,
         while (in_idx < ninput && out_idx < noutput_items) {
             const gr_complex &s = in[in_idx];
             if (!d_triggered) {
-                if (std::abs(s.real()) > d_threshold || std::abs(s.imag()) > d_threshold) {
+                if ((s.real() > d_threshold) && (s.imag() > d_threshold)) {
                     d_triggered = true;
                     d_remaining = d_burst_len;
+                    signalPower    = 0;
                 }
             } else {
+                signalPower += (s.real() * s.real()) + (s.imag() * s.imag());
                 out[out_idx++] = s;
                 d_remaining--;
                 if (d_remaining <= 0) {
                     d_triggered = false;
+                    message_port_pub(pmt::mp("SignalPow"), pmt::from_float(signalPower/d_burst_len));
                 }
             }
             in_idx++;

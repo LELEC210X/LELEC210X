@@ -52,6 +52,7 @@ telecom/python/telecom/sim_outputs.csv
 telecom/**/build/
 telecom/**/gr-fsk/apps/*.py
 telecom/**/gr-fsk/apps/*.txt
+!telecom/**/gr-fsk/apps/CMakeLists.txt
 
 
 # FPGA
