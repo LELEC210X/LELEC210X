@@ -1,5 +1,5 @@
 
-# (C) 2001-2023 Altera Corporation. All rights reserved.
+# (C) 2001-2025 Altera Corporation. All rights reserved.
 # Your use of Altera Corporation's design tools, logic functions and 
 # other software and tools, and its AMPP partner logic functions, and 
 # any output files any of the foregoing (including device programming 
@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 18.1 625 win32 2023.11.08.03:03:20
+# ACDS 18.1 625 win32 2025.11.03.10:38:55
 
 # ----------------------------------------
 # vcs - auto-generated simulation script
@@ -94,7 +94,7 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
-# ACDS 18.1 625 win32 2023.11.08.03:03:20
+# ACDS 18.1 625 win32 2025.11.03.10:38:55
 # ----------------------------------------
 # initialize variables
 TOP_LEVEL_NAME="packet_presence_detection_tb_gen_tb"
@@ -140,14 +140,17 @@ vcs -lca -timescale=1ps/1ps -sverilog +verilog2001ext+.v -ntb_opts dtm $ELAB_OPT
   -v $QUARTUS_INSTALL_DIR/eda/sim_lib/synopsys/fiftyfivenm_atoms_ncrypt.v \
   $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv \
   $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv \
+  $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_controller.v \
+  $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_synchronizer.v \
+  $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_st_splitter.sv \
   $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection.sv \
   $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/short_shift.v \
   $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/long_shift.v \
-  $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection_tb_gen_conduit_bfm_0.sv \
   $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_st_sink_bfm.sv \
   $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_st_source_bfm.sv \
   $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_reset_source.sv \
   $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_clock_source.sv \
+  $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_conduit_bfm.sv \
   $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection_tb_gen.v \
   $QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/packet_presence_detection_tb_gen_tb.v \
   -top $TOP_LEVEL_NAME

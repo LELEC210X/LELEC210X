@@ -6,35 +6,70 @@
 module packet_presence_detection_tb_gen_tb (
 	);
 
-	wire         packet_presence_detection_tb_gen_inst_source_valid;          // packet_presence_detection_tb_gen_inst:source_valid -> packet_presence_detection_tb_gen_inst_source_bfm:sink_valid
-	wire  [23:0] packet_presence_detection_tb_gen_inst_source_data;           // packet_presence_detection_tb_gen_inst:source_data -> packet_presence_detection_tb_gen_inst_source_bfm:sink_data
-	wire   [0:0] packet_presence_detection_tb_gen_inst_sink_bfm_src_valid;    // packet_presence_detection_tb_gen_inst_sink_bfm:src_valid -> packet_presence_detection_tb_gen_inst:sink_valid
-	wire  [23:0] packet_presence_detection_tb_gen_inst_sink_bfm_src_data;     // packet_presence_detection_tb_gen_inst_sink_bfm:src_data -> packet_presence_detection_tb_gen_inst:sink_data
-	wire         packet_presence_detection_tb_gen_inst_clock_bfm_clk_clk;     // packet_presence_detection_tb_gen_inst_clock_bfm:clk -> [packet_presence_detection_tb_gen_inst:clock_clk, packet_presence_detection_tb_gen_inst_reset_bfm:clk, packet_presence_detection_tb_gen_inst_sink_bfm:clk, packet_presence_detection_tb_gen_inst_source_bfm:clk]
-	wire         packet_presence_detection_tb_gen_inst_reset_bfm_reset_reset; // packet_presence_detection_tb_gen_inst_reset_bfm:reset -> [packet_presence_detection_tb_gen_inst:reset_reset, packet_presence_detection_tb_gen_inst_sink_bfm:reset, packet_presence_detection_tb_gen_inst_source_bfm:reset]
+	wire         packet_presence_detection_tb_gen_inst_source_valid;                        // packet_presence_detection_tb_gen_inst:source_valid -> packet_presence_detection_tb_gen_inst_source_bfm:sink_valid
+	wire  [23:0] packet_presence_detection_tb_gen_inst_source_data;                         // packet_presence_detection_tb_gen_inst:source_data -> packet_presence_detection_tb_gen_inst_source_bfm:sink_data
+	wire   [0:0] packet_presence_detection_tb_gen_inst_sink_bfm_src_valid;                  // packet_presence_detection_tb_gen_inst_sink_bfm:src_valid -> packet_presence_detection_tb_gen_inst:sink_valid
+	wire  [23:0] packet_presence_detection_tb_gen_inst_sink_bfm_src_data;                   // packet_presence_detection_tb_gen_inst_sink_bfm:src_data -> packet_presence_detection_tb_gen_inst:sink_data
+	wire         packet_presence_detection_tb_gen_inst_clk_bfm_clk_clk;                     // packet_presence_detection_tb_gen_inst_clk_bfm:clk -> [packet_presence_detection_tb_gen_inst:clk_clk, packet_presence_detection_tb_gen_inst_cfg_bfm:clk, packet_presence_detection_tb_gen_inst_reset_bfm:clk, packet_presence_detection_tb_gen_inst_sink_bfm:clk, packet_presence_detection_tb_gen_inst_source_bfm:clk]
+	wire   [0:0] packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_clear_rs;        // packet_presence_detection_tb_gen_inst_cfg_bfm:sig_cfg_clear_rs -> packet_presence_detection_tb_gen_inst:cfg_cfg_clear_rs
+	wire   [0:0] packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_enable_fir;      // packet_presence_detection_tb_gen_inst_cfg_bfm:sig_cfg_enable_fir -> packet_presence_detection_tb_gen_inst:cfg_cfg_enable_fir
+	wire   [0:0] packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_red_sum_signal;  // packet_presence_detection_tb_gen_inst_cfg_bfm:sig_cfg_red_sum_signal -> packet_presence_detection_tb_gen_inst:cfg_cfg_red_sum_signal
+	wire  [31:0] packet_presence_detection_tb_gen_inst_cfg_debug_count;                     // packet_presence_detection_tb_gen_inst:cfg_debug_count -> packet_presence_detection_tb_gen_inst_cfg_bfm:sig_debug_count
+	wire   [0:0] packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_pass_sum_signal; // packet_presence_detection_tb_gen_inst_cfg_bfm:sig_cfg_pass_sum_signal -> packet_presence_detection_tb_gen_inst:cfg_cfg_pass_sum_signal
+	wire  [31:0] packet_presence_detection_tb_gen_inst_cfg_debug_long_sum;                  // packet_presence_detection_tb_gen_inst:cfg_debug_long_sum -> packet_presence_detection_tb_gen_inst_cfg_bfm:sig_debug_long_sum
+	wire   [7:0] packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_threshold;       // packet_presence_detection_tb_gen_inst_cfg_bfm:sig_cfg_threshold -> packet_presence_detection_tb_gen_inst:cfg_cfg_threshold
+	wire  [15:0] packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_passthrough_len; // packet_presence_detection_tb_gen_inst_cfg_bfm:sig_cfg_passthrough_len -> packet_presence_detection_tb_gen_inst:cfg_cfg_passthrough_len
+	wire  [31:0] packet_presence_detection_tb_gen_inst_cfg_debug_short_sum;                 // packet_presence_detection_tb_gen_inst:cfg_debug_short_sum -> packet_presence_detection_tb_gen_inst_cfg_bfm:sig_debug_short_sum
+	wire   [0:0] packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_enable_ppd;      // packet_presence_detection_tb_gen_inst_cfg_bfm:sig_cfg_enable_ppd -> packet_presence_detection_tb_gen_inst:cfg_cfg_enable_ppd
+	wire         packet_presence_detection_tb_gen_inst_reset_bfm_reset_reset;               // packet_presence_detection_tb_gen_inst_reset_bfm:reset -> [packet_presence_detection_tb_gen_inst:reset_reset_n, packet_presence_detection_tb_gen_inst_cfg_bfm:reset, packet_presence_detection_tb_gen_inst_sink_bfm:reset, packet_presence_detection_tb_gen_inst_source_bfm:reset]
 
 	packet_presence_detection_tb_gen packet_presence_detection_tb_gen_inst (
-		.clock_clk    (packet_presence_detection_tb_gen_inst_clock_bfm_clk_clk),     //  clock.clk
-		.reset_reset  (packet_presence_detection_tb_gen_inst_reset_bfm_reset_reset), //  reset.reset
-		.sink_data    (packet_presence_detection_tb_gen_inst_sink_bfm_src_data),     //   sink.data
-		.sink_valid   (packet_presence_detection_tb_gen_inst_sink_bfm_src_valid),    //       .valid
-		.source_data  (packet_presence_detection_tb_gen_inst_source_data),           // source.data
-		.source_valid (packet_presence_detection_tb_gen_inst_source_valid)           //       .valid
+		.cfg_cfg_passthrough_len (packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_passthrough_len), //    cfg.cfg_passthrough_len
+		.cfg_cfg_threshold       (packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_threshold),       //       .cfg_threshold
+		.cfg_cfg_clear_rs        (packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_clear_rs),        //       .cfg_clear_rs
+		.cfg_debug_count         (packet_presence_detection_tb_gen_inst_cfg_debug_count),                     //       .debug_count
+		.cfg_debug_long_sum      (packet_presence_detection_tb_gen_inst_cfg_debug_long_sum),                  //       .debug_long_sum
+		.cfg_debug_short_sum     (packet_presence_detection_tb_gen_inst_cfg_debug_short_sum),                 //       .debug_short_sum
+		.cfg_cfg_enable_fir      (packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_enable_fir),      //       .cfg_enable_fir
+		.cfg_cfg_enable_ppd      (packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_enable_ppd),      //       .cfg_enable_ppd
+		.cfg_cfg_pass_sum_signal (packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_pass_sum_signal), //       .cfg_pass_sum_signal
+		.cfg_cfg_red_sum_signal  (packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_red_sum_signal),  //       .cfg_red_sum_signal
+		.clk_clk                 (packet_presence_detection_tb_gen_inst_clk_bfm_clk_clk),                     //    clk.clk
+		.reset_reset_n           (packet_presence_detection_tb_gen_inst_reset_bfm_reset_reset),               //  reset.reset_n
+		.sink_valid              (packet_presence_detection_tb_gen_inst_sink_bfm_src_valid),                  //   sink.valid
+		.sink_data               (packet_presence_detection_tb_gen_inst_sink_bfm_src_data),                   //       .data
+		.source_data             (packet_presence_detection_tb_gen_inst_source_data),                         // source.data
+		.source_valid            (packet_presence_detection_tb_gen_inst_source_valid)                         //       .valid
+	);
+
+	altera_conduit_bfm packet_presence_detection_tb_gen_inst_cfg_bfm (
+		.clk                     (packet_presence_detection_tb_gen_inst_clk_bfm_clk_clk),                     //     clk.clk
+		.reset                   (~packet_presence_detection_tb_gen_inst_reset_bfm_reset_reset),              //   reset.reset
+		.sig_cfg_clear_rs        (packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_clear_rs),        // conduit.cfg_clear_rs
+		.sig_cfg_enable_fir      (packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_enable_fir),      //        .cfg_enable_fir
+		.sig_cfg_enable_ppd      (packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_enable_ppd),      //        .cfg_enable_ppd
+		.sig_cfg_pass_sum_signal (packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_pass_sum_signal), //        .cfg_pass_sum_signal
+		.sig_cfg_passthrough_len (packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_passthrough_len), //        .cfg_passthrough_len
+		.sig_cfg_red_sum_signal  (packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_red_sum_signal),  //        .cfg_red_sum_signal
+		.sig_cfg_threshold       (packet_presence_detection_tb_gen_inst_cfg_bfm_conduit_cfg_threshold),       //        .cfg_threshold
+		.sig_debug_count         (packet_presence_detection_tb_gen_inst_cfg_debug_count),                     //        .debug_count
+		.sig_debug_long_sum      (packet_presence_detection_tb_gen_inst_cfg_debug_long_sum),                  //        .debug_long_sum
+		.sig_debug_short_sum     (packet_presence_detection_tb_gen_inst_cfg_debug_short_sum)                  //        .debug_short_sum
 	);
 
 	altera_avalon_clock_source #(
-		.CLOCK_RATE (100000000),
+		.CLOCK_RATE (50000000),
 		.CLOCK_UNIT (1)
-	) packet_presence_detection_tb_gen_inst_clock_bfm (
-		.clk (packet_presence_detection_tb_gen_inst_clock_bfm_clk_clk)  // clk.clk
+	) packet_presence_detection_tb_gen_inst_clk_bfm (
+		.clk (packet_presence_detection_tb_gen_inst_clk_bfm_clk_clk)  // clk.clk
 	);
 
 	altera_avalon_reset_source #(
-		.ASSERT_HIGH_RESET    (1),
+		.ASSERT_HIGH_RESET    (0),
 		.INITIAL_RESET_CYCLES (50)
 	) packet_presence_detection_tb_gen_inst_reset_bfm (
-		.reset (packet_presence_detection_tb_gen_inst_reset_bfm_reset_reset), // reset.reset
-		.clk   (packet_presence_detection_tb_gen_inst_clock_bfm_clk_clk)      //   clk.clk
+		.reset (packet_presence_detection_tb_gen_inst_reset_bfm_reset_reset), // reset.reset_n
+		.clk   (packet_presence_detection_tb_gen_inst_clk_bfm_clk_clk)        //   clk.clk
 	);
 
 	altera_avalon_st_source_bfm #(
@@ -54,16 +89,16 @@ module packet_presence_detection_tb_gen_tb (
 		.ST_MAX_CHANNELS  (0),
 		.VHDL_ID          (0)
 	) packet_presence_detection_tb_gen_inst_sink_bfm (
-		.clk               (packet_presence_detection_tb_gen_inst_clock_bfm_clk_clk),     //       clk.clk
-		.reset             (packet_presence_detection_tb_gen_inst_reset_bfm_reset_reset), // clk_reset.reset
-		.src_data          (packet_presence_detection_tb_gen_inst_sink_bfm_src_data),     //       src.data
-		.src_valid         (packet_presence_detection_tb_gen_inst_sink_bfm_src_valid),    //          .valid
-		.src_ready         (1'b1),                                                        // (terminated)
-		.src_startofpacket (),                                                            // (terminated)
-		.src_endofpacket   (),                                                            // (terminated)
-		.src_empty         (),                                                            // (terminated)
-		.src_channel       (),                                                            // (terminated)
-		.src_error         ()                                                             // (terminated)
+		.clk               (packet_presence_detection_tb_gen_inst_clk_bfm_clk_clk),        //       clk.clk
+		.reset             (~packet_presence_detection_tb_gen_inst_reset_bfm_reset_reset), // clk_reset.reset
+		.src_data          (packet_presence_detection_tb_gen_inst_sink_bfm_src_data),      //       src.data
+		.src_valid         (packet_presence_detection_tb_gen_inst_sink_bfm_src_valid),     //          .valid
+		.src_ready         (1'b1),                                                         // (terminated)
+		.src_startofpacket (),                                                             // (terminated)
+		.src_endofpacket   (),                                                             // (terminated)
+		.src_empty         (),                                                             // (terminated)
+		.src_channel       (),                                                             // (terminated)
+		.src_error         ()                                                              // (terminated)
 	);
 
 	altera_avalon_st_sink_bfm #(
@@ -83,16 +118,16 @@ module packet_presence_detection_tb_gen_tb (
 		.ST_MAX_CHANNELS  (0),
 		.VHDL_ID          (0)
 	) packet_presence_detection_tb_gen_inst_source_bfm (
-		.clk                (packet_presence_detection_tb_gen_inst_clock_bfm_clk_clk),     //       clk.clk
-		.reset              (packet_presence_detection_tb_gen_inst_reset_bfm_reset_reset), // clk_reset.reset
-		.sink_data          (packet_presence_detection_tb_gen_inst_source_data),           //      sink.data
-		.sink_valid         (packet_presence_detection_tb_gen_inst_source_valid),          //          .valid
-		.sink_ready         (),                                                            // (terminated)
-		.sink_startofpacket (1'b0),                                                        // (terminated)
-		.sink_endofpacket   (1'b0),                                                        // (terminated)
-		.sink_empty         (1'b0),                                                        // (terminated)
-		.sink_channel       (1'b0),                                                        // (terminated)
-		.sink_error         (1'b0)                                                         // (terminated)
+		.clk                (packet_presence_detection_tb_gen_inst_clk_bfm_clk_clk),        //       clk.clk
+		.reset              (~packet_presence_detection_tb_gen_inst_reset_bfm_reset_reset), // clk_reset.reset
+		.sink_data          (packet_presence_detection_tb_gen_inst_source_data),            //      sink.data
+		.sink_valid         (packet_presence_detection_tb_gen_inst_source_valid),           //          .valid
+		.sink_ready         (),                                                             // (terminated)
+		.sink_startofpacket (1'b0),                                                         // (terminated)
+		.sink_endofpacket   (1'b0),                                                         // (terminated)
+		.sink_empty         (1'b0),                                                         // (terminated)
+		.sink_channel       (1'b0),                                                         // (terminated)
+		.sink_error         (1'b0)                                                          // (terminated)
 	);
 
 endmodule

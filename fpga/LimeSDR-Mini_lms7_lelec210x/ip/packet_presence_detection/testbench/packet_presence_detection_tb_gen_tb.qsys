@@ -17,7 +17,15 @@
          type = "int";
       }
    }
-   element packet_presence_detection_tb_gen_inst_clock_bfm
+   element packet_presence_detection_tb_gen_inst_cfg_bfm
+   {
+      datum _sortIndex
+      {
+         value = "3";
+         type = "int";
+      }
+   }
+   element packet_presence_detection_tb_gen_inst_clk_bfm
    {
       datum _sortIndex
       {
@@ -37,7 +45,7 @@
    {
       datum _sortIndex
       {
-         value = "3";
+         value = "4";
          type = "int";
       }
    }
@@ -45,7 +53,7 @@
    {
       datum _sortIndex
       {
-         value = "4";
+         value = "5";
          type = "int";
       }
    }
@@ -75,9 +83,9 @@
    kind="packet_presence_detection_tb_gen"
    version="1.0"
    enabled="1">
-  <parameter name="AUTO_CLOCK_CLOCK_DOMAIN" value="1" />
-  <parameter name="AUTO_CLOCK_CLOCK_RATE" value="0" />
-  <parameter name="AUTO_CLOCK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_CLK_RESET_DOMAIN" value="1" />
   <parameter name="AUTO_DEVICE" value="10M16SAU169C8G" />
   <parameter name="AUTO_DEVICE_FAMILY" value="MAX 10" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="8" />
@@ -85,11 +93,22 @@
   <parameter name="AUTO_UNIQUE_ID">packet_presence_detection_tb_gen</parameter>
  </module>
  <module
-   name="packet_presence_detection_tb_gen_inst_clock_bfm"
+   name="packet_presence_detection_tb_gen_inst_cfg_bfm"
+   kind="altera_conduit_bfm"
+   version="18.1"
+   enabled="1">
+  <parameter name="CLOCKED_SIGNAL" value="true" />
+  <parameter name="ENABLE_RESET" value="true" />
+  <parameter name="SIGNAL_DIRECTIONS">output,output,output,output,output,output,output,input,input,input</parameter>
+  <parameter name="SIGNAL_ROLES">cfg_clear_rs,cfg_enable_fir,cfg_enable_ppd,cfg_pass_sum_signal,cfg_passthrough_len,cfg_red_sum_signal,cfg_threshold,debug_count,debug_long_sum,debug_short_sum</parameter>
+  <parameter name="SIGNAL_WIDTHS">1,1,1,1,16,1,8,32,32,32</parameter>
+ </module>
+ <module
+   name="packet_presence_detection_tb_gen_inst_clk_bfm"
    kind="altera_avalon_clock_source"
    version="18.1"
    enabled="1">
-  <parameter name="CLOCK_RATE" value="100000000" />
+  <parameter name="CLOCK_RATE" value="50000000" />
   <parameter name="CLOCK_UNIT" value="1" />
  </module>
  <module
@@ -97,7 +116,7 @@
    kind="altera_avalon_reset_source"
    version="18.1"
    enabled="1">
-  <parameter name="ASSERT_HIGH_RESET" value="1" />
+  <parameter name="ASSERT_HIGH_RESET" value="0" />
   <parameter name="INITIAL_RESET_CYCLES" value="50" />
  </module>
  <module
@@ -155,23 +174,39 @@
  <connection
    kind="clock"
    version="18.1"
-   start="packet_presence_detection_tb_gen_inst_clock_bfm.clk"
+   start="packet_presence_detection_tb_gen_inst_clk_bfm.clk"
+   end="packet_presence_detection_tb_gen_inst.clk" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="packet_presence_detection_tb_gen_inst_clk_bfm.clk"
    end="packet_presence_detection_tb_gen_inst_reset_bfm.clk" />
  <connection
    kind="clock"
    version="18.1"
-   start="packet_presence_detection_tb_gen_inst_clock_bfm.clk"
+   start="packet_presence_detection_tb_gen_inst_clk_bfm.clk"
+   end="packet_presence_detection_tb_gen_inst_cfg_bfm.clk" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="packet_presence_detection_tb_gen_inst_clk_bfm.clk"
    end="packet_presence_detection_tb_gen_inst_sink_bfm.clk" />
  <connection
    kind="clock"
    version="18.1"
-   start="packet_presence_detection_tb_gen_inst_clock_bfm.clk"
+   start="packet_presence_detection_tb_gen_inst_clk_bfm.clk"
    end="packet_presence_detection_tb_gen_inst_source_bfm.clk" />
  <connection
-   kind="clock"
+   kind="conduit"
    version="18.1"
-   start="packet_presence_detection_tb_gen_inst_clock_bfm.clk"
-   end="packet_presence_detection_tb_gen_inst.clock" />
+   start="packet_presence_detection_tb_gen_inst_cfg_bfm.conduit"
+   end="packet_presence_detection_tb_gen_inst.cfg">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
  <connection
    kind="reset"
    version="18.1"
@@ -187,6 +222,11 @@
    version="18.1"
    start="packet_presence_detection_tb_gen_inst_reset_bfm.reset"
    end="packet_presence_detection_tb_gen_inst.reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="packet_presence_detection_tb_gen_inst_reset_bfm.reset"
+   end="packet_presence_detection_tb_gen_inst_cfg_bfm.reset" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
  <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />

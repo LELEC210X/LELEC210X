@@ -9,16 +9,16 @@
 module lms_dsp_avalon_st_adapter_001 #(
 		parameter inBitsPerSymbol = 12,
 		parameter inUsePackets    = 0,
-		parameter inDataWidth     = 48,
+		parameter inDataWidth     = 24,
 		parameter inChannelWidth  = 0,
 		parameter inErrorWidth    = 0,
 		parameter inUseEmptyPort  = 0,
 		parameter inUseValid      = 1,
 		parameter inUseReady      = 0,
 		parameter inReadyLatency  = 0,
-		parameter outDataWidth    = 24,
+		parameter outDataWidth    = 48,
 		parameter outChannelWidth = 0,
-		parameter outErrorWidth   = 2,
+		parameter outErrorWidth   = 0,
 		parameter outUseEmptyPort = 0,
 		parameter outUseValid     = 1,
 		parameter outUseReady     = 0,
@@ -26,23 +26,18 @@ module lms_dsp_avalon_st_adapter_001 #(
 	) (
 		input  wire        in_clk_0_clk,   // in_clk_0.clk
 		input  wire        in_rst_0_reset, // in_rst_0.reset
-		input  wire [47:0] in_0_data,      //     in_0.data
+		input  wire [23:0] in_0_data,      //     in_0.data
 		input  wire        in_0_valid,     //         .valid
-		output wire [23:0] out_0_data,     //    out_0.data
-		output wire        out_0_valid,    //         .valid
-		output wire [1:0]  out_0_error     //         .error
+		output wire [47:0] out_0_data,     //    out_0.data
+		output wire        out_0_valid     //         .valid
 	);
 
 	wire         timing_adapter_0_out_valid;      // timing_adapter_0:out_valid -> data_format_adapter_0:in_valid
-	wire  [47:0] timing_adapter_0_out_data;       // timing_adapter_0:out_data -> data_format_adapter_0:in_data
+	wire  [23:0] timing_adapter_0_out_data;       // timing_adapter_0:out_data -> data_format_adapter_0:in_data
 	wire         timing_adapter_0_out_ready;      // data_format_adapter_0:in_ready -> timing_adapter_0:out_ready
-	wire         data_format_adapter_0_out_valid; // data_format_adapter_0:out_valid -> error_adapter_0:in_valid
-	wire  [23:0] data_format_adapter_0_out_data;  // data_format_adapter_0:out_data -> error_adapter_0:in_data
-	wire         data_format_adapter_0_out_ready; // error_adapter_0:in_ready -> data_format_adapter_0:out_ready
-	wire         error_adapter_0_out_valid;       // error_adapter_0:out_valid -> timing_adapter_1:in_valid
-	wire  [23:0] error_adapter_0_out_data;        // error_adapter_0:out_data -> timing_adapter_1:in_data
-	wire         error_adapter_0_out_ready;       // timing_adapter_1:in_ready -> error_adapter_0:out_ready
-	wire   [1:0] error_adapter_0_out_error;       // error_adapter_0:out_error -> timing_adapter_1:in_error
+	wire         data_format_adapter_0_out_valid; // data_format_adapter_0:out_valid -> timing_adapter_1:in_valid
+	wire  [47:0] data_format_adapter_0_out_data;  // data_format_adapter_0:out_data -> timing_adapter_1:in_data
+	wire         data_format_adapter_0_out_ready; // timing_adapter_1:in_ready -> data_format_adapter_0:out_ready
 
 	generate
 		// If any of the display statements (or deliberately broken
@@ -68,7 +63,7 @@ module lms_dsp_avalon_st_adapter_001 #(
 			instantiated_with_wrong_parameters_error_see_comment_above
 					inusepackets_check ( .error(1'b1) );
 		end
-		if (inDataWidth != 48)
+		if (inDataWidth != 24)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -131,7 +126,7 @@ module lms_dsp_avalon_st_adapter_001 #(
 			instantiated_with_wrong_parameters_error_see_comment_above
 					inreadylatency_check ( .error(1'b1) );
 		end
-		if (outDataWidth != 24)
+		if (outDataWidth != 48)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -149,7 +144,7 @@ module lms_dsp_avalon_st_adapter_001 #(
 			instantiated_with_wrong_parameters_error_see_comment_above
 					outchannelwidth_check ( .error(1'b1) );
 		end
-		if (outErrorWidth != 2)
+		if (outErrorWidth != 0)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -207,18 +202,6 @@ module lms_dsp_avalon_st_adapter_001 #(
 		.out_ready (data_format_adapter_0_out_ready)  //      .ready
 	);
 
-	lms_dsp_avalon_st_adapter_001_error_adapter_0 error_adapter_0 (
-		.clk       (in_clk_0_clk),                    //   clk.clk
-		.reset_n   (~in_rst_0_reset),                 // reset.reset_n
-		.in_data   (data_format_adapter_0_out_data),  //    in.data
-		.in_valid  (data_format_adapter_0_out_valid), //      .valid
-		.in_ready  (data_format_adapter_0_out_ready), //      .ready
-		.out_data  (error_adapter_0_out_data),        //   out.data
-		.out_valid (error_adapter_0_out_valid),       //      .valid
-		.out_ready (error_adapter_0_out_ready),       //      .ready
-		.out_error (error_adapter_0_out_error)        //      .error
-	);
-
 	lms_dsp_avalon_st_adapter_001_timing_adapter_0 timing_adapter_0 (
 		.clk       (in_clk_0_clk),               //   clk.clk
 		.reset_n   (~in_rst_0_reset),            // reset.reset_n
@@ -230,15 +213,13 @@ module lms_dsp_avalon_st_adapter_001 #(
 	);
 
 	lms_dsp_avalon_st_adapter_001_timing_adapter_1 timing_adapter_1 (
-		.clk       (in_clk_0_clk),              //   clk.clk
-		.reset_n   (~in_rst_0_reset),           // reset.reset_n
-		.in_data   (error_adapter_0_out_data),  //    in.data
-		.in_valid  (error_adapter_0_out_valid), //      .valid
-		.in_ready  (error_adapter_0_out_ready), //      .ready
-		.in_error  (error_adapter_0_out_error), //      .error
-		.out_data  (out_0_data),                //   out.data
-		.out_valid (out_0_valid),               //      .valid
-		.out_error (out_0_error)                //      .error
+		.clk       (in_clk_0_clk),                    //   clk.clk
+		.reset_n   (~in_rst_0_reset),                 // reset.reset_n
+		.in_data   (data_format_adapter_0_out_data),  //    in.data
+		.in_valid  (data_format_adapter_0_out_valid), //      .valid
+		.in_ready  (data_format_adapter_0_out_ready), //      .ready
+		.out_data  (out_0_data),                      //   out.data
+		.out_valid (out_0_valid)                      //      .valid
 	);
 
 endmodule

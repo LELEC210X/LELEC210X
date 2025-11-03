@@ -480,6 +480,9 @@ begin
       fidm                 => '0',                                  -- Frame start at fsync = 0, when 0. Frame start at fsync = 1, when 1.
 		--DSP settings
 		dspcfg_preamble_en     => inst0_from_fpgacfg.dspcfg_preamble_en,     -- config_preamble_detect.dspcfg_preamble_en
+      dspcfg_fir_en     	  => inst0_from_fpgacfg.dspcfg_fir_en,     -- config_preamble_detect.dspcfg_fir_en
+      dspcfg_pass_sum_signal => inst0_from_fpgacfg.dspcfg_pass_sum_signal,     -- config_preamble_detect.dspcfg_pass_sum_signal
+      dspcfg_red_sum_signal  => inst0_from_fpgacfg.dspcfg_red_sum_signal,     -- config_preamble_detect.dspcfg_red_sum_signal
       dspcfg_PASSTHROUGH_LEN => inst0_from_fpgacfg.dspcfg_PASSTHROUGH_LEN, --                       .dspcfg_PASSTHROUGH_LEN
       dspcfg_THRESHOLD       => inst0_from_fpgacfg.dspcfg_THRESHOLD,       --                       .dspcfg_THRESHOLD
 		dspcfg_clear_rs        => inst0_from_fpgacfg.dspcfg_clear_rs  ,      --                       .dspcfg_clear_rs

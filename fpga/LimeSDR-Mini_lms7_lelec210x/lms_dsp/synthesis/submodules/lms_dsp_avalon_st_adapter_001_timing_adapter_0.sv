@@ -44,13 +44,13 @@
 //   use_packets:        false
 //   use_empty:          0
 //   empty_width:        0
-//   data_width:         48
+//   data_width:         24
 //   channel_width:      0
 //   error_width:        0
 //   in_ready_latency:   0
 //   out_ready_latency:  0
-//   in_payload_width:   48
-//   out_payload_width:  48
+//   in_payload_width:   24
+//   out_payload_width:  24
 //   in_payload_map:     in_data
 //   out_payload_map:    out_data
 // ------------------------------------------
@@ -60,11 +60,11 @@
 module lms_dsp_avalon_st_adapter_001_timing_adapter_0
 (  
  input               in_valid,
- input     [48-1: 0]  in_data,
+ input     [24-1: 0]  in_data,
  // Interface: out
  input               out_ready,
  output reg          out_valid,
- output reg [48-1: 0] out_data,
+ output reg [24-1: 0] out_data,
   // Interface: clk
  input              clk,
  // Interface: reset
@@ -76,8 +76,8 @@ module lms_dsp_avalon_st_adapter_001_timing_adapter_0
    //| Signal Declarations
    // ---------------------------------------------------------------------
    
-   reg [48-1:0]   in_payload;
-   reg [48-1:0]   out_payload;
+   reg [24-1:0]   in_payload;
+   reg [24-1:0]   out_payload;
    reg [1-1:0]   ready;   
    reg           in_ready;
    // synthesis translate_off

@@ -17,4 +17,4 @@ vlog -sv ./test_program.sv
 elab
 
 do wave.do
-run 80000ns
+run 150000ns

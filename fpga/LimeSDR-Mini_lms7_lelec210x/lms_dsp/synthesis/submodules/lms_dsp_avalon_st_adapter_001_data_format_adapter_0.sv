@@ -44,13 +44,13 @@
 //   inEmptyWidth:       0
 //   hasOutEmpty:        false 
 //   outEmptyWidth:      0
-//   inDataWidth:        48
-//   outDataWidth:       24
+//   inDataWidth:        24
+//   outDataWidth:       48
 //   channelWidth:       0
 //   inErrorWidth:       0
 //   outErrorWidth:      0
-//   inSymbolsPerBeat:   4
-//   outSymbolsPerBeat:  2
+//   inSymbolsPerBeat:   2
+//   outSymbolsPerBeat:  4
 //   maxState:           3
 //   stateWidth:         2
 //   maxChannel:         0
@@ -66,11 +66,11 @@ module lms_dsp_avalon_st_adapter_001_data_format_adapter_0 (
  // Interface: in
  output reg         in_ready,
  input              in_valid,
- input [48-1 : 0]    in_data,
+ input [24-1 : 0]    in_data,
  // Interface: out
  input                out_ready,
  output reg           out_valid,
- output reg [24-1: 0]  out_data,
+ output reg [48-1: 0]  out_data,
 
   // Interface: clk
  input              clk,
@@ -98,8 +98,6 @@ module lms_dsp_avalon_st_adapter_001_data_format_adapter_0 (
    reg            a_channel;
    reg [12-1:0]    a_data0; 
    reg [12-1:0]    a_data1; 
-   reg [12-1:0]    a_data2; 
-   reg [12-1:0]    a_data3; 
    reg            a_startofpacket;
    reg            a_endofpacket;
    reg            a_empty;
@@ -107,7 +105,7 @@ module lms_dsp_avalon_st_adapter_001_data_format_adapter_0 (
    reg            b_ready;
    reg            b_valid;
    reg            b_channel;
-   reg  [24-1:0]   b_data;
+   reg  [48-1:0]   b_data;
    reg            b_startofpacket; 
    wire           b_startofpacket_wire; 
    reg            b_endofpacket; 
@@ -143,12 +141,15 @@ module lms_dsp_avalon_st_adapter_001_data_format_adapter_0 (
    reg out_startofpacket;
    reg out_endofpacket;
 
-   reg  [4-1:0] in_empty = 0;
-   reg  [2-1:0] out_empty;
+   reg  [2-1:0] in_empty = 0;
+   reg  [4-1:0] out_empty;
 
    reg in_error = 0;
    reg out_error; 
 
+   wire           error_from_mem;
+   reg            error_mem_writedata;
+   reg          error_mem_writeenable;
 
    reg  [2-1:0]   state_register;
    reg            sop_register; 
@@ -166,8 +167,6 @@ module lms_dsp_avalon_st_adapter_001_data_format_adapter_0 (
          a_channel <= 0;
          a_data0   <= 0;
          a_data1   <= 0;
-         a_data2   <= 0;
-         a_data3   <= 0;
          a_startofpacket <= 0;
          a_endofpacket   <= 0;
          a_empty <= 0; 
@@ -177,10 +176,8 @@ module lms_dsp_avalon_st_adapter_001_data_format_adapter_0 (
             a_valid   <= in_valid;
             a_channel <= in_channel;
             a_error   <= in_error;
-            a_data0 <= in_data[47:36];
-            a_data1 <= in_data[35:24];
-            a_data2 <= in_data[23:12];
-            a_data3 <= in_data[11:0];
+            a_data0 <= in_data[23:12];
+            a_data1 <= in_data[11:0];
             a_startofpacket <= in_startofpacket;
             a_endofpacket   <= in_endofpacket;
             a_empty         <= 0; 
@@ -191,9 +188,7 @@ module lms_dsp_avalon_st_adapter_001_data_format_adapter_0 (
    end
 
    always @* begin 
-      state_read_addr = a_channel;
-      if (in_ready)
-         state_read_addr = in_channel;
+      state_read_addr = in_channel;
    end
    
 
@@ -221,10 +216,13 @@ module lms_dsp_avalon_st_adapter_001_data_format_adapter_0 (
          data0_register <= 0;
          data1_register <= 0;
          data2_register <= 0;
+         error_register <= 0;
       end else begin
          state_register <= new_state;
          if (sop_mem_writeenable)
             sop_register   <= sop_mem_writedata;
+         if (a_valid)
+            error_register <= error_mem_writedata;
          if (mem_write0)
             data0_register <= mem_writedata0;
          if (mem_write1)
@@ -239,6 +237,7 @@ module lms_dsp_avalon_st_adapter_001_data_format_adapter_0 (
       assign mem_readdata0 = data0_register;
       assign mem_readdata1 = data1_register;
       assign mem_readdata2 = data2_register;
+      assign error_from_mem = error_register;
    
    // ---------------------------------------------------------------------
    //| State Machine
@@ -255,6 +254,13 @@ module lms_dsp_avalon_st_adapter_001_data_format_adapter_0 (
    b_error   = a_error;
       
    state = state_from_memory;
+   if (~in_ready_d1)
+      state = state_d1;
+         
+   error_mem_writedata = error_from_mem | a_error;
+   if (state == 0)
+      error_mem_writedata = a_error;
+   b_error = error_mem_writedata;
       
    new_state           = state;
    mem_write0          = 0;
@@ -273,75 +279,53 @@ module lms_dsp_avalon_st_adapter_001_data_format_adapter_0 (
        
    case (state) 
             0 : begin
-            b_data[23:12] = a_data0;
-            b_data[11:0] = a_data1;
-            b_startofpacket = a_startofpacket;
-            if (out_ready || ~out_valid) begin
-               if (a_valid) begin
-                  b_valid = 1;
-                  new_state = state+1'b1;
-                     if (a_endofpacket && (a_empty >= 2) ) begin
-                        new_state = 0;
-                        b_empty = a_empty - 2;
-                        b_endofpacket = 1;
-                        a_ready = 1;
-                     end
-                  end
-               end
+            mem_writedata0 = a_data0;
+            mem_writedata1 = a_data1;
+            a_ready = 1;
+            if (a_valid) begin
+               new_state = state+1'b1;
+               mem_write0 = 1;
+               mem_write1 = 1;
             end
+         end
          1 : begin
-            b_data[23:12] = a_data2;
-            b_data[11:0] = a_data3;
-            b_startofpacket = 0;
-            if (out_ready || ~out_valid) begin
-            a_ready = 1;
-               if (a_valid) begin
-                  b_valid = 1;
-                  new_state = state+1'b1;
-                     if (a_endofpacket && (a_empty >= 0) ) begin
-                        new_state = 0;
-                        b_empty = a_empty - 0;
-                        b_endofpacket = 1;
-                        a_ready = 1;
-                     end
-                  end
-               end
-            end
-         2 : begin
+            b_data[47:36] = mem_readdata0;
+            b_data[35:24] = mem_readdata1;
             b_data[23:12] = a_data0;
             b_data[11:0] = a_data1;
-            b_startofpacket = 0;
             if (out_ready || ~out_valid) begin
-               if (a_valid) begin
-                  b_valid = 1;
+               a_ready = 1;
+               if (a_valid) 
+               begin
                   new_state = state+1'b1;
-                     if (a_endofpacket && (a_empty >= 2) ) begin
-                        new_state = 0;
-                        b_empty = a_empty - 2;
-                        b_endofpacket = 1;
-                        a_ready = 1;
-                     end
-                  end
-               end
-            end
-         3 : begin
-            b_data[23:12] = a_data2;
-            b_data[11:0] = a_data3;
-            b_startofpacket = 0;
-            if (out_ready || ~out_valid) begin
-            a_ready = 1;
-               if (a_valid) begin
                   b_valid = 1;
-                  new_state = 0;
-                     if (a_endofpacket && (a_empty >= 0) ) begin
-                        new_state = 0;
-                        b_empty = a_empty - 0;
-                        b_endofpacket = 1;
-                        a_ready = 1;
-                     end
-                  end
                end
             end
+         end
+         2 : begin
+            mem_writedata0 = a_data0;
+            mem_writedata1 = a_data1;
+            a_ready = 1;
+            if (a_valid) begin
+               new_state = state+1'b1;
+               mem_write0 = 1;
+               mem_write1 = 1;
+            end
+         end
+         3 : begin
+            b_data[47:36] = mem_readdata0;
+            b_data[35:24] = mem_readdata1;
+            b_data[23:12] = a_data0;
+            b_data[11:0] = a_data1;
+            if (out_ready || ~out_valid) begin
+               a_ready = 1;
+               if (a_valid) 
+               begin
+                  new_state = 0;
+                  b_valid = 1;
+               end
+            end
+         end
 
    endcase
 

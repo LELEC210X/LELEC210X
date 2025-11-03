@@ -1,5 +1,5 @@
 
-# (C) 2001-2023 Altera Corporation. All rights reserved.
+# (C) 2001-2025 Altera Corporation. All rights reserved.
 # Your use of Altera Corporation's design tools, logic functions and 
 # other software and tools, and its AMPP partner logic functions, and 
 # any output files any of the foregoing (including device programming 
@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 18.1 625 win32 2023.11.08.03:03:50
+# ACDS 18.1 625 win32 2025.11.03.10:20:31
 
 # ----------------------------------------
 # ncsim - auto-generated simulation script
@@ -106,7 +106,7 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
-# ACDS 18.1 625 win32 2023.11.08.03:03:50
+# ACDS 18.1 625 win32 2025.11.03.10:20:31
 # ----------------------------------------
 # initialize variables
 TOP_LEVEL_NAME="lms_dsp"
@@ -151,9 +151,11 @@ mkdir -p ./libraries/timing_adapter_1/
 mkdir -p ./libraries/timing_adapter_0/
 mkdir -p ./libraries/data_format_adapter_0/
 mkdir -p ./libraries/rst_controller/
+mkdir -p ./libraries/avalon_st_adapter_003/
 mkdir -p ./libraries/avalon_st_adapter_002/
 mkdir -p ./libraries/avalon_st_adapter_001/
 mkdir -p ./libraries/avalon_st_adapter/
+mkdir -p ./libraries/st_splitter_0/
 mkdir -p ./libraries/packet_presence_detection_0/
 mkdir -p ./libraries/fir_compiler_ii_0/
 mkdir -p ./libraries/FIFO2AVS_0/
@@ -203,23 +205,25 @@ fi
 # ----------------------------------------
 # compile design files in correct order
 if [ $SKIP_COM -eq 0 ]; then
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_002_error_adapter_0.sv"                 -work error_adapter_0             -cdslib ./cds_libs/error_adapter_0.cds.lib            
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_003_error_adapter_0.sv"                 -work error_adapter_0             -cdslib ./cds_libs/error_adapter_0.cds.lib            
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_1.sv"                -work timing_adapter_1            -cdslib ./cds_libs/timing_adapter_1.cds.lib           
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_0.sv"                -work timing_adapter_0            -cdslib ./cds_libs/timing_adapter_0.cds.lib           
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0.sv"           -work data_format_adapter_0       -cdslib ./cds_libs/data_format_adapter_0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_state_ram.sv" -work data_format_adapter_0       -cdslib ./cds_libs/data_format_adapter_0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_data_ram.sv"  -work data_format_adapter_0       -cdslib ./cds_libs/data_format_adapter_0.cds.lib      
   ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_1.sv"                -work timing_adapter_1            -cdslib ./cds_libs/timing_adapter_1.cds.lib           
   ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_0.sv"                -work timing_adapter_0            -cdslib ./cds_libs/timing_adapter_0.cds.lib           
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_001_error_adapter_0.sv"                 -work error_adapter_0             -cdslib ./cds_libs/error_adapter_0.cds.lib            
   ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0.sv"           -work data_format_adapter_0       -cdslib ./cds_libs/data_format_adapter_0.cds.lib      
   ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_state_ram.sv" -work data_format_adapter_0       -cdslib ./cds_libs/data_format_adapter_0.cds.lib      
   ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_data_ram.sv"  -work data_format_adapter_0       -cdslib ./cds_libs/data_format_adapter_0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_timing_adapter_1.sv"                    -work timing_adapter_1            -cdslib ./cds_libs/timing_adapter_1.cds.lib           
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_timing_adapter_0.sv"                    -work timing_adapter_0            -cdslib ./cds_libs/timing_adapter_0.cds.lib           
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_data_format_adapter_0.sv"               -work data_format_adapter_0       -cdslib ./cds_libs/data_format_adapter_0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_data_format_adapter_0_state_ram.sv"     -work data_format_adapter_0       -cdslib ./cds_libs/data_format_adapter_0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_data_format_adapter_0_data_ram.sv"      -work data_format_adapter_0       -cdslib ./cds_libs/data_format_adapter_0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_error_adapter_0.sv"                     -work error_adapter_0             -cdslib ./cds_libs/error_adapter_0.cds.lib            
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/altera_reset_controller.v"                                        -work rst_controller              -cdslib ./cds_libs/rst_controller.cds.lib             
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/altera_reset_synchronizer.v"                                      -work rst_controller              -cdslib ./cds_libs/rst_controller.cds.lib             
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_003.v"                                  -work avalon_st_adapter_003       -cdslib ./cds_libs/avalon_st_adapter_003.cds.lib      
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_002.v"                                  -work avalon_st_adapter_002       -cdslib ./cds_libs/avalon_st_adapter_002.cds.lib      
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_001.v"                                  -work avalon_st_adapter_001       -cdslib ./cds_libs/avalon_st_adapter_001.cds.lib      
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter.v"                                      -work avalon_st_adapter           -cdslib ./cds_libs/avalon_st_adapter.cds.lib          
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_avalon_st_splitter.sv"                                     -work st_splitter_0               -cdslib ./cds_libs/st_splitter_0.cds.lib              
   ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/packet_presence_detection.sv"                                     -work packet_presence_detection_0 -cdslib ./cds_libs/packet_presence_detection_0.cds.lib
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/short_shift.v"                                                    -work packet_presence_detection_0 -cdslib ./cds_libs/packet_presence_detection_0.cds.lib
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/long_shift.v"                                                     -work packet_presence_detection_0 -cdslib ./cds_libs/packet_presence_detection_0.cds.lib

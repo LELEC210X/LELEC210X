@@ -61,7 +61,7 @@ In Figure \ref{fig:pd_schematic} below you can find a schematic of the different
         \label{fig:dual_runnign_sum}
     \end{figure}
 
-    The overall architecture of the dual running sum is shown in Fig. \ref{fig:dual_runnign_sum}. If no packet is being received, the samples contain only noise. They pass through the short-term sum and then the long-term one. Both their accumulator can then be seen as noise power estimations.  When a packet arrives, possibly with  higher energy than the noise, the corresponding samples first enter the short-term sum. Its accumulator value therefore increases and might at one point exceed the accumulator value of the long-term sum, which contains only noise samples. At this point, a packet is considered present and a launch signal is triggered.
+    The overall architecture of the dual running sum is shown in Fig. \ref{fig:dual_runnign_sum}. If no packet is being received, the samples contain only noise. They pass through the short-term sum and then the long-term one. Both their accumulator can then be seen as noise power estimations.  When a packet arrives, possibly with  higher energy than the noise, the corresponding samples first enter the short-term sum. Its accumulator value therefore increases and might at one point exceed the accumulator value of the long-term sum, which contains only noise samples. At this point, a packet is considered present and a launch signal is triggered. Before comparing the short-term and long-term sum results, they are both adjusted. The long-term one is first multiplied by a factor $K$ which defines your margin to avoid false detections. A normalization factor related to the difference between the long-term and short-term sum is also applied, here $256/32=8$. In parallel, the result of the short-term sum is multiplied by 8 to virtually increase the resolution on \texttt{K} without using a fractional value.
 
     To be noted, when a packet is detected and the counter (next block) is enabled, we clear the short-term sum and disable the long-term one, to avoid any retriggering or corruption of our noise evaluation by packet samples.
 
@@ -81,13 +81,15 @@ Try to understand the SystemVerilog implementation of those blocks with respect 
 \subsection{Modification and simulation of the PPD}
 
 
-We will first ask you to make some modifications to the dual running sum, more specifically to the comparison between the short- and long-term sum results. In order to make it adaptative from GNU Radio, we will use the \texttt{cfg\_THRESHOLD} signal of the packet presence detection module to multiply the result of the long-term sum before comparing it to the short-term sum result. This allows to be more selective regarding the signal-to-noise ratio required to detect the packet. Increasing its value will limit the risk of false alarm due to noise but make your system less sensitive. In short, with this parameter set to 10, the PPD would require a signal magnitude 10 times higher than the noise one to trigger a detection. However, we should also normalize the short-term and long-term result with respect to the delay line length, the second one being here eight times longer than the first. Overall, we ask you to implement the multiplication shown in Figure \ref{fig:dual_runnign_sum}. In the SystemVerilog code, go to the line 199. We ask you to implement both the normalization, i.e. division by eight, and the multiplication operation on the same line. Note that the \texttt{cfg\_THRESHOLD} signal is connected to the \texttt{K} input of the dual running sum module.
+We will first ask you to make some modifications to the dual running sum to properly implement the behavior described in Fig.~\ref{fig:dual_runnign_sum}, more specifically to the comparison between the short- and long-term sum results. In order to make it adaptative from GNU Radio, we will use the \texttt{cfg\_THRESHOLD} signal of the packet presence detection to represent the $K$ factor.
+
+We ask you to implement the different multiplication shown in Figure \ref{fig:dual_runnign_sum}, i.e., the multiplication by K, and both the multiplication and division by 8. In the SystemVerilog code, go to the line 213 and perform the modifications. By rewriting the expressions, you should be able to use only two operations to perform all the required ones. Note that the \texttt{cfg\_THRESHOLD} signal is connected to the \texttt{K} input of the dual running sum module. Before going further, look at the questions below and validate your implementation with a teaching assistant.
 
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{Division by eight}
     \begin{itemize}
-        \item Performing multiplications and divisions is much more complex than simple additions. However, when performing operations with values that are power-of-two, things always seem easier. What would be an efficient way to perform the division by eight?
-        \item The order in which the two operations are performed, here the multiplication by K and division by eight, would normally have no importance. Is it the case here? Which operation should be performed first and why?
+        \item Performing multiplications and divisions is much more complex than simple additions. However, when performing operations with values that are power-of-two, things always seem easier. What would be an efficient way to do so?
+        \item The order in which the operations are performed would normally have no importance. Is it the case here? Which operation should be performed first and why?
     \end{itemize}
 \end{bclogo}
 
@@ -143,26 +145,12 @@ Moreover, we prevented \textbf{register retiming} which allows the synthesis too
 
 Before relaunching a compilation, ask for an assistant to check your modifications, to avoid wasting precious synthesis time. Done? Now relaunch a compilation and analyze the results. Again, if a window asks you to update the project revision, answer \textit{"NO"}. Is there still a timing constraint violation? Can you still link the most critical path to the HDL design?
 
-To analyse the ressource used by the design, you can look at the \textit{Hierarchy} tab in the \textit{Project Navigator}. More than navigating through the design, you can also look at the ressource used by each module. Analyse the resource usage of the PPD, more specifically the memory bits and the DSP.
-\begin{comment}
-\subsection{From Euclidean norm to Absolute-value norm}
-
-In order to meet the timing requirements, another solution is to use a less complex estimation of the IQ samples magnitude. We are thus going to use a very simple and accurate algorithm that does not have the burden of implementing the complex logic of \textit{integer multiplication}. The estimate for the first quadrant of the trigonometric circle is drawn on Figure \ref{fig:cmplx2mag}. We ask you to implement it in System Verilog, the mathematical formula being provided to you in Equation \ref{eq:1norm}\footnote{Further information can be found online: \url{https://en.wikipedia.org/wiki/Alpha_max_plus_beta_min_algorithm} and \url{http://dspguru.com/dsp/tricks/magnitude-estimator/}.}. Your modification of the \texttt{cmplx2mag} module must be done in the \texttt{USER CODE} parts, which goes from line 45 to 52 and on line 210. As we were performing two multiplications and one addition in the previous algorithm ($I^2+Q^2$), the data bus at the output of the \textit{cmplx2mag} module was specified as twice the input data bit width (due to multiplication) plus one (due to the addition). This is specified on line 210, do not forget to adapt it for the new algorithm. In the next step, you are going to make a behavioral simulation of you implementation to validate it.
-
-\begin{equation}
-    |z| = \frac{min(|I|,|Q|)}{4} + max(|I|,|Q|)
-    \label{eq:1norm}
-\end{equation}
+To analyse the ressource used by the design, you can look at the \textit{Hierarchy} tab in the \textit{Project Navigator}, as shown in Fig.~\ref{fig:hierarchy_analysis}. More than navigating through the design, you can also look at the ressource used by each module. Analyse the resource usage of the PPD, more specifically the memory bits and the DSP.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.45\linewidth]{figures/trigo.png}
-    \includegraphics[width=0.45\linewidth]{figures/angle.png}
-    \caption{Complex Magnitude Estimator output in x-y coordinates (left) or polar coordinates (right) for input points of the trigonometric circle.}
-    \label{fig:cmplx2mag}
+    \includegraphics[width=\linewidth]{figures/hierarchy_analysis.png}
+    \caption{Hierarchy viewer for resource analysis.}
+    \label{fig:hierarchy_analysis}
 \end{figure}
 
-
-Now that you have a functional design for the PPD with the Absolute-value norm, we can perform a synthesis of the complete design. Do not forget to propagate your change by regenerating the HDL via the Platform Designer. Observe the resource usage and the timing report, is there still a timing constraint violation?
-
-\end{comment}

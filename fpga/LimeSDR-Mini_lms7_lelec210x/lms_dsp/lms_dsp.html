@@ -67,7 +67,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
   </table>
   <table class="blueBar">
    <tr>
-    <td class="l">2023.11.08.03:03:55</td>
+    <td class="l">2025.11.03.10:20:41</td>
     <td class="r">Datasheet</td>
    </tr>
   </table>
@@ -191,13 +191,13 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <td></td>
       <td class="from">avalon_streaming_source&#160;&#160;</td>
       <td class="neighbor" rowspan="2">
-       <a href="#module_fir_compiler_ii_0">fir_compiler_ii_0</a>
+       <a href="#module_st_splitter_0">st_splitter_0</a>
       </td>
      </tr>
      <tr>
       <td></td>
       <td></td>
-      <td class="to">&#160;&#160;avalon_streaming_sink</td>
+      <td class="to">&#160;&#160;in</td>
      </tr>
     </table>
    </div>
@@ -287,9 +287,9 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
     <table class="connectionboxes">
      <tr>
       <td class="neighbor" rowspan="2">
-       <a href="#module_FIFO2AVS_0">FIFO2AVS_0</a>
+       <a href="#module_st_splitter_0">st_splitter_0</a>
       </td>
-      <td class="from">avalon_streaming_source&#160;&#160;</td>
+      <td class="from">out0&#160;&#160;</td>
       <td class="main" rowspan="9">fir_compiler_ii_0</td>
      </tr>
      <tr>
@@ -324,7 +324,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
      <tr>
       <td></td>
       <td></td>
-      <td class="to">&#160;&#160;avalon_streaming_sink</td>
+      <td class="to">&#160;&#160;avalon_streaming_fir_sink</td>
      </tr>
     </table>
    </div>
@@ -441,7 +441,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">MODE_STRING</td>
-        <td class="parametervalue">None Set</td>
+        <td class="parametervalue">0,1,2,3</td>
        </tr>
        <tr>
         <td class="parametername">modeFormatted</td>
@@ -449,7 +449,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">channelModes</td>
-        <td class="parametervalue">0,1,2,3</td>
+        <td class="parametervalue">0,1</td>
        </tr>
        <tr>
         <td class="parametername">inputType</td>
@@ -659,7 +659,19 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        <a href="#module_fir_compiler_ii_0">fir_compiler_ii_0</a>
       </td>
       <td class="from">avalon_streaming_source&#160;&#160;</td>
-      <td class="main" rowspan="9">packet_presence_detection_0</td>
+      <td class="main" rowspan="12">packet_presence_detection_0</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;avalon_streaming_fir_sink</td>
+     </tr>
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+     <tr>
+      <td class="neighbor" rowspan="2">
+       <a href="#module_st_splitter_0">st_splitter_0</a>
+      </td>
+      <td class="from">out1&#160;&#160;</td>
      </tr>
      <tr>
       <td class="to">&#160;&#160;avalon_streaming_sink</td>
@@ -731,10 +743,166 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
     </tr>
    </table>
   </div>
+  <a name="module_st_splitter_0"> </a>
+  <div>
+   <hr/>
+   <h2>st_splitter_0</h2>altera_avalon_st_splitter v18.1
+   <br/>
+   <div class="greydiv">
+    <table class="connectionboxes">
+     <tr>
+      <td class="neighbor" rowspan="2">
+       <a href="#module_FIFO2AVS_0">FIFO2AVS_0</a>
+      </td>
+      <td class="from">avalon_streaming_source&#160;&#160;</td>
+      <td class="main" rowspan="12">st_splitter_0</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;in</td>
+     </tr>
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+     <tr>
+      <td class="neighbor" rowspan="4">
+       <a href="#module_clk_0">clk_0</a>
+      </td>
+      <td class="from">clk&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;clk</td>
+     </tr>
+     <tr>
+      <td class="from">clk_reset&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;reset</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">out0&#160;&#160;</td>
+      <td class="neighbor" rowspan="2">
+       <a href="#module_fir_compiler_ii_0">fir_compiler_ii_0</a>
+      </td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;avalon_streaming_sink</td>
+     </tr>
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">out1&#160;&#160;</td>
+      <td class="neighbor" rowspan="2">
+       <a href="#module_packet_presence_detection_0">packet_presence_detection_0</a>
+      </td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;avalon_streaming_sink</td>
+     </tr>
+    </table>
+   </div>
+   <br/>
+   <br/>
+   <table class="flowbox">
+    <tr>
+     <td class="parametersbox">
+      <h2>Parameters</h2>
+      <table>
+       <tr>
+        <td class="parametername">NUMBER_OF_OUTPUTS</td>
+        <td class="parametervalue">2</td>
+       </tr>
+       <tr>
+        <td class="parametername">QUALIFY_VALID_OUT</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">USE_READY</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">USE_VALID</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">USE_PACKETS</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">USE_CHANNEL</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">USE_ERROR</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">USE_DATA</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">DATA_WIDTH</td>
+        <td class="parametervalue">24</td>
+       </tr>
+       <tr>
+        <td class="parametername">CHANNEL_WIDTH</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">ERROR_WIDTH</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">BITS_PER_SYMBOL</td>
+        <td class="parametervalue">12</td>
+       </tr>
+       <tr>
+        <td class="parametername">MAX_CHANNELS</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">READY_LATENCY</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">ERROR_DESCRIPTOR</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">EMPTY_WIDTH</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">deviceFamily</td>
+        <td class="parametervalue">UNKNOWN</td>
+       </tr>
+       <tr>
+        <td class="parametername">generateLegacySim</td>
+        <td class="parametervalue">false</td>
+       </tr>
+      </table>
+     </td>
+    </tr>
+   </table>&#160;&#160;
+   <table class="flowbox">
+    <tr>
+     <td class="parametersbox">
+      <h2>Software Assignments</h2>(none)</td>
+    </tr>
+   </table>
+  </div>
   <table class="blueBar">
    <tr>
     <td class="l">generation took 0.00 seconds</td>
-    <td class="r">rendering took 0.01 seconds</td>
+    <td class="r">rendering took 0.04 seconds</td>
    </tr>
   </table>
  </body>

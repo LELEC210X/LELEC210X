@@ -10,15 +10,15 @@ cModel Technology
 dD:/Pol/Documents/Courses/LELEC2102/GIT/Git_teachers/golden/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench
 vcmplx2mag
 Z0 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
-Z1 !s110 1699431421
+Z1 !s110 1762163209
 !i10b 1
-!s100 @Le:jSbZG4O8ZJ0YDj9>32
-Ik7O;OGPI8n60o;kf@]LBj2
+!s100 `_d?ccRgD5VMRS7lJH25e3
+I1DEb^WKh^KN:[0UcjYDEI1
 Z2 VDg1SIo80bB@j0V0VzS_@n1
 Z3 !s105 packet_presence_detection_sv_unit
 S1
 Z4 dD:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench
-Z5 w1699408999
+Z5 w1762162729
 Z6 8./packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection.sv
 Z7 F./packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection.sv
 L0 24
@@ -26,7 +26,7 @@ Z8 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z9 !s108 1699431421.000000
+Z9 !s108 1762163209.000000
 Z10 !s107 ./packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection.sv|
 Z11 !s90 -reportprogress|300|-sv|./packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection.sv|-L|altera_common_sv_packages|-work|packet_presence_detection_0|
 !i113 1
@@ -36,8 +36,8 @@ vcounter
 R0
 R1
 !i10b 1
-!s100 ]`95`Pola6XzSnO5lkZZn1
-IjAMSZNKdIaYDOJ7[6nbY<1
+!s100 ?X=cG]G7O`e4cnVmWCFk[2
+I@a3D^l^6N0a02iXTfmBDh3
 R2
 R3
 S1
@@ -45,7 +45,7 @@ R4
 R5
 R6
 R7
-L0 213
+L0 239
 R8
 r1
 !s85 0
@@ -60,8 +60,8 @@ vdelay_line
 R0
 R1
 !i10b 1
-!s100 ok]ggnz918APkITflzh:P3
-IoU6HDT>QOKo5bLTT>m4SK0
+!s100 AmmU8??:5_Z6^:Vjbg3Ho1
+IAE7dW_G2zoDbZLN0DKLLk2
 R2
 R3
 S1
@@ -69,7 +69,7 @@ R4
 R5
 R6
 R7
-L0 58
+L0 67
 R8
 r1
 !s85 0
@@ -84,8 +84,8 @@ vdual_running_sum
 R0
 R1
 !i10b 1
-!s100 O5z9<3Q0>n;Y[aW]KS;al2
-IWj;o:G;ZNEQXAYS1MQGE]1
+!s100 BIB9Eza7`TJhPm?4PoWh32
+IFh49cQ=6zdEKDFYP0k<EE0
 R2
 R3
 S1
@@ -93,7 +93,7 @@ R4
 R5
 R6
 R7
-L0 90
+L0 99
 R8
 r1
 !s85 0
@@ -105,7 +105,7 @@ R11
 R12
 R13
 vlong_shift
-Z14 !s110 1699431422
+R1
 !i10b 1
 !s100 RMm1>MYCc?h1@2BTLUkje2
 If?3QB6=:6nNZ8ET@c3E3z2
@@ -114,23 +114,23 @@ R4
 R5
 8./packet_presence_detection_tb_gen_tb/simulation/submodules/long_shift.v
 F./packet_presence_detection_tb_gen_tb/simulation/submodules/long_shift.v
-Z15 L0 39
+Z14 L0 39
 R8
 r1
 !s85 0
 31
-!s108 1699431422.000000
+R9
 !s107 ./packet_presence_detection_tb_gen_tb/simulation/submodules/long_shift.v|
 !s90 -reportprogress|300|./packet_presence_detection_tb_gen_tb/simulation/submodules/long_shift.v|-work|packet_presence_detection_0|
 !i113 1
-Z16 o-work packet_presence_detection_0
+Z15 o-work packet_presence_detection_0
 R13
 vpacket_presence_detection
 R0
 R1
 !i10b 1
-!s100 KmCAX0jB[5b20<KZ4WdT51
-IVoYlSBzlUANb6HaBB2eUT1
+!s100 ^2H9z72WbY1?`TG0Z[IGz1
+I]znHc3g<0RBCj7cEe6:[>1
 R2
 R3
 S1
@@ -138,7 +138,7 @@ R4
 R5
 R6
 R7
-L0 254
+L0 280
 R8
 r1
 !s85 0
@@ -150,7 +150,7 @@ R11
 R12
 R13
 vshort_shift
-R14
+R1
 !i10b 1
 !s100 GVX]TajjN60zJKS2U@1YO1
 ICRVP4@7HL[iG8_HQaoj;81
@@ -159,7 +159,7 @@ R4
 R5
 8./packet_presence_detection_tb_gen_tb/simulation/submodules/short_shift.v
 F./packet_presence_detection_tb_gen_tb/simulation/submodules/short_shift.v
-R15
+R14
 R8
 r1
 !s85 0
@@ -168,5 +168,5 @@ R9
 !s107 ./packet_presence_detection_tb_gen_tb/simulation/submodules/short_shift.v|
 !s90 -reportprogress|300|./packet_presence_detection_tb_gen_tb/simulation/submodules/short_shift.v|-work|packet_presence_detection_0|
 !i113 1
-R16
+R15
 R13

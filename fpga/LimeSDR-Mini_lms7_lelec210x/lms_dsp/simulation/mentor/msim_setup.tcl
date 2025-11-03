@@ -1,5 +1,5 @@
 
-# (C) 2001-2023 Altera Corporation. All rights reserved.
+# (C) 2001-2025 Altera Corporation. All rights reserved.
 # Your use of Altera Corporation's design tools, logic functions and 
 # other software and tools, and its AMPP partner logic functions, and 
 # any output files any of the foregoing (including device programming 
@@ -94,7 +94,7 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
-# ACDS 18.1 625 win32 2023.11.08.03:03:50
+# ACDS 18.1 625 win32 2025.11.03.10:20:31
 
 # ----------------------------------------
 # Initialize variables
@@ -186,12 +186,16 @@ ensure_lib                             ./libraries/data_format_adapter_0/
 vmap       data_format_adapter_0       ./libraries/data_format_adapter_0/      
 ensure_lib                             ./libraries/rst_controller/             
 vmap       rst_controller              ./libraries/rst_controller/             
+ensure_lib                             ./libraries/avalon_st_adapter_003/      
+vmap       avalon_st_adapter_003       ./libraries/avalon_st_adapter_003/      
 ensure_lib                             ./libraries/avalon_st_adapter_002/      
 vmap       avalon_st_adapter_002       ./libraries/avalon_st_adapter_002/      
 ensure_lib                             ./libraries/avalon_st_adapter_001/      
 vmap       avalon_st_adapter_001       ./libraries/avalon_st_adapter_001/      
 ensure_lib                             ./libraries/avalon_st_adapter/          
 vmap       avalon_st_adapter           ./libraries/avalon_st_adapter/          
+ensure_lib                             ./libraries/st_splitter_0/              
+vmap       st_splitter_0               ./libraries/st_splitter_0/              
 ensure_lib                             ./libraries/packet_presence_detection_0/
 vmap       packet_presence_detection_0 ./libraries/packet_presence_detection_0/
 ensure_lib                             ./libraries/fir_compiler_ii_0/          
@@ -237,23 +241,25 @@ alias dev_com {
 # Compile the design files in correct order
 alias com {
   echo "\[exec\] com"
-  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_002_error_adapter_0.sv"                 -work error_adapter_0            
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_003_error_adapter_0.sv"                 -work error_adapter_0            
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_1.sv"                -work timing_adapter_1           
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_0.sv"                -work timing_adapter_0           
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0.sv"           -work data_format_adapter_0      
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_state_ram.sv" -work data_format_adapter_0      
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_data_ram.sv"  -work data_format_adapter_0      
   eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_1.sv"                -work timing_adapter_1           
   eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_0.sv"                -work timing_adapter_0           
-  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_001_error_adapter_0.sv"                 -work error_adapter_0            
   eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0.sv"           -work data_format_adapter_0      
   eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_state_ram.sv" -work data_format_adapter_0      
   eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_data_ram.sv"  -work data_format_adapter_0      
-  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_timing_adapter_1.sv"                    -work timing_adapter_1           
-  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_timing_adapter_0.sv"                    -work timing_adapter_0           
-  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_data_format_adapter_0.sv"               -work data_format_adapter_0      
-  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_data_format_adapter_0_state_ram.sv"     -work data_format_adapter_0      
-  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_data_format_adapter_0_data_ram.sv"      -work data_format_adapter_0      
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_error_adapter_0.sv"                     -work error_adapter_0            
   eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/altera_reset_controller.v"                                        -work rst_controller             
   eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/altera_reset_synchronizer.v"                                      -work rst_controller             
+  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_003.v"                                  -work avalon_st_adapter_003      
   eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_002.v"                                  -work avalon_st_adapter_002      
   eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter_001.v"                                  -work avalon_st_adapter_001      
   eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/lms_dsp_avalon_st_adapter.v"                                      -work avalon_st_adapter          
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_avalon_st_splitter.sv"                                     -work st_splitter_0              
   eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/packet_presence_detection.sv"                                     -work packet_presence_detection_0
   eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/short_shift.v"                                                    -work packet_presence_detection_0
   eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/long_shift.v"                                                     -work packet_presence_detection_0
@@ -279,14 +285,14 @@ alias com {
 # Elaborate top level design
 alias elab {
   echo "\[exec\] elab"
-  eval vsim -t ps $ELAB_OPTIONS $USER_DEFINED_ELAB_OPTIONS -L work -L work_lib -L error_adapter_0 -L timing_adapter_1 -L timing_adapter_0 -L data_format_adapter_0 -L rst_controller -L avalon_st_adapter_002 -L avalon_st_adapter_001 -L avalon_st_adapter -L packet_presence_detection_0 -L fir_compiler_ii_0 -L FIFO2AVS_0 -L AVS2FIFO_0 -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L fiftyfivenm $TOP_LEVEL_NAME
+  eval vsim -t ps $ELAB_OPTIONS $USER_DEFINED_ELAB_OPTIONS -L work -L work_lib -L error_adapter_0 -L timing_adapter_1 -L timing_adapter_0 -L data_format_adapter_0 -L rst_controller -L avalon_st_adapter_003 -L avalon_st_adapter_002 -L avalon_st_adapter_001 -L avalon_st_adapter -L st_splitter_0 -L packet_presence_detection_0 -L fir_compiler_ii_0 -L FIFO2AVS_0 -L AVS2FIFO_0 -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L fiftyfivenm $TOP_LEVEL_NAME
 }
 
 # ----------------------------------------
 # Elaborate the top level design with novopt option
 alias elab_debug {
   echo "\[exec\] elab_debug"
-  eval vsim -novopt -t ps $ELAB_OPTIONS $USER_DEFINED_ELAB_OPTIONS -L work -L work_lib -L error_adapter_0 -L timing_adapter_1 -L timing_adapter_0 -L data_format_adapter_0 -L rst_controller -L avalon_st_adapter_002 -L avalon_st_adapter_001 -L avalon_st_adapter -L packet_presence_detection_0 -L fir_compiler_ii_0 -L FIFO2AVS_0 -L AVS2FIFO_0 -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L fiftyfivenm $TOP_LEVEL_NAME
+  eval vsim -novopt -t ps $ELAB_OPTIONS $USER_DEFINED_ELAB_OPTIONS -L work -L work_lib -L error_adapter_0 -L timing_adapter_1 -L timing_adapter_0 -L data_format_adapter_0 -L rst_controller -L avalon_st_adapter_003 -L avalon_st_adapter_002 -L avalon_st_adapter_001 -L avalon_st_adapter -L st_splitter_0 -L packet_presence_detection_0 -L fir_compiler_ii_0 -L FIFO2AVS_0 -L AVS2FIFO_0 -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L fiftyfivenm $TOP_LEVEL_NAME
 }
 
 # ----------------------------------------
