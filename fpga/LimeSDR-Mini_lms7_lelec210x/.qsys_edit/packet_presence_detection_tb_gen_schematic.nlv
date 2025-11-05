@@ -1,12 +1,17 @@
 # # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
 # 
-preplace inst packet_presence_detection_tb_gen.conduit_bfm_0 -pg 1 -lvl 1 -y 30
-preplace inst packet_presence_detection_tb_gen.packet_presence_detection_0 -pg 1 -lvl 1 -y 70
+preplace inst packet_presence_detection_tb_gen.st_splitter_0 -pg 1 -lvl 2 -y 30
+preplace inst packet_presence_detection_tb_gen.clk_0 -pg 1 -lvl 1 -y 70
+preplace inst packet_presence_detection_tb_gen.packet_presence_detection_0 -pg 1 -lvl 3 -y 60
 preplace inst packet_presence_detection_tb_gen -pg 1 -lvl 1 -y 40 -regy -20
-preplace netloc EXPORT<net_container>packet_presence_detection_tb_gen</net_container>(SLAVE)packet_presence_detection_0.avalon_streaming_sink,(SLAVE)packet_presence_detection_tb_gen.sink) 1 0 1 NJ
-preplace netloc EXPORT<net_container>packet_presence_detection_tb_gen</net_container>(MASTER)packet_presence_detection_tb_gen.source,(MASTER)packet_presence_detection_0.avalon_streaming_source) 1 1 1 N
-preplace netloc EXPORT<net_container>packet_presence_detection_tb_gen</net_container>(SLAVE)packet_presence_detection_tb_gen.clock,(SLAVE)packet_presence_detection_0.clock_sink) 1 0 1 NJ
-preplace netloc EXPORT<net_container>packet_presence_detection_tb_gen</net_container>(SLAVE)packet_presence_detection_0.reset_sink,(SLAVE)packet_presence_detection_tb_gen.reset) 1 0 1 NJ
-preplace netloc POINT_TO_POINT<net_container>packet_presence_detection_tb_gen</net_container>(SLAVE)conduit_bfm_0.conduit,(SLAVE)packet_presence_detection_0.cfg) 1 0 1 80
-levelinfo -pg 1 0 50 390
-levelinfo -hier packet_presence_detection_tb_gen 60 120 320
+preplace netloc EXPORT<net_container>packet_presence_detection_tb_gen</net_container>(SLAVE)packet_presence_detection_tb_gen.reset,(SLAVE)clk_0.clk_in_reset) 1 0 1 NJ
+preplace netloc EXPORT<net_container>packet_presence_detection_tb_gen</net_container>(MASTER)packet_presence_detection_tb_gen.source,(MASTER)packet_presence_detection_0.avalon_streaming_source) 1 3 1 N
+preplace netloc EXPORT<net_container>packet_presence_detection_tb_gen</net_container>(SLAVE)packet_presence_detection_tb_gen.cfg,(SLAVE)packet_presence_detection_0.cfg) 1 0 3 NJ 200 NJ 200 NJ
+preplace netloc EXPORT<net_container>packet_presence_detection_tb_gen</net_container>(SLAVE)packet_presence_detection_tb_gen.clk,(SLAVE)clk_0.clk_in) 1 0 1 NJ
+preplace netloc EXPORT<net_container>packet_presence_detection_tb_gen</net_container>(SLAVE)packet_presence_detection_tb_gen.sink,(SLAVE)st_splitter_0.in) 1 0 2 NJ 60 NJ
+preplace netloc FAN_OUT<net_container>packet_presence_detection_tb_gen</net_container>(SLAVE)packet_presence_detection_0.reset_sink,(SLAVE)st_splitter_0.reset,(MASTER)clk_0.clk_reset) 1 1 2 280 180 460
+preplace netloc FAN_OUT<net_container>packet_presence_detection_tb_gen</net_container>(MASTER)clk_0.clk,(SLAVE)st_splitter_0.clk,(SLAVE)packet_presence_detection_0.clock_sink) 1 1 2 260 160 NJ
+preplace netloc POINT_TO_POINT<net_container>packet_presence_detection_tb_gen</net_container>(SLAVE)packet_presence_detection_0.avalon_streaming_fir_sink,(MASTER)st_splitter_0.out1) 1 2 1 420
+preplace netloc POINT_TO_POINT<net_container>packet_presence_detection_tb_gen</net_container>(MASTER)st_splitter_0.out0,(SLAVE)packet_presence_detection_0.avalon_streaming_sink) 1 2 1 460
+levelinfo -pg 1 0 50 760
+levelinfo -hier packet_presence_detection_tb_gen 60 90 320 490 690

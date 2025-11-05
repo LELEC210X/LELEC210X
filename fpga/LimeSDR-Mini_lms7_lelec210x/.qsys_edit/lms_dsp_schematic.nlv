@@ -1,20 +1,23 @@
 # # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
 # 
-preplace inst lms_dsp.fir_compiler_ii_0 -pg 1 -lvl 3 -y 110
-preplace inst lms_dsp.AVS2FIFO_0 -pg 1 -lvl 5 -y 250
-preplace inst lms_dsp.clk_0 -pg 1 -lvl 1 -y 30
-preplace inst lms_dsp.packet_presence_detection_0 -pg 1 -lvl 4 -y 170
+preplace inst lms_dsp.fir_compiler_ii_0 -pg 1 -lvl 4 -y 130
+preplace inst lms_dsp.AVS2FIFO_0 -pg 1 -lvl 6 -y 270
+preplace inst lms_dsp.st_splitter_0 -pg 1 -lvl 3 -y 50
+preplace inst lms_dsp.clk_0 -pg 1 -lvl 1 -y 50
+preplace inst lms_dsp.packet_presence_detection_0 -pg 1 -lvl 5 -y 190
 preplace inst lms_dsp -pg 1 -lvl 1 -y 40 -regy -20
-preplace inst lms_dsp.FIFO2AVS_0 -pg 1 -lvl 2 -y 70
+preplace inst lms_dsp.FIFO2AVS_0 -pg 1 -lvl 2 -y 90
 preplace netloc EXPORT<net_container>lms_dsp</net_container>(SLAVE)lms_dsp.clk,(SLAVE)clk_0.clk_in) 1 0 1 NJ
-preplace netloc POINT_TO_POINT<net_container>lms_dsp</net_container>(SLAVE)packet_presence_detection_0.avalon_streaming_sink,(MASTER)fir_compiler_ii_0.avalon_streaming_source) 1 3 1 840
-preplace netloc EXPORT<net_container>lms_dsp</net_container>(SLAVE)packet_presence_detection_0.cfg,(SLAVE)lms_dsp.ppd) 1 0 4 NJ 200 NJ 200 NJ 200 NJ
-preplace netloc EXPORT<net_container>lms_dsp</net_container>(SLAVE)lms_dsp.reset,(SLAVE)clk_0.clk_in_reset) 1 0 1 NJ
-preplace netloc FAN_OUT<net_container>lms_dsp</net_container>(MASTER)clk_0.clk_reset,(SLAVE)fir_compiler_ii_0.rst,(SLAVE)AVS2FIFO_0.reset_sink,(SLAVE)FIFO2AVS_0.reset_sink,(SLAVE)packet_presence_detection_0.reset_sink) 1 1 4 270 180 590 240 820 320 NJ
-preplace netloc FAN_OUT<net_container>lms_dsp</net_container>(SLAVE)fir_compiler_ii_0.clk,(SLAVE)AVS2FIFO_0.clock_sink,(SLAVE)FIFO2AVS_0.clock_sink,(SLAVE)packet_presence_detection_0.clock_sink,(MASTER)clk_0.clk) 1 1 4 290 160 570 220 840 280 NJ
-preplace netloc EXPORT<net_container>lms_dsp</net_container>(SLAVE)lms_dsp.fifo_in,(SLAVE)FIFO2AVS_0.conduit_in) 1 0 2 NJ 100 NJ
-preplace netloc POINT_TO_POINT<net_container>lms_dsp</net_container>(MASTER)packet_presence_detection_0.avalon_streaming_source,(SLAVE)AVS2FIFO_0.avalon_streaming_sink) 1 4 1 1070
-preplace netloc EXPORT<net_container>lms_dsp</net_container>(SLAVE)AVS2FIFO_0.conduit_end,(SLAVE)lms_dsp.fifo_out) 1 0 5 NJ 300 NJ 300 NJ 300 NJ 300 NJ
-preplace netloc POINT_TO_POINT<net_container>lms_dsp</net_container>(MASTER)FIFO2AVS_0.avalon_streaming_source,(SLAVE)fir_compiler_ii_0.avalon_streaming_sink) 1 2 1 570
-levelinfo -pg 1 0 60 1270
-levelinfo -hier lms_dsp 70 100 320 620 870 1100 1260
+preplace netloc FAN_OUT<net_container>lms_dsp</net_container>(SLAVE)packet_presence_detection_0.reset_sink,(SLAVE)FIFO2AVS_0.reset_sink,(MASTER)clk_0.clk_reset,(SLAVE)st_splitter_0.reset,(SLAVE)AVS2FIFO_0.reset_sink,(SLAVE)fir_compiler_ii_0.rst) 1 1 5 270 180 630 180 830 100 1080 320 1390
+preplace netloc FAN_OUT<net_container>lms_dsp</net_container>(MASTER)clk_0.clk,(SLAVE)AVS2FIFO_0.clock_sink,(SLAVE)packet_presence_detection_0.clock_sink,(SLAVE)st_splitter_0.clk,(SLAVE)fir_compiler_ii_0.clk,(SLAVE)FIFO2AVS_0.clock_sink) 1 1 5 290 80 590 140 810 80 1140 180 1410
+preplace netloc POINT_TO_POINT<net_container>lms_dsp</net_container>(SLAVE)packet_presence_detection_0.avalon_streaming_sink,(MASTER)st_splitter_0.out1) 1 3 2 NJ 60 1160
+preplace netloc EXPORT<net_container>lms_dsp</net_container>(SLAVE)FIFO2AVS_0.conduit_in,(SLAVE)lms_dsp.fifo_in) 1 0 2 NJ 40 NJ
+preplace netloc EXPORT<net_container>lms_dsp</net_container>(SLAVE)lms_dsp.ppd,(SLAVE)packet_presence_detection_0.cfg) 1 0 5 NJ 220 NJ 220 NJ 220 NJ 120 NJ
+preplace netloc POINT_TO_POINT<net_container>lms_dsp</net_container>(SLAVE)packet_presence_detection_0.avalon_streaming_fir_sink,(MASTER)fir_compiler_ii_0.avalon_streaming_source) 1 4 1 1120
+preplace netloc POINT_TO_POINT<net_container>lms_dsp</net_container>(SLAVE)AVS2FIFO_0.avalon_streaming_sink,(MASTER)packet_presence_detection_0.avalon_streaming_source) 1 5 1 1390
+preplace netloc POINT_TO_POINT<net_container>lms_dsp</net_container>(SLAVE)fir_compiler_ii_0.avalon_streaming_sink,(MASTER)st_splitter_0.out0) 1 3 1 770
+preplace netloc EXPORT<net_container>lms_dsp</net_container>(SLAVE)AVS2FIFO_0.conduit_end,(SLAVE)lms_dsp.fifo_out) 1 0 6 NJ 340 NJ 340 NJ 340 NJ 340 NJ 340 NJ
+preplace netloc EXPORT<net_container>lms_dsp</net_container>(SLAVE)clk_0.clk_in_reset,(SLAVE)lms_dsp.reset) 1 0 1 NJ
+preplace netloc POINT_TO_POINT<net_container>lms_dsp</net_container>(SLAVE)st_splitter_0.in,(MASTER)FIFO2AVS_0.avalon_streaming_source) 1 2 1 610
+levelinfo -pg 1 0 60 1620
+levelinfo -hier lms_dsp 70 100 340 670 880 1190 1450 1610

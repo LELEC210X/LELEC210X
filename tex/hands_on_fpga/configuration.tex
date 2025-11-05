@@ -38,13 +38,19 @@ This module contains a RAM with 16-bit words that retains the configuration of v
 \hline
 Configuration signal & Description & Allowed values\\
 \hline
-\texttt{cfg\_enable} & Enable or disable the PPD. & $\left\{0,1\right\}$ \\
+\texttt{cfg\_preamble\_en} & Enable or disable the PPD. & $\left\{0,1\right\}$ \\
 \hline
-\texttt{cfg\_clear\_} & Clear the delay lines of the dual running sum. & $\left\{0,1\right\}$ \\
+\texttt{cfg\_clear\_rs} & Clear the delay lines of the dual running sum. & $\left\{0,1\right\}$ \\
 \hline
 \texttt{cfg\_PASSTHROUGH\_LEN} & Number of samples to pass-through after a start flag has been added. Avoid any retriggering of this flag meanwhile. & $\left[1,2^{\textsc{PASSTHROUGH\_LEN\_WIDTH}}-1\right]$ \\
 \hline
 \texttt{cfg\_THRESHOLD} & Value to multiply the normalized result of the long-term sum, before comparison. & $\left[1,2^{8}-1\right]$ \\
+\hline
+\texttt{cfg\_fir\_en} & Enable the FIR present in the FPGA. & $\left[1,2^{8}-1\right]$ \\
+\hline
+\texttt{cfg\_pass\_sum\_signal} & Bypass signal to forward short and long sum results. & $\left\{0,1\right\}$ \\
+\hline
+\texttt{cfg\_red\_sum\_signal} & Reduce the forwarded short and long sum signals by applying a rightshift by 6. & $\left\{0,1\right\}$ \\
 \hline
 \end{tabular}
 \caption{Configuration signals \texttt{packet\_presence\_detection} IP}
@@ -53,8 +59,7 @@ Configuration signal & Description & Allowed values\\
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=0.3\linewidth]{figures/design_hierarchy_fpgacfg.PNG}
-    \includegraphics[width=0.6\linewidth]{figures/design_hierarchy_fpgacfg_both.PNG}
+    \includegraphics[width=0.9\linewidth]{figures/design_hierarchy_fpgacfg_both.PNG}
     \caption{Configuration signal location in the design hierarchy (left). Assignment and reset values for the DSP configuration signals (right).}
     \label{fig:design_hier_fpgacfg}
 \end{figure}

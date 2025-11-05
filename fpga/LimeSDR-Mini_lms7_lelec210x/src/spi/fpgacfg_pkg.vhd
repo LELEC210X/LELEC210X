@@ -44,6 +44,9 @@ package fpgacfg_pkg is
       -- tx_cnt_en      : std_logic;
       dspcfg_preamble_en     : std_logic;
       dspcfg_clear_rs        : std_logic;
+      dspcfg_fir_en          : std_logic;
+      dspcfg_pass_sum_signal : std_logic;
+      dspcfg_red_sum_signal  : std_logic;
       dspcfg_PASSTHROUGH_LEN : std_logic_vector(15 downto 0);
       dspcfg_THRESHOLD       : std_logic_vector(7  downto 0);
       -- wfm_ch_en      : std_logic_vector(15 downto 0);

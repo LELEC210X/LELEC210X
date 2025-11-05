@@ -1,0 +1,52 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dD:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench
+valtera_reset_controller
+Z1 !s110 1762163209
+!i10b 1
+!s100 z[H_hRO9gO=:^2E3_jWH03
+I1C`LXH4W1ken5IdAKCkPT0
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+Z3 w1762162729
+8./packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_controller.v
+F./packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_controller.v
+L0 42
+Z4 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z5 !s108 1762163209.000000
+!s107 ./packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_controller.v|
+!s90 -reportprogress|300|./packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_controller.v|-work|rst_controller|
+!i113 1
+Z6 o-work rst_controller
+Z7 tCvgOpt 0
+valtera_reset_synchronizer
+R1
+!i10b 1
+!s100 oWLYmSO[EOX[G0PgQhZ2=0
+I@Z2b:KH0ZKUEaX8A5P3Bh1
+R2
+R0
+R3
+8./packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_synchronizer.v
+F./packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_synchronizer.v
+L0 24
+R4
+r1
+!s85 0
+31
+R5
+!s107 ./packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_synchronizer.v|
+!s90 -reportprogress|300|./packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_synchronizer.v|-work|rst_controller|
+!i113 1
+R6
+R7

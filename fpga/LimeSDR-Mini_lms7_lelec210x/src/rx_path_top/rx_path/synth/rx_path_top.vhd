@@ -35,6 +35,9 @@ entity rx_path_top is
 		--DSP settings
 		dspcfg_preamble_en     : in  std_logic  := 'X'; -- dspcfg_preamble_en
 		dspcfg_clear_rs        : in  std_logic  := 'X'; -- dspcfg_clear_rs
+		dspcfg_fir_en     	  : in  std_logic  := 'X'; -- dspcfg_fir_en
+		dspcfg_pass_sum_signal : in  std_logic  := 'X'; -- dspcfg_pass_sum_signal
+		dspcfg_red_sum_signal  : in  std_logic  := 'X'; -- dspcfg_red_sum_signal
       dspcfg_PASSTHROUGH_LEN : in  std_logic_vector(15 downto 0) := (others => 'X'); -- dspcfg_PASSTHROUGH_LEN
       dspcfg_THRESHOLD       : in  std_logic_vector(7  downto 0) := (others => 'X'); -- dspcfg_THRESHOLD
       dspcfg_short_sum       : out std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_sum
@@ -118,8 +121,11 @@ signal tx_pct_loss_detect     : std_logic;
 component lms_dsp is
   port (
 		clk_clk                 : in  std_logic                     := 'X';             -- clk
-      ppd_cfg_enable          : in  std_logic                     := 'X';             -- dspcfg_enable
+      ppd_cfg_enable_ppd      : in  std_logic                     := 'X';             -- dspcfg_enable_ppd
 		ppd_cfg_clear_rs        : in  std_logic                     := 'X';             -- dspcfg_clear_rs 
+      ppd_cfg_enable_fir      : in  std_logic                     := 'X';             -- dspcfg_enable_fir
+      ppd_cfg_pass_sum_signal : in  std_logic                     := 'X';             -- dspcfg_pass_sum_signal
+      ppd_cfg_red_sum_signal  : in  std_logic                     := 'X';             -- dspcfg_red_sum_signal
       ppd_cfg_passthrough_len : in  std_logic_vector(15 downto 0) := (others => 'X'); -- dspcfg_PASSTHROUGH_LEN
       ppd_cfg_threshold       : in  std_logic_vector(7  downto 0) := (others => 'X'); -- dspcfg_THRESHOLD
       ppd_debug_short_sum     : out std_logic_vector(31 downto 0) := (others => 'X'); -- dspcfg_short_sum
@@ -232,8 +238,11 @@ smpl_fifo_wrreq_out <= inst0_fifo_wrreq;
 dspcfg_subsystem_inst11 : component lms_dsp
   port map (
 		clk_clk                 => clk,                    --      clk.clk
-		ppd_cfg_enable          => dspcfg_preamble_en,     -- ppd.cfg_enable
-		ppd_cfg_clear_rs        => dspcfg_clear_rs,        -- ppd.cfg_clear_rs
+		ppd_cfg_enable_ppd      => dspcfg_preamble_en,     -- ppd.cfg_enable 
+		ppd_cfg_clear_rs        => dspcfg_clear_rs,        -- ppd.cfg_clear_rs 
+		ppd_cfg_enable_fir      => dspcfg_fir_en,          -- ppd.cfg_fir_en 
+		ppd_cfg_pass_sum_signal => dspcfg_pass_sum_signal,          -- ppd.dspcfg_red_sum_signal 
+		ppd_cfg_red_sum_signal  => dspcfg_red_sum_signal,          -- ppd.dspcfg_pass_sum_signal 
       ppd_cfg_passthrough_len => dspcfg_PASSTHROUGH_LEN, --    .cfg_PASSTHROUGH_LEN
       ppd_cfg_threshold       => dspcfg_THRESHOLD,       --    .cfg_THRESHOLD
       ppd_debug_short_sum     => dspcfg_short_sum,       --    .cfg_short_sum

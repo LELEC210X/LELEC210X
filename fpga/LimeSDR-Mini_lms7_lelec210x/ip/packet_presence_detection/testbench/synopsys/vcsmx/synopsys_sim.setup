@@ -3,12 +3,14 @@ WORK > DEFAULT
 DEFAULT:                                          ./libraries/work/                                            
 work:                                             ./libraries/work/                                            
 altera_common_sv_packages:                        ./libraries/altera_common_sv_packages/                       
+rst_controller:                                   ./libraries/rst_controller/                                  
+st_splitter_0:                                    ./libraries/st_splitter_0/                                   
 packet_presence_detection_0:                      ./libraries/packet_presence_detection_0/                     
-conduit_bfm_0:                                    ./libraries/conduit_bfm_0/                                   
 packet_presence_detection_tb_gen_inst_source_bfm: ./libraries/packet_presence_detection_tb_gen_inst_source_bfm/
 packet_presence_detection_tb_gen_inst_sink_bfm:   ./libraries/packet_presence_detection_tb_gen_inst_sink_bfm/  
 packet_presence_detection_tb_gen_inst_reset_bfm:  ./libraries/packet_presence_detection_tb_gen_inst_reset_bfm/ 
-packet_presence_detection_tb_gen_inst_clock_bfm:  ./libraries/packet_presence_detection_tb_gen_inst_clock_bfm/ 
+packet_presence_detection_tb_gen_inst_clk_bfm:    ./libraries/packet_presence_detection_tb_gen_inst_clk_bfm/   
+packet_presence_detection_tb_gen_inst_cfg_bfm:    ./libraries/packet_presence_detection_tb_gen_inst_cfg_bfm/   
 packet_presence_detection_tb_gen_inst:            ./libraries/packet_presence_detection_tb_gen_inst/           
 altera_ver:                                       ./libraries/altera_ver/                                      
 lpm_ver:                                          ./libraries/lpm_ver/                                         

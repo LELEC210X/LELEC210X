@@ -10,12 +10,14 @@ DEFINE ncmodels                                         $CDS_ROOT/tools/inca/fil
 DEFINE cds_assertions                                   $CDS_ROOT/tools/inca/files/CDS_ASSERTIONS/                   
 DEFINE work                                             ./libraries/work/                                            
 DEFINE altera_common_sv_packages                        ./libraries/altera_common_sv_packages/                       
+DEFINE rst_controller                                   ./libraries/rst_controller/                                  
+DEFINE st_splitter_0                                    ./libraries/st_splitter_0/                                   
 DEFINE packet_presence_detection_0                      ./libraries/packet_presence_detection_0/                     
-DEFINE conduit_bfm_0                                    ./libraries/conduit_bfm_0/                                   
 DEFINE packet_presence_detection_tb_gen_inst_source_bfm ./libraries/packet_presence_detection_tb_gen_inst_source_bfm/
 DEFINE packet_presence_detection_tb_gen_inst_sink_bfm   ./libraries/packet_presence_detection_tb_gen_inst_sink_bfm/  
 DEFINE packet_presence_detection_tb_gen_inst_reset_bfm  ./libraries/packet_presence_detection_tb_gen_inst_reset_bfm/ 
-DEFINE packet_presence_detection_tb_gen_inst_clock_bfm  ./libraries/packet_presence_detection_tb_gen_inst_clock_bfm/ 
+DEFINE packet_presence_detection_tb_gen_inst_clk_bfm    ./libraries/packet_presence_detection_tb_gen_inst_clk_bfm/   
+DEFINE packet_presence_detection_tb_gen_inst_cfg_bfm    ./libraries/packet_presence_detection_tb_gen_inst_cfg_bfm/   
 DEFINE packet_presence_detection_tb_gen_inst            ./libraries/packet_presence_detection_tb_gen_inst/           
 DEFINE altera_ver                                       ./libraries/altera_ver/                                      
 DEFINE lpm_ver                                          ./libraries/lpm_ver/                                         

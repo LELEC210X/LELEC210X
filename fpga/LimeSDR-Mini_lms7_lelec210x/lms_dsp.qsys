@@ -166,11 +166,35 @@
          type = "String";
       }
    }
+   element lms_dsp
+   {
+      datum _originalDeviceFamily
+      {
+         value = "MAX 10";
+         type = "String";
+      }
+   }
+   element lms_dsp
+   {
+      datum _originalDeviceFamily
+      {
+         value = "MAX 10";
+         type = "String";
+      }
+   }
    element packet_presence_detection_0
    {
       datum _sortIndex
       {
          value = "4";
+         type = "int";
+      }
+   }
+   element st_splitter_0
+   {
+      datum _sortIndex
+      {
+         value = "5";
          type = "int";
       }
    }
@@ -230,12 +254,12 @@
    version="18.1"
    enabled="1">
   <parameter name="L_bandsFilter" value="1" />
-  <parameter name="MODE_STRING" value="None Set" />
+  <parameter name="MODE_STRING" value="0,1,2,3" />
   <parameter name="backPressure" value="false" />
   <parameter name="bankCount" value="1" />
   <parameter name="bankDisplay" value="0" />
   <parameter name="baseAddress" value="0" />
-  <parameter name="channelModes" value="0,1,2,3" />
+  <parameter name="channelModes" value="0,1" />
   <parameter name="clockRate" value="0.4" />
   <parameter name="clockSlack" value="0" />
   <parameter name="coeffBitWidth" value="8" />
@@ -278,10 +302,34 @@
    version="1.0"
    enabled="1">
   <parameter name="DATA_WIDTH" value="12" />
-  <parameter name="LONG_SUM_LEN" value="256" />
   <parameter name="PASSTHROUGH_LEN_WIDTH" value="16" />
-  <parameter name="SHORT_SUM_LEN" value="32" />
  </module>
+ <module
+   name="st_splitter_0"
+   kind="altera_avalon_st_splitter"
+   version="18.1"
+   enabled="1">
+  <parameter name="BITS_PER_SYMBOL" value="12" />
+  <parameter name="CHANNEL_WIDTH" value="1" />
+  <parameter name="DATA_WIDTH" value="24" />
+  <parameter name="ERROR_DESCRIPTOR" value="" />
+  <parameter name="ERROR_WIDTH" value="1" />
+  <parameter name="MAX_CHANNELS" value="1" />
+  <parameter name="NUMBER_OF_OUTPUTS" value="2" />
+  <parameter name="QUALIFY_VALID_OUT" value="0" />
+  <parameter name="READY_LATENCY" value="0" />
+  <parameter name="USE_CHANNEL" value="0" />
+  <parameter name="USE_DATA" value="1" />
+  <parameter name="USE_ERROR" value="0" />
+  <parameter name="USE_PACKETS" value="0" />
+  <parameter name="USE_READY" value="0" />
+  <parameter name="USE_VALID" value="1" />
+ </module>
+ <connection
+   kind="avalon_streaming"
+   version="18.1"
+   start="fir_compiler_ii_0.avalon_streaming_source"
+   end="packet_presence_detection_0.avalon_streaming_fir_sink" />
  <connection
    kind="avalon_streaming"
    version="18.1"
@@ -291,17 +339,23 @@
    kind="avalon_streaming"
    version="18.1"
    start="FIFO2AVS_0.avalon_streaming_source"
+   end="st_splitter_0.in" />
+ <connection
+   kind="avalon_streaming"
+   version="18.1"
+   start="st_splitter_0.out0"
    end="fir_compiler_ii_0.avalon_streaming_sink" />
  <connection
    kind="avalon_streaming"
    version="18.1"
-   start="fir_compiler_ii_0.avalon_streaming_source"
+   start="st_splitter_0.out1"
    end="packet_presence_detection_0.avalon_streaming_sink" />
  <connection
    kind="clock"
    version="18.1"
    start="clk_0.clk"
    end="fir_compiler_ii_0.clk" />
+ <connection kind="clock" version="18.1" start="clk_0.clk" end="st_splitter_0.clk" />
  <connection
    kind="clock"
    version="18.1"
@@ -317,6 +371,11 @@
    version="18.1"
    start="clk_0.clk"
    end="packet_presence_detection_0.clock_sink" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="clk_0.clk_reset"
+   end="st_splitter_0.reset" />
  <connection
    kind="reset"
    version="18.1"

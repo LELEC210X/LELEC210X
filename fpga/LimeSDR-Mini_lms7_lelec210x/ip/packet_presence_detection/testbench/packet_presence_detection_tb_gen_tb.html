@@ -67,7 +67,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
   </table>
   <table class="blueBar">
    <tr>
-    <td class="l">2023.11.08.03:03:16</td>
+    <td class="l">2025.11.03.10:38:37</td>
     <td class="r">Datasheet</td>
    </tr>
   </table>
@@ -76,6 +76,10 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
   <div class="greydiv">
    <div style="display:inline-block ; text-align:left">
     <table class="connectionboxes">
+     <tr>
+      <td class="lefthandwire">&#160;&#160;packet_presence_detection_tb_gen_inst_clk_0&#160;</td>
+      <td class="main" rowspan="2">packet_presence_detection_tb_gen_tb</td>
+     </tr>
      <tr style="height:6px">
       <td></td>
      </tr>
@@ -106,7 +110,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <table>
        <tr>
         <td class="parametername">AUTO_GENERATION_ID</td>
-        <td class="parametervalue">1699408996</td>
+        <td class="parametervalue">1762162717</td>
        </tr>
        <tr>
         <td class="parametername">AUTO_UNIQUE_ID</td>
@@ -125,15 +129,15 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
         <td class="parametervalue">8</td>
        </tr>
        <tr>
-        <td class="parametername">AUTO_CLOCK_CLOCK_RATE</td>
+        <td class="parametername">AUTO_CLK_CLOCK_RATE</td>
         <td class="parametervalue">0</td>
        </tr>
        <tr>
-        <td class="parametername">AUTO_CLOCK_CLOCK_DOMAIN</td>
+        <td class="parametername">AUTO_CLK_CLOCK_DOMAIN</td>
         <td class="parametervalue">1</td>
        </tr>
        <tr>
-        <td class="parametername">AUTO_CLOCK_RESET_DOMAIN</td>
+        <td class="parametername">AUTO_CLK_RESET_DOMAIN</td>
         <td class="parametervalue">1</td>
        </tr>
        <tr>
@@ -155,23 +159,84 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
     </tr>
    </table>
   </div>
-  <a name="module_packet_presence_detection_tb_gen_inst_conduit_bfm_0"> </a>
+  <a name="module_packet_presence_detection_tb_gen_inst_clk_0"> </a>
   <div>
    <hr/>
-   <h2>packet_presence_detection_tb_gen_inst_conduit_bfm_0</h2>altera_conduit_bfm v18.1
+   <h2>packet_presence_detection_tb_gen_inst_clk_0</h2>clock_source v18.1
    <br/>
    <div class="greydiv">
     <table class="connectionboxes">
      <tr>
       <td class="neighbor" rowspan="2">
+       <a href="#module_packet_presence_detection_tb_gen_inst_clk_bfm">packet_presence_detection_tb_gen_inst_clk_bfm</a>
+      </td>
+      <td class="from">clk&#160;&#160;</td>
+      <td class="main" rowspan="14">packet_presence_detection_tb_gen_inst_clk_0</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;clk_in</td>
+     </tr>
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+     <tr>
+      <td class="neighbor" rowspan="2">
+       <a href="#module_packet_presence_detection_tb_gen_inst_reset_bfm">packet_presence_detection_tb_gen_inst_reset_bfm</a>
+      </td>
+      <td class="from">reset&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;clk_in_reset</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">clk&#160;&#160;</td>
+      <td class="neighbor" rowspan="4">
+       <a href="#module_packet_presence_detection_tb_gen_inst_st_splitter_0">packet_presence_detection_tb_gen_inst_st_splitter_0</a>
+      </td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;clk</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">clk_reset&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;reset</td>
+     </tr>
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">clk&#160;&#160;</td>
+      <td class="neighbor" rowspan="4">
        <a
                href="#module_packet_presence_detection_tb_gen_inst_packet_presence_detection_0">packet_presence_detection_tb_gen_inst_packet_presence_detection_0</a>
       </td>
-      <td class="from">cfg&#160;&#160;</td>
-      <td class="main" rowspan="2">packet_presence_detection_tb_gen_inst_conduit_bfm_0</td>
      </tr>
      <tr>
-      <td class="to">&#160;&#160;conduit</td>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;clock_sink</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">clk_reset&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;reset_sink</td>
      </tr>
     </table>
    </div>
@@ -183,24 +248,20 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <h2>Parameters</h2>
       <table>
        <tr>
-        <td class="parametername">CLOCKED_SIGNAL</td>
-        <td class="parametervalue">false</td>
+        <td class="parametername">clockFrequency</td>
+        <td class="parametervalue">50000000</td>
        </tr>
        <tr>
-        <td class="parametername">ENABLE_RESET</td>
-        <td class="parametervalue">false</td>
+        <td class="parametername">clockFrequencyKnown</td>
+        <td class="parametervalue">true</td>
        </tr>
        <tr>
-        <td class="parametername">SIGNAL_ROLES</td>
-        <td class="parametervalue">cfg_enable,cfg_threshold,cfg_clear_rs,cfg_passthrough_len,debug_short_sum,debug_count,debug_long_sum</td>
+        <td class="parametername">inputClockFrequency</td>
+        <td class="parametervalue">0</td>
        </tr>
        <tr>
-        <td class="parametername">SIGNAL_WIDTHS</td>
-        <td class="parametervalue">1,8,1,16,32,32,32</td>
-       </tr>
-       <tr>
-        <td class="parametername">SIGNAL_DIRECTIONS</td>
-        <td class="parametervalue">output,output,output,output,input,input,input</td>
+        <td class="parametername">resetSynchronousEdges</td>
+        <td class="parametervalue">NONE</td>
        </tr>
        <tr>
         <td class="parametername">deviceFamily</td>
@@ -230,54 +291,50 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
    <div class="greydiv">
     <table class="connectionboxes">
      <tr>
-      <td class="neighbor" rowspan="2">
-       <a href="#module_packet_presence_detection_tb_gen_inst_sink_bfm">packet_presence_detection_tb_gen_inst_sink_bfm</a>
+      <td class="neighbor" rowspan="4">
+       <a href="#module_packet_presence_detection_tb_gen_inst_st_splitter_0">packet_presence_detection_tb_gen_inst_st_splitter_0</a>
       </td>
-      <td class="from">src&#160;&#160;</td>
-      <td class="main" rowspan="13">packet_presence_detection_tb_gen_inst_packet_presence_detection_0</td>
+      <td class="from">out0&#160;&#160;</td>
+      <td class="main" rowspan="14">packet_presence_detection_tb_gen_inst_packet_presence_detection_0</td>
      </tr>
      <tr>
       <td class="to">&#160;&#160;avalon_streaming_sink</td>
+     </tr>
+     <tr>
+      <td class="from">out1&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;avalon_streaming_fir_sink</td>
      </tr>
      <tr style="height:6px">
       <td></td>
      </tr>
      <tr>
-      <td class="neighbor" rowspan="2">
-       <a href="#module_packet_presence_detection_tb_gen_inst_clock_bfm">packet_presence_detection_tb_gen_inst_clock_bfm</a>
+      <td class="neighbor" rowspan="4">
+       <a href="#module_packet_presence_detection_tb_gen_inst_clk_0">packet_presence_detection_tb_gen_inst_clk_0</a>
       </td>
       <td class="from">clk&#160;&#160;</td>
      </tr>
      <tr>
       <td class="to">&#160;&#160;clock_sink</td>
      </tr>
-     <tr style="height:6px">
-      <td></td>
-     </tr>
      <tr>
-      <td class="neighbor" rowspan="2">
-       <a href="#module_packet_presence_detection_tb_gen_inst_reset_bfm">packet_presence_detection_tb_gen_inst_reset_bfm</a>
-      </td>
-      <td class="from">reset&#160;&#160;</td>
+      <td class="from">clk_reset&#160;&#160;</td>
      </tr>
      <tr>
       <td class="to">&#160;&#160;reset_sink</td>
      </tr>
-     <tr>
-      <td></td>
-      <td></td>
-      <td class="from">cfg&#160;&#160;</td>
-      <td class="neighbor" rowspan="2">
-       <a href="#module_packet_presence_detection_tb_gen_inst_conduit_bfm_0">packet_presence_detection_tb_gen_inst_conduit_bfm_0</a>
-      </td>
-     </tr>
-     <tr>
-      <td></td>
-      <td></td>
-      <td class="to">&#160;&#160;conduit</td>
-     </tr>
      <tr style="height:6px">
       <td></td>
+     </tr>
+     <tr>
+      <td class="neighbor" rowspan="2">
+       <a href="#module_packet_presence_detection_tb_gen_inst_cfg_bfm">packet_presence_detection_tb_gen_inst_cfg_bfm</a>
+      </td>
+      <td class="from">conduit&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;cfg</td>
      </tr>
      <tr>
       <td></td>
@@ -328,10 +385,252 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
     </tr>
    </table>
   </div>
-  <a name="module_packet_presence_detection_tb_gen_inst_clock_bfm"> </a>
+  <a name="module_packet_presence_detection_tb_gen_inst_st_splitter_0"> </a>
   <div>
    <hr/>
-   <h2>packet_presence_detection_tb_gen_inst_clock_bfm</h2>altera_avalon_clock_source v18.1
+   <h2>packet_presence_detection_tb_gen_inst_st_splitter_0</h2>altera_avalon_st_splitter v18.1
+   <br/>
+   <div class="greydiv">
+    <table class="connectionboxes">
+     <tr>
+      <td class="neighbor" rowspan="4">
+       <a href="#module_packet_presence_detection_tb_gen_inst_clk_0">packet_presence_detection_tb_gen_inst_clk_0</a>
+      </td>
+      <td class="from">clk&#160;&#160;</td>
+      <td class="main" rowspan="11">packet_presence_detection_tb_gen_inst_st_splitter_0</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;clk</td>
+     </tr>
+     <tr>
+      <td class="from">clk_reset&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;reset</td>
+     </tr>
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+     <tr>
+      <td class="neighbor" rowspan="2">
+       <a href="#module_packet_presence_detection_tb_gen_inst_sink_bfm">packet_presence_detection_tb_gen_inst_sink_bfm</a>
+      </td>
+      <td class="from">src&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;in</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">out0&#160;&#160;</td>
+      <td class="neighbor" rowspan="4">
+       <a
+               href="#module_packet_presence_detection_tb_gen_inst_packet_presence_detection_0">packet_presence_detection_tb_gen_inst_packet_presence_detection_0</a>
+      </td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;avalon_streaming_sink</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">out1&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;avalon_streaming_fir_sink</td>
+     </tr>
+    </table>
+   </div>
+   <br/>
+   <br/>
+   <table class="flowbox">
+    <tr>
+     <td class="parametersbox">
+      <h2>Parameters</h2>
+      <table>
+       <tr>
+        <td class="parametername">NUMBER_OF_OUTPUTS</td>
+        <td class="parametervalue">2</td>
+       </tr>
+       <tr>
+        <td class="parametername">QUALIFY_VALID_OUT</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">USE_READY</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">USE_VALID</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">USE_PACKETS</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">USE_CHANNEL</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">USE_ERROR</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">USE_DATA</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">DATA_WIDTH</td>
+        <td class="parametervalue">24</td>
+       </tr>
+       <tr>
+        <td class="parametername">CHANNEL_WIDTH</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">ERROR_WIDTH</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">BITS_PER_SYMBOL</td>
+        <td class="parametervalue">12</td>
+       </tr>
+       <tr>
+        <td class="parametername">MAX_CHANNELS</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">READY_LATENCY</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">ERROR_DESCRIPTOR</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">EMPTY_WIDTH</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">deviceFamily</td>
+        <td class="parametervalue">UNKNOWN</td>
+       </tr>
+       <tr>
+        <td class="parametername">generateLegacySim</td>
+        <td class="parametervalue">false</td>
+       </tr>
+      </table>
+     </td>
+    </tr>
+   </table>&#160;&#160;
+   <table class="flowbox">
+    <tr>
+     <td class="parametersbox">
+      <h2>Software Assignments</h2>(none)</td>
+    </tr>
+   </table>
+  </div>
+  <a name="module_packet_presence_detection_tb_gen_inst_cfg_bfm"> </a>
+  <div>
+   <hr/>
+   <h2>packet_presence_detection_tb_gen_inst_cfg_bfm</h2>altera_conduit_bfm v18.1
+   <br/>
+   <div class="greydiv">
+    <table class="connectionboxes">
+     <tr>
+      <td class="neighbor" rowspan="2">
+       <a href="#module_packet_presence_detection_tb_gen_inst_clk_bfm">packet_presence_detection_tb_gen_inst_clk_bfm</a>
+      </td>
+      <td class="from">clk&#160;&#160;</td>
+      <td class="main" rowspan="7">packet_presence_detection_tb_gen_inst_cfg_bfm</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;clk</td>
+     </tr>
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+     <tr>
+      <td class="neighbor" rowspan="2">
+       <a href="#module_packet_presence_detection_tb_gen_inst_reset_bfm">packet_presence_detection_tb_gen_inst_reset_bfm</a>
+      </td>
+      <td class="from">reset&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;reset</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">conduit&#160;&#160;</td>
+      <td class="neighbor" rowspan="2">
+       <a
+               href="#module_packet_presence_detection_tb_gen_inst_packet_presence_detection_0">packet_presence_detection_tb_gen_inst_packet_presence_detection_0</a>
+      </td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;cfg</td>
+     </tr>
+    </table>
+   </div>
+   <br/>
+   <br/>
+   <table class="flowbox">
+    <tr>
+     <td class="parametersbox">
+      <h2>Parameters</h2>
+      <table>
+       <tr>
+        <td class="parametername">CLOCKED_SIGNAL</td>
+        <td class="parametervalue">true</td>
+       </tr>
+       <tr>
+        <td class="parametername">ENABLE_RESET</td>
+        <td class="parametervalue">true</td>
+       </tr>
+       <tr>
+        <td class="parametername">SIGNAL_ROLES</td>
+        <td class="parametervalue">cfg_clear_rs,cfg_enable_fir,cfg_enable_ppd,cfg_pass_sum_signal,cfg_passthrough_len,cfg_red_sum_signal,cfg_threshold,debug_count,debug_long_sum,debug_short_sum</td>
+       </tr>
+       <tr>
+        <td class="parametername">SIGNAL_WIDTHS</td>
+        <td class="parametervalue">1,1,1,1,16,1,8,32,32,32</td>
+       </tr>
+       <tr>
+        <td class="parametername">SIGNAL_DIRECTIONS</td>
+        <td class="parametervalue">output,output,output,output,output,output,output,input,input,input</td>
+       </tr>
+       <tr>
+        <td class="parametername">deviceFamily</td>
+        <td class="parametervalue">UNKNOWN</td>
+       </tr>
+       <tr>
+        <td class="parametername">generateLegacySim</td>
+        <td class="parametervalue">false</td>
+       </tr>
+      </table>
+     </td>
+    </tr>
+   </table>&#160;&#160;
+   <table class="flowbox">
+    <tr>
+     <td class="parametersbox">
+      <h2>Software Assignments</h2>(none)</td>
+    </tr>
+   </table>
+  </div>
+  <a name="module_packet_presence_detection_tb_gen_inst_clk_bfm"> </a>
+  <div>
+   <hr/>
+   <h2>packet_presence_detection_tb_gen_inst_clk_bfm</h2>altera_avalon_clock_source v18.1
    <br/>
    <br/>
    <br/>
@@ -342,7 +641,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <table>
        <tr>
         <td class="parametername">CLOCK_RATE</td>
-        <td class="parametervalue">100000000</td>
+        <td class="parametervalue">50000000</td>
        </tr>
        <tr>
         <td class="parametername">CLOCK_UNIT</td>
@@ -376,10 +675,10 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
     <table class="connectionboxes">
      <tr>
       <td class="neighbor" rowspan="2">
-       <a href="#module_packet_presence_detection_tb_gen_inst_clock_bfm">packet_presence_detection_tb_gen_inst_clock_bfm</a>
+       <a href="#module_packet_presence_detection_tb_gen_inst_clk_bfm">packet_presence_detection_tb_gen_inst_clk_bfm</a>
       </td>
       <td class="from">clk&#160;&#160;</td>
-      <td class="main" rowspan="10">packet_presence_detection_tb_gen_inst_reset_bfm</td>
+      <td class="main" rowspan="13">packet_presence_detection_tb_gen_inst_reset_bfm</td>
      </tr>
      <tr>
       <td class="to">&#160;&#160;clk</td>
@@ -421,14 +720,29 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <td></td>
       <td class="from">reset&#160;&#160;</td>
       <td class="neighbor" rowspan="2">
-       <a
-               href="#module_packet_presence_detection_tb_gen_inst_packet_presence_detection_0">packet_presence_detection_tb_gen_inst_packet_presence_detection_0</a>
+       <a href="#module_packet_presence_detection_tb_gen_inst_clk_0">packet_presence_detection_tb_gen_inst_clk_0</a>
       </td>
      </tr>
      <tr>
       <td></td>
       <td></td>
-      <td class="to">&#160;&#160;reset_sink</td>
+      <td class="to">&#160;&#160;clk_in_reset</td>
+     </tr>
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">reset&#160;&#160;</td>
+      <td class="neighbor" rowspan="2">
+       <a href="#module_packet_presence_detection_tb_gen_inst_cfg_bfm">packet_presence_detection_tb_gen_inst_cfg_bfm</a>
+      </td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;reset</td>
      </tr>
     </table>
    </div>
@@ -441,7 +755,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <table>
        <tr>
         <td class="parametername">ASSERT_HIGH_RESET</td>
-        <td class="parametervalue">1</td>
+        <td class="parametervalue">0</td>
        </tr>
        <tr>
         <td class="parametername">INITIAL_RESET_CYCLES</td>
@@ -475,7 +789,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
     <table class="connectionboxes">
      <tr>
       <td class="neighbor" rowspan="2">
-       <a href="#module_packet_presence_detection_tb_gen_inst_clock_bfm">packet_presence_detection_tb_gen_inst_clock_bfm</a>
+       <a href="#module_packet_presence_detection_tb_gen_inst_clk_bfm">packet_presence_detection_tb_gen_inst_clk_bfm</a>
       </td>
       <td class="from">clk&#160;&#160;</td>
       <td class="main" rowspan="7">packet_presence_detection_tb_gen_inst_sink_bfm</td>
@@ -500,14 +814,13 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <td></td>
       <td class="from">src&#160;&#160;</td>
       <td class="neighbor" rowspan="2">
-       <a
-               href="#module_packet_presence_detection_tb_gen_inst_packet_presence_detection_0">packet_presence_detection_tb_gen_inst_packet_presence_detection_0</a>
+       <a href="#module_packet_presence_detection_tb_gen_inst_st_splitter_0">packet_presence_detection_tb_gen_inst_st_splitter_0</a>
       </td>
      </tr>
      <tr>
       <td></td>
       <td></td>
-      <td class="to">&#160;&#160;avalon_streaming_sink</td>
+      <td class="to">&#160;&#160;in</td>
      </tr>
     </table>
    </div>
@@ -624,7 +937,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
      </tr>
      <tr>
       <td class="neighbor" rowspan="2">
-       <a href="#module_packet_presence_detection_tb_gen_inst_clock_bfm">packet_presence_detection_tb_gen_inst_clock_bfm</a>
+       <a href="#module_packet_presence_detection_tb_gen_inst_clk_bfm">packet_presence_detection_tb_gen_inst_clk_bfm</a>
       </td>
       <td class="from">clk&#160;&#160;</td>
      </tr>
@@ -738,7 +1051,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
   <table class="blueBar">
    <tr>
     <td class="l">generation took 0.00 seconds</td>
-    <td class="r">rendering took 0.00 seconds</td>
+    <td class="r">rendering took 0.03 seconds</td>
    </tr>
   </table>
  </body>

@@ -45,10 +45,10 @@
 //   empty_width:        0
 //   data_width:         24
 //   channel_width:      0
-//   in_error_width:     2
-//   out_error_width:    0
+//   in_error_width:     0
+//   out_error_width:    2
 //   in_errors_list      
-//   in_errors_indices   0 1
+//   in_errors_indices   0
 //   out_errors_list     
 //   has_in_error_desc:  FALSE
 //   has_out_error_desc: FALSE
@@ -68,10 +68,10 @@ module lms_dsp_avalon_st_adapter_002_error_adapter_0
  // Interface: in
  input              in_valid,
  input [24-1: 0]     in_data,
- input [2-1: 0]     in_error,
  // Interface: out
  output reg          out_valid,
  output reg [24-1: 0] out_data,
+ output reg [2-1: 0] out_error,
   // Interface: clk
  input              clk,
  // Interface: reset
@@ -79,7 +79,8 @@ module lms_dsp_avalon_st_adapter_002_error_adapter_0
 
  /*AUTOARG*/);
    
-   reg out_error; 
+   reg in_error = 0;
+   initial in_error = 0;
 
    // ---------------------------------------------------------------------
    //| Pass-through Mapping

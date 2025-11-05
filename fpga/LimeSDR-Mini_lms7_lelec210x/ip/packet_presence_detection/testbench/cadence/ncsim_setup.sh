@@ -1,5 +1,5 @@
 
-# (C) 2001-2023 Altera Corporation. All rights reserved.
+# (C) 2001-2025 Altera Corporation. All rights reserved.
 # Your use of Altera Corporation's design tools, logic functions and 
 # other software and tools, and its AMPP partner logic functions, and 
 # any output files any of the foregoing (including device programming 
@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 18.1 625 win32 2023.11.08.03:03:20
+# ACDS 18.1 625 win32 2025.11.03.10:38:55
 
 # ----------------------------------------
 # ncsim - auto-generated simulation script
@@ -106,7 +106,7 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
-# ACDS 18.1 625 win32 2023.11.08.03:03:20
+# ACDS 18.1 625 win32 2025.11.03.10:38:55
 # ----------------------------------------
 # initialize variables
 TOP_LEVEL_NAME="packet_presence_detection_tb_gen_tb"
@@ -147,12 +147,14 @@ fi
 # create compilation libraries
 mkdir -p ./libraries/work/
 mkdir -p ./libraries/altera_common_sv_packages/
+mkdir -p ./libraries/rst_controller/
+mkdir -p ./libraries/st_splitter_0/
 mkdir -p ./libraries/packet_presence_detection_0/
-mkdir -p ./libraries/conduit_bfm_0/
 mkdir -p ./libraries/packet_presence_detection_tb_gen_inst_source_bfm/
 mkdir -p ./libraries/packet_presence_detection_tb_gen_inst_sink_bfm/
 mkdir -p ./libraries/packet_presence_detection_tb_gen_inst_reset_bfm/
-mkdir -p ./libraries/packet_presence_detection_tb_gen_inst_clock_bfm/
+mkdir -p ./libraries/packet_presence_detection_tb_gen_inst_clk_bfm/
+mkdir -p ./libraries/packet_presence_detection_tb_gen_inst_cfg_bfm/
 mkdir -p ./libraries/packet_presence_detection_tb_gen_inst/
 mkdir -p ./libraries/altera_ver/
 mkdir -p ./libraries/lpm_ver/
@@ -179,18 +181,21 @@ fi
 # ----------------------------------------
 # compile design files in correct order
 if [ $SKIP_COM -eq 0 ]; then
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv"                                  -work altera_common_sv_packages                        -cdslib ./cds_libs/altera_common_sv_packages.cds.lib                       
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv"                           -work altera_common_sv_packages                        -cdslib ./cds_libs/altera_common_sv_packages.cds.lib                       
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection.sv"                      -work packet_presence_detection_0                      -cdslib ./cds_libs/packet_presence_detection_0.cds.lib                     
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/short_shift.v"                                     -work packet_presence_detection_0                      -cdslib ./cds_libs/packet_presence_detection_0.cds.lib                     
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/long_shift.v"                                      -work packet_presence_detection_0                      -cdslib ./cds_libs/packet_presence_detection_0.cds.lib                     
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection_tb_gen_conduit_bfm_0.sv" -work conduit_bfm_0                                    -cdslib ./cds_libs/conduit_bfm_0.cds.lib                                   
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_st_sink_bfm.sv"                      -work packet_presence_detection_tb_gen_inst_source_bfm -cdslib ./cds_libs/packet_presence_detection_tb_gen_inst_source_bfm.cds.lib
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_st_source_bfm.sv"                    -work packet_presence_detection_tb_gen_inst_sink_bfm   -cdslib ./cds_libs/packet_presence_detection_tb_gen_inst_sink_bfm.cds.lib  
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_reset_source.sv"                     -work packet_presence_detection_tb_gen_inst_reset_bfm  -cdslib ./cds_libs/packet_presence_detection_tb_gen_inst_reset_bfm.cds.lib 
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_clock_source.sv"                     -work packet_presence_detection_tb_gen_inst_clock_bfm  -cdslib ./cds_libs/packet_presence_detection_tb_gen_inst_clock_bfm.cds.lib 
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection_tb_gen.v"                -work packet_presence_detection_tb_gen_inst            -cdslib ./cds_libs/packet_presence_detection_tb_gen_inst.cds.lib           
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/packet_presence_detection_tb_gen_tb.v"                                                                                                                                                          
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv"                   -work altera_common_sv_packages                        -cdslib ./cds_libs/altera_common_sv_packages.cds.lib                       
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv"            -work altera_common_sv_packages                        -cdslib ./cds_libs/altera_common_sv_packages.cds.lib                       
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_controller.v"          -work rst_controller                                   -cdslib ./cds_libs/rst_controller.cds.lib                                  
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_synchronizer.v"        -work rst_controller                                   -cdslib ./cds_libs/rst_controller.cds.lib                                  
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_st_splitter.sv"       -work st_splitter_0                                    -cdslib ./cds_libs/st_splitter_0.cds.lib                                   
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection.sv"       -work packet_presence_detection_0                      -cdslib ./cds_libs/packet_presence_detection_0.cds.lib                     
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/short_shift.v"                      -work packet_presence_detection_0                      -cdslib ./cds_libs/packet_presence_detection_0.cds.lib                     
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/long_shift.v"                       -work packet_presence_detection_0                      -cdslib ./cds_libs/packet_presence_detection_0.cds.lib                     
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_st_sink_bfm.sv"       -work packet_presence_detection_tb_gen_inst_source_bfm -cdslib ./cds_libs/packet_presence_detection_tb_gen_inst_source_bfm.cds.lib
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_st_source_bfm.sv"     -work packet_presence_detection_tb_gen_inst_sink_bfm   -cdslib ./cds_libs/packet_presence_detection_tb_gen_inst_sink_bfm.cds.lib  
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_reset_source.sv"      -work packet_presence_detection_tb_gen_inst_reset_bfm  -cdslib ./cds_libs/packet_presence_detection_tb_gen_inst_reset_bfm.cds.lib 
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_clock_source.sv"      -work packet_presence_detection_tb_gen_inst_clk_bfm    -cdslib ./cds_libs/packet_presence_detection_tb_gen_inst_clk_bfm.cds.lib   
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_conduit_bfm.sv"              -work packet_presence_detection_tb_gen_inst_cfg_bfm    -cdslib ./cds_libs/packet_presence_detection_tb_gen_inst_cfg_bfm.cds.lib   
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection_tb_gen.v" -work packet_presence_detection_tb_gen_inst            -cdslib ./cds_libs/packet_presence_detection_tb_gen_inst.cds.lib           
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/packet_presence_detection_tb_gen_tb.v"                                                                                                                                           
 fi
 
 # ----------------------------------------
