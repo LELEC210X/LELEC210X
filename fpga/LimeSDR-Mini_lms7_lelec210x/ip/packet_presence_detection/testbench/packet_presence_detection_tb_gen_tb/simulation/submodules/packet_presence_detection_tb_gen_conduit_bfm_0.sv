@@ -28,47 +28,56 @@
 // This BFM's HDL is been generated through terp file in Qsys/SOPC Builder.
 // Generation parameters:
 // output_name:                                       packet_presence_detection_tb_gen_conduit_bfm_0
-// role:width:direction:                              cfg_enable:1:output,cfg_threshold:8:output,cfg_clear_rs:1:output,cfg_passthrough_len:16:output,debug_short_sum:32:input,debug_count:32:input,debug_long_sum:32:input
+// role:width:direction:                              cfg_enable_fir:1:output,cfg_threshold:8:output,cfg_clear_rs:1:output,cfg_passthrough_len:16:output,debug_short_sum:32:input,debug_count:32:input,debug_long_sum:32:input,cfg_enable_ppd:1:output,cfg_pass_sum_signal:1:output,cfg_red_sum_signal:1:output
 // 0
 //-----------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
 
 module packet_presence_detection_tb_gen_conduit_bfm_0
 (
-   sig_cfg_enable,
+   sig_cfg_enable_fir,
    sig_cfg_threshold,
    sig_cfg_clear_rs,
    sig_cfg_passthrough_len,
    sig_debug_short_sum,
    sig_debug_count,
-   sig_debug_long_sum
+   sig_debug_long_sum,
+   sig_cfg_enable_ppd,
+   sig_cfg_pass_sum_signal,
+   sig_cfg_red_sum_signal
 );
 
    //--------------------------------------------------------------------------
    // =head1 PINS 
    // =head2 User defined interface
    //--------------------------------------------------------------------------
-   output sig_cfg_enable;
+   output sig_cfg_enable_fir;
    output [7 : 0] sig_cfg_threshold;
    output sig_cfg_clear_rs;
    output [15 : 0] sig_cfg_passthrough_len;
    input [31 : 0] sig_debug_short_sum;
    input [31 : 0] sig_debug_count;
    input [31 : 0] sig_debug_long_sum;
+   output sig_cfg_enable_ppd;
+   output sig_cfg_pass_sum_signal;
+   output sig_cfg_red_sum_signal;
 
    // synthesis translate_off
    import verbosity_pkg::*;
    
-   typedef logic ROLE_cfg_enable_t;
+   typedef logic ROLE_cfg_enable_fir_t;
    typedef logic [7 : 0] ROLE_cfg_threshold_t;
    typedef logic ROLE_cfg_clear_rs_t;
    typedef logic [15 : 0] ROLE_cfg_passthrough_len_t;
    typedef logic [31 : 0] ROLE_debug_short_sum_t;
    typedef logic [31 : 0] ROLE_debug_count_t;
    typedef logic [31 : 0] ROLE_debug_long_sum_t;
+   typedef logic ROLE_cfg_enable_ppd_t;
+   typedef logic ROLE_cfg_pass_sum_signal_t;
+   typedef logic ROLE_cfg_red_sum_signal_t;
 
-   reg sig_cfg_enable_temp;
-   reg sig_cfg_enable_out;
+   reg sig_cfg_enable_fir_temp;
+   reg sig_cfg_enable_fir_out;
    reg [7 : 0] sig_cfg_threshold_temp;
    reg [7 : 0] sig_cfg_threshold_out;
    reg sig_cfg_clear_rs_temp;
@@ -81,6 +90,12 @@ module packet_presence_detection_tb_gen_conduit_bfm_0
    logic [31 : 0] sig_debug_count_local;
    logic [31 : 0] sig_debug_long_sum_in;
    logic [31 : 0] sig_debug_long_sum_local;
+   reg sig_cfg_enable_ppd_temp;
+   reg sig_cfg_enable_ppd_out;
+   reg sig_cfg_pass_sum_signal_temp;
+   reg sig_cfg_pass_sum_signal_out;
+   reg sig_cfg_red_sum_signal_temp;
+   reg sig_cfg_red_sum_signal_out;
 
    //--------------------------------------------------------------------------
    // =head1 Public Methods API
@@ -111,18 +126,18 @@ module packet_presence_detection_tb_gen_conduit_bfm_0
    endfunction
 
    // -------------------------------------------------------
-   // cfg_enable
+   // cfg_enable_fir
    // -------------------------------------------------------
 
-   function automatic void set_cfg_enable (
-      ROLE_cfg_enable_t new_value
+   function automatic void set_cfg_enable_fir (
+      ROLE_cfg_enable_fir_t new_value
    );
-      // Drive the new value to cfg_enable.
+      // Drive the new value to cfg_enable_fir.
       
       $sformat(message, "%m: method called arg0 %0d", new_value); 
       print(VERBOSITY_DEBUG, message);
       
-      sig_cfg_enable_temp = new_value;
+      sig_cfg_enable_fir_temp = new_value;
    endfunction
 
    // -------------------------------------------------------
@@ -206,13 +221,61 @@ module packet_presence_detection_tb_gen_conduit_bfm_0
       
    endfunction
 
-   assign sig_cfg_enable = sig_cfg_enable_temp;
+   // -------------------------------------------------------
+   // cfg_enable_ppd
+   // -------------------------------------------------------
+
+   function automatic void set_cfg_enable_ppd (
+      ROLE_cfg_enable_ppd_t new_value
+   );
+      // Drive the new value to cfg_enable_ppd.
+      
+      $sformat(message, "%m: method called arg0 %0d", new_value); 
+      print(VERBOSITY_DEBUG, message);
+      
+      sig_cfg_enable_ppd_temp = new_value;
+   endfunction
+
+   // -------------------------------------------------------
+   // cfg_pass_sum_signal
+   // -------------------------------------------------------
+
+   function automatic void set_cfg_pass_sum_signal (
+      ROLE_cfg_pass_sum_signal_t new_value
+   );
+      // Drive the new value to cfg_pass_sum_signal.
+      
+      $sformat(message, "%m: method called arg0 %0d", new_value); 
+      print(VERBOSITY_DEBUG, message);
+      
+      sig_cfg_pass_sum_signal_temp = new_value;
+   endfunction
+
+   // -------------------------------------------------------
+   // cfg_red_sum_signal
+   // -------------------------------------------------------
+
+   function automatic void set_cfg_red_sum_signal (
+      ROLE_cfg_red_sum_signal_t new_value
+   );
+      // Drive the new value to cfg_red_sum_signal.
+      
+      $sformat(message, "%m: method called arg0 %0d", new_value); 
+      print(VERBOSITY_DEBUG, message);
+      
+      sig_cfg_red_sum_signal_temp = new_value;
+   endfunction
+
+   assign sig_cfg_enable_fir = sig_cfg_enable_fir_temp;
    assign sig_cfg_threshold = sig_cfg_threshold_temp;
    assign sig_cfg_clear_rs = sig_cfg_clear_rs_temp;
    assign sig_cfg_passthrough_len = sig_cfg_passthrough_len_temp;
    assign sig_debug_short_sum_in = sig_debug_short_sum;
    assign sig_debug_count_in = sig_debug_count;
    assign sig_debug_long_sum_in = sig_debug_long_sum;
+   assign sig_cfg_enable_ppd = sig_cfg_enable_ppd_temp;
+   assign sig_cfg_pass_sum_signal = sig_cfg_pass_sum_signal_temp;
+   assign sig_cfg_red_sum_signal = sig_cfg_red_sum_signal_temp;
 
 
    always @(sig_debug_short_sum_in) begin

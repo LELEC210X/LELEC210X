@@ -1,11 +1,21 @@
 	component packet_presence_detection_tb_gen is
 		port (
-			clock_clk    : in  std_logic                     := 'X';             -- clk
-			reset_reset  : in  std_logic                     := 'X';             -- reset
-			sink_data    : in  std_logic_vector(23 downto 0) := (others => 'X'); -- data
-			sink_valid   : in  std_logic                     := 'X';             -- valid
-			source_data  : out std_logic_vector(23 downto 0);                    -- data
-			source_valid : out std_logic                                         -- valid
+			sink_valid              : in  std_logic                     := 'X';             -- valid
+			sink_data               : in  std_logic_vector(23 downto 0) := (others => 'X'); -- data
+			source_data             : out std_logic_vector(23 downto 0);                    -- data
+			source_valid            : out std_logic;                                        -- valid
+			clk_clk                 : in  std_logic                     := 'X';             -- clk
+			reset_reset_n           : in  std_logic                     := 'X';             -- reset_n
+			cfg_cfg_passthrough_len : in  std_logic_vector(15 downto 0) := (others => 'X'); -- cfg_passthrough_len
+			cfg_cfg_threshold       : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- cfg_threshold
+			cfg_cfg_clear_rs        : in  std_logic                     := 'X';             -- cfg_clear_rs
+			cfg_debug_count         : out std_logic_vector(31 downto 0);                    -- debug_count
+			cfg_debug_long_sum      : out std_logic_vector(31 downto 0);                    -- debug_long_sum
+			cfg_debug_short_sum     : out std_logic_vector(31 downto 0);                    -- debug_short_sum
+			cfg_cfg_enable_fir      : in  std_logic                     := 'X';             -- cfg_enable_fir
+			cfg_cfg_enable_ppd      : in  std_logic                     := 'X';             -- cfg_enable_ppd
+			cfg_cfg_pass_sum_signal : in  std_logic                     := 'X';             -- cfg_pass_sum_signal
+			cfg_cfg_red_sum_signal  : in  std_logic                     := 'X'              -- cfg_red_sum_signal
 		);
 	end component packet_presence_detection_tb_gen;
 

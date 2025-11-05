@@ -1,6 +1,6 @@
 <sld_project_info>
   <project>
-    <hash md5_digest_80b="7a3b11009a4a4ab68f04"/>
+    <hash md5_digest_80b="16b468fad54ab2e92bd3"/>
   </project>
   <file_info>
     <file device="10M16SAU169C8G" path="LimeSDR-Mini_lms7_lelec210x.sof" usercode="0xFFFFFFFF"/>
@@ -121,7 +121,7 @@
     </sld_info>
     <sld_info hpath="rx_path_top:inst6_rx_path_top|lms_dsp:dspcfg_subsystem_inst11" name="dspcfg_subsystem_inst11">
       <assignment_values>
-        <assignment_value text="QSYS_NAME lms_dsp HAS_SOPCINFO 1 GENERATION_ID 1699409035"/>
+        <assignment_value text="QSYS_NAME lms_dsp HAS_SOPCINFO 1 GENERATION_ID 1762161641"/>
       </assignment_values>
       <parameters/>
     </sld_info>

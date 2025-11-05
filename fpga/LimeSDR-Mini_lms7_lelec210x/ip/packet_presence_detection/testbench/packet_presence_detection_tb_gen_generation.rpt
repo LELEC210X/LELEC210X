@@ -3,15 +3,17 @@ Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7
 Info: qsys-generate D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen.qsys --testbench=STANDARD --output-directory=D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x --family="MAX 10" --part=10M16SAU169C8G
 Progress: Loading LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_tb_gen.qsys
 Progress: Reading input file
-Progress: Adding conduit_bfm_0 [altera_conduit_bfm 18.1]
-Info: altera_conduit_bfm: Preferred Simulation Language is set to None.
-Progress: Parameterizing module conduit_bfm_0
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
 Progress: Adding packet_presence_detection_0 [packet_presence_detection 1.0]
 Progress: Parameterizing module packet_presence_detection_0
+Progress: Adding st_splitter_0 [altera_avalon_st_splitter 18.1]
+Progress: Parameterizing module st_splitter_0
 Progress: Building connections
 Progress: Parameterizing connections
 Progress: Validating
 Progress: Done reading input file
+Warning: packet_presence_detection_tb_gen.clk_0.clk/packet_presence_detection_0.clock_sink: packet_presence_detection_0.clock_sink requires 100000000Hz, but source has frequency of 50000000Hz
 Info: qsys-generate succeeded.
 Info: Loading IP catalog for testbench.
 Progress: 
@@ -38,8 +40,8 @@ Progress: Loading clkctrl/clkctrl.qsys
 Info: Reading index D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\fir\testbench\fir_tb_gen.ipx
 Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*
 Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/*
-Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*/* matched 999 files in 0.02 seconds
-Info: D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\fir\testbench\fir_tb_gen.ipx described 0 plugins, 3 paths, in 0.02 seconds
+Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*/* matched 1009 files in 0.04 seconds
+Info: D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\fir\testbench\fir_tb_gen.ipx described 0 plugins, 3 paths, in 0.04 seconds
 Progress: Loading testbench/fir_tb_gen_tb.qsys
 Progress: Loading i2c_opencores_v13/i2c_opencores_hw.tcl
 Progress: Loading i2c_opencores_v13/i2c_opencores_sw.tcl
@@ -51,35 +53,31 @@ Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_l
 Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*/*
 Info: D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\packet_presence_detection_tb_gen.ipx described 0 plugins, 3 paths, in 0.00 seconds
 Progress: Loading testbench/packet_presence_detection_tb_gen_tb.qsys
-Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/* matched 126 files in 0.07 seconds
+Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/* matched 116 files in 0.12 seconds
 Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*/*
-Info: D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\packet_presence_detection_tb_gen.ipx described 0 plugins, 3 paths, in 0.20 seconds
+Info: D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\packet_presence_detection_tb_gen.ipx described 0 plugins, 3 paths, in 0.25 seconds
 Progress: Loading testbench/packet_presence_detection_tb_gen_tb.qsys
-Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/* matched 31 files in 0.21 seconds
-Info: Reading index D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\testbench\packet_presence_detection_tb_gen.ipx
-Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/*/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*
-Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/*/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/**/*
-Warning: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/*/* repeats D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/*/*
-Info: D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\ip\packet_presence_detection\testbench\testbench\packet_presence_detection_tb_gen.ipx described 0 plugins, 3 paths, in 0.00 seconds
-Progress: Loading testbench/packet_presence_detection_tb_gen_tb.qsys
-Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/*/* matched 34 files in 0.00 seconds
-Info: Z:/.altera.quartus/ip/18.1/**/* matched 0 files in 0.01 seconds
+Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/* matched 20 files in 0.26 seconds
+Info: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/*/* matched 28 files in 0.00 seconds
+Info: Reading index C:\Users\maistriauxp\.altera.quartus\ip\18.1\ip_search_path\user_components.ipx
+Info: C:\Users\maistriauxp\.altera.quartus\ip\18.1\ip_search_path\user_components.ipx described 0 plugins, 0 paths, in 0.00 seconds
+Info: C:/Users/maistriauxp/.altera.quartus/ip/18.1/**/* matched 2 files in 0.00 seconds
 Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/$$QUARTUS_IP_PROJECTDIR/* matched 0 files in 0.00 seconds
 Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/$$QUARTUS_IP_USERDIR/* matched 0 files in 0.00 seconds
 Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/$$QUARTUS_IP_GLOBALDIR/* matched 0 files in 0.00 seconds
 Info: Reading index C:\intelfpga\18.1\ip\altera\altera_components.ipx
-Info: C:\intelfpga\18.1\ip\altera\altera_components.ipx described 2035 plugins, 0 paths, in 0.08 seconds
-Info: C:/intelfpga/18.1/ip/**/* matched 139 files in 0.08 seconds
+Info: C:\intelfpga\18.1\ip\altera\altera_components.ipx described 2035 plugins, 0 paths, in 0.11 seconds
+Info: C:/intelfpga/18.1/ip/**/* matched 139 files in 0.15 seconds
 Info: C:/intelfpga/ip/**/* matched 0 files in 0.00 seconds
 Info: Reading index C:\intelfpga\18.1\quartus\sopc_builder\builtin.ipx
-Info: C:\intelfpga\18.1\quartus\sopc_builder\builtin.ipx described 83 plugins, 0 paths, in 0.03 seconds
-Info: C:/intelfpga/18.1/quartus/sopc_builder/**/* matched 8 files in 0.03 seconds
+Info: C:\intelfpga\18.1\quartus\sopc_builder\builtin.ipx described 83 plugins, 0 paths, in 0.01 seconds
+Info: C:/intelfpga/18.1/quartus/sopc_builder/**/* matched 8 files in 0.01 seconds
 Info: Reading index C:\intelfpga\18.1\quartus\common\librarian\factories\index.ipx
 Info: C:\intelfpga\18.1\quartus\common\librarian\factories\index.ipx described 151 plugins, 0 paths, in 0.01 seconds
 Info: C:/intelfpga/18.1/quartus/common/librarian/factories/**/* matched 4 files in 0.01 seconds
 Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/$IP_IPX_PATH matched 1 files in 0.00 seconds
-Info: C:\intelfpga\18.1\quartus\sopc_builder\bin\root_components.ipx described 0 plugins, 13 paths, in 0.34 seconds
-Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/root_components.ipx matched 1 files in 0.34 seconds
+Info: C:\intelfpga\18.1\quartus\sopc_builder\bin\root_components.ipx described 0 plugins, 13 paths, in 0.43 seconds
+Info: C:/intelfpga/18.1/quartus/sopc_builder/bin/root_components.ipx matched 1 files in 0.43 seconds
 Progress: 
 Progress: 
 Progress: 
@@ -91,15 +89,18 @@ Info: send_message Info TB_Gen: System design is: packet_presence_detection_tb_g
 Info: TB_Gen: System design is: packet_presence_detection_tb_gen
 Info: get_interfaces 
 Info: get_connections 
-Info: get_interface_property clock EXPORT_OF
+Info: get_interface_property cfg EXPORT_OF
 Info: get_instance_property packet_presence_detection_0 CLASS_NAME
-Info: get_instance_assignment packet_presence_detection_0 testbench.partner.map.clock_sink
+Info: get_instance_assignment packet_presence_detection_0 testbench.partner.map.cfg
+Info: get_interface_property clk EXPORT_OF
+Info: get_instance_property clk_0 CLASS_NAME
+Info: get_instance_assignment clk_0 testbench.partner.map.clk_in
 Info: get_interface_property reset EXPORT_OF
-Info: get_instance_property packet_presence_detection_0 CLASS_NAME
-Info: get_instance_assignment packet_presence_detection_0 testbench.partner.map.reset_sink
+Info: get_instance_property clk_0 CLASS_NAME
+Info: get_instance_assignment clk_0 testbench.partner.map.clk_in_reset
 Info: get_interface_property sink EXPORT_OF
-Info: get_instance_property packet_presence_detection_0 CLASS_NAME
-Info: get_instance_assignment packet_presence_detection_0 testbench.partner.map.avalon_streaming_sink
+Info: get_instance_property st_splitter_0 CLASS_NAME
+Info: get_instance_assignment st_splitter_0 testbench.partner.map.in
 Info: get_interface_property source EXPORT_OF
 Info: get_instance_property packet_presence_detection_0 CLASS_NAME
 Info: get_instance_assignment packet_presence_detection_0 testbench.partner.map.avalon_streaming_source
@@ -109,24 +110,25 @@ Info: create_system packet_presence_detection_tb_gen_tb
 Info: add_instance packet_presence_detection_tb_gen_inst packet_presence_detection_tb_gen 
 Info: set_use_testbench_naming_pattern true packet_presence_detection_tb_gen
 Info: get_instance_interfaces packet_presence_detection_tb_gen_inst
-Info: get_instance_interface_property packet_presence_detection_tb_gen_inst clock CLASS_NAME
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst cfg CLASS_NAME
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst clk CLASS_NAME
 Info: get_instance_interface_property packet_presence_detection_tb_gen_inst reset CLASS_NAME
 Info: get_instance_interface_property packet_presence_detection_tb_gen_inst sink CLASS_NAME
 Info: get_instance_interface_property packet_presence_detection_tb_gen_inst source CLASS_NAME
-Info: get_instance_interface_property packet_presence_detection_tb_gen_inst clock CLASS_NAME
-Info: send_message Info TB_Gen: clock_sink found: clock
-Info: TB_Gen: clock_sink found: clock
-Info: get_instance_interface_property packet_presence_detection_tb_gen_inst clock CLASS_NAME
-Info: add_instance packet_presence_detection_tb_gen_inst_clock_bfm altera_avalon_clock_source 
-Info: get_instance_property packet_presence_detection_tb_gen_inst_clock_bfm CLASS_NAME
-Info: get_instance_interface_parameter_value packet_presence_detection_tb_gen_inst clock clockRate
-Info: set_instance_parameter_value packet_presence_detection_tb_gen_inst_clock_bfm CLOCK_RATE 100000000.0
-Info: set_instance_parameter_value packet_presence_detection_tb_gen_inst_clock_bfm CLOCK_UNIT 1
-Info: get_instance_property packet_presence_detection_tb_gen_inst_clock_bfm CLASS_NAME
-Info: get_instance_interface_property packet_presence_detection_tb_gen_inst clock CLASS_NAME
-Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_clock_bfm
-Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_clock_bfm clk CLASS_NAME
-Info: add_connection packet_presence_detection_tb_gen_inst_clock_bfm.clk packet_presence_detection_tb_gen_inst.clock
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst clk CLASS_NAME
+Info: send_message Info TB_Gen: clock_sink found: clk
+Info: TB_Gen: clock_sink found: clk
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst clk CLASS_NAME
+Info: add_instance packet_presence_detection_tb_gen_inst_clk_bfm altera_avalon_clock_source 
+Info: get_instance_property packet_presence_detection_tb_gen_inst_clk_bfm CLASS_NAME
+Info: get_instance_interface_parameter_value packet_presence_detection_tb_gen_inst clk clockRate
+Info: set_instance_parameter_value packet_presence_detection_tb_gen_inst_clk_bfm CLOCK_RATE 50000000.0
+Info: set_instance_parameter_value packet_presence_detection_tb_gen_inst_clk_bfm CLOCK_UNIT 1
+Info: get_instance_property packet_presence_detection_tb_gen_inst_clk_bfm CLASS_NAME
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst clk CLASS_NAME
+Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_clk_bfm
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_clk_bfm clk CLASS_NAME
+Info: add_connection packet_presence_detection_tb_gen_inst_clk_bfm.clk packet_presence_detection_tb_gen_inst.clk
 Info: get_instance_interface_property packet_presence_detection_tb_gen_inst reset CLASS_NAME
 Info: send_message Info TB_Gen: reset_sink found: reset
 Info: TB_Gen: reset_sink found: reset
@@ -134,9 +136,9 @@ Info: get_instance_interface_property packet_presence_detection_tb_gen_inst rese
 Info: add_instance packet_presence_detection_tb_gen_inst_reset_bfm altera_avalon_reset_source 
 Info: get_instance_property packet_presence_detection_tb_gen_inst_reset_bfm CLASS_NAME
 Info: get_instance_interface_ports packet_presence_detection_tb_gen_inst reset
-Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst reset reset_reset ROLE
-Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst reset reset_reset ROLE
-Info: set_instance_parameter_value packet_presence_detection_tb_gen_inst_reset_bfm ASSERT_HIGH_RESET 1
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst reset reset_reset_n ROLE
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst reset reset_reset_n ROLE
+Info: set_instance_parameter_value packet_presence_detection_tb_gen_inst_reset_bfm ASSERT_HIGH_RESET 0
 Info: set_instance_parameter_value packet_presence_detection_tb_gen_inst_reset_bfm INITIAL_RESET_CYCLES 50
 Info: get_instance_property packet_presence_detection_tb_gen_inst_reset_bfm CLASS_NAME
 Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_reset_bfm
@@ -144,15 +146,88 @@ Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_rese
 Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_reset_bfm reset CLASS_NAME
 Info: get_instance_property packet_presence_detection_tb_gen_inst_reset_bfm CLASS_NAME
 Info: get_instance_interface_parameter_value packet_presence_detection_tb_gen_inst reset associatedClock
-Info: get_instance_interface_property packet_presence_detection_tb_gen_inst clock CLASS_NAME
-Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_clock_bfm
-Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_clock_bfm clk CLASS_NAME
-Info: add_connection packet_presence_detection_tb_gen_inst_clock_bfm.clk packet_presence_detection_tb_gen_inst_reset_bfm.clk
+Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_clk_bfm
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_clk_bfm clk CLASS_NAME
+Info: send_message Warning TB_Gen: packet_presence_detection_tb_gen_inst_reset_bfm is not associated to any clock; connecting packet_presence_detection_tb_gen_inst_reset_bfm to 'packet_presence_detection_tb_gen_inst_clk_bfm.clk'
+Warning: TB_Gen: packet_presence_detection_tb_gen_inst_reset_bfm is not associated to any clock; connecting packet_presence_detection_tb_gen_inst_reset_bfm to 'packet_presence_detection_tb_gen_inst_clk_bfm.clk'
+Info: add_connection packet_presence_detection_tb_gen_inst_clk_bfm.clk packet_presence_detection_tb_gen_inst_reset_bfm.clk
 Info: get_instance_interface_property packet_presence_detection_tb_gen_inst reset CLASS_NAME
 Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_reset_bfm
 Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_reset_bfm clk CLASS_NAME
 Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_reset_bfm reset CLASS_NAME
 Info: add_connection packet_presence_detection_tb_gen_inst_reset_bfm.reset packet_presence_detection_tb_gen_inst.reset
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst cfg CLASS_NAME
+Info: send_message Info TB_Gen: conduit_end found: cfg
+Info: TB_Gen: conduit_end found: cfg
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst cfg CLASS_NAME
+Info: add_instance packet_presence_detection_tb_gen_inst_cfg_bfm altera_conduit_bfm 
+Info: get_instance_property packet_presence_detection_tb_gen_inst_cfg_bfm CLASS_NAME
+Info: get_instance_interface_parameter_value packet_presence_detection_tb_gen_inst cfg associatedClock
+Info: get_instance_interface_parameter_value packet_presence_detection_tb_gen_inst cfg associatedReset
+Info: get_instance_interface_ports packet_presence_detection_tb_gen_inst cfg
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_clear_rs ROLE
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_clear_rs WIDTH
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_clear_rs DIRECTION
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_enable_fir ROLE
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_enable_fir WIDTH
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_enable_fir DIRECTION
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_enable_ppd ROLE
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_enable_ppd WIDTH
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_enable_ppd DIRECTION
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_pass_sum_signal ROLE
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_pass_sum_signal WIDTH
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_pass_sum_signal DIRECTION
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_passthrough_len ROLE
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_passthrough_len WIDTH
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_passthrough_len DIRECTION
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_red_sum_signal ROLE
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_red_sum_signal WIDTH
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_red_sum_signal DIRECTION
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_threshold ROLE
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_threshold WIDTH
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_cfg_threshold DIRECTION
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_debug_count ROLE
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_debug_count WIDTH
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_debug_count DIRECTION
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_debug_long_sum ROLE
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_debug_long_sum WIDTH
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_debug_long_sum DIRECTION
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_debug_short_sum ROLE
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_debug_short_sum WIDTH
+Info: get_instance_interface_port_property packet_presence_detection_tb_gen_inst cfg cfg_debug_short_sum DIRECTION
+Info: set_instance_parameter_value packet_presence_detection_tb_gen_inst_cfg_bfm CLOCKED_SIGNAL 1
+Info: set_instance_parameter_value packet_presence_detection_tb_gen_inst_cfg_bfm ENABLE_RESET 1
+Info: set_instance_parameter_value packet_presence_detection_tb_gen_inst_cfg_bfm SIGNAL_ROLES cfg_clear_rs cfg_enable_fir cfg_enable_ppd cfg_pass_sum_signal cfg_passthrough_len cfg_red_sum_signal cfg_threshold debug_count debug_long_sum debug_short_sum
+Info: set_instance_parameter_value packet_presence_detection_tb_gen_inst_cfg_bfm SIGNAL_WIDTHS 1 1 1 1 16 1 8 32 32 32
+Info: set_instance_parameter_value packet_presence_detection_tb_gen_inst_cfg_bfm SIGNAL_DIRECTIONS output output output output output output output input input input
+Info: get_instance_property packet_presence_detection_tb_gen_inst_cfg_bfm CLASS_NAME
+Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_cfg_bfm
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_cfg_bfm clk CLASS_NAME
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_cfg_bfm conduit CLASS_NAME
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_cfg_bfm reset CLASS_NAME
+Info: get_instance_property packet_presence_detection_tb_gen_inst_cfg_bfm CLASS_NAME
+Info: get_instance_interface_parameter_value packet_presence_detection_tb_gen_inst cfg associatedClock
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst clk CLASS_NAME
+Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_clk_bfm
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_clk_bfm clk CLASS_NAME
+Info: add_connection packet_presence_detection_tb_gen_inst_clk_bfm.clk packet_presence_detection_tb_gen_inst_cfg_bfm.clk
+Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_cfg_bfm
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_cfg_bfm clk CLASS_NAME
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_cfg_bfm conduit CLASS_NAME
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_cfg_bfm reset CLASS_NAME
+Info: get_instance_property packet_presence_detection_tb_gen_inst_cfg_bfm CLASS_NAME
+Info: get_instance_interface_parameter_value packet_presence_detection_tb_gen_inst cfg associatedReset
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst reset CLASS_NAME
+Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_reset_bfm
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_reset_bfm clk CLASS_NAME
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_reset_bfm reset CLASS_NAME
+Info: add_connection packet_presence_detection_tb_gen_inst_reset_bfm.reset packet_presence_detection_tb_gen_inst_cfg_bfm.reset
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst cfg CLASS_NAME
+Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_cfg_bfm
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_cfg_bfm clk CLASS_NAME
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_cfg_bfm conduit CLASS_NAME
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_cfg_bfm reset CLASS_NAME
+Info: add_connection packet_presence_detection_tb_gen_inst_cfg_bfm.conduit packet_presence_detection_tb_gen_inst.cfg
 Info: get_instance_interface_property packet_presence_detection_tb_gen_inst sink CLASS_NAME
 Info: send_message Info TB_Gen: avalon_streaming_sink found: sink
 Info: TB_Gen: avalon_streaming_sink found: sink
@@ -192,10 +267,10 @@ Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_sink
 Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_sink_bfm src CLASS_NAME
 Info: get_instance_property packet_presence_detection_tb_gen_inst_sink_bfm CLASS_NAME
 Info: get_instance_interface_parameter_value packet_presence_detection_tb_gen_inst sink associatedClock
-Info: get_instance_interface_property packet_presence_detection_tb_gen_inst clock CLASS_NAME
-Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_clock_bfm
-Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_clock_bfm clk CLASS_NAME
-Info: add_connection packet_presence_detection_tb_gen_inst_clock_bfm.clk packet_presence_detection_tb_gen_inst_sink_bfm.clk
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst clk CLASS_NAME
+Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_clk_bfm
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_clk_bfm clk CLASS_NAME
+Info: add_connection packet_presence_detection_tb_gen_inst_clk_bfm.clk packet_presence_detection_tb_gen_inst_sink_bfm.clk
 Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_sink_bfm
 Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_sink_bfm clk CLASS_NAME
 Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_sink_bfm clk_reset CLASS_NAME
@@ -252,10 +327,10 @@ Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_sour
 Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_source_bfm sink CLASS_NAME
 Info: get_instance_property packet_presence_detection_tb_gen_inst_source_bfm CLASS_NAME
 Info: get_instance_interface_parameter_value packet_presence_detection_tb_gen_inst source associatedClock
-Info: get_instance_interface_property packet_presence_detection_tb_gen_inst clock CLASS_NAME
-Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_clock_bfm
-Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_clock_bfm clk CLASS_NAME
-Info: add_connection packet_presence_detection_tb_gen_inst_clock_bfm.clk packet_presence_detection_tb_gen_inst_source_bfm.clk
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst clk CLASS_NAME
+Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_clk_bfm
+Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_clk_bfm clk CLASS_NAME
+Info: add_connection packet_presence_detection_tb_gen_inst_clk_bfm.clk packet_presence_detection_tb_gen_inst_source_bfm.clk
 Info: get_instance_interfaces packet_presence_detection_tb_gen_inst_source_bfm
 Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_source_bfm clk CLASS_NAME
 Info: get_instance_interface_property packet_presence_detection_tb_gen_inst_source_bfm clk_reset CLASS_NAME
@@ -285,8 +360,10 @@ Progress: Loading testbench/packet_presence_detection_tb_gen_tb.qsys
 Progress: Reading input file
 Progress: Adding packet_presence_detection_tb_gen_inst [packet_presence_detection_tb_gen 1.0]
 Progress: Parameterizing module packet_presence_detection_tb_gen_inst
-Progress: Adding packet_presence_detection_tb_gen_inst_clock_bfm [altera_avalon_clock_source 18.1]
-Progress: Parameterizing module packet_presence_detection_tb_gen_inst_clock_bfm
+Progress: Adding packet_presence_detection_tb_gen_inst_cfg_bfm [altera_conduit_bfm 18.1]
+Progress: Parameterizing module packet_presence_detection_tb_gen_inst_cfg_bfm
+Progress: Adding packet_presence_detection_tb_gen_inst_clk_bfm [altera_avalon_clock_source 18.1]
+Progress: Parameterizing module packet_presence_detection_tb_gen_inst_clk_bfm
 Progress: Adding packet_presence_detection_tb_gen_inst_reset_bfm [altera_avalon_reset_source 18.1]
 Progress: Parameterizing module packet_presence_detection_tb_gen_inst_reset_bfm
 Progress: Adding packet_presence_detection_tb_gen_inst_sink_bfm [altera_avalon_st_source_bfm 18.1]
@@ -297,13 +374,14 @@ Progress: Building connections
 Progress: Parameterizing connections
 Progress: Validating
 Progress: Done reading input file
-Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_clock_bfm: Elaborate: altera_clock_source
-Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_clock_bfm:            $Revision: #1 $
-Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_clock_bfm:            $Date: 2018/07/18 $
+Warning: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst.clk_0.clk/packet_presence_detection_0.clock_sink: packet_presence_detection_0.clock_sink requires 100000000Hz, but source has frequency of 50000000Hz
+Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_clk_bfm: Elaborate: altera_clock_source
+Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_clk_bfm:            $Revision: #1 $
+Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_clk_bfm:            $Date: 2018/07/18 $
 Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_reset_bfm: Elaborate: altera_reset_source
 Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_reset_bfm:            $Revision: #1 $
 Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_reset_bfm:            $Date: 2018/07/18 $
-Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_reset_bfm: Reset is positively asserted.
+Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_reset_bfm: Reset is negatively asserted.
 Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_sink_bfm: Use Ready set to zero - omitting src_ready port
 Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_sink_bfm: Use Packets set to zero - omitting src_startofpacket, src_endofpacket and src_empty ports
 Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_sink_bfm: Use Empty set to zero - omitting src_empty port
@@ -316,7 +394,9 @@ Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_
 Info: packet_presence_detection_tb_gen_tb.packet_presence_detection_tb_gen_inst_source_bfm: Use Error set to zero - omitting sink_error port
 Info: packet_presence_detection_tb_gen_tb: Generating packet_presence_detection_tb_gen_tb "packet_presence_detection_tb_gen_tb" for SIM_VERILOG
 Info: packet_presence_detection_tb_gen_inst: "packet_presence_detection_tb_gen_tb" instantiated packet_presence_detection_tb_gen "packet_presence_detection_tb_gen_inst"
-Info: packet_presence_detection_tb_gen_inst_clock_bfm: "packet_presence_detection_tb_gen_tb" instantiated altera_avalon_clock_source "packet_presence_detection_tb_gen_inst_clock_bfm"
+Info: packet_presence_detection_tb_gen_inst_cfg_bfm: "packet_presence_detection_tb_gen_tb" instantiated altera_conduit_bfm "packet_presence_detection_tb_gen_inst_cfg_bfm"
+Info: packet_presence_detection_tb_gen_inst_clk_bfm: "packet_presence_detection_tb_gen_tb" instantiated altera_avalon_clock_source "packet_presence_detection_tb_gen_inst_clk_bfm"
+Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
 Info: packet_presence_detection_tb_gen_inst_reset_bfm: "packet_presence_detection_tb_gen_tb" instantiated altera_avalon_reset_source "packet_presence_detection_tb_gen_inst_reset_bfm"
 Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
 Info: packet_presence_detection_tb_gen_inst_sink_bfm: "packet_presence_detection_tb_gen_tb" instantiated altera_avalon_st_source_bfm "packet_presence_detection_tb_gen_inst_sink_bfm"
@@ -324,10 +404,10 @@ Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/Lime
 Info: packet_presence_detection_tb_gen_inst_source_bfm: "packet_presence_detection_tb_gen_tb" instantiated altera_avalon_st_sink_bfm "packet_presence_detection_tb_gen_inst_source_bfm"
 Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
 Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv
-Info: conduit_bfm_0: "packet_presence_detection_tb_gen_inst" instantiated altera_conduit_bfm "conduit_bfm_0"
-Info: Reusing file D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv
 Info: packet_presence_detection_0: "packet_presence_detection_tb_gen_inst" instantiated packet_presence_detection "packet_presence_detection_0"
-Info: packet_presence_detection_tb_gen_tb: Done "packet_presence_detection_tb_gen_tb" with 8 modules, 12 files
+Info: st_splitter_0: "packet_presence_detection_tb_gen_inst" instantiated altera_avalon_st_splitter "st_splitter_0"
+Info: rst_controller: "packet_presence_detection_tb_gen_inst" instantiated altera_reset_controller "rst_controller"
+Info: packet_presence_detection_tb_gen_tb: Done "packet_presence_detection_tb_gen_tb" with 10 modules, 16 files
 Info: qsys-generate succeeded.
 Info: sim-script-gen --spd=D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen_tb.spd --output-directory=D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ --use-relative-paths=true
 Info: Doing: ip-make-simscript --spd=D:\Pol\Documents\Courses\LELEC2102\Github\LELEC210X\fpga\LimeSDR-Mini_lms7_lelec210x\packet_presence_detection_tb_gen_tb.spd --output-directory=D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ --use-relative-paths=true
@@ -342,7 +422,7 @@ Info: Generating the following file(s) for NCSIM simulator in D:/Pol/Documents/C
 Info: 	cadence/cds.lib
 Info: 	cadence/hdl.var
 Info: 	cadence/ncsim_setup.sh
-Info: 	8 .cds.lib files in cadence/cds_libs/ directory
+Info: 	10 .cds.lib files in cadence/cds_libs/ directory
 Info: Generating the following file(s) for RIVIERA simulator in D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/ directory:
 Info: 	aldec/rivierapro_setup.tcl
 Info: For information on how to simulate your IP, see the explanatory comments in the simulator-specific subdirectories under D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/ip/packet_presence_detection/testbench/.

@@ -1,10 +1,5 @@
-<<<<<<< HEAD:LimeSDR-Mini_lms7_trx/output_files/LimeSDR-Mini_lms7_trx.fit.rpt
 Fitter report for LimeSDR-Mini_lms7_trx
 Sun Oct 03 14:11:37 2021
-=======
-Fitter report for LimeSDR-Mini_lms7_lelec210x
-Wed Sep 29 19:09:50 2021
->>>>>>> f16dab0 (Rename project with subfix lelec210x_HW_1.0):LimeSDR-Mini_lms7_lelec210x/output_files/LimeSDR-Mini_lms7_trx.fit.rpt
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -3314,8 +3309,6 @@ Info (332104): Reading SDC File: 'FT601_timing.sdc'
 Info (332104): Reading SDC File: 'timing.sdc'
 Info (332151): Clock uncertainty is not calculated until you update the timing netlist.
 Warning (332043): Overwriting existing clock: altera_reserved_tck
-<<<<<<< HEAD:LimeSDR-Mini_lms7_trx/output_files/LimeSDR-Mini_lms7_trx.fit.rpt
-=======
 Warning (332174): Ignored filter at timing.sdc(168): LMS_CORE_LDO_EN could not be matched with a port File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_lelec210x/timing.sdc Line: 168
 Warning (332049): Ignored set_false_path at timing.sdc(168): Argument <to> is an empty collection File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_lelec210x/timing.sdc Line: 168
     Info (332050): set_false_path -to [get_ports LMS_CORE_LDO_EN] File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_lelec210x/timing.sdc Line: 168
@@ -3328,7 +3321,6 @@ Warning (332049): Ignored set_false_path at timing.sdc(170): Argument <to> is an
 Warning (332174): Ignored filter at timing.sdc(171): LMS_TXEN could not be matched with a port File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_lelec210x/timing.sdc Line: 171
 Warning (332049): Ignored set_false_path at timing.sdc(171): Argument <to> is an empty collection File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_lelec210x/timing.sdc Line: 171
     Info (332050): set_false_path -to [get_ports LMS_TXEN] File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_lelec210x/timing.sdc Line: 171
->>>>>>> f16dab0 (Rename project with subfix lelec210x_HW_1.0):LimeSDR-Mini_lms7_lelec210x/output_files/LimeSDR-Mini_lms7_trx.fit.rpt
 Info (332104): Reading SDC File: 'Clock_groups.sdc'
 Warning (332174): Ignored filter at Clock_groups.sdc(16): TX_C1 could not be matched with a clock File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_lelec210x/Clock_groups.sdc Line: 16
 Info (332097): The following timing edges are non-unate.  The Timing Analyzer will assume pos-unate behavior for these edges in the clock network.
@@ -3501,65 +3493,6 @@ Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (11218): Fitter post-fit operations ending: elapsed time is 00:00:07
 Warning (169177): 51 pins must meet Intel FPGA requirements for 3.3-, 3.0-, and 2.5-V interfaces. For more information, refer to AN 447: Interfacing MAX 10 Devices with 3.3/3.0/2.5-V LVTTL/LVCMOS I/O Systems.
-<<<<<<< HEAD:LimeSDR-Mini_lms7_trx/output_files/LimeSDR-Mini_lms7_trx.fit.rpt
-    Info (169178): Pin FT_BE[0] uses I/O standard 3.3-V LVCMOS at B11 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 80
-    Info (169178): Pin FT_BE[1] uses I/O standard 3.3-V LVCMOS at C12 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 80
-    Info (169178): Pin FT_BE[2] uses I/O standard 3.3-V LVCMOS at A12 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 80
-    Info (169178): Pin FT_BE[3] uses I/O standard 3.3-V LVCMOS at B13 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 80
-    Info (169178): Pin FT_D[0] uses I/O standard 3.3-V LVCMOS at A2 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[1] uses I/O standard 3.3-V LVCMOS at B6 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[2] uses I/O standard 3.3-V LVCMOS at B3 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[3] uses I/O standard 3.3-V LVCMOS at B5 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[4] uses I/O standard 3.3-V LVCMOS at A3 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[5] uses I/O standard 3.3-V LVCMOS at B4 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[6] uses I/O standard 3.3-V LVCMOS at E6 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[7] uses I/O standard 3.3-V LVCMOS at A4 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[8] uses I/O standard 3.3-V LVCMOS at B12 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[9] uses I/O standard 3.3-V LVCMOS at H8 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[10] uses I/O standard 3.3-V LVCMOS at E9 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[11] uses I/O standard 3.3-V LVCMOS at B2 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[12] uses I/O standard 3.3-V LVCMOS at D9 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[13] uses I/O standard 3.3-V LVCMOS at J9 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[14] uses I/O standard 3.3-V LVCMOS at A9 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[15] uses I/O standard 3.3-V LVCMOS at H9 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[16] uses I/O standard 3.3-V LVCMOS at A7 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[17] uses I/O standard 3.3-V LVCMOS at F8 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[18] uses I/O standard 3.3-V LVCMOS at A6 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[19] uses I/O standard 3.3-V LVCMOS at E10 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[20] uses I/O standard 3.3-V LVCMOS at A5 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[21] uses I/O standard 3.3-V LVCMOS at F9 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[22] uses I/O standard 3.3-V LVCMOS at E8 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[23] uses I/O standard 3.3-V LVCMOS at A8 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[24] uses I/O standard 3.3-V LVCMOS at K11 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[25] uses I/O standard 3.3-V LVCMOS at K12 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[26] uses I/O standard 3.3-V LVCMOS at J12 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[27] uses I/O standard 3.3-V LVCMOS at G12 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[28] uses I/O standard 3.3-V LVCMOS at L13 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[29] uses I/O standard 3.3-V LVCMOS at G13 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[30] uses I/O standard 3.3-V LVCMOS at J13 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FT_D[31] uses I/O standard 3.3-V LVCMOS at H13 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 81
-    Info (169178): Pin FPGA_I2C_SCL uses I/O standard 3.3-V LVCMOS at D13 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 102
-    Info (169178): Pin FPGA_I2C_SDA uses I/O standard 3.3-V LVCMOS at K13 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 103
-    Info (169178): Pin FPGA_GPIO[0] uses I/O standard 3.3-V LVCMOS at A11 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 110
-    Info (169178): Pin FPGA_GPIO[1] uses I/O standard 3.3-V LVCMOS at B10 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 110
-    Info (169178): Pin FPGA_GPIO[2] uses I/O standard 3.3-V LVCMOS at C10 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 110
-    Info (169178): Pin FPGA_GPIO[3] uses I/O standard 3.3-V LVCMOS at D11 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 110
-    Info (169178): Pin FPGA_GPIO[4] uses I/O standard 3.3-V LVCMOS at E13 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 110
-    Info (169178): Pin FPGA_GPIO[5] uses I/O standard 3.3-V LVCMOS at F13 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 110
-    Info (169178): Pin FPGA_GPIO[6] uses I/O standard 3.3-V LVCMOS at F10 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 110
-    Info (169178): Pin FPGA_GPIO[7] uses I/O standard 3.3-V LVCMOS at G10 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 110
-    Info (169178): Pin FPGA_EGPIO[0] uses I/O standard 3.3-V LVCMOS at B7 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 111
-    Info (169178): Pin FPGA_EGPIO[1] uses I/O standard 3.3-V LVCMOS at D6 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 111
-    Info (169178): Pin FT_RXFn uses I/O standard 3.3-V LVCMOS at C11 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 83
-    Info (169178): Pin FT_CLK uses I/O standard 3.3-V LVCMOS at G9 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 78
-    Info (169178): Pin FT_TXEn uses I/O standard 3.3-V LVCMOS at C13 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/src/top/synth/lms7_trx_top.vhd Line: 84
-Info (144001): Generated suppressed messages file E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_trx/output_files/LimeSDR-Mini_lms7_trx.fit.smsg
-Info: Quartus Prime Fitter was successful. 0 errors, 23 warnings
-    Info: Peak virtual memory: 6404 megabytes
-    Info: Processing ended: Sun Oct 03 14:11:39 2021
-    Info: Elapsed time: 00:01:16
-    Info: Total CPU time (on all processors): 00:03:08
-=======
     Info (169178): Pin FT_BE[0] uses I/O standard 3.3-V LVCMOS at B11 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_lelec210x/src/top/synth/lms7_trx_top.vhd Line: 79
     Info (169178): Pin FT_BE[1] uses I/O standard 3.3-V LVCMOS at C12 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_lelec210x/src/top/synth/lms7_trx_top.vhd Line: 79
     Info (169178): Pin FT_BE[2] uses I/O standard 3.3-V LVCMOS at A12 File: E:/Github/LELEC210x/fpga-offloading/LimeSDR-Mini_lms7_lelec210x/src/top/synth/lms7_trx_top.vhd Line: 79
@@ -3617,7 +3550,6 @@ Info: Quartus Prime Fitter was successful. 0 errors, 37 warnings
     Info: Processing ended: Fri Oct 01 12:49:17 2021
     Info: Elapsed time: 00:01:10
     Info: Total CPU time (on all processors): 00:02:42
->>>>>>> f16dab0 (Rename project with subfix lelec210x_HW_1.0):LimeSDR-Mini_lms7_lelec210x/output_files/LimeSDR-Mini_lms7_trx.fit.rpt
 
 
 +----------------------------+

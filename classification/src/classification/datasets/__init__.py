@@ -44,8 +44,8 @@ class Dataset:
 
         self.files = files
         self.nclass = len(files)
-        self.naudio = len(files[list(files.keys())[0]])
-        self.size = self.nclass * self.naudio
+        self.naudio = {key: len(value) for key, value in files.items()}
+        self.size = sum(self.naudio.values())
 
     def __len__(self) -> int:
         """
@@ -91,3 +91,16 @@ class Dataset:
         :return: The list of classes.
         """
         return list(self.files.keys())
+
+    def remove_class(self, cls_name: str):
+        """
+          Remove a class and its files
+          from the dataset.
+
+          :clas_name: Class name.  
+        """
+
+        self.files.pop(cls_name)
+        self.nclass = len(self.files)
+        self.naudio = {key: len(value) for key, value in self.files.items()}
+        self.size = sum(self.naudio.values())

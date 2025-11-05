@@ -11,6 +11,22 @@
    library="altera_common_sv_packages"
    systemVerilogPackageName="avalon_vip_avalon_utilities_pkg" />
  <file
+   path="ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_controller.v"
+   type="VERILOG"
+   library="rst_controller" />
+ <file
+   path="ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_synchronizer.v"
+   type="VERILOG"
+   library="rst_controller" />
+ <file
+   path="ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_controller.sdc"
+   type="SDC"
+   library="rst_controller" />
+ <file
+   path="ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_st_splitter.sv"
+   type="SYSTEM_VERILOG"
+   library="st_splitter_0" />
+ <file
    path="ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection.sv"
    type="SYSTEM_VERILOG"
    library="packet_presence_detection_0" />
@@ -22,10 +38,6 @@
    path="ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/long_shift.v"
    type="VERILOG"
    library="packet_presence_detection_0" />
- <file
-   path="ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection_tb_gen_conduit_bfm_0.sv"
-   type="SYSTEM_VERILOG"
-   library="conduit_bfm_0" />
  <file
    path="ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_st_sink_bfm.sv"
    type="SYSTEM_VERILOG"
@@ -41,7 +53,11 @@
  <file
    path="ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_clock_source.sv"
    type="SYSTEM_VERILOG"
-   library="packet_presence_detection_tb_gen_inst_clock_bfm" />
+   library="packet_presence_detection_tb_gen_inst_clk_bfm" />
+ <file
+   path="ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_conduit_bfm.sv"
+   type="SYSTEM_VERILOG"
+   library="packet_presence_detection_tb_gen_inst_cfg_bfm" />
  <file
    path="ip/packet_presence_detection/testbench/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection_tb_gen.v"
    type="VERILOG"

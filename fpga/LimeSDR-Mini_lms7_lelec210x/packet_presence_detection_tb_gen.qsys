@@ -9,11 +9,11 @@
    categories="System" />
  <parameter name="bonusData"><![CDATA[bonusData 
 {
-   element conduit_bfm_0
+   element clk_0
    {
       datum _sortIndex
       {
-         value = "1";
+         value = "2";
          type = "int";
       }
    }
@@ -49,6 +49,19 @@
          type = "String";
       }
    }
+   element st_splitter_0
+   {
+      datum _sortIndex
+      {
+         value = "1";
+         type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "1";
+         type = "boolean";
+      }
+   }
 }
 ]]></parameter>
  <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
@@ -71,18 +84,15 @@
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface
-   name="clock"
-   internal="packet_presence_detection_0.clock_sink"
-   type="clock"
+   name="cfg"
+   internal="packet_presence_detection_0.cfg"
+   type="conduit"
    dir="end" />
- <interface
-   name="reset"
-   internal="packet_presence_detection_0.reset_sink"
-   type="reset"
-   dir="end" />
+ <interface name="clk" internal="clk_0.clk_in" type="clock" dir="end" />
+ <interface name="reset" internal="clk_0.clk_in_reset" type="reset" dir="end" />
  <interface
    name="sink"
-   internal="packet_presence_detection_0.avalon_streaming_sink"
+   internal="st_splitter_0.in"
    type="avalon_streaming"
    dir="end" />
  <interface
@@ -90,16 +100,11 @@
    internal="packet_presence_detection_0.avalon_streaming_source"
    type="avalon_streaming"
    dir="start" />
- <module
-   name="conduit_bfm_0"
-   kind="altera_conduit_bfm"
-   version="18.1"
-   enabled="1">
-  <parameter name="CLOCKED_SIGNAL" value="false" />
-  <parameter name="ENABLE_RESET" value="false" />
-  <parameter name="SIGNAL_DIRECTIONS">output,output,output,output,input,input,input</parameter>
-  <parameter name="SIGNAL_ROLES">cfg_enable,cfg_threshold,cfg_clear_rs,cfg_passthrough_len,debug_short_sum,debug_count,debug_long_sum</parameter>
-  <parameter name="SIGNAL_WIDTHS" value="1,8,1,16,32,32,32" />
+ <module name="clk_0" kind="clock_source" version="18.1" enabled="1">
+  <parameter name="clockFrequency" value="50000000" />
+  <parameter name="clockFrequencyKnown" value="true" />
+  <parameter name="inputClockFrequency" value="0" />
+  <parameter name="resetSynchronousEdges" value="NONE" />
  </module>
  <module
    name="packet_presence_detection_0"
@@ -109,17 +114,53 @@
   <parameter name="DATA_WIDTH" value="12" />
   <parameter name="PASSTHROUGH_LEN_WIDTH" value="16" />
  </module>
- <connection
-   kind="conduit"
+ <module
+   name="st_splitter_0"
+   kind="altera_avalon_st_splitter"
    version="18.1"
-   start="packet_presence_detection_0.cfg"
-   end="conduit_bfm_0.conduit">
-  <parameter name="endPort" value="" />
-  <parameter name="endPortLSB" value="0" />
-  <parameter name="startPort" value="" />
-  <parameter name="startPortLSB" value="0" />
-  <parameter name="width" value="0" />
- </connection>
+   enabled="1">
+  <parameter name="BITS_PER_SYMBOL" value="12" />
+  <parameter name="CHANNEL_WIDTH" value="1" />
+  <parameter name="DATA_WIDTH" value="24" />
+  <parameter name="ERROR_DESCRIPTOR" value="" />
+  <parameter name="ERROR_WIDTH" value="1" />
+  <parameter name="MAX_CHANNELS" value="1" />
+  <parameter name="NUMBER_OF_OUTPUTS" value="2" />
+  <parameter name="QUALIFY_VALID_OUT" value="0" />
+  <parameter name="READY_LATENCY" value="0" />
+  <parameter name="USE_CHANNEL" value="0" />
+  <parameter name="USE_DATA" value="1" />
+  <parameter name="USE_ERROR" value="0" />
+  <parameter name="USE_PACKETS" value="0" />
+  <parameter name="USE_READY" value="0" />
+  <parameter name="USE_VALID" value="1" />
+ </module>
+ <connection
+   kind="avalon_streaming"
+   version="18.1"
+   start="st_splitter_0.out0"
+   end="packet_presence_detection_0.avalon_streaming_sink" />
+ <connection
+   kind="avalon_streaming"
+   version="18.1"
+   start="st_splitter_0.out1"
+   end="packet_presence_detection_0.avalon_streaming_fir_sink" />
+ <connection kind="clock" version="18.1" start="clk_0.clk" end="st_splitter_0.clk" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="clk_0.clk"
+   end="packet_presence_detection_0.clock_sink" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="clk_0.clk_reset"
+   end="st_splitter_0.reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="clk_0.clk_reset"
+   end="packet_presence_detection_0.reset_sink" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
  <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />

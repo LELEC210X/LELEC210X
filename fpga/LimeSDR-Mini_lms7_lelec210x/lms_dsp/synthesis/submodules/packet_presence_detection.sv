@@ -32,11 +32,20 @@ module cmplx2mag #(
 		output wire [DATA_WIDTH_OUT-1:0] mag  // uint
 	);
 
+	reg  [DATA_WIDTH_IN-1:0] i_del;
+	reg  [DATA_WIDTH_IN-1:0] q_del;
+	
+	
+	always @(posedge clock) begin
+		if (reset) 	begin	i_del <= 'b0; q_del <= 'b0;end
+		else 			begin	i_del <=  i ; q_del <=  q ;end
+	end
+	
 	wire [DATA_WIDTH_IN-1:0]  abs_i, abs_q;
 	reg  [DATA_WIDTH_OUT-1:0] mag_reg;
 
-	assign abs_i = i[DATA_WIDTH_IN-1]? (~i+1): i;
-   	assign abs_q = q[DATA_WIDTH_IN-1]? (~q+1): q;
+	assign abs_i = i_del[DATA_WIDTH_IN-1]? (~i_del+1): i_del;
+   	assign abs_q = q_del[DATA_WIDTH_IN-1]? (~q_del+1): q_del;
 
 	wire [DATA_WIDTH_IN-1:0] max, min;
 	assign max = (abs_i > abs_q)? abs_i: abs_q;
@@ -101,8 +110,8 @@ module dual_running_sum #(
 		input  wire [(DATA_WIDTH_IN-1):0]    in,
 		input  wire 						 running,
 		input  wire [7:0]					 K,
-		output wire [(SHORT_SUM_WIDTH-1):0]  short_sum,
-		output wire [(LONG_SUM_WIDTH-1):0]   long_sum,
+		output wire [(SHORT_SUM_WIDTH+6-1):0]  short_sum,
+		output wire [(LONG_SUM_WIDTH   -1):0]   long_sum,
 		output wire 						 launch
 	);
 	
@@ -110,7 +119,7 @@ module dual_running_sum #(
 	localparam  LONG_SHIFT_LEN =  LONG_SUM_LEN-1;
 	
 
-	reg  [(SHORT_SUM_WIDTH-1):0] short_sum_reg;
+	reg  [(SHORT_SUM_WIDTH-1+6):0] short_sum_reg;
 	reg  [(LONG_SUM_WIDTH -1):0]  long_sum_reg;
 	
 	reg  [($clog2(LONG_SUM_LEN ) -1) :0]  long_counter;
@@ -159,7 +168,7 @@ module dual_running_sum #(
 				end
 				else
 					short_to_long_arrived <= 1'b1;   //When its full of samples and we have counted again to SHORT_SHIFT_LEN, we enable the short_to_long_arrived signal
-			end										 	// ... this mean we SHORT_SHIFT_LEN sample energies arrived to the long term sum
+			end										 	// ... this mean SHORT_SHIFT_LEN sample energies arrived to the long term sum
 
 			if (!short_to_long_arrived)
 				short_counter       <= short_counter + 1;
@@ -194,16 +203,25 @@ module dual_running_sum #(
 	end
 	
 	
-	wire  [(LONG_SUM_WIDTH+8 -1):0] long_shift_rescale;
-	
-	assign long_shift_rescale  = long_sum_reg ;
-
 	assign long_shift_full = (long_counter==LONG_SHIFT_LEN);
 	
-	assign launch = short_to_long_arrived & long_shift_full &  (short_sum_reg  > long_shift_rescale);
+	
+	reg  [(LONG_SUM_WIDTH +8 -1):0] long_shift_rescale;
+	wire [(SHORT_SUM_WIDTH+6 -1):0] short_sum_rescale;
+
+	
+	// ------------------- TO DO : START -------------------
+	assign long_shift_rescale = long_sum_reg ;
+	
+	assign short_sum_rescale  = short_sum_reg;
+	
+	// ------------------- TO DO : END   -------------------
+	
+	assign launch = short_to_long_arrived & long_shift_full &  (short_sum_rescale  > long_shift_rescale);
+	
 	
 	assign  long_sum = long_shift_rescale  ;
-	assign short_sum = short_sum_reg ;
+	assign short_sum = short_sum_rescale ;
 	
 endmodule
 
@@ -257,10 +275,15 @@ module packet_presence_detection #(
 	)(
 		input  wire                                clock_sink_clk,                //              clock_sink.clk
 		input  wire                                reset_sink_reset,              //              reset_sink.reset
-		input  wire                                cfg_enable,                    //                     cfg.enable
-		input  wire								   cfg_clear_rs,                  //                     cfg.clear_rs //signal toggling
+		input  wire                           		 cfg_enable_ppd,                //                     cfg.enable_ppd
+		input  wire                           		 cfg_enable_fir,                //                     cfg.enable_fir
+		input  wire                           		 cfg_pass_sum_signal,           //                     cfg.cfg_pass_sum_signal
+		input  wire                           		 cfg_red_sum_signal,            //                     cfg.cfg_red_sum_signal
+		input  wire								   		 cfg_clear_rs,                  //                     cfg.clear_rs //signal toggling
 		input  wire [(PASSTHROUGH_LEN_WIDTH-1):0]  cfg_PASSTHROUGH_LEN,           //                     cfg.PASSTHROUGH_LEN
 		input  wire [7:0]                          cfg_THRESHOLD,                 //                     cfg.THRESHOLD
+		input  wire [(2*DATA_WIDTH-1):0]           avalon_streaming_sink_fir_data,    //   avalon_streaming_sink.data
+		input  wire                                avalon_streaming_sink_fir_valid,   //                        .valid
 		input  wire [(2*DATA_WIDTH-1):0]           avalon_streaming_sink_data,    //   avalon_streaming_sink.data
 		input  wire                                avalon_streaming_sink_valid,   //                        .valid
 		output wire [(2*DATA_WIDTH-1):0]           avalon_streaming_source_data,  // avalon_streaming_source.data
@@ -278,6 +301,17 @@ module packet_presence_detection #(
 	localparam ACC_SHORT_SUM_WIDTH =       $clog2((2**ACC_MAG_WIDTH) * (SHORT_SUM_LEN));
 	localparam ACC_LONG_SUM_WIDTH  =       $clog2((2**ACC_MAG_WIDTH) *  (LONG_SUM_LEN));
 	
+	
+	
+	// ************************************************************
+	// *                 FIR enable			                       *
+	// ************************************************************
+	wire [(2*DATA_WIDTH-1):0]           avalon_streaming_sink_mux_data;    //   avalon_streaming_sink.data
+	wire                                avalon_streaming_sink_mux_valid;   //                        .valid
+	
+	assign avalon_streaming_sink_mux_data  = cfg_enable_fir ? avalon_streaming_sink_fir_data  : avalon_streaming_sink_data ;
+	assign avalon_streaming_sink_mux_valid = cfg_enable_fir ? avalon_streaming_sink_fir_valid : avalon_streaming_sink_valid ;
+	
 	// ************************************************************
 	// *                      CONTROLPATH                         *
 	// ************************************************************
@@ -292,7 +326,7 @@ module packet_presence_detection #(
 	wire                                       cfg_enable_reg_t0, cfg_enable_reg_t1, cfg_enable_reg_t2, cfg_enable_reg_t3, cfg_enable_reg_t4;
 
 	// Pipeline of the data and valid signals
-	assign {cfg_enable_reg_t0,valid_reg_t0,data_reg_t0} = {cfg_enable,avalon_streaming_sink_valid,avalon_streaming_sink_data};
+	assign {cfg_enable_reg_t0,valid_reg_t0,data_reg_t0} = {cfg_enable_ppd,avalon_streaming_sink_mux_valid,avalon_streaming_sink_mux_data};
 
 	delay_line #(
 			.DATA_WIDTH(2*DATA_WIDTH+2),
@@ -316,8 +350,8 @@ module packet_presence_detection #(
 	// ************************************************************
 
 	wire [(ACC_MAG_WIDTH-1):0] mag_t1; // Complex magnitude estimation
-	wire [(ACC_SHORT_SUM_WIDTH-1):0] short_sum_t2; // Running sum of magnitudes
-	wire [( ACC_LONG_SUM_WIDTH-1):0]  long_sum_t2; // Running sum of magnitudes
+	wire [(ACC_SHORT_SUM_WIDTH-1+6):0] short_sum_t2; // Running sum of magnitudes
+	wire [( ACC_LONG_SUM_WIDTH-1  ):0]  long_sum_t2; // Running sum of magnitudes
 	wire passthrough_t3;					     // As long as the counter runs, this is at 1
 	wire launch_t2;
 	reg  out_valid_reg_t4;             // Output valid signal
@@ -356,6 +390,15 @@ module packet_presence_detection #(
 	assign debug_long_sum  = long_sum_t2;
 	assign debug_short_sum = short_sum_t2;
 
+	wire            [ 31:0]   short_sum_sig_red, long_sum_sig_red;
+	assign short_sum_sig_red = cfg_red_sum_signal ? ((short_sum_t2)>>6) : short_sum_t2;
+	assign  long_sum_sig_red = cfg_red_sum_signal ? ( (long_sum_t2)>>6)  : long_sum_t2;
+	
+	wire [(DATA_WIDTH-1):0]   short_sum_sig,     long_sum_sig;
+	assign short_sum_sig = (short_sum_sig_red >= {(DATA_WIDTH-2){1'b1}}) ? {(DATA_WIDTH-2){1'b1}} : short_sum_sig_red;
+	assign  long_sum_sig = ( long_sum_sig_red >= {(DATA_WIDTH-2){1'b1}}) ? {(DATA_WIDTH-2){1'b1}} :  long_sum_sig_red;
+	
+	
 	// STAGE 3 : Threshold + Sample counter
 	counter #(
 			.DATA_WIDTH(PASSTHROUGH_LEN_WIDTH)
@@ -369,7 +412,7 @@ module packet_presence_detection #(
 			.count     (debug_count)
 	);
 	
-	assign avalon_streaming_source_data  = (cfg_enable_reg_t3 & launch_t2) ?  {{1'b0},{(DATA_WIDTH - 1){1'b1}},{1'b0},{(DATA_WIDTH - 1){1'b1}}} : data_reg_t4 ;
+	assign avalon_streaming_source_data  = (cfg_enable_reg_t3 & launch_t2) ?  {{1'b0},{(DATA_WIDTH - 1){1'b1}},{1'b0},{(DATA_WIDTH - 1){1'b1}}} : (cfg_pass_sum_signal ? {long_sum_sig,short_sum_sig} : data_reg_t4);
 	assign avalon_streaming_source_valid = valid_reg_t4;
 
 endmodule

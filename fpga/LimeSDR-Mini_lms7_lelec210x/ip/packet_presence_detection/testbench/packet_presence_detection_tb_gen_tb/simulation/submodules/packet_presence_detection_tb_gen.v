@@ -4,49 +4,265 @@
 
 `timescale 1 ps / 1 ps
 module packet_presence_detection_tb_gen (
-		input  wire        clock_clk,    //  clock.clk
-		input  wire        reset_reset,  //  reset.reset
-		input  wire [23:0] sink_data,    //   sink.data
-		input  wire        sink_valid,   //       .valid
-		output wire [23:0] source_data,  // source.data
-		output wire        source_valid  //       .valid
+		input  wire [15:0] cfg_cfg_passthrough_len, //    cfg.cfg_passthrough_len
+		input  wire [7:0]  cfg_cfg_threshold,       //       .cfg_threshold
+		input  wire        cfg_cfg_clear_rs,        //       .cfg_clear_rs
+		output wire [31:0] cfg_debug_count,         //       .debug_count
+		output wire [31:0] cfg_debug_long_sum,      //       .debug_long_sum
+		output wire [31:0] cfg_debug_short_sum,     //       .debug_short_sum
+		input  wire        cfg_cfg_enable_fir,      //       .cfg_enable_fir
+		input  wire        cfg_cfg_enable_ppd,      //       .cfg_enable_ppd
+		input  wire        cfg_cfg_pass_sum_signal, //       .cfg_pass_sum_signal
+		input  wire        cfg_cfg_red_sum_signal,  //       .cfg_red_sum_signal
+		input  wire        clk_clk,                 //    clk.clk
+		input  wire        reset_reset_n,           //  reset.reset_n
+		input  wire        sink_valid,              //   sink.valid
+		input  wire [23:0] sink_data,               //       .data
+		output wire [23:0] source_data,             // source.data
+		output wire        source_valid             //       .valid
 	);
 
-	wire   [0:0] conduit_bfm_0_conduit_cfg_clear_rs;              // conduit_bfm_0:sig_cfg_clear_rs -> packet_presence_detection_0:cfg_clear_rs
-	wire  [31:0] packet_presence_detection_0_cfg_debug_count;     // packet_presence_detection_0:debug_count -> conduit_bfm_0:sig_debug_count
-	wire   [0:0] conduit_bfm_0_conduit_cfg_enable;                // conduit_bfm_0:sig_cfg_enable -> packet_presence_detection_0:cfg_enable
-	wire  [31:0] packet_presence_detection_0_cfg_debug_long_sum;  // packet_presence_detection_0:debug_long_sum -> conduit_bfm_0:sig_debug_long_sum
-	wire   [7:0] conduit_bfm_0_conduit_cfg_threshold;             // conduit_bfm_0:sig_cfg_threshold -> packet_presence_detection_0:cfg_THRESHOLD
-	wire  [15:0] conduit_bfm_0_conduit_cfg_passthrough_len;       // conduit_bfm_0:sig_cfg_passthrough_len -> packet_presence_detection_0:cfg_PASSTHROUGH_LEN
-	wire  [31:0] packet_presence_detection_0_cfg_debug_short_sum; // packet_presence_detection_0:debug_short_sum -> conduit_bfm_0:sig_debug_short_sum
-
-	packet_presence_detection_tb_gen_conduit_bfm_0 conduit_bfm_0 (
-		.sig_cfg_enable          (conduit_bfm_0_conduit_cfg_enable),                // conduit.cfg_enable
-		.sig_cfg_threshold       (conduit_bfm_0_conduit_cfg_threshold),             //        .cfg_threshold
-		.sig_cfg_clear_rs        (conduit_bfm_0_conduit_cfg_clear_rs),              //        .cfg_clear_rs
-		.sig_cfg_passthrough_len (conduit_bfm_0_conduit_cfg_passthrough_len),       //        .cfg_passthrough_len
-		.sig_debug_short_sum     (packet_presence_detection_0_cfg_debug_short_sum), //        .debug_short_sum
-		.sig_debug_count         (packet_presence_detection_0_cfg_debug_count),     //        .debug_count
-		.sig_debug_long_sum      (packet_presence_detection_0_cfg_debug_long_sum)   //        .debug_long_sum
-	);
+	wire         st_splitter_0_out0_valid;       // st_splitter_0:out0_valid -> packet_presence_detection_0:avalon_streaming_sink_valid
+	wire  [23:0] st_splitter_0_out0_data;        // st_splitter_0:out0_data -> packet_presence_detection_0:avalon_streaming_sink_data
+	wire         st_splitter_0_out1_valid;       // st_splitter_0:out1_valid -> packet_presence_detection_0:avalon_streaming_sink_fir_valid
+	wire  [23:0] st_splitter_0_out1_data;        // st_splitter_0:out1_data -> packet_presence_detection_0:avalon_streaming_sink_fir_data
+	wire         rst_controller_reset_out_reset; // rst_controller:reset_out -> [packet_presence_detection_0:reset_sink_reset, st_splitter_0:reset]
 
 	packet_presence_detection #(
 		.DATA_WIDTH            (12),
 		.PASSTHROUGH_LEN_WIDTH (16)
 	) packet_presence_detection_0 (
-		.cfg_PASSTHROUGH_LEN           (conduit_bfm_0_conduit_cfg_passthrough_len),       //                     cfg.cfg_passthrough_len
-		.cfg_THRESHOLD                 (conduit_bfm_0_conduit_cfg_threshold),             //                        .cfg_threshold
-		.cfg_clear_rs                  (conduit_bfm_0_conduit_cfg_clear_rs),              //                        .cfg_clear_rs
-		.cfg_enable                    (conduit_bfm_0_conduit_cfg_enable),                //                        .cfg_enable
-		.debug_count                   (packet_presence_detection_0_cfg_debug_count),     //                        .debug_count
-		.debug_long_sum                (packet_presence_detection_0_cfg_debug_long_sum),  //                        .debug_long_sum
-		.debug_short_sum               (packet_presence_detection_0_cfg_debug_short_sum), //                        .debug_short_sum
-		.avalon_streaming_sink_data    (sink_data),                                       //   avalon_streaming_sink.data
-		.avalon_streaming_sink_valid   (sink_valid),                                      //                        .valid
-		.avalon_streaming_source_data  (source_data),                                     // avalon_streaming_source.data
-		.avalon_streaming_source_valid (source_valid),                                    //                        .valid
-		.clock_sink_clk                (clock_clk),                                       //              clock_sink.clk
-		.reset_sink_reset              (reset_reset)                                      //              reset_sink.reset
+		.cfg_PASSTHROUGH_LEN             (cfg_cfg_passthrough_len),        //                       cfg.cfg_passthrough_len
+		.cfg_THRESHOLD                   (cfg_cfg_threshold),              //                          .cfg_threshold
+		.cfg_clear_rs                    (cfg_cfg_clear_rs),               //                          .cfg_clear_rs
+		.debug_count                     (cfg_debug_count),                //                          .debug_count
+		.debug_long_sum                  (cfg_debug_long_sum),             //                          .debug_long_sum
+		.debug_short_sum                 (cfg_debug_short_sum),            //                          .debug_short_sum
+		.cfg_enable_fir                  (cfg_cfg_enable_fir),             //                          .cfg_enable_fir
+		.cfg_enable_ppd                  (cfg_cfg_enable_ppd),             //                          .cfg_enable_ppd
+		.cfg_pass_sum_signal             (cfg_cfg_pass_sum_signal),        //                          .cfg_pass_sum_signal
+		.cfg_red_sum_signal              (cfg_cfg_red_sum_signal),         //                          .cfg_red_sum_signal
+		.avalon_streaming_sink_data      (st_splitter_0_out0_data),        //     avalon_streaming_sink.data
+		.avalon_streaming_sink_valid     (st_splitter_0_out0_valid),       //                          .valid
+		.avalon_streaming_source_data    (source_data),                    //   avalon_streaming_source.data
+		.avalon_streaming_source_valid   (source_valid),                   //                          .valid
+		.clock_sink_clk                  (clk_clk),                        //                clock_sink.clk
+		.reset_sink_reset                (rst_controller_reset_out_reset), //                reset_sink.reset
+		.avalon_streaming_sink_fir_data  (st_splitter_0_out1_data),        // avalon_streaming_fir_sink.data
+		.avalon_streaming_sink_fir_valid (st_splitter_0_out1_valid)        //                          .valid
+	);
+
+	altera_avalon_st_splitter #(
+		.NUMBER_OF_OUTPUTS (2),
+		.QUALIFY_VALID_OUT (0),
+		.USE_PACKETS       (0),
+		.DATA_WIDTH        (24),
+		.CHANNEL_WIDTH     (1),
+		.ERROR_WIDTH       (1),
+		.BITS_PER_SYMBOL   (12),
+		.EMPTY_WIDTH       (1)
+	) st_splitter_0 (
+		.clk                 (clk_clk),                        //   clk.clk
+		.reset               (rst_controller_reset_out_reset), // reset.reset
+		.in0_valid           (sink_valid),                     //    in.valid
+		.in0_data            (sink_data),                      //      .data
+		.out0_valid          (st_splitter_0_out0_valid),       //  out0.valid
+		.out0_data           (st_splitter_0_out0_data),        //      .data
+		.out1_valid          (st_splitter_0_out1_valid),       //  out1.valid
+		.out1_data           (st_splitter_0_out1_data),        //      .data
+		.in0_ready           (),                               // (terminated)
+		.in0_startofpacket   (1'b0),                           // (terminated)
+		.in0_endofpacket     (1'b0),                           // (terminated)
+		.in0_empty           (1'b0),                           // (terminated)
+		.in0_channel         (1'b0),                           // (terminated)
+		.in0_error           (1'b0),                           // (terminated)
+		.out0_ready          (1'b1),                           // (terminated)
+		.out0_startofpacket  (),                               // (terminated)
+		.out0_endofpacket    (),                               // (terminated)
+		.out0_empty          (),                               // (terminated)
+		.out0_channel        (),                               // (terminated)
+		.out0_error          (),                               // (terminated)
+		.out1_ready          (1'b1),                           // (terminated)
+		.out1_startofpacket  (),                               // (terminated)
+		.out1_endofpacket    (),                               // (terminated)
+		.out1_empty          (),                               // (terminated)
+		.out1_channel        (),                               // (terminated)
+		.out1_error          (),                               // (terminated)
+		.out2_ready          (1'b1),                           // (terminated)
+		.out2_valid          (),                               // (terminated)
+		.out2_startofpacket  (),                               // (terminated)
+		.out2_endofpacket    (),                               // (terminated)
+		.out2_empty          (),                               // (terminated)
+		.out2_channel        (),                               // (terminated)
+		.out2_error          (),                               // (terminated)
+		.out2_data           (),                               // (terminated)
+		.out3_ready          (1'b1),                           // (terminated)
+		.out3_valid          (),                               // (terminated)
+		.out3_startofpacket  (),                               // (terminated)
+		.out3_endofpacket    (),                               // (terminated)
+		.out3_empty          (),                               // (terminated)
+		.out3_channel        (),                               // (terminated)
+		.out3_error          (),                               // (terminated)
+		.out3_data           (),                               // (terminated)
+		.out4_ready          (1'b1),                           // (terminated)
+		.out4_valid          (),                               // (terminated)
+		.out4_startofpacket  (),                               // (terminated)
+		.out4_endofpacket    (),                               // (terminated)
+		.out4_empty          (),                               // (terminated)
+		.out4_channel        (),                               // (terminated)
+		.out4_error          (),                               // (terminated)
+		.out4_data           (),                               // (terminated)
+		.out5_ready          (1'b1),                           // (terminated)
+		.out5_valid          (),                               // (terminated)
+		.out5_startofpacket  (),                               // (terminated)
+		.out5_endofpacket    (),                               // (terminated)
+		.out5_empty          (),                               // (terminated)
+		.out5_channel        (),                               // (terminated)
+		.out5_error          (),                               // (terminated)
+		.out5_data           (),                               // (terminated)
+		.out6_ready          (1'b1),                           // (terminated)
+		.out6_valid          (),                               // (terminated)
+		.out6_startofpacket  (),                               // (terminated)
+		.out6_endofpacket    (),                               // (terminated)
+		.out6_empty          (),                               // (terminated)
+		.out6_channel        (),                               // (terminated)
+		.out6_error          (),                               // (terminated)
+		.out6_data           (),                               // (terminated)
+		.out7_ready          (1'b1),                           // (terminated)
+		.out7_valid          (),                               // (terminated)
+		.out7_startofpacket  (),                               // (terminated)
+		.out7_endofpacket    (),                               // (terminated)
+		.out7_empty          (),                               // (terminated)
+		.out7_channel        (),                               // (terminated)
+		.out7_error          (),                               // (terminated)
+		.out7_data           (),                               // (terminated)
+		.out8_ready          (1'b1),                           // (terminated)
+		.out8_valid          (),                               // (terminated)
+		.out8_startofpacket  (),                               // (terminated)
+		.out8_endofpacket    (),                               // (terminated)
+		.out8_empty          (),                               // (terminated)
+		.out8_channel        (),                               // (terminated)
+		.out8_error          (),                               // (terminated)
+		.out8_data           (),                               // (terminated)
+		.out9_ready          (1'b1),                           // (terminated)
+		.out9_valid          (),                               // (terminated)
+		.out9_startofpacket  (),                               // (terminated)
+		.out9_endofpacket    (),                               // (terminated)
+		.out9_empty          (),                               // (terminated)
+		.out9_channel        (),                               // (terminated)
+		.out9_error          (),                               // (terminated)
+		.out9_data           (),                               // (terminated)
+		.out10_ready         (1'b1),                           // (terminated)
+		.out10_valid         (),                               // (terminated)
+		.out10_startofpacket (),                               // (terminated)
+		.out10_endofpacket   (),                               // (terminated)
+		.out10_empty         (),                               // (terminated)
+		.out10_channel       (),                               // (terminated)
+		.out10_error         (),                               // (terminated)
+		.out10_data          (),                               // (terminated)
+		.out11_ready         (1'b1),                           // (terminated)
+		.out11_valid         (),                               // (terminated)
+		.out11_startofpacket (),                               // (terminated)
+		.out11_endofpacket   (),                               // (terminated)
+		.out11_empty         (),                               // (terminated)
+		.out11_channel       (),                               // (terminated)
+		.out11_error         (),                               // (terminated)
+		.out11_data          (),                               // (terminated)
+		.out12_ready         (1'b1),                           // (terminated)
+		.out12_valid         (),                               // (terminated)
+		.out12_startofpacket (),                               // (terminated)
+		.out12_endofpacket   (),                               // (terminated)
+		.out12_empty         (),                               // (terminated)
+		.out12_channel       (),                               // (terminated)
+		.out12_error         (),                               // (terminated)
+		.out12_data          (),                               // (terminated)
+		.out13_ready         (1'b1),                           // (terminated)
+		.out13_valid         (),                               // (terminated)
+		.out13_startofpacket (),                               // (terminated)
+		.out13_endofpacket   (),                               // (terminated)
+		.out13_empty         (),                               // (terminated)
+		.out13_channel       (),                               // (terminated)
+		.out13_error         (),                               // (terminated)
+		.out13_data          (),                               // (terminated)
+		.out14_ready         (1'b1),                           // (terminated)
+		.out14_valid         (),                               // (terminated)
+		.out14_startofpacket (),                               // (terminated)
+		.out14_endofpacket   (),                               // (terminated)
+		.out14_empty         (),                               // (terminated)
+		.out14_channel       (),                               // (terminated)
+		.out14_error         (),                               // (terminated)
+		.out14_data          (),                               // (terminated)
+		.out15_ready         (1'b1),                           // (terminated)
+		.out15_valid         (),                               // (terminated)
+		.out15_startofpacket (),                               // (terminated)
+		.out15_endofpacket   (),                               // (terminated)
+		.out15_empty         (),                               // (terminated)
+		.out15_channel       (),                               // (terminated)
+		.out15_error         (),                               // (terminated)
+		.out15_data          ()                                // (terminated)
+	);
+
+	altera_reset_controller #(
+		.NUM_RESET_INPUTS          (1),
+		.OUTPUT_RESET_SYNC_EDGES   ("deassert"),
+		.SYNC_DEPTH                (2),
+		.RESET_REQUEST_PRESENT     (0),
+		.RESET_REQ_WAIT_TIME       (1),
+		.MIN_RST_ASSERTION_TIME    (3),
+		.RESET_REQ_EARLY_DSRT_TIME (1),
+		.USE_RESET_REQUEST_IN0     (0),
+		.USE_RESET_REQUEST_IN1     (0),
+		.USE_RESET_REQUEST_IN2     (0),
+		.USE_RESET_REQUEST_IN3     (0),
+		.USE_RESET_REQUEST_IN4     (0),
+		.USE_RESET_REQUEST_IN5     (0),
+		.USE_RESET_REQUEST_IN6     (0),
+		.USE_RESET_REQUEST_IN7     (0),
+		.USE_RESET_REQUEST_IN8     (0),
+		.USE_RESET_REQUEST_IN9     (0),
+		.USE_RESET_REQUEST_IN10    (0),
+		.USE_RESET_REQUEST_IN11    (0),
+		.USE_RESET_REQUEST_IN12    (0),
+		.USE_RESET_REQUEST_IN13    (0),
+		.USE_RESET_REQUEST_IN14    (0),
+		.USE_RESET_REQUEST_IN15    (0),
+		.ADAPT_RESET_REQUEST       (0)
+	) rst_controller (
+		.reset_in0      (~reset_reset_n),                 // reset_in0.reset
+		.clk            (clk_clk),                        //       clk.clk
+		.reset_out      (rst_controller_reset_out_reset), // reset_out.reset
+		.reset_req      (),                               // (terminated)
+		.reset_req_in0  (1'b0),                           // (terminated)
+		.reset_in1      (1'b0),                           // (terminated)
+		.reset_req_in1  (1'b0),                           // (terminated)
+		.reset_in2      (1'b0),                           // (terminated)
+		.reset_req_in2  (1'b0),                           // (terminated)
+		.reset_in3      (1'b0),                           // (terminated)
+		.reset_req_in3  (1'b0),                           // (terminated)
+		.reset_in4      (1'b0),                           // (terminated)
+		.reset_req_in4  (1'b0),                           // (terminated)
+		.reset_in5      (1'b0),                           // (terminated)
+		.reset_req_in5  (1'b0),                           // (terminated)
+		.reset_in6      (1'b0),                           // (terminated)
+		.reset_req_in6  (1'b0),                           // (terminated)
+		.reset_in7      (1'b0),                           // (terminated)
+		.reset_req_in7  (1'b0),                           // (terminated)
+		.reset_in8      (1'b0),                           // (terminated)
+		.reset_req_in8  (1'b0),                           // (terminated)
+		.reset_in9      (1'b0),                           // (terminated)
+		.reset_req_in9  (1'b0),                           // (terminated)
+		.reset_in10     (1'b0),                           // (terminated)
+		.reset_req_in10 (1'b0),                           // (terminated)
+		.reset_in11     (1'b0),                           // (terminated)
+		.reset_req_in11 (1'b0),                           // (terminated)
+		.reset_in12     (1'b0),                           // (terminated)
+		.reset_req_in12 (1'b0),                           // (terminated)
+		.reset_in13     (1'b0),                           // (terminated)
+		.reset_req_in13 (1'b0),                           // (terminated)
+		.reset_in14     (1'b0),                           // (terminated)
+		.reset_req_in14 (1'b0),                           // (terminated)
+		.reset_in15     (1'b0),                           // (terminated)
+		.reset_req_in15 (1'b0)                            // (terminated)
 	);
 
 endmodule

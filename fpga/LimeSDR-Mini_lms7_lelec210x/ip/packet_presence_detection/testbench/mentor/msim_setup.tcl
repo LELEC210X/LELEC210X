@@ -1,5 +1,5 @@
 
-# (C) 2001-2023 Altera Corporation. All rights reserved.
+# (C) 2001-2025 Altera Corporation. All rights reserved.
 # Your use of Altera Corporation's design tools, logic functions and 
 # other software and tools, and its AMPP partner logic functions, and 
 # any output files any of the foregoing (including device programming 
@@ -94,7 +94,7 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
-# ACDS 18.1 625 win32 2023.11.08.03:03:20
+# ACDS 18.1 625 win32 2025.11.03.10:38:55
 
 # ----------------------------------------
 # Initialize variables
@@ -166,18 +166,22 @@ if ![ string match "*ModelSim ALTERA*" [ vsim -version ] ] {
 }
 ensure_lib                                                  ./libraries/altera_common_sv_packages/                       
 vmap       altera_common_sv_packages                        ./libraries/altera_common_sv_packages/                       
+ensure_lib                                                  ./libraries/rst_controller/                                  
+vmap       rst_controller                                   ./libraries/rst_controller/                                  
+ensure_lib                                                  ./libraries/st_splitter_0/                                   
+vmap       st_splitter_0                                    ./libraries/st_splitter_0/                                   
 ensure_lib                                                  ./libraries/packet_presence_detection_0/                     
 vmap       packet_presence_detection_0                      ./libraries/packet_presence_detection_0/                     
-ensure_lib                                                  ./libraries/conduit_bfm_0/                                   
-vmap       conduit_bfm_0                                    ./libraries/conduit_bfm_0/                                   
 ensure_lib                                                  ./libraries/packet_presence_detection_tb_gen_inst_source_bfm/
 vmap       packet_presence_detection_tb_gen_inst_source_bfm ./libraries/packet_presence_detection_tb_gen_inst_source_bfm/
 ensure_lib                                                  ./libraries/packet_presence_detection_tb_gen_inst_sink_bfm/  
 vmap       packet_presence_detection_tb_gen_inst_sink_bfm   ./libraries/packet_presence_detection_tb_gen_inst_sink_bfm/  
 ensure_lib                                                  ./libraries/packet_presence_detection_tb_gen_inst_reset_bfm/ 
 vmap       packet_presence_detection_tb_gen_inst_reset_bfm  ./libraries/packet_presence_detection_tb_gen_inst_reset_bfm/ 
-ensure_lib                                                  ./libraries/packet_presence_detection_tb_gen_inst_clock_bfm/ 
-vmap       packet_presence_detection_tb_gen_inst_clock_bfm  ./libraries/packet_presence_detection_tb_gen_inst_clock_bfm/ 
+ensure_lib                                                  ./libraries/packet_presence_detection_tb_gen_inst_clk_bfm/   
+vmap       packet_presence_detection_tb_gen_inst_clk_bfm    ./libraries/packet_presence_detection_tb_gen_inst_clk_bfm/   
+ensure_lib                                                  ./libraries/packet_presence_detection_tb_gen_inst_cfg_bfm/   
+vmap       packet_presence_detection_tb_gen_inst_cfg_bfm    ./libraries/packet_presence_detection_tb_gen_inst_cfg_bfm/   
 ensure_lib                                                  ./libraries/packet_presence_detection_tb_gen_inst/           
 vmap       packet_presence_detection_tb_gen_inst            ./libraries/packet_presence_detection_tb_gen_inst/           
 
@@ -200,32 +204,35 @@ alias dev_com {
 # Compile the design files in correct order
 alias com {
   echo "\[exec\] com"
-  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv"                                                               -work altera_common_sv_packages                       
-  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv"                                                        -work altera_common_sv_packages                       
-  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection.sv"                      -L altera_common_sv_packages -work packet_presence_detection_0                     
-  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/short_shift.v"                                                                  -work packet_presence_detection_0                     
-  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/long_shift.v"                                                                   -work packet_presence_detection_0                     
-  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection_tb_gen_conduit_bfm_0.sv" -L altera_common_sv_packages -work conduit_bfm_0                                   
-  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_st_sink_bfm.sv"                      -L altera_common_sv_packages -work packet_presence_detection_tb_gen_inst_source_bfm
-  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_st_source_bfm.sv"                    -L altera_common_sv_packages -work packet_presence_detection_tb_gen_inst_sink_bfm  
-  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_reset_source.sv"                     -L altera_common_sv_packages -work packet_presence_detection_tb_gen_inst_reset_bfm 
-  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_clock_source.sv"                     -L altera_common_sv_packages -work packet_presence_detection_tb_gen_inst_clock_bfm 
-  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection_tb_gen.v"                                             -work packet_presence_detection_tb_gen_inst           
-  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/packet_presence_detection_tb_gen_tb.v"                                                                                                           
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/verbosity_pkg.sv"                                                -work altera_common_sv_packages                       
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/avalon_utilities_pkg.sv"                                         -work altera_common_sv_packages                       
+  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_controller.v"                                       -work rst_controller                                  
+  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_reset_synchronizer.v"                                     -work rst_controller                                  
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_st_splitter.sv"       -L altera_common_sv_packages -work st_splitter_0                                   
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection.sv"       -L altera_common_sv_packages -work packet_presence_detection_0                     
+  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/short_shift.v"                                                   -work packet_presence_detection_0                     
+  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/long_shift.v"                                                    -work packet_presence_detection_0                     
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_st_sink_bfm.sv"       -L altera_common_sv_packages -work packet_presence_detection_tb_gen_inst_source_bfm
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_st_source_bfm.sv"     -L altera_common_sv_packages -work packet_presence_detection_tb_gen_inst_sink_bfm  
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_reset_source.sv"      -L altera_common_sv_packages -work packet_presence_detection_tb_gen_inst_reset_bfm 
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_avalon_clock_source.sv"      -L altera_common_sv_packages -work packet_presence_detection_tb_gen_inst_clk_bfm   
+  eval  vlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/altera_conduit_bfm.sv"              -L altera_common_sv_packages -work packet_presence_detection_tb_gen_inst_cfg_bfm   
+  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/submodules/packet_presence_detection_tb_gen.v"                              -work packet_presence_detection_tb_gen_inst           
+  eval  vlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/packet_presence_detection_tb_gen_tb/simulation/packet_presence_detection_tb_gen_tb.v"                                                                                            
 }
 
 # ----------------------------------------
 # Elaborate top level design
 alias elab {
   echo "\[exec\] elab"
-  eval vsim -t ps $ELAB_OPTIONS $USER_DEFINED_ELAB_OPTIONS -L work -L work_lib -L altera_common_sv_packages -L packet_presence_detection_0 -L conduit_bfm_0 -L packet_presence_detection_tb_gen_inst_source_bfm -L packet_presence_detection_tb_gen_inst_sink_bfm -L packet_presence_detection_tb_gen_inst_reset_bfm -L packet_presence_detection_tb_gen_inst_clock_bfm -L packet_presence_detection_tb_gen_inst -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver $TOP_LEVEL_NAME
+  eval vsim -t ps $ELAB_OPTIONS $USER_DEFINED_ELAB_OPTIONS -L work -L work_lib -L altera_common_sv_packages -L rst_controller -L st_splitter_0 -L packet_presence_detection_0 -L packet_presence_detection_tb_gen_inst_source_bfm -L packet_presence_detection_tb_gen_inst_sink_bfm -L packet_presence_detection_tb_gen_inst_reset_bfm -L packet_presence_detection_tb_gen_inst_clk_bfm -L packet_presence_detection_tb_gen_inst_cfg_bfm -L packet_presence_detection_tb_gen_inst -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver $TOP_LEVEL_NAME
 }
 
 # ----------------------------------------
 # Elaborate the top level design with novopt option
 alias elab_debug {
   echo "\[exec\] elab_debug"
-  eval vsim -novopt -t ps $ELAB_OPTIONS $USER_DEFINED_ELAB_OPTIONS -L work -L work_lib -L altera_common_sv_packages -L packet_presence_detection_0 -L conduit_bfm_0 -L packet_presence_detection_tb_gen_inst_source_bfm -L packet_presence_detection_tb_gen_inst_sink_bfm -L packet_presence_detection_tb_gen_inst_reset_bfm -L packet_presence_detection_tb_gen_inst_clock_bfm -L packet_presence_detection_tb_gen_inst -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver $TOP_LEVEL_NAME
+  eval vsim -novopt -t ps $ELAB_OPTIONS $USER_DEFINED_ELAB_OPTIONS -L work -L work_lib -L altera_common_sv_packages -L rst_controller -L st_splitter_0 -L packet_presence_detection_0 -L packet_presence_detection_tb_gen_inst_source_bfm -L packet_presence_detection_tb_gen_inst_sink_bfm -L packet_presence_detection_tb_gen_inst_reset_bfm -L packet_presence_detection_tb_gen_inst_clk_bfm -L packet_presence_detection_tb_gen_inst_cfg_bfm -L packet_presence_detection_tb_gen_inst -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver $TOP_LEVEL_NAME
 }
 
 # ----------------------------------------

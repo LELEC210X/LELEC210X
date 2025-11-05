@@ -7,7 +7,7 @@
 `define rst `tb.packet_presence_detection_tb_gen_inst_reset_bfm
 `define input `tb.packet_presence_detection_tb_gen_inst_sink_bfm
 `define output `tb.packet_presence_detection_tb_gen_inst_source_bfm
-`define cfg    `tb.packet_presence_detection_tb_gen_inst.conduit_bfm_0
+`define cfg    `tb.packet_presence_detection_tb_gen_inst_cfg_bfm
 
 module test_program();
 
@@ -17,24 +17,28 @@ reg [23:0] input_data, output_data;
 int count;
 int count_allSamples;
 
-int samples_p_packet   = 900;
-int passthrough_len    = 100;
-int n_packet = 2;
-int state_clear_rs;
 
 initial
 begin
 
     
-    `cfg.set_cfg_enable(1'b1);
-    `cfg.set_cfg_clear_rs(1'b0);
-    `cfg.set_cfg_threshold(16'd12);
+    `cfg.set_cfg_enable_ppd(1'b1);
+    `cfg.set_cfg_clear_rs(1'b1);
+    `cfg.set_cfg_pass_sum_signal(1'b0);
+    `cfg.set_cfg_red_sum_signal(1'b0);
+    `cfg.set_cfg_enable_fir(1'b0);
+    `cfg.set_cfg_threshold(16'd20);
     `cfg.set_cfg_passthrough_len(16'd100);
 
-    state_clear_rs = 1;
+    `input.set_transaction_data(0);
+
     // Reset DUT
     $display("Hello ModelSim!");
-    wait(`dut.reset_reset == 0);
+    $display("SIM START");
+    wait(`dut.rst_controller_reset_out_reset == 0 );
+    $display("RST ARRIVED ");
+
+    
     count            = 0;
     count_allSamples = 0;
 
@@ -70,6 +74,11 @@ begin
     end
     count_allSamples = count;
     count =0;
+
+    `cfg.set_cfg_clear_rs(1'b1);
+    #100000
+    `cfg.set_cfg_clear_rs(1'b0);
+
     // Receive all
     begin
         while (count_allSamples >= 0) begin
@@ -82,6 +91,8 @@ begin
             count = count+1; 
         end
     end
+ 
+    $display("SIM FINISHED");
 
     // Close files
     $fclose(input_fd);
