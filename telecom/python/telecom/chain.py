@@ -22,7 +22,7 @@ class Chain:
     payload_len: int = 8 * 100  # Number of bits per packet
 
     # Simulation parameters
-    n_packets: int = 100  # Number of sent packets
+    n_packets: int = 500  # Number of sent packets
 
     # Channel parameters
     sto_val: float = 0
@@ -30,8 +30,8 @@ class Chain:
 
     cfo_val: float = np.nan
     cfo_range: tuple[float, float] = (
-        8_000,
-        10_000,  # defines the CFO range when random (in Hz) #(1000 in old repo)
+        8000,
+        10000,  # defines the CFO range when random (in Hz) #(1000 in old repo)
     )
 
     EsN0_range: np.ndarray = np.arange(0, 30, 1)
@@ -166,7 +166,7 @@ class BasicChain(Chain):
 
         return None
 
-    ideal_cfo_estimation = True
+    ideal_cfo_estimation = False
 
     def cfo_estimation(self, y):
         """Estimates CFO using Moose algorithm, on first samples of preamble."""
@@ -174,19 +174,9 @@ class BasicChain(Chain):
         R = self.osr_rx           # receiver oversampling factor
         B = self.bit_rate         # bit rate (1/T)
         T = 1.0 / B               # symbol period
-        N = 4                     # number of CPFSK symbols per block (can be changed)
+        N = 4                    # number of CPFSK symbols per block (can be changed)
         Nt = N * R                # number of samples per block
 
-        # Ensure signal is long enough
-        if len(y) < 2 * Nt:
-            Nt = len(y) // 2      # fallback to available data
-            if Nt == 0:
-                return 0.0
-
-        # --- Moose algorithm implementation ---
-        # The preamble repeats "10", so we can assume the first 2 blocks are identical up to the CFO phase rotation
-        # vectorized complex correlation between the two blocks
-        # numerator = sum_{l=0..Nt-1} y[l+Nt] * conj(y[l])
         numerator = np.vdot(y[:Nt], y[Nt : Nt + Nt])
 
         # Compute the angle of the complex correlation term
@@ -199,7 +189,7 @@ class BasicChain(Chain):
 
         return float(cfo_est)
 
-    ideal_sto_estimation = True
+    ideal_sto_estimation = False
 
     def sto_estimation(self, y):
         """Estimates symbol timing (fractional) based on phase shifts."""
@@ -230,20 +220,14 @@ class BasicChain(Chain):
         # Each row contains the R samples over one symbol period
         y = np.resize(y, (nb_syms, R))
 
-        # === TO DO: generate the reference waveforms used for the correlation ===
         fd = self.freq_dev       # frequency deviation Δf
         B = self.bit_rate        # bit rate
         T = 1.0 / B              # symbol period
 
-        # For n = 0...R-1, generate reference signals for bits "0" and "1"
         n = np.arange(R)
         ref1 = np.exp(-1j * 2 * np.pi * fd * n * T / R)  # waveform for bit=1
         ref0 = np.exp(+1j * 2 * np.pi * fd * n * T / R)  # waveform for bit=0
 
-        # === TO DO: compute the correlations with the two reference waveforms (r0 and r1) ===
-        # vectorized correlation: compute dot product of each row with ref1/ref0
-        # y has shape (nb_syms, R), ref* has shape (R,)
-        # result r1_vec[k] = sum_j y[k,j] * ref1[j]
         r1_vec = (y * ref1).sum(axis=1) / R
         r0_vec = (y * ref0).sum(axis=1) / R
 
