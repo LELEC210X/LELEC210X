@@ -217,9 +217,12 @@ module dual_running_sum #(
 
 	// For power-of-2 operations, we can use bit shifting:
 	// !! Apply operations in the correct order to avoid overflow !!
+	always @(posedge clock) begin
 
-	assign long_shift_rescale = long_sum_reg* K;
-	assign short_sum_rescale  = short_sum_reg << 6;
+		long_shift_rescale <= long_sum_reg* K;
+	end 
+	
+	assign short_sum_rescale  = short_sum_reg << 6; 
 	
 	// ------------------- TO DO : END   -------------------
 	
