@@ -94,12 +94,11 @@ class Dataset:
 
     def remove_class(self, cls_name: str):
         """
-          Remove a class and its files
-          from the dataset.
+        Remove a class and its files
+        from the dataset.
 
-          :clas_name: Class name.  
+        :clas_name: Class name.
         """
-
         self.files.pop(cls_name)
         self.nclass = len(self.files)
         self.naudio = {key: len(value) for key, value in self.files.items()}
