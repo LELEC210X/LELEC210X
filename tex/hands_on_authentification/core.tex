@@ -11,7 +11,7 @@ where
 \begin{tabular}{lccl}
     Field & Length (bytes) & Encoding & Description \\ \hline
     \texttt{r} & 1 & & Reserved, set to 0.\\
-    \texttt{emitter\_id} & 1 & BE & Unique id of the sensor node.\\
+    \texttt{emitter\_id} & 1 & & Unique id of the sensor node.\\
     \texttt{payload\_length} & 2 & BE & Length of \texttt{app\_data} (in bytes).\\
     \texttt{packet\_serial} & 4 & BE & Unique and incrementing id of the packet. \\
     \texttt{app\_data} & any  &  & The feature vectors. \\
@@ -135,22 +135,9 @@ Both \texttt{block} and \texttt{key} are expected to point to 16-byte buffers. R
 If there are no errors, we are now going to compile and launch the whole MCU application for the project. To do so, go in the \texttt{config.h} file and change the \texttt{RUN\_CONFIG} from \texttt{EVAL\_RADIO} to \texttt{MAIN\_APP}. You can now recompile the design and flash it on the MCU. Launch the GNU Radio \texttt{main\_app} (do not forget to change the carrier frequency). To authenticate the packets, you need to launch a script. To do so, refer to the \texttt{README} of the \texttt{auth} subdirectory.
 
 \section{Performance characterization}
-At the end of the semester, you will have to characterize your system. Regarding the MCU, you might want to have an insight on the number of cycle of a given task, as well as the code size. Here are a few tools you can use to extract such information. In order to verify the performance of an implementation, one needs to measure it's key metrics, namely the cycle count, and the code size. We provide you here with explanations on how to make these measurements. Additionally, when compiling, several optimizations steps are provided by the compiler. Those are grouped into optimization levels for ease of use. Follow the explanations in the corresponding box to change the optimization levels.
+At the end of the semester, you will have to characterize your system. Regarding the MCU, you might want to have an insight on the number of cycle of a given task, as well as the memory footprint of the code (in the flash memory) and the heap and stack (in the RAM memory). We explained in \emph{H6a} how to measure the number of cycles. You can find information about the memory footprint in the \emph{Build Analyser} tab in STM32CubeIDE.
 
-
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{How to measure cycle counts} In order to measure the time taken by an implementation, the most basic way is to use a time measuring device, however, this is not precise enough as the MCU can execute several millions of cycles every second. A more accurate method is to measure the number of cycles taken by the CPU. To do so, you will need a special register that is a cycle counter. For ARM processors, if a cycle counter is present, the two registers of interest are :
-\begin{lstlisting}[style=customc]
-DWT->CTRL |= 1 ; // enable the counter
-DWT->CYCCNT = 0; // reset the counter
-\end{lstlisting}
-After your implementation has run, you can read the value contained in \texttt{DWT->CYCCNT} to read the number of cycles since you set the counter to zero.\\
-
-However, if you try this several times on an implementation whose inputs stay the same, you will probably observe that the numbers change slightly. This is due to interrupts happening during the measured execution. In order to have accurate measurements, you should also disable interrupts during measurement. To do so, use the  \texttt{\_\_disable\_irq()} and \texttt{\_\_enable\_irq()} methods.
-
-Finally, you can take a look at \texttt{utils.c} where wrappers for cycle counting are included that also print the result for easier debugging.
-\end{bclogo}
-
-
+Additionally, when compiling, several optimizations steps are provided by the compiler. Those are grouped into optimization levels for ease of use. The optimizations re-organise the low-level operations while keeping the same final code functionality. Depending on the chosen level, you can have a different trade-off between code size, speed (number of cycles) and debug capabilities.
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Choosing the optimization level of the compiler}
 	To change the compiler optimization level:
