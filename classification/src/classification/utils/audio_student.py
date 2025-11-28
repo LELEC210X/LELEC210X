@@ -68,8 +68,10 @@ class AudioUtil:
         sig, sr = audio
 
         ### TO COMPLETE
+        M = newsr / sr
+        sig = signal.resample(sig, int(len(sig) * M))
 
-        return (resig, newsr)
+        return (sig, newsr)
 
     def pad_trunc(audio, max_ms) -> tuple[ndarray, int]:
         """
@@ -112,6 +114,9 @@ class AudioUtil:
         sig, sr = audio
 
         ### TO COMPLETE
+        scale = random.uniform(1 / scaling_limit, scaling_limit)
+        sig = sig * scale
+        audio = (sig, sr)
 
         return audio
 
@@ -125,6 +130,9 @@ class AudioUtil:
         sig, sr = audio
 
         ### TO COMPLETE
+        noise = np.random.normal(0, sigma, sig.shape)
+        sig = sig + noise
+        audio = (sig, sr)
 
         return audio
 
@@ -156,6 +164,9 @@ class AudioUtil:
         sig, sr = audio
 
         ### TO COMPLETE
+        sig = np.fft.rfft(sig)
+        sig_filt = sig * filt
+        sig_filt = np.fft.irfft(sig_filt, n=len(sig))
 
         return (sig, sr)
 
@@ -175,7 +186,31 @@ class AudioUtil:
 
         ### TO COMPLETE
 
-        return audio
+        for i in range(num_sources):
+            class_name = random.choice(dataset.list_classes())
+            idx = random.randint(0, dataset.naudio[class_name] - 1)
+
+            # dataset[class_name, idx] is a file path -> open to get (sig, sr)
+            audio_file = dataset[class_name, idx]
+            bg_audio = AudioUtil.open(audio_file)
+            bg_audio = AudioUtil.resample(bg_audio, sr)
+            bg_audio = AudioUtil.pad_trunc(bg_audio, max_ms)
+
+            # Adjust amplitude
+            amplitude = random.uniform(0, amplitude_limit)
+            bg_sig = bg_audio[0] * amplitude
+
+            # Make sure background signal has same length as main signal
+            if len(bg_sig) < len(sig):
+                pad_len = len(sig) - len(bg_sig)
+                bg_sig = np.pad(bg_sig, (0, pad_len), mode="constant")
+            else:
+                bg_sig = bg_sig[: len(sig)]
+
+            sig = sig + bg_sig
+
+        return (sig, sr)
+        
 
     def specgram(audio, Nft=512, fs2=11025) -> ndarray:
         """
@@ -186,6 +221,11 @@ class AudioUtil:
         :param fs2: The sampling frequency.
         """
         ### TO COMPLETE
+        sig, sr = audio
+        if sr != fs2:
+            sig, sr = AudioUtil.resample((sig, sr), fs2)
+        f, t, S = signal.spectrogram(sig, fs=fs2, nperseg=Nft, noverlap=Nft // 2, mode="magnitude")
+        stft = S[:-1, :]
         # stft /= float(2**8)
         return stft
 
@@ -214,6 +254,10 @@ class AudioUtil:
         """
         ### TO COMPLETE
 
+        spec = AudioUtil.specgram(audio, Nft=Nft, fs2=fs2)
+        mels = AudioUtil.get_hz2mel(fs2=fs2, Nft=Nft, Nmel=Nmel)
+        melspec = mels @ spec
+        melspec = np.log10(melspec + 1e-10)
         return melspec
 
     def spectro_aug_timefreq_masking(
