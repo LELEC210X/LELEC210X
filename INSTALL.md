@@ -112,7 +112,7 @@ We advise you to set up the default version of WSL and the default distribution 
 
 ```bat
 wsl --set-default-version 2
-wsl --setdefault Ubuntu−22.04
+wsl --set-default Ubuntu−22.04
 ```
 
 You should now be able to launch and terminate a WSL session of Ubuntu-22.04 using:
