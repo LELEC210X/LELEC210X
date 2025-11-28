@@ -25,6 +25,9 @@ name = "LELEC210X"
 readme = "README.md"
 requires-python = "==3.10.*"
 version = "0.1.0"
+dependencies = [
+    "package-name>=0.1",
+]
 
 [tool.ruff]
 extend-exclude = ["**/doxygen/**/*.py", "telecom/sdr/**/python/**/*.py"]

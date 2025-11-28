@@ -28,10 +28,33 @@ from .utils import logging, measurements_logger
 
 
 def cfo_estimation(y, B, R, Fdev):
-    """
-    Estimate CFO using Moose algorithm, on first samples of preamble
-    """
-    return 0.0  # TODO
+    """Estimates CFO using Moose algorithm, on first samples of preamble."""
+    # TO DO: extract 2 blocks of size N*R at the start of y
+    T = 1.0 / B               # symbol period
+    N = 4                     # number of CPFSK symbols per block (can be changed)
+    Nt = N * R                # number of samples per block
+
+    # Ensure signal is long enough
+
+    Nt = len(y) // 2      # fallback to available data
+    if Nt == 0:
+        return 0.0
+
+    # --- Moose algorithm implementation ---
+    # The preamble repeats "10", so we can assume the first 2 blocks are identical up to the CFO phase rotation
+    # vectorized complex correlation between the two blocks
+    # numerator = sum_{l=0..Nt-1} y[l+Nt] * conj(y[l])
+    numerator = np.vdot(y[:Nt], y[Nt : Nt + Nt])
+
+    # Compute the angle of the complex correlation term
+    angle = np.angle(numerator)
+
+    # CFO estimate (Hz)
+    # Δf_hat = arg(sum(y[l+Nt] * conj(y[l]))) / (2π * Nt * T / R)
+    denom = 2 * np.pi * Nt * T / R
+    cfo_est = angle / denom
+
+    return float(cfo_est)
 
 
 def sto_estimation(y, B, R, Fdev):
