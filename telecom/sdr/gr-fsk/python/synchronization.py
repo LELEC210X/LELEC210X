@@ -87,7 +87,7 @@ class synchronization(gr.basic_block):
         self.message_port_register_in(pmt.intern("NoisePow"))
         self.set_msg_handler(pmt.intern("NoisePow"), self.handle_msg_noise)
 
-        
+
         self.message_port_register_in(pmt.intern("SignalPow"))
         self.set_msg_handler(pmt.intern("SignalPow"), self.handle_msg_signal)
 
@@ -163,7 +163,7 @@ class synchronization(gr.basic_block):
                         self.logger.info(
                             f"CFO {self.cfo:.2f} Hz, STO {self.init_sto}, Avg. Amplitude: {np.mean(np.abs(y)):.2e}"
                         )
-                
+
                 # A noise estimation has already been performed
                 else :
                     SNR_est = self.osr*( (self.estimated_signal_power) - self.estimated_noise_power ) / self.estimated_noise_power
