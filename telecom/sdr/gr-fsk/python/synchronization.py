@@ -27,7 +27,7 @@ from gnuradio import gr
 from .utils import logging, measurements_logger
 
 
-def cfo_estimation(y, B, R, Fdev):
+def cfo_estimation(y, B, R, Fdev, N):
     """
     Estimate CFO using Moose algorithm, on first samples of preamble
     """
@@ -61,7 +61,7 @@ class synchronization(gr.basic_block):
     docstring for block synchronization
     """
 
-    def __init__(self, drate, fdev, fsamp, hdr_len, packet_len, Grx, enable_log):
+    def __init__(self, drate, N_Moose, fdev, fsamp, hdr_len, packet_len, Grx, enable_log):
         self.drate = drate
         self.fdev = fdev
         self.fsamp = fsamp
@@ -71,6 +71,7 @@ class synchronization(gr.basic_block):
         self.estimated_noise_power = None
         self.Grx = Grx
         self.enable_log = enable_log
+        self.N_Moose = N_Moose
 
         # Remaining number of samples in the current packet
         self.rem_samples = 0
@@ -126,7 +127,7 @@ class synchronization(gr.basic_block):
     def general_work(self, input_items, output_items):
         if self.rem_samples == 0:  # new packet to process, compute the CFO and STO
             y = input_items[0][: self.hdr_len * 8 * self.osr]
-            self.cfo = cfo_estimation(y, self.drate, self.osr, self.fdev)
+            self.cfo = cfo_estimation(y, self.drate, self.osr, self.fdev, self.N_Moose)
 
             # Correct CFO in preamble
             t = np.arange(len(y)) / (self.drate * self.osr)

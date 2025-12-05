@@ -4,7 +4,7 @@ category: "[FSK]"
 
 templates:
   imports: import fsk
-  make: fsk.synchronization(${drate}, ${fdev}, ${fsamp}, ${hdr_len}, ${packet_len}, ${Grx},${enable_log})
+  make: fsk.synchronization(${drate}, ${N_Moose}, ${fdev}, ${fsamp}, ${hdr_len}, ${packet_len}, ${Grx},${enable_log})
   callbacks:
   - set_Grx(${Grx})
   - set_enable_log(${enable_log})
@@ -18,6 +18,9 @@ parameters:
   - id: drate
     label: Data Rate
     dtype: float
+  - id: N_Moose
+    label: Moose alg. N value
+    dtype: int
   - id: fdev
     label: Frequency Deviation
     dtype: float

@@ -9,6 +9,7 @@
 #include <pmt/pmt.h>
 #include <gnuradio/io_signature.h>
 
+
 namespace gr {
 namespace limesdr_fpga {
 
@@ -33,7 +34,14 @@ flag_detector_impl::flag_detector_impl(bool enable, float threshold, int burst_l
         d_burst_len     =burst_len; 
         d_triggered     =false; 
         d_remaining     =0; 
+        d_ndata_sigEst  =0;
         signalPower     =0;
+        d_ndetected     =0;
+
+        d_backoff       =false;
+        d_count_backoff =0;
+
+        m_last_check = std::chrono::steady_clock::now();
 
         message_port_register_out(pmt::mp("SignalPow"));
 }
@@ -68,19 +76,45 @@ int flag_detector_impl::general_work(int noutput_items,
 
         while (in_idx < ninput && out_idx < noutput_items) {
             const gr_complex &s = in[in_idx];
-            if (!d_triggered) {
+            if (d_backoff){
+                //
+                // Avoid retriggering based on sample count
+                //
+                d_count_backoff --;
+                d_backoff = (d_count_backoff>0);
+            }
+            else if (!d_triggered) {
                 if ((s.real() > d_threshold) && (s.imag() > d_threshold)) {
+                    //
+                    // Avoid retriggering based on time
+                    //
+                    //m_now = std::chrono::steady_clock::now();
+                    //unsigned int elapsed = (std::chrono::duration_cast<std::chrono::milliseconds>(m_now - m_last_check)).count();
+                    //if (elapsed>100) {
+                    //  ...
+                    //  m_last_check = m_now;
+                    
+                
                     d_triggered = true;
+                    d_count_backoff = 20000; //equivalent of 50 ms @ 400kSps
                     d_remaining = d_burst_len;
                     signalPower    = 0;
+                    d_ndata_sigEst = 0;
+                    d_ndetected++;
+                    //d_logger->warn("INFO:flag d.: {} pkt det.; ", d_ndetected);
                 }
             } else {
                 signalPower += (s.real() * s.real()) + (s.imag() * s.imag());
                 out[out_idx++] = s;
                 d_remaining--;
+                d_ndata_sigEst++;
                 if (d_remaining <= 0) {
-                    d_triggered = false;
-                    message_port_pub(pmt::mp("SignalPow"), pmt::from_float(signalPower/d_burst_len));
+                    message_port_pub(pmt::mp("SignalPow"), pmt::from_float(signalPower/d_ndata_sigEst));
+                    d_ndata_sigEst = 0;
+                    d_remaining    = d_burst_len;
+                    d_triggered    = false;
+                    d_backoff      = true;
+                    signalPower    = 0;
                 }
             }
             in_idx++;

@@ -88,6 +88,18 @@ blocks:
     coordinate: [1240, 20.0]
     rotation: 0
     state: enabled
+- name: N_Moose
+  id: variable
+  parameters:
+    comment: ''
+    value: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [688, 172.0]
+    rotation: 0
+    state: true
 - name: Print_metrics
   id: variable_qtgui_check_box
   parameters:
@@ -302,7 +314,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    amp: '0.05'
+    amp: '0.01'
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -398,6 +410,7 @@ blocks:
   id: fsk_synchronization
   parameters:
     Grx: rx_gain
+    N_Moose: N_Moose
     affinity: ''
     alias: ''
     comment: ''
@@ -456,7 +469,7 @@ blocks:
     desired_output: '0'
     digital_bandw_ch0: samp_rate
     digital_bandw_ch1: samp_rate
-    dspcfg_PASSTHROUGH_LEN: (packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate)+1000
+    dspcfg_PASSTHROUGH_LEN: (packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate)+10000
     dspcfg_THRESHOLD: K_threshold
     dspcfg_fir_en: Enable_FPGA_FIR
     dspcfg_pass_sum_signal: '0'
