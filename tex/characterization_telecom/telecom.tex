@@ -1,6 +1,6 @@
 \section{Telecommunication}
 
-This document contains guidelines for the characterization of telecommunication systems. Please use the main guide for the other parts of the characterization.
+This document contains guidelines for the characterization of telecommunication chain. Please read the main guide for the other parts of the project.
 
 \subsection{Packet Error Rate}
 
@@ -8,15 +8,15 @@ This document contains guidelines for the characterization of telecommunication 
 \subsubsection{Transmitter side}
 
 For the measurements, we will place the MCU in radio evaluation mode where packets of a given size are sent sequentially. When you press the blue button,  a series of packets are transmitted at a given transmit power. 
-You have access to all the parameters in the {eval\_radio.h} file: 
+You have access to all the parameters in the \texttt{eval\_radio.h} file: 
 \begin{itemize}
-    \item \textit{N\_PACKETS} : number of packets sent with an equal TX power each time you press the blue button,
-    \item \textit{PAYLOAD\_LEN} : size of the packet payload in bytes,
-    \item \textit{PACKET\_DELAY} : time between two transmissions \textbf{in milliseconds. Do not go below 100 milliseconds},
-    \item \textit{BLINK\_LED} : a LED is initially toggled after each transmission. Specify 0 to deactivate this feature which will be annoying if you use small value for the delay between to packets,
-    \item \textit{STEP\_PA\_LEVEL} : value of the transmit power increase each time the blue button is pressed. Specify 0 to keep the \textit{MIN\_PA\_LEVEL} everytime,
-    \item \textit{MIN\_PA\_LEVEL} : initial value of the transmit power,
-    \item \textit{MIN\_PA\_LEVEL} : stop value of the transmit power.
+    \item \texttt{N\_PACKETS}: number of packets sent with an equal TX power each time you press the blue button,
+    \item \texttt{PAYLOAD\_LEN}: size of the packet payload in bytes,
+    \item \texttt{PACKET\_DELAY}: time between two transmissions \textbf{in milliseconds. Do not go below 100 milliseconds},
+    \item \texttt{BLINK\_LED}: a LED is initially toggled after each transmission. Specify 0 to deactivate this feature which will be annoying if you use small value for the delay between to packets,
+    \item \texttt{STEP\_PA\_LEVEL}: value of transmit power increase each time the blue button is pressed. Specify 0 to keep the \textit{MIN\_PA\_LEVEL} all the time,
+    \item \texttt{MIN\_PA\_LEVEL}: initial value of the transmit power,
+    \item \texttt{MAX\_PA\_LEVEL}: stop value of the transmit power.
 \end{itemize}
 
 
@@ -26,33 +26,33 @@ Use the SMA cable for your PER/BER-($E_s/N_0$) measurements to minimize external
 
 \subsubsection{Receiver side}
 
-To obtain the experimental packet error rate (PER) as a function of the signal-to-noise ratio (SNR), one must measure the number of packets incorrectly demodulated by GNU Radio at several SNRs. To characterize the demodulator and the synchronization blocks without being impacted by others impairements, we developed a measurement setup in GNU Radio in which a AWGN is injected with a controlled power (N0). This allows to set only once the RX gain, and to then modify the SNR, or $E_s/N_0$, by changing the injected noise power. Moreover, this ease the detection of the packets which is done by the packet presence detector (PPD) before the addition of the AWGN. The flowgraph is named \textit{eval\_error\_rate.grc}. On the left side, you can see the AWGN that is generated in the block \textit{"Noise source"} and added to the signal captured by the LimeSDR. 
+To obtain the experimental packet error rate (PER) as a function of the signal-to-noise ratio (SNR), one must measure the number of packets incorrectly demodulated by GNU Radio at several SNRs. To characterize the demodulator and the synchronization blocks without being impacted by others impairments, we developed a measurement setup in GNU Radio in which an AWGN is injected with a controlled power (N0). This allows to set only once the RX gain, and to then modify the SNR, or $E_s/N_0$, by changing the injected noise power. Moreover, this ease the detection of the packets which is done by the packet presence detector (PPD) before the addition of the AWGN. The flowgraph is named \texttt{eval\_error\_rate.grc}. On the left side, you can see the AWGN that is generated in the block \textit{"Noise source"} and added to the signal captured by the LimeSDR. 
 
 First, modify all the parameters of the flowgraph based on your scenario, e.g, the carrier frequency, the payload length in bytes, the $N$ used for the Moose algorithm. Launch the flowgraph a first time to see how you can manipulate some dynamic parameters. You have access to three sliders in the GUI :
 \begin{itemize}
-    \item \textit{rx\_gain} : LimeSDR gain  in the receiver path, in dB,
-    \item \textit{noise\_pow\_dB} : power of the AWGN added to the signal, in dB,\footnote[1]{In the GUI, there should be a mentioned of \textit{Noise\_amplitude} which is the converted value from noise power in dB to amplitude in linear scale.}
-    \item \textit{K\_threshold} : K factor of the packet presence detector in the FPGA.
+    \item \texttt{rx\_gain}: LimeSDR gain  in the receiver path, in dB,
+    \item \texttt{noise\_pow\_dB}: power of the AWGN added to the signal, in dB,\footnote[1]{In the GUI, there should be a mentioned of \texttt{Noise\_amplitude} which is the converted value from noise power in dB to amplitude in linear scale.}
+    \item \texttt{K\_threshold}: K factor of the packet presence detector in the FPGA.
 \end{itemize}
 
 Moreover, you have a series of check boxes : 
 \begin{itemize}
-    \item \textit{Print\_payload} : print the demodulated payload of the packets,
-    \item \textit{Print\_metrics} : print the estimated CFO, STO and $E_s/N_0$ of the received packets, 
-    \item \textit{Print\_results} : print the count of successfully demodulated packets,
-    \item \textit{Enable\_detection} : activates the chain by enabling PPD on the FPGA, 
-    \item \textit{Enable\_FPGA\_FIR} : activates the FIR on the FPGA.
+    \item \texttt{Print\_payload} : print the demodulated payload of the packets,
+    \item \texttt{Print\_metrics} : print the estimated CFO, STO and $E_s/N_0$ of the received packets, 
+    \item \texttt{Print\_results} : print the count of successfully demodulated packets,
+    \item \texttt{Enable\_detection} : activates the chain by enabling PPD on the FPGA, 
+    \item \texttt{Enable\_FPGA\_FIR} : activates the FIR on the FPGA.
 \end{itemize}
 
 To minimize the computational load of the flowgraph, you should deactivate the \textit{QT GUI Sink} block by clicking on it and pressing \textbf{D} (you can reactivate it by pressing \textbf{E}). Do not forget to regenerate the flow graph afterwards (Cube icon). The low pass filter present on GNU Radio should already be deactivated, as we ask you to use the FIR on the FPGA for the characterization report R6.
 
 When you are ready to start a batch measurement, follow this procedure:
 \begin{enumerate}
-    \item Launch the GNU Radio flow graph \textit{eval\_error\_rate.grc}.
-    \item Update the \textit{noise\_pow\_dB} so that it is some order of magnitude above the quantization noise. The \textit{Noise\_amplitude} is displayed in the GUI to guide you. You should be higher than -40 dB (0.01 in linear scale).
-    \item Enable the detection of the packets (Check \textit{Enable\_detection}) and the FPGA FIR (\textit{Enable\_FPGA\_FIR}).
-    \item Change the RX gain and start sending some packets. The average measured signal amplitude is displayed in the console ("\textit{Avg Ampltiude XX}") and indicates if you are close to the saturation, which must be avoided. 
-    \item Modify \textit{noise\_pow\_dB} so that the measured $E_s/N_0$ (in the console) is close to the one you want to measure.\footnote[2]{If you specified a STEP\_PA\_LEVEL different from 0 on the MCU, remember that the transmit power, and thus $E_s/N_0$, will be modified everytime you press the blue button of the Nucleo.}
+    \item Launch the GNU Radio flow graph \texttt{eval\_error\_rate.grc}.
+    \item Update the \texttt{noise\_pow\_dB} so that it is some order of magnitude above the quantization noise. The \texttt{Noise\_amplitude} is displayed in the GUI to guide you. You should be higher than -40 dB (0.01 in linear scale).
+    \item Enable the detection of the packets (Check \texttt{Enable\_detection}) and the FPGA FIR (\texttt{Enable\_FPGA\_FIR}).
+    \item Change the RX gain and start sending some packets. The average measured signal amplitude is displayed in the console ("\texttt{Avg Ampltiude XX}") and indicates if you are close to the saturation, which must be avoided. 
+    \item Modify \texttt{noise\_pow\_dB} so that the measured $E_s/N_0$ (in the console) is close to the one you want to measure.\footnote[2]{If you specified a \texttt{STEP\_PA\_LEVEL} different from 0 on the MCU, remember that transmit power, and thus $E_s/N_0$, will be modified every time you press the blue button of the Nucleo.}
     \item You can deactivate the print of the metrics and of the payload to ease the reading of the console.
     \item Send and receive packets at this $E_s/N_0$.
     \item Repeat from step 5.
