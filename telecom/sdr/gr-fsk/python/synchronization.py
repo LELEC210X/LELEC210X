@@ -27,6 +27,7 @@ from gnuradio import gr
 from .utils import logging, measurements_logger
 
 
+
 def cfo_estimation(y, B, R, Fdev, N):
     """
     Estimate CFO using Moose algorithm, on first samples of preamble
@@ -116,7 +117,10 @@ class synchronization(gr.basic_block):
         self.enable_log = enable_log
 
     def handle_msg_noise(self, msg):
-        self.estimated_noise_power = pmt.to_double(msg)
+        if pmt.is_pair(msg):
+            self.estimated_noise_power = pmt.to_float(pmt.cdr(msg))
+        else:
+            self.estimated_noise_power = pmt.to_float(msg)
 
     def handle_msg_signal(self, msg):
         self.estimated_signal_power = pmt.to_float(msg)
@@ -170,10 +174,10 @@ class synchronization(gr.basic_block):
                     SNR_est = self.osr*( (self.estimated_signal_power) - self.estimated_noise_power ) / self.estimated_noise_power
                     if self.enable_log:
                         self.logger.info(
-                            f"CFO {self.cfo:.2f} Hz, STO {self.init_sto}, EsN0est: {10 * np.log10(SNR_est):.2f} dB, Avg. Amplitude: {np.mean(np.abs(y)):.2e}"
+                            f"CFO {self.cfo:.2f} Hz, STO {self.init_sto}, EsN0est: {10 * np.log10(SNR_est):.2f} dB, Avg. Amplitude: {np.sqrt(np.abs(self.estimated_signal_power)):.2e}"
                         )
                     measurements_logger.info(f"CFO={self.cfo},STO={self.init_sto}")
-                    measurements_logger.info(f"EsN0dB={10 * np.log10(SNR_est):.2f},GRXdB={self.Grx}")
+                    measurements_logger.info(f"EsN0dB={10 * np.log10(SNR_est):.2f},GRXdB={self.Grx},N0={self.estimated_noise_power}")
 
                 self.consume_each(win_size + self.osr - self.init_sto)
             else:

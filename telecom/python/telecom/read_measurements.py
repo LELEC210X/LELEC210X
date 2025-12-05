@@ -22,12 +22,15 @@ def simulation_output_callback(
     "file",
     type=click.Path(exists=True, dir_okay=False, path_type=Path),
 )
-@click.argument(
+@click.option(
+    "-p",
+    "--payload-len",
     "payload_len",
+    required=True,
     type=int,
 )
 @click.option(
-    "--esn0_tol",
+    "--esn0-tol",
     default=1,
     help="Suppress outlier where ",
 )
@@ -44,6 +47,12 @@ def simulation_output_callback(
     help="Show plots.",
 )
 @click.option(
+    "--group-by-GRX",
+    is_flag=True,
+    default=False,
+    help="Group the measurement data by GRX (RX gain) rather than noise applied",
+)
+@click.option(
     "--simulation-output",
     type=click.Path(dir_okay=False, path_type=Path),
     default=Path(__file__).parents[2] / "sim_outputs.csv",
@@ -56,6 +65,7 @@ def main(
     esn0_tol: float,
     quiet: bool,
     plot: bool,
+    group_by_grx: bool,
     simulation_output: Path | None,
 ) -> None:
     """
@@ -73,9 +83,10 @@ def main(
                 data["cfo"].append(float(cfo.split("=")[1]))
                 data["sto"].append(int(sto.split("=")[1]))
             elif line.startswith("EsN0dB"):
-                esn0, Grx = line.split(",")
+                esn0, Grx, N0 = line.split(",")
                 data["esn0"].append(float(esn0.split("=")[1]))
                 data["Grx"].append(int(Grx.split("=")[1]))
+                data["N0"].append(int(10*np.log10(float(N0.split("=")[1]))))
             elif line.startswith("packet"):
                 *_, payload = line.split(",", maxsplit=2)
                 payload = list(map(int, payload.split("=")[1][1:-1].split(",")))
@@ -101,16 +112,24 @@ def main(
                 ]
 
             _fig, ax = plt.subplots(1, 2, constrained_layout=True, figsize=(10, 4))
-            df.boxplot(ax=ax[0], column="esn0", by="Grx", grid=True)
-            df = df.groupby("Grx", group_keys=False).apply(remove_outliers)
-            df.boxplot(ax=ax[1], column="esn0", by="Grx", grid=True)
             ax[0].set_ylabel("Measured EsN0 (dB)")
-            ax[0].set_xlabel("RX Gain used (dB)")
-            ax[0].grid(True)
+            if group_by_grx:
+                df.boxplot(ax=ax[0], column="esn0", by="Grx", grid=True)
+                df = df.groupby("Grx", group_keys=False).apply(remove_outliers)
+                df.boxplot(ax=ax[1], column="esn0", by="Grx", grid=True)
+                ax[0].set_xlabel("RX Gain used (dB)")
+                ax[1].set_xlabel("RX Gain used (dB)")
+            else:
+                df.boxplot(ax=ax[0], column="esn0", by="N0", grid=True)
+                df = df.groupby("N0", group_keys=False).apply(remove_outliers)
+                df.boxplot(ax=ax[1], column="esn0", by="N0", grid=True)
+                ax[0].set_xlabel("N0 (dB)")
+                ax[1].set_xlabel("N0 (dB)")
+
+            #ax[0].grid(True)
             ax[0].set_title("Measured EsN0 distribution")
             ax[1].set_ylabel("Measured EsN0 (dB)")
-            ax[1].set_xlabel("RX Gain used (dB)")
-            ax[1].grid(True)
+            #ax[1].grid(True)
             ax[1].set_title("Measured EsN0 distribution after outlier removal")
 
             df.hist(column="cfo")
@@ -119,16 +138,28 @@ def main(
             plt.xlabel("Number")
             plt.ylabel("Frequency (Hz)")
 
-            agg = (
-                df.groupby("Grx")
-                .agg(
-                    esn0_mean=("esn0", "mean"),
-                    per_mean=("invalid", "mean"),
-                    biterror=("biterror", "sum"),
-                    count=("biterror", "count"),
+            if group_by_grx:
+                agg = (
+                    df.groupby("Grx")
+                    .agg(
+                        esn0_mean=("esn0", "mean"),
+                        per_mean=("invalid", "mean"),
+                        biterror=("biterror", "sum"),
+                        count=("biterror", "count"),
+                    )
+                    .reset_index()
                 )
-                .reset_index()
-            )
+            else:
+                agg = (
+                    df.groupby("N0")
+                    .agg(
+                        esn0_mean=("esn0", "mean"),
+                        per_mean=("invalid", "mean"),
+                        biterror=("biterror", "sum"),
+                        count=("biterror", "count"),
+                    )
+                    .reset_index()
+                )
 
             ber = agg["biterror"] / (agg["count"] * num_bits)
 
@@ -141,10 +172,11 @@ def main(
                 EsN0_th = 10 ** (EsN0_db / 10)
                 BER_th_noncoh = 0.5 * np.exp(-(10 ** (EsN0_db / 10.0)) / 2)
 
+                ax[0].plot(EsN0_db, BER_th_noncoh, label="AWGN Th. FSK non-coh.")
+                ax[0].plot(EsN0_db, sim_BER, label="Simulation")
+
             _fig, ax = plt.subplots(1, 2, constrained_layout=True, figsize=(10, 4))
             ax[0].plot(agg["esn0_mean"], ber, "-s", label="Measurement")
-            ax[0].plot(EsN0_db, BER_th_noncoh, label="AWGN Th. FSK non-coh.")
-            ax[0].plot(EsN0_db, sim_BER, label="Simulation")
             ax[0].set_ylabel("BER")
             ax[0].set_xlabel("$E_{s}/N_{0}$ [dB]")
             ax[0].set_yscale("log")
@@ -154,12 +186,15 @@ def main(
             ax[0].legend()
 
             ax[1].plot(agg["esn0_mean"], agg["per_mean"], "-s", label="Measurement")
-            ax[1].plot(
-                EsN0_db,
-                1 - (1 - BER_th_noncoh) ** num_bits,
-                label="AWGN Th. FSK non-coh.",
-            )
-            ax[1].plot(EsN0_db, sim_PER, label="Simulation")
+
+            if simulation_output is not None:
+                ax[1].plot(
+                    EsN0_db,
+                    1 - (1 - BER_th_noncoh) ** num_bits,
+                    label="AWGN Th. FSK non-coh.",
+                )
+                ax[1].plot(EsN0_db, sim_PER, label="Simulation")
+
             ax[1].set_ylabel("PER")
             ax[1].set_xlabel("$E_{s}/N_{0}$ [dB]")
             ax[1].set_yscale("log")

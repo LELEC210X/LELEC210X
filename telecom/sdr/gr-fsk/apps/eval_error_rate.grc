@@ -18,7 +18,7 @@ options:
     qt_qss_theme: ''
     realtime_scheduling: ''
     run: 'True'
-    run_command: '{python} -u {filename}'
+    run_command: '{python} -u {filename} '
     run_options: prompt
     sizing_mode: fixed
     thread_safe_setters: ''
@@ -98,6 +98,22 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [688, 172.0]
+    rotation: 0
+    state: true
+- name: Noise_amplitude
+  id: variable_qtgui_label
+  parameters:
+    comment: ''
+    formatter: None
+    gui_hint: ''
+    label: ''
+    type: real
+    value: 10**(noise_pow_dB/20)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1272, 228.0]
     rotation: 0
     state: true
 - name: Print_metrics
@@ -211,23 +227,27 @@ blocks:
     coordinate: [944, 36.0]
     rotation: 0
     state: true
-- name: noiseQuery
-  id: variable_qtgui_push_button
+- name: noise_pow_dB
+  id: variable_qtgui_range
   parameters:
     comment: ''
     gui_hint: ''
-    label: Noise estimation query
-    pressed: '1'
-    released: '0'
-    type: int
-    value: '0'
+    label: ''
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '-60'
+    step: '1'
+    stop: '-10'
+    value: '-60'
+    widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1240, 156.0]
+    coordinate: [1480, 380.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: oversampling
   id: variable
   parameters:
@@ -314,7 +334,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    amp: '0.01'
+    amp: 10**(noise_pow_dB/20)
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -325,7 +345,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 252.0]
+    coordinate: [16, 284.0]
     rotation: 0
     state: enabled
 - name: blocks_add_xx_0
@@ -343,7 +363,24 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [256, 176.0]
+    coordinate: [264, 272.0]
+    rotation: 0
+    state: enabled
+- name: blocks_var_to_msg_0
+  id: blocks_var_to_msg
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msgname: NoisePow
+    target: 10**(noise_pow_dB/10)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [536, 500.0]
     rotation: 0
     state: enabled
 - name: fsk_demodulation_0
@@ -366,25 +403,6 @@ blocks:
     coordinate: [1216, 356.0]
     rotation: 0
     state: enabled
-- name: fsk_onQuery_noise_estimation_0
-  id: fsk_onQuery_noise_estimation
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    n_est: '10'
-    n_samples: '1024'
-    osr: oversampling
-    query: noiseQuery
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [384, 484.0]
-    rotation: 0
-    state: true
 - name: fsk_packet_parser_0
   id: fsk_packet_parser
   parameters:
@@ -429,6 +447,19 @@ blocks:
     coordinate: [896, 340.0]
     rotation: 0
     state: enabled
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import numpy
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 28.0]
+    rotation: 0
+    state: true
 - name: limesdr_fpga_flag_detector_0
   id: limesdr_fpga_flag_detector
   parameters:
@@ -444,7 +475,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [368, 172.0]
+    coordinate: [392, 268.0]
     rotation: 0
     state: true
 - name: limesdr_fpga_source_0
@@ -548,9 +579,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [368, 52.0]
+    coordinate: [392, 140.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: virtual_sink_0
   id: virtual_sink
   parameters:
@@ -589,11 +620,10 @@ blocks:
 
 connections:
 - [analog_noise_source_x_0, '0', blocks_add_xx_0, '1']
-- [blocks_add_xx_0, '0', fsk_onQuery_noise_estimation_0, '0']
 - [blocks_add_xx_0, '0', limesdr_fpga_flag_detector_0, '0']
 - [blocks_add_xx_0, '0', qtgui_sink_x_0, '0']
+- [blocks_var_to_msg_0, msgout, fsk_synchronization_0, NoisePow]
 - [fsk_demodulation_0, '0', fsk_packet_parser_0, '0']
-- [fsk_onQuery_noise_estimation_0, NoisePow, fsk_synchronization_0, NoisePow]
 - [fsk_packet_parser_0, '0', virtual_sink_0, '0']
 - [fsk_packet_parser_0, '0', zeromq_pub_sink_0, '0']
 - [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
