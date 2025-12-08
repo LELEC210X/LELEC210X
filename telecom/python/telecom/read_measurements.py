@@ -86,7 +86,7 @@ def main(
                 esn0, Grx, N0 = line.split(",")
                 data["esn0"].append(float(esn0.split("=")[1]))
                 data["Grx"].append(int(Grx.split("=")[1]))
-                data["N0"].append(int(10*np.log10(float(N0.split("=")[1]))))
+                data["N0"].append(int(10 * np.log10(float(N0.split("=")[1]))))
             elif line.startswith("packet"):
                 *_, payload = line.split(",", maxsplit=2)
                 payload = list(map(int, payload.split("=")[1][1:-1].split(",")))
@@ -126,10 +126,10 @@ def main(
                 ax[0].set_xlabel("N0 (dB)")
                 ax[1].set_xlabel("N0 (dB)")
 
-            #ax[0].grid(True)
+            # ax[0].grid(True)
             ax[0].set_title("Measured EsN0 distribution")
             ax[1].set_ylabel("Measured EsN0 (dB)")
-            #ax[1].grid(True)
+            # ax[1].grid(True)
             ax[1].set_title("Measured EsN0 distribution after outlier removal")
 
             df.hist(column="cfo")
