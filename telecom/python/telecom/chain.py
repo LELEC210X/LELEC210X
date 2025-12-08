@@ -5,7 +5,42 @@ BIT_RATE = 50e3
 PREAMBLE = np.array([int(bit) for bit in f"{0xAAAAAAAA:0>32b}"])
 SYNC_WORD = np.array([int(bit) for bit in f"{0x3E2A54B7:0>32b}"])
 
-FPGA_FIR_TAPS =  np.array([-0.001201261290430126, 0.0020488944185569607, -0.0020751053507837938, 4.910806933254215E-18, 0.004754535968663148, -0.00987450755161552, 0.00995675888032359, -1.4391882903962387E-17, -0.018922538981281996, 0.036214375130954504, -0.03468641976116993, 2.4803862788187382E-17, 0.06848299151299582, -0.15293237705130486, 0.22297239138994396, 0.7505245253702963, 0.22297239138994396, -0.15293237705130486, 0.06848299151299582, 2.4803862788187385E-17, -0.034686419761169936, 0.036214375130954504, -0.018922538981282003, -1.4391882903962393E-17, 0.00995675888032359, -0.009874507551615532, 0.004754535968663151, 4.910806933254215E-18, -0.0020751053507837946, 0.0020488944185569607, -0.001201261290430126])  # Example coefficients
+FPGA_FIR_TAPS = np.array(
+    [
+        -0.001201261290430126,
+        0.0020488944185569607,
+        -0.0020751053507837938,
+        4.910806933254215e-18,
+        0.004754535968663148,
+        -0.00987450755161552,
+        0.00995675888032359,
+        -1.4391882903962387e-17,
+        -0.018922538981281996,
+        0.036214375130954504,
+        -0.03468641976116993,
+        2.4803862788187382e-17,
+        0.06848299151299582,
+        -0.15293237705130486,
+        0.22297239138994396,
+        0.7505245253702963,
+        0.22297239138994396,
+        -0.15293237705130486,
+        0.06848299151299582,
+        2.4803862788187385e-17,
+        -0.034686419761169936,
+        0.036214375130954504,
+        -0.018922538981282003,
+        -1.4391882903962393e-17,
+        0.00995675888032359,
+        -0.009874507551615532,
+        0.004754535968663151,
+        4.910806933254215e-18,
+        -0.0020751053507837946,
+        0.0020488944185569607,
+        -0.001201261290430126,
+    ]
+)  # Example coefficients
+
 
 class Chain:
     name: str = ""
@@ -38,9 +73,9 @@ class Chain:
     EsN0_range: np.ndarray = np.arange(0, 30, 1)
 
     # Lowpass filter parameters
-    taps   : np.ndarray = FPGA_FIR_TAPS #specify None to make the simulator recompute the filter based on below spec
+    taps: np.ndarray = FPGA_FIR_TAPS  # specify None to make the simulator recompute the filter based on below spec
     numtaps: int = 100
-    cutoff : float = 150e3  # BIT_RATE * osr_rx / 2.0001  # or 2*BIT_RATE,...
+    cutoff: float = 150e3  # BIT_RATE * osr_rx / 2.0001  # or 2*BIT_RATE,...
 
     # Tx methods
 
@@ -79,7 +114,7 @@ class Chain:
 
     # Rx methods
     ideal_preamble_detect: bool = False
- 
+
     use_dynamic_ppd: bool = False
 
     def preamble_detect(self, y: np.array) -> int | None:
@@ -91,7 +126,7 @@ class Chain:
             or None if not found.
         """
         raise NotImplementedError
-    
+
     def preamble_detect_ppd(self, y: np.array) -> int | None:
         """
         Detect the preamble in a given received signal with sofft thresholding.
@@ -141,7 +176,7 @@ class BasicChain(Chain):
 
     ideal_preamble_detect = True
 
-    use_dynamic_ppd       = True
+    use_dynamic_ppd = True
 
     def preamble_detect_ppd(self, y):
         """Detect a preamble computing the received energy (average on a window)."""
