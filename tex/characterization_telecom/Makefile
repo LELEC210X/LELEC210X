@@ -1,8 +1,8 @@
 pdf:
-	latexmk main.tex -pdf -jobname=characterization
+	latexmk main.tex -pdf -jobname=telecom_characterization
 
 clean:
-	latexmk -CA main.tex -jobname=characterization
+	latexmk -CA main.tex -jobname=telecom_characterization
 
 check:
 	chktex main.tex
