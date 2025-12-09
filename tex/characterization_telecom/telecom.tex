@@ -44,7 +44,7 @@ Moreover, you have a series of check boxes :
     \item \texttt{Enable\_FPGA\_FIR} : activates the FIR on the FPGA.
 \end{itemize}
 
-To minimize the computational load of the flowgraph, you should deactivate the \textit{QT GUI Sink} block by clicking on it and pressing \textbf{D} (you can reactivate it by pressing \textbf{E}). Do not forget to regenerate the flow graph afterwards (Cube icon). The low pass filter present on GNU Radio should already be deactivated, as we ask you to use the FIR on the FPGA for the characterization report R6.
+To minimize the computational load of the flowgraph, you should deactivate the \textit{QT GUI Sink} block by clicking on it and pressing \textbf{D} (you can reactivate it by pressing \textbf{E}). Do not forget to regenerate the flow graph afterwards (Cube icon). The low pass filter present on GNU Radio should be activated. Indeed, we want to have the same filtering on the injected AWGN as on the real setup.
 
 When you are ready to start a batch measurement, follow this procedure:
 \begin{enumerate}
