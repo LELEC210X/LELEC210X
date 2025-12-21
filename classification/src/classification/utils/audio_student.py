@@ -1,13 +1,12 @@
 import random
 
 import librosa
-import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+import matplotlib.pyplot as plt
 import numpy as np
 import sounddevice as sd
 import soundfile as sf
 from numpy import ndarray
-from scipy import signal
 from scipy.signal import fftconvolve
 
 # -----------------------------------------------------------------------------
@@ -385,7 +384,7 @@ class Feature_vector_DS:
         """
         audio = self.get_audiosignal(cls_index)
         AudioUtil.play(audio)
-        plt.figure(figsize=(2 + 2*len(audio[0])/self.sr, 3))
+        plt.figure(figsize=(2 + 2 * len(audio[0]) / self.sr, 3))
         sgram = AudioUtil.melspectrogram(audio, Nmel=self.nmel, Nft=self.Nft)
         plt.imshow(
             sgram,
@@ -394,22 +393,22 @@ class Feature_vector_DS:
             aspect="auto",
         )
         plt.colorbar()
-     
+
         if show_features:
-            indexes = np.arange(0, len(sgram[0])-self.ncol, self.step)
+            indexes = np.arange(0, len(sgram[0]) - self.ncol, self.step)
             for start in indexes:
                 # (x, y) = lower left corner of rectangle
                 rect = patches.Rectangle(
-                    (start, 0),            # x, y
-                    self.ncol,             # width
-                    self.nmel-1,             # height
+                    (start, 0),  # x, y
+                    self.ncol,  # width
+                    self.nmel - 1,  # height
                     linewidth=2,
-                    edgecolor='magenta',
-                    facecolor='none',
-                    alpha=1
+                    edgecolor="magenta",
+                    facecolor="none",
+                    alpha=1,
                 )
                 plt.gca().add_patch(rect)
-        
+
         plt.title(audio)
         plt.title(self.dataset.__getname__(cls_index))
         plt.show()
@@ -434,7 +433,7 @@ class Feature_vector_DS:
 
         return np.array(X), np.array(y)
 
-    def mod_data_aug(self, data_aug = []) -> None:
+    def mod_data_aug(self, data_aug=[]) -> None:
         """
         Modify the data augmentation options.
 
@@ -452,8 +451,8 @@ class Feature_vector_DS:
 
         :param sgram: The melspectrogram to treat.
         """
-        indexes = np.arange(0, len(sgram[0])-self.ncol, self.step, dtype = int)
-        sgrams = [sgram[:,i : i+self.ncol] for i in indexes]
+        indexes = np.arange(0, len(sgram[0]) - self.ncol, self.step, dtype=int)
+        sgrams = [sgram[:, i : i + self.ncol] for i in indexes]
         sgrams = np.array(sgrams)
 
         fv = sgrams.reshape(sgrams.shape[0], -1)  # feature vector

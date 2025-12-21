@@ -84,7 +84,7 @@ class synchronization(gr.basic_block):
     docstring for block synchronization
     """
 
-    def __init__(self, drate, fdev, fsamp, hdr_len, packet_len, Grx, enable_log):
+    def __init__(self, drate, N_Moose, fdev, fsamp, hdr_len, packet_len, Grx, enable_log):
         self.drate = drate
         self.fdev = fdev
         self.fsamp = fsamp
@@ -94,6 +94,7 @@ class synchronization(gr.basic_block):
         self.estimated_noise_power = None
         self.Grx = Grx
         self.enable_log = enable_log
+        self.N_Moose = N_Moose
 
         # Remaining number of samples in the current packet
         self.rem_samples = 0
@@ -110,7 +111,7 @@ class synchronization(gr.basic_block):
         self.message_port_register_in(pmt.intern("NoisePow"))
         self.set_msg_handler(pmt.intern("NoisePow"), self.handle_msg_noise)
 
-        
+
         self.message_port_register_in(pmt.intern("SignalPow"))
         self.set_msg_handler(pmt.intern("SignalPow"), self.handle_msg_signal)
 
@@ -138,7 +139,10 @@ class synchronization(gr.basic_block):
         self.enable_log = enable_log
 
     def handle_msg_noise(self, msg):
-        self.estimated_noise_power = pmt.to_double(msg)
+        if pmt.is_pair(msg):
+            self.estimated_noise_power = pmt.to_float(pmt.cdr(msg))
+        else:
+            self.estimated_noise_power = pmt.to_float(msg)
 
     def handle_msg_signal(self, msg):
         self.estimated_signal_power = pmt.to_float(msg)
@@ -149,7 +153,7 @@ class synchronization(gr.basic_block):
     def general_work(self, input_items, output_items):
         if self.rem_samples == 0:  # new packet to process, compute the CFO and STO
             y = input_items[0][: self.hdr_len * 8 * self.osr]
-            self.cfo = cfo_estimation(y, self.drate, self.osr, self.fdev)
+            self.cfo = cfo_estimation(y, self.drate, self.osr, self.fdev, self.N_Moose)
 
             # Correct CFO in preamble
             t = np.arange(len(y)) / (self.drate * self.osr)
@@ -186,16 +190,16 @@ class synchronization(gr.basic_block):
                         self.logger.info(
                             f"CFO {self.cfo:.2f} Hz, STO {self.init_sto}, Avg. Amplitude: {np.mean(np.abs(y)):.2e}"
                         )
-                
+
                 # A noise estimation has already been performed
                 else :
                     SNR_est = self.osr*( (self.estimated_signal_power) - self.estimated_noise_power ) / self.estimated_noise_power
                     if self.enable_log:
                         self.logger.info(
-                            f"CFO {self.cfo:.2f} Hz, STO {self.init_sto}, EsN0est: {10 * np.log10(SNR_est):.2f} dB, Avg. Amplitude: {np.mean(np.abs(y)):.2e}"
+                            f"CFO {self.cfo:.2f} Hz, STO {self.init_sto}, EsN0est: {10 * np.log10(SNR_est):.2f} dB, Avg. Amplitude: {np.sqrt(np.abs(self.estimated_signal_power)):.2e}"
                         )
                     measurements_logger.info(f"CFO={self.cfo},STO={self.init_sto}")
-                    measurements_logger.info(f"EsN0dB={10 * np.log10(SNR_est):.2f},GRXdB={self.Grx}")
+                    measurements_logger.info(f"EsN0dB={10 * np.log10(SNR_est):.2f},GRXdB={self.Grx},N0={self.estimated_noise_power}")
 
                 self.consume_each(win_size + self.osr - self.init_sto)
             else:

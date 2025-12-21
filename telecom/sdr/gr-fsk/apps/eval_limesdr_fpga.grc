@@ -88,6 +88,18 @@ blocks:
     coordinate: [1240, 20.0]
     rotation: 0
     state: enabled
+- name: N_Moose
+  id: variable
+  parameters:
+    comment: ''
+    value: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [928, 116.0]
+    rotation: 0
+    state: true
 - name: Print_metrics
   id: variable_qtgui_check_box
   parameters:
@@ -162,7 +174,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: data_rate/4
+    value: data_rate/2
   states:
     bus_sink: false
     bus_source: false
@@ -359,6 +371,7 @@ blocks:
   id: fsk_synchronization
   parameters:
     Grx: rx_gain
+    N_Moose: N_Moose
     affinity: ''
     alias: ''
     comment: ''
@@ -387,7 +400,7 @@ blocks:
     enable: Enable_detection
     maxoutbuf: '0'
     minoutbuf: '0'
-    threshold: '0.99'
+    threshold: '0.90'
   states:
     bus_sink: false
     bus_source: false
@@ -498,7 +511,7 @@ blocks:
     bus_structure: null
     coordinate: [288, 100.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: virtual_sink_0
   id: virtual_sink
   parameters:

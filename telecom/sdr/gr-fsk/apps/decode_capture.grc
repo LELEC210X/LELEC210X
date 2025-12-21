@@ -33,6 +33,18 @@ options:
     state: enabled
 
 blocks:
+- name: N_Moose
+  id: variable
+  parameters:
+    comment: ''
+    value: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [616, 148.0]
+    rotation: 0
+    state: true
 - name: carrier_freq
   id: variable
   parameters:
@@ -309,6 +321,7 @@ blocks:
   id: fsk_synchronization
   parameters:
     Grx: '0'
+    N_Moose: N_Moose
     affinity: ''
     alias: ''
     comment: ''
