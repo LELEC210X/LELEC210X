@@ -7,8 +7,8 @@ This document contains guidelines for the characterization of telecommunication 
 
 \subsubsection{Transmitter side}
 
-For the measurements, we will place the MCU in radio evaluation mode where packets of a given size are sent sequentially. When you press the blue button,  a series of packets are transmitted at a given transmit power. 
-You have access to all the parameters in the \texttt{eval\_radio.h} file: 
+For the measurements, we will place the MCU in radio evaluation mode where packets of a given size are sent sequentially. When you press the blue button,  a series of packets are transmitted at a given transmit power.
+You have access to all the parameters in the \texttt{eval\_radio.h} file:
 \begin{itemize}
     \item \texttt{N\_PACKETS}: number of packets sent with an equal TX power each time you press the blue button,
     \item \texttt{PAYLOAD\_LEN}: size of the packet payload in bytes,
@@ -26,7 +26,7 @@ Use the SMA cable for your PER/BER-($E_s/N_0$) measurements to minimize external
 
 \subsubsection{Receiver side}
 
-To obtain the experimental packet error rate (PER) as a function of the signal-to-noise ratio (SNR), one must measure the number of packets incorrectly demodulated by GNU Radio at several SNRs. To characterize the demodulator and the synchronization blocks without being impacted by others impairments, we developed a measurement setup in GNU Radio in which an AWGN is injected with a controlled power (N0). This allows to set only once the RX gain, and to then modify the SNR, or $E_s/N_0$, by changing the injected noise power. Moreover, this ease the detection of the packets which is done by the packet presence detector (PPD) before the addition of the AWGN. The flowgraph is named \texttt{eval\_error\_rate.grc}. On the left side, you can see the AWGN that is generated in the block \textit{"Noise source"} and added to the signal captured by the LimeSDR. 
+To obtain the experimental packet error rate (PER) as a function of the signal-to-noise ratio (SNR), one must measure the number of packets incorrectly demodulated by GNU Radio at several SNRs. To characterize the demodulator and the synchronization blocks without being impacted by others impairments, we developed a measurement setup in GNU Radio in which an AWGN is injected with a controlled power (N0). This allows to set only once the RX gain, and to then modify the SNR, or $E_s/N_0$, by changing the injected noise power. Moreover, this ease the detection of the packets which is done by the packet presence detector (PPD) before the addition of the AWGN. The flowgraph is named \texttt{eval\_error\_rate.grc}. On the left side, you can see the AWGN that is generated in the block \textit{"Noise source"} and added to the signal captured by the LimeSDR.
 
 First, modify all the parameters of the flowgraph based on your scenario, e.g, the carrier frequency, the payload length in bytes, the $N$ used for the Moose algorithm. Launch the flowgraph a first time to see how you can manipulate some dynamic parameters. You have access to three sliders in the GUI :
 \begin{itemize}
@@ -35,12 +35,12 @@ First, modify all the parameters of the flowgraph based on your scenario, e.g, t
     \item \texttt{K\_threshold}: K factor of the packet presence detector in the FPGA.
 \end{itemize}
 
-Moreover, you have a series of check boxes : 
+Moreover, you have a series of check boxes :
 \begin{itemize}
     \item \texttt{Print\_payload} : print the demodulated payload of the packets,
-    \item \texttt{Print\_metrics} : print the estimated CFO, STO and $E_s/N_0$ of the received packets, 
+    \item \texttt{Print\_metrics} : print the estimated CFO, STO and $E_s/N_0$ of the received packets,
     \item \texttt{Print\_results} : print the count of successfully demodulated packets,
-    \item \texttt{Enable\_detection} : activates the chain by enabling PPD on the FPGA, 
+    \item \texttt{Enable\_detection} : activates the chain by enabling PPD on the FPGA,
     \item \texttt{Enable\_FPGA\_FIR} : activates the FIR on the FPGA.
 \end{itemize}
 
@@ -51,12 +51,12 @@ When you are ready to start a batch measurement, follow this procedure:
     \item Launch the GNU Radio flow graph \texttt{eval\_error\_rate.grc}.
     \item Update the \texttt{noise\_pow\_dB} so that it is some order of magnitude above the quantization noise. The \texttt{Noise\_amplitude} is displayed in the GUI to guide you. You should be higher than -40 dB (0.01 in linear scale).
     \item Enable the detection of the packets (Check \texttt{Enable\_detection}) and the FPGA FIR (\texttt{Enable\_FPGA\_FIR}).
-    \item Change the RX gain and start sending some packets. The average measured signal amplitude is displayed in the console ("\texttt{Avg Ampltiude XX}") and indicates if you are close to the saturation, which must be avoided. 
+    \item Change the RX gain and start sending some packets. The average measured signal amplitude is displayed in the console ("\texttt{Avg Ampltiude XX}") and indicates if you are close to the saturation, which must be avoided.
     \item Modify \texttt{noise\_pow\_dB} so that the measured $E_s/N_0$ (in the console) is close to the one you want to measure.\footnote[2]{If you specified a \texttt{STEP\_PA\_LEVEL} different from 0 on the MCU, remember that transmit power, and thus $E_s/N_0$, will be modified every time you press the blue button of the Nucleo.}
     \item You can deactivate the print of the metrics and of the payload to ease the reading of the console.
     \item Send and receive packets at this $E_s/N_0$.
     \item Repeat from step 5.
-\end{enumerate} 
+\end{enumerate}
 
 Once you finished your measurement, you can close the flowgraph. All measurements are saved in the file \texttt{telecom/sdr/gr-fsk/apps/measurements.txt}. \textbf{Beware that this file is erased each time you relaunch the flowgraph}, so do not forget to rename it when you have made important measurements. The file contains the demodulated payload,  the estimators and the \textit{noise\_pow\_dB} and \textit{rx\_gain} configurations for each packet. You can post-process the \texttt{measurements.txt} file using the following Python script:
     \begin{center}
