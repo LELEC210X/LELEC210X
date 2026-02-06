@@ -114,11 +114,12 @@ status of your different branches, or to resolve conflicts easily.
 
 There exists plently of applications, but we recommend:
 
-- [GitKraken](https://www.gitkraken.com/),
+- ~~[GitKraken](https://www.gitkraken.com/),
   a Git tool for basic and advanced usage,
   with
   [pro-version for free for students](https://www.gitkraken.com/github-student-developer-pack).
-  This is maybe the **best solution** for beginners;
+  This is maybe the **best solution** for beginners~~
+  (since January 2026, we no longer recommend to use GitKraken due to their free version being limited to 6 months);
 - [Git's Visual Studio Code extension](https://code.visualstudio.com/docs/sourcecontrol/overview),
   which offers everything you need inside the Visual Studio Code editor;
 - and [GitHub Desktop](https://desktop.github.com/),
