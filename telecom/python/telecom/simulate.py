@@ -339,7 +339,7 @@ def main(chain_name: str, seed: int, dest: Path):  # noqa: C901
         _fig, ax = plt.subplots(1, 3, constrained_layout=True, figsize=(10, 4))
         ax[0].plot(EsN0s_dB, preamble_mis * 100, "-s", label="Miss-detection")
         ax[0].plot(EsN0s_dB, preamble_false * 100, "-s", label="False-detection")
-        ax[0].set_title("Preamble detection error ")
+        ax[0].set_title("Preamble detection error (K=2)")
         ax[0].set_ylabel("[%]")
         ax[0].set_xlabel("$E_{s}/N_{0}$ [dB]")
         ax[0].set_ylim([-1, 101])

@@ -31,8 +31,8 @@ class Chain:
 
     cfo_val: float = np.nan
     cfo_range: tuple[float, float] = (
-        8000,
-        10000,  # defines the CFO range when random (in Hz) #(1000 in old repo)
+        0,
+        5000,  # defines the CFO range when random (in Hz) #(1000 in old repo)
     )
 
     EsN0_range: np.ndarray = np.arange(0, 30, 1)
@@ -141,14 +141,14 @@ class BasicChain(Chain):
 
     ideal_preamble_detect = True
 
-    use_dynamic_ppd       = True
+    use_dynamic_ppd       = False
 
     def preamble_detect_ppd(self, y):
         """Detect a preamble computing the received energy (average on a window)."""
         long_term_sum_W = 256
         short_term_sum_W = 32
 
-        K = 5 * (short_term_sum_W / long_term_sum_W)
+        K = 2 * (short_term_sum_W / long_term_sum_W)
 
         long_window = np.ones(long_term_sum_W)
         short_window = np.ones(short_term_sum_W)
@@ -205,7 +205,7 @@ class BasicChain(Chain):
 
         return float(cfo_est)
 
-    ideal_sto_estimation = False
+    ideal_sto_estimation = True
 
     def sto_estimation(self, y):
         """Estimates symbol timing (fractional) based on phase shifts."""
