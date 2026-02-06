@@ -91,16 +91,16 @@ def main(chain_name: str, seed: int, dest: Path):  # noqa: C901
     # Transmitted signals that are independent of the payload bits
     x_pr = chain.modulate(chain.preamble)  # Modulated signal containing preamble
     x_sync = chain.modulate(chain.sync_word)  # Modulated signal containing sync_word
-    hdr_len_byte = (len(chain.preamble) + len(chain.sync_word))//8
+    hdr_len_byte = (len(chain.preamble) + len(chain.sync_word)) // 8
     x_noise = np.zeros(
         chain.payload_len * chain.osr_tx
     )  # Padding some zeros before the packets
 
     # Lowpass filter taps
-    if chain.taps is None : 
+    if chain.taps is None:
         if chain.numtaps != 0:
             taps = firwin(chain.numtaps, chain.cutoff, fs=fs)
-    else :
+    else:
         taps = chain.taps
 
     rng = np.random.default_rng(seed)
@@ -189,7 +189,9 @@ def main(chain_name: str, seed: int, dest: Path):  # noqa: C901
                 if chain.ideal_cfo_estimation:
                     cfo_hat = cfo
                 else:
-                    cfo_hat = chain.cfo_estimation(y_detect [:hdr_len_byte*8*chain.osr_rx])
+                    cfo_hat = chain.cfo_estimation(
+                        y_detect[: hdr_len_byte * 8 * chain.osr_rx]
+                    )
 
                 t = np.arange(len(y_detect)) / (B * R)
                 y_sync = np.exp(-1j * 2 * np.pi * cfo_hat * t) * y_detect
@@ -203,7 +205,9 @@ def main(chain_name: str, seed: int, dest: Path):  # noqa: C901
                     else:
                         tau_hat = sto_idx
                 else:
-                    tau_hat = chain.sto_estimation(y_sync[:hdr_len_byte*8*chain.osr_rx])
+                    tau_hat = chain.sto_estimation(
+                        y_sync[: hdr_len_byte * 8 * chain.osr_rx]
+                    )
 
                 y_sync = y_sync[tau_hat:]
 
@@ -381,5 +385,4 @@ def main(chain_name: str, seed: int, dest: Path):  # noqa: C901
 
 
 if __name__ == "__main__":
-    
     main()
