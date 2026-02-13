@@ -47,11 +47,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-<<<<<<< HEAD
     coordinate: [1192, 284.0]
-=======
-    coordinate: [1208, 268.0]
->>>>>>> 6713b9158c65d6b99ea14fa7a08ce27de3ff2b06
     rotation: 0
     state: true
 - name: Enable_detection
@@ -260,11 +256,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-<<<<<<< HEAD
     coordinate: [400, 176.0]
-=======
-    coordinate: [544, 124.0]
->>>>>>> 6713b9158c65d6b99ea14fa7a08ce27de3ff2b06
     rotation: 0
     state: true
 - name: packet_len
@@ -445,10 +437,6 @@ blocks:
   id: fsk_synchronization
   parameters:
     Grx: rx_gain
-<<<<<<< HEAD
-=======
-    N_Moose: N_Moose
->>>>>>> 6713b9158c65d6b99ea14fa7a08ce27de3ff2b06
     affinity: ''
     alias: ''
     comment: ''
@@ -469,27 +457,6 @@ blocks:
     state: enabled
 - name: limesdr_fpga_flag_detector_0
   id: limesdr_fpga_flag_detector
-<<<<<<< HEAD
-=======
-  parameters:
-    affinity: ''
-    alias: ''
-    burst_len: 8*oversampling*(packet_len+1) + oversampling
-    comment: ''
-    enable: Enable_detection
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    threshold: '0.99'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [112, 396.0]
-    rotation: 0
-    state: true
-- name: limesdr_fpga_source_0
-  id: limesdr_fpga_source
->>>>>>> 6713b9158c65d6b99ea14fa7a08ce27de3ff2b06
   parameters:
     AGC_mode: '0'
     AGC_window: '0'
@@ -624,11 +591,7 @@ connections:
 - [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
 - [limesdr_fpga_flag_detector_0, '0', fsk_synchronization_0, '0']
 - [limesdr_fpga_flag_detector_0, SignalPow, fsk_synchronization_0, SignalPow]
-<<<<<<< HEAD
 - [limesdr_fpga_source_0_0, '0', dc_blocker_xx_0, '0']
-=======
-- [limesdr_fpga_source_0, '0', dc_blocker_xx_0, '0']
->>>>>>> 6713b9158c65d6b99ea14fa7a08ce27de3ff2b06
 
 metadata:
   file_format: 1
