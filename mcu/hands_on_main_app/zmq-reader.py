@@ -1,7 +1,7 @@
 """
 classifier_zmq.py
 ELEC PROJECT - 210x
-Adapté pour recevoir les feature vectors depuis un ZMQ Sink GNU Radio et classifier en live
+Key given by Jerome : dhhnIfhwZxTJCv7135lIm3zFtr96r3H3_xtKXRxU
 """
 
 import pickle
