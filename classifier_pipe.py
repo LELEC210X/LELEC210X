@@ -10,10 +10,10 @@ Usage : uv run auth --tcp-address tcp://127.0.0.1:10000 --no-authenticate | uv r
 
 # --- CONFIGURATION ---
 # local : "http://localhost:5001"
-# pour les démos : "http://lelec210x.sipr.ucl.ac.be/lelec210x"
-HOSTNAME = "http://lelec210x.sipr.ucl.ac.be" 
-#GROUP_KEY = "kKAT5_L9VFTGS8mpQqcnKd_5JgkIyqDTUSYmaojK" # local key
-GROUP_KEY = "dhhnIfhwZxTJCv7135lIm3zFtr96r3H3_xtKXRxU" # key for demos
+# pour les démos : "http://lelec210x.sipr.ucl.ac.be"
+HOSTNAME = "http://localhost:5001" 
+GROUP_KEY = "HEwRwpUXlF3aTkpQusc4bMa30NCxhqWnHnjuPu05" # local key
+#GROUP_KEY = "dhhnIfhwZxTJCv7135lIm3zFtr96r3H3_xtKXRxU" # key for demos
 
 MODEL_PATH = "classification/data/models/random_forest_model.pickle"
 PRINT_PREFIX = "DF:HEX:" 
@@ -29,7 +29,7 @@ except FileNotFoundError:
 
 def submit_guess(guess):
     """Envoie la réponse au serveur"""
-    url = f"http://lelec210x.sipr.ucl.ac.be/lelec210x/leaderboard/submit/{GROUP_KEY}/{guess}"
+    url = f"{HOSTNAME}/lelec210x/leaderboard/submit/{GROUP_KEY}/{guess}"
     try:
         guess1 = requests.post(url, timeout=0.5)
         print("guess1:",guess1.content)

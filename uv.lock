@@ -1268,12 +1268,8 @@ name = "lelec210x"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
-<<<<<<< HEAD
     { name = "pyzmq" },
     { name = "requests" },
-=======
-    { name = "package-name" },
->>>>>>> 6713b9158c65d6b99ea14fa7a08ce27de3ff2b06
 ]
 
 [package.dev-dependencies]
@@ -1304,14 +1300,10 @@ youtube-dl = [
 ]
 
 [package.metadata]
-<<<<<<< HEAD
 requires-dist = [
     { name = "pyzmq", specifier = ">=27.1.0" },
     { name = "requests", specifier = ">=2.32.5" },
 ]
-=======
-requires-dist = [{ name = "package-name", specifier = ">=0.1" }]
->>>>>>> 6713b9158c65d6b99ea14fa7a08ce27de3ff2b06
 
 [package.metadata.requires-dev]
 dev = [
