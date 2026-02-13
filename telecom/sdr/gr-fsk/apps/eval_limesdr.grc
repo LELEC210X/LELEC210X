@@ -50,6 +50,18 @@ blocks:
     coordinate: [1096, 140.0]
     rotation: 0
     state: true
+- name: N_Moose
+  id: variable
+  parameters:
+    comment: ''
+    value: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1096, 236.0]
+    rotation: 0
+    state: true
 - name: Print_metrics
   id: variable_qtgui_check_box
   parameters:
@@ -365,6 +377,7 @@ blocks:
   id: fsk_synchronization
   parameters:
     Grx: rx_gain
+    N_Moose: N_Moose
     affinity: ''
     alias: ''
     comment: ''

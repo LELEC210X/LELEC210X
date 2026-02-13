@@ -5,6 +5,42 @@ BIT_RATE = 50e3
 PREAMBLE = np.array([int(bit) for bit in f"{0xAAAAAAAA:0>32b}"])
 SYNC_WORD = np.array([int(bit) for bit in f"{0x3E2A54B7:0>32b}"])
 
+FPGA_FIR_TAPS = np.array(
+    [
+        -0.001201261290430126,
+        0.0020488944185569607,
+        -0.0020751053507837938,
+        4.910806933254215e-18,
+        0.004754535968663148,
+        -0.00987450755161552,
+        0.00995675888032359,
+        -1.4391882903962387e-17,
+        -0.018922538981281996,
+        0.036214375130954504,
+        -0.03468641976116993,
+        2.4803862788187382e-17,
+        0.06848299151299582,
+        -0.15293237705130486,
+        0.22297239138994396,
+        0.7505245253702963,
+        0.22297239138994396,
+        -0.15293237705130486,
+        0.06848299151299582,
+        2.4803862788187385e-17,
+        -0.034686419761169936,
+        0.036214375130954504,
+        -0.018922538981282003,
+        -1.4391882903962393e-17,
+        0.00995675888032359,
+        -0.009874507551615532,
+        0.004754535968663151,
+        4.910806933254215e-18,
+        -0.0020751053507837946,
+        0.0020488944185569607,
+        -0.001201261290430126,
+    ]
+)  # Example coefficients
+
 
 class Chain:
     name: str = ""
@@ -22,7 +58,7 @@ class Chain:
     payload_len: int = 8 * 100  # Number of bits per packet
 
     # Simulation parameters
-    n_packets: int = 100  # Number of sent packets
+    n_packets: int = 500  # Number of sent packets
 
     # Channel parameters
     sto_val: float = 0
@@ -30,13 +66,14 @@ class Chain:
 
     cfo_val: float = np.nan
     cfo_range: tuple[float, float] = (
-        8_000,
-        10_000,  # defines the CFO range when random (in Hz) #(1000 in old repo)
+        0,
+        5000,  # defines the CFO range when random (in Hz) #(1000 in old repo)
     )
 
     EsN0_range: np.ndarray = np.arange(0, 30, 1)
 
     # Lowpass filter parameters
+    taps: np.ndarray = FPGA_FIR_TAPS  # specify None to make the simulator recompute the filter based on below spec
     numtaps: int = 100
     cutoff: float = 150e3  # BIT_RATE * osr_rx / 2.0001  # or 2*BIT_RATE,...
 
@@ -78,9 +115,21 @@ class Chain:
     # Rx methods
     ideal_preamble_detect: bool = False
 
+    use_dynamic_ppd: bool = False
+
     def preamble_detect(self, y: np.array) -> int | None:
         """
-        Detect the preamble in a given received signal.
+        Detect the preamble in a given received signal with hard thresholding.
+
+        :param y: The received signal, (N * R,).
+        :return: The index where the preamble starts,
+            or None if not found.
+        """
+        raise NotImplementedError
+
+    def preamble_detect_ppd(self, y: np.array) -> int | None:
+        """
+        Detect the preamble in a given received signal with sofft thresholding.
 
         :param y: The received signal, (N * R,).
         :return: The index where the preamble starts,
@@ -127,12 +176,14 @@ class BasicChain(Chain):
 
     ideal_preamble_detect = True
 
+    use_dynamic_ppd = True
+
     def preamble_detect_ppd(self, y):
         """Detect a preamble computing the received energy (average on a window)."""
         long_term_sum_W = 256
         short_term_sum_W = 32
 
-        K = 5 * (short_term_sum_W / long_term_sum_W)
+        K = 2 * (short_term_sum_W / long_term_sum_W)
 
         long_window = np.ones(long_term_sum_W)
         short_window = np.ones(short_term_sum_W)
@@ -166,7 +217,7 @@ class BasicChain(Chain):
 
         return None
 
-    ideal_cfo_estimation = True
+    ideal_cfo_estimation = False
 
     def cfo_estimation(self, y):
         """Estimates CFO using Moose algorithm, on first samples of preamble."""
@@ -174,19 +225,9 @@ class BasicChain(Chain):
         R = self.osr_rx           # receiver oversampling factor
         B = self.bit_rate         # bit rate (1/T)
         T = 1.0 / B               # symbol period
-        N = 4                     # number of CPFSK symbols per block (can be changed)
+        N = 4                    # number of CPFSK symbols per block (can be changed)
         Nt = N * R                # number of samples per block
 
-        # Ensure signal is long enough
-        if len(y) < 2 * Nt:
-            Nt = len(y) // 2      # fallback to available data
-            if Nt == 0:
-                return 0.0
-
-        # --- Moose algorithm implementation ---
-        # The preamble repeats "10", so we can assume the first 2 blocks are identical up to the CFO phase rotation
-        # vectorized complex correlation between the two blocks
-        # numerator = sum_{l=0..Nt-1} y[l+Nt] * conj(y[l])
         numerator = np.vdot(y[:Nt], y[Nt : Nt + Nt])
 
         # Compute the angle of the complex correlation term
@@ -230,20 +271,14 @@ class BasicChain(Chain):
         # Each row contains the R samples over one symbol period
         y = np.resize(y, (nb_syms, R))
 
-        # === TO DO: generate the reference waveforms used for the correlation ===
         fd = self.freq_dev       # frequency deviation Δf
         B = self.bit_rate        # bit rate
         T = 1.0 / B              # symbol period
 
-        # For n = 0...R-1, generate reference signals for bits "0" and "1"
         n = np.arange(R)
         ref1 = np.exp(-1j * 2 * np.pi * fd * n * T / R)  # waveform for bit=1
         ref0 = np.exp(+1j * 2 * np.pi * fd * n * T / R)  # waveform for bit=0
 
-        # === TO DO: compute the correlations with the two reference waveforms (r0 and r1) ===
-        # vectorized correlation: compute dot product of each row with ref1/ref0
-        # y has shape (nb_syms, R), ref* has shape (R,)
-        # result r1_vec[k] = sum_j y[k,j] * ref1[j]
         r1_vec = (y * ref1).sum(axis=1) / R
         r0_vec = (y * ref0).sum(axis=1) / R
 

@@ -91,13 +91,17 @@ def main(chain_name: str, seed: int, dest: Path):  # noqa: C901
     # Transmitted signals that are independent of the payload bits
     x_pr = chain.modulate(chain.preamble)  # Modulated signal containing preamble
     x_sync = chain.modulate(chain.sync_word)  # Modulated signal containing sync_word
+    hdr_len_byte = (len(chain.preamble) + len(chain.sync_word)) // 8
     x_noise = np.zeros(
         chain.payload_len * chain.osr_tx
     )  # Padding some zeros before the packets
 
     # Lowpass filter taps
-    if chain.numtaps != 0:
-        taps = firwin(chain.numtaps, chain.cutoff, fs=fs)
+    if chain.taps is None:
+        if chain.numtaps != 0:
+            taps = firwin(chain.numtaps, chain.cutoff, fs=fs)
+    else:
+        taps = chain.taps
 
     rng = np.random.default_rng(seed)
 
@@ -150,7 +154,10 @@ def main(chain_name: str, seed: int, dest: Path):  # noqa: C901
             if chain.ideal_preamble_detect:
                 detect_idx = start_idx
             else:
-                detect_idx = chain.preamble_detect(y_filt)
+                if chain.use_dynamic_ppd:
+                    detect_idx = chain.preamble_detect_ppd(y_filt)
+                else:
+                    detect_idx = chain.preamble_detect(y_filt)
 
             preamble_error = False
             if detect_idx is None:  # Misdetection of preamble
@@ -182,7 +189,9 @@ def main(chain_name: str, seed: int, dest: Path):  # noqa: C901
                 if chain.ideal_cfo_estimation:
                     cfo_hat = cfo
                 else:
-                    cfo_hat = chain.cfo_estimation(y_detect)
+                    cfo_hat = chain.cfo_estimation(
+                        y_detect[: hdr_len_byte * 8 * chain.osr_rx]
+                    )
 
                 t = np.arange(len(y_detect)) / (B * R)
                 y_sync = np.exp(-1j * 2 * np.pi * cfo_hat * t) * y_detect
@@ -196,7 +205,9 @@ def main(chain_name: str, seed: int, dest: Path):  # noqa: C901
                     else:
                         tau_hat = sto_idx
                 else:
-                    tau_hat = chain.sto_estimation(y_sync)
+                    tau_hat = chain.sto_estimation(
+                        y_sync[: hdr_len_byte * 8 * chain.osr_rx]
+                    )
 
                 y_sync = y_sync[tau_hat:]
 
@@ -253,7 +264,7 @@ def main(chain_name: str, seed: int, dest: Path):  # noqa: C901
     preamble_false = preamble_false_detect / chain.n_packets
 
     # FIR response plot
-    if chain.numtaps != 0:
+    if chain.numtaps != 1:
         # Filter transfer function
         w, h = freqz(taps)
         f = w * fs * 0.5 / np.pi
@@ -276,63 +287,82 @@ def main(chain_name: str, seed: int, dest: Path):  # noqa: C901
     BER_th_BPSK = 0.5 * erfc(np.sqrt(10 ** (EsN0_th / 10)))
     BER_th_noncoh = 0.5 * np.exp(-(10 ** (EsN0_th / 10)) / 2)
 
-    _fig, ax = plt.subplots(1, 2, constrained_layout=True, figsize=(10, 4))
-    ax[0].plot(EsN0s_dB, BER, "-s", label="Simulation")
-    ax[0].plot(EsN0_th, BER_th, label="AWGN Th. FSK")
-    ax[0].plot(EsN0_th, BER_th_noncoh, label="AWGN Th. FSK non-coh.")
-    ax[0].plot(EsN0_th, BER_th_BPSK, label="AWGN Th. BPSK")
-    ax[0].set_ylabel("BER")
-    ax[0].set_xlabel("$E_{s}/N_{0}$ [dB]")
-    ax[0].set_yscale("log")
-    ax[0].set_ylim((1e-6, 1))
-    ax[0].set_xlim((EsN0s_dB[0], EsN0s_dB[-1]))
-    ax[0].grid(True)
-    ax[0].set_title("Average Bit Error Rate")
-    ax[0].legend()
-    # Packet error rate
-    ax[1].plot(EsN0s_dB, PER, "-s", label="Simulation")
-    ax[1].plot(EsN0_th, 1 - (1 - BER_th) ** chain.payload_len, label="AWGN Th. FSK")
-    ax[1].plot(
-        EsN0_th,
-        1 - (1 - BER_th_noncoh) ** chain.payload_len,
-        label="AWGN Th. FSK non-coh.",
-    )
-    ax[1].plot(
-        EsN0_th, 1 - (1 - BER_th_BPSK) ** chain.payload_len, label="AWGN Th. BPSK"
-    )
-    ax[1].set_ylabel("PER")
-    ax[1].set_xlabel("$E_{s}/N_{0}$ [dB]")
-    ax[1].set_yscale("log")
-    ax[1].set_ylim((1e-6, 1))
-    ax[1].set_xlim((EsN0s_dB[0], EsN0s_dB[-1]))
-    ax[1].grid(True)
-    ax[1].set_title("Average Packet Error Rate")
-    ax[1].legend()
+    # Display option: set to True to show only BER vs SNR and skip other plots
+    show_only_ber = False
 
-    # Preamble metrics
-    _fig, ax = plt.subplots(1, 3, constrained_layout=True, figsize=(10, 4))
-    ax[0].plot(EsN0s_dB, preamble_mis * 100, "-s", label="Miss-detection")
-    ax[0].plot(EsN0s_dB, preamble_false * 100, "-s", label="False-detection")
-    ax[0].set_title("Preamble detection error ")
-    ax[0].set_ylabel("[%]")
-    ax[0].set_xlabel("$E_{s}/N_{0}$ [dB]")
-    ax[0].set_ylim([-1, 101])
-    ax[0].grid()
-    ax[0].legend()
-    # RMSE CFO
-    ax[1].semilogy(EsN0s_dB, RMSE_cfo, "-s")
-    ax[1].set_title("RMSE CFO")
-    ax[1].set_ylabel("RMSE [-]")
-    ax[1].set_xlabel("$E_{s}/N_{0}$ [dB]")
-    ax[1].grid()
-    # RMSE STO
-    ax[2].semilogy(EsN0s_dB, RMSE_sto, "-s")
-    ax[2].set_title("RMSE STO")
-    ax[2].set_ylabel("RMSE [-]")
-    ax[2].set_xlabel("$E_{s}/N_{0}$ [dB]")
-    ax[2].grid()
+    if show_only_ber:
+        _fig, ax = plt.subplots(1, 1, constrained_layout=True, figsize=(7, 4))
+        ax.plot(EsN0s_dB, BER, "-s", label="Simulation")
+        ax.plot(EsN0_th, BER_th, label="AWGN Th. FSK")
+        ax.plot(EsN0_th, BER_th_noncoh, label="AWGN Th. FSK non-coh.")
+        ax.plot(EsN0_th, BER_th_BPSK, label="AWGN Th. BPSK")
+        ax.set_ylabel("BER")
+        ax.set_xlabel("$E_{s}/N_{0}$ [dB]")
+        ax.set_yscale("log")
+        ax.set_ylim((1e-6, 1))
+        ax.set_xlim((EsN0s_dB[0], EsN0s_dB[-1]))
+        ax.grid(True)
+        ax.set_title("Average Bit Error Rate")
+        ax.legend()
+        plt.show()
+    else:
+        _fig, ax = plt.subplots(1, 2, constrained_layout=True, figsize=(10, 4))
+        ax[0].plot(EsN0s_dB, BER, "-s", label="Simulation")
+        ax[0].plot(EsN0_th, BER_th, label="AWGN Th. FSK")
+        ax[0].plot(EsN0_th, BER_th_noncoh, label="AWGN Th. FSK non-coh.")
+        ax[0].plot(EsN0_th, BER_th_BPSK, label="AWGN Th. BPSK")
+        ax[0].set_ylabel("BER")
+        ax[0].set_xlabel("$E_{s}/N_{0}$ [dB]")
+        ax[0].set_yscale("log")
+        ax[0].set_ylim((1e-6, 1))
+        ax[0].set_xlim((EsN0s_dB[0], EsN0s_dB[-1]))
+        ax[0].grid(True)
+        ax[0].set_title("Average Bit Error Rate")
+        ax[0].legend()
+        # Packet error rate
+        ax[1].plot(EsN0s_dB, PER, "-s", label="Simulation")
+        ax[1].plot(EsN0_th, 1 - (1 - BER_th) ** chain.payload_len, label="AWGN Th. FSK")
+        ax[1].plot(
+            EsN0_th,
+            1 - (1 - BER_th_noncoh) ** chain.payload_len,
+            label="AWGN Th. FSK non-coh.",
+        )
+        ax[1].plot(
+            EsN0_th, 1 - (1 - BER_th_BPSK) ** chain.payload_len, label="AWGN Th. BPSK"
+        )
+        ax[1].set_ylabel("PER")
+        ax[1].set_xlabel("$E_{s}/N_{0}$ [dB]")
+        ax[1].set_yscale("log")
+        ax[1].set_ylim((1e-6, 1))
+        ax[1].set_xlim((EsN0s_dB[0], EsN0s_dB[-1]))
+        ax[1].grid(True)
+        ax[1].set_title("Average Packet Error Rate")
+        ax[1].legend()
 
-    plt.show()
+        # Preamble metrics
+        _fig, ax = plt.subplots(1, 3, constrained_layout=True, figsize=(10, 4))
+        ax[0].plot(EsN0s_dB, preamble_mis * 100, "-s", label="Miss-detection")
+        ax[0].plot(EsN0s_dB, preamble_false * 100, "-s", label="False-detection")
+        ax[0].set_title("Preamble detection error (K=2)")
+        ax[0].set_ylabel("[%]")
+        ax[0].set_xlabel("$E_{s}/N_{0}$ [dB]")
+        ax[0].set_ylim([-1, 101])
+        ax[0].grid()
+        ax[0].legend()
+        # RMSE CFO
+        ax[1].semilogy(EsN0s_dB, RMSE_cfo, "-s")
+        ax[1].set_title("RMSE CFO")
+        ax[1].set_ylabel("RMSE [-]")
+        ax[1].set_xlabel("$E_{s}/N_{0}$ [dB]")
+        ax[1].grid()
+        # RMSE STO
+        ax[2].semilogy(EsN0s_dB, RMSE_sto, "-s")
+        ax[2].set_title("RMSE STO")
+        ax[2].set_ylabel("RMSE [-]")
+        ax[2].set_xlabel("$E_{s}/N_{0}$ [dB]")
+        ax[2].grid()
+
+        plt.show()
 
     # Save simulation outputs (for later post-processing, building new figures,...)
     save_var = np.column_stack(

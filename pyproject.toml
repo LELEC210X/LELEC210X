@@ -26,8 +26,12 @@ readme = "README.md"
 requires-python = "==3.10.*"
 version = "0.1.0"
 dependencies = [
+<<<<<<< HEAD
     "pyzmq>=27.1.0",
     "requests>=2.32.5",
+=======
+    "package-name>=0.1",
+>>>>>>> 6713b9158c65d6b99ea14fa7a08ce27de3ff2b06
 ]
 
 [tool.ruff]

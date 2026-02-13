@@ -123,7 +123,7 @@ class RoundsConfig(BaseModel):
     start_paused: bool = True
     restart_when_finished: bool = False
     pause_between_rounds: bool = True
-    latency_margin: PositiveFloat = 2.0
+    latency_margin: PositiveFloat = 3.0
     delay_before_playing: PositiveFloat = 0.5
     delay_after_playing: PositiveFloat = 0.5
     sound_duration: PositiveFloat = 5.0

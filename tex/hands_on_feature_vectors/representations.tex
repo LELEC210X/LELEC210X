@@ -1,6 +1,6 @@
 \section{Fixed-point representation}
 %
-As a recall, when you are working on data with Python and Matlab, you generally deal with variables stored in the floating point representation as depicted in Fig.~(\ref{fig: 32}). This representation is close to what you learned as the \emph{scientific notation} and is convenient for simple operations as addition and multiplication.
+As a recall, when you are working on data with Python or Matlab, you generally deal with variables stored in the floating point representation as depicted in Fig.~(\ref{fig: 32}). This representation is close to what you learned as the \emph{scientific notation} and is convenient for simple operations as addition and multiplication.
 %
 \begin{figure}[H]
     \centering
@@ -22,7 +22,7 @@ Take the example of $8$-bit fixed-point. This means we can go in the range [$-12
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Rescaling fixed points}
 Think about multiplying your temperature signal by $8$, any value initially $>0.125$ will become larger than one and you will loose all the information about the signal. This is called \textbf{overflow}. In that case, you must first divide your signal by $8$ (equivalent to a $3$-bit shift to the right $\gg 3$).
 % , and keep in mind your maximum value is now $45*8 = 360$ [$\degree$C].
-This is called \textbf{rescaling} \\
+This is called \textbf{rescaling}. \\
 \\
  In order to avoid overflows or precision loss, it often appears some functions rescale a signal in their computations. This information is given in the doc and you have to take it into account to recover the true amplitude of your final result. Note \emph{arm$\_$rfft$\_$q15} does rescale the signal, with a shift depending on the RFFT size, find the corresponding table in the doc.
 \end{bclogo}

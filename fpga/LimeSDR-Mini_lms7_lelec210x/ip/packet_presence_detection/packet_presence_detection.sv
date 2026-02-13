@@ -211,9 +211,18 @@ module dual_running_sum #(
 
 	
 	// ------------------- TO DO : START -------------------
-	assign long_shift_rescale = long_sum_reg ;
+	// Based on figure 3 :
+	// Long-term sum: multiply by K then divide by 8
+	// Short-term sum: multiply by 8
+
+	// For power-of-2 operations, we can use bit shifting:
+	// !! Apply operations in the correct order to avoid overflow !!
+	always @(posedge clock) begin
+
+		long_shift_rescale <= long_sum_reg* K;
+	end 
 	
-	assign short_sum_rescale  = short_sum_reg;
+	assign short_sum_rescale  = short_sum_reg << 6; 
 	
 	// ------------------- TO DO : END   -------------------
 	

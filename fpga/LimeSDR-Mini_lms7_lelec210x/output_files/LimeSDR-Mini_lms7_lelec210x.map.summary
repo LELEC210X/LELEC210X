@@ -1,10 +1,10 @@
-Analysis & Synthesis Status : Successful - Mon Nov 03 10:51:17 2025
-Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Standard Edition
+Analysis & Synthesis Status : Successful - Fri Nov 14 18:02:00 2025
+Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 Revision Name : LimeSDR-Mini_lms7_lelec210x
 Top-level Entity Name : lms7_trx_top
 Family : MAX 10
-Total logic elements : 15,156
-    Total combinational functions : 9,440
+Total logic elements : 15,112
+    Total combinational functions : 9,378
     Dedicated logic registers : 10,726
 Total registers : 10730
 Total pins : 117

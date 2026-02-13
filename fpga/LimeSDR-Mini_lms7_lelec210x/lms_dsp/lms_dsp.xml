@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy
- date="2025.11.03.10:21:14"
- outputDirectory="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/">
+ date="2025.11.14.17:59:02"
+ outputDirectory="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/">
  <perimeter>
   <parameter
      name="AUTO_GENERATION_ID"
@@ -131,14 +131,14 @@
  </perimeter>
  <entity
    path=""
-   parameterizationKey="lms_dsp:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=10M16SAU169C8G,AUTO_DEVICE_FAMILY=MAX 10,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1762161641,AUTO_UNIQUE_ID=(AVS2FIFO:1.0:datawidth=48)(FIFO2AVS:1.0:datawidth=48)(clock_source:18.1:clockFrequency=125000000,clockFrequencyKnown=true,inputClockFrequency=0,resetSynchronousEdges=NONE)(altera_fir_compiler_ii:18.1:L_bandsFilter=1,MODE_STRING=0,1,2,3,ModeWidth=0,backPressure=false,bankCount=1,bankDisplay=0,bankInWidth=0,baseAddress=0,busAddressWidth=5,busDataWidth=16,chanPerInputInterface=1,chanPerOutputInterface=1,channelModes=0,1,clockRate=0.4,clockSlack=0,coeffBitWidth=8,coeffBitWidth_derived=8,coeffComplex=false,coeffFracBitWidth=7,coeffNum=31,coeffReload=false,coeffScaling=auto,coeffSetFixedValue=0,0,0,0,0,-1,1,0,-3,6,-5,0,11,-25,37,127,37,-25,11,0,-5,6,-3,0,1,-1,0,0,0,0,0,coeffSetFixedValueImag=0,0,0,0,0,0,0,0,coeffSetRealValue=-0.001201261290430126,0.0020488944185569607,-0.0020751053507837938,4.910806933254215E-18,0.004754535968663148,-0.00987450755161552,0.00995675888032359,-1.4391882903962387E-17,-0.018922538981281996,0.036214375130954504,-0.03468641976116993,2.4803862788187382E-17,0.06848299151299582,-0.15293237705130486,0.22297239138994396,0.7505245253702963,0.22297239138994396,-0.15293237705130486,0.06848299151299582,2.4803862788187385E-17,-0.034686419761169936,0.036214375130954504,-0.018922538981282003,-1.4391882903962393E-17,0.00995675888032359,-0.009874507551615532,0.004754535968663151,4.910806933254215E-18,-0.0020751053507837946,0.0020488944185569607,-0.001201261290430126,coeffSetRealValueImag=0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0530093, -0.04498, 0.0, 0.0749693, 0.159034, 0.224907, 0.249809, 0.224907, 0.159034, 0.0749693, 0.0, -0.04498, -0.0530093, -0.0321283, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,coeffSetScaleValue=0.0,0.0,0.0,0.0,0.0,-0.0059096419320495775,0.0059096419320495775,0.0,-0.017728925796148733,0.03545785159229747,-0.029548209660247887,0.0,0.06500606125254535,-0.14774104830123944,0.21865675148583436,0.7505245253702963,0.21865675148583436,-0.14774104830123944,0.06500606125254535,0.0,-0.029548209660247887,0.03545785159229747,-0.017728925796148733,0.0,0.0059096419320495775,-0.0059096419320495775,0.0,0.0,0.0,0.0,0.0,coeffSetScaleValueImag=0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,coeffType=frac,coefficientReadback=false,coefficientWriteable=false,decimFactor=1,delayRAMBlockThreshold=20,deviceFamily=MAX 10,dspCount=0,dualMemDistRAMThreshold=1280,errorList=0,filterType=single,funcResult=-interp=1 -decim=1 -incycles=1 -len=31 -bankcount=1 -nsym -nband=1 -chans=2 -family=&quot;MAX 10&quot; 
+   parameterizationKey="lms_dsp:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=10M16SAU169C8G,AUTO_DEVICE_FAMILY=MAX 10,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1763139530,AUTO_UNIQUE_ID=(AVS2FIFO:1.0:datawidth=48)(FIFO2AVS:1.0:datawidth=48)(clock_source:18.1:clockFrequency=125000000,clockFrequencyKnown=true,inputClockFrequency=0,resetSynchronousEdges=NONE)(altera_fir_compiler_ii:18.1:L_bandsFilter=1,MODE_STRING=0,1,2,3,ModeWidth=0,backPressure=false,bankCount=1,bankDisplay=0,bankInWidth=0,baseAddress=0,busAddressWidth=5,busDataWidth=16,chanPerInputInterface=1,chanPerOutputInterface=1,channelModes=0,1,clockRate=0.4,clockSlack=0,coeffBitWidth=8,coeffBitWidth_derived=8,coeffComplex=false,coeffFracBitWidth=7,coeffNum=31,coeffReload=false,coeffScaling=auto,coeffSetFixedValue=0,0,0,0,0,-1,1,0,-3,6,-5,0,11,-25,37,127,37,-25,11,0,-5,6,-3,0,1,-1,0,0,0,0,0,coeffSetFixedValueImag=0,0,0,0,0,0,0,0,coeffSetRealValue=-0.001201261290430126,0.0020488944185569607,-0.0020751053507837938,4.910806933254215E-18,0.004754535968663148,-0.00987450755161552,0.00995675888032359,-1.4391882903962387E-17,-0.018922538981281996,0.036214375130954504,-0.03468641976116993,2.4803862788187382E-17,0.06848299151299582,-0.15293237705130486,0.22297239138994396,0.7505245253702963,0.22297239138994396,-0.15293237705130486,0.06848299151299582,2.4803862788187385E-17,-0.034686419761169936,0.036214375130954504,-0.018922538981282003,-1.4391882903962393E-17,0.00995675888032359,-0.009874507551615532,0.004754535968663151,4.910806933254215E-18,-0.0020751053507837946,0.0020488944185569607,-0.001201261290430126,coeffSetRealValueImag=0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0530093, -0.04498, 0.0, 0.0749693, 0.159034, 0.224907, 0.249809, 0.224907, 0.159034, 0.0749693, 0.0, -0.04498, -0.0530093, -0.0321283, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,coeffSetScaleValue=0.0,0.0,0.0,0.0,0.0,-0.0059096419320495775,0.0059096419320495775,0.0,-0.017728925796148733,0.03545785159229747,-0.029548209660247887,0.0,0.06500606125254535,-0.14774104830123944,0.21865675148583436,0.7505245253702963,0.21865675148583436,-0.14774104830123944,0.06500606125254535,0.0,-0.029548209660247887,0.03545785159229747,-0.017728925796148733,0.0,0.0059096419320495775,-0.0059096419320495775,0.0,0.0,0.0,0.0,0.0,coeffSetScaleValueImag=0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,coeffType=frac,coefficientReadback=false,coefficientWriteable=false,decimFactor=1,delayRAMBlockThreshold=20,deviceFamily=MAX 10,dspCount=0,dualMemDistRAMThreshold=1280,errorList=0,filterType=single,funcResult=-interp=1 -decim=1 -incycles=1 -len=31 -bankcount=1 -nsym -nband=1 -chans=2 -family=&quot;MAX 10&quot; 
 |{}|2|2|1|1|25|18|17|8|noCode|LUTS: 2504 DSPs: 0 RAM Bits: 0|,hardMultiplierThreshold=-1,inputBitWidth=12,inputChannelNum=2,inputFracBitWidth=11,inputInterfaceNum=2,inputRate=0.4,inputType=frac,interpFactor=1,karatsuba=false,latency=17,latency_realOnly=17,lutCount=2504,mRAMThreshold=1000000,memBitCount=0,modeFormatted=--,num_modes=2,outBitWidth=12,outFracBitWidth=9,outFullFracBitWidth=18,outFullFracBitWidth_realOnly=18,outLSBRound=trunc,outLsbBitRem=9,outMSBRound=trunc,outMsbBitRem=4,outType=frac,outWidth=25,outWidth_realOnly=25,outputInterfaceNum=2,outputfifodepth=16,outputfifodepth_realOnly=8,readWriteMode=read_write,reconfigurable=false,reconfigurable_list=0,speedGrade=slow,symmetryMode=nsym)(packet_presence_detection:1.0:DATA_WIDTH=12,PASSTHROUGH_LEN_WIDTH=16)(altera_avalon_st_splitter:18.1:BITS_PER_SYMBOL=12,CHANNEL_WIDTH=1,DATA_WIDTH=24,EMPTY_WIDTH=1,ERROR_DESCRIPTOR=,ERROR_WIDTH=1,MAX_CHANNELS=1,NUMBER_OF_OUTPUTS=2,QUALIFY_VALID_OUT=0,READY_LATENCY=0,USE_CHANNEL=0,USE_DATA=1,USE_ERROR=0,USE_PACKETS=0,USE_READY=0,USE_VALID=1)(avalon_streaming:18.1:)(avalon_streaming:18.1:)(avalon_streaming:18.1:)(avalon_streaming:18.1:)(avalon_streaming:18.1:)(clock:18.1:)(clock:18.1:)(clock:18.1:)(clock:18.1:)(clock:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)"
    instancePathKey="lms_dsp"
    kind="lms_dsp"
    version="1.0"
    name="lms_dsp">
   <parameter name="AUTO_CLK_CLOCK_RATE" value="-1" />
-  <parameter name="AUTO_GENERATION_ID" value="1762161641" />
+  <parameter name="AUTO_GENERATION_ID" value="1763139530" />
   <parameter name="AUTO_DEVICE" value="10M16SAU169C8G" />
   <parameter name="AUTO_DEVICE_FAMILY" value="MAX 10" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="-1" />
@@ -147,196 +147,196 @@
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="8" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/lms_dsp.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/lms_dsp.v"
        type="VERILOG" />
   </generatedFiles>
   <childGeneratedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/avs2fifo.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/avs2fifo.v"
        type="VERILOG"
        attributes="TOP_LEVEL_FILE" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/fifo2avs.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/fifo2avs.v"
        type="VERILOG"
        attributes="TOP_LEVEL_FILE" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/dspba_library_package.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/dspba_library_package.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/dspba_library.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/dspba_library.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_math_pkg_hpfir.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_math_pkg_hpfir.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_lib_pkg_hpfir.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_lib_pkg_hpfir.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_avalon_streaming_controller_hpfir.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_avalon_streaming_controller_hpfir.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_avalon_streaming_sink_hpfir.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_avalon_streaming_sink_hpfir.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_avalon_streaming_source_hpfir.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_avalon_streaming_source_hpfir.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_roundsat_hpfir.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_roundsat_hpfir.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_avalon_sc_fifo.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_avalon_sc_fifo.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_fir_compiler_ii_0_rtl_core.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_fir_compiler_ii_0_rtl_core.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_fir_compiler_ii_0_ast.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_fir_compiler_ii_0_ast.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_fir_compiler_ii_0.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_fir_compiler_ii_0.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/packet_presence_detection.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/packet_presence_detection.sv"
        type="SYSTEM_VERILOG"
        attributes="TOP_LEVEL_FILE" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/short_shift.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/short_shift.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/long_shift.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/long_shift.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_avalon_st_splitter.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_avalon_st_splitter.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter.v"
        type="VERILOG" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_error_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_error_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001.v"
        type="VERILOG" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_state_ram.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_state_ram.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_data_ram.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_data_ram.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_1.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_1.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002.v"
        type="VERILOG" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_state_ram.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_state_ram.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_data_ram.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_data_ram.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_1.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_1.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_003.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_003.v"
        type="VERILOG" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_003_error_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_003_error_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_reset_controller.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_reset_controller.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_reset_synchronizer.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_reset_synchronizer.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_reset_controller.sdc"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_reset_controller.sdc"
        type="SDC"
        attributes="" />
   </childGeneratedFiles>
   <sourceFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp.qsys" />
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp.qsys" />
   </sourceFiles>
   <childSourceFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/AVS2FIFO_hw.tcl" />
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/AVS2FIFO_hw.tcl" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/FIFO2AVS_hw.tcl" />
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/FIFO2AVS_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/dsp/altera_fir_compiler_ii/src/HP_FIR_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/dsp/altera_fir_compiler_ii/src/HP_FIR_hw.tcl" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_hw.tcl" />
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_splitter/altera_avalon_st_splitter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_splitter/altera_avalon_st_splitter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_error_adapter/avalon-st_error_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_error_adapter/avalon-st_error_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_data_format_adapter/avalon-st_data_format_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_data_format_adapter/avalon-st_data_format_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_data_format_adapter/avalon-st_data_format_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_data_format_adapter/avalon-st_data_format_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_error_adapter/avalon-st_error_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_error_adapter/avalon-st_error_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/merlin/altera_reset_controller/altera_reset_controller_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/merlin/altera_reset_controller/altera_reset_controller_hw.tcl" />
   </childSourceFiles>
   <messages>
    <message level="Debug" culprit="lms_dsp">queue size: 0 starting:lms_dsp "lms_dsp"</message>
@@ -357,8 +357,8 @@
    <message level="Info" culprit="avalon_st_adapter">Inserting error_adapter: error_adapter_0</message>
    <message level="Debug" culprit="avalon_st_adapter.clk_bridge_0">Timing: ELA:1/0.000s</message>
    <message level="Debug" culprit="avalon_st_adapter.rst_bridge_0">Timing: ELA:2/0.000s/0.000s</message>
-   <message level="Debug" culprit="avalon_st_adapter.error_adapter_0">Timing: ELA:1/0.019s</message>
-   <message level="Debug" culprit="avalon_st_adapter">Timing: COM:3/0.034s/0.043s</message>
+   <message level="Debug" culprit="avalon_st_adapter.error_adapter_0">Timing: ELA:1/0.010s</message>
+   <message level="Debug" culprit="avalon_st_adapter">Timing: COM:3/0.013s/0.016s</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
@@ -366,11 +366,11 @@
    <message level="Info" culprit="avalon_st_adapter_001">Inserting timing_adapter: timing_adapter_0</message>
    <message level="Info" culprit="avalon_st_adapter_001">Inserting timing_adapter: timing_adapter_1</message>
    <message level="Debug" culprit="avalon_st_adapter_001.clk_bridge_0">Timing: ELA:1/0.000s</message>
-   <message level="Debug" culprit="avalon_st_adapter_001.rst_bridge_0">Timing: ELA:2/0.003s/0.005s</message>
-   <message level="Debug" culprit="avalon_st_adapter_001.data_format_adapter_0">Timing: ELA:1/0.011s</message>
-   <message level="Debug" culprit="avalon_st_adapter_001.timing_adapter_0">Timing: ELA:1/0.014s</message>
-   <message level="Debug" culprit="avalon_st_adapter_001.timing_adapter_1">Timing: ELA:2/0.013s/0.014s</message>
-   <message level="Debug" culprit="avalon_st_adapter_001">Timing: COM:2/0.065s/0.107s</message>
+   <message level="Debug" culprit="avalon_st_adapter_001.rst_bridge_0">Timing: ELA:2/0.000s/0.000s</message>
+   <message level="Debug" culprit="avalon_st_adapter_001.data_format_adapter_0">Timing: ELA:1/0.007s</message>
+   <message level="Debug" culprit="avalon_st_adapter_001.timing_adapter_0">Timing: ELA:1/0.004s</message>
+   <message level="Debug" culprit="avalon_st_adapter_001.timing_adapter_1">Timing: ELA:2/0.003s/0.006s</message>
+   <message level="Debug" culprit="avalon_st_adapter_001">Timing: COM:2/0.032s/0.055s</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
@@ -379,18 +379,18 @@
    <message level="Info" culprit="avalon_st_adapter_002">Inserting timing_adapter: timing_adapter_1</message>
    <message level="Debug" culprit="avalon_st_adapter_002.clk_bridge_0">Timing: ELA:1/0.000s</message>
    <message level="Debug" culprit="avalon_st_adapter_002.rst_bridge_0">Timing: ELA:2/0.000s/0.000s</message>
-   <message level="Debug" culprit="avalon_st_adapter_002.data_format_adapter_0">Timing: ELA:1/0.015s</message>
-   <message level="Debug" culprit="avalon_st_adapter_002.timing_adapter_0">Timing: ELA:1/0.012s</message>
-   <message level="Debug" culprit="avalon_st_adapter_002.timing_adapter_1">Timing: ELA:2/0.019s/0.027s</message>
-   <message level="Debug" culprit="avalon_st_adapter_002">Timing: COM:3/0.073s/0.109s</message>
+   <message level="Debug" culprit="avalon_st_adapter_002.data_format_adapter_0">Timing: ELA:1/0.004s</message>
+   <message level="Debug" culprit="avalon_st_adapter_002.timing_adapter_0">Timing: ELA:1/0.011s</message>
+   <message level="Debug" culprit="avalon_st_adapter_002.timing_adapter_1">Timing: ELA:2/0.015s/0.020s</message>
+   <message level="Debug" culprit="avalon_st_adapter_002">Timing: COM:3/0.038s/0.047s</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
    <message level="Info" culprit="avalon_st_adapter_003">Inserting error_adapter: error_adapter_0</message>
-   <message level="Debug" culprit="avalon_st_adapter_003.clk_bridge_0">Timing: ELA:1/0.014s</message>
-   <message level="Debug" culprit="avalon_st_adapter_003.rst_bridge_0">Timing: ELA:2/0.003s/0.004s</message>
-   <message level="Debug" culprit="avalon_st_adapter_003.error_adapter_0">Timing: ELA:1/0.012s</message>
-   <message level="Debug" culprit="avalon_st_adapter_003">Timing: COM:3/0.033s/0.039s</message>
+   <message level="Debug" culprit="avalon_st_adapter_003.clk_bridge_0">Timing: ELA:1/0.000s</message>
+   <message level="Debug" culprit="avalon_st_adapter_003.rst_bridge_0">Timing: ELA:2/0.000s/0.000s</message>
+   <message level="Debug" culprit="avalon_st_adapter_003.error_adapter_0">Timing: ELA:1/0.004s</message>
+   <message level="Debug" culprit="avalon_st_adapter_003">Timing: COM:3/0.015s/0.023s</message>
    <message
        level="Debug"
        culprit="com_altera_sopcmodel_transforms_avalonst_AvalonStreamingTransform"><![CDATA[After transform: <b>10</b> modules, <b>27</b> connections]]></message>
@@ -414,7 +414,7 @@
    <message level="Debug" culprit="lms_dsp">queue size: 8 starting:FIFO2AVS "submodules/fifo2avs"</message>
    <message level="Info" culprit="FIFO2AVS_0"><![CDATA["<b>lms_dsp</b>" instantiated <b>FIFO2AVS</b> "<b>FIFO2AVS_0</b>"]]></message>
    <message level="Debug" culprit="lms_dsp">queue size: 7 starting:altera_fir_compiler_ii "submodules/lms_dsp_fir_compiler_ii_0"</message>
-   <message level="Debug" culprit="fir_compiler_ii_0"><![CDATA[C:/intelfpga/18.1/quartus/dspba/backend/windows64/fir_ip_api_interface lms_dsp_fir_compiler_ii_0_rtl_core . MAX10 slow 0 0.4 2 0.4 31 1 1 1 nsym 1 12 11 8 7 0 false false -- 16 5 20 1280 1000000 -1 true false 1 -- <<< 0,0,0,0,0,-1,1,0,-3,6,-5,0,11,-25,37,127,37,-25,11,0,-5,6,-3,0,1,-1,0,0,0,0,0 ]]></message>
+   <message level="Debug" culprit="fir_compiler_ii_0"><![CDATA[C:/intelfpga_lite/18.1/quartus/dspba/backend/windows64/fir_ip_api_interface lms_dsp_fir_compiler_ii_0_rtl_core . MAX10 slow 0 0.4 2 0.4 31 1 1 1 nsym 1 12 11 8 7 0 false false -- 16 5 20 1280 1000000 -1 true false 1 -- <<< 0,0,0,0,0,-1,1,0,-3,6,-5,0,11,-25,37,127,37,-25,11,0,-5,6,-3,0,1,-1,0,0,0,0,0 ]]></message>
    <message level="Debug" culprit="fir_compiler_ii_0"><![CDATA[OUTPARAMS -interp=1 -decim=1 -incycles=1 -len=31 -bankcount=1 -nsym -nband=1 -chans=2 -family="MAX 10" 
 |{}|2|2|1|1|25|18|17|8|true|LUTS: 2504 DSPs: 0 RAM Bits: 0|lms_dsp_fir_compiler_ii_0_rtl_core.vhd|]]></message>
    <message level="Info" culprit="fir_compiler_ii_0">PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 25, Bankcount 1, Latency 17, CoefBitWidth 8</message>
@@ -517,14 +517,14 @@
   <parameter name="datawidth" value="48" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/avs2fifo.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/avs2fifo.v"
        type="VERILOG"
        attributes="TOP_LEVEL_FILE" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/AVS2FIFO_hw.tcl" />
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/AVS2FIFO_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="lms_dsp" as="AVS2FIFO_0" />
@@ -543,14 +543,14 @@
   <parameter name="datawidth" value="48" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/fifo2avs.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/fifo2avs.v"
        type="VERILOG"
        attributes="TOP_LEVEL_FILE" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/FIFO2AVS_hw.tcl" />
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/FIFO2AVS_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="lms_dsp" as="FIFO2AVS_0" />
@@ -654,64 +654,64 @@
   <parameter name="hardMultiplierThreshold" value="-1" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/dspba_library_package.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/dspba_library_package.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/dspba_library.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/dspba_library.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_math_pkg_hpfir.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_math_pkg_hpfir.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_lib_pkg_hpfir.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_lib_pkg_hpfir.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_avalon_streaming_controller_hpfir.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_avalon_streaming_controller_hpfir.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_avalon_streaming_sink_hpfir.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_avalon_streaming_sink_hpfir.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_avalon_streaming_source_hpfir.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_avalon_streaming_source_hpfir.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_roundsat_hpfir.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/auk_dspip_roundsat_hpfir.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_avalon_sc_fifo.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_avalon_sc_fifo.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_fir_compiler_ii_0_rtl_core.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_fir_compiler_ii_0_rtl_core.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_fir_compiler_ii_0_ast.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_fir_compiler_ii_0_ast.vhd"
        type="VHDL"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_fir_compiler_ii_0.vhd"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_fir_compiler_ii_0.vhd"
        type="VHDL"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/dsp/altera_fir_compiler_ii/src/HP_FIR_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/dsp/altera_fir_compiler_ii/src/HP_FIR_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="lms_dsp" as="fir_compiler_ii_0" />
   <messages>
    <message level="Debug" culprit="lms_dsp">queue size: 7 starting:altera_fir_compiler_ii "submodules/lms_dsp_fir_compiler_ii_0"</message>
-   <message level="Debug" culprit="fir_compiler_ii_0"><![CDATA[C:/intelfpga/18.1/quartus/dspba/backend/windows64/fir_ip_api_interface lms_dsp_fir_compiler_ii_0_rtl_core . MAX10 slow 0 0.4 2 0.4 31 1 1 1 nsym 1 12 11 8 7 0 false false -- 16 5 20 1280 1000000 -1 true false 1 -- <<< 0,0,0,0,0,-1,1,0,-3,6,-5,0,11,-25,37,127,37,-25,11,0,-5,6,-3,0,1,-1,0,0,0,0,0 ]]></message>
+   <message level="Debug" culprit="fir_compiler_ii_0"><![CDATA[C:/intelfpga_lite/18.1/quartus/dspba/backend/windows64/fir_ip_api_interface lms_dsp_fir_compiler_ii_0_rtl_core . MAX10 slow 0 0.4 2 0.4 31 1 1 1 nsym 1 12 11 8 7 0 false false -- 16 5 20 1280 1000000 -1 true false 1 -- <<< 0,0,0,0,0,-1,1,0,-3,6,-5,0,11,-25,37,127,37,-25,11,0,-5,6,-3,0,1,-1,0,0,0,0,0 ]]></message>
    <message level="Debug" culprit="fir_compiler_ii_0"><![CDATA[OUTPARAMS -interp=1 -decim=1 -incycles=1 -len=31 -bankcount=1 -nsym -nband=1 -chans=2 -family="MAX 10" 
 |{}|2|2|1|1|25|18|17|8|true|LUTS: 2504 DSPs: 0 RAM Bits: 0|lms_dsp_fir_compiler_ii_0_rtl_core.vhd|]]></message>
    <message level="Info" culprit="fir_compiler_ii_0">PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 25, Bankcount 1, Latency 17, CoefBitWidth 8</message>
@@ -729,22 +729,22 @@
   <parameter name="PASSTHROUGH_LEN_WIDTH" value="16" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/packet_presence_detection.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/packet_presence_detection.sv"
        type="SYSTEM_VERILOG"
        attributes="TOP_LEVEL_FILE" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/short_shift.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/short_shift.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/long_shift.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/long_shift.v"
        type="VERILOG"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_hw.tcl" />
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/packet_presence_detection_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="lms_dsp" as="packet_presence_detection_0" />
@@ -778,14 +778,14 @@
   <parameter name="USE_CHANNEL" value="0" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_avalon_st_splitter.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_avalon_st_splitter.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_splitter/altera_avalon_st_splitter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_splitter/altera_avalon_st_splitter_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="lms_dsp" as="st_splitter_0" />
@@ -828,22 +828,22 @@
   <parameter name="outEmptyWidth" value="1" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter.v"
        type="VERILOG" />
   </generatedFiles>
   <childGeneratedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_error_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_error_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </childGeneratedFiles>
   <sourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
   </sourceFiles>
   <childSourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_error_adapter/avalon-st_error_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_error_adapter/avalon-st_error_adapter_hw.tcl" />
   </childSourceFiles>
   <instantiator instantiator="lms_dsp" as="avalon_st_adapter" />
   <messages>
@@ -900,42 +900,42 @@
   <parameter name="outEmptyWidth" value="2" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001.v"
        type="VERILOG" />
   </generatedFiles>
   <childGeneratedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_state_ram.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_state_ram.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_data_ram.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_data_ram.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_1.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_1.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </childGeneratedFiles>
   <sourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
   </sourceFiles>
   <childSourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_data_format_adapter/avalon-st_data_format_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_data_format_adapter/avalon-st_data_format_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
   </childSourceFiles>
   <instantiator instantiator="lms_dsp" as="avalon_st_adapter_001" />
   <messages>
@@ -998,42 +998,42 @@
   <parameter name="outEmptyWidth" value="1" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002.v"
        type="VERILOG" />
   </generatedFiles>
   <childGeneratedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_state_ram.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_state_ram.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_data_ram.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_data_ram.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_1.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_1.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </childGeneratedFiles>
   <sourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
   </sourceFiles>
   <childSourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_data_format_adapter/avalon-st_data_format_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_data_format_adapter/avalon-st_data_format_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
   </childSourceFiles>
   <instantiator instantiator="lms_dsp" as="avalon_st_adapter_002" />
   <messages>
@@ -1096,22 +1096,22 @@
   <parameter name="outEmptyWidth" value="1" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_003.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_003.v"
        type="VERILOG" />
   </generatedFiles>
   <childGeneratedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_003_error_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_003_error_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </childGeneratedFiles>
   <sourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_adapter/altera_avalon_st_adapter_hw.tcl" />
   </sourceFiles>
   <childSourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_error_adapter/avalon-st_error_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_error_adapter/avalon-st_error_adapter_hw.tcl" />
   </childSourceFiles>
   <instantiator instantiator="lms_dsp" as="avalon_st_adapter_003" />
   <messages>
@@ -1143,22 +1143,22 @@
    name="altera_reset_controller">
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_reset_controller.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_reset_controller.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_reset_synchronizer.v"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_reset_synchronizer.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_reset_controller.sdc"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/altera_reset_controller.sdc"
        type="SDC"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/merlin/altera_reset_controller/altera_reset_controller_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/merlin/altera_reset_controller/altera_reset_controller_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="lms_dsp" as="rst_controller" />
@@ -1189,14 +1189,14 @@
   <parameter name="inUsePackets" value="false" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_error_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_error_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_error_adapter/avalon-st_error_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_error_adapter/avalon-st_error_adapter_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="lms_dsp_avalon_st_adapter" as="error_adapter_0" />
@@ -1227,22 +1227,22 @@
   <parameter name="inUsePackets" value="false" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_state_ram.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_state_ram.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_data_ram.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_data_format_adapter_0_data_ram.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_data_format_adapter/avalon-st_data_format_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_data_format_adapter/avalon-st_data_format_adapter_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator
@@ -1277,14 +1277,14 @@
   <parameter name="inUsePackets" value="false" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="lms_dsp_avalon_st_adapter_001" as="timing_adapter_0" />
@@ -1317,14 +1317,14 @@
   <parameter name="inUsePackets" value="false" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_1.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_001_timing_adapter_1.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="lms_dsp_avalon_st_adapter_001" as="timing_adapter_1" />
@@ -1355,22 +1355,22 @@
   <parameter name="inUsePackets" value="false" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_state_ram.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_state_ram.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_data_ram.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_data_format_adapter_0_data_ram.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_data_format_adapter/avalon-st_data_format_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_data_format_adapter/avalon-st_data_format_adapter_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator
@@ -1405,14 +1405,14 @@
   <parameter name="inUsePackets" value="false" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="lms_dsp_avalon_st_adapter_002" as="timing_adapter_0" />
@@ -1445,14 +1445,14 @@
   <parameter name="inUsePackets" value="false" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_1.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_002_timing_adapter_1.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_timing_adapter/avalon-st_timing_adapter_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="lms_dsp_avalon_st_adapter_002" as="timing_adapter_1" />
@@ -1483,14 +1483,14 @@
   <parameter name="inUsePackets" value="false" />
   <generatedFiles>
    <file
-       path="D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_003_error_adapter_0.sv"
+       path="C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/lms_dsp/synthesis/submodules/lms_dsp_avalon_st_adapter_003_error_adapter_0.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="C:/intelfpga/18.1/ip/altera/avalon_st/altera_avalon_st_error_adapter/avalon-st_error_adapter_hw.tcl" />
+       path="C:/intelfpga_lite/18.1/ip/altera/avalon_st/altera_avalon_st_error_adapter/avalon-st_error_adapter_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="lms_dsp_avalon_st_adapter_003" as="error_adapter_0" />

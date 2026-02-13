@@ -94,4 +94,8 @@ if __name__ == "__main__":
             print("\nStopped by user.")
             break
         except Exception as e:
+<<<<<<< HEAD
             print("Error receiving or processing packet:", e)
+=======
+            print("Error receiving or processing packet:", e)
+>>>>>>> 6713b9158c65d6b99ea14fa7a08ce27de3ff2b06

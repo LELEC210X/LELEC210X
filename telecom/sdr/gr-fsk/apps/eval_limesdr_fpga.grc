@@ -92,7 +92,11 @@ blocks:
   id: variable
   parameters:
     comment: ''
+<<<<<<< HEAD
     value: '4'
+=======
+    value: '2'
+>>>>>>> 6713b9158c65d6b99ea14fa7a08ce27de3ff2b06
   states:
     bus_sink: false
     bus_source: false
@@ -371,6 +375,7 @@ blocks:
   id: fsk_synchronization
   parameters:
     Grx: rx_gain
+    N_Moose: N_Moose
     affinity: ''
     alias: ''
     comment: ''

@@ -21,8 +21,18 @@ private:
     float d_threshold;
     int d_burst_len;
     bool d_triggered;
+    bool d_backoff;
     int d_remaining;
+    int d_ndata_sigEst;
+    int d_ndetected;
     float signalPower;
+    int d_count_backoff;
+
+    
+    std::chrono::time_point<std::chrono::steady_clock> m_last_check;
+    std::chrono::time_point<std::chrono::steady_clock> m_now;
+    std::chrono::time_point<std::chrono::steady_clock> m_elapsed;
+
 
 public:
     flag_detector_impl(bool enable, float threshold, int burst_len);
