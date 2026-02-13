@@ -2,6 +2,8 @@
 
 This folder contains everything you need to run a local version of the leaderboard.
 
+During the contest and demos, the leaderboard will be available at this address: http://lelec210x.sipr.ucl.ac.be/lelec210x/leaderboard.
+
 > [!NOTE]
 > If you are a student,
 > the most important section for the contest is **Submitting a guess**
