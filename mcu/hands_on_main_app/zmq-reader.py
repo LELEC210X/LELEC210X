@@ -1,13 +1,14 @@
 """
-classifier.py
+classifier_zmq.py
 ELEC PROJECT - 210x
-Adapté pour recevoir les feature vectors directement depuis GNU Radio / LimeSDR sur le même PC
+Adapté pour recevoir les feature vectors depuis un ZMQ Sink GNU Radio et classifier en live
 """
 
 import pickle
 from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
+import zmq
 from classification.utils.plots import plot_specgram
 
 # -----------------------------
@@ -19,11 +20,15 @@ model = pickle.load(open(model_file, "rb"))
 
 MELVEC_LENGTH = 20
 N_MELVECS = 20
-dt = np.dtype(np.uint16).newbyteorder("<")
 EXPECTED_LEN = 412  # header (4) + payload (400) + sécurité
+dt = np.dtype(np.uint16).newbyteorder("<")
+
+# ZMQ parameters
+ZMQ_IP = "127.0.0.1"  # loopback si même PC
+ZMQ_PORT = 10000        # doit correspondre au port du ZMQ Sink GNU Radio
 
 # -----------------------------
-# Fonction principale
+# Fonction de classification
 # -----------------------------
 def classify_melvec(melvec, msg_counter):
     if len(melvec) < EXPECTED_LEN:
@@ -66,19 +71,27 @@ def classify_melvec(melvec, msg_counter):
     plt.pause(0.001)
     plt.clf()
 
+
 # -----------------------------
-# Exemple d'utilisation
+# Main ZMQ loop
 # -----------------------------
 if __name__ == "__main__":
-    import time
+    context = zmq.Context()
+    socket = context.socket(zmq.SUB)
+    socket.connect(f"tcp://{ZMQ_IP}:{ZMQ_PORT}")
+    socket.setsockopt_string(zmq.SUBSCRIBE, "")  # subscribe à tous les messages
 
-    # Simulation : générer un paquet aléatoire (pour test)
+    print(f"Listening for ZMQ messages on tcp://{ZMQ_IP}:{ZMQ_PORT} ...")
     msg_counter = 0
+
     while True:
-        # Ici, remplace cette ligne par le flux réel venant de GNU Radio
-        melvec = np.random.randint(0, 65535, EXPECTED_LEN, dtype=np.uint16)
-
-        msg_counter += 1
-        classify_melvec(melvec, msg_counter)
-
-        time.sleep(0.1)  # pour simuler un flux de paquets
+        try:
+            msg = socket.recv()  # reçoit le message en bytes
+            melvec = np.frombuffer(msg, dtype=dt)
+            msg_counter += 1
+            classify_melvec(melvec, msg_counter)
+        except KeyboardInterrupt:
+            print("\nStopped by user.")
+            break
+        except Exception as e:
+            print("Error receiving or processing packet:", e)
