@@ -28,14 +28,34 @@ except FileNotFoundError:
     sys.exit(1)
 
 def submit_guess(guess):
-    """Envoie la réponse au serveur"""
+    """
+    Envoie la prédiction au serveur et affiche les détails de la réponse.
+    """
     url = f"{HOSTNAME}/lelec210x/leaderboard/submit/{GROUP_KEY}/{guess}"
+    
     try:
-        guess1 = requests.post(url, timeout=0.5)
-        print("guess1:",guess1.content)
-        print(f"Envoyé au serveur : {guess}", file=sys.stderr)
+        response = requests.post(url, timeout=1.0)
+        print("\n--- [DEBUG SERVEUR] ---", file=sys.stderr)
+        print(f"Statut : {response.status_code} {response.reason}", file=sys.stderr)
+        print(f"Headers : {response.headers}", file=sys.stderr)
+        print(f"Contenu brut (bytes) : {response.content}", file=sys.stderr)
+        print(f"Texte décodé : {response.text}", file=sys.stderr)
+        try:
+            print(f"JSON : {response.json()}", file=sys.stderr)
+        except Exception:
+            pass
+        print("------------------------\n", file=sys.stderr)
+
+        # 200 signifie OK, 404 non trouvé, 401 erreur d'authentification (clé de groupe invalide ?), 500 erreur serveur, 400 son détecté pas authorisé
+        if response.ok:
+            print(f"Succès : '{guess}' bien enregistré.", file=sys.stderr)
+        else:
+            print(f"Le serveur a répondu avec une erreur.", file=sys.stderr)
+
+    except requests.exceptions.Timeout:
+        print("Erreur : Le serveur met trop de temps à répondre.", file=sys.stderr)
     except Exception as e:
-        print(f"Erreur envoi serveur : {e}", file=sys.stderr)
+        print(f"Erreur critique lors de l'envoi : {e}", file=sys.stderr)
 
 def process_line(line):
     line = line.strip()
