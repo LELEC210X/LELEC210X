@@ -6,9 +6,11 @@ Key given by Jerome : dhhnIfhwZxTJCv7135lIm3zFtr96r3H3_xtKXRxU
 
 import pickle
 from pathlib import Path
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
 import zmq
+
 from classification.utils.plots import plot_specgram
 
 # -----------------------------
@@ -25,7 +27,8 @@ dt = np.dtype(np.uint16).newbyteorder("<")
 
 # ZMQ parameters
 ZMQ_IP = "127.0.0.1"  # loopback si même PC
-ZMQ_PORT = 10000        # doit correspondre au port du ZMQ Sink GNU Radio
+ZMQ_PORT = 10000  # doit correspondre au port du ZMQ Sink GNU Radio
+
 
 # -----------------------------
 # Fonction de classification
@@ -43,8 +46,8 @@ def classify_melvec(melvec, msg_counter):
 
     # Construction feature vector (mean + std + max)
     feat_mean = mel_matrix.mean(axis=1)
-    feat_std  = mel_matrix.std(axis=1)
-    feat_max  = mel_matrix.max(axis=1)[:10]
+    feat_std = mel_matrix.std(axis=1)
+    feat_max = mel_matrix.max(axis=1)[:10]
     feature_vector = np.concatenate([feat_mean, feat_std, feat_max]).reshape(1, -1)
 
     # Classification
@@ -53,7 +56,7 @@ def classify_melvec(melvec, msg_counter):
         if hasattr(model, "predict_proba"):
             proba = model.predict_proba(feature_vector)[0]
             confidence = np.max(proba)
-            print(f"Prediction: {prediction} ({confidence*100:.1f}% confidence)")
+            print(f"Prediction: {prediction} ({confidence * 100:.1f}% confidence)")
         else:
             print(f"Prediction: {prediction}")
     except Exception as e:

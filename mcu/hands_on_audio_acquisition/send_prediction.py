@@ -5,18 +5,20 @@ ELEC PROJECT - 210x - Updated with Leaderboard Submission
 import argparse
 import pickle
 from pathlib import Path
-import numpy as np
-import serial
-import requests  # <--- Ajouté pour le leaderboard
+
 import matplotlib.pyplot as plt
+import numpy as np
+import requests  # <--- Ajouté pour le leaderboard
+import serial
 from serial.tools import list_ports
+
 from classification.utils.plots import plot_specgram
 
 # --- CONFIGURATION LEADERBOARD ---
 # Utilise 5001 si tu as suivi mon conseil précédent pour éviter le conflit AirPlay
-HOSTNAME = "http://localhost:5000" 
+HOSTNAME = "http://localhost:5000"
 # Remplace par la clé générée avec 'uv run leaderboard config generate-key "TonGroupe"'
-GROUP_KEY = "5nL3LDIAtNr828vkOh9yzvMoY4CKEL7E6l122fv2" 
+GROUP_KEY = "5nL3LDIAtNr828vkOh9yzvMoY4CKEL7E6l122fv2"
 
 project_root = Path(__file__).resolve().parents[2]
 model_file = project_root / "classification" / "data" / "models" / "knn_model.pickle"
@@ -28,8 +30,9 @@ MELVEC_LENGTH = 20
 
 dt = np.dtype(np.uint16).newbyteorder("<")
 
+
 def submit_guess(guess):
-    """ Envoie la prédiction au serveur de leaderboard """
+    """Envoie la prédiction au serveur de leaderboard"""
     url = f"{HOSTNAME}/lelec210x/leaderboard/submit/{GROUP_KEY}/{guess}"
     try:
         response = requests.post(url, timeout=1)
@@ -40,14 +43,17 @@ def submit_guess(guess):
     except Exception as e:
         print(f"Erreur lors de l'envoi au leaderboard: {e}")
 
+
 def parse_buffer(line):
     line = line.strip()
     if line.startswith(PRINT_PREFIX):
         return bytes.fromhex(line[len(PRINT_PREFIX) :])
     else:
         # On affiche quand même les messages de debug du MCU
-        if line: print(f"[MCU DEBUG] {line}")
+        if line:
+            print(f"[MCU DEBUG] {line}")
         return None
+
 
 def reader(port=None):
     ser = serial.Serial(port=port, baudrate=115200)
@@ -56,6 +62,7 @@ def reader(port=None):
         buffer = parse_buffer(line)
         if buffer is not None:
             yield np.frombuffer(buffer, dtype=dt)
+
 
 if __name__ == "__main__":
     argParser = argparse.ArgumentParser()
@@ -78,17 +85,19 @@ if __name__ == "__main__":
                 continue
 
             msg_counter += 1
-            
+
             # 1) Extraction et Reshape (On saute les 4 premiers uint16 du header)
             mel_payload = melvec[4:404]
             mel_matrix = mel_payload.reshape((N_MELVECS, MELVEC_LENGTH))
 
             # 2) Feature Engineering (Vérifie que c'est identique à ton entraînement !)
             feat_mean = mel_matrix.mean(axis=1)
-            feat_std  = mel_matrix.std(axis=1)
-            feat_max  = mel_matrix.max(axis=1)[:10]
+            feat_std = mel_matrix.std(axis=1)
+            feat_max = mel_matrix.max(axis=1)[:10]
 
-            feature_vector = np.concatenate([feat_mean, feat_std, feat_max]).reshape(1, -1)
+            feature_vector = np.concatenate([feat_mean, feat_std, feat_max]).reshape(
+                1, -1
+            )
 
             # 3) Classification
             try:
@@ -105,7 +114,12 @@ if __name__ == "__main__":
                 print("Erreur classification:", e)
 
             # 5) Affichage optionnel
-            plot_specgram(mel_matrix.T, ax=plt.gca(), is_mel=True, title=f"Détection: {prediction}")
+            plot_specgram(
+                mel_matrix.T,
+                ax=plt.gca(),
+                is_mel=True,
+                title=f"Détection: {prediction}",
+            )
             plt.draw()
             plt.pause(0.01)
             plt.clf()

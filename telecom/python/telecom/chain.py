@@ -222,11 +222,11 @@ class BasicChain(Chain):
     def cfo_estimation(self, y):
         """Estimates CFO using Moose algorithm, on first samples of preamble."""
         # TO DO: extract 2 blocks of size N*R at the start of y
-        R = self.osr_rx           # receiver oversampling factor
-        B = self.bit_rate         # bit rate (1/T)
-        T = 1.0 / B               # symbol period
-        N = 4                    # number of CPFSK symbols per block (can be changed)
-        Nt = N * R                # number of samples per block
+        R = self.osr_rx  # receiver oversampling factor
+        B = self.bit_rate  # bit rate (1/T)
+        T = 1.0 / B  # symbol period
+        N = 4  # number of CPFSK symbols per block (can be changed)
+        Nt = N * R  # number of samples per block
 
         numerator = np.vdot(y[:Nt], y[Nt : Nt + Nt])
 
@@ -271,9 +271,9 @@ class BasicChain(Chain):
         # Each row contains the R samples over one symbol period
         y = np.resize(y, (nb_syms, R))
 
-        fd = self.freq_dev       # frequency deviation Δf
-        B = self.bit_rate        # bit rate
-        T = 1.0 / B              # symbol period
+        fd = self.freq_dev  # frequency deviation Δf
+        B = self.bit_rate  # bit rate
+        T = 1.0 / B  # symbol period
 
         n = np.arange(R)
         ref1 = np.exp(-1j * 2 * np.pi * fd * n * T / R)  # waveform for bit=1

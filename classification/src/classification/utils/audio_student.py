@@ -209,7 +209,6 @@ class AudioUtil:
             sig = sig + bg_sig
 
         return (sig, sr)
-        
 
     def specgram(audio, Nft=512, fs2=11025) -> ndarray:
         """
@@ -223,7 +222,9 @@ class AudioUtil:
         sig, sr = audio
         if sr != fs2:
             sig, sr = AudioUtil.resample((sig, sr), fs2)
-        f, t, S = signal.spectrogram(sig, fs=fs2, nperseg=Nft, noverlap=Nft // 2, mode="magnitude")
+        f, t, S = signal.spectrogram(
+            sig, fs=fs2, nperseg=Nft, noverlap=Nft // 2, mode="magnitude"
+        )
         stft = S[:-1, :]
         # stft /= float(2**8)
         return stft
