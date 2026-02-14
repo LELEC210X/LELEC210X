@@ -714,8 +714,8 @@ class ContentDatabase:
                 )
 
                 self.register_callback(
-                    lambda new_dict, k=key, val_entry=val_entry: (
-                        val_entry.setText(new_dict[k])
+                    lambda new_dict, k=key, val_entry=val_entry: val_entry.setText(
+                        new_dict[k]
                     )
                 )
 
