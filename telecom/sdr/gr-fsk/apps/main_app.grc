@@ -458,12 +458,7 @@ blocks:
 - name: limesdr_fpga_flag_detector_0
   id: limesdr_fpga_flag_detector
   parameters:
-    AGC_mode: '0'
-    AGC_window: '0'
-    K: '0'
-    RSSI_mode: '0'
     affinity: ''
-    agc_enable: '0'
     alias: ''
     burst_len: 8*oversampling*(packet_len+1) + oversampling
     comment: ''

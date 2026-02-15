@@ -14,6 +14,7 @@ Place yourself on the root folder of the project then execute those steps
 uv sync
 uv run gnuradio-companion
 ```
+Open the file `"LELEC210X-project/telecom/sdr/gr-fsk/apps/main_app.grc"`
 
 ### 2. Start the server
 ```bash
@@ -24,3 +25,7 @@ uv run leaderboard serve --open
 ```bash
 uv run auth --tcp-address tcp://127.0.0.1:10000 --no-authenticate | uv run python classifier_pipe.py
 ```
+
+
+pip install streamlit requests
+streamlit run admin_panel.py
