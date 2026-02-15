@@ -51,6 +51,10 @@ directly streamed to `classify`:
 uv run auth | uv run classify
 ```
 
+> [!WARNING]
+> On Windows, the above command might stall and not print anything:
+> check-out https://github.com/LELEC210X/LELEC210X/issues/77 for possible solutions.
+
 Of course, you can pass any argument you like to the first or the second command.
 Note that changing the output `-o` option from `auth` or the input `-i` option from `classify`
 will mean that process piping (`|` is a pipe) will not be possibly anymore.
