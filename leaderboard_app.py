@@ -256,17 +256,6 @@ else:
     # TOUJOURS ajouter à la file d'attente (peu importe le mode)
     new_guess_obj, _ = check_and_add_new_guess(file_path, auto_submit=False)
     
-    # Si mode auto-submit ET qu'il y a un nouveau guess, l'envoyer automatiquement
-    if new_guess_obj and st.session_state.auto_submit:
-        result = send_request("POST", f"/submit/{api_key}/{new_guess_obj['value']}", 
-                            f"Envoi automatique : '{new_guess_obj['value']}'", show_response=False)
-        if result:
-            st.session_state.total_submitted += 1
-            # Retirer de la file après 1 seconde (simulé par rerun)
-            time.sleep(1)
-            # Trouver et supprimer ce guess de la file
-            st.session_state.guess_queue = [g for g in st.session_state.guess_queue if g['id'] != new_guess_obj['id']]
-    
     # 1. DÉTECTION ET FILE D'ATTENTE
     st.header("Gestion des Guesses")
     
@@ -281,13 +270,29 @@ else:
         )
     
     with col2:
-        auto_refresh = st.checkbox("Auto-refresh (2s)", help="Actualise automatiquement pour détecter les nouveaux guesses")
-        if auto_refresh:
-            time.sleep(2)
-            st.rerun()
+        # Auto-refresh est maintenant TOUJOURS actif pour détecter les nouveaux guesses
+        st.caption("🔄 Détection automatique active")
+        # Rafraîchir toutes les 1 seconde pour détecter les nouveaux guesses
+        time.sleep(1)
+        st.rerun()
     
     if st.session_state.auto_submit:
         st.success("Mode envoi automatique activé - Les guesses sont envoyés automatiquement puis disparaissent")
+        
+        # EN MODE AUTO : envoyer tous les guesses en attente
+        guesses_to_remove = []
+        for guess in st.session_state.guess_queue:
+            result = send_request("POST", f"/submit/{api_key}/{guess['value']}", 
+                                f"Envoi auto : '{guess['value']}'", show_response=False)
+            if result:
+                st.session_state.total_submitted += 1
+                guesses_to_remove.append(guess['id'])
+        
+        # Supprimer les guesses envoyés après 1 seconde
+        if guesses_to_remove:
+            time.sleep(1)
+            st.session_state.guess_queue = [g for g in st.session_state.guess_queue 
+                                           if g['id'] not in guesses_to_remove]
     else:
         st.info("Mode manuel activé - Choisissez quels guesses envoyer ou supprimer")
     
