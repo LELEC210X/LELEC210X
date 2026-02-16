@@ -15,17 +15,23 @@ if 'total_submitted' not in st.session_state:
     st.session_state.total_submitted = 0
 if 'mode' not in st.session_state:
     st.session_state.mode = "user"
+if 'auto_submit' not in st.session_state:
+    st.session_state.auto_submit = False
+if 'last_file_mtime' not in st.session_state:
+    st.session_state.last_file_mtime = 0
+if 'processed_guess_ids' not in st.session_state:
+    st.session_state.processed_guess_ids = set()
 
-st.title("LELEC210X Leaderboard Controller")
+st.title("🎮 LELEC210X Leaderboard Controller")
 st.markdown("Interface complète pour le serveur de compétition.")
 
 # --- SIDEBAR : CONNEXION ---
 with st.sidebar:
-    st.header("Connexion")
+    st.header("🔌 Connexion")
     
     # Mode selection
-    mode = st.radio("Mode", ["Utilisateur", "Admin"], index=0 if st.session_state.mode == "user" else 1)
-    st.session_state.mode = "user" if mode == "Utilisateur" else "admin"
+    mode = st.radio("Mode", ["👤 Utilisateur", "🔐 Admin"], index=0 if st.session_state.mode == "user" else 1)
+    st.session_state.mode = "user" if mode == "👤 Utilisateur" else "admin"
     
     st.markdown("---")
     
@@ -39,7 +45,7 @@ with st.sidebar:
     st.markdown("---")
     
     # Clé (admin ou normale selon le mode)
-    key_label = "Clé Admin" if st.session_state.mode == "admin" else "Clé du Groupe"
+    key_label = "Clé Admin" if st.session_state.mode == "admin" else "🔑 Clé du Groupe"
     api_key = st.text_input(key_label, type="password", help="La clé générée pour votre groupe")
     
     if not api_key:
@@ -53,10 +59,10 @@ with st.sidebar:
             try:
                 r = requests.get(f"{base_url}/check/{api_key}", timeout=2)
                 if r.status_code == 200:
-                    st.success("✅ Connexion réussie !")
+                    st.success("Connexion réussie !")
                     st.json(r.json())
                 elif r.status_code == 401:
-                    st.error("❌ Clé invalide")
+                    st.error("Erreur : Clé invalide")
                 else:
                     st.error(f"Erreur {r.status_code}")
             except requests.exceptions.ConnectionError:
@@ -122,12 +128,47 @@ def load_guess_from_file(filepath="/tmp/latest_guess.json"):
     """Charge le dernier guess depuis un fichier JSON."""
     try:
         if os.path.exists(filepath):
-            with open(filepath, 'r') as f:
-                data = json.load(f)
-                return data.get('value'), data.get('timestamp')
+            # Vérifier si le fichier a été modifié
+            current_mtime = os.path.getmtime(filepath)
+            
+            if current_mtime > st.session_state.last_file_mtime:
+                st.session_state.last_file_mtime = current_mtime
+                
+                with open(filepath, 'r') as f:
+                    data = json.load(f)
+                    return data.get('value'), data.get('timestamp'), data.get('iso_timestamp')
     except Exception as e:
-        st.warning(f"Erreur lecture fichier: {e}")
-    return None, None
+        # Silencieux pour ne pas polluer l'interface
+        pass
+    return None, None, None
+
+def check_and_add_new_guess(filepath="/tmp/latest_guess.json", auto_submit=False):
+    """Vérifie s'il y a un nouveau guess et l'ajoute à la file."""
+    guess_value, guess_time, iso_time = load_guess_from_file(filepath)
+    
+    if guess_value:
+        # Créer un ID unique basé sur la valeur et le timestamp
+        guess_id = f"{guess_value}_{iso_time}" if iso_time else f"{guess_value}_{int(time.time() * 1000)}"
+        
+        # Vérifier si ce guess n'a pas déjà été traité
+        if guess_id not in st.session_state.processed_guess_ids:
+            st.session_state.processed_guess_ids.add(guess_id)
+            
+            guess_obj = {
+                "value": guess_value,
+                "timestamp": guess_time or datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "id": int(time.time() * 1000000)  # ID unique avec microsecondes
+            }
+            
+            if auto_submit:
+                # Envoyer directement
+                return guess_obj, True
+            else:
+                # Ajouter à la file d'attente (en fin de liste = plus récent en bas)
+                st.session_state.guess_queue.append(guess_obj)
+                return guess_obj, False
+    
+    return None, False
 
 # --- INTERFACE PRINCIPALE ---
 
@@ -141,7 +182,7 @@ if not api_key:
 if st.session_state.mode == "admin":
     
     # 1. STATUS & MONITORING
-    st.header("État du serveur")
+    st.header("État du Serveur")
     
     col1, col2 = st.columns([1, 1])
     
@@ -160,35 +201,35 @@ if st.session_state.mode == "admin":
     st.markdown("---")
 
     # 2. CONTRÔLE DE LA PARTIE (PLAY / PAUSE / RESTART)
-    st.header("⏯Contrôle de la Partie")
+    st.header("Contrôle de la Partie")
     
     col_play, col_pause, col_restart = st.columns(3)
     
     with col_play:
-        if st.button("▶ PLAY", use_container_width=True, type="primary"):
-            send_request("POST", f"/play/{api_key}", "✅ La partie a démarré !")
+        if st.button("▶️ PLAY", use_container_width=True, type="primary"):
+            send_request("POST", f"/play/{api_key}", "La partie a démarré !")
             
     with col_pause:
-        if st.button("⏸ PAUSE", use_container_width=True):
-            send_request("POST", f"/pause/{api_key}", "⏸️ La partie est en pause")
+        if st.button("⏸️ PAUSE", use_container_width=True):
+            send_request("POST", f"/pause/{api_key}", "La partie est en pause")
             
     with col_restart:
-        if st.button("RESTART", use_container_width=True, type="secondary"):
+        if st.button("🔄 RESTART", use_container_width=True, type="secondary"):
             st.warning("⚠️ Confirmez le redémarrage ci-dessous")
 
     # Confirmation pour restart
     if st.checkbox("✅ Confirmer le redémarrage de la partie"):
         if st.button("🔴 REDÉMARRER MAINTENANT", type="primary"):
-            send_request("POST", f"/restart/{api_key}", "🔄 La partie a redémarré !")
+            send_request("POST", f"/restart/{api_key}", "La partie a redémarré !")
 
     st.markdown("---")
 
     # 3. GESTION DES ÉQUIPES (RENAME)
-    st.header("✏️ Renommer une équipe")
+    st.header("Renommer une équipe")
     
     with st.form("rename_form"):
         new_name = st.text_input("Nouveau nom d'équipe")
-        submitted = st.form_submit_button("💾 Renommer", use_container_width=True)
+        submitted = st.form_submit_button("Renommer", use_container_width=True)
         
         if submitted and new_name:
             import urllib.parse
@@ -200,7 +241,7 @@ if st.session_state.mode == "admin":
     # 4. RÉSULTATS
     st.header("🏆 Résultats du Contest")
     
-    if st.button("Obtenir les résultats", use_container_width=True):
+    if st.button("📊 Obtenir les résultats", use_container_width=True):
         results = send_request("POST", f"/results/{api_key}", "Résultats récupérés", show_response=True)
 
 # ========================================
@@ -208,117 +249,128 @@ if st.session_state.mode == "admin":
 # ========================================
 else:
     
-    # 1. DÉTECTION ET FILE D'ATTENTE
-    st.header("🎯 Gestion des Guesses")
+    # VÉRIFICATION AUTOMATIQUE DE NOUVEAUX GUESSES
+    file_path = "/tmp/latest_guess.json"
     
-    tab1, tab2 = st.tabs(["Nouveau Guess", "File d'attente"])
+    # Vérifier s'il y a un nouveau guess dans le fichier
+    new_guess_obj, should_auto_submit = check_and_add_new_guess(file_path, st.session_state.auto_submit)
+    
+    if new_guess_obj and should_auto_submit:
+        # Envoi automatique
+        result = send_request("POST", f"/submit/{api_key}/{new_guess_obj['value']}", 
+                            f"Envoi automatique : '{new_guess_obj['value']}'", show_response=False)
+        if result:
+            st.session_state.total_submitted += 1
+    
+    # 1. DÉTECTION ET FILE D'ATTENTE
+    st.header("Gestion des Guesses")
+    
+    # OPTIONS DE CONTRÔLE
+    col1, col2 = st.columns([2, 1])
+    
+    with col1:
+        st.session_state.auto_submit = st.checkbox(
+            "Envoi automatique des guesses détectés", 
+            value=st.session_state.auto_submit,
+            help="Si activé, les guesses sont envoyés automatiquement dès leur détection"
+        )
+    
+    with col2:
+        auto_refresh = st.checkbox("Auto-refresh (2s)", help="Actualise automatiquement pour détecter les nouveaux guesses")
+        if auto_refresh:
+            time.sleep(2)
+            st.rerun()
+    
+    if st.session_state.auto_submit:
+        st.success("Mode envoi automatique activé - Les guesses sont envoyés dès leur détection")
+    else:
+        st.info("Mode manuel activé - Les guesses sont ajoutés à la file d'attente")
+    
+    st.markdown("---")
+    
+    tab1, tab2 = st.tabs(["File d'attente", "Ajouter manuellement"])
     
     with tab1:
-        st.subheader("Ajouter un guess manuellement")
-        
-        col1, col2 = st.columns([3, 1])
-        
-        with col1:
-            new_guess = st.text_input("Guess détecté", placeholder="ex: fire, dog_bark, siren...")
-        
-        with col2:
-            st.write("")  # Spacer
-            st.write("")  # Spacer
-            if st.button("Ajouter", use_container_width=True, type="primary"):
-                if new_guess:
-                    guess_obj = {
-                        "value": new_guess,
-                        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                        "id": int(time.time() * 1000)
-                    }
-                    st.session_state.guess_queue.append(guess_obj)
-                    st.success(f"✅ Guess '{new_guess}' ajouté à la file")
-                    st.rerun()
-                else:
-                    st.warning("Veuillez entrer un guess")
-        
-        st.markdown("---")
-        
-        # Option : charger depuis fichier
-        st.subheader("📂 Charger depuis fichier")
-        
-        col1, col2 = st.columns([3, 1])
-        
-        with col1:
-            file_path = st.text_input("Chemin du fichier JSON", value="/tmp/latest_guess.json")
-        
-        with col2:
-            st.write("")
-            st.write("")
-            if st.button("Charger", use_container_width=True):
-                guess_value, guess_time = load_guess_from_file(file_path)
-                if guess_value:
-                    guess_obj = {
-                        "value": guess_value,
-                        "timestamp": guess_time or datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                        "id": int(time.time() * 1000)
-                    }
-                    st.session_state.guess_queue.append(guess_obj)
-                    st.success(f"✅ Guess '{guess_value}' chargé depuis le fichier")
-                    st.rerun()
-                else:
-                    st.error("❌ Impossible de charger le guess depuis le fichier")
-    
-    with tab2:
         st.subheader(f"File d'attente ({len(st.session_state.guess_queue)} guesses)")
         
         if len(st.session_state.guess_queue) == 0:
             st.info("Aucun guess en attente")
+            st.caption("Les nouveaux guesses détectés apparaîtront automatiquement ici (les plus anciens en haut)")
         else:
             # Boutons d'action en masse
             col1, col2 = st.columns(2)
             with col1:
-                if st.button("📤 Tout envoyer", use_container_width=True, type="primary"):
+                if st.button("Tout envoyer", use_container_width=True, type="primary"):
                     for guess in st.session_state.guess_queue:
                         result = send_request("POST", f"/submit/{api_key}/{guess['value']}", 
-                                            f"✅ '{guess['value']}' envoyé", show_response=False)
+                                            f"'{guess['value']}' envoyé", show_response=False)
                         if result:
                             st.session_state.total_submitted += 1
                     st.session_state.guess_queue = []
                     st.rerun()
             
             with col2:
-                if st.button("🗑️ Tout supprimer", use_container_width=True, type="secondary"):
+                if st.button("Tout supprimer", use_container_width=True, type="secondary"):
                     st.session_state.guess_queue = []
                     st.rerun()
             
             st.markdown("---")
+            st.caption("Plus ancien en haut, plus récent en bas")
             
-            # Affichage de chaque guess
+            # Affichage de chaque guess (ordre chronologique : ancien en haut)
             for i, guess in enumerate(st.session_state.guess_queue):
-                with st.container():
-                    col1, col2, col3, col4 = st.columns([3, 2, 1, 1])
-                    
-                    with col1:
-                        st.markdown(f"**{guess['value']}**")
-                    
-                    with col2:
-                        st.caption(guess['timestamp'])
-                    
-                    with col3:
-                        if st.button("📤", key=f"send_{guess['id']}", help="Envoyer"):
-                            result = send_request("POST", f"/submit/{api_key}/{guess['value']}", 
-                                                f"✅ Guess '{guess['value']}' envoyé !")
-                            if result:
-                                st.session_state.total_submitted += 1
-                                st.session_state.guess_queue.pop(i)
-                                st.rerun()
-                    
-                    with col4:
-                        if st.button("❌", key=f"delete_{guess['id']}", help="Supprimer"):
+                col1, col2, col3, col4 = st.columns([3, 2, 1, 1])
+                
+                with col1:
+                    st.markdown(f"**{guess['value']}**")
+                
+                with col2:
+                    st.caption(guess['timestamp'])
+                
+                with col3:
+                    if st.button("Envoyer", key=f"send_{guess['id']}", use_container_width=True):
+                        result = send_request("POST", f"/submit/{api_key}/{guess['value']}", 
+                                            f"Guess '{guess['value']}' envoyé !")
+                        if result:
+                            st.session_state.total_submitted += 1
                             st.session_state.guess_queue.pop(i)
                             st.rerun()
-                    
+                
+                with col4:
+                    if st.button("Suppr.", key=f"delete_{guess['id']}", use_container_width=True):
+                        st.session_state.guess_queue.pop(i)
+                        st.rerun()
+                
+                if i < len(st.session_state.guess_queue) - 1:
                     st.divider()
+    
+    with tab2:
+        st.subheader("Ajouter un guess manuellement")
+        
+        col1, col2 = st.columns([3, 1])
+        
+        with col1:
+            new_guess = st.text_input("Guess", placeholder="ex: fire, dog_bark, siren...")
+        
+        with col2:
+            st.write("")
+            st.write("")
+            if st.button("Ajouter", use_container_width=True, type="primary"):
+                if new_guess:
+                    guess_obj = {
+                        "value": new_guess,
+                        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "id": int(time.time() * 1000000)
+                    }
+                    st.session_state.guess_queue.append(guess_obj)
+                    st.success(f"Guess '{new_guess}' ajouté à la file")
+                    st.rerun()
+                else:
+                    st.warning("Veuillez entrer un guess")
     
     # Statistiques
     st.markdown("---")
-    st.subheader("📊 Statistiques")
+    st.subheader("Statistiques")
     
     col1, col2 = st.columns(2)
     
@@ -361,7 +413,7 @@ else:
     st.markdown("---")
     
     # Suppression de soumissions
-    st.subheader("🗑️ Supprimer des soumissions")
+    st.subheader("Supprimer des soumissions")
     
     col1, col2 = st.columns([3, 1])
     
