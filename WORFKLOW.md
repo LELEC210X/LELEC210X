@@ -10,6 +10,14 @@ uv run uart-reader.py
 ## Receiving user
 Place yourself on the root folder of the project then execute those steps
 ### 1. Start GNURadio Companion in a external terminal
+S'assurer que le LimeSDR passe pour WSL
+```bash
+usbipd list
+usbipd bind --busid <busid>
+usbipd attach --wsl --busid <busid>
+usbipd detach --busid <busid>
+```
+
 ```bash
 uv sync
 uv run gnuradio-companion
@@ -25,7 +33,8 @@ uv run leaderboard serve --open
 ```bash
 uv run auth --tcp-address tcp://127.0.0.1:10000 --no-authenticate | uv run python classifier_pipe.py
 ```
-
-
-pip install streamlit requests
-streamlit run admin_panel.py
+### 4. Start the handler server
+```bash
+uv pip install streamlit requests
+streamlit run leaderboard_app.py
+```

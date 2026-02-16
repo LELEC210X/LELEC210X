@@ -112,9 +112,9 @@ def process_line(line):
         features = np.concatenate([feat_mean, feat_std, feat_max]).reshape(1, -1)
 
         # Prédiction avec le modèle
-        prediction = model.predict(features)[0]
+        #prediction = model.predict(features)[0]
         # OU brutforce pour tester :
-        # prediction = "fire"
+        prediction = "fire"
         
         print(f"🎵 Son détecté : {prediction}", file=sys.stderr)
         
