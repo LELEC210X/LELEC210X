@@ -108,6 +108,7 @@ def process_line(line):
     hex_payload = line[len(PRINT_PREFIX):]
 
     try:
+        # Décoder les données
         raw_bytes = bytes.fromhex(hex_payload)
         data = np.frombuffer(raw_bytes, dtype=np.dtype('<u2'))
 
