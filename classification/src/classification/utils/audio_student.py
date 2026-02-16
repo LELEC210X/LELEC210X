@@ -8,6 +8,7 @@ import sounddevice as sd
 import soundfile as sf
 from numpy import ndarray
 from scipy.signal import fftconvolve
+from scipy import signal
 
 # -----------------------------------------------------------------------------
 """
@@ -452,6 +453,9 @@ class Feature_vector_DS:
         :param sgram: The melspectrogram to treat.
         """
         indexes = np.arange(0, len(sgram[0]) - self.ncol, self.step, dtype=int)
+        # FIX: S'assurer qu'il y a au moins un index
+        if len(indexes) == 0:
+            indexes = np.array([0]) 
         sgrams = [sgram[:, i : i + self.ncol] for i in indexes]
         sgrams = np.array(sgrams)
 

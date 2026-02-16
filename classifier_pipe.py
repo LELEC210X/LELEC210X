@@ -3,59 +3,58 @@ import pickle
 import numpy as np
 import requests
 from pathlib import Path
+import tensorflow as tf
+from tensorflow import keras
 
 """
 Usage : uv run auth --tcp-address tcp://127.0.0.1:10000 --no-authenticate | uv run python classifier_pipe.py
 """
 
 # --- CONFIGURATION ---
-# local : "http://localhost:5001"
-# pour les démos : "http://lelec210x.sipr.ucl.ac.be"
 HOSTNAME = "http://localhost:5001" 
-GROUP_KEY = "HEwRwpUXlF3aTkpQusc4bMa30NCxhqWnHnjuPu05" # local key
-#GROUP_KEY = "dhhnIfhwZxTJCv7135lIm3zFtr96r3H3_xtKXRxU" # key for demos
+GROUP_KEY = "HEwRwpUXlF3aTkpQusc4bMa30NCxhqWnHnjuPu05"
 
-MODEL_PATH = "classification/data/models/random_forest_model.pickle"
+# NOUVEAU: Chemins pour le modèle CNN
+MODEL_PATH = "classification/data/models/cnn_linear_model.keras"
+METADATA_PATH = "classification/data/models/cnn_model_metadata.pkl"
 PRINT_PREFIX = "DF:HEX:" 
 
-# --- CHARGEMENT DU MODÈLE ---
+# --- CHARGEMENT DU MODÈLE CNN ---
 try:
-    with open(MODEL_PATH, "rb") as f:
-        model = pickle.load(f)
-    print(f"Modèle chargé depuis {MODEL_PATH}", file=sys.stderr)
-except FileNotFoundError:
-    print(f"Erreur: Impossible de trouver {MODEL_PATH}", file=sys.stderr)
+    # Charger le modèle Keras
+    model = keras.models.load_model(MODEL_PATH)
+    print(f"✅ Modèle CNN chargé depuis {MODEL_PATH}", file=sys.stderr)
+    
+    # Charger les métadonnées
+    with open(METADATA_PATH, "rb") as f:
+        metadata = pickle.load(f)
+    classnames = metadata['classnames']
+    print(f"✅ Classes: {classnames}", file=sys.stderr)
+    
+except FileNotFoundError as e:
+    print(f"❌ Erreur: Impossible de trouver les fichiers du modèle", file=sys.stderr)
+    print(f"   {e}", file=sys.stderr)
     sys.exit(1)
 
 def submit_guess(guess):
-    """
-    Envoie la prédiction au serveur et affiche les détails de la réponse.
-    """
+    """Envoie la prédiction au serveur"""
     url = f"{HOSTNAME}/lelec210x/leaderboard/submit/{GROUP_KEY}/{guess}"
     
     try:
         response = requests.post(url, timeout=1.0)
         print("\n--- [DEBUG SERVEUR] ---", file=sys.stderr)
         print(f"Statut : {response.status_code} {response.reason}", file=sys.stderr)
-        print(f"Headers : {response.headers}", file=sys.stderr)
-        print(f"Contenu brut (bytes) : {response.content}", file=sys.stderr)
-        print(f"Texte décodé : {response.text}", file=sys.stderr)
-        try:
-            print(f"JSON : {response.json()}", file=sys.stderr)
-        except Exception:
-            pass
-        print("------------------------\n", file=sys.stderr)
-
-        # 200 signifie OK, 404 non trouvé, 401 erreur d'authentification (clé de groupe invalide ?), 500 erreur serveur, 400 son détecté pas authorisé
+        
         if response.ok:
-            print(f"Succès : '{guess}' bien enregistré.", file=sys.stderr)
+            print(f"✅ Succès : '{guess}' bien enregistré.", file=sys.stderr)
         else:
-            print(f"Le serveur a répondu avec une erreur.", file=sys.stderr)
+            print(f"❌ Le serveur a répondu avec une erreur.", file=sys.stderr)
+            print(f"   Réponse: {response.text}", file=sys.stderr)
 
     except requests.exceptions.Timeout:
-        print("Erreur : Le serveur met trop de temps à répondre.", file=sys.stderr)
+        print("⏱️  Erreur : Le serveur met trop de temps à répondre.", file=sys.stderr)
     except Exception as e:
-        print(f"Erreur critique lors de l'envoi : {e}", file=sys.stderr)
+        print(f"❌ Erreur critique lors de l'envoi : {e}", file=sys.stderr)
 
 def process_line(line):
     line = line.strip()
@@ -65,29 +64,57 @@ def process_line(line):
     hex_payload = line[len(PRINT_PREFIX):]
     
     try:
+        # Décoder les données
         raw_bytes = bytes.fromhex(hex_payload)
-        data = np.frombuffer(raw_bytes, dtype=np.dtype('<u2')) 
+        data = np.frombuffer(raw_bytes, dtype=np.dtype('<u2'))
 
         if len(data) != 400:
+            print(f"⚠️  Taille incorrecte: {len(data)} != 400", file=sys.stderr)
             return
 
+        # Reshape en matrice 20x20
         mel_matrix = data.reshape((20, 20))
         
-        feat_mean = mel_matrix.mean(axis=1)
-        feat_std  = mel_matrix.std(axis=1)
-        feat_max  = mel_matrix.max(axis=1)[:10]
+        # NOUVEAU: Flatten et préparer pour le CNN
+        feature_vector = mel_matrix.flatten()  # 400 dimensions
         
-        features = np.concatenate([feat_mean, feat_std, feat_max]).reshape(1, -1)
-
-        prediction = model.predict(features)[0]
-        print(f"Son détecté : {prediction}", file=sys.stderr)
-        submit_guess(prediction)
+        # CRITIQUE: Normalisation L2 (comme pendant le training!)
+        feature_vector_norm = feature_vector / (np.linalg.norm(feature_vector) + 1e-8)
+        
+        # Reshape pour le modèle: (1, 400)
+        feature_vector_norm = feature_vector_norm.reshape(1, -1)
+        
+        # Prédiction avec le CNN
+        probabilities = model.predict(feature_vector_norm, verbose=0)[0]
+        predicted_idx = np.argmax(probabilities)
+        predicted_class = classnames[predicted_idx]
+        confidence = probabilities[predicted_idx]
+        
+        print(f"🎯 Son détecté : {predicted_class} (confiance: {confidence:.2%})", file=sys.stderr)
+        print(f"   Probabilités: {dict(zip(classnames, probabilities))}", file=sys.stderr)
+        
+        # Soumettre seulement si confiance > seuil
+        CONFIDENCE_THRESHOLD = 0.6
+        if confidence >= CONFIDENCE_THRESHOLD:
+            submit_guess(predicted_class)
+        else:
+            print(f"⚠️  Confiance trop faible ({confidence:.2%} < {CONFIDENCE_THRESHOLD:.0%}), pas de soumission", 
+                  file=sys.stderr)
 
     except Exception as e:
-        print(f"Erreur traitement : {e}", file=sys.stderr)
+        print(f"❌ Erreur traitement : {e}", file=sys.stderr)
+        import traceback
+        traceback.print_exc(file=sys.stderr)
 
 def main():
+    print("="*60, file=sys.stderr)
+    print("🎵 CLASSIFIER CNN EN TEMPS RÉEL", file=sys.stderr)
+    print("="*60, file=sys.stderr)
+    print(f"Modèle: {MODEL_PATH}", file=sys.stderr)
+    print(f"Classes: {classnames}", file=sys.stderr)
     print("En attente de données depuis le pipe...", file=sys.stderr)
+    print("="*60, file=sys.stderr)
+    
     for line in sys.stdin:
         process_line(line)
 
