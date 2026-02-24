@@ -114,3 +114,11 @@ please contact us!
 
 If sound files are long enough, it may be interesting to split large audio file into many audio samples,
 we provide tools to perform that automatically: `uv run split-audio "<my_audio_file>"`.
+
+### Generating one audio file from many
+
+We provide a script to take many small file and turn it into a bigger file.
+This script is made with gunshots in mind and thus detects the peak of the
+to defined the time of occurence of a shot.
+
+You can use it like `uv run merge-audio ./src/classification/datasets/soundfiles/gunshot_`.

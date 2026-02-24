@@ -27,6 +27,7 @@ version = "0.1.0"
 [project.scripts]
 classify = "classification.__main__:main"
 split-audio = "classification.utils.split_audio:main"
+merge-audio = "classification.utils.merge_audio:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/classification"]
