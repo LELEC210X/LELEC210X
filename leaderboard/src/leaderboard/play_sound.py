@@ -144,7 +144,11 @@ def play_sound(
         logger.debug("Checking if the server is up and the admin key is valid.")
         # Timeout issue?
         # https://stackoverflow.com/questions/70917108/python-requests-get-only-responds-if-adding-a-time-out
-        response = session.get(f"{url}/lelec210x/leaderboard/check/{key}", timeout=1)
+        try:
+            response = session.get(f"{url}/lelec210x/leaderboard/check/{key}", timeout=1)
+        except:
+            logger.error("Timeout occured, continuing")
+            continue
 
         code = response.status_code
 
@@ -174,9 +178,13 @@ def play_sound(
 
     while True:
         start = time.time()
-        json = session.get(
-            f"{url}/lelec210x/leaderboard/status/{key}", timeout=1
-        ).json()
+        try:
+            json = session.get(
+                f"{url}/lelec210x/leaderboard/status/{key}", timeout=1
+            ).json()
+        except:
+            logger.error("Timeout occured, continuing")
+            continue
         delay = time.time() - start
         logger.info(f"Took {delay:.4f}s for the status request.")
 
@@ -227,13 +235,21 @@ def play_sound(
         thread.start()
         logger.info(f"Playing sound now: {sound_file}.")
 
-        # Admins are always correct :-)
-        session.post(f"{url}/lelec210x/leaderboard/submit/{key}/{category}", timeout=1)
+        try:
+            # Admins are always correct :-)
+            session.post(f"{url}/lelec210x/leaderboard/submit/{key}/{category}", timeout=1)
+        except:
+            logger.error("Timeout occured, continuing")
+            continue
 
         if random_key:  # Random player
             guess = random.choice(dataset.list_classes())
-            session.post(
-                f"{url}/lelec210x/leaderboard/submit/{random_key}/{guess}", timeout=1
-            )
+            try:
+                session.post(
+                    f"{url}/lelec210x/leaderboard/submit/{random_key}/{guess}", timeout=1
+                )
+            except:
+                logger.error("Timeout occured, continuing")
+                continue
 
         thread.join()
