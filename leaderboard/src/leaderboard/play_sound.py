@@ -145,7 +145,9 @@ def play_sound(
         # Timeout issue?
         # https://stackoverflow.com/questions/70917108/python-requests-get-only-responds-if-adding-a-time-out
         try:
-            response = session.get(f"{url}/lelec210x/leaderboard/check/{key}", timeout=1)
+            response = session.get(
+                f"{url}/lelec210x/leaderboard/check/{key}", timeout=1
+            )
         except:
             logger.error("Timeout occured, continuing")
             continue
@@ -237,7 +239,9 @@ def play_sound(
 
         try:
             # Admins are always correct :-)
-            session.post(f"{url}/lelec210x/leaderboard/submit/{key}/{category}", timeout=1)
+            session.post(
+                f"{url}/lelec210x/leaderboard/submit/{key}/{category}", timeout=1
+            )
         except:
             logger.error("Timeout occured, continuing")
             continue
@@ -246,7 +250,8 @@ def play_sound(
             guess = random.choice(dataset.list_classes())
             try:
                 session.post(
-                    f"{url}/lelec210x/leaderboard/submit/{random_key}/{guess}", timeout=1
+                    f"{url}/lelec210x/leaderboard/submit/{random_key}/{guess}",
+                    timeout=1,
                 )
             except:
                 logger.error("Timeout occured, continuing")

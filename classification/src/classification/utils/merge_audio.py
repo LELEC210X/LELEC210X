@@ -1,5 +1,4 @@
 import random
-import sys
 from pathlib import Path
 
 import click
@@ -8,15 +7,16 @@ from pydub import AudioSegment
 from tqdm import trange
 
 import common
-from common.logging import logger
 
 from ..datasets import SOUND_DURATION
+
 
 def get_shot_offset_ms(audio: AudioSegment) -> float:
     """Return time (ms) of strongest impulse in full clip."""
     samples = np.array(audio.get_array_of_samples())
     peak_index = np.argmax(np.abs(samples))
     return (peak_index / audio.frame_rate) * 1000
+
 
 def random_time_gen(n, start, end, min_dist):
     """
@@ -34,6 +34,7 @@ def random_time_gen(n, start, end, min_dist):
     scaled_gaps = random_gaps / random_gaps.sum() * slack
     scaled_gaps[1:] += min_dist
     return start + np.cumsum(scaled_gaps)
+
 
 @click.command()
 @click.argument(
@@ -114,7 +115,6 @@ def main(
     directory: Path,
     prefix: str | None,
 ) -> None:
-
     random.seed(seed)
     directory.mkdir(parents=True, exist_ok=True)
 
@@ -128,13 +128,13 @@ def main(
 
         max_start = duration_ms - (occurences - 1) * delta_ms
         if max_start < 0:
-            raise ValueError("Duration too short for required occurrences and time_delta.")
+            raise ValueError(
+                "Duration too short for required occurrences and time_delta."
+            )
 
-        shot_times = random_time_gen(occurences,
-                                     slack, duration_ms - slack,
-                                     delta_ms)
+        shot_times = random_time_gen(occurences, slack, duration_ms - slack, delta_ms)
 
-        for shot_time,path in zip(shot_times,random.choices(sources, k = occurences)):
+        for shot_time, path in zip(shot_times, random.choices(sources, k=occurences)):
             if path not in cache:
                 audio = AudioSegment.from_wav(path)
                 audio = audio.apply_gain(-audio.max_dBFS)
