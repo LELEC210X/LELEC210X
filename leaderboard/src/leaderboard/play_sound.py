@@ -148,8 +148,10 @@ def play_sound(
             response = session.get(
                 f"{url}/lelec210x/leaderboard/check/{key}", timeout=1
             )
-        except:
-            logger.error("Timeout occured, continuing")
+        except Exception as e:
+            logger.error(
+                f"An error occured while checking if the admin key is valid: {e}"
+            )
             continue
 
         code = response.status_code
@@ -158,11 +160,17 @@ def play_sound(
             assert response.json()["admin"], "key must belong to an admin!"
 
             if random_key:
-                logger.debug("Checking if the server is up and the 'random' is valid.")
-                response = session.get(
-                    f"{url}/lelec210x/leaderboard/check/{random_key}",
-                    timeout=1,
-                )
+                logger.debug("Checking if the 'random' user key is valid.")
+                try:
+                    response = session.get(
+                        f"{url}/lelec210x/leaderboard/check/{random_key}",
+                        timeout=1,
+                    )
+                except Exception as e:
+                    logger.error(
+                        f"An error occured while checking if the 'random' key is valid: {e}"
+                    )
+                    continue
 
                 if response.status_code != 200:
                     raise ValueError(response.json())
@@ -184,8 +192,8 @@ def play_sound(
             json = session.get(
                 f"{url}/lelec210x/leaderboard/status/{key}", timeout=1
             ).json()
-        except:
-            logger.error("Timeout occured, continuing")
+        except Exception as e:
+            logger.error(f"An error occured while getting the status: {e}")
             continue
         delay = time.time() - start
         logger.info(f"Took {delay:.4f}s for the status request.")
@@ -210,15 +218,14 @@ def play_sound(
             logger.info(f"A song has already been played for round, lap: {sound_key}.")
             time.sleep(time_before_next_lap)
             continue
-
-        last_played = sound_key
-
-        sound_file = random.choice(dataset.get_class_files(category))
-
         if time_before_playing < 0:
             logger.info(f"Too late for playing: {category}.")
             time.sleep(time_before_next_lap)
             continue
+
+        last_played = sound_key
+
+        sound_file = random.choice(dataset.get_class_files(category))
 
         logger.info(f"Playing sound in {time_before_playing}.")
 
@@ -240,21 +247,19 @@ def play_sound(
         try:
             # Admins are always correct :-)
             session.post(
-                f"{url}/lelec210x/leaderboard/submit/{key}/{category}", timeout=1
+                f"{url}/lelec210x/leaderboard/submit/{key}/{category}", timeout=2
             )
-        except:
-            logger.error("Timeout occured, continuing")
-            continue
+        except Exception as e:
+            logger.error(f"An error occured while submitting the admin guess: {e}")
 
         if random_key:  # Random player
             guess = random.choice(dataset.list_classes())
             try:
                 session.post(
                     f"{url}/lelec210x/leaderboard/submit/{random_key}/{guess}",
-                    timeout=1,
+                    timeout=2,
                 )
-            except:
-                logger.error("Timeout occured, continuing")
-                continue
+            except Exception as e:
+                logger.error(f"An error occured while submitting the random guess: {e}")
 
         thread.join()
