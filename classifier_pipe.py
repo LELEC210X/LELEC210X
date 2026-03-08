@@ -109,7 +109,9 @@ def process_line(line):
 
     try:
         # Décoder les données
+        # Décoder les données
         raw_bytes = bytes.fromhex(hex_payload)
+        data = np.frombuffer(raw_bytes, dtype=np.dtype('<u2'))
         data = np.frombuffer(raw_bytes, dtype=np.dtype('<u2'))
 
         if len(data) != 400:
