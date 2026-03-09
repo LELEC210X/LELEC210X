@@ -3,7 +3,7 @@
  <debug showDebugMenu="0" />
  <systemtable filter="All Interfaces">
   <columns>
-   <connections preferredWidth="143" />
+   <connections preferredWidth="111" />
    <irq preferredWidth="34" />
    <name preferredWidth="264" />
    <inputclock preferredWidth="95" />
@@ -13,9 +13,8 @@
    <endaddress preferredWidth="30" />
   </columns>
  </systemtable>
- <library
-   expandedCategories="Library/Interface Protocols,Library,Project/System,Library/Basic Functions/Clocks; PLLs and Resets,Library/Basic Functions,Library/Basic Functions/Bridges and Adaptors/Streaming,Project,Library/Basic Functions/Bridges and Adaptors" />
- <window width="1936" height="1048" x="-1928" y="-66" />
+ <library expandedCategories="Project,Library" />
+ <window width="1942" height="1030" x="-1928" y="-66" />
  <generation
    path="ip/packet_presence_detection/"
    testbench_system="STANDARD"

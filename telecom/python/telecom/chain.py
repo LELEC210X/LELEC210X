@@ -58,7 +58,7 @@ class Chain:
     payload_len: int = 8 * 100  # Number of bits per packet
 
     # Simulation parameters
-    n_packets: int = 100  # Number of sent packets
+    n_packets: int = 500  # Number of sent packets
 
     # Channel parameters
     sto_val: float = 0
@@ -66,8 +66,8 @@ class Chain:
 
     cfo_val: float = np.nan
     cfo_range: tuple[float, float] = (
-        8_000,
-        10_000,  # defines the CFO range when random (in Hz) #(1000 in old repo)
+        0,
+        5000,  # defines the CFO range when random (in Hz) #(1000 in old repo)
     )
 
     EsN0_range: np.ndarray = np.arange(0, 30, 1)
@@ -183,7 +183,7 @@ class BasicChain(Chain):
         long_term_sum_W = 256
         short_term_sum_W = 32
 
-        K = 5 * (short_term_sum_W / long_term_sum_W)
+        K = 2 * (short_term_sum_W / long_term_sum_W)
 
         long_window = np.ones(long_term_sum_W)
         short_window = np.ones(short_term_sum_W)
@@ -217,16 +217,28 @@ class BasicChain(Chain):
 
         return None
 
-    ideal_cfo_estimation = True
+    ideal_cfo_estimation = False
 
     def cfo_estimation(self, y):
         """Estimates CFO using Moose algorithm, on first samples of preamble."""
         # TO DO: extract 2 blocks of size N*R at the start of y
-        N = 4  # You can change this value if needed
-        # TO DO: apply the Moose algorithm on these two blocks to estimate the CFO
-        cfo_est = 0
+        R = self.osr_rx  # receiver oversampling factor
+        B = self.bit_rate  # bit rate (1/T)
+        T = 1.0 / B  # symbol period
+        N = 4  # number of CPFSK symbols per block (can be changed)
+        Nt = N * R  # number of samples per block
 
-        return cfo_est
+        numerator = np.vdot(y[:Nt], y[Nt : Nt + Nt])
+
+        # Compute the angle of the complex correlation term
+        angle = np.angle(numerator)
+
+        # CFO estimate (Hz)
+        # Δf_hat = arg(sum(y[l+Nt] * conj(y[l]))) / (2π * Nt * T / R)
+        denom = 2 * np.pi * Nt * T / R
+        cfo_est = angle / denom
+
+        return float(cfo_est)
 
     ideal_sto_estimation = True
 
@@ -255,16 +267,22 @@ class BasicChain(Chain):
         R = self.osr_rx  # Receiver oversampling factor
         nb_syms = len(y) // R  # Number of CPFSK symbols in y
 
-        # Group symbols together, in a matrix. Each row contains the R samples over one symbol period
+        # Group symbols together, in a matrix.
+        # Each row contains the R samples over one symbol period
         y = np.resize(y, (nb_syms, R))
 
-        # TO DO: generate the reference waveforms used for the correlation
-        # hint: look at what is done in modulate() in chain.py
+        fd = self.freq_dev  # frequency deviation Δf
+        B = self.bit_rate  # bit rate
+        T = 1.0 / B  # symbol period
 
-        # TO DO: compute the correlations with the two reference waveforms (r0 and r1)
+        n = np.arange(R)
+        ref1 = np.exp(-1j * 2 * np.pi * fd * n * T / R)  # waveform for bit=1
+        ref0 = np.exp(+1j * 2 * np.pi * fd * n * T / R)  # waveform for bit=0
 
-        # TO DO: performs the decision based on r0 and r1
+        r1_vec = (y * ref1).sum(axis=1) / R
+        r0_vec = (y * ref0).sum(axis=1) / R
 
-        bits_hat = np.zeros(nb_syms, dtype=int)
+        # Decide based on magnitude comparison
+        bits_hat = (np.abs(r1_vec) > np.abs(r0_vec)).astype(int)
 
         return bits_hat

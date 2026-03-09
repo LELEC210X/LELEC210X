@@ -20,15 +20,34 @@ void tag_cbc_mac(uint8_t *tag, const uint8_t *msg, size_t msg_len) {
 	uint32_t statew[4] = {0};
 	// state is a pointer to the start of the buffer
 	uint8_t *state = (uint8_t*) statew;
-    size_t i;
+    uint8_t block[16];
+    size_t i, j;
 
+    // Process message block by block (16 bytes)
+    for (i = 0; i < msg_len; i += 16) {
 
-    // TO DO : Complete the CBC-MAC_AES
+        // Clear block
+        memset(block, 0, 16);
 
-    // Copy the result of CBC-MAC-AES to the tag.
-    for (int j=0; j<16; j++) {
+        // Copy up to 16 bytes of message (padding with zeros if needed)
+        size_t block_len = (msg_len - i >= 16) ? 16 : (msg_len - i);
+        memcpy(block, msg + i, block_len);
+
+        // XOR block with current state
+        for (j = 0; j < 16; j++) {
+            state[j] ^= block[j];
+        }
+
+        // Encrypt state with AES
+        AES128_encrypt(state, AES_Key);   // or AES128_encrypt(state, AES_Key)
+    }
+
+    // Copy the result to tag
+    for (j = 0; j < 16; j++) {
         tag[j] = state[j];
     }
+
+    
 }
 
 // Assumes payload is already in place in the packet
@@ -58,6 +77,21 @@ int make_packet(uint8_t *packet, size_t payload_len, uint8_t sender_id, uint32_t
 	 *		 		- and operator (&) with hex value, e.g.to perform 0xFF
 	 *		 	This will be helpful when setting fields that are on multiple bytes.
 	*/
+
+	packet[0] = 0x00;
+
+    // emitter_id
+    packet[1] = sender_id;
+
+    // payload_length (Big Endian)
+    packet[2] = (payload_len >> 8) & 0xFF;
+    packet[3] = payload_len & 0xFF;
+
+    // packet_serial (Big Endian)
+    packet[4] = (serial >> 24) & 0xFF;
+    packet[5] = (serial >> 16) & 0xFF;
+    packet[6] = (serial >> 8) & 0xFF;
+    packet[7] = serial & 0xFF;
 
 	// For the tag field, you have to calculate the tag. The function call below is correct but
 	// tag_cbc_mac function, calculating the tag, is not implemented.

@@ -4,9 +4,10 @@ __pycache__/
 .mypy_cache/
 .ipynb_checkpoints
 *-checkpoint.ipynb/
-*.pickle
+#*.pickle
 *.log
 *.egg-info/
+#classification/models/models_cnn/*.h5
 
 # Leaderboard
 
@@ -101,3 +102,6 @@ fpga/*/simulation/
 fpga/*/timing/
 fpga/*/*_sim/
 fpga/incremental_db/
+
+## ignore vscode files
+.vscode/

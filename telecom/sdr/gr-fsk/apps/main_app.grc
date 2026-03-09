@@ -47,7 +47,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1208, 268.0]
+    coordinate: [1192, 284.0]
     rotation: 0
     state: true
 - name: Enable_detection
@@ -150,7 +150,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 868e6
+    value: 872e6
   states:
     bus_sink: false
     bus_source: false
@@ -256,7 +256,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [544, 124.0]
+    coordinate: [400, 176.0]
     rotation: 0
     state: true
 - name: packet_len
@@ -437,7 +437,6 @@ blocks:
   id: fsk_synchronization
   parameters:
     Grx: rx_gain
-    N_Moose: N_Moose
     affinity: ''
     alias: ''
     comment: ''
@@ -453,7 +452,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [456, 396.0]
+    coordinate: [488, 428.0]
     rotation: 0
     state: enabled
 - name: limesdr_fpga_flag_detector_0
@@ -466,15 +465,15 @@ blocks:
     enable: Enable_detection
     maxoutbuf: '0'
     minoutbuf: '0'
-    threshold: '0.99'
+    threshold: '0.90'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [112, 396.0]
+    coordinate: [104, 396.0]
     rotation: 0
     state: true
-- name: limesdr_fpga_source_0
+- name: limesdr_fpga_source_0_0
   id: limesdr_fpga_source
   parameters:
     AGC_mode: '0'
@@ -496,7 +495,7 @@ blocks:
     desired_output: '0'
     digital_bandw_ch0: samp_rate
     digital_bandw_ch1: samp_rate
-    dspcfg_PASSTHROUGH_LEN: '(packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate) '
+    dspcfg_PASSTHROUGH_LEN: (packet_len+1)*8*int(samp_rate/data_rate)+int(samp_rate/data_rate)
     dspcfg_THRESHOLD: K_threshold
     dspcfg_fir_en: Enable_FPGA_FIR
     dspcfg_pass_sum_signal: '0'
@@ -522,8 +521,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [128, 28.0]
-    rotation: 180
+    coordinate: [160, 124.0]
+    rotation: 0
     state: true
 - name: qtgui_sink_x_0
   id: qtgui_sink_x
@@ -587,7 +586,7 @@ connections:
 - [fsk_synchronization_0, '0', fsk_demodulation_0, '0']
 - [limesdr_fpga_flag_detector_0, '0', fsk_synchronization_0, '0']
 - [limesdr_fpga_flag_detector_0, SignalPow, fsk_synchronization_0, SignalPow]
-- [limesdr_fpga_source_0, '0', dc_blocker_xx_0, '0']
+- [limesdr_fpga_source_0_0, '0', dc_blocker_xx_0, '0']
 
 metadata:
   file_format: 1

@@ -1,6 +1,5 @@
 import random
 import time
-from multiprocessing import Process
 from pathlib import Path
 from threading import Thread
 from typing import Optional
@@ -134,7 +133,7 @@ def play_sound(
         while True:
             play(sound)
 
-    bg_noise = Process(target=play_bg_noise, args=(bg_noise_sound,), daemon=True)
+    bg_noise = Thread(target=play_bg_noise, args=(bg_noise_sound,), daemon=True)
     bg_noise.start()
     logger.info("Playing background noise...")
 

@@ -29,7 +29,7 @@ set top_entity lms_dsp_fir_compiler_ii_0
 set timing_resolution "1ps"
 set core_version 18.1
 set device_family "MAX 10"
-set quartus_rootdir C:/intelfpga/18.1/quartus
+set quartus_rootdir C:/intelfpga_lite/18.1/quartus
 # Change to "gate_level" for gate-level sim
 set sim_type "rtl"
 # END MEGAWIZARD INSERT VARIABLES

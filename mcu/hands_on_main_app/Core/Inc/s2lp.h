@@ -6,7 +6,7 @@
 #define INC_S2LP_H_
 
 // === Communication parameters
-#define BASE_FREQ 868000000 // Carrier frequency, in Hz
+#define BASE_FREQ 872000000 // Carrier frequency, in Hz
 #define DATARATE 50000 // Data rate in 2FSK, in bit/s
 #define FREQDEV DATARATE/4 // Frequency deviation, in Hz
 #define PA_LEVEL 0 // Default Tx output power, in dBm

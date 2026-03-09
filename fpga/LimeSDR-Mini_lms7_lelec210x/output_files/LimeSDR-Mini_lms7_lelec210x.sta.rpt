@@ -1,6 +1,6 @@
 Timing Analyzer report for LimeSDR-Mini_lms7_lelec210x
-Mon Nov 03 10:54:34 2025
-Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Standard Edition
+Fri Nov 14 18:07:16 2025
+Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
 ---------------------
@@ -72,18 +72,18 @@ refer to the applicable agreement for further details.
 
 
 
-+---------------------------------------------------------------------------------+
-; Timing Analyzer Summary                                                         ;
-+-----------------------+---------------------------------------------------------+
-; Quartus Prime Version ; Version 18.1.0 Build 625 09/12/2018 SJ Standard Edition ;
-; Timing Analyzer       ; Legacy Timing Analyzer                                  ;
-; Revision Name         ; LimeSDR-Mini_lms7_lelec210x                             ;
-; Device Family         ; MAX 10                                                  ;
-; Device Name           ; 10M16SAU169C8G                                          ;
-; Timing Models         ; Final                                                   ;
-; Delay Model           ; Combined                                                ;
-; Rise/Fall Delays      ; Enabled                                                 ;
-+-----------------------+---------------------------------------------------------+
++-----------------------------------------------------------------------------+
+; Timing Analyzer Summary                                                     ;
++-----------------------+-----------------------------------------------------+
+; Quartus Prime Version ; Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
+; Timing Analyzer       ; Legacy Timing Analyzer                              ;
+; Revision Name         ; LimeSDR-Mini_lms7_lelec210x                         ;
+; Device Family         ; MAX 10                                              ;
+; Device Name           ; 10M16SAU169C8G                                      ;
+; Timing Models         ; Final                                               ;
+; Delay Model           ; Combined                                            ;
+; Rise/Fall Delays      ; Enabled                                             ;
++-----------------------+-----------------------------------------------------+
 
 
 +------------------------------------------+
@@ -94,14 +94,14 @@ refer to the applicable agreement for further details.
 ; Number detected on machine ; 8           ;
 ; Maximum allowed            ; 4           ;
 ;                            ;             ;
-; Average used               ; 2.37        ;
+; Average used               ; 2.23        ;
 ; Maximum used               ; 4           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;  48.2%      ;
-;     Processor 3            ;  44.7%      ;
-;     Processor 4            ;  43.6%      ;
+;     Processor 2            ;  43.2%      ;
+;     Processor 3            ;  40.0%      ;
+;     Processor 4            ;  39.3%      ;
 +----------------------------+-------------+
 
 
@@ -110,14 +110,14 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------+--------+--------------------------+
 ; SDC File Path                                            ; Status ; Read at                  ;
 +----------------------------------------------------------+--------+--------------------------+
-; lms_dsp/synthesis/submodules/altera_reset_controller.sdc ; OK     ; Mon Nov 03 10:54:23 2025 ;
-; lms_ctr/synthesis/submodules/altera_reset_controller.sdc ; OK     ; Mon Nov 03 10:54:23 2025 ;
-; lms_ctr/synthesis/submodules/altera_onchip_flash.sdc     ; OK     ; Mon Nov 03 10:54:23 2025 ;
-; lms_ctr/synthesis/submodules/lms_ctr_nios2_cpu_cpu.sdc   ; OK     ; Mon Nov 03 10:54:23 2025 ;
-; LMS7002_timing.sdc                                       ; OK     ; Mon Nov 03 10:54:23 2025 ;
-; FT601_timing.sdc                                         ; OK     ; Mon Nov 03 10:54:23 2025 ;
-; timing.sdc                                               ; OK     ; Mon Nov 03 10:54:23 2025 ;
-; Clock_groups.sdc                                         ; OK     ; Mon Nov 03 10:54:23 2025 ;
+; lms_dsp/synthesis/submodules/altera_reset_controller.sdc ; OK     ; Fri Nov 14 18:06:42 2025 ;
+; lms_ctr/synthesis/submodules/altera_reset_controller.sdc ; OK     ; Fri Nov 14 18:06:42 2025 ;
+; lms_ctr/synthesis/submodules/altera_onchip_flash.sdc     ; OK     ; Fri Nov 14 18:06:42 2025 ;
+; lms_ctr/synthesis/submodules/lms_ctr_nios2_cpu_cpu.sdc   ; OK     ; Fri Nov 14 18:06:42 2025 ;
+; LMS7002_timing.sdc                                       ; OK     ; Fri Nov 14 18:06:43 2025 ;
+; FT601_timing.sdc                                         ; OK     ; Fri Nov 14 18:06:43 2025 ;
+; timing.sdc                                               ; OK     ; Fri Nov 14 18:06:43 2025 ;
+; Clock_groups.sdc                                         ; OK     ; Fri Nov 14 18:06:43 2025 ;
 +----------------------------------------------------------+--------+--------------------------+
 
 
@@ -151,11 +151,11 @@ refer to the applicable agreement for further details.
 +------------+-----------------+---------------------+------+
 ; Fmax       ; Restricted Fmax ; Clock Name          ; Note ;
 +------------+-----------------+---------------------+------+
-; 38.89 MHz  ; 38.89 MHz       ; FPGA_SPI_SCLK_FPGA  ;      ;
-; 74.02 MHz  ; 74.02 MHz       ; LMK_CLK             ;      ;
-; 83.43 MHz  ; 83.43 MHz       ; altera_reserved_tck ;      ;
-; 105.27 MHz ; 105.27 MHz      ; FT_CLK              ;      ;
-; 127.49 MHz ; 127.49 MHz      ; RX_C3               ;      ;
+; 40.96 MHz  ; 40.96 MHz       ; FPGA_SPI_SCLK_FPGA  ;      ;
+; 68.4 MHz   ; 68.4 MHz        ; LMK_CLK             ;      ;
+; 79.42 MHz  ; 79.42 MHz       ; altera_reserved_tck ;      ;
+; 105.93 MHz ; 105.93 MHz      ; FT_CLK              ;      ;
+; 127.47 MHz ; 127.47 MHz      ; RX_C3               ;      ;
 +------------+-----------------+---------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
@@ -165,14 +165,14 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------+--------+---------------+
 ; Clock               ; Slack  ; End Point TNS ;
 +---------------------+--------+---------------+
-; RX_C3               ; 0.156  ; 0.000         ;
-; FT_CLK              ; 0.501  ; 0.000         ;
-; LMK_CLK             ; 5.903  ; 0.000         ;
-; ONCHIP_FLASH_CLK    ; 12.711 ; 0.000         ;
-; DUAL_BOOT_CLK       ; 18.607 ; 0.000         ;
-; FPGA_SPI_SCLK_FPGA  ; 19.174 ; 0.000         ;
-; FPGA_SPI_SCLK_out   ; 31.537 ; 0.000         ;
-; altera_reserved_tck ; 45.456 ; 0.000         ;
+; RX_C3               ; 0.155  ; 0.000         ;
+; FT_CLK              ; 0.560  ; 0.000         ;
+; LMK_CLK             ; 5.989  ; 0.000         ;
+; ONCHIP_FLASH_CLK    ; 12.690 ; 0.000         ;
+; FPGA_SPI_SCLK_FPGA  ; 17.868 ; 0.000         ;
+; DUAL_BOOT_CLK       ; 18.608 ; 0.000         ;
+; FPGA_SPI_SCLK_out   ; 29.894 ; 0.000         ;
+; altera_reserved_tck ; 45.392 ; 0.000         ;
 +---------------------+--------+---------------+
 
 
@@ -181,14 +181,14 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------+--------+---------------+
 ; Clock               ; Slack  ; End Point TNS ;
 +---------------------+--------+---------------+
-; LMK_CLK             ; 0.269  ; 0.000         ;
-; RX_C3               ; 0.361  ; 0.000         ;
-; FT_CLK              ; 0.362  ; 0.000         ;
+; LMK_CLK             ; -0.051 ; -0.051        ;
+; FT_CLK              ; 0.283  ; 0.000         ;
+; RX_C3               ; 0.294  ; 0.000         ;
+; altera_reserved_tck ; 0.346  ; 0.000         ;
 ; FPGA_SPI_SCLK_FPGA  ; 0.363  ; 0.000         ;
-; altera_reserved_tck ; 0.363  ; 0.000         ;
-; DUAL_BOOT_CLK       ; 1.762  ; 0.000         ;
-; ONCHIP_FLASH_CLK    ; 4.421  ; 0.000         ;
-; FPGA_SPI_SCLK_out   ; 34.414 ; 0.000         ;
+; DUAL_BOOT_CLK       ; 1.734  ; 0.000         ;
+; ONCHIP_FLASH_CLK    ; 4.659  ; 0.000         ;
+; FPGA_SPI_SCLK_out   ; 35.476 ; 0.000         ;
 +---------------------+--------+---------------+
 
 
@@ -197,11 +197,11 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------+--------+---------------+
 ; Clock               ; Slack  ; End Point TNS ;
 +---------------------+--------+---------------+
-; RX_C3               ; 1.063  ; 0.000         ;
-; FT_CLK              ; 6.820  ; 0.000         ;
-; LMK_CLK             ; 7.293  ; 0.000         ;
-; FPGA_SPI_SCLK_FPGA  ; 18.691 ; 0.000         ;
-; altera_reserved_tck ; 97.794 ; 0.000         ;
+; RX_C3               ; 0.115  ; 0.000         ;
+; FT_CLK              ; 6.866  ; 0.000         ;
+; LMK_CLK             ; 7.888  ; 0.000         ;
+; FPGA_SPI_SCLK_FPGA  ; 20.289 ; 0.000         ;
+; altera_reserved_tck ; 97.886 ; 0.000         ;
 +---------------------+--------+---------------+
 
 
@@ -210,11 +210,11 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------+-------+---------------+
 ; Clock               ; Slack ; End Point TNS ;
 +---------------------+-------+---------------+
-; LMK_CLK             ; 0.642 ; 0.000         ;
-; FPGA_SPI_SCLK_FPGA  ; 0.770 ; 0.000         ;
-; RX_C3               ; 0.984 ; 0.000         ;
-; altera_reserved_tck ; 1.153 ; 0.000         ;
-; FT_CLK              ; 2.150 ; 0.000         ;
+; FPGA_SPI_SCLK_FPGA  ; 0.743 ; 0.000         ;
+; LMK_CLK             ; 0.743 ; 0.000         ;
+; altera_reserved_tck ; 0.919 ; 0.000         ;
+; RX_C3               ; 0.991 ; 0.000         ;
+; FT_CLK              ; 1.414 ; 0.000         ;
 +---------------------+-------+---------------+
 
 
@@ -232,11 +232,11 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 ; TX_C0               ; 3.556  ; 0.000              ;
 ; LMS_MCLK1           ; 4.000  ; 0.000              ;
 ; FT_CLK              ; 4.560  ; 0.000              ;
-; LMK_CLK             ; 10.421 ; 0.000              ;
-; ONCHIP_FLASH_CLK    ; 47.886 ; 0.000              ;
-; FPGA_SPI_SCLK_FPGA  ; 49.671 ; 0.000              ;
-; altera_reserved_tck ; 49.733 ; 0.000              ;
-; FPGA_SPI_SCLK       ; 49.771 ; 0.000              ;
+; LMK_CLK             ; 10.424 ; 0.000              ;
+; ONCHIP_FLASH_CLK    ; 47.888 ; 0.000              ;
+; FPGA_SPI_SCLK_FPGA  ; 49.706 ; 0.000              ;
+; altera_reserved_tck ; 49.708 ; 0.000              ;
+; FPGA_SPI_SCLK       ; 49.788 ; 0.000              ;
 ; FPGA_SPI_SCLK_out   ; 95.556 ; 0.000              ;
 +---------------------+--------+--------------------+
 
@@ -244,13 +244,13 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 -----------------------------------------------
 ; Slow 1200mV 85C Model Metastability Summary ;
 -----------------------------------------------
-Worst-Case MTBF of Design is 748 years or 2.36e+10 seconds.
+Worst-Case MTBF of Design is 106 years or 3.33e+09 seconds.
 Typical MTBF of Design is 1e+09 years or 3.15e+16 seconds.
 
 Number of Synchronizer Chains Found: 293
 Shortest Synchronizer Chain: 2 Registers
 Fraction of Chains for which MTBFs Could Not be Calculated: 0.693
-Worst Case Available Settling Time: 6.203 ns
+Worst Case Available Settling Time: 6.865 ns
 
 Worst-Case MTBF values are calculated based on the worst-case silicon characteristics, with worst-case operating conditions.
   - Under worst-case conditions, an increase of 100ps in available settling time will increase MTBF values by a factor of 1.5
@@ -264,11 +264,11 @@ Typical MTBF values are calculated based on the nominal silicon characteristics,
 +------------+-----------------+---------------------+------+
 ; Fmax       ; Restricted Fmax ; Clock Name          ; Note ;
 +------------+-----------------+---------------------+------+
-; 40.6 MHz   ; 40.6 MHz        ; FPGA_SPI_SCLK_FPGA  ;      ;
-; 76.96 MHz  ; 76.96 MHz       ; LMK_CLK             ;      ;
-; 88.97 MHz  ; 88.97 MHz       ; altera_reserved_tck ;      ;
-; 111.21 MHz ; 111.21 MHz      ; FT_CLK              ;      ;
-; 138.97 MHz ; 138.97 MHz      ; RX_C3               ;      ;
+; 42.02 MHz  ; 42.02 MHz       ; FPGA_SPI_SCLK_FPGA  ;      ;
+; 73.0 MHz   ; 73.0 MHz        ; LMK_CLK             ;      ;
+; 84.4 MHz   ; 84.4 MHz        ; altera_reserved_tck ;      ;
+; 112.45 MHz ; 112.45 MHz      ; FT_CLK              ;      ;
+; 136.63 MHz ; 136.63 MHz      ; RX_C3               ;      ;
 +------------+-----------------+---------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
@@ -278,14 +278,14 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------+--------+---------------+
 ; Clock               ; Slack  ; End Point TNS ;
 +---------------------+--------+---------------+
-; RX_C3               ; 0.804  ; 0.000         ;
-; FT_CLK              ; 1.008  ; 0.000         ;
-; LMK_CLK             ; 6.031  ; 0.000         ;
-; ONCHIP_FLASH_CLK    ; 13.321 ; 0.000         ;
-; DUAL_BOOT_CLK       ; 18.842 ; 0.000         ;
-; FPGA_SPI_SCLK_FPGA  ; 19.337 ; 0.000         ;
-; FPGA_SPI_SCLK_out   ; 31.715 ; 0.000         ;
-; altera_reserved_tck ; 45.744 ; 0.000         ;
+; RX_C3               ; 0.681  ; 0.000         ;
+; FT_CLK              ; 1.107  ; 0.000         ;
+; LMK_CLK             ; 6.371  ; 0.000         ;
+; ONCHIP_FLASH_CLK    ; 13.373 ; 0.000         ;
+; FPGA_SPI_SCLK_FPGA  ; 18.161 ; 0.000         ;
+; DUAL_BOOT_CLK       ; 18.802 ; 0.000         ;
+; FPGA_SPI_SCLK_out   ; 30.110 ; 0.000         ;
+; altera_reserved_tck ; 45.660 ; 0.000         ;
 +---------------------+--------+---------------+
 
 
@@ -294,14 +294,14 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------+--------+---------------+
 ; Clock               ; Slack  ; End Point TNS ;
 +---------------------+--------+---------------+
-; LMK_CLK             ; 0.167  ; 0.000         ;
-; RX_C3               ; 0.323  ; 0.000         ;
-; FT_CLK              ; 0.324  ; 0.000         ;
-; altera_reserved_tck ; 0.324  ; 0.000         ;
+; LMK_CLK             ; -0.118 ; -0.118        ;
+; FT_CLK              ; 0.256  ; 0.000         ;
+; RX_C3               ; 0.266  ; 0.000         ;
+; altera_reserved_tck ; 0.307  ; 0.000         ;
 ; FPGA_SPI_SCLK_FPGA  ; 0.325  ; 0.000         ;
-; DUAL_BOOT_CLK       ; 1.491  ; 0.000         ;
-; ONCHIP_FLASH_CLK    ; 3.941  ; 0.000         ;
-; FPGA_SPI_SCLK_out   ; 34.211 ; 0.000         ;
+; DUAL_BOOT_CLK       ; 1.504  ; 0.000         ;
+; ONCHIP_FLASH_CLK    ; 4.135  ; 0.000         ;
+; FPGA_SPI_SCLK_out   ; 35.215 ; 0.000         ;
 +---------------------+--------+---------------+
 
 
@@ -310,11 +310,11 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------+--------+---------------+
 ; Clock               ; Slack  ; End Point TNS ;
 +---------------------+--------+---------------+
-; RX_C3               ; 1.100  ; 0.000         ;
-; FT_CLK              ; 6.987  ; 0.000         ;
-; LMK_CLK             ; 7.602  ; 0.000         ;
-; FPGA_SPI_SCLK_FPGA  ; 18.922 ; 0.000         ;
-; altera_reserved_tck ; 97.913 ; 0.000         ;
+; RX_C3               ; 0.134  ; 0.000         ;
+; FT_CLK              ; 7.034  ; 0.000         ;
+; LMK_CLK             ; 8.187  ; 0.000         ;
+; FPGA_SPI_SCLK_FPGA  ; 20.408 ; 0.000         ;
+; altera_reserved_tck ; 98.009 ; 0.000         ;
 +---------------------+--------+---------------+
 
 
@@ -323,11 +323,11 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------+-------+---------------+
 ; Clock               ; Slack ; End Point TNS ;
 +---------------------+-------+---------------+
-; FPGA_SPI_SCLK_FPGA  ; 0.469 ; 0.000         ;
-; LMK_CLK             ; 0.526 ; 0.000         ;
-; RX_C3               ; 0.901 ; 0.000         ;
-; altera_reserved_tck ; 1.078 ; 0.000         ;
-; FT_CLK              ; 1.922 ; 0.000         ;
+; FPGA_SPI_SCLK_FPGA  ; 0.495 ; 0.000         ;
+; LMK_CLK             ; 0.627 ; 0.000         ;
+; altera_reserved_tck ; 0.839 ; 0.000         ;
+; RX_C3               ; 0.911 ; 0.000         ;
+; FT_CLK              ; 1.261 ; 0.000         ;
 +---------------------+-------+---------------+
 
 
@@ -345,11 +345,11 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 ; TX_C0               ; 3.556  ; 0.000             ;
 ; LMS_MCLK1           ; 4.000  ; 0.000             ;
 ; FT_CLK              ; 4.574  ; 0.000             ;
-; LMK_CLK             ; 10.474 ; 0.000             ;
-; ONCHIP_FLASH_CLK    ; 47.894 ; 0.000             ;
-; FPGA_SPI_SCLK_FPGA  ; 49.467 ; 0.000             ;
-; FPGA_SPI_SCLK       ; 49.587 ; 0.000             ;
-; altera_reserved_tck ; 49.727 ; 0.000             ;
+; LMK_CLK             ; 10.465 ; 0.000             ;
+; ONCHIP_FLASH_CLK    ; 47.897 ; 0.000             ;
+; FPGA_SPI_SCLK_FPGA  ; 49.494 ; 0.000             ;
+; FPGA_SPI_SCLK       ; 49.648 ; 0.000             ;
+; altera_reserved_tck ; 49.681 ; 0.000             ;
 ; FPGA_SPI_SCLK_out   ; 95.556 ; 0.000             ;
 +---------------------+--------+-------------------+
 
@@ -357,13 +357,13 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 ----------------------------------------------
 ; Slow 1200mV 0C Model Metastability Summary ;
 ----------------------------------------------
-Worst-Case MTBF of Design is 3.24e+03 years or 1.02e+11 seconds.
+Worst-Case MTBF of Design is 432 years or 1.36e+10 seconds.
 Typical MTBF of Design is 1e+09 years or 3.15e+16 seconds.
 
 Number of Synchronizer Chains Found: 293
 Shortest Synchronizer Chain: 2 Registers
 Fraction of Chains for which MTBFs Could Not be Calculated: 0.693
-Worst Case Available Settling Time: 6.257 ns
+Worst Case Available Settling Time: 6.959 ns
 
 Worst-Case MTBF values are calculated based on the worst-case silicon characteristics, with worst-case operating conditions.
   - Under worst-case conditions, an increase of 100ps in available settling time will increase MTBF values by a factor of 1.5
@@ -377,14 +377,14 @@ Typical MTBF values are calculated based on the nominal silicon characteristics,
 +---------------------+--------+---------------+
 ; Clock               ; Slack  ; End Point TNS ;
 +---------------------+--------+---------------+
-; RX_C3               ; 0.932  ; 0.000         ;
-; FT_CLK              ; 2.033  ; 0.000         ;
-; LMK_CLK             ; 8.960  ; 0.000         ;
-; ONCHIP_FLASH_CLK    ; 20.192 ; 0.000         ;
-; DUAL_BOOT_CLK       ; 21.890 ; 0.000         ;
-; FPGA_SPI_SCLK_FPGA  ; 22.402 ; 0.000         ;
-; FPGA_SPI_SCLK_out   ; 33.462 ; 0.000         ;
-; altera_reserved_tck ; 48.314 ; 0.000         ;
+; RX_C3               ; 1.210  ; 0.000         ;
+; FT_CLK              ; 2.044  ; 0.000         ;
+; LMK_CLK             ; 9.092  ; 0.000         ;
+; ONCHIP_FLASH_CLK    ; 20.352 ; 0.000         ;
+; DUAL_BOOT_CLK       ; 21.815 ; 0.000         ;
+; FPGA_SPI_SCLK_FPGA  ; 21.848 ; 0.000         ;
+; FPGA_SPI_SCLK_out   ; 32.795 ; 0.000         ;
+; altera_reserved_tck ; 48.323 ; 0.000         ;
 +---------------------+--------+---------------+
 
 
@@ -393,14 +393,14 @@ Typical MTBF values are calculated based on the nominal silicon characteristics,
 +---------------------+--------+---------------+
 ; Clock               ; Slack  ; End Point TNS ;
 +---------------------+--------+---------------+
-; LMK_CLK             ; -0.021 ; -0.021        ;
+; LMK_CLK             ; -0.161 ; -0.371        ;
+; FT_CLK              ; 0.100  ; 0.000         ;
+; RX_C3               ; 0.103  ; 0.000         ;
+; altera_reserved_tck ; 0.145  ; 0.000         ;
 ; FPGA_SPI_SCLK_FPGA  ; 0.152  ; 0.000         ;
-; FT_CLK              ; 0.152  ; 0.000         ;
-; RX_C3               ; 0.152  ; 0.000         ;
-; altera_reserved_tck ; 0.152  ; 0.000         ;
-; DUAL_BOOT_CLK       ; 0.484  ; 0.000         ;
-; ONCHIP_FLASH_CLK    ; 0.639  ; 0.000         ;
-; FPGA_SPI_SCLK_out   ; 34.891 ; 0.000         ;
+; DUAL_BOOT_CLK       ; 0.427  ; 0.000         ;
+; ONCHIP_FLASH_CLK    ; 0.730  ; 0.000         ;
+; FPGA_SPI_SCLK_out   ; 35.243 ; 0.000         ;
 +---------------------+--------+---------------+
 
 
@@ -409,11 +409,11 @@ Typical MTBF values are calculated based on the nominal silicon characteristics,
 +---------------------+--------+---------------+
 ; Clock               ; Slack  ; End Point TNS ;
 +---------------------+--------+---------------+
-; RX_C3               ; 2.889  ; 0.000         ;
-; FT_CLK              ; 8.538  ; 0.000         ;
-; LMK_CLK             ; 10.387 ; 0.000         ;
-; FPGA_SPI_SCLK_FPGA  ; 22.259 ; 0.000         ;
-; altera_reserved_tck ; 98.982 ; 0.000         ;
+; RX_C3               ; 2.583  ; 0.000         ;
+; FT_CLK              ; 8.608  ; 0.000         ;
+; LMK_CLK             ; 10.603 ; 0.000         ;
+; FPGA_SPI_SCLK_FPGA  ; 22.853 ; 0.000         ;
+; altera_reserved_tck ; 99.028 ; 0.000         ;
 +---------------------+--------+---------------+
 
 
@@ -422,11 +422,11 @@ Typical MTBF values are calculated based on the nominal silicon characteristics,
 +---------------------+-------+---------------+
 ; Clock               ; Slack ; End Point TNS ;
 +---------------------+-------+---------------+
-; FPGA_SPI_SCLK_FPGA  ; 0.302 ; 0.000         ;
-; LMK_CLK             ; 0.350 ; 0.000         ;
-; RX_C3               ; 0.408 ; 0.000         ;
-; altera_reserved_tck ; 0.469 ; 0.000         ;
-; FT_CLK              ; 0.895 ; 0.000         ;
+; FPGA_SPI_SCLK_FPGA  ; 0.117 ; 0.000         ;
+; altera_reserved_tck ; 0.395 ; 0.000         ;
+; RX_C3               ; 0.412 ; 0.000         ;
+; LMK_CLK             ; 0.422 ; 0.000         ;
+; FT_CLK              ; 0.578 ; 0.000         ;
 +---------------------+-------+---------------+
 
 
@@ -436,19 +436,19 @@ Typical MTBF values are calculated based on the nominal silicon characteristics,
 ; Clock               ; Slack  ; End Point TNS     ;
 +---------------------+--------+-------------------+
 ; DUAL_BOOT_CLK       ; 0.000  ; 0.000             ;
-; LMS_MCLK2           ; 3.084  ; 0.000             ;
-; RX_C3               ; 3.621  ; 0.000             ;
-; TX_C0               ; 3.647  ; 0.000             ;
-; RX_C2               ; 3.663  ; 0.000             ;
+; LMS_MCLK2           ; 2.977  ; 0.000             ;
+; TX_C0               ; 3.546  ; 0.000             ;
+; RX_C3               ; 3.550  ; 0.000             ;
+; RX_C2               ; 3.555  ; 0.000             ;
 ; LMS_FCLK1           ; 4.000  ; 0.000             ;
 ; LMS_FCLK2           ; 4.000  ; 0.000             ;
 ; LMS_MCLK1           ; 4.000  ; 0.000             ;
 ; FT_CLK              ; 4.261  ; 0.000             ;
-; LMK_CLK             ; 10.255 ; 0.000             ;
-; ONCHIP_FLASH_CLK    ; 47.965 ; 0.000             ;
-; FPGA_SPI_SCLK_FPGA  ; 49.611 ; 0.000             ;
-; altera_reserved_tck ; 49.703 ; 0.000             ;
-; FPGA_SPI_SCLK       ; 49.816 ; 0.000             ;
+; LMK_CLK             ; 10.241 ; 0.000             ;
+; ONCHIP_FLASH_CLK    ; 47.966 ; 0.000             ;
+; FPGA_SPI_SCLK_FPGA  ; 49.624 ; 0.000             ;
+; altera_reserved_tck ; 49.700 ; 0.000             ;
+; FPGA_SPI_SCLK       ; 49.853 ; 0.000             ;
 ; FPGA_SPI_SCLK_out   ; 96.000 ; 0.000             ;
 +---------------------+--------+-------------------+
 
@@ -456,13 +456,13 @@ Typical MTBF values are calculated based on the nominal silicon characteristics,
 ----------------------------------------------
 ; Fast 1200mV 0C Model Metastability Summary ;
 ----------------------------------------------
-Worst-Case MTBF of Design is 7.9e+08 years or 2.49e+16 seconds.
+Worst-Case MTBF of Design is 5.18e+08 years or 1.63e+16 seconds.
 Typical MTBF of Design is 1e+09 years or 3.15e+16 seconds.
 
 Number of Synchronizer Chains Found: 293
 Shortest Synchronizer Chain: 2 Registers
 Fraction of Chains for which MTBFs Could Not be Calculated: 0.693
-Worst Case Available Settling Time: 7.241 ns
+Worst Case Available Settling Time: 7.497 ns
 
 Worst-Case MTBF values are calculated based on the worst-case silicon characteristics, with worst-case operating conditions.
   - Under worst-case conditions, an increase of 100ps in available settling time will increase MTBF values by a factor of 1.5
@@ -476,29 +476,29 @@ Typical MTBF values are calculated based on the nominal silicon characteristics,
 +----------------------+--------+--------+----------+---------+---------------------+
 ; Clock                ; Setup  ; Hold   ; Recovery ; Removal ; Minimum Pulse Width ;
 +----------------------+--------+--------+----------+---------+---------------------+
-; Worst-case Slack     ; 0.156  ; -0.021 ; 1.063    ; 0.302   ; 0.000               ;
-;  DUAL_BOOT_CLK       ; 18.607 ; 0.484  ; N/A      ; N/A     ; 0.000               ;
-;  FPGA_SPI_SCLK       ; N/A    ; N/A    ; N/A      ; N/A     ; 49.587              ;
-;  FPGA_SPI_SCLK_FPGA  ; 19.174 ; 0.152  ; 18.691   ; 0.302   ; 49.467              ;
-;  FPGA_SPI_SCLK_out   ; 31.537 ; 34.211 ; N/A      ; N/A     ; 95.556              ;
-;  FT_CLK              ; 0.501  ; 0.152  ; 6.820    ; 0.895   ; 4.261               ;
-;  LMK_CLK             ; 5.903  ; -0.021 ; 7.293    ; 0.350   ; 10.255              ;
+; Worst-case Slack     ; 0.155  ; -0.161 ; 0.115    ; 0.117   ; 0.000               ;
+;  DUAL_BOOT_CLK       ; 18.608 ; 0.427  ; N/A      ; N/A     ; 0.000               ;
+;  FPGA_SPI_SCLK       ; N/A    ; N/A    ; N/A      ; N/A     ; 49.648              ;
+;  FPGA_SPI_SCLK_FPGA  ; 17.868 ; 0.152  ; 20.289   ; 0.117   ; 49.494              ;
+;  FPGA_SPI_SCLK_out   ; 29.894 ; 35.215 ; N/A      ; N/A     ; 95.556              ;
+;  FT_CLK              ; 0.560  ; 0.100  ; 6.866    ; 0.578   ; 4.261               ;
+;  LMK_CLK             ; 5.989  ; -0.161 ; 7.888    ; 0.422   ; 10.241              ;
 ;  LMS_FCLK1           ; N/A    ; N/A    ; N/A      ; N/A     ; 3.556               ;
 ;  LMS_FCLK2           ; N/A    ; N/A    ; N/A      ; N/A     ; 3.556               ;
 ;  LMS_MCLK1           ; N/A    ; N/A    ; N/A      ; N/A     ; 4.000               ;
 ;  LMS_MCLK2           ; N/A    ; N/A    ; N/A      ; N/A     ; 1.750               ;
-;  ONCHIP_FLASH_CLK    ; 12.711 ; 0.639  ; N/A      ; N/A     ; 47.886              ;
-;  RX_C2               ; N/A    ; N/A    ; N/A      ; N/A     ; 3.556               ;
-;  RX_C3               ; 0.156  ; 0.152  ; 1.063    ; 0.408   ; 1.750               ;
-;  TX_C0               ; N/A    ; N/A    ; N/A      ; N/A     ; 3.556               ;
-;  altera_reserved_tck ; 45.456 ; 0.152  ; 97.794   ; 0.469   ; 49.703              ;
-; Design-wide TNS      ; 0.0    ; -0.021 ; 0.0      ; 0.0     ; 0.0                 ;
+;  ONCHIP_FLASH_CLK    ; 12.690 ; 0.730  ; N/A      ; N/A     ; 47.888              ;
+;  RX_C2               ; N/A    ; N/A    ; N/A      ; N/A     ; 3.555               ;
+;  RX_C3               ; 0.155  ; 0.103  ; 0.115    ; 0.412   ; 1.750               ;
+;  TX_C0               ; N/A    ; N/A    ; N/A      ; N/A     ; 3.546               ;
+;  altera_reserved_tck ; 45.392 ; 0.145  ; 97.886   ; 0.395   ; 49.681              ;
+; Design-wide TNS      ; 0.0    ; -0.371 ; 0.0      ; 0.0     ; 0.0                 ;
 ;  DUAL_BOOT_CLK       ; 0.000  ; 0.000  ; N/A      ; N/A     ; 0.000               ;
 ;  FPGA_SPI_SCLK       ; N/A    ; N/A    ; N/A      ; N/A     ; 0.000               ;
 ;  FPGA_SPI_SCLK_FPGA  ; 0.000  ; 0.000  ; 0.000    ; 0.000   ; 0.000               ;
 ;  FPGA_SPI_SCLK_out   ; 0.000  ; 0.000  ; N/A      ; N/A     ; 0.000               ;
 ;  FT_CLK              ; 0.000  ; 0.000  ; 0.000    ; 0.000   ; 0.000               ;
-;  LMK_CLK             ; 0.000  ; -0.021 ; 0.000    ; 0.000   ; 0.000               ;
+;  LMK_CLK             ; 0.000  ; -0.371 ; 0.000    ; 0.000   ; 0.000               ;
 ;  LMS_FCLK1           ; N/A    ; N/A    ; N/A      ; N/A     ; 0.000               ;
 ;  LMS_FCLK2           ; N/A    ; N/A    ; N/A      ; N/A     ; 0.000               ;
 ;  LMS_MCLK1           ; N/A    ; N/A    ; N/A      ; N/A     ; 0.000               ;
@@ -992,10 +992,10 @@ Typical MTBF values are calculated based on the nominal silicon characteristics,
 +---------------------+---------------------+------------+------------+------------+------------+
 ; From Clock          ; To Clock            ; RR Paths   ; FR Paths   ; RF Paths   ; FF Paths   ;
 +---------------------+---------------------+------------+------------+------------+------------+
-; altera_reserved_tck ; altera_reserved_tck ; 1052       ; 43         ; 34         ; 1          ;
+; altera_reserved_tck ; altera_reserved_tck ; 1086       ; 43         ; 34         ; 1          ;
 ; LMK_CLK             ; altera_reserved_tck ; false path ; 0          ; 0          ; 0          ;
 ; LMK_CLK             ; DUAL_BOOT_CLK       ; 6          ; 0          ; 0          ; 0          ;
-; FPGA_SPI_SCLK_FPGA  ; FPGA_SPI_SCLK_FPGA  ; 47306      ; 0          ; 9950       ; 74         ;
+; FPGA_SPI_SCLK_FPGA  ; FPGA_SPI_SCLK_FPGA  ; 47306      ; 0          ; 9960       ; 74         ;
 ; FT_CLK              ; FPGA_SPI_SCLK_FPGA  ; 0          ; 0          ; false path ; 0          ;
 ; LMK_CLK             ; FPGA_SPI_SCLK_FPGA  ; 339        ; 0          ; 24         ; 0          ;
 ; LMS_MCLK2           ; FPGA_SPI_SCLK_FPGA  ; 0          ; 0          ; false path ; 0          ;
@@ -1012,7 +1012,7 @@ Typical MTBF values are calculated based on the nominal silicon characteristics,
 ; FPGA_SPI_SCLK_FPGA  ; LMK_CLK             ; 258        ; 22         ; 0          ; 0          ;
 ; FPGA_SPI_SCLK_out   ; LMK_CLK             ; 0          ; 1          ; 0          ; 0          ;
 ; FT_CLK              ; LMK_CLK             ; false path ; 0          ; 0          ; 0          ;
-; LMK_CLK             ; LMK_CLK             ; 64763      ; 129        ; 199        ; 2          ;
+; LMK_CLK             ; LMK_CLK             ; 64978      ; 129        ; 199        ; 2          ;
 ; LMS_MCLK2           ; LMK_CLK             ; false path ; 0          ; 0          ; 0          ;
 ; RX_C3               ; LMK_CLK             ; false path ; 0          ; 0          ; 0          ;
 ; FPGA_SPI_SCLK_FPGA  ; LMS_MCLK2           ; false path ; 0          ; false path ; 0          ;
@@ -1028,7 +1028,7 @@ Typical MTBF values are calculated based on the nominal silicon characteristics,
 ; LMK_CLK             ; RX_C3               ; false path ; 0          ; 0          ; 0          ;
 ; LMS_MCLK2           ; RX_C3               ; false path ; false path ; false path ; 0          ;
 ; LMS_MCLK2_VIRT      ; RX_C3               ; 13         ; false path ; false path ; 13         ;
-; RX_C3               ; RX_C3               ; 72365      ; 52         ; 13         ; 0          ;
+; RX_C3               ; RX_C3               ; 71986      ; 52         ; 13         ; 0          ;
 ; FPGA_SPI_SCLK_FPGA  ; TX_C0               ; 0          ; 0          ; false path ; 0          ;
 +---------------------+---------------------+------------+------------+------------+------------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
@@ -1039,10 +1039,10 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 +---------------------+---------------------+------------+------------+------------+------------+
 ; From Clock          ; To Clock            ; RR Paths   ; FR Paths   ; RF Paths   ; FF Paths   ;
 +---------------------+---------------------+------------+------------+------------+------------+
-; altera_reserved_tck ; altera_reserved_tck ; 1052       ; 43         ; 34         ; 1          ;
+; altera_reserved_tck ; altera_reserved_tck ; 1086       ; 43         ; 34         ; 1          ;
 ; LMK_CLK             ; altera_reserved_tck ; false path ; 0          ; 0          ; 0          ;
 ; LMK_CLK             ; DUAL_BOOT_CLK       ; 6          ; 0          ; 0          ; 0          ;
-; FPGA_SPI_SCLK_FPGA  ; FPGA_SPI_SCLK_FPGA  ; 47306      ; 0          ; 9950       ; 74         ;
+; FPGA_SPI_SCLK_FPGA  ; FPGA_SPI_SCLK_FPGA  ; 47306      ; 0          ; 9960       ; 74         ;
 ; FT_CLK              ; FPGA_SPI_SCLK_FPGA  ; 0          ; 0          ; false path ; 0          ;
 ; LMK_CLK             ; FPGA_SPI_SCLK_FPGA  ; 339        ; 0          ; 24         ; 0          ;
 ; LMS_MCLK2           ; FPGA_SPI_SCLK_FPGA  ; 0          ; 0          ; false path ; 0          ;
@@ -1059,7 +1059,7 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 ; FPGA_SPI_SCLK_FPGA  ; LMK_CLK             ; 258        ; 22         ; 0          ; 0          ;
 ; FPGA_SPI_SCLK_out   ; LMK_CLK             ; 0          ; 1          ; 0          ; 0          ;
 ; FT_CLK              ; LMK_CLK             ; false path ; 0          ; 0          ; 0          ;
-; LMK_CLK             ; LMK_CLK             ; 64763      ; 129        ; 199        ; 2          ;
+; LMK_CLK             ; LMK_CLK             ; 64978      ; 129        ; 199        ; 2          ;
 ; LMS_MCLK2           ; LMK_CLK             ; false path ; 0          ; 0          ; 0          ;
 ; RX_C3               ; LMK_CLK             ; false path ; 0          ; 0          ; 0          ;
 ; FPGA_SPI_SCLK_FPGA  ; LMS_MCLK2           ; false path ; 0          ; false path ; 0          ;
@@ -1075,7 +1075,7 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 ; LMK_CLK             ; RX_C3               ; false path ; 0          ; 0          ; 0          ;
 ; LMS_MCLK2           ; RX_C3               ; false path ; false path ; false path ; 0          ;
 ; LMS_MCLK2_VIRT      ; RX_C3               ; false path ; 13         ; 13         ; false path ;
-; RX_C3               ; RX_C3               ; 72365      ; 52         ; 13         ; 0          ;
+; RX_C3               ; RX_C3               ; 71986      ; 52         ; 13         ; 0          ;
 ; FPGA_SPI_SCLK_FPGA  ; TX_C0               ; 0          ; 0          ; false path ; 0          ;
 +---------------------+---------------------+------------+------------+------------+------------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
@@ -1259,8 +1259,8 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 +--------------------------+
 Info: *******************************************************************
 Info: Running Quartus Prime Timing Analyzer
-    Info: Version 18.1.0 Build 625 09/12/2018 SJ Standard Edition
-    Info: Processing started: Mon Nov 03 10:54:18 2025
+    Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+    Info: Processing started: Fri Nov 14 18:06:27 2025
 Info: Command: quartus_sta LimeSDR-Mini_lms7_lelec210x -c LimeSDR-Mini_lms7_lelec210x
 Info: qsta_default_script.tcl version: #1
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
@@ -1270,17 +1270,17 @@ Info (332164): Evaluating HDL-embedded SDC commands
     Info (332165): Entity altera_std_synchronizer
         Info (332166): set_false_path -to [get_keepers {*altera_std_synchronizer:*|din_s1}]
     Info (332165): Entity dcfifo_3hn1
-        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_3f9:dffpipe9|dffe10a* 
-        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_2f9:dffpipe6|dffe7a* 
+        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_ve9:dffpipe16|dffe17a* 
+        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_ue9:dffpipe13|dffe14a* 
     Info (332165): Entity dcfifo_6en1
-        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_1f9:dffpipe9|dffe10a* 
-        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_0f9:dffpipe6|dffe7a* 
+        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_te9:dffpipe17|dffe18a* 
+        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_se9:dffpipe14|dffe15a* 
     Info (332165): Entity dcfifo_pcn1
-        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_md9:dffpipe9|dffe10a* 
-        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_ld9:dffpipe6|dffe7a* 
+        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_id9:dffpipe17|dffe18a* 
+        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_hd9:dffpipe14|dffe15a* 
     Info (332165): Entity dcfifo_r9n1
-        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_od9:dffpipe9|dffe10a* 
-        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_nd9:dffpipe6|dffe7a* 
+        Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_kd9:dffpipe9|dffe10a* 
+        Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_jd9:dffpipe6|dffe7a* 
     Info (332165): Entity pll_altpll
         Info (332166): set_false_path -from ** -to *phasedone_state* 
         Info (332166): set_false_path -from ** -to *internal_phasestep* 
@@ -1292,32 +1292,32 @@ Info (332104): Reading SDC File: 'lms_ctr/synthesis/submodules/altera_reset_cont
 Info (332104): Reading SDC File: 'lms_ctr/synthesis/submodules/altera_onchip_flash.sdc'
 Info (332104): Reading SDC File: 'lms_ctr/synthesis/submodules/lms_ctr_nios2_cpu_cpu.sdc'
 Info (332104): Reading SDC File: 'LMS7002_timing.sdc'
-Warning (332174): Ignored filter at LMS7002_timing.sdc(64): *pll_top*|pll1|clk[1] could not be matched with a pin File: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 64
-Critical Warning (332049): Ignored create_generated_clock at LMS7002_timing.sdc(60): Argument <targets> is an empty collection File: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 60
+Warning (332174): Ignored filter at LMS7002_timing.sdc(64): *pll_top*|pll1|clk[1] could not be matched with a pin File: C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 64
+Critical Warning (332049): Ignored create_generated_clock at LMS7002_timing.sdc(60): Argument <targets> is an empty collection File: C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 60
     Info (332050): create_generated_clock     -name   TX_C1 \
                                 -master     [get_clocks LMS_MCLK2] \
                                 -source     [get_pins -compatibility_mode *pll_top*|pll1|inclk[0]] \
                                 -phase 90 \
-                                            [get_pins -compatibility_mode *pll_top*|pll1|clk[1]] File: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 60
-Warning (332174): Ignored filter at LMS7002_timing.sdc(223): TX_C1 could not be matched with a clock File: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 223
-Warning (332049): Ignored set_false_path at LMS7002_timing.sdc(223): Argument <from> is an empty collection File: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 223
+                                            [get_pins -compatibility_mode *pll_top*|pll1|clk[1]] File: C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 60
+Warning (332174): Ignored filter at LMS7002_timing.sdc(223): TX_C1 could not be matched with a clock File: C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 223
+Warning (332049): Ignored set_false_path at LMS7002_timing.sdc(223): Argument <from> is an empty collection File: C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 223
     Info (332050): set_false_path -setup     -rise_from     [get_clocks TX_C1] -rise_to \
-                                                [get_clocks LMS_FCLK1] File: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 223
-Warning (332049): Ignored set_false_path at LMS7002_timing.sdc(225): Argument <from> is an empty collection File: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 225
+                                                [get_clocks LMS_FCLK1] File: C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 223
+Warning (332049): Ignored set_false_path at LMS7002_timing.sdc(225): Argument <from> is an empty collection File: C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 225
     Info (332050): set_false_path -setup     -fall_from     [get_clocks TX_C1] -fall_to \
-                                                [get_clocks LMS_FCLK1] File: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 225
-Warning (332049): Ignored set_false_path at LMS7002_timing.sdc(227): Argument <from> is an empty collection File: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 227
+                                                [get_clocks LMS_FCLK1] File: C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 225
+Warning (332049): Ignored set_false_path at LMS7002_timing.sdc(227): Argument <from> is an empty collection File: C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 227
     Info (332050): set_false_path -hold     -rise_from     [get_clocks TX_C1] -fall_to \
-                                                [get_clocks LMS_FCLK1] File: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 227
-Warning (332049): Ignored set_false_path at LMS7002_timing.sdc(229): Argument <from> is an empty collection File: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 229
+                                                [get_clocks LMS_FCLK1] File: C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 227
+Warning (332049): Ignored set_false_path at LMS7002_timing.sdc(229): Argument <from> is an empty collection File: C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 229
     Info (332050): set_false_path -hold     -fall_from     [get_clocks TX_C1] -rise_to \
-                                                [get_clocks LMS_FCLK1] File: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 229
+                                                [get_clocks LMS_FCLK1] File: C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/LMS7002_timing.sdc Line: 229
 Info (332104): Reading SDC File: 'FT601_timing.sdc'
 Info (332104): Reading SDC File: 'timing.sdc'
 Info (332151): Clock uncertainty is not calculated until you update the timing netlist.
 Warning (332043): Overwriting existing clock: altera_reserved_tck
 Info (332104): Reading SDC File: 'Clock_groups.sdc'
-Warning (332174): Ignored filter at Clock_groups.sdc(16): TX_C1 could not be matched with a clock File: D:/Pol/Documents/Courses/LELEC2102/Github/LELEC210X/fpga/LimeSDR-Mini_lms7_lelec210x/Clock_groups.sdc Line: 16
+Warning (332174): Ignored filter at Clock_groups.sdc(16): TX_C1 could not be matched with a clock File: C:/Users/guill/Desktop/LELEC210X-project/fpga/LimeSDR-Mini_lms7_lelec210x/Clock_groups.sdc Line: 16
 Info (332097): The following timing edges are non-unate.  The Timing Analyzer will assume pos-unate behavior for these edges in the clock network.
     Info (332098): Cell: altera_internal_jtag  from: tck  to: tckutap
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
@@ -1330,44 +1330,45 @@ Warning (332061): Virtual clock FT_CLK_VIRT is never referenced in any input or 
 Info: Found TIMING_ANALYZER_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
 Info: Analyzing Slow 1200mV 85C Model
 Info: Can't run Report Timing Closure Recommendations. The current device family is not supported.
-Info (332146): Worst-case setup slack is 0.156
+Info (332146): Worst-case setup slack is 0.155
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.156               0.000 RX_C3 
-    Info (332119):     0.501               0.000 FT_CLK 
-    Info (332119):     5.903               0.000 LMK_CLK 
-    Info (332119):    12.711               0.000 ONCHIP_FLASH_CLK 
-    Info (332119):    18.607               0.000 DUAL_BOOT_CLK 
-    Info (332119):    19.174               0.000 FPGA_SPI_SCLK_FPGA 
-    Info (332119):    31.537               0.000 FPGA_SPI_SCLK_out 
-    Info (332119):    45.456               0.000 altera_reserved_tck 
-Info (332146): Worst-case hold slack is 0.269
+    Info (332119):     0.155               0.000 RX_C3 
+    Info (332119):     0.560               0.000 FT_CLK 
+    Info (332119):     5.989               0.000 LMK_CLK 
+    Info (332119):    12.690               0.000 ONCHIP_FLASH_CLK 
+    Info (332119):    17.868               0.000 FPGA_SPI_SCLK_FPGA 
+    Info (332119):    18.608               0.000 DUAL_BOOT_CLK 
+    Info (332119):    29.894               0.000 FPGA_SPI_SCLK_out 
+    Info (332119):    45.392               0.000 altera_reserved_tck 
+Critical Warning (332148): Timing requirements not met
+Info (332146): Worst-case hold slack is -0.051
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.269               0.000 LMK_CLK 
-    Info (332119):     0.361               0.000 RX_C3 
-    Info (332119):     0.362               0.000 FT_CLK 
+    Info (332119):    -0.051              -0.051 LMK_CLK 
+    Info (332119):     0.283               0.000 FT_CLK 
+    Info (332119):     0.294               0.000 RX_C3 
+    Info (332119):     0.346               0.000 altera_reserved_tck 
     Info (332119):     0.363               0.000 FPGA_SPI_SCLK_FPGA 
-    Info (332119):     0.363               0.000 altera_reserved_tck 
-    Info (332119):     1.762               0.000 DUAL_BOOT_CLK 
-    Info (332119):     4.421               0.000 ONCHIP_FLASH_CLK 
-    Info (332119):    34.414               0.000 FPGA_SPI_SCLK_out 
-Info (332146): Worst-case recovery slack is 1.063
+    Info (332119):     1.734               0.000 DUAL_BOOT_CLK 
+    Info (332119):     4.659               0.000 ONCHIP_FLASH_CLK 
+    Info (332119):    35.476               0.000 FPGA_SPI_SCLK_out 
+Info (332146): Worst-case recovery slack is 0.115
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     1.063               0.000 RX_C3 
-    Info (332119):     6.820               0.000 FT_CLK 
-    Info (332119):     7.293               0.000 LMK_CLK 
-    Info (332119):    18.691               0.000 FPGA_SPI_SCLK_FPGA 
-    Info (332119):    97.794               0.000 altera_reserved_tck 
-Info (332146): Worst-case removal slack is 0.642
+    Info (332119):     0.115               0.000 RX_C3 
+    Info (332119):     6.866               0.000 FT_CLK 
+    Info (332119):     7.888               0.000 LMK_CLK 
+    Info (332119):    20.289               0.000 FPGA_SPI_SCLK_FPGA 
+    Info (332119):    97.886               0.000 altera_reserved_tck 
+Info (332146): Worst-case removal slack is 0.743
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.642               0.000 LMK_CLK 
-    Info (332119):     0.770               0.000 FPGA_SPI_SCLK_FPGA 
-    Info (332119):     0.984               0.000 RX_C3 
-    Info (332119):     1.153               0.000 altera_reserved_tck 
-    Info (332119):     2.150               0.000 FT_CLK 
+    Info (332119):     0.743               0.000 FPGA_SPI_SCLK_FPGA 
+    Info (332119):     0.743               0.000 LMK_CLK 
+    Info (332119):     0.919               0.000 altera_reserved_tck 
+    Info (332119):     0.991               0.000 RX_C3 
+    Info (332119):     1.414               0.000 FT_CLK 
 Info (332146): Worst-case minimum pulse width slack is 0.000
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
@@ -1380,20 +1381,20 @@ Info (332146): Worst-case minimum pulse width slack is 0.000
     Info (332119):     3.556               0.000 TX_C0 
     Info (332119):     4.000               0.000 LMS_MCLK1 
     Info (332119):     4.560               0.000 FT_CLK 
-    Info (332119):    10.421               0.000 LMK_CLK 
-    Info (332119):    47.886               0.000 ONCHIP_FLASH_CLK 
-    Info (332119):    49.671               0.000 FPGA_SPI_SCLK_FPGA 
-    Info (332119):    49.733               0.000 altera_reserved_tck 
-    Info (332119):    49.771               0.000 FPGA_SPI_SCLK 
+    Info (332119):    10.424               0.000 LMK_CLK 
+    Info (332119):    47.888               0.000 ONCHIP_FLASH_CLK 
+    Info (332119):    49.706               0.000 FPGA_SPI_SCLK_FPGA 
+    Info (332119):    49.708               0.000 altera_reserved_tck 
+    Info (332119):    49.788               0.000 FPGA_SPI_SCLK 
     Info (332119):    95.556               0.000 FPGA_SPI_SCLK_out 
 Info (332114): Report Metastability: Found 293 synchronizer chains.
-    Info (332114): Worst-Case MTBF of Design is 748 years or 2.36e+10 seconds.
+    Info (332114): Worst-Case MTBF of Design is 106 years or 3.33e+09 seconds.
     Info (332114): Typical MTBF of Design is 1e+09 years or 3.15e+16 seconds.
 
     Info (332114): Number of Synchronizer Chains Found: 293
     Info (332114): Shortest Synchronizer Chain: 2 Registers
     Info (332114): Fraction of Chains for which MTBFs Could Not be Calculated: 0.693
-    Info (332114): Worst Case Available Settling Time: 6.203 ns
+    Info (332114): Worst Case Available Settling Time: 6.865 ns
     Info (332114): 
     Info (332114): Worst-Case MTBF values are calculated based on the worst-case silicon characteristics, with worst-case operating conditions.
     Info (332114):   - Under worst-case conditions, an increase of 100ps in available settling time will increase MTBF values by a factor of 1.5
@@ -1411,44 +1412,45 @@ Warning (332056): PLL cross checking found inconsistent PLL clock settings:
     Warning (332056): Clock: RX_C2 with master clock period: 8.000 found on PLL node: inst1_pll_top|rxtx_pll_inst0|altpll_inst3|auto_generated|pll1|clk[2] does not match the master clock period requirement: 6.250
     Warning (332056): Clock: RX_C3 with master clock period: 8.000 found on PLL node: inst1_pll_top|rxtx_pll_inst0|altpll_inst3|auto_generated|pll1|clk[3] does not match the master clock period requirement: 6.250
 Warning (332061): Virtual clock FT_CLK_VIRT is never referenced in any input or output delay assignment.
-Info (332146): Worst-case setup slack is 0.804
+Info (332146): Worst-case setup slack is 0.681
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.804               0.000 RX_C3 
-    Info (332119):     1.008               0.000 FT_CLK 
-    Info (332119):     6.031               0.000 LMK_CLK 
-    Info (332119):    13.321               0.000 ONCHIP_FLASH_CLK 
-    Info (332119):    18.842               0.000 DUAL_BOOT_CLK 
-    Info (332119):    19.337               0.000 FPGA_SPI_SCLK_FPGA 
-    Info (332119):    31.715               0.000 FPGA_SPI_SCLK_out 
-    Info (332119):    45.744               0.000 altera_reserved_tck 
-Info (332146): Worst-case hold slack is 0.167
+    Info (332119):     0.681               0.000 RX_C3 
+    Info (332119):     1.107               0.000 FT_CLK 
+    Info (332119):     6.371               0.000 LMK_CLK 
+    Info (332119):    13.373               0.000 ONCHIP_FLASH_CLK 
+    Info (332119):    18.161               0.000 FPGA_SPI_SCLK_FPGA 
+    Info (332119):    18.802               0.000 DUAL_BOOT_CLK 
+    Info (332119):    30.110               0.000 FPGA_SPI_SCLK_out 
+    Info (332119):    45.660               0.000 altera_reserved_tck 
+Critical Warning (332148): Timing requirements not met
+Info (332146): Worst-case hold slack is -0.118
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.167               0.000 LMK_CLK 
-    Info (332119):     0.323               0.000 RX_C3 
-    Info (332119):     0.324               0.000 FT_CLK 
-    Info (332119):     0.324               0.000 altera_reserved_tck 
+    Info (332119):    -0.118              -0.118 LMK_CLK 
+    Info (332119):     0.256               0.000 FT_CLK 
+    Info (332119):     0.266               0.000 RX_C3 
+    Info (332119):     0.307               0.000 altera_reserved_tck 
     Info (332119):     0.325               0.000 FPGA_SPI_SCLK_FPGA 
-    Info (332119):     1.491               0.000 DUAL_BOOT_CLK 
-    Info (332119):     3.941               0.000 ONCHIP_FLASH_CLK 
-    Info (332119):    34.211               0.000 FPGA_SPI_SCLK_out 
-Info (332146): Worst-case recovery slack is 1.100
+    Info (332119):     1.504               0.000 DUAL_BOOT_CLK 
+    Info (332119):     4.135               0.000 ONCHIP_FLASH_CLK 
+    Info (332119):    35.215               0.000 FPGA_SPI_SCLK_out 
+Info (332146): Worst-case recovery slack is 0.134
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     1.100               0.000 RX_C3 
-    Info (332119):     6.987               0.000 FT_CLK 
-    Info (332119):     7.602               0.000 LMK_CLK 
-    Info (332119):    18.922               0.000 FPGA_SPI_SCLK_FPGA 
-    Info (332119):    97.913               0.000 altera_reserved_tck 
-Info (332146): Worst-case removal slack is 0.469
+    Info (332119):     0.134               0.000 RX_C3 
+    Info (332119):     7.034               0.000 FT_CLK 
+    Info (332119):     8.187               0.000 LMK_CLK 
+    Info (332119):    20.408               0.000 FPGA_SPI_SCLK_FPGA 
+    Info (332119):    98.009               0.000 altera_reserved_tck 
+Info (332146): Worst-case removal slack is 0.495
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.469               0.000 FPGA_SPI_SCLK_FPGA 
-    Info (332119):     0.526               0.000 LMK_CLK 
-    Info (332119):     0.901               0.000 RX_C3 
-    Info (332119):     1.078               0.000 altera_reserved_tck 
-    Info (332119):     1.922               0.000 FT_CLK 
+    Info (332119):     0.495               0.000 FPGA_SPI_SCLK_FPGA 
+    Info (332119):     0.627               0.000 LMK_CLK 
+    Info (332119):     0.839               0.000 altera_reserved_tck 
+    Info (332119):     0.911               0.000 RX_C3 
+    Info (332119):     1.261               0.000 FT_CLK 
 Info (332146): Worst-case minimum pulse width slack is 0.000
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
@@ -1461,20 +1463,20 @@ Info (332146): Worst-case minimum pulse width slack is 0.000
     Info (332119):     3.556               0.000 TX_C0 
     Info (332119):     4.000               0.000 LMS_MCLK1 
     Info (332119):     4.574               0.000 FT_CLK 
-    Info (332119):    10.474               0.000 LMK_CLK 
-    Info (332119):    47.894               0.000 ONCHIP_FLASH_CLK 
-    Info (332119):    49.467               0.000 FPGA_SPI_SCLK_FPGA 
-    Info (332119):    49.587               0.000 FPGA_SPI_SCLK 
-    Info (332119):    49.727               0.000 altera_reserved_tck 
+    Info (332119):    10.465               0.000 LMK_CLK 
+    Info (332119):    47.897               0.000 ONCHIP_FLASH_CLK 
+    Info (332119):    49.494               0.000 FPGA_SPI_SCLK_FPGA 
+    Info (332119):    49.648               0.000 FPGA_SPI_SCLK 
+    Info (332119):    49.681               0.000 altera_reserved_tck 
     Info (332119):    95.556               0.000 FPGA_SPI_SCLK_out 
 Info (332114): Report Metastability: Found 293 synchronizer chains.
-    Info (332114): Worst-Case MTBF of Design is 3.24e+03 years or 1.02e+11 seconds.
+    Info (332114): Worst-Case MTBF of Design is 432 years or 1.36e+10 seconds.
     Info (332114): Typical MTBF of Design is 1e+09 years or 3.15e+16 seconds.
 
     Info (332114): Number of Synchronizer Chains Found: 293
     Info (332114): Shortest Synchronizer Chain: 2 Registers
     Info (332114): Fraction of Chains for which MTBFs Could Not be Calculated: 0.693
-    Info (332114): Worst Case Available Settling Time: 6.257 ns
+    Info (332114): Worst Case Available Settling Time: 6.959 ns
     Info (332114): 
     Info (332114): Worst-Case MTBF values are calculated based on the worst-case silicon characteristics, with worst-case operating conditions.
     Info (332114):   - Under worst-case conditions, an increase of 100ps in available settling time will increase MTBF values by a factor of 1.5
@@ -1490,71 +1492,71 @@ Warning (332056): PLL cross checking found inconsistent PLL clock settings:
     Warning (332056): Clock: RX_C2 with master clock period: 8.000 found on PLL node: inst1_pll_top|rxtx_pll_inst0|altpll_inst3|auto_generated|pll1|clk[2] does not match the master clock period requirement: 6.250
     Warning (332056): Clock: RX_C3 with master clock period: 8.000 found on PLL node: inst1_pll_top|rxtx_pll_inst0|altpll_inst3|auto_generated|pll1|clk[3] does not match the master clock period requirement: 6.250
 Warning (332061): Virtual clock FT_CLK_VIRT is never referenced in any input or output delay assignment.
-Info (332146): Worst-case setup slack is 0.932
+Info (332146): Worst-case setup slack is 1.210
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.932               0.000 RX_C3 
-    Info (332119):     2.033               0.000 FT_CLK 
-    Info (332119):     8.960               0.000 LMK_CLK 
-    Info (332119):    20.192               0.000 ONCHIP_FLASH_CLK 
-    Info (332119):    21.890               0.000 DUAL_BOOT_CLK 
-    Info (332119):    22.402               0.000 FPGA_SPI_SCLK_FPGA 
-    Info (332119):    33.462               0.000 FPGA_SPI_SCLK_out 
-    Info (332119):    48.314               0.000 altera_reserved_tck 
+    Info (332119):     1.210               0.000 RX_C3 
+    Info (332119):     2.044               0.000 FT_CLK 
+    Info (332119):     9.092               0.000 LMK_CLK 
+    Info (332119):    20.352               0.000 ONCHIP_FLASH_CLK 
+    Info (332119):    21.815               0.000 DUAL_BOOT_CLK 
+    Info (332119):    21.848               0.000 FPGA_SPI_SCLK_FPGA 
+    Info (332119):    32.795               0.000 FPGA_SPI_SCLK_out 
+    Info (332119):    48.323               0.000 altera_reserved_tck 
 Critical Warning (332148): Timing requirements not met
-Info (332146): Worst-case hold slack is -0.021
+Info (332146): Worst-case hold slack is -0.161
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.021              -0.021 LMK_CLK 
+    Info (332119):    -0.161              -0.371 LMK_CLK 
+    Info (332119):     0.100               0.000 FT_CLK 
+    Info (332119):     0.103               0.000 RX_C3 
+    Info (332119):     0.145               0.000 altera_reserved_tck 
     Info (332119):     0.152               0.000 FPGA_SPI_SCLK_FPGA 
-    Info (332119):     0.152               0.000 FT_CLK 
-    Info (332119):     0.152               0.000 RX_C3 
-    Info (332119):     0.152               0.000 altera_reserved_tck 
-    Info (332119):     0.484               0.000 DUAL_BOOT_CLK 
-    Info (332119):     0.639               0.000 ONCHIP_FLASH_CLK 
-    Info (332119):    34.891               0.000 FPGA_SPI_SCLK_out 
-Info (332146): Worst-case recovery slack is 2.889
+    Info (332119):     0.427               0.000 DUAL_BOOT_CLK 
+    Info (332119):     0.730               0.000 ONCHIP_FLASH_CLK 
+    Info (332119):    35.243               0.000 FPGA_SPI_SCLK_out 
+Info (332146): Worst-case recovery slack is 2.583
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     2.889               0.000 RX_C3 
-    Info (332119):     8.538               0.000 FT_CLK 
-    Info (332119):    10.387               0.000 LMK_CLK 
-    Info (332119):    22.259               0.000 FPGA_SPI_SCLK_FPGA 
-    Info (332119):    98.982               0.000 altera_reserved_tck 
-Info (332146): Worst-case removal slack is 0.302
+    Info (332119):     2.583               0.000 RX_C3 
+    Info (332119):     8.608               0.000 FT_CLK 
+    Info (332119):    10.603               0.000 LMK_CLK 
+    Info (332119):    22.853               0.000 FPGA_SPI_SCLK_FPGA 
+    Info (332119):    99.028               0.000 altera_reserved_tck 
+Info (332146): Worst-case removal slack is 0.117
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.302               0.000 FPGA_SPI_SCLK_FPGA 
-    Info (332119):     0.350               0.000 LMK_CLK 
-    Info (332119):     0.408               0.000 RX_C3 
-    Info (332119):     0.469               0.000 altera_reserved_tck 
-    Info (332119):     0.895               0.000 FT_CLK 
+    Info (332119):     0.117               0.000 FPGA_SPI_SCLK_FPGA 
+    Info (332119):     0.395               0.000 altera_reserved_tck 
+    Info (332119):     0.412               0.000 RX_C3 
+    Info (332119):     0.422               0.000 LMK_CLK 
+    Info (332119):     0.578               0.000 FT_CLK 
 Info (332146): Worst-case minimum pulse width slack is 0.000
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
     Info (332119):     0.000               0.000 DUAL_BOOT_CLK 
-    Info (332119):     3.084               0.000 LMS_MCLK2 
-    Info (332119):     3.621               0.000 RX_C3 
-    Info (332119):     3.647               0.000 TX_C0 
-    Info (332119):     3.663               0.000 RX_C2 
+    Info (332119):     2.977               0.000 LMS_MCLK2 
+    Info (332119):     3.546               0.000 TX_C0 
+    Info (332119):     3.550               0.000 RX_C3 
+    Info (332119):     3.555               0.000 RX_C2 
     Info (332119):     4.000               0.000 LMS_FCLK1 
     Info (332119):     4.000               0.000 LMS_FCLK2 
     Info (332119):     4.000               0.000 LMS_MCLK1 
     Info (332119):     4.261               0.000 FT_CLK 
-    Info (332119):    10.255               0.000 LMK_CLK 
-    Info (332119):    47.965               0.000 ONCHIP_FLASH_CLK 
-    Info (332119):    49.611               0.000 FPGA_SPI_SCLK_FPGA 
-    Info (332119):    49.703               0.000 altera_reserved_tck 
-    Info (332119):    49.816               0.000 FPGA_SPI_SCLK 
+    Info (332119):    10.241               0.000 LMK_CLK 
+    Info (332119):    47.966               0.000 ONCHIP_FLASH_CLK 
+    Info (332119):    49.624               0.000 FPGA_SPI_SCLK_FPGA 
+    Info (332119):    49.700               0.000 altera_reserved_tck 
+    Info (332119):    49.853               0.000 FPGA_SPI_SCLK 
     Info (332119):    96.000               0.000 FPGA_SPI_SCLK_out 
 Info (332114): Report Metastability: Found 293 synchronizer chains.
-    Info (332114): Worst-Case MTBF of Design is 7.9e+08 years or 2.49e+16 seconds.
+    Info (332114): Worst-Case MTBF of Design is 5.18e+08 years or 1.63e+16 seconds.
     Info (332114): Typical MTBF of Design is 1e+09 years or 3.15e+16 seconds.
 
     Info (332114): Number of Synchronizer Chains Found: 293
     Info (332114): Shortest Synchronizer Chain: 2 Registers
     Info (332114): Fraction of Chains for which MTBFs Could Not be Calculated: 0.693
-    Info (332114): Worst Case Available Settling Time: 7.241 ns
+    Info (332114): Worst Case Available Settling Time: 7.497 ns
     Info (332114): 
     Info (332114): Worst-Case MTBF values are calculated based on the worst-case silicon characteristics, with worst-case operating conditions.
     Info (332114):   - Under worst-case conditions, an increase of 100ps in available settling time will increase MTBF values by a factor of 1.5
@@ -1562,10 +1564,10 @@ Info (332114): Report Metastability: Found 293 synchronizer chains.
     Info (332114):   - Under typical conditions, an increase of 100ps in available settling time will increase MTBF values by a factor of 3.7
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
-Info: Quartus Prime Timing Analyzer was successful. 0 errors, 29 warnings
-    Info: Peak virtual memory: 4970 megabytes
-    Info: Processing ended: Mon Nov 03 10:54:34 2025
-    Info: Elapsed time: 00:00:16
-    Info: Total CPU time (on all processors): 00:00:32
+Info: Quartus Prime Timing Analyzer was successful. 0 errors, 31 warnings
+    Info: Peak virtual memory: 4977 megabytes
+    Info: Processing ended: Fri Nov 14 18:07:16 2025
+    Info: Elapsed time: 00:00:49
+    Info: Total CPU time (on all processors): 00:01:30
 
 

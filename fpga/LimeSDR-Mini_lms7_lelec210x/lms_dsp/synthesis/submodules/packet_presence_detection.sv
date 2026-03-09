@@ -206,14 +206,23 @@ module dual_running_sum #(
 	assign long_shift_full = (long_counter==LONG_SHIFT_LEN);
 	
 	
-	reg  [(LONG_SUM_WIDTH +8 -1):0] long_shift_rescale;
-	wire [(SHORT_SUM_WIDTH+6 -1):0] short_sum_rescale;
+	logic  [(LONG_SUM_WIDTH +8 -1):0] long_shift_rescale;
+	wire   [(SHORT_SUM_WIDTH+6 -1):0] short_sum_rescale;
 
 	
 	// ------------------- TO DO : START -------------------
-	assign long_shift_rescale = long_sum_reg ;
+	// Based on figure 3 :
+	// Long-term sum: multiply by K then divide by 8
+	// Short-term sum: multiply by 8
+
+	// For power-of-2 operations, we can use bit shifting:
+	// !! Apply operations in the correct order to avoid overflow !!
+	always @(posedge clock) begin
+
+		long_shift_rescale <= long_sum_reg* K;
+	end 
 	
-	assign short_sum_rescale  = short_sum_reg;
+	assign short_sum_rescale  = short_sum_reg << 6; 
 	
 	// ------------------- TO DO : END   -------------------
 	

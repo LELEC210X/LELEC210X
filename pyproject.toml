@@ -20,6 +20,10 @@ youtube-dl = ["youtube-dl @ git+https://github.com/ytdl-org/youtube-dl.git"]
 authors = [
   {name = "LELEC210X teaching assistants"},
 ]
+dependencies = [
+  "pyzmq>=27.1.0",
+  "requests>=2.32.5",
+]
 description = "The best project for the best students"
 name = "LELEC210X"
 readme = "README.md"
