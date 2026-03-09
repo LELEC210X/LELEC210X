@@ -4,20 +4,21 @@ FUSION: Audio Acquisition + CNN Classification (PC-side processing)
 """
 
 import argparse
-import sys
 import os
 import pickle
-import numpy as np
+import sys
+from datetime import datetime
+from pathlib import Path
+
+import librosa
 import matplotlib.pyplot as plt
+import numpy as np
 import serial
 import soundfile as sf
-import librosa
-from pathlib import Path
 from serial.tools import list_ports
-from datetime import datetime
 
 # TensorFlow / Keras
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' # Réduit le bruit des logs TF
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"  # Réduit le bruit des logs TF
 from tensorflow import keras
 
 # --- CONFIGURATION ---
@@ -28,12 +29,21 @@ VDD = 3.3
 
 # Paramètres DSP (Doivent être proches de ceux utilisés pour l'entrainement)
 N_MELS = 20
-N_TIMESTEPS = 20 # Le CNN attend 20x20 = 400 features
+N_TIMESTEPS = 20  # Le CNN attend 20x20 = 400 features
 
 # Chemins (Adaptés à ta structure)
 project_root = Path(__file__).resolve().parents[2]
-MODEL_PATH = project_root / "classification" / "data" / "models" / "models_cnn" / "best_model.h5"
-METADATA_PATH = project_root / "classification" / "data" / "models" / "models_cnn" / "model_config.pkl"
+MODEL_PATH = (
+    project_root / "classification" / "data" / "models" / "models_cnn" / "best_model.h5"
+)
+METADATA_PATH = (
+    project_root
+    / "classification"
+    / "data"
+    / "models"
+    / "models_cnn"
+    / "model_config.pkl"
+)
 
 # --- CHARGEMENT DU MODELE ---
 print("Chargement du modèle CNN...", end="", flush=True)
@@ -57,6 +67,7 @@ def parse_buffer(line):
         print(f"[MCU] {line}")
         return None
 
+
 def reader(port=None):
     ser = serial.Serial(port=port, baudrate=115200)
     print(f"Connecté à {port}. En attente de données...")
@@ -64,16 +75,17 @@ def reader(port=None):
         line = ""
         # Lecture ligne par ligne
         while not line.endswith("\n"):
-            line += ser.read_until(b"\n", size=1042).decode("ascii", errors='ignore')
-        
+            line += ser.read_until(b"\n", size=1042).decode("ascii", errors="ignore")
+
         line = line.strip()
         buffer = parse_buffer(line)
-        
+
         if buffer is not None:
             # Conversion Raw Bytes -> Uint16
             dt = np.dtype(np.uint16).newbyteorder("<")
             buffer_array = np.frombuffer(buffer, dtype=dt)
             yield buffer_array
+
 
 def generate_audio_file(buf, label):
     """
@@ -84,7 +96,7 @@ def generate_audio_file(buf, label):
 
     clean_label = "".join(x for x in str(label) if x.isalnum() or x in "._- ")
     folder_path = os.path.join("audio_files", clean_label)
-    
+
     os.makedirs(folder_path, exist_ok=True)
     full_path = os.path.join(folder_path, filename)
     buf_float = np.asarray(buf, dtype=np.float64)
@@ -95,6 +107,7 @@ def generate_audio_file(buf, label):
 
     sf.write(full_path, buf_float, FREQ_SAMPLING)
     return full_path
+
 
 def raw_to_mel_features(audio_buffer, sr):
     """
@@ -110,36 +123,33 @@ def raw_to_mel_features(audio_buffer, sr):
     # On ajuste hop_length pour essayer d'obtenir environ 20 frames temporelles
     # Ceci est une approximation.
     hop_length = len(y) // N_TIMESTEPS
-    
+
     mels = librosa.feature.melspectrogram(
-        y=y, 
-        sr=sr, 
-        n_mels=N_MELS, 
-        n_fft=1024, 
-        hop_length=hop_length,
-        fmax=sr/2
+        y=y, sr=sr, n_mels=N_MELS, n_fft=1024, hop_length=hop_length, fmax=sr / 2
     )
-    
+
     # Convertir en dB (Log scale) car les modèles préfèrent souvent les log-mels
     mels_db = librosa.power_to_db(mels, ref=np.max)
-    
+
     # 3. Redimensionnement forcé à 20x20 (Interpolation)
     # C'est nécessaire car la taille du buffer audio peut varier légèrement
     import scipy.ndimage
+
     zoom_factor = [N_MELS / mels_db.shape[0], N_TIMESTEPS / mels_db.shape[1]]
     mels_resized = scipy.ndimage.zoom(mels_db, zoom_factor, order=1)
-    
+
     # S'assurer qu'on a bien 20x20 exactement
     mels_final = mels_resized[:N_MELS, :N_TIMESTEPS]
-    
+
     # 4. Aplatir (Flatten) -> (400,)
     feature_vector = mels_final.flatten()
-    
+
     # 5. Normalisation L2 (CRITIQUE pour le CNN)
     norm = np.linalg.norm(feature_vector)
     feature_vector = feature_vector / (norm + 1e-8)
-    
+
     return feature_vector, mels_final
+
 
 if __name__ == "__main__":
     argParser = argparse.ArgumentParser()
@@ -152,10 +162,10 @@ if __name__ == "__main__":
             print(f" - {p.device}")
         print("Usage: uv run uart-reader.py -p /dev/cu.usbmodem...")
     else:
-        plt.ion() # Mode interactif pour le plot
+        plt.ion()  # Mode interactif pour le plot
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
         plt.tight_layout(pad=4)
-        
+
         input_stream = reader(port=args.port)
         msg_counter = 0
         for raw_audio in input_stream:
@@ -163,23 +173,23 @@ if __name__ == "__main__":
             print(f"\n--- Acquisition #{msg_counter} ---")
 
             # ETAPE 1 : D'ABORD LA PRÉDICTION (pour avoir le label)
-            prediction = "unknown" # Valeur par défaut
-            mel_matrix = np.zeros((20, 20)) # Valeur par défaut
+            prediction = "unknown"  # Valeur par défaut
+            mel_matrix = np.zeros((20, 20))  # Valeur par défaut
 
             try:
                 features, mel_matrix = raw_to_mel_features(raw_audio, FREQ_SAMPLING)
-                
+
                 # Reshape pour Keras (1, 400)
                 input_tensor = features.reshape(1, -1)
-                
+
                 # Prédiction
                 probabilities = model.predict(input_tensor, verbose=0)[0]
                 pred_idx = np.argmax(probabilities)
                 prediction = classnames[pred_idx]
                 confidence = probabilities[pred_idx]
-                
+
                 print(f"--> PRÉDICTION CNN : {prediction} ({confidence:.1%})")
-                
+
             except Exception as e:
                 print(f"Erreur Classification: {e}")
                 prediction = "error"
@@ -191,14 +201,14 @@ if __name__ == "__main__":
             # ETAPE 3 : VISUALISATION (Inchangé)
             # ... (Laisse ton code de plot ici : ax1.clear(), ax2.clear()...)
             ax1.clear()
-            times = np.linspace(0, len(raw_audio)/FREQ_SAMPLING, len(raw_audio))
+            times = np.linspace(0, len(raw_audio) / FREQ_SAMPLING, len(raw_audio))
             voltage_mV = raw_audio * VDD / VAL_MAX_ADC * 1e3
             ax1.plot(times, voltage_mV)
-            ax1.set_title(f"Waveform") # Tu peux simplifier le titre
-            
+            ax1.set_title("Waveform")  # Tu peux simplifier le titre
+
             ax2.clear()
-            ax2.imshow(mel_matrix, origin='lower', aspect='auto', cmap='viridis')
-            ax2.set_title(f"Class: {prediction}") # Affiche la classe prédite
+            ax2.imshow(mel_matrix, origin="lower", aspect="auto", cmap="viridis")
+            ax2.set_title(f"Class: {prediction}")  # Affiche la classe prédite
 
             plt.draw()
             plt.pause(0.001)

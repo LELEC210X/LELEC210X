@@ -14,7 +14,6 @@ from serial.tools import list_ports
 
 from classification.utils.plots import plot_specgram
 
-
 project_root = Path(__file__).resolve().parents[2]
 
 model_file = project_root / "classification" / "data" / "models" / "knn_model.pickle"
@@ -92,20 +91,20 @@ if __name__ == "__main__":
             # Le header fait 8 octets (soit 4 éléments uint16)
             # La payload fait 800 octets (soit 400 éléments uint16)
             # On commence donc à l'indice 4 et on s'arrête à 4 + 400 = 404
-            
+
             mel_payload = melvec[4:404]
             mel_matrix = mel_payload.reshape((N_MELVECS, MELVEC_LENGTH))
 
             # --------------------------------------------
             # 2) Build 50-feature vector (mean + std + max)
             # --------------------------------------------
-            feat_mean = mel_matrix.mean(axis=1)          # 20 features
-            feat_std  = mel_matrix.std(axis=1)           # 20 features
-            feat_max  = mel_matrix.max(axis=1)[:10]      # 10 features
+            feat_mean = mel_matrix.mean(axis=1)  # 20 features
+            feat_std = mel_matrix.std(axis=1)  # 20 features
+            feat_max = mel_matrix.max(axis=1)[:10]  # 10 features
 
-            feature_vector = np.concatenate(
-                [feat_mean, feat_std, feat_max]
-            ).reshape(1, -1)
+            feature_vector = np.concatenate([feat_mean, feat_std, feat_max]).reshape(
+                1, -1
+            )
 
             # --------------------------------------------
             # 3) Classifie avec votre modèle
@@ -115,7 +114,9 @@ if __name__ == "__main__":
                 if hasattr(model, "predict_proba"):
                     proba = model.predict_proba(feature_vector)[0]
                     confidence = np.max(proba)
-                    print(f"Prediction: {prediction} ({confidence*100:.1f}% confidence)")
+                    print(
+                        f"Prediction: {prediction} ({confidence * 100:.1f}% confidence)"
+                    )
                 else:
                     print(f"Prediction: {prediction}")
             except Exception as e:

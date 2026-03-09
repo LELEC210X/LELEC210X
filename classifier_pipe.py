@@ -1,11 +1,10 @@
-import sys
+import json
 import pickle
+import sys
+from datetime import datetime
+
 import numpy as np
 import requests
-import json
-from pathlib import Path
-from datetime import datetime
-import tensorflow as tf
 from tensorflow import keras
 
 """
@@ -15,12 +14,12 @@ Usage : uv run auth --tcp-address tcp://127.0.0.1:10000 --no-authenticate | uv r
 # --- CONFIGURATION ---
 HOSTNAME = "http://localhost:5001"
 GROUP_KEY = "HEwRwpUXlF3aTkpQusc4bMa30NCxhqWnHnjuPu05"
-#GROUP_KEY = "dhhnIfhwZxTJCv7135lIm3zFtr96r3H3_xtKXRxU"
+# GROUP_KEY = "dhhnIfhwZxTJCv7135lIm3zFtr96r3H3_xtKXRxU"
 
-MODEL_PATH    = "classification/data/models/models_cnn/best_model.h5"
+MODEL_PATH = "classification/data/models/models_cnn/best_model.h5"
 METADATA_PATH = "classification/data/models/models_cnn/model_config.pkl"
-PRINT_PREFIX  = "DF:HEX:"
-GUESS_FILE    = "/tmp/latest_guess.json"
+PRINT_PREFIX = "DF:HEX:"
+GUESS_FILE = "/tmp/latest_guess.json"
 
 CONFIDENCE_THRESHOLD = 0.6
 AUTO_SUBMIT = False
@@ -62,7 +61,7 @@ def submit_guess(guess):
             print(f"Succes : '{guess}' bien enregistre.", file=sys.stderr)
             return True
         else:
-            print(f"Le serveur a repondu avec une erreur.", file=sys.stderr)
+            print("Le serveur a repondu avec une erreur.", file=sys.stderr)
             return False
 
     except requests.exceptions.Timeout:
@@ -86,14 +85,16 @@ def save_guess_to_file(guess, probabilities):
             classname: float(round(prob, 4))
             for classname, prob in zip(classnames, probabilities)
         },
-        "confidence": float(round(np.max(probabilities), 4))
+        "confidence": float(round(np.max(probabilities), 4)),
     }
 
     try:
         with open(GUESS_FILE, "w") as f:
             json.dump(guess_data, f, indent=2)
         print(f"Guess '{guess}' sauvegarde dans {GUESS_FILE}", file=sys.stderr)
-        print(f"Ouvrez l'interface Streamlit pour l'envoyer manuellement", file=sys.stderr)
+        print(
+            "Ouvrez l'interface Streamlit pour l'envoyer manuellement", file=sys.stderr
+        )
         return True
     except Exception as e:
         print(f"Erreur lors de la sauvegarde : {e}", file=sys.stderr)
@@ -105,14 +106,14 @@ def process_line(line):
     if not line.startswith(PRINT_PREFIX):
         return
 
-    hex_payload = line[len(PRINT_PREFIX):]
+    hex_payload = line[len(PRINT_PREFIX) :]
 
     try:
         # Décoder les données
         # Décoder les données
         raw_bytes = bytes.fromhex(hex_payload)
-        data = np.frombuffer(raw_bytes, dtype=np.dtype('<u2'))
-        data = np.frombuffer(raw_bytes, dtype=np.dtype('<u2'))
+        data = np.frombuffer(raw_bytes, dtype=np.dtype("<u2"))
+        data = np.frombuffer(raw_bytes, dtype=np.dtype("<u2"))
 
         if len(data) != 400:
             print(f"Taille incorrecte: {len(data)} != 400", file=sys.stderr)
@@ -131,19 +132,24 @@ def process_line(line):
         # Inference CNN
         probabilities = model.predict(feature_vector, verbose=0)[0]
         predicted_idx = np.argmax(probabilities)
-        prediction    = classnames[predicted_idx]
-        confidence    = probabilities[predicted_idx]
+        prediction = classnames[predicted_idx]
+        confidence = probabilities[predicted_idx]
 
         # Affichage du vecteur de probabilites
-        print(f"Son detecte : {prediction} (confiance: {confidence:.2%})", file=sys.stderr)
-        print(f"Vecteur de probabilites :", file=sys.stderr)
+        print(
+            f"Son detecte : {prediction} (confiance: {confidence:.2%})", file=sys.stderr
+        )
+        print("Vecteur de probabilites :", file=sys.stderr)
         for classname, prob in zip(classnames, probabilities):
             bar = "#" * int(prob * 20)
             print(f"  {classname:<15}: {prob:.4f}  {bar}", file=sys.stderr)
 
         # Seuil de confiance
         if confidence < CONFIDENCE_THRESHOLD:
-            print(f"Confiance insuffisante ({confidence:.2%} < {CONFIDENCE_THRESHOLD:.0%}), prediction ignoree.", file=sys.stderr)
+            print(
+                f"Confiance insuffisante ({confidence:.2%} < {CONFIDENCE_THRESHOLD:.0%}), prediction ignoree.",
+                file=sys.stderr,
+            )
             return
 
         if AUTO_SUBMIT:
@@ -154,6 +160,7 @@ def process_line(line):
     except Exception as e:
         print(f"Erreur traitement : {e}", file=sys.stderr)
         import traceback
+
         traceback.print_exc(file=sys.stderr)
 
 

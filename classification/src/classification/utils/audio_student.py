@@ -7,8 +7,8 @@ import numpy as np
 import sounddevice as sd
 import soundfile as sf
 from numpy import ndarray
-from scipy.signal import fftconvolve
 from scipy import signal
+from scipy.signal import fftconvolve
 
 # -----------------------------------------------------------------------------
 """
@@ -210,7 +210,6 @@ class AudioUtil:
             sig = sig + bg_sig
 
         return (sig, sr)
-        
 
     def specgram(audio, Nft=512, fs2=11025) -> ndarray:
         """
@@ -224,7 +223,9 @@ class AudioUtil:
         sig, sr = audio
         if sr != fs2:
             sig, sr = AudioUtil.resample((sig, sr), fs2)
-        f, t, S = signal.spectrogram(sig, fs=fs2, nperseg=Nft, noverlap=Nft // 2, mode="magnitude")
+        f, t, S = signal.spectrogram(
+            sig, fs=fs2, nperseg=Nft, noverlap=Nft // 2, mode="magnitude"
+        )
         stft = S[:-1, :]
         # stft /= float(2**8)
         return stft
@@ -455,7 +456,7 @@ class Feature_vector_DS:
         indexes = np.arange(0, len(sgram[0]) - self.ncol, self.step, dtype=int)
         # FIX: S'assurer qu'il y a au moins un index
         if len(indexes) == 0:
-            indexes = np.array([0]) 
+            indexes = np.array([0])
         sgrams = [sgram[:, i : i + self.ncol] for i in indexes]
         sgrams = np.array(sgrams)
 
