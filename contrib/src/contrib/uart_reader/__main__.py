@@ -178,9 +178,11 @@ class GUIAudioWindow(QMainWindow):
             self.demo_box_layout = QVBoxLayout()
             self.demo_box.setLayout(self.demo_box_layout)
             self.demo_box.toggled.connect(
-                lambda state: self.demo_box.setFixedHeight(15)
-                if not state
-                else self.demo_box.setFixedHeight(100)
+                lambda state: (
+                    self.demo_box.setFixedHeight(15)
+                    if not state
+                    else self.demo_box.setFixedHeight(100)
+                )
             )
             self.main_layout.addWidget(self.demo_box)
 
@@ -484,9 +486,11 @@ class GUIMELWindow(QMainWindow):
             self.demo_box_layout = QVBoxLayout()
             self.demo_box.setLayout(self.demo_box_layout)
             self.demo_box.toggled.connect(
-                lambda state: self.demo_box.setFixedHeight(15)
-                if not state
-                else self.demo_box.setFixedHeight(100)
+                lambda state: (
+                    self.demo_box.setFixedHeight(15)
+                    if not state
+                    else self.demo_box.setFixedHeight(100)
+                )
             )
             self.main_layout.addWidget(self.demo_box)
 
