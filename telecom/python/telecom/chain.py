@@ -210,7 +210,7 @@ class BasicChain(Chain):
         L = 4 * self.osr_rx
         y_abs = np.abs(y)
 
-        for i in range(0, int(len(y) / L)):
+        for i in range(int(len(y) / L)):
             sum_abs = np.sum(y_abs[i * L : (i + 1) * L])
             if sum_abs > (L - 1):  # fix threshold
                 return i * L
@@ -241,7 +241,7 @@ class BasicChain(Chain):
 
         sum_der_saved = -np.inf
         save_i = 0
-        for i in range(0, R):
+        for i in range(R):
             sum_der = np.sum(phase_derivative_2[i::R])  # Sum every R samples
 
             if sum_der > sum_der_saved:

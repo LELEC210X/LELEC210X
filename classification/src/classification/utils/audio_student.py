@@ -1,11 +1,11 @@
 import random
 
 import librosa
-import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import numpy as np
 import sounddevice as sd
 import soundfile as sf
+from matplotlib import patches
 from numpy import ndarray
 from scipy.signal import fftconvolve
 
