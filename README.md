@@ -23,15 +23,11 @@ Subdirectories are organized as follows:
   hands-on related to the classification part.
 - [`contrib/`](contrib/):
   contributions from students.
-- [`fpga`](fpga/):
-  hands-on related to the FPGA part and Quartus project for the LimeSDR Mini.
 - [`leaderboard/`](leaderboard/):
   code to run the leaderboard web-server, useful for locally testing your
   setup before the contest.
 - [`mcu/`](mcu/):
   hands-on related to the MCU part and STM32CubeIDE project for the Nucleo board.
-- [`telecom/`](telecom/): hands-on related to the telecom part,
-  simulation framework and GNU Radio modules.
 - [`tex/`](tex/): LaTeX projects for this course.
   PDFs are provided on [Moodle](https://moodle.uclouvain.be/course/view.php?id=4829),
   but you can build them from source, see [`tex/README.md`](tex/README.md).

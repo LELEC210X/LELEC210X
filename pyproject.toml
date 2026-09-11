@@ -11,7 +11,6 @@ local-packages = [
   "common",
   "contrib[all]",
   "leaderboard",
-  "telecom",
 ]
 tests = ["pytest>=7.4.3"]
 youtube-dl = ["youtube-dl @ git+https://github.com/ytdl-org/youtube-dl.git"]
@@ -27,7 +26,7 @@ requires-python = "==3.10.*"
 version = "0.1.0"
 
 [tool.ruff]
-extend-exclude = ["**/doxygen/**/*.py", "telecom/sdr/**/python/**/*.py"]
+extend-exclude = ["**/doxygen/**/*.py"]
 line-length = 88
 
 [tool.ruff.lint]
@@ -46,7 +45,7 @@ extend-ignore = [
   "E501",
 ]
 extend-select = ["B", "C90", "D", "I", "N", "RUF", "UP", "T"]
-isort = {known-first-party = ["auth", "classification", "common", "contrib", "leaderboard", "telecom"]}
+isort = {known-first-party = ["auth", "classification", "common", "contrib", "leaderboard"]}
 
 [tool.uv.sources]
 auth = {workspace = true}
@@ -54,7 +53,6 @@ classification = {workspace = true}
 common = {workspace = true}
 contrib = {workspace = true}
 leaderboard = {workspace = true}
-telecom = {workspace = true}
 
 [tool.uv.workspace]
-members = ["auth", "classification", "common", "contrib", "leaderboard", "telecom"]
+members = ["auth", "classification", "common", "contrib", "leaderboard"]

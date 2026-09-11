@@ -10,7 +10,6 @@ members = [
     "contrib",
     "leaderboard",
     "lelec210x",
-    "telecom",
 ]
 
 [[package]]
@@ -1277,7 +1276,6 @@ dev = [
     { name = "leaderboard" },
     { name = "pre-commit" },
     { name = "pytest" },
-    { name = "telecom" },
     { name = "youtube-dl" },
 ]
 local-packages = [
@@ -1286,7 +1284,6 @@ local-packages = [
     { name = "common" },
     { name = "contrib", extra = ["all"] },
     { name = "leaderboard" },
-    { name = "telecom" },
 ]
 tests = [
     { name = "pytest" },
@@ -1306,7 +1303,6 @@ dev = [
     { name = "leaderboard", editable = "leaderboard" },
     { name = "pre-commit", specifier = ">=3.5.0" },
     { name = "pytest", specifier = ">=7.4.3" },
-    { name = "telecom", editable = "telecom" },
     { name = "youtube-dl", git = "https://github.com/ytdl-org/youtube-dl.git" },
 ]
 local-packages = [
@@ -1315,7 +1311,6 @@ local-packages = [
     { name = "common", editable = "common" },
     { name = "contrib", extras = ["all"], editable = "contrib" },
     { name = "leaderboard", editable = "leaderboard" },
-    { name = "telecom", editable = "telecom" },
 ]
 tests = [{ name = "pytest", specifier = ">=7.4.3" }]
 youtube-dl = [{ name = "youtube-dl", git = "https://github.com/ytdl-org/youtube-dl.git" }]
@@ -2385,15 +2380,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/f1/7b/ce1eafaf1a76852e2ec9b22edecf1daa58175c090266e9f6c64afcd81d91/stack_data-0.6.3-py3-none-any.whl", hash = "sha256:d5558e0c25a4cb0853cddad3d77da9891a08cb85dd9f9f91b9f8cd66e511e695", size = 24521, upload-time = "2023-09-30T13:58:03.53Z" },
 ]
 
-[[package]]
-name = "telecom"
-version = "0.1.0"
-source = { editable = "telecom" }
-dependencies = [
-    { name = "click" },
-    { name = "matplotlib" },
-    { name = "scipy" },
-]
 
 [package.dev-dependencies]
 dev = [
