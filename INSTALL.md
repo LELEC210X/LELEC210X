@@ -19,14 +19,14 @@ All commands are assumed to be run inside a terminal / command prompt.
 In this project, will you have to use different software and tools.
 
 - **Python**: employed for various tasks, e.g., classification, modeling;
-- **STM32CubeIDE**: used to program the microcontroller;
+- **STM32CubeIDE** and **STM32CubeMX**: used to program the microcontroller;
 - and **GNU Radio**: used to acquire data from the LimeSDR-mini
   and perform signal processing, e.g., the demodulation.
 
 If possible, every software tool used should be installed and used,
 on your host system, i.e., your every-day OS. Moreover,
 **the Git associated with the project should be cloned on your host system.**
-Python and STM32CubeIDE are supported on every common OS,
+Python and STM32CubeIDE/MX are supported on every common OS,
 **but GNU Radio is only properly supported on Linux distributions**.
 The project is supported on GNU Radio 3.10, which can be installed on
 Ubuntu 22.04. Ubuntu 24.04 could be supported but has not been tested.
@@ -243,16 +243,15 @@ sudo apt-get install cmake
 ```
 
 
-### Host - Installation of STM32CubeIDE
+### Host - Installation of STM32CubeIDE and STM32CubeMX
 
-In order to program and configure the MCU, we will use the _STM32CubeIDE_ software from ST.
-To download the installer, go to the following [website](https://www.st.com/en/development-tools/stm32cubeide.html)
-and select the latest version of the installer for your **host operating system**.
-You might be asked to create an account. You can then proceed to the download and installation.
+In order to program and configure the MCU, we will use the _STM32CubeIDE_ and _STM32CubeMX_ softwares from ST.
+To download the installers, go to the following websites ([_STM32CubeIDE_](https://www.st.com/en/development-tools/stm32cubeide.html) - [_STM32CubeMX_](https://www.st.com/en/development-tools/stm32cubemx.html)), scroll down to the download section and select the latest version of the installer **for your host operating system**.
+You will be asked to create an account. You can then proceed to the download and installation.
 
-### Ubuntu - STM32Cube IDE additional package
+### Ubuntu - STM32CubeIDE additional package
 
-If Ubuntu is your host system and thus STM32CubeIDE is installed on it, you might need to install a package in order to flash the MCU. To do so:
+If Ubuntu is your host system and thus _STM32CubeIDE_ is installed on it, you might need to install a package in order to flash the MCU. To do so:
 
 ```bash
 sudo apt-get install libncurses5
