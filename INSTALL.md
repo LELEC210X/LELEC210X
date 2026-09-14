@@ -242,7 +242,6 @@ Please download it from the [download page](https://ffmpeg.org/download.html).
 sudo apt-get install cmake
 ```
 
-
 ### Host - Installation of STM32CubeIDE and STM32CubeMX
 
 In order to program and configure the MCU, we will use the _STM32CubeIDE_ and _STM32CubeMX_ softwares from ST.
@@ -262,7 +261,6 @@ If Ubuntu is your host system and thus _STM32CubeIDE_ is installed on it, you mi
 ```bash
 sudo apt-get install libncurses5
 ```
-
 
 ### Install Python dependencies
 
