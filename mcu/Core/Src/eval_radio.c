@@ -1,0 +1,54 @@
+/*
+ * eval_radio.c
+ */
+
+#include "eval_radio.h"
+#include "config.h"
+#include "main.h"
+#include "s2lp.h"
+
+static volatile uint8_t btn_press;
+
+void eval_radio_start(void)
+{
+	DEBUG_PRINT("[DBG] Radio evaluation mode\r\n");
+
+	uint8_t buf[PAYLOAD_LEN];
+	for (uint16_t i=0; i < PAYLOAD_LEN; i++) {
+		buf[i] = (uint8_t) (i & 0xFF);
+	}
+
+	for (int32_t lvl = MIN_PA_LEVEL; lvl <= MAX_PA_LEVEL; lvl=lvl+STEP_PA_LEVEL) {
+		DEBUG_PRINT("=== Press button B1 to start evaluation at %ld dBm\r\n", lvl);
+		btn_press = 0;
+		while (!btn_press) {
+			__WFI();
+		}
+
+		S2LP_SetPALeveldBm(lvl);
+		DEBUG_PRINT("=== Configured PA level to %ld dBm, sending %d packets at this level\r\n", lvl, N_PACKETS);
+
+		for (uint16_t i=0; i < N_PACKETS; i++) {
+			HAL_StatusTypeDef err = S2LP_Send(buf, PAYLOAD_LEN);
+			if (err) {
+				Error_Handler();
+			}
+
+			if (BLINK_LED==1){
+				HAL_GPIO_WritePin(GPIOB, LD2_Pin, GPIO_PIN_SET);
+				HAL_Delay(PACKET_DELAY>>1);
+				HAL_GPIO_WritePin(GPIOB, LD2_Pin, GPIO_PIN_RESET);
+				HAL_Delay(PACKET_DELAY>>1);
+			} else{
+				HAL_Delay(PACKET_DELAY);
+			}
+		}
+	}
+
+	DEBUG_PRINT("=== Finished evaluation, reset the board to run again\r\n");
+	while (1);
+}
+
+void eval_radio_continue(void) {
+	btn_press = 1;
+}
