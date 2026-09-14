@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List, Tuple
+from random import shuffle
 
 SOUND_DURATION: float = 5.0
 
@@ -18,14 +18,35 @@ def get_cls_from_path(file: Path) -> str:
     """
     return file.stem.split("_", maxsplit=1)[0]
 
+def get_train_test(
+    folder: Path = Path(__file__).parent / "soundfiles", format: str = "wav", split: float = 0.7
+):
+    """
+    Produce two datasets from the sound files.
+    Split between both dataset is set by split.
+    Classes are made balanced in both dataset.
+    """
+    files = {}
+    for file in sorted(folder.glob("**/*." + format)):
+        cls = get_cls_from_path(file)
+        files.setdefault(cls, []).append(file)
+
+    train, test = {}, {}
+    for cls, cls_files in files.items():
+        shuffle(cls_files)
+        i = int(len(cls_files) * split)
+        train[cls] = cls_files[:i]
+        test[cls] = cls_files[i:]
+
+    return Dataset(train), Dataset(test)
 
 class Dataset:
     def __init__(
-        self, folder: Path = Path(__file__).parent / "soundfiles", format: str = "wav"
+        self, files
     ):
         """
-        Initialize a dataset from a given folder, including
-        subfolders. Uses :func:`get_cls_from_path` to determine
+        Initialize a dataset from a given list of files.
+        Uses :func:`get_cls_from_path` to determine
         the sound class of each file.
 
         Note: we sort files because directory traversal is
@@ -36,21 +57,13 @@ class Dataset:
         :param format: The sound files format, use
             `'*'` to include all formats.
         """
-        files = {}
-
-        for file in sorted(folder.glob("**/*." + format)):
-            cls = get_cls_from_path(file)
-            files.setdefault(cls, []).append(file)
-
         self.files = files
         self.nclass = len(files)
         self.naudio = {key: len(value) for key, value in files.items()}
         self.size = sum(self.naudio.values())
 
     def __len__(self) -> int:
-        """
-        Return the number of sounds in the dataset.
-        """
+        """Return the number of sounds in the dataset."""
         return self.size
 
     def __getitem__(self, cls_index: tuple[str, int]) -> Path:
