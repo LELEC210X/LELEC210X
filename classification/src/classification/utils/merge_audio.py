@@ -93,7 +93,7 @@ def random_time_gen(n, start, end, min_dist):
     "--time_delta",
     default=1,
     show_default=True,
-    type=click.IntRange(min=0),
+    type=click.FloatRange(min=0),
     help="Minimal time between sounds. (s)",
 )
 @click.option(
