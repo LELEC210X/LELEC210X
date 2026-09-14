@@ -249,6 +249,12 @@ In order to program and configure the MCU, we will use the _STM32CubeIDE_ and _S
 To download the installers, go to the following websites ([_STM32CubeIDE_](https://www.st.com/en/development-tools/stm32cubeide.html) - [_STM32CubeMX_](https://www.st.com/en/development-tools/stm32cubemx.html)), scroll down to the download section and select the latest version of the installer **for your host operating system**.
 You will be asked to create an account. You can then proceed to the download and installation.
 
+> [!NOTE]
+> _STM32CubeIDE_ may look old and ugly, but it is a powerful tool that embeds a preconfigured compilation chain, the flasher and the debugger tools.
+> There exists an extension for VSCode that should do the job too but we did not test it.
+> You are free to try and use that extension if you find it more convenient. However we won't provide support for it.
+> _STM32CubeMX_ has no alternative. Note that until 2025 MX was embedded into the IDE but they are now two separate tools.
+
 ### Ubuntu - STM32CubeIDE additional package
 
 If Ubuntu is your host system and thus _STM32CubeIDE_ is installed on it, you might need to install a package in order to flash the MCU. To do so:
