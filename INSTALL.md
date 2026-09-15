@@ -20,137 +20,24 @@ In this project, will you have to use different software and tools.
 
 - **Python**: employed for various tasks, e.g., classification, modeling;
 - **STM32CubeIDE** and **STM32CubeMX**: used to program the microcontroller;
-- and **GNU Radio**: used to acquire data from the LimeSDR-mini
-  and perform signal processing, e.g., the demodulation.
+- and **GNU Radio**: used to acquire data from the SDR
+  and perform signal processing, e.g., the demodulation. The instructions to install
+  this software will be provided to you later when the wireless communication part of 
+  the project will start
 
 If possible, every software tool used should be installed and used,
 on your host system, i.e., your every-day OS. Moreover,
 **the Git associated with the project should be cloned on your host system.**
-Python and STM32CubeIDE/MX are supported on every common OS,
-**but GNU Radio is only properly supported on Linux distributions**.
-The project is supported on GNU Radio 3.10, which can be installed on
-Ubuntu 22.04. Ubuntu 24.04 could be supported but has not been tested.
+Python and STM32CubeIDE/MX are supported on every common OS.
 
-> [!TIP]
-> We strongly recommend students with a Windows OS to only
-> run GNU Radio inside WSL, and to have all the other software
-> installed on their Windows OS.
 
-## Prerequisites
-
-<!---If you plan to use GNU Radio 3.8, installed on Ubuntu 20.04, beware
-that it requires Python 3.8, which is the default version installed on this
-Ubuntu release. **However**, the rest of the project
-works with any version of Python above 3.8. Moreover, uv, the tool
-you will need to install later, automatically installs Python 3.10,
-so you don't need to bother about that. Again this comment is only
-relevant if you plan to use Ubuntu 20.04 with GNU Radio 3.8.
-_Only the few Python files that are used by GNU Radio need to
-be executed with Python 3.8._
-
-Hence, it is only required to have Python 3.8 installed on
-WSL, VB, or your Linux dual-boot, as this will be the place
-where GNU Radio will be executed, so you actually don't have to do anything.
-
-Using a different Python version _might_ work,
-but **we cannot guarantee** that
-everything will work out-of-the-box, and **you may need**
-to adapt some commands[^1].
-
-If you do not have Ubuntu-20.04 at your disposal,
-please follow one of next subsections.
-
-[^1]:
-    The reason is that the default versions for packages installed on
-    Ubuntu-20.04 are, most likely, not the same if installed on, e.g.,
-    Ubuntu-22.04.
---->
-
-In order to install GNU Radio, you need to have access to a Linux system. If your host system does not run a Linux distribution, you will find some suggestions for obtaining access to one below.
-
-### Install Ubuntu via Windows Subsystem for Linux
-
-Windows Subsystem for Linux (WSL) is a Windows program that makes running a Linux image super simple!
-WSL allows for true Windows and Linux interoperability.
-You can explore the Linux file system from Windows, and vice versa.
-You can also launch programs from each other's command lines.
-It is also much lighter on resources (compared to VirtualBox).
-It will allow you to clone the git of the course on your Windows system and **do most of the work on Windows**,
-e.g., programming the MCU, modify the telecom and classification parts,
-while **only using WSL to compile** the code and run the Linux applications, i.e., GNU Radio.
-
-We recommend using Ubuntu-22.04 (**best**) or Ubuntu-24.04, for the project.
-
-In order to install the WSL and Ubuntu-22.04 on your Windows system,
-we will use the following [guide](https://learn.microsoft.com/en-us/windows/wsl/install) from Microsoft.
-
-If you have WSL 1 installed (`wsl --version`), please
-[upgrade](https://dev.to/adityakanekar/upgrading-from-wsl1-to-wsl2-1fl9)
-it to version 2!
-
-Open a PowerShell or Windows Command Prompt in administrator mode and enter the following command:
-
-```bat
-wsl --install -d Ubuntu-22.04
-```
-
-This will install WSL with the required distribution of Linux.
-As we want to use the second version of WSL, named WSL2,
-you can check the distribution installed and the version of WSL:
-
-```bat
-wsl -l -v
-```
-
-If necessary, you can change the version of WSL using:
-
-```bat
-wsl --set-version Ubuntu-22.04 2
-```
-
-We advise you to set up the default version of WSL and the default distribution as follows:
-
-```bat
-wsl --set-default-version 2
-wsl --setdefault Ubuntu−22.04
-```
-
-You should now be able to launch and terminate a WSL session of Ubuntu-22.04 using:
-
-```bat
-wsl
-wsl -t Ubuntu−22.04
-```
-
-<!--- If you were to use Ubuntu-20.04, just adapt the previous commands with the release version.
-If you encounter any issue, please refer to the official website provided at the start of this section. --->
-
-### Install Ubuntu on your computer
-
-On most computers (macOS, Windows, and Linux), you can install another OS
-using a _dual boot_. The internet is full of tutorial on how to install
-Ubuntu in dual boot. Please make sure to install the correct version.
-
-This is going to be, by far, the most performant solution, but will also require
-much more disk space. This solution is recommended for people that might
-want to use Linux later-on, and have at least 60 Go of free memory.
-
-### Install on VirtualBox
-
-You can get Ubuntu running with a virtual machine (VM) using VirtualBox.
-As you will have to run a complete Linux image from your Windows system,
-this solution has a **significant overhead** in terms of processing capability and also in terms of accessibility.
-Indeed, you will work in desktop entirely contained in a window which might be impractical.
 
 ## Installation steps
 
-The following steps will either need to be performed on your host system,
-or on the Ubuntu system on which GNU Radio is installed
-(either WSL, or your host).
-The subsection titles will therefore include an annotation **Host**,
-if the steps must be performed on your host system (Windows, macOS, or Linux), or **Ubuntu**,
-if they refer to your Ubuntu installation. If your host system is Ubuntu, perform them in both cases.
-Additionally, some steps might be only required for some specific OSes, in which case it will be specified.
+The following steps depend based on the OS of your host system. Please always refer to the corresponding section with respect to your setup. Skip parts that are not related to your system. When **Host** is in the section title, it concerns every OS.
+
+
+### Ubuntu - APT update
 
 Quick tips: Ubuntu terminal windows can be launched via the Ubuntu Launchpad, or with
 <kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>T</kbd>.
@@ -171,7 +58,7 @@ Please make sure pip is installed by running:
 sudo apt-get install python3-pip
 ```
 
-### Host or Ubuntu - Install uv
+### Host - Install uv
 
 Usually, installing Python packages to the global Python environment is a bad idea,
 mainly because you can have conflicts with packages that require different versions
@@ -199,7 +86,7 @@ so that you can specify requirements for your project, and much more!
 **Please** read the
 [detailed installation guide](https://docs.astral.sh/uv/getting-started/installation/).
 
-### Host or Ubuntu - Install FFmpeg
+### Host - Install FFmpeg
 
 Later in the project, if you want to manipulate audio files,
 you need to install FFmpeg.
