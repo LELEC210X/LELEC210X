@@ -1,11 +1,11 @@
 import random
 
 import librosa
-import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import numpy as np
 import sounddevice as sd
 import soundfile as sf
+from matplotlib import patches
 from numpy import ndarray
 from scipy.signal import fftconvolve
 
@@ -19,9 +19,7 @@ Synthesis of the classes in :
 
 
 class AudioUtil:
-    """
-    Define a new class with util functions to process an audio signal.
-    """
+    """Define a new class with util functions to process an audio signal."""
 
     def open(audio_file) -> tuple[ndarray, int]:
         """
@@ -159,7 +157,7 @@ class AudioUtil:
         return (sig, sr)
 
     def add_bg(
-        audio, dataset, num_sources=1, max_ms=5000, amplitude_limit=0.1
+        self, dataset, num_sources=1, max_ms=5000, amplitude_limit=0.1
     ) -> tuple[ndarray, int]:
         """
         Adds up sounds uniformly chosen at random to audio.
@@ -180,7 +178,7 @@ class AudioUtil:
         """
         Compute a Spectrogram.
 
-        :param aud: The audio signal as a tuple (signal, sample_rate).
+        :param audio: The audio signal as a tuple (signal, sample_rate).
         :param Nft: The number of points of the FFT.
         :param fs2: The sampling frequency.
         """
@@ -247,9 +245,7 @@ class AudioUtil:
 
 
 class Feature_vector_DS:
-    """
-    Dataset of Feature vectors.
-    """
+    """Dataset of Feature vectors."""
 
     def __init__(
         self,
@@ -269,22 +265,11 @@ class Feature_vector_DS:
         self.sr = 11025
         self.normalize = normalize
         self.data_aug = data_aug
-        self.data_aug_factor = 1
-        if isinstance(self.data_aug, list):
-            self.data_aug_factor += len(self.data_aug)
-        else:
-            self.data_aug = [self.data_aug]
         self.ncol = int(
             self.duration * self.sr / (1e3 * self.Nft)
         )  # number of columns in melspectrogram
         self.pca = pca
         self.step = step
-
-    def __len__(self) -> int:
-        """
-        Number of items in dataset.
-        """
-        return len(self.dataset) * self.data_aug_factor
 
     def get_audiosignal(self, cls_index: tuple[str, int]) -> tuple[ndarray, int]:
         """
@@ -296,41 +281,27 @@ class Feature_vector_DS:
         aud = AudioUtil.open(audio_file)
         aud = AudioUtil.resample(aud, self.sr)
 
-        if self.data_aug is not None:
-            if "add_bg" in self.data_aug:
-                aud = AudioUtil.add_bg(
-                    aud,
-                    self.dataset,
-                    num_sources=1,
-                    max_ms=self.duration,
-                    amplitude_limit=0.1,
-                )
-            if "echo" in self.data_aug:
-                aud = AudioUtil.add_echo(aud)
-            if "noise" in self.data_aug:
-                aud = AudioUtil.add_noise(aud, sigma=0.05)
-            if "scaling" in self.data_aug:
-                aud = AudioUtil.scaling(aud, scaling_limit=5)
-
-        # aud = AudioUtil.normalize(aud, target_dB=10)
-        aud = (aud[0] / np.max(np.abs(aud[0])), aud[1])
+        if self.normalize:
+            # aud = AudioUtil.normalize(aud, target_dB=10)
+            aud = (aud[0] / np.max(np.abs(aud[0])), aud[1])
         return aud
 
+    def get_feature_vector(self, audio) -> ndarray:
+        """
+        Transform an audio clip into a feature vector (i.e., melspectrogram).
+
+        :param audio: audio to treat.
+        """
+        return AudioUtil.melspectrogram(audio, Nmel=self.nmel, Nft=self.Nft)
+        
     def __getitem__(self, cls_index: tuple[str, int]) -> tuple[ndarray, int]:
         """
         Get i'th item in dataset.
 
         :param cls_index: Class name and index.
         """
-        aud = self.get_audiosignal(cls_index)
-        sgram = AudioUtil.melspectrogram(aud, Nmel=self.nmel, Nft=self.Nft)
-        if self.data_aug is not None:
-            if "aug_sgram" in self.data_aug:
-                sgram = AudioUtil.spectro_aug_timefreq_masking(
-                    sgram, max_mask_pct=0.1, n_freq_masks=2, n_time_masks=2
-                )
+        return self.get_feature_vector(self.get_audiosignal(cls_index))
 
-        return sgram
 
     def display(self, cls_index: tuple[str, int], show_features=False):
         """
@@ -369,37 +340,70 @@ class Feature_vector_DS:
         plt.title(self.dataset.__getname__(cls_index))
         plt.show()
 
+    def get_augmented_fv(self, aug, audio):
+        # There are many ways to do augmentation
+        # They will have different results
+        # Here we only apply one augmentation at a time
+        # You can ask yourself if this is a good choice
+        if aug == "add_bg":
+            audio = AudioUtil.add_bg(
+                audio,
+                self.dataset,
+                num_sources=1,
+                max_ms=self.duration,
+                amplitude_limit=0.1,
+            )
+        elif aug == "echo":
+            audio = AudioUtil.add_echo(audio)
+        elif aug == "noise":
+            audio = AudioUtil.add_noise(audio, sigma=0.05)
+        elif aug == "scaling":
+            audio = AudioUtil.scaling(audio, scaling_limit=5)
+
+        sgram = self.get_feature_vector(audio)
+        if aug == "aug_sgram":
+            sgram = AudioUtil.spectro_aug_timefreq_masking(
+                sgram, max_mask_pct=0.1, n_freq_masks=2, n_time_masks=2
+            )
+
+        return self.treat_spec(sgram)
+        
+
     def get_feature_vectors(self) -> tuple[ndarray, ndarray]:
-        """
-        Returns all feature vectors and their labels.
-        """
+        """Returns all feature vectors and their labels."""
         classnames = self.dataset.list_classes()
 
         y = []
         X = []
 
-        for class_idx, classname in enumerate(classnames):
-            for s in range(self.data_aug_factor):
-                for idx in range(self.dataset.naudio[classname]):
-                    sgram = self[classname, idx]
-                    fv = self.treat_spec(sgram)
+        for _class_idx, classname in enumerate(classnames):
+            for idx in range(self.dataset.naudio[classname]):
+                audio = self.get_audiosignal((classname,idx))
+                sgram = self.get_feature_vector(audio)
+                fv = self.treat_spec(sgram)
 
-                    X += list(fv)
-                    y += [classname] * len(fv)
+                X += list(fv)
+                y += [classname] * len(fv)
 
+                if self.data_aug != None:
+                    for d_aug in self.data_aug:
+                        if np.random.random() < d_aug[1]: # Use randomness to not augment all data
+                            fv = self.get_augmented_fv(d_aug[0], audio)
+                            X += list(fv)
+                            y += [classname] * len(fv)
         return np.array(X), np.array(y)
 
-    def mod_data_aug(self, data_aug=[]) -> None:
+    def mod_data_aug(self, data_aug=None) -> None:
         """
         Modify the data augmentation options.
 
         :param data_aug: The new data augmentation options.
         """
+        if data_aug is None:
+            data_aug = []
         self.data_aug = data_aug
         if not isinstance(self.data_aug, list):
             self.data_aug = [self.data_aug]
-
-        self.data_aug_factor = 1 + len(self.data_aug)
 
     def treat_spec(self, sgram):
         """
