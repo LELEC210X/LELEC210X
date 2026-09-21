@@ -18,8 +18,11 @@ def get_cls_from_path(file: Path) -> str:
     """
     return file.stem.split("_", maxsplit=1)[0]
 
+
 def get_train_test(
-    folder: Path = Path(__file__).parent / "soundfiles", format: str = "wav", split: float = 0.7
+    folder: Path = Path(__file__).parent / "soundfiles",
+    format: str = "wav",
+    split: float = 0.7,
 ):
     """
     Produce two datasets from the sound files.
@@ -40,10 +43,9 @@ def get_train_test(
 
     return Dataset(train), Dataset(test)
 
+
 class Dataset:
-    def __init__(
-        self, files
-    ):
+    def __init__(self, files):
         """
         Initialize a dataset from a given list of files.
         Uses :func:`get_cls_from_path` to determine
