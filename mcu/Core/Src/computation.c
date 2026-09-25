@@ -8,8 +8,8 @@
 #include "utils.h"
 
 // Exported variables
-q15_t mel_vectors[N_MELVECS][MELVEC_LENGTH]; // One array of Mel-vectors = one spectrogram
-volatile uint8_t cur_melvec = 0; // Current Mel-vector to keep track of end of spectrogram
+q15_t mel_vectors[N_MELVECS][MELVEC_LENGTH]; // One array of mel-vectors = one feature vector
+volatile uint8_t cur_melvec = 0; // Current mel-vector to keep track of end of feature vector
 
 // Local variables
 static q15_t buf    [  SAMPLES_PER_MELVEC  ]; // Windowed samples
@@ -133,7 +133,7 @@ void melvec_compute(q15_t *samples, q15_t *melvec)
 }
 
 /*
- * @brief Print computed Mel-vectors in a human-readable form.
+ * @brief Print the computed mel-vectors in a human-readable form.
  * @note Fixed-point q1.15 are printed as float [-1;1[.
  */
 void print_melvectors(void) {

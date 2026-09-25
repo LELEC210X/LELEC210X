@@ -33,10 +33,10 @@ extern q15_t mel_vectors[N_MELVECS][MELVEC_LENGTH];
  *    Field       	Length (bytes)      Encoding        Description
  ***************************************************************************
  *  r 					1 								Reserved, set to 0.
- * 	emitter_id 			1 					BE 			Unique id of the sensor node.
+ * 	sensor_id 			1 					 			Unique id of the sensor node.
  *	payload_length 		2 					BE 			Length of payload (in bytes).
  *	packet_serial 		4 					BE 			Unique and incrementing packet serial id.
- *	payload 			any 							The spectrogram.
+ *	payload 			any 							The feature vector.
  *	tag 				16 								Message authentication code (MAC).
  *
  *	Note : BE refers to Big endian
@@ -51,7 +51,7 @@ void make_packet(void)
 	//// 1- Header ////
 	// Initially, the whole packet header is set to 0s
 	memset(packet, 0, HEADER_LENGTH);
-	// TODO replace the memset by filling in each header field with the right value
+	// TODO replace the memset 0 by filling in each header field with the right value
 
 	//// 2- Payload ////
 	// BE encoding of each mel coef
@@ -88,8 +88,7 @@ void make_packet(void)
 
     //// 4- Packet id increment ////
 	packet_serial += 1;
-	if (packet_serial == 0) {
-		// Should not happen as packet_cnt is 32-bit and we send at most 1 packet per second.
+	if (packet_serial == 0) { // Should not happen as packet_cnt is 32-bit and we send at most 1 packet per second.
 		DEBUG_PRINT("Packet counter overflow.\r\n");
 		Error_Handler();
 	}
@@ -100,10 +99,6 @@ void make_packet(void)
  */
 void send_packet(void)
 {
-#if ENABLE_RADIO
-	S2LP_Send(packet, PACKET_LENGTH);
-#endif // ENABLE_RADIO
-
 #if DEBUGP
 	DEBUG_PRINT("PACKET:HEX:");
 	for (size_t i=0; i<PACKET_LENGTH; i++) {
@@ -111,6 +106,9 @@ void send_packet(void)
 	}
 	DEBUG_PRINT("\r\n");
 #endif // DEBUGP
+#if ENABLE_RADIO
+	S2LP_Send(packet, PACKET_LENGTH);
+#endif // ENABLE_RADIO
 }
 
 

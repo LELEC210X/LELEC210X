@@ -9,7 +9,7 @@
 
 // Exported variables
 volatile uint16_t *samples_buf_to_process; // Pointer to one of the two buffers
-volatile uint8_t processing_signal = 0; // State variable to signal main loop and prevent timing constraint violation
+volatile uint8_t is_processing = 0; // State variable to signal main loop and prevent timing constraint violation
 
 // Local variables
 static volatile uint16_t samples_double_buf[2*SAMPLES_PER_MELVEC]; // Double buffer for raw samples
@@ -21,8 +21,8 @@ extern ADC_HandleTypeDef hadc1;
 extern TIM_HandleTypeDef htim3;
 
 /*
- * @brief Start the acquisition of audio samples
- * @retval 0 if success, 1 if acquisition is already running
+ * @brief Start the acquisition of audio samples.
+ * @retval 0 if success, 1 if acquisition is already running.
  */
 int acquisition_start(void)
 {
@@ -46,8 +46,8 @@ int acquisition_start(void)
 }
 
 /*
- * @brief Stop the acquisition of audio samples
- * @retval 0 if success, 1 if acquisition is already stopped
+ * @brief Stop the acquisition of audio samples.
+ * @retval 0 if success, 1 if acquisition is already stopped.
  */
 int acquisition_stop(void)
 {
@@ -66,14 +66,18 @@ int acquisition_stop(void)
 	return 0;
 }
 
+/*
+ * @brief Callback when one of the two buffers is ready for processing.
+ * @param[in]  buf_cplt  Buffer ready index (0 or 1).
+ */
 static void process_samples_buf(int buf_cplt)
 {
-	if (processing_signal) { // check if the other buffer is still processing
+	if (is_processing) { // check if the other buffer is still processing
 		DEBUG_PRINT("Error : Samples buffer full (timing constraint violation)\r\n");
 		Error_Handler();
 	}
 	samples_buf_to_process = samples_buf[buf_cplt];
-	processing_signal = 1;
+	is_processing = 1;
 }
 
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc)

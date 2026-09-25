@@ -9,7 +9,7 @@
 
 // Exported variables
 extern volatile uint16_t *samples_buf_to_process;
-extern volatile uint8_t processing_signal;
+extern volatile uint8_t is_processing;
 
 // Exported function prototypes
 int acquisition_start(void);

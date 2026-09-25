@@ -57,7 +57,7 @@
 /* USER CODE BEGIN PV */
 // From acquisition
 extern volatile uint16_t *samples_buf_to_process;
-extern volatile uint8_t processing_signal;
+extern volatile uint8_t is_processing;
 // From computation
 extern q15_t mel_vectors[N_MELVECS][MELVEC_LENGTH];
 extern volatile uint8_t cur_melvec;
@@ -73,6 +73,11 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+/*
+ * @brief Manages external interrupts : user button and S2LP radio.
+ * @note This overrides the __weak__ function in stm32l4xx_hal_gpio.c to provide an user implementation.
+ */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	if (GPIO_Pin == B1_Pin) { // User button
@@ -149,9 +154,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 	while (1)
 	{
-		if (processing_signal) {
+		if (is_processing) {
 			melvec_compute((q15_t *)samples_buf_to_process, mel_vectors[cur_melvec]);
-			processing_signal = 0;
+			is_processing = 0;
 			if (++cur_melvec == N_MELVECS) { // all melvec computed
 				cur_melvec = 0;
 				acquisition_stop();
@@ -163,6 +168,7 @@ int main(void)
 #endif // CONTINUOUS_ACQ
 			}
 		}
+		__WFI();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

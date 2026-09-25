@@ -41,7 +41,7 @@ void stop_cycle_count(char *s) {}
 
 
 #if DEBUGP
-// Redirect printf calls through UART by overriding the weak _write function
+// Redirect printf calls through UART by overriding the __weak__ _write function
 extern UART_HandleTypeDef hlpuart1;
 int _write(int file, char *ptr, int len)
 {
