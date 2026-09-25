@@ -18,11 +18,11 @@ static volatile uint8_t is_acq_running = 0; // State variable to prevent re-ente
 
 // External variables
 extern ADC_HandleTypeDef hadc1;
-extern TIM_HandleTypeDef htim3;
 
 /*
  * @brief Start the acquisition of audio samples.
  * @retval 0 if success, 1 if acquisition is already running.
+ * @note This function will be implemented and used in P2b.
  */
 int acquisition_start(void)
 {
@@ -30,45 +30,48 @@ int acquisition_start(void)
 		return 1;
 	}
 	is_acq_running = 1;
-	if (HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED) != HAL_OK) {
-		DEBUG_PRINT("Error calibrating ADC\r\n");
-		Error_Handler();
-	}
-	if (HAL_ADC_Start_DMA(&hadc1, (uint32_t *)samples_double_buf, 2*SAMPLES_PER_MELVEC) != HAL_OK) {
-		DEBUG_PRINT("Error starting ADC\r\n");
-		Error_Handler();
-	}
-	if (HAL_TIM_Base_Start(&htim3) != HAL_OK) {
-		DEBUG_PRINT("Error starting TIM3\r\n");
-		Error_Handler();
-	}
+
+	// TODO P2b : use HAL functions to start the acquisition.
+
 	return 0;
 }
 
 /*
  * @brief Stop the acquisition of audio samples.
  * @retval 0 if success, 1 if acquisition is already stopped.
+ * @note This function will be implemented and used in P2c.
  */
 int acquisition_stop(void)
 {
 	if (!is_acq_running) {
 		return 1;
 	}
-	if (HAL_TIM_Base_Stop(&htim3) != HAL_OK) {
-		DEBUG_PRINT("Error stopping TIM3\r\n");
-		Error_Handler();
-	}
-	if (HAL_ADC_Stop_DMA(&hadc1) != HAL_OK) {
-		DEBUG_PRINT("Error stopping ADC\r\n");
-		Error_Handler();
-	}
+
+	// TODO P2c : use HAL functions to stop the acquisition.
+
 	is_acq_running = 0;
 	return 0;
+}
+
+
+/*
+ * @brief Print samples as hexadecimal bytes, with a prefix.
+ * @param[in]   samples  array of samples to print
+ * @param[out]  length   length of that array (in number of samples)
+ */
+void print_raw_samples(uint16_t *samples, size_t length)
+{
+	DEBUG_PRINT("RAW:HEX:");
+	for (size_t i=0; i < length; ++i) {
+		DEBUG_PRINT("%04x", samples[i]);
+	}
+	DEBUG_PRINT("\r\n");
 }
 
 /*
  * @brief Callback when one of the two buffers is ready for processing.
  * @param[in]  buf_cplt  Buffer ready index (0 or 1).
+ * @note This function and the callbacks below will be used in P2b.
  */
 static void process_samples_buf(int buf_cplt)
 {
