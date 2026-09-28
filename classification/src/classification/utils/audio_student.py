@@ -293,7 +293,7 @@ class Feature_vector_DS:
         :param audio: audio to treat.
         """
         return AudioUtil.melspectrogram(audio, Nmel=self.nmel, Nft=self.Nft)
-        
+
     def __getitem__(self, cls_index: tuple[str, int]) -> tuple[ndarray, int]:
         """
         Get i'th item in dataset.
@@ -301,7 +301,6 @@ class Feature_vector_DS:
         :param cls_index: Class name and index.
         """
         return self.get_feature_vector(self.get_audiosignal(cls_index))
-
 
     def display(self, cls_index: tuple[str, int], show_features=False):
         """
@@ -367,7 +366,6 @@ class Feature_vector_DS:
             )
 
         return self.treat_spec(sgram)
-        
 
     def get_feature_vectors(self) -> tuple[ndarray, ndarray]:
         """Returns all feature vectors and their labels."""
@@ -378,7 +376,7 @@ class Feature_vector_DS:
 
         for _class_idx, classname in enumerate(classnames):
             for idx in range(self.dataset.naudio[classname]):
-                audio = self.get_audiosignal((classname,idx))
+                audio = self.get_audiosignal((classname, idx))
                 sgram = self.get_feature_vector(audio)
                 fv = self.treat_spec(sgram)
 
@@ -387,7 +385,9 @@ class Feature_vector_DS:
 
                 if self.data_aug != None:
                     for d_aug in self.data_aug:
-                        if np.random.random() < d_aug[1]: # Use randomness to not augment all data
+                        if (
+                            np.random.random() < d_aug[1]
+                        ):  # Use randomness to not augment all data
                             fv = self.get_augmented_fv(d_aug[0], audio)
                             X += list(fv)
                             y += [classname] * len(fv)
