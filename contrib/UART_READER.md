@@ -28,17 +28,18 @@
 ### Terminology
 
 We will use the following wording to describe the different parts of the program.
-| Term | Definition |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GUI | Graphical User Interface |
-| CLI | Command Line Interface |
-| ADC | Analog-to-Digital Converter |
-| UART | Universal Asynchronous Receiver/Transmitter |
-| UART Reader/Utility/App/program | The `uart-reader` program that this manual talks about, it is contained in `<root>/contrib/src/contrib/uart_reader/__main__.py` |
-| Model Trainer | A script that creates a classification model file that can be used by the utility, situated in `<root>/contrib/src/contrib/uart_reader/model_trainer.py` |
-| Optional Flags | The command line arguments that can be added to the end of the uv command for launching the utility, they follow the `--<name>` notation |
-| Pickling | The process of serializing and deserializing Python objects, converting them to a byte stream for storage or transfer, and restoring them later |
-| Database | The storage structure for the parameters such as the baud rate, the file paths, and the rest |
+
+| Term                            | Definition                                                                                                                                               |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GUI                             | Graphical User Interface                                                                                                                                 |
+| CLI                             | Command Line Interface                                                                                                                                   |
+| ADC                             | Analog-to-Digital Converter                                                                                                                              |
+| UART                            | Universal Asynchronous Receiver/Transmitter                                                                                                              |
+| UART Reader/Utility/App/program | The `uart-reader` program that this manual talks about, it is contained in `<root>/contrib/src/contrib/uart_reader/__main__.py`                          |
+| Model Trainer                   | A script that creates a classification model file that can be used by the utility, situated in `<root>/contrib/src/contrib/uart_reader/model_trainer.py` |
+| Optional Flags                  | The command line arguments that can be added to the end of the uv command for launching the utility, they follow the `--<name>` notation                 |
+| Pickling                        | The process of serializing and deserializing Python objects, converting them to a byte stream for storage or transfer, and restoring them later          |
+| Database                        | The storage structure for the parameters such as the baud rate, the file paths, and the rest                                                             |
 
 <!-- Chapter 1 - Basic stuff-->
 
@@ -55,16 +56,17 @@ uv run uart-reader <optional flags>
 ```
 
 Here is the list of all optional flags (they are not needed, but can help save time) :
-| Flag | Default | Description |
-| ------------------------ | ------------------ | ------------------------------------------- |
-| `--logfile <str/path>` | `../uart_logs.log` | Log file to write to |
-| `--opaudio` | `False` (implicit) | Open the audio window when launching |
-| `--opmel` | `False` (implicit) | Open the MEL window when launching |
-| `--modelfile <str/path>` | `None` | Classifier model to use (None means default)|
-| `--mel_length <int>` | `20` | Length of the MEL vectors |
-| `--mel_number <int>` | `20` | Number of MEL vectors in the feature vector |
-| `--automel` | `False` (implicit) | Toggle the automatic melvec saver |
-| `--autoaudio` | `False` (implicit) | Toggle the automatic audio file saver |
+
+| Flag                     | Default            | Description                                  |
+| ------------------------ | ------------------ | -------------------------------------------- |
+| `--logfile <str/path>`   | `../uart_logs.log` | Log file to write to                         |
+| `--opaudio`              | `False` (implicit) | Open the audio window when launching         |
+| `--opmel`                | `False` (implicit) | Open the MEL window when launching           |
+| `--modelfile <str/path>` | `None`             | Classifier model to use (None means default) |
+| `--mel_length <int>`     | `20`               | Length of the MEL vectors                    |
+| `--mel_number <int>`     | `20`               | Number of MEL vectors in the feature vector  |
+| `--automel`              | `False` (implicit) | Toggle the automatic melvec saver            |
+| `--autoaudio`            | `False` (implicit) | Toggle the automatic audio file saver        |
 
 > Implicit means that you only have to declare the flag, and it requires no other input
 
@@ -150,21 +152,22 @@ class DatabaseElementTemplate:
 ```
 
 Now, for the value differences depending on the type:
-| Database Element Type | Value Type | Description |
+
+| Database Element Type | Value Type             | Description                                                                    |
 | --------------------- | ---------------------- | ------------------------------------------------------------------------------ |
-| `SuffixFloat` | (float, str) | Represents a float with a suffix (e.g., 90MHz stored as (9e+7, "Hz")) |
-| `Integer` | int | Represents an integer value |
-| `RangeInt` | (int, int, int) | Represents an integer range as (value, min, max) |
-| `RangeFloat` | (float, float, float) | Represents a float range as (value, min, max) |
-| `Text` | str | Represents a text value |
-| `Color` | (int, int, int) | Represents a color value as an RGB tuple (red, green, blue) |
-| `Boolean` | bool | Represents a boolean value |
-| `List` | list&lt;str&gt; | Represents a list of text values |
-| `Dictionary` | dict&lt;str, str&gt; | Represents a dictionary of text values |
-| `File` | pathlib.Path | Represents a file path |
-| `Folder` | pathlib.Path | Represents a folder path |
-| `ChoiceBox` | (int, list&lt;str&gt;) | Represents a choice box value, storing the current index and available choices |
-| `ConstantText` | str | Represents constant text that does not change |
+| `SuffixFloat`         | (float, str)           | Represents a float with a suffix (e.g., 90MHz stored as (9e+7, "Hz"))          |
+| `Integer`             | int                    | Represents an integer value                                                    |
+| `RangeInt`            | (int, int, int)        | Represents an integer range as (value, min, max)                               |
+| `RangeFloat`          | (float, float, float)  | Represents a float range as (value, min, max)                                  |
+| `Text`                | str                    | Represents a text value                                                        |
+| `Color`               | (int, int, int)        | Represents a color value as an RGB tuple (red, green, blue)                    |
+| `Boolean`             | bool                   | Represents a boolean value                                                     |
+| `List`                | list&lt;str&gt;        | Represents a list of text values                                               |
+| `Dictionary`          | dict&lt;str, str&gt;   | Represents a dictionary of text values                                         |
+| `File`                | pathlib.Path           | Represents a file path                                                         |
+| `Folder`              | pathlib.Path           | Represents a folder path                                                       |
+| `ChoiceBox`           | (int, list&lt;str&gt;) | Represents a choice box value, storing the current index and available choices |
+| `ConstantText`        | str                    | Represents constant text that does not change                                  |
 
 ### Section 1.4 - Tips, tricks and known bugs
 
