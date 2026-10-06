@@ -22,7 +22,7 @@ In this project, will you have to use different software and tools.
 - **STM32CubeIDE** and **STM32CubeMX**: used to program the microcontroller;
 - and **GNU Radio**: used to acquire data from the SDR
   and perform signal processing, e.g., the demodulation. The instructions to install
-  this software will be provided to you later when the wireless communication part of 
+  this software will be provided to you later when the wireless communication part of
   the project will start
 
 If possible, every software tool used should be installed and used,
@@ -30,12 +30,9 @@ on your host system, i.e., your every-day OS. Moreover,
 **the Git associated with the project should be cloned on your host system.**
 Python and STM32CubeIDE/MX are supported on every common OS.
 
-
-
 ## Installation steps
 
 The following steps depend based on the OS of your host system. Please always refer to the corresponding section with respect to your setup. Skip parts that are not related to your system. When **Host** is in the section title, it concerns every OS.
-
 
 ### Ubuntu - APT update
 
@@ -129,7 +126,6 @@ Please download it from the [download page](https://ffmpeg.org/download.html).
 sudo apt-get install cmake
 ```
 
-
 ### Host - Installation of STM32CubeIDE and STM32CubeMX
 
 In order to program and configure the MCU, we will use the _STM32CubeIDE_ and _STM32CubeMX_ softwares from ST.
@@ -149,7 +145,6 @@ If Ubuntu is your host system and thus _STM32CubeIDE_ is installed on it, you mi
 ```bash
 sudo apt-get install libncurses5
 ```
-
 
 ### Install Python dependencies
 
