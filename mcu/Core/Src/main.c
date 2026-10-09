@@ -19,9 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
-#include "dma.h"
 #include "spi.h"
-#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -57,7 +55,7 @@
 /* USER CODE BEGIN PV */
 // From acquisition
 extern volatile uint16_t *samples_buf_to_process;
-extern volatile uint8_t processing_signal;
+extern volatile uint8_t is_processing;
 // From computation
 extern q15_t mel_vectors[N_MELVECS][MELVEC_LENGTH];
 extern volatile uint8_t cur_melvec;
@@ -73,20 +71,32 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+extern ADC_HandleTypeDef hadc1;
+/*
+ * @brief Manages external interrupts : user button and S2LP radio.
+ * @note This overrides the __weak__ function in stm32l4xx_hal_gpio.c to provide an user implementation.
+ */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	if (GPIO_Pin == B1_Pin) { // User button
-#if (RUN_CONFIG == EVAL_RADIO)
-		eval_radio_continue();
-#else // MAIN_APP
-		if (acquisition_start()) {
-			DEBUG_PRINT("Acquisition already running, not started\r\n");
-		} else {
-			DEBUG_PRINT("Acquisition started\r\n");
+		HAL_NVIC_DisableIRQ(EXTI15_10_IRQn); // Prevent re-entry, only one execution per button press
+
+		size_t sample_count = 10000;
+		uint16_t samples[sample_count];
+		for (uint32_t i=0; i < sample_count; ++i) {
+			HAL_ADC_Start(&hadc1); // configure and launch single conversion
+			HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY); // wait for conversion
+			samples[i] = (uint16_t) HAL_ADC_GetValue(&hadc1); // read converted value
+			HAL_ADC_Stop(&hadc1); // reset configuration
 		}
-#endif // RUN_CONFIG
+		print_raw_samples(samples, sample_count);
+
+        __HAL_GPIO_EXTI_CLEAR_FLAG(B1_Pin);
+        HAL_NVIC_ClearPendingIRQ(EXTI15_10_IRQn);
+        HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 	}
-	else if (GPIO_Pin == RADIO_INT_Pin) { // S2LP radio
+	else if (GPIO_Pin == RADIO_INT_Pin) { // S2LP radio, will be used in P2d
 		S2LP_IRQ_Handler();
 	}
 }
@@ -121,9 +131,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_SPI1_Init();
-  MX_TIM3_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
 #if DEBUGP
@@ -149,20 +157,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 	while (1)
 	{
-		if (processing_signal) {
-			melvec_compute((q15_t *)samples_buf_to_process, mel_vectors[cur_melvec]);
-			processing_signal = 0;
-			if (++cur_melvec == N_MELVECS) { // all melvec computed
-				cur_melvec = 0;
-				acquisition_stop();
-				print_melvectors();
-				make_packet();
-				send_packet();
-#if CONTINUOUS_ACQ
-				acquisition_start();
-#endif // CONTINUOUS_ACQ
-			}
-		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

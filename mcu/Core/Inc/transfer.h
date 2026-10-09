@@ -13,7 +13,7 @@
 #define TAG_LENGTH 16
 #define PACKET_LENGTH (HEADER_LENGTH + PAYLOAD_LENGTH + TAG_LENGTH)
 
-#define EMITTER_ID 0x00
+#define SENSOR_ID 0x00
 
 // Exported variables
 extern uint8_t packet[PACKET_LENGTH];

@@ -154,9 +154,9 @@ class GUIAudioWindow(QMainWindow):
         if prefix == self.db.get_item("Audio Settings", "serial_prefix").value:
             array_hex = bytes.fromhex(message)
             audio_vec = np.frombuffer(
-                array_hex, dtype=np.dtype(np.int16).newbyteorder("<")
+                array_hex, dtype='>u2' # big-endian unsigned 16-bit 
             )
-            self.update_audio_data((audio_vec / (2**11)) - 0.5)
+            self.update_audio_data(audio_vec)
 
     def create_ui(self):
         # Add title to the window
@@ -208,18 +208,21 @@ class GUIAudioWindow(QMainWindow):
         self.ax_fft = self.fig_fft.add_subplot(111)
 
         self.ax_audio.set_title("Audio Signal")
-        self.ax_audio.set_xlabel("Time (s)")
-        self.ax_audio.set_ylabel("Amplitude (%)")
-        self.ax_audio.set_xlim(0, 1)
-        self.ax_audio.set_ylim(-1, 1)
+        self.ax_audio.set_xlabel("Sample index")
+        self.ax_audio.set_ylabel("Amplitude (raw value)")
+        self.ax_audio.set_xlim(0, 10000)
+        self.ax_audio.set_ylim(0, 4095)
         self.ax_audio.grid(True)
         self.ax_audio.autoscale(enable=False, axis="both")
 
         self.ax_fft.set_title("FFT")
         self.ax_fft.set_xlabel("Frequency (Hz)")
         self.ax_fft.set_ylabel("Magnitude (dB)")
-        self.ax_fft.set_xlim(-10500, 10500)
-        self.ax_fft.set_ylim(-1, 100)
+        self.ax_fft.set_xlim(
+            self.db.get_item("Audio Settings", "mcu_sample_rate").value[0]/-2,
+            self.db.get_item("Audio Settings", "mcu_sample_rate").value[0]/2
+            )
+        self.ax_fft.set_ylim(-1, 200)
         self.ax_fft.grid(True)
         self.ax_fft.autoscale(enable=False, axis="both")
 
@@ -303,7 +306,7 @@ class GUIAudioWindow(QMainWindow):
     def _update_audio_plot(self, frame):
         """Update audio plot for animation."""
         # Update audio signal
-        x = np.linspace(0, 1, len(self.audio_data))
+        x = np.arange(len(self.audio_data))
         self.line_audio.set_data(x, self.audio_data)
 
         return (self.line_audio,)
@@ -314,7 +317,7 @@ class GUIAudioWindow(QMainWindow):
         fft_data = np.abs(np.fft.fft(self.audio_data))
         fft_data = 20 * np.log10(fft_data + 1e-12)  # Avoid log(0)
         fft_data = np.fft.fftshift(fft_data)
-        freqs = np.fft.fftshift(np.fft.fftfreq(len(fft_data), 1 / 44100))
+        freqs = np.fft.fftshift(np.fft.fftfreq(len(fft_data), 1 / self.db.get_item("Audio Settings", "mcu_sample_rate").value[0]))
         self.line_fft.set_data(freqs, fft_data)
 
         # Update FPS
@@ -1418,15 +1421,15 @@ def database_init(db: dbu.ContentDatabase):
         "serial_prefix",
         db.Text(
             "Serial Prefix",
-            "SND:HEX:",
+            "RAW:HEX:",
             "The prefix to use for the audio data serial communication",
         ),
     )
     db.add_item(
         "Audio Settings",
-        "nucleo_sample_rate",
+        "mcu_sample_rate",
         db.SuffixFloat(
-            "Nucleo Sample Rate", (10240, "Hz"), "The sample rate of the Nucleo board"
+            "MCU sample rate", (10000, "Hz"), "The sample rate of the MCU acquisition"
         ),
     )
     db.add_item(
