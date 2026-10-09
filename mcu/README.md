@@ -16,7 +16,7 @@ to install and get information about the required tools.
 		- `system-stm32l4xx.c`
 	- Peripherals (enabled in MX)
 		- `adc.h`/`.c`
-		- `dma.h`/`.c` *(enabled during P2a)*
+		- `dma.h`/`.c` *(enabled during P2b)*
 		- `gpio.h`/`.c`
 		- `spi.h`/`.c`
 		- `tim.h`/`.c` *(enabled during P2a)*
@@ -35,7 +35,7 @@ to install and get information about the required tools.
 ## What we added on top of MX-generated code
 
 - In `Core/`
-	- `config.h` Configuration macros (conditional compilation)
+	- `config.h` Configuration macros
 	- `acquisition.h`/`.c` Acquisition of raw audio samples
 	- `computation.h`/`.c` and `computation_tables.h` Computation of Mel-vectors
 	- `transfer.h`/`.c` Packetisation and data transfer
@@ -52,9 +52,11 @@ to install and get information about the required tools.
 
 ## UART Reader
 
-One of contributions from students includes a graphical interface to read from UART.
+A previous student has contributed to the project by writing and sharing a nice graphical UART reader. 
+It really simplifies the interactions between the MCU and the host computer.
+Thanks again Victor and group E 2024-2025 !
 
-You can run it with:
+It is located in the `contrib` folder, run it with:
 
 ```bash
 uv run uart-reader
@@ -62,3 +64,6 @@ uv run uart-reader
 
 Read the documentation from the [`README in the contrib folder`](../contrib/README.md)
 for more information.
+
+If you find bugs or want to improve the tool, do not hesitate to reach out,
+we will gladly help you contribute.
