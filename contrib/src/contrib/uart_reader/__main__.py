@@ -154,7 +154,8 @@ class GUIAudioWindow(QMainWindow):
         if prefix == self.db.get_item("Audio Settings", "serial_prefix").value:
             array_hex = bytes.fromhex(message)
             audio_vec = np.frombuffer(
-                array_hex, dtype='>u2' # big-endian unsigned 16-bit 
+                array_hex,
+                dtype=">u2",  # big-endian unsigned 16-bit
             )
             self.update_audio_data(audio_vec)
 
@@ -219,9 +220,9 @@ class GUIAudioWindow(QMainWindow):
         self.ax_fft.set_xlabel("Frequency (Hz)")
         self.ax_fft.set_ylabel("Magnitude (dB)")
         self.ax_fft.set_xlim(
-            self.db.get_item("Audio Settings", "mcu_sample_rate").value[0]/-2,
-            self.db.get_item("Audio Settings", "mcu_sample_rate").value[0]/2
-            )
+            self.db.get_item("Audio Settings", "mcu_sample_rate").value[0] / -2,
+            self.db.get_item("Audio Settings", "mcu_sample_rate").value[0] / 2,
+        )
         self.ax_fft.set_ylim(-1, 200)
         self.ax_fft.grid(True)
         self.ax_fft.autoscale(enable=False, axis="both")
@@ -317,7 +318,12 @@ class GUIAudioWindow(QMainWindow):
         fft_data = np.abs(np.fft.fft(self.audio_data))
         fft_data = 20 * np.log10(fft_data + 1e-12)  # Avoid log(0)
         fft_data = np.fft.fftshift(fft_data)
-        freqs = np.fft.fftshift(np.fft.fftfreq(len(fft_data), 1 / self.db.get_item("Audio Settings", "mcu_sample_rate").value[0]))
+        freqs = np.fft.fftshift(
+            np.fft.fftfreq(
+                len(fft_data),
+                1 / self.db.get_item("Audio Settings", "mcu_sample_rate").value[0],
+            )
+        )
         self.line_fft.set_data(freqs, fft_data)
 
         # Update FPS
