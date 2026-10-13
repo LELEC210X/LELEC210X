@@ -134,20 +134,23 @@ void melvec_compute(q15_t *samples, q15_t *melvec)
 
 /*
  * @brief Print the computed mel-vectors in a human-readable form.
+ * @param[in]   mel_vectors     array of mel-vectors to print
+ * @param[in]   n_melvec   number of mel-vectors in the array
  * @note Fixed-point q1.15 are printed as float [-1;1[.
  */
-void print_melvectors(void) {
-#if (DEBUGP == 1)
+void print_melvectors(q15_t mel_vectors[][MELVEC_LENGTH], size_t n_melvecs)
+{
+#if DEBUGP
 	float y;
 	DEBUG_PRINT("Acquisition complete, the following mel-vectors were computed:\r\n");
-	for(unsigned int j=0; j < N_MELVECS; j++) {
-		DEBUG_PRINT("MV #%u:\t", j+1);
+	for(unsigned int j=0; j < n_melvecs; j++) {
+		DEBUG_PRINT("MV #%u:\t", j);
 		for(unsigned int i=0; i < MELVEC_LENGTH; i++) {
 			arm_q15_to_float(&(mel_vectors[j][i]), &y, 1);
 			DEBUG_PRINT("%.3f, ", y);
 		}
 		DEBUG_PRINT("\r\n");
 	}
-#endif
+#endif // DEBUGP
 }
 

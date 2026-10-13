@@ -14,6 +14,6 @@ extern volatile uint8_t cur_melvec;
 
 // Exported function prototype
 void melvec_compute(q15_t *samples, q15_t *melvec);
-void print_melvectors(void);
+void print_melvectors(q15_t mel_vectors[][MELVEC_LENGTH], size_t n_melvecs);
 
 #endif /* INC_COMPUTATION_H_ */
