@@ -2,9 +2,16 @@
 This session begins where the last session ends, meaning you need to have (correctly) implemented the changes described in P2a before beginning this session. If you are unsure of your implementation, we provide you with a "golden version" of the project at this point. To replace your changes with ours, you need to :
 \begin{itemize}
     \item Download \texttt{p2a.patch} from Moodle ;
-    \item Be sure your repo is synchronised with ours and clean (no pending changes), use \texttt{git reset} if needed ;
-    \item Apply the changes from the patch with \texttt{git apply path/to/p2a.patch} (run it from the project root) ;
-    \item You should now see the changes in the \texttt{.ioc} file, in \texttt{main.c}, the new files for the timer, etc. You may commit them before going on.
+    \item Be sure your repo is synchronised with ours and clean (no pending changes), if needed run from the project root :
+    \begin{lstlisting}[columns=fullflexible]
+git restore mcu # remove any changes to tracked files in mcu/
+git clean -fd mcu # remove new or untracked files too
+    \end{lstlisting}
+    \item Apply the changes from the patch with the following command (run it from the project root and modify your path) ;
+    \begin{lstlisting}[columns=fullflexible]
+git apply path/to/p2a.patch
+    \end{lstlisting}
+    \item You should now see the changes in the \texttt{.ioc} file, in \texttt{main.c}, the new files for the timer, etc. You should commit them before going on.
 \end{itemize}
 \end{bclogo}
 

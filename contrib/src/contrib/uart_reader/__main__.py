@@ -150,8 +150,7 @@ class GUIAudioWindow(QMainWindow):
             self.save_audio_data_npy(self.audio_data)
 
     def prefix_message_handler(self, prefix, message):
-        print(prefix)
-        if prefix == self.db.get_item("Audio Settings", "serial_prefix").value:
+        if prefix == self.db.get_item("Audio Settings", "serial_prefix").value and message:
             array_hex = bytes.fromhex(message)
             audio_vec = np.frombuffer(
                 array_hex, dtype='>u2' # big-endian unsigned 16-bit 
