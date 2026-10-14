@@ -105,7 +105,7 @@ where $h=2 \Delta_f T$ is the modulation index.
 Assuming a symbol mapping such as the bit $0$ (resp. bit $1$) corresponds to the symbol $-1$ (resp. symbol $1$), the associated Python code to generate $x[m]$ from an input bit sequence is given in \autoref{fig:code_mod}. It is not a direct application of the mathematics presented above but instead an iterative generation of the CPFSK waveform. Indeed, in the for loop, the phase continuity is ensured simply by storing in memory the ending phase of the previous symbol. The phase shift during one symbol is given by $\pm h\pi$.
 
 \begin{listing}[H]
-\inputpython{modulate.py}
+% \inputpython{modulate.py}
 \caption{Python code for 2-CPFSK modulation.}
 \label{fig:code_mod}
 \end{listing}
