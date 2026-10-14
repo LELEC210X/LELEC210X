@@ -126,6 +126,19 @@ Draw a flow chart of the computation sequence : what operations are performed to
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{The CMSIS-DSP software package}
 "CMSIS-DSP is an optimized compute library for embedded systems (DSP is in the name for legacy reasons)."\footnote{\url{https://github.com/ARM-software/CMSIS-DSP}} The library is included in \textbf{Drivers/CMSIS-DSP}, you can thus use any of the computation functions in the project. Check out the online documentation in \url{https://arm-software.github.io/CMSIS-DSP/v1.18.0/index.html}. For example, you can find the FFT function \texttt{arm\_fft\_q15()} in \textbf{Transform functions} $\rightarrow$ \textbf{Real FFT Functions} $\rightarrow$ \textbf{Real FFT Q15 Functions}.
+
+Beware this documentation is far from exhaustive and often hides some subtleties, e.g. for \texttt{arm\_rfft\_q15()}:
+\begin{itemize}
+    \item The first coefficient of the output is real and equals $x[0]+x[N/2]$ for an input buffer $x$ of length $N$.
+    \item The complex transforms used internally include scaling to prevent fixed-point overflows. The overall scaling equals 1/(fftLen/2). Due to the use of complex transform internally, the source buffer is modified by the rfft.
+    \item Internally input is downscaled by 2 for every stage to avoid saturations inside CFFT process. Hence the output format is different for different RFFT sizes.
+\end{itemize}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth-4cm]{figures/CMSIS_output.png}
+\caption{The FFT result starts with the DC component.}
+\label{fig:CMSIS_output}
+\end{figure}
 \end{bclogo}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Single instruction, multiple data (SIMD)}
@@ -141,58 +154,71 @@ In step $3.2$ of \texttt{computation.c}, you will observe this line of code:
 \begin{lstlisting}
 buf[i] = (q15_t) (((q31_t) buf_fft[i] << 15) / ((q31_t) vmax));
 \end{lstlisting}
-In this line, the (q15$\_$t) and two (q31$\_$t) are called \textbf{typecasts}. Typecasting consists in telling your compiler the format you wish the following variable to be stored in. Here, buf$\_$fft[i] is in q15$\_$t format, and the $\ll 15$ shifts all its bits to the left $15$ times. The casting is necessary to get a temporary q31$\_$t variable and avoid overflowing your q15$\_t$ one.
+In this line, the \texttt{q15\_t} and two \texttt{q31\_t} are called \textbf{typecasts}. Typecasting consists in telling your compiler the format you wish the following variable to be stored in. The casts are necessary to get a temporary \texttt{q31\_t} variable and avoid an overflow in \texttt{q15\_t}.
 \end{bclogo}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Hardcoded data tables}
-The content of \texttt{computation$\_$tables.h} has been hard-coded using the files in \textbf{classification/} \textbf{Python2C$\_$conversion}. These notebooks could be useful for you during the second semester if you want to modify the feature vector parameters. This is optional, but you can already take a look at how this is done.
+The content of \texttt{computation$\_$tables.h} has been hard-coded using the files in \textbf{classification/} \textbf{Python2C$\_$conversion}. These notebooks could be useful for you during the second semester if you want to modify the feature vector parameters.
 \end{bclogo}
 
 \subsection{Implementing the mel-vector computation}
 
-% steps
+Follow these steps for the code implementation :
 
-% - acquisition.c : change buffer size to 512 (2 places)
+\begin{enumerate}
+\item In \texttt{acquisition.c}, change the \textbf{sample buffer size} from \texttt{10000} to \texttt{SAMPLES\_PER\_MELVEC}. \textit{Hint:} Change it in the local variable declaration and in the HAL function starting the ADC.
+\item Again in \texttt{acquisition.c}, implement the DMA buffer-full callback with the following code :
+\begin{lstlisting}
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
+{
+    acquisition_stop();
+    samples_buf_to_process = samples_single_buf;
+    is_processing = 1;
+}
+\end{lstlisting}
+\item In \texttt{main.c}, implement the following task in the main loop. Do not forget to write inside \texttt{USER CODE} comments.
+\begin{lstlisting}
+if (is_processing) {
+    melvec_compute((q15_t *)samples_buf_to_process, mel_vectors[0]);
+    print_melvectors(mel_vectors, 1);
+    is_processing = 0;
+}
+\end{lstlisting}
+\end{enumerate}
 
-% - dma callback :
-%     acquisition_stop();
-%     samples_buf_to_process = samples_single_buf;
-%     is_processing = 1;
+Build and flash, then observe the mel-vectors being printed in the console of \texttt{uart-reader}.
 
-% - main loop : 
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{Implementation details}
+\begin{itemize}
+    \item Explain each line of code you just wrote. You may add small comments to improve your code's readability.
+    \item In particular, what is (are) the role(s) of \texttt{is\_processing} ? How do we use this variable ? Which operations are executed in which execution flow (main execution flow, interrupt execution flow, etc.) ? You may draw a workflow sequence diagram to help explaining the interactions between execution flows.
+    \item Explain the values that are printed in the console. How many are there ? What do they correspond to ? Try again to whistle or play a constant tone while acquiring, what do you observe ?
+\end{itemize}
+\end{bclogo}
 
-%         if (is_processing) {
-%             melvec_compute((q15_t *)samples_buf_to_process, mel_vectors[0]);
-%             print_melvectors(mel_vectors, 1);
-%             is_processing = 0;
-%         }
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Data races and volatile variables in C}
+The main function and the interrupt handler are concurrent: they are not part of the same \textit{execution flow}.
+With all concurrent programming, you have to be careful when writing to variables that are shared (concurrent reads are always ok), as the result of the execution might be non-deterministic (i.e. it depends on the exact way the execution flows are interleaved). This is called a \textbf{data race}.
 
-
-\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcattention]{Data races and volatile variables in C}
-Your state variable will be a global variable, such that it can be modified in the main function and in the interrupt handler.
-The main function and the interrupt handler are concurrent: they are not part of the same ``execution flow'', similarly to threads that run under an OS.
-With all concurrent programming, you have to be careful the access to variables that are shared (i.e., read or written from more than one execution flow).
-If at least one of the execution flow writes to a variable (concurrent reads are always ok!), the result of the execution might be non-deterministic (e.g., depend on the exact way the execution flows are interleaved), which is called a data race.
 For instance, if you increment a variable (which makes 3 instructions: load, add and store) both from \texttt{main()} and from an interrupt handler, you have a data race if you take no extra precaution: if the \texttt{main()} is interrupted just after the load, the variable gets incremented by only 1 instead of 2.
-In order to avoid data races, all concurrent read and writes should be either atomic (roughly, a single load/store) or synchronized (through locks, etc.).
 
-This is further complicated by the semantics of the C programming language: it is such that the compiler can (almost) assume that there is no concurrent execution.
-Therefore, if a program does not read a variable from the \texttt{main()} execution flow, it may ``optimize'' your \texttt{main()} by discarding writes to this variable, as they are ``useless''.
+In order to avoid data races, all concurrent read and writes should be either \textbf{atomic} (roughly, a single load/store) or \textbf{synchronized} (through locks, etc.).
 
-As a result, whenever a variable is \textbf{shared} (i.e., accessed by multiple execution flows), or represents a \textbf{memory-mapped control register}, you have to make it \textbf{volatile}. This is done by putting the qualifier \texttt{volatile} before the type in the declaration of the variable.
+This is further complicated by the C compiler optimisations that might discard writes to a variable if it assumes it is useless (not read later in the execution flow).
+
+As a result, whenever a variable is \textbf{shared} (accessed by multiple execution flows), or represents a \textbf{memory-mapped control register}, you have to make it \texttt{volatile}. This prevents the compiler to optimise accesses to the variable and allows their use in concurrent execution flows.
 
 \textit{This was only a very limited introduction! To go further: \url{https://blog.regehr.org/archives/28}. You may also search the keywords: C memory model; atomic memory access ordering; memory barrier.}
 \end{bclogo}
 
-
-
-
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Interrupt callback good practice}
-Be careful not to lock-up your processor: if you have a long-running interrupt handler, the MCU might not be able to respond to other events that happen.
-The two common solutions are to delegate the long processing to the \texttt{main()} (and communicate that the processing should be performed by setting a state variable in the interrupt handler), or to configure the priority of the long-running interrupt such that it can be interrupted by other, higher priority, interrupts. Be careful as usually, the highest priority has the lowest value i.e. 0 being the highest priority as shown in \autoref{fig:nvic_params}.
+Interrupt-based programming must be designed such that \textbf{real-time constraints} are respected. There are two common techniques to prevent the processor being locked up while executing a long task.
+\begin{enumerate}
+    \item Delegate the long processing from an ISR to the main execution flow. Global variable are used to signal the execution state ;
+    \item Configure priority between differents interrupt types, such that some long-running ISR can be interrupted by other, higher-priority ones. This is managed by the NVIC.
+\end{enumerate}
 \end{bclogo}
 
-
-
 \section{Double-buffering technique}
+
 
