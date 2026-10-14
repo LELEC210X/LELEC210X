@@ -8,11 +8,11 @@
 #include "config.h"
 
 // Exported variables
-volatile uint16_t *samples_buf_to_process; // Pointer to one of the two buffers
+volatile uint16_t *samples_buf_to_process; // Pointer to the buffer to process
 volatile uint8_t is_processing = 0; // State variable to signal main loop and prevent timing constraint violation
 
 // Local variables
-static uint16_t samples_single_buf[SAMPLES_PER_MELVEC]; // Single buffer for raw samples
+static uint16_t samples_single_buf[10000]; // Single buffer for raw samples
 static volatile uint8_t is_acq_running = 0; // State variable to prevent re-entering acquisition start or stop
 
 // External variables
