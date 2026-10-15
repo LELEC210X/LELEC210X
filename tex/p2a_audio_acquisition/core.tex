@@ -46,7 +46,7 @@ STM32CubeIDE is not just a text editor, it comes with three essential tools :
 \begin{enumerate}
     \item{\textbf{The builder}} or compiler comes as a preconfigured toolchain to cross-compile our C code into a binary specific to our MCU's architecture. Compile the project by clicking \textbf{the hammer-shaped button} of the IDE. You should not get any warning nor error at this point in the IDE's console at the bottom of the window.
     \item{\textbf{The flasher}} or programmer is used to write the generated binary to the flash memory of the MCU. Use \textbf{the green triangle "play" button} to flash the MCU. It actually triggers a project build then flash sequence. The first time you flash a project, you may be prompted to choose a configuration; keep the default and click \textbf{OK}. If you are prompted to \textbf{update the ST-LINK firmware}, press \textbf{Yes}, then \textbf{Open in update mode}, then \textbf{Upgrade}. When successfully updated, close the window and restart the flash procedure. You should see in the console that the download is verified successfully then the flasher shut down.
-    \item{\textbf{The debugger}} is the third useful tool. It enables to follow the MCU's code execution in real time and inspect the register's content. More on that comes at the end of this session. 
+    \item{\textbf{The debugger}} is the third useful tool. It enables to follow the MCU's code execution in real time and inspect the register's content. More on that comes at the end of this session.
 \end{enumerate}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{ST-Link programmer}
@@ -105,7 +105,7 @@ What is the format of the value you get from the ADC ? To how many bits does the
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{Acquisition frequency and transfer duration}
 \begin{itemize}
-    \item By observing the blinking LED, can you approximate the time taken by the MCU to acquire 10 000 samples ? Is the sampling frequency controlled ? What does the sampling frequency depends on in the current implementation ? What problem or drawback do you spot in the current implementation, regarding the objective of acquiring audio samples ? 
+    \item By observing the blinking LED, can you approximate the time taken by the MCU to acquire 10 000 samples ? Is the sampling frequency controlled ? What does the sampling frequency depends on in the current implementation ? What problem or drawback do you spot in the current implementation, regarding the objective of acquiring audio samples ?
     \item Can you approximate the duration the MCU takes to print the acquired raw samples ? What limits the speed of data transfer ? How can you theoritecally compute the time it takes to print the raw sample string through UART ? Does it match what you observe ?
 \end{itemize}
 \end{bclogo}

@@ -4,7 +4,7 @@ requires = ["hatchling"]
 
 [dependency-groups]
 dev = [
-  {include-group = "tests"},
+  { include-group = "tests" },
 ]
 tests = ["pytest>=7.4.3"]
 
