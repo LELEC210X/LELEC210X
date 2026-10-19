@@ -4,7 +4,7 @@ requires = ["hatchling"]
 
 [project]
 authors = [
-  {name = "LELEC210X teaching assistants and students"},
+  { name = "LELEC210X teaching assistants and students" },
 ]
 dependencies = []
 description = "Additional packages contributed by students"
