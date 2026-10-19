@@ -28,9 +28,9 @@ Remember the current state of your acquisition implementation. How does it work 
 
 In order to configure the DMA, open STM32CubeMX by double-clicking the \texttt{.ioc} file. In the \textbf{ADC1} settings, modify the following:
 \begin{enumerate}
-    \item In \textbf{Parameter Settings}, enable \textbf{DMA Continuous Requests} ;
     \item In \textbf{DMA Settings}, click on the \textbf{Add} box and select \textbf{ADC1} under \textbf{DMA Request} ;
     \item Change the DMA \textbf{Mode} to \textbf{Circular} ;
+    \item In \textbf{Parameter Settings}, enable \textbf{DMA Continuous Requests} ;
     \item Regenerate the code and go back to STM32CubeIDE.
 \end{enumerate}
 
@@ -46,10 +46,16 @@ The Nested Vectored Interrupt Controller (NVIC) is a hardware block in the MCU w
 
 In the first session you implemented all the application code in \texttt{main.c}. As it quickly becomes complex, an app is usually splitted in different source files for improved readability and understandability. From now on, all acquisition-related variables and functions will be written to \texttt{acquisition.c}/\texttt{.h}. Open and skim through these files. Follow these implementation steps:
 \begin{enumerate}
-    \item Implement the \texttt{acquisition\_start()} and \texttt{acquisition\_stop()} functions by toggling the LED and starting or stopping the timer and the ADC in the right order. To start the ADC in DMA mode, use \texttt{HAL\_ADC\_Start\_DMA(\&hadc1, (uint32\_t *)samples\_single\_buf, 10000)} and use \texttt{HAL\_ADC\_Stop\_DMA(\&hadc1)} to stop it. 
+    \item Implement the \texttt{acquisition\_start()} and \texttt{acquisition\_stop()} functions by toggling the LED and starting or stopping the timer and the ADC in the right order. To start the ADC in DMA mode, use \texttt{HAL\_ADC\_Start\_DMA(\&hadc1, (uint32\_t *)samples\_single\_buf, 10000)} and use \texttt{HAL\_ADC\_Stop\_DMA(\&hadc1)} to stop it. Note that the ADC is still triggered by the timer, and the ADC conversion in turn triggers the DMA data transfer.
     \item The DMA controller triggers an interrupt when the buffer it fills is full. The corresponding ISR in turn calls \texttt{HAL\_ADC\_ConvCpltCallback()}. Implement that callback by stopping the acquisition, then printing the acquired raw samples.
-    \item In \texttt{main.c}, replace the acquisition procedure in the user button callback by the following code:
+    \item In \texttt{main.c}, replace the acquisition procedure in the user button callback by a simple call to \texttt{acquisition\_start()}. Note that the NVIC management functions calls are not needed anymore. Here is the final callback implementation:
     \begin{lstlisting}[columns=fullflexible]
+/*
+ * @brief Manages external interrupts : user button and S2LP radio.
+ * @note This overrides the __weak__ function in stm32l4xx_hal_gpio.c to provide an user implementation.
+ */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
     if (GPIO_Pin == B1_Pin) { // User button
         if (acquisition_start()) {
             printf("Acquisition not started, already running\r\n");
@@ -57,8 +63,12 @@ In the first session you implemented all the application code in \texttt{main.c}
             printf("Acquisition started\r\n");
         }
     }
+    else if (GPIO_Pin == RADIO_INT_Pin) { // S2LP radio, will be used in P2d
+        S2LP_IRQ_Handler();
+    }
+}
     \end{lstlisting}
-    \item Do not forget to clean \texttt{main.c} by removing the unused variables \texttt{htim1} and \texttt{hadc1}.
+    \item Do not forget to clean \texttt{main.c} by removing the unused variables \texttt{htim3} and \texttt{hadc1}.
 \end{enumerate}
 
 Build, flash, then acquire samples and observe them in \texttt{uart-reader} like last session.
@@ -238,11 +248,14 @@ Adapt the code in \texttt{acquisition.c} by following these steps :
 \begin{enumerate}
     \item Replace the declaration of the global variable \texttt{samples\_single\_buf} with the declaration of a double buffer and pointers to the two halves ;
 \begin{lstlisting}
-static volatile uint16_t samples_double_buf[2*SAMPLES_PER_MELVEC]; // Double buffer for raw samples
-static volatile uint16_t *samples_buf[2] = {&samples_double_buf[0], &samples_double_buf[SAMPLES_PER_MELVEC]}; // These are simply pointers to the first and middle element of double buf
+// Double buffer for raw samples
+static volatile uint16_t samples_double_buf[2*SAMPLES_PER_MELVEC];
+// These are simply pointers to the first and middle element of double buf
+static volatile uint16_t *samples_buf[2] = {&samples_double_buf[0], 
+    &samples_double_buf[SAMPLES_PER_MELVEC]};
 \end{lstlisting}
     \item Update the function call that starts the DMA accordingly in \texttt{acquisition\_start()};
-    \item Add this callback function, common to both (half and full) DMA interrupts ;
+    \item Add this callback function, common to both (half and full) DMA interrupts. Note that we no longer stop the acquisition at this point ;
 \begin{lstlisting}
 /*
  * @brief Callback when one of the two buffers is ready for processing.
