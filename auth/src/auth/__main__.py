@@ -9,7 +9,7 @@ import common
 from common.env import load_dotenv
 from common.logging import logger
 
-from . import PRINT_PREFIX, packet
+from . import PACKET_PREFIX, FV_PREFIX, packet
 
 load_dotenv()
 
@@ -17,8 +17,8 @@ load_dotenv()
 def parse_packet(line: str) -> bytes:
     """Parse a line into a packet."""
     line = line.strip()
-    if line.startswith(PRINT_PREFIX):
-        return bytes.fromhex(line[len(PRINT_PREFIX) :])
+    if line.startswith(PACKET_PREFIX):
+        return bytes.fromhex(line[len(PACKET_PREFIX) :])
     else:
         return None
 
@@ -75,6 +75,12 @@ def hex_to_bytes(ctx: click.Context, param: click.Parameter, value: str) -> byte
     is_flag=True,
     help="Enable / disable authentication, useful for skipping authentication step.",
 )
+@click.option(
+    "--inspect/--no-inspect",
+    default=True,
+    is_flag=True,
+    help="Enable / disable packet inspector that prints the header and tag fields.",
+)
 @common.click.melvec_length
 @common.click.n_melvecs
 @common.click.verbosity
@@ -85,6 +91,7 @@ def main(
     tcp_address: str,
     auth_key: bytes,
     authenticate: bool,
+    inspect: bool,
     melvec_length: int,
     n_melvecs: int,
 ) -> None:
@@ -154,9 +161,14 @@ def main(
     input_stream = reader()
     for msg in input_stream:
         try:
-            sender, payload = unwrapper.unwrap_packet(msg)
-            logger.debug(f"From {sender}, received packet: {payload.hex()}")
-            output.write(PRINT_PREFIX + payload.hex() + "\n")
+            sender, payload_length, serial_id, payload, tag = unwrapper.unwrap_packet(msg)
+            if inspect:
+                logger.info(f"""Received packet :
+    sender: {sender}
+    payload_length: {payload_length}
+    serial: {serial_id}
+    tag: {tag.hex() if authenticate else f"{tag.hex()} (not authenticated)"}""")
+            output.write(FV_PREFIX + payload.hex() + "\n")
             output.flush()
 
         except packet.InvalidPacket as e:
