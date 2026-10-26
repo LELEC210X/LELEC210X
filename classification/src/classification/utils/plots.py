@@ -46,7 +46,6 @@ def show_confusion_matrix(y_predict, y_true, classnames, title=""):
     plt.ylabel("Predicted label")
     plt.title(title)
     plt.show()
-    return None
 
 
 def plot_audio(audio, audio_down, fs=44100, fs_down=11025):
@@ -144,7 +143,6 @@ def plot_specgram(
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     ax.set_title(title)
-    return None
 
 
 def plot_decision_boundaries(
