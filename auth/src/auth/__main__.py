@@ -9,7 +9,7 @@ import common
 from common.env import load_dotenv
 from common.logging import logger
 
-from . import PACKET_PREFIX, FV_PREFIX, packet
+from . import FV_PREFIX, PACKET_PREFIX, packet
 
 load_dotenv()
 
@@ -161,7 +161,9 @@ def main(
     input_stream = reader()
     for msg in input_stream:
         try:
-            sender, payload_length, serial_id, payload, tag = unwrapper.unwrap_packet(msg)
+            sender, payload_length, serial_id, payload, tag = unwrapper.unwrap_packet(
+                msg
+            )
             if inspect:
                 logger.info(f"""Received packet :
     sender: {sender}
