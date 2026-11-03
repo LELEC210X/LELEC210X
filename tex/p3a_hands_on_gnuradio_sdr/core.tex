@@ -1,0 +1,57 @@
+\section{What is GNU Radio?}
+
+
+GNU Radio offical \href{https://wiki.gnuradio.org/index.php?title=What_Is_GNU_Radio}{website} present it as : a free & open-source software development toolkit that provides signal processing blocks to implement software radios. 
+
+#Add paragraph on how GNU Radio works (blocks with buffers). Paragraph of 4 to 6 lines
+
+\section{Execution of a simple GNU Radio flowgraph}
+
+# Explanation following  https://wiki.gnuradio.org/index.php?title=Your_First_Flowgraph. They should add a sine generation, a throttle block, and a GT GUI SInk block and run it. Provide the explanation to do so. You can reuse part of the url
+
+\section{Adding a custom block}
+
+\subsection{Description of a GNU Radio block}
+
+# A GNU Radio block coded in Python is described in two files, the yaml and the python. Use an itemization to enumerate them.
+
+#Ask student to have a look at the block test_block. First its yaml and present the different of a GNU Radio block (definition, callbacks, parameters, input/output). Then in a second pargraph present the python file of a GNU Radio block : its a class with an init where vairables can be defined, it instantiates a lower level block, possible logger. It has a forecast function and a general_work one Explain their principle.
+
+
+
+\subsection{Modification of the block}
+
+#The test_block initially just add an offset to the signal with a variable and its related callback. They must now do the same for an amplification (add the parameter, the callback, the function to amplify the signal, and the slider in the flowgraph)
+
+
+
+\subsection{Compilation of the custom block}
+
+# This subsection should explain how to recompile the modified block of the gr-210x module, on Linux or Windows. Reformat it
+##### Recompilation on Linux
+
+#Whenever you modify only the Python code of a GNU Radio block, you only have to run the ```sudo make install``` command. If you also modify ```.yaml``` files or other ones from the package, you should run both commands.
+
+
+####  Recompilation onWindows
+
+```bash
+cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="%CONDA_PREFIX%\Library" -DCMAKE_PREFIX_PATH="%CONDA_PREFIX%\Library" -DGR_PYTHON_DIR="%CONDA_PREFIX%\Lib\site-packages" ..
+cmake --build .
+cmake --build . --target install
+```
+
+#The custom package of the project should now be installed. If you open the GNU Radio software and applications, no missing block should appear.  If the installation or execution raise an error regarding missing Python packages, install them as you would traditionally. 
+
+#Whenever you modify only the Python code of a GNU Radio block, you only have to run the ```cmake --build . --target install``` command. If you also modify ```.yaml``` files or other ones from the package, you should run all three ```cmake``` commands.
+
+
+\subsection{GNU Radio tips}
+
+#Present common shortcuts to enable disable and bypass blocks. Also tell they can maintain click to select multiple blocks at the same time.
+
+\section{Reception of I/Q samples from the SDR platform}
+
+#Students should be able to receive samples from their SDR platform. To do so they must power the DE10-Nano with the PCB RF shield, connect an antenna to it, and connect the DE10-Nano to their PC via ethernet.
+
+#Next they open the flowgraph called test_sdr. They run it and should be able to see the received samples, modify the gain and see the impact on the noise floor. When this is okay, they can call for an assistant that will come and send packets on the setup frequency to see that they receive packets.
