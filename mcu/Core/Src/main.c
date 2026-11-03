@@ -32,7 +32,9 @@
 #include "acquisition.h"
 #include "computation.h"
 #include "transfer.h"
+#if (RUN_CONFIG == EVAL_RADIO)
 #include "eval_radio.h"
+#endif
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -77,6 +79,8 @@ extern ADC_HandleTypeDef hadc1;
  * @brief Manages external interrupts : user button and S2LP radio.
  * @note This overrides the __weak__ function in stm32l4xx_hal_gpio.c to provide an user implementation.
  */
+
+#if (RUN_CONFIG == MAIN_APP)
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	if (GPIO_Pin == B1_Pin) { // User button
@@ -100,6 +104,17 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		S2LP_IRQ_Handler();
 	}
 }
+
+#else
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	if (GPIO_Pin == B1_Pin)  // User button
+		btn_press = 1;
+	else if (GPIO_Pin == RADIO_INT_Pin)  // S2LP radio, will be used in P2d
+		S2LP_IRQ_Handler();
+
+}
+#endif
 /* USER CODE END 0 */
 
 /**
