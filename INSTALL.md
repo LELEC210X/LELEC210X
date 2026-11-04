@@ -21,9 +21,7 @@ In this project, will you have to use different software and tools.
 - **Python**: employed for various tasks, e.g., classification, modeling;
 - **STM32CubeIDE** and **STM32CubeMX**: used to program the microcontroller;
 - and **GNU Radio**: used to acquire data from the SDR
-  and perform signal processing, e.g., the demodulation. The instructions to install
-  this software will be provided to you later when the wireless communication part of 
-  the project will start
+  and perform signal processing, e.g., the demodulation.
 
 If possible, every software tool used should be installed and used,
 on your host system, i.e., your every-day OS. Moreover,
@@ -181,14 +179,114 @@ and uv will do the rest for you! For other use cases, please
 check out their documentation.
 
 > [!NOTE]
-> Later in the project, you will install Python packages from
-> GNU Radio projects. Those packets are **not installed**
+> Python packages from GNU Radio projects will be installed. Those packets are **not installed**
 > in the virtual environment created by uv.
 > To use those packages (e.g., `fsk`), you should
-> then use your system Python (version 3.8!).
+> then use your system Python.
 >
 > We already considered that in the hands-on sessions,
 > and the commands we provide should work as expected.
+
+
+
+
+### Host - Install GNU Radio and compile custom packages
+
+[GNU Radio](https://www.gnuradio.org/about/) is a free & open-source software development toolkit that provides signal processing blocks to implement software radios. In this project, it will be used as both a simulation engine and an experimental test bed. 
+
+GNU Radio can be installed on all platforms and will not rely on the uv tool for package management. The complete install information can be found on the [GNU Radio wiki](https://wiki.gnuradio.org/index.php/InstallingGR), and a summary is available below for Linux and Windows (install has not been tested on macOS but is functional hopefully). 
+
+#### Linux
+
+##### Installation of GNU Radio
+On Ubuntu:
+
+```bash
+sudo apt install gnuradio
+```
+
+##### Compilation of custom packages
+
+Go in the project folder at the following path `.\telecom\gr-210X`, create a build directory and go into it:
+
+```bash
+mkdir build
+cd build
+```
+
+Then launch the compilation of the package.
+
+```bash
+cmake ..
+sudo make install
+```
+
+The custom package of the project should now be installed. If you open the GNU Radio software and applications, no missing block should appear.  If the installation or execution raise an error regarding missing Python packages, install them as you would traditionally. 
+
+
+##### Recompilation
+
+Whenever you modify only the Python code of a GNU Radio block, you only have to run the ```sudo make install``` command. If you also modify ```.yaml``` files or other ones from the package, you should run both commands.
+
+
+#### Windows
+
+##### Installation of GNU Radio
+
+Installation of GNU Radio on Windows is a bit more tricky. To ease the process, we rely on [radioconda](https://github.com/radioconda/radioconda-installer). Following this link, you can find the installer required for you Windows setup. Download and install it.
+
+
+##### Compilation of custom packages
+
+Next, we need some additional installation steps to be able to install custom packages.  You should install Visual Studio available [here](https://visualstudio.microsoft.com/fr/downloads/). You can install the latest version. However, when asked for specific installation details, you do not have to install all components. Here is the list of requires features. 
+
+First under "Desktop development with C++", the following components should be selected :
+
+- C++ core desktop features
+- MSVC Build Tools for x64/x86
+- C++ CMake tools for Windows
+- Windows 11 SDK
+
+Second, under "Individual components", you shoud select:
+- MSVC v143 - VS 3033 C++ X64/x86 build tools
+
+With Visual Studio installed, you can now open a radioconda Prompt (search for it in your Windows search bar). To execute the initialization steps (which you will not have to repeat each time), you should locate and execute the ```vcvars64.bat``` file of Visual Studio which set up environment variables. It is generally located in ```""C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat""```. Adapt the path to your directory architecture and copy-paste it into the radioconda Prompt to execute the file.
+
+Next, execute the following commands to setup the required dependencies:
+
+```bash
+conda install gnuradio-build-deps
+conda activate %CONDA_DEFAULT_ENV%
+```
+
+We can now create the build directory for the installation of our custom GNU Radio package. Within the radioconda prompt, go in the project folder at the following path `.\telecom\gr-210X`, create a build directory and go into it:
+
+```bash
+mkdir build
+cd build
+```
+
+Then launch the compilation of the package.
+
+```bash
+cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="%CONDA_PREFIX%\Library" -DCMAKE_PREFIX_PATH="%CONDA_PREFIX%\Library" -DGR_PYTHON_DIR="%CONDA_PREFIX%\Lib\site-packages" ..
+cmake --build .
+cmake --build . --target install
+```
+
+The custom package of the project should now be installed. If you open the GNU Radio software and applications, no missing block should appear.  If the installation or execution raise an error regarding missing Python packages, install them as you would traditionally. 
+
+
+##### Recompilation
+
+Whenever you modify only the Python code of a GNU Radio block, you only have to run the ```cmake --build . --target install``` command. If you also modify ```.yaml``` files or other ones from the package, you should run all three ```cmake``` commands.
+
+
+
+
+
+
+
 
 ## Tips for a Better Environment
 
