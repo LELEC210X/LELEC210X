@@ -1,12 +1,6 @@
 \documentclass[a4paper,11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{algorithm}
-\usepackage{algorithmic}
-\renewcommand{\algorithmicrequire}{\textbf{Input:}}
-\renewcommand{\algorithmicensure}{\textbf{Output:}}
-\usepackage{footnote}
-\makesavenoteenv{tabular}
 \usepackage{amsmath}
 \usepackage{mathtools}
 \usepackage{amsfonts}
@@ -47,8 +41,6 @@
 \usepackage{fancybox}
 \usepackage[tikz]{bclogo}
 
-\newcommand{\algorithmautorefname}{Algorithm}
-
 
 %For code insertion
 \usepackage{listings}
@@ -75,7 +67,7 @@
   commentstyle=\itshape\color{purple!40!black},
 }
 
-\lstset{escapechar=@,style=customc}
+\lstset{style=customc}
 %End for code insertion
 
 
@@ -85,9 +77,9 @@
 
 %%%%%%%%%%%%%%%%%%%
 % HANDS-ON NUMBER
-\newcommand\handsOnN{H6b}
+\newcommand\handsOnN{}
 % WEEK NUMBER
-\newcommand\weekN{9}
+\newcommand\weekN{2}
 %%%%%%%%%%%%%%%%%%%
 
 \newpagestyle{main}{
@@ -110,19 +102,14 @@
 
 \begin{center}
 \begin{huge}
-Hands-On \handsOnN: Authenticated communication with AES-based CBC-MAC\\
+P2c -- Feature vectore computation 2\\
 \end{huge}
 \vspace{0.3cm}
-%\textit{TA 1, TA 2}
 \end{center}
 
 \input{introduction}
 \input{objectives}
-\input{material}
 \input{core}
-\input{demo}
-\input{report}
-
 
 \end{document}
 

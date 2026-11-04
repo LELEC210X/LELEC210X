@@ -418,7 +418,7 @@ class GUIMELWindow(QMainWindow):
         # Check if the model is loaded
         if self.current_model is None:
             self.logger.error(
-                "No model loaded, please select a model in the classification settings, or use >> rye run model-trainer << to train a model"
+                "No model loaded, please select a model in the classification settings"
             )
             self.current_model = None
         else:
@@ -659,13 +659,14 @@ class GUIMELWindow(QMainWindow):
         self.hist_ax.set_title("Classifier History")
         self.hist_ax.set_xlabel("Time Frames")
         self.hist_ax.set_ylabel("Probability")
-        self.hist_ax.set_xlim(-9, 0)
-        self.hist_ax.set_ylim(-0.05, 1.45)
+        self.hist_ax.set_xlim(-self.max_hist_length+0.95, 0.05)
+        self.hist_ax.set_ylim(-0.05, 1.05)
         self.hist_ax.autoscale(enable=False, axis="both")
+        self.hist_ax.set_xticks(np.arange(0,-self.max_hist_length,-1))
 
         self.hist_lines = []
         for i in range(len(self.classes)):
-            (line,) = self.hist_ax.plot([], [], animated=True, label=self.classes[i])
+            (line,) = self.hist_ax.plot([], [], 'o-', animated=True, label=self.classes[i])
             self.hist_lines.append(line)
 
         # Place a external legend
@@ -723,18 +724,19 @@ class GUIMELWindow(QMainWindow):
 
         self.main_layout.addWidget(self.save_group)
 
-    def setup_mel_plots(self, number_of_bins=10):
+    def setup_mel_plots(self):
         self.mel_pcolors = []
         self.mel_ax.clear()
-        self.mel_ax.set_title("MEL Spectrogram")
+        self.mel_ax.set_title("Feature Vectors")
         self.mel_ax.set_xlabel("Time Frames")
         self.mel_ax.set_ylabel("Mel Frequency Bins")
-        self.mel_ax.set_xlim(-number_of_bins * 1.1 + 0.4, 0.1 + 0.5)
+        self.mel_ax.set_xlim(-self.max_hist_length * 1.1 + 0.4, 0.5)
         self.mel_ax.set_ylim(-0.05, 1.05)
         self.mel_ax.autoscale(enable=False, axis="both")
-        self.mel_ax.set_xticks(np.arange(-number_of_bins, 1, 1))
+        self.mel_ax.set_xticks(np.arange(0,-self.max_hist_length,-1)*1.1, labels=np.arange(0,-self.max_hist_length,-1))
+        self.mel_ax.set_yticks(np.linspace(0, 1, 5), labels=np.linspace(0, self.current_mel_length, 5, dtype=int))
 
-        for i in range(number_of_bins):
+        for i in range(self.max_hist_length):
             offset = -1.1
             X, Y = np.meshgrid(
                 np.linspace(0, 1, self.current_mel_number),
@@ -1497,7 +1499,7 @@ def database_init(db: dbu.ContentDatabase):
         "serial_prefix",
         db.Text(
             "Serial Prefix",
-            "DF:HEX:",
+            "PACKET:HEX:",
             "The prefix to use for the MEL data serial communication",
         ),
     )
@@ -1515,7 +1517,7 @@ def database_init(db: dbu.ContentDatabase):
         "max_history_length",
         db.Integer(
             "Max History Length",
-            10,
+            5,
             "The maximum number of data points to keep in the history",
         ),
     )

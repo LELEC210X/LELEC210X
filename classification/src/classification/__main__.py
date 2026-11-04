@@ -6,7 +6,7 @@ import click
 import requests
 
 import common
-from auth import PRINT_PREFIX
+from auth import FV_PREFIX
 from common.env import load_dotenv
 from common.logging import logger
 from leaderboard.utils import get_url
@@ -89,15 +89,18 @@ def main(
         m = None
 
     for payload in _input:
-        if PRINT_PREFIX in payload:
-            payload = payload[len(PRINT_PREFIX) :]
+        if FV_PREFIX in payload:
+            payload = payload[len(FV_PREFIX) :]
 
             melvecs = payload_to_melvecs(payload, melvec_length, n_melvecs)
-            logger.info(f"Parsed payload into Mel vectors: {melvecs}")
+            fv = [melvecs.flatten()]
+            logger.debug(f"Parsed feature vector : {fv}")
 
             if m:
-                # TODO: perform classification with your model
-                guess = "fire"
+                # TODO: infer class of fv with your model m
+                guess = "dummy"
+
+                logger.info(f"FV classified as : {guess}")
 
                 if submit:
                     response = requests.post(

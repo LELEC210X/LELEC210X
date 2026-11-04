@@ -42,6 +42,13 @@
 \usepackage[tikz]{bclogo}
 
 
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\newcommand{\algorithmautorefname}{Algorithm}
+
+
 %For code insertion
 \usepackage{listings}
 \lstdefinestyle{customc}{
@@ -67,7 +74,7 @@
   commentstyle=\itshape\color{purple!40!black},
 }
 
-\lstset{escapechar=@,style=customc}
+\lstset{style=customc}
 %End for code insertion
 
 
@@ -79,7 +86,7 @@
 % HANDS-ON NUMBER
 \newcommand\handsOnN{}
 % WEEK NUMBER
-\newcommand\weekN{}
+\newcommand\weekN{2}
 %%%%%%%%%%%%%%%%%%%
 
 \newpagestyle{main}{
@@ -102,18 +109,14 @@
 
 \begin{center}
 \begin{huge}
-Hands-On \handsOnN: Audio acquisition\\
+P2d -- Data transfer\\
 \end{huge}
 \vspace{0.3cm}
-%\textit{TA 1, TA 2}
 \end{center}
 
 \input{introduction}
 \input{objectives}
-\input{material}
 \input{core}
-\input{demo}
-
 
 \end{document}
 
