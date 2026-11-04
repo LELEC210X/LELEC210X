@@ -49,6 +49,13 @@ where \texttt{block} is both the input and output of the AES block cipher (it
 is modified in-place).
 Both \texttt{block} and \texttt{key} are expected to point to 16-byte buffers. You must choose a key\footnote{You may choose an arbitrary key or ideally a randomly generated one. Check out python \texttt{random} module or any online generator tool.} and fill it in the \texttt{AES\_Key} variable defined on top of the file.
 
+\begin{figure}[h]
+\centering
+\includegraphics[scale=1]{figures/crypto_cbc_mac_aes.pdf}
+\caption{Block diagram of CBC-MAC-AES}
+\label{fig:cbc-mac-aes}
+\end{figure}
+
 \begin{algorithm}
 \begin{algorithmic}
     \REQUIRE Message $x$ (sequence of bytes) to authenticate.
@@ -67,13 +74,6 @@ Both \texttt{block} and \texttt{key} are expected to point to 16-byte buffers. Y
 \caption{CBC-MAC-AES}
 \label{algo:cbc-mac-aes}
 \end{algorithm}
-
-\begin{figure}[h]
-\centering
-\includegraphics[scale=1]{figures/crypto_cbc_mac_aes.pdf}
-\caption{Block diagram of CBC-MAC-AES}
-\label{fig:cbc-mac-aes}
-\end{figure}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{Header and tag}
 \begin{itemize}
@@ -106,7 +106,7 @@ uv run auth --serial-port <port> -k <key>
 Run the script and ensure that you can correctly unpacketize and authenticate the received packets.
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Python tag verification}
-In \textbf{auth/src/auth/packet.py} you can find the function use for tag computation using CBC-MAC-AES. This implementation is correct, meaning that if packets are dropped because of an incorrect tag, then your embedded tag computation is not correct.
+In \textbf{auth/src/auth/packet.py} you can find the function used for tag computation using CBC-MAC-AES. This implementation is correct, meaning that if packets are dropped because of an incorrect tag, then your embedded tag computation is not correct.
 \end{bclogo}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{\texttt{auth} script}
@@ -117,7 +117,7 @@ For now, we bypass the RF communication part of the system by transfering packet
 
 You surely noticed that the authentication script outputs the raw, unpacketized feature vectors on the terminal. You will now use another script to read them and classify them using the classification model you built in P1.
 
-First, open \textbf{classification/src/classification/\_\_main\_\_.py} and scroll down to the main function. Replace the dummy guess by the function call you used in P1 to infer a class from the feature vector \texttt{melvecs}, using the loaded model \texttt{m}.
+First, open \textbf{classification/src/classification/\_\_main\_\_.py} and scroll down to the main function. Replace the dummy guess by the function call you used in P1 to infer a class from the feature vector \texttt{fv}, using the trained model \texttt{m}.
 
 Then, run the scripts and observe your feature vectors being classified.
 
