@@ -150,10 +150,14 @@ class GUIAudioWindow(QMainWindow):
             self.save_audio_data_npy(self.audio_data)
 
     def prefix_message_handler(self, prefix, message):
-        if prefix == self.db.get_item("Audio Settings", "serial_prefix").value and message:
+        if (
+            prefix == self.db.get_item("Audio Settings", "serial_prefix").value
+            and message
+        ):
             array_hex = bytes.fromhex(message)
             audio_vec = np.frombuffer(
-                array_hex, dtype='>u2' # big-endian unsigned 16-bit 
+                array_hex,
+                dtype=">u2",  # big-endian unsigned 16-bit
             )
             self.update_audio_data(audio_vec)
 
@@ -218,9 +222,9 @@ class GUIAudioWindow(QMainWindow):
         self.ax_fft.set_xlabel("Frequency (Hz)")
         self.ax_fft.set_ylabel("Magnitude (dB)")
         self.ax_fft.set_xlim(
-            self.db.get_item("Audio Settings", "mcu_sample_rate").value[0]/-2,
-            self.db.get_item("Audio Settings", "mcu_sample_rate").value[0]/2
-            )
+            self.db.get_item("Audio Settings", "mcu_sample_rate").value[0] / -2,
+            self.db.get_item("Audio Settings", "mcu_sample_rate").value[0] / 2,
+        )
         self.ax_fft.set_ylim(-1, 200)
         self.ax_fft.grid(True)
         self.ax_fft.autoscale(enable=False, axis="both")
@@ -316,7 +320,12 @@ class GUIAudioWindow(QMainWindow):
         fft_data = np.abs(np.fft.fft(self.audio_data))
         fft_data = 20 * np.log10(fft_data + 1e-12)  # Avoid log(0)
         fft_data = np.fft.fftshift(fft_data)
-        freqs = np.fft.fftshift(np.fft.fftfreq(len(fft_data), 1 / self.db.get_item("Audio Settings", "mcu_sample_rate").value[0]))
+        freqs = np.fft.fftshift(
+            np.fft.fftfreq(
+                len(fft_data),
+                1 / self.db.get_item("Audio Settings", "mcu_sample_rate").value[0],
+            )
+        )
         self.line_fft.set_data(freqs, fft_data)
 
         # Update FPS
@@ -659,14 +668,16 @@ class GUIMELWindow(QMainWindow):
         self.hist_ax.set_title("Classifier History")
         self.hist_ax.set_xlabel("Time Frames")
         self.hist_ax.set_ylabel("Probability")
-        self.hist_ax.set_xlim(-self.max_hist_length+0.95, 0.05)
+        self.hist_ax.set_xlim(-self.max_hist_length + 0.95, 0.05)
         self.hist_ax.set_ylim(-0.05, 1.05)
         self.hist_ax.autoscale(enable=False, axis="both")
-        self.hist_ax.set_xticks(np.arange(0,-self.max_hist_length,-1))
+        self.hist_ax.set_xticks(np.arange(0, -self.max_hist_length, -1))
 
         self.hist_lines = []
         for i in range(len(self.classes)):
-            (line,) = self.hist_ax.plot([], [], 'o-', animated=True, label=self.classes[i])
+            (line,) = self.hist_ax.plot(
+                [], [], "o-", animated=True, label=self.classes[i]
+            )
             self.hist_lines.append(line)
 
         # Place a external legend
@@ -733,8 +744,14 @@ class GUIMELWindow(QMainWindow):
         self.mel_ax.set_xlim(-self.max_hist_length * 1.1 + 0.4, 0.5)
         self.mel_ax.set_ylim(-0.05, 1.05)
         self.mel_ax.autoscale(enable=False, axis="both")
-        self.mel_ax.set_xticks(np.arange(0,-self.max_hist_length,-1)*1.1, labels=np.arange(0,-self.max_hist_length,-1))
-        self.mel_ax.set_yticks(np.linspace(0, 1, 5), labels=np.linspace(0, self.current_mel_length, 5, dtype=int))
+        self.mel_ax.set_xticks(
+            np.arange(0, -self.max_hist_length, -1) * 1.1,
+            labels=np.arange(0, -self.max_hist_length, -1),
+        )
+        self.mel_ax.set_yticks(
+            np.linspace(0, 1, 5),
+            labels=np.linspace(0, self.current_mel_length, 5, dtype=int),
+        )
 
         for i in range(self.max_hist_length):
             offset = -1.1

@@ -169,7 +169,8 @@ class AudioUtil:
 
         return (sig, sr)
 
-    def add_bg(audio, dataset, num_sources=1, max_ms=5000, amplitude_limit=0.1
+    def add_bg(
+        audio, dataset, num_sources=1, max_ms=5000, amplitude_limit=0.1
     ) -> tuple[ndarray, int]:
         """
         Adds up sounds uniformly chosen at random to audio.
@@ -341,7 +342,7 @@ class Feature_vector_DS:
         :param cls_index: Class name and index.
         """
         return self.get_feature_vector(self.get_audiosignal(cls_index))
-    
+
     def index_to_fv(self, cls_index: tuple[str, int]) -> tuple[ndarray, int]:
         """
         Get i'th item in dataset.
