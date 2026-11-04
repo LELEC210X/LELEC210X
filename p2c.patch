@@ -1,0 +1,327 @@
+From 792999cb2d39dbb652d34b6b89c5d78abd73531d Mon Sep 17 00:00:00 2001
+From: brock <nicolas.brusselmans@uclouvain.be>
+Date: Wed, 21 Oct 2026 12:22:16 +0200
+Subject: [PATCH] p2c patch
+
+---
+ mcu/.cproject              |  8 ++++----
+ mcu/Core/Inc/config.h      |  2 +-
+ mcu/Core/Inc/main.h        |  2 ++
+ mcu/Core/Src/computation.c | 38 ++++++++++++++++++++++++++++++++++++++
+ mcu/Core/Src/gpio.c        | 16 +++++++---------
+ mcu/Core/Src/main.c        |  2 ++
+ mcu/ELEC210x.ioc           | 29 +++++++++++++++++------------
+ 7 files changed, 71 insertions(+), 26 deletions(-)
+
+diff --git a/mcu/.cproject b/mcu/.cproject
+index 7c634e2..78fc272 100644
+--- a/mcu/.cproject
++++ b/mcu/.cproject
+@@ -31,7 +31,7 @@
+ 							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board.123858885" name="Board" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board" useByScannerDiscovery="false" value="NUCLEO-L4A6ZG" valueType="string"/>
+ 							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults.735358289" name="Defaults" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults" useByScannerDiscovery="false" value="com.st.stm32cube.ide.common.services.build.inputs.revA.1.0.6 || Debug || true || Executable || com.st.stm32cube.ide.mcu.gnu.managedbuild.option.toolchain.value.workspace || NUCLEO-L4A6ZG || 0 || 0 || arm-none-eabi- || ${gnu_tools_for_stm32_compiler_path} || ../Core/Inc | ../Drivers/STM32L4xx_HAL_Driver/Inc | ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy | ../Drivers/CMSIS/Device/ST/STM32L4xx/Include | ../Drivers/CMSIS/Include ||  ||  || USE_HAL_DRIVER | STM32L4A6xx ||  || Drivers | Core/Startup | Core ||  ||  || ${workspace_loc:/${ProjName}/STM32L4A6ZGTX_FLASH.ld} || true || NonSecure ||  || secure_nsclib.o ||  || None ||  ||  ||  || ::" valueType="string"/>
+ 							<option id="com.st.stm32cube.ide.mcu.debug.option.cpuclock.811683452" name="Cpu clock frequence" superClass="com.st.stm32cube.ide.mcu.debug.option.cpuclock" useByScannerDiscovery="false" value="48" valueType="string"/>
+-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoprintffloat.1260637662" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoprintffloat" value="true" valueType="boolean"/>
++							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoprintffloat.1260637662" name="Use float with printf from newlib-nano (-u _printf_float)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoprintffloat" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+ 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.targetplatform.2055832354" isAbstract="false" osList="all" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.targetplatform"/>
+ 							<builder buildPath="${workspace_loc:/ELEC210x}/Debug" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.builder.783925548" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.builder"/>
+ 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.1081835985" name="MCU/MPU GCC Assembler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler">
+@@ -43,7 +43,7 @@
+ 							</tool>
+ 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.677605522" name="MCU/MPU GCC Compiler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler">
+ 								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.debuglevel.1743735132" name="Debug level" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.debuglevel" useByScannerDiscovery="false" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.debuglevel.value.g" valueType="enumerated"/>
+-								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.optimization.level.1981900076" name="Optimization level" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.optimization.level" useByScannerDiscovery="false"/>
++								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.optimization.level.1981900076" name="Optimization level" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.optimization.level.value.o0" valueType="enumerated"/>
+ 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.definedsymbols.1191495021" name="Define symbols (-D)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.definedsymbols" useByScannerDiscovery="false" valueType="definedSymbols">
+ 									<listOptionValue builtIn="false" value="DEBUG"/>
+ 									<listOptionValue builtIn="false" value="USE_HAL_DRIVER"/>
+@@ -117,7 +117,7 @@
+ 							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board.1086119089" name="Board" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board" useByScannerDiscovery="false" value="NUCLEO-L4A6ZG" valueType="string"/>
+ 							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults.133538191" name="Defaults" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults" useByScannerDiscovery="false" value="com.st.stm32cube.ide.common.services.build.inputs.revA.1.0.6 || Release || false || Executable || com.st.stm32cube.ide.mcu.gnu.managedbuild.option.toolchain.value.workspace || NUCLEO-L4A6ZG || 0 || 0 || arm-none-eabi- || ${gnu_tools_for_stm32_compiler_path} || ../Core/Inc | ../Drivers/STM32L4xx_HAL_Driver/Inc | ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy | ../Drivers/CMSIS/Device/ST/STM32L4xx/Include | ../Drivers/CMSIS/Include ||  ||  || USE_HAL_DRIVER | STM32L4A6xx ||  || Drivers | Core/Startup | Core ||  ||  || ${workspace_loc:/${ProjName}/STM32L4A6ZGTX_FLASH.ld} || true || NonSecure ||  || secure_nsclib.o ||  || None ||  ||  ||  || ::" valueType="string"/>
+ 							<option id="com.st.stm32cube.ide.mcu.debug.option.cpuclock.295596896" name="Cpu clock frequence" superClass="com.st.stm32cube.ide.mcu.debug.option.cpuclock" useByScannerDiscovery="false" value="48" valueType="string"/>
+-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoprintffloat.1889042647" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoprintffloat" value="true" valueType="boolean"/>
++							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoprintffloat.1889042647" name="Use float with printf from newlib-nano (-u _printf_float)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoprintffloat" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+ 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.targetplatform.1164971426" isAbstract="false" osList="all" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.targetplatform"/>
+ 							<builder buildPath="${workspace_loc:/ELEC210x}/Release" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.builder.201172708" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.builder"/>
+ 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.660327085" name="MCU/MPU GCC Assembler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler">
+@@ -126,7 +126,7 @@
+ 							</tool>
+ 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.1104471448" name="MCU/MPU GCC Compiler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler">
+ 								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.debuglevel.941698517" name="Debug level" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.debuglevel" useByScannerDiscovery="false" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.debuglevel.value.g0" valueType="enumerated"/>
+-								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.optimization.level.282906789" name="Optimization level" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.optimization.level.value.os" valueType="enumerated"/>
++								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.optimization.level.282906789" name="Optimization level" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.optimization.level.value.o1" valueType="enumerated"/>
+ 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.definedsymbols.1417668758" name="Define symbols (-D)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.definedsymbols" useByScannerDiscovery="false" valueType="definedSymbols">
+ 									<listOptionValue builtIn="false" value="USE_HAL_DRIVER"/>
+ 									<listOptionValue builtIn="false" value="STM32L4A6xx"/>
+diff --git a/mcu/Core/Inc/config.h b/mcu/Core/Inc/config.h
+index 71de212..8a71003 100644
+--- a/mcu/Core/Inc/config.h
++++ b/mcu/Core/Inc/config.h
+@@ -29,7 +29,7 @@
+ #define PA_LEVEL 0 // Tx output power, in dBm
+ 
+ // Enable performance measurements
+-#define PERF_COUNT 0
++#define PERF_COUNT 1
+ 
+ // Enable debug print through UART
+ #define DEBUGP 1
+diff --git a/mcu/Core/Inc/main.h b/mcu/Core/Inc/main.h
+index 9a3c7ae..d0df5d2 100644
+--- a/mcu/Core/Inc/main.h
++++ b/mcu/Core/Inc/main.h
+@@ -69,6 +69,8 @@ void Error_Handler(void);
+ #define RADIO_SDN_GPIO_Port GPIOF
+ #define RADIO_EEPROM_CSN_Pin GPIO_PIN_11
+ #define RADIO_EEPROM_CSN_GPIO_Port GPIOE
++#define GPOUT_Pin GPIO_PIN_11
++#define GPOUT_GPIO_Port GPIOB
+ #define LD3_Pin GPIO_PIN_14
+ #define LD3_GPIO_Port GPIOB
+ #define USB_OverCurrent_Pin GPIO_PIN_5
+diff --git a/mcu/Core/Src/computation.c b/mcu/Core/Src/computation.c
+index b404e4e..9d21e49 100644
+--- a/mcu/Core/Src/computation.c
++++ b/mcu/Core/Src/computation.c
+@@ -38,8 +38,12 @@ void melvec_compute(q15_t *samples, q15_t *melvec)
+ 	// /!\ When multiplying/dividing by a power 2, always prefer shifting left/right instead, ARM instructions to do so are more efficient.
+ 	// Here we should shift left by 3.
+ 
++	start_cycle_count();
++
+ 	arm_shift_q15(samples, 3, samples, SAMPLES_PER_MELVEC);
+ 
++	stop_cycle_count("step 0.1");
++
+ 	// STEP 0.2 : Remove DC Component
+ 	//            --> Pointwise substract
+ 	//            Complexity: O(N)
+@@ -48,16 +52,25 @@ void melvec_compute(q15_t *samples, q15_t *melvec)
+ 	// Since we use a signed representation, we should now center the value around zero, we can do this by substracting 2**14.
+ 	// Now the value of buf[i] is in [-2**14 , 2**14 - 1]
+ 
++	start_cycle_count();
++
+ 	for(uint16_t i=0; i < SAMPLES_PER_MELVEC; i++) { // Remove DC component
+ 		samples[i] -= (1 << 14);
+ 	}
+ 
++	stop_cycle_count("step 0.2");
++
+ 	// STEP 1  : Windowing of input samples
+ 	//           --> Pointwise product
+ 	//           Complexity: O(N)
+ 	//           Number of cycles: <TODO>
++
++	start_cycle_count();
++
+ 	arm_mult_q15(samples, hamming_window, buf, SAMPLES_PER_MELVEC);
+ 
++	stop_cycle_count("step 1");
++
+ 	// STEP 2  : Discrete Fourier Transform
+ 	//           --> In-place Fast Fourier Transform (FFT) on a real signal
+ 	//           --> We only keep positive frequencies (symmetry) in the next operations.
+@@ -65,12 +78,17 @@ void melvec_compute(q15_t *samples, q15_t *melvec)
+ 	//           Number of cycles: <TODO>
+ 
+ 	// Since the FFT is a recursive algorithm, the values are rescaled in the function to ensure that overflow cannot happen.
++
++	start_cycle_count();
++
+ 	arm_rfft_instance_q15 rfft_inst;
+ 
+ 	arm_rfft_init_q15(&rfft_inst, SAMPLES_PER_MELVEC, 0, 1);
+ 
+ 	arm_rfft_q15(&rfft_inst, buf, buf_fft);
+ 
++	stop_cycle_count("step 2");
++
+ 	// STEP 3  : Compute the complex magnitude of the FFT
+ 	//           Because the FFT can output a great proportion of very small values,
+ 	//           we should rescale all values by their maximum to avoid loss of precision when computing the complex magnitude
+@@ -80,36 +98,52 @@ void melvec_compute(q15_t *samples, q15_t *melvec)
+ 	//           Complexity: O(N)
+ 	//           Number of cycles: <TODO>
+ 
++	start_cycle_count();
++
+ 	q15_t vmax;
+ 	uint32_t pIndex=0;
+ 
+ 	arm_absmax_q15(buf_fft, SAMPLES_PER_MELVEC, &vmax, &pIndex);
+ 
++	stop_cycle_count("step 3.1");
++
+ 	// STEP 3.2: Normalize the vector - Dynamic range increase
+ 	//           Complexity: O(N)
+ 	//           Number of cycles: <TODO>
+ 
++	start_cycle_count();
++
+ 	for (int i=0; i < SAMPLES_PER_MELVEC; i++) // We don't use the second half of the symmetric spectrum
+ 	{
+ 		buf[i] = (q15_t) (((q31_t) buf_fft[i] << 15) /((q31_t)vmax));
+ 	}
+ 
++	stop_cycle_count("step 3.2");
++
+ 	// STEP 3.3: Compute the complex magnitude
+ 	//           --> The output buffer is now two times smaller because (real|imag) --> (mag)
+ 	//           Complexity: O(N)
+ 	//           Number of cycles: <TODO>
+ 
++	start_cycle_count();
++
+ 	arm_cmplx_mag_q15(buf, buf, SAMPLES_PER_MELVEC/2);
+ 
++	stop_cycle_count("step 3.3");
++
+ 	// STEP 3.4: Denormalize the vector
+ 	//           Complexity: O(N)
+ 	//           Number of cycles: <TODO>
+ 
++	start_cycle_count();
++
+ 	for (int i=0; i < SAMPLES_PER_MELVEC/2; i++)
+ 	{
+ 		buf[i] = (q15_t) ((((q31_t) buf[i]) * ((q31_t) vmax) ) >> 15 );
+ 	}
+ 
++	stop_cycle_count("step 3.4");
++
+ 	// STEP 4:   Apply MEL transform
+ 	//           --> Fast Matrix Multiplication
+ 	//           Complexity: O(Nmel*N)
+@@ -123,6 +157,8 @@ void melvec_compute(q15_t *samples, q15_t *melvec)
+ 	// /!\ In order to avoid overflows completely the input signals should be scaled down. Scale down one of the input matrices by log2(numColsA) bits to avoid overflows,
+ 	// as a total of numColsA additions are computed internally for each output element. Because our hz2mel_mat matrix contains lots of zeros in its rows, this is not necessary.
+ 
++	start_cycle_count();
++
+ 	arm_matrix_instance_q15 hz2mel_inst, fftmag_inst, melvec_inst;
+ 
+ 	arm_mat_init_q15(&hz2mel_inst, MELVEC_LENGTH, SAMPLES_PER_MELVEC/2, hz2mel_mat);
+@@ -130,6 +166,8 @@ void melvec_compute(q15_t *samples, q15_t *melvec)
+ 	arm_mat_init_q15(&melvec_inst, MELVEC_LENGTH, 1, melvec);
+ 
+ 	arm_mat_mult_fast_q15(&hz2mel_inst, &fftmag_inst, &melvec_inst, buf_tmp);
++
++	stop_cycle_count("step 4");
+ }
+ 
+ /*
+diff --git a/mcu/Core/Src/gpio.c b/mcu/Core/Src/gpio.c
+index 55273fb..009744f 100644
+--- a/mcu/Core/Src/gpio.c
++++ b/mcu/Core/Src/gpio.c
+@@ -67,7 +67,7 @@ void MX_GPIO_Init(void)
+   HAL_GPIO_WritePin(RADIO_EEPROM_CSN_GPIO_Port, RADIO_EEPROM_CSN_Pin, GPIO_PIN_SET);
+ 
+   /*Configure GPIO pin Output Level */
+-  HAL_GPIO_WritePin(GPIOB, LD3_Pin|LD2_Pin, GPIO_PIN_RESET);
++  HAL_GPIO_WritePin(GPIOB, GPOUT_Pin|LD3_Pin|LD2_Pin, GPIO_PIN_RESET);
+ 
+   /*Configure GPIO pin Output Level */
+   HAL_GPIO_WritePin(USB_PowerSwitchOn_GPIO_Port, USB_PowerSwitchOn_Pin, GPIO_PIN_RESET);
+@@ -142,13 +142,11 @@ void MX_GPIO_Init(void)
+   HAL_GPIO_Init(RADIO_INT_GPIO_Port, &GPIO_InitStruct);
+ 
+   /*Configure GPIO pins : PB0 PB1 PB2 PB10
+-                           PB11 PB12 PB13 PB15
+-                           PB4 PB5 PB6 PB8
+-                           PB9 */
++                           PB12 PB13 PB15 PB4
++                           PB5 PB6 PB8 PB9 */
+   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_10
+-                          |GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_15
+-                          |GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_8
+-                          |GPIO_PIN_9;
++                          |GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_15|GPIO_PIN_4
++                          |GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_8|GPIO_PIN_9;
+   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+   GPIO_InitStruct.Pull = GPIO_NOPULL;
+   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+@@ -177,8 +175,8 @@ void MX_GPIO_Init(void)
+   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+   HAL_GPIO_Init(RADIO_EEPROM_CSN_GPIO_Port, &GPIO_InitStruct);
+ 
+-  /*Configure GPIO pins : LD3_Pin LD2_Pin */
+-  GPIO_InitStruct.Pin = LD3_Pin|LD2_Pin;
++  /*Configure GPIO pins : GPOUT_Pin LD3_Pin LD2_Pin */
++  GPIO_InitStruct.Pin = GPOUT_Pin|LD3_Pin|LD2_Pin;
+   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+   GPIO_InitStruct.Pull = GPIO_NOPULL;
+   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+diff --git a/mcu/Core/Src/main.c b/mcu/Core/Src/main.c
+index e6558a2..754104f 100644
+--- a/mcu/Core/Src/main.c
++++ b/mcu/Core/Src/main.c
+@@ -151,7 +151,9 @@ int main(void)
+ 	while (1)
+ 	{
+ 		if (is_processing) {
++			HAL_GPIO_TogglePin(GPOUT_GPIO_Port, GPOUT_Pin); // for oscillo timing measurements
+ 			melvec_compute((q15_t *)samples_buf_to_process , mel_vectors[cur_melvec]);
++			HAL_GPIO_TogglePin(GPOUT_GPIO_Port, GPOUT_Pin); // for oscillo timing measurements
+ 			is_processing = 0;
+ 			cur_melvec++;
+ 			if (cur_melvec == N_MELVECS) {
+diff --git a/mcu/ELEC210x.ioc b/mcu/ELEC210x.ioc
+index 0bac196..bef63d9 100644
+--- a/mcu/ELEC210x.ioc
++++ b/mcu/ELEC210x.ioc
+@@ -58,18 +58,19 @@ Mcu.Package=LQFP144
+ Mcu.Pin0=PC13
+ Mcu.Pin1=PC14-OSC32_IN (PC14)
+ Mcu.Pin10=PE13
+-Mcu.Pin11=PB14
+-Mcu.Pin12=PG5
+-Mcu.Pin13=PG6
+-Mcu.Pin14=PG7
+-Mcu.Pin15=PG8
+-Mcu.Pin16=PA13 (JTMS/SWDIO)
+-Mcu.Pin17=PA14 (JTCK/SWCLK)
+-Mcu.Pin18=PB3 (JTDO/TRACESWO)
+-Mcu.Pin19=PB7
++Mcu.Pin11=PB11
++Mcu.Pin12=PB14
++Mcu.Pin13=PG5
++Mcu.Pin14=PG6
++Mcu.Pin15=PG7
++Mcu.Pin16=PG8
++Mcu.Pin17=PA13 (JTMS/SWDIO)
++Mcu.Pin18=PA14 (JTCK/SWCLK)
++Mcu.Pin19=PB3 (JTDO/TRACESWO)
+ Mcu.Pin2=PC15-OSC32_OUT (PC15)
+-Mcu.Pin20=VP_SYS_VS_Systick
+-Mcu.Pin21=VP_TIM3_VS_ClockSourceINT
++Mcu.Pin20=PB7
++Mcu.Pin21=VP_SYS_VS_Systick
++Mcu.Pin22=VP_TIM3_VS_ClockSourceINT
+ Mcu.Pin3=PC0
+ Mcu.Pin4=PA0
+ Mcu.Pin5=PA3
+@@ -77,7 +78,7 @@ Mcu.Pin6=PA6
+ Mcu.Pin7=PA7
+ Mcu.Pin8=PF13
+ Mcu.Pin9=PE11
+-Mcu.PinsNb=22
++Mcu.PinsNb=23
+ Mcu.ThirdPartyNb=0
+ Mcu.UserConstants=
+ Mcu.UserName=STM32L4A6ZGTx
+@@ -118,6 +119,10 @@ PA6.Mode=Full_Duplex_Master
+ PA6.Signal=SPI1_MISO
+ PA7.Mode=Full_Duplex_Master
+ PA7.Signal=SPI1_MOSI
++PB11.GPIOParameters=GPIO_Label
++PB11.GPIO_Label=GPOUT
++PB11.Locked=true
++PB11.Signal=GPIO_Output
+ PB14.GPIOParameters=GPIO_Label
+ PB14.GPIO_Label=LD3 [Red]
+ PB14.Locked=true
+-- 
+2.34.1
+

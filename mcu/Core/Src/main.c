@@ -151,7 +151,9 @@ int main(void)
 	while (1)
 	{
 		if (is_processing) {
+			HAL_GPIO_TogglePin(GPOUT_GPIO_Port, GPOUT_Pin); // for oscillo timing measurements
 			melvec_compute((q15_t *)samples_buf_to_process , mel_vectors[cur_melvec]);
+			HAL_GPIO_TogglePin(GPOUT_GPIO_Port, GPOUT_Pin); // for oscillo timing measurements
 			is_processing = 0;
 			cur_melvec++;
 			if (cur_melvec == N_MELVECS) {
