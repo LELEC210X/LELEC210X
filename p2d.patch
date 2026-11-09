@@ -1,0 +1,116 @@
+From 102bbe22aaff9e29d9f63df12d380371f7a6677c Mon Sep 17 00:00:00 2001
+From: brock <nicolas.brusselmans@uclouvain.be>
+Date: Thu, 22 Oct 2026 15:40:41 +0200
+Subject: [PATCH] p2d patch
+
+---
+ mcu/Core/Inc/config.h   |  6 +++---
+ mcu/Core/Src/main.c     |  5 ++++-
+ mcu/Core/Src/transfer.c | 36 ++++++++++++++++++++++++------------
+ 3 files changed, 31 insertions(+), 16 deletions(-)
+
+diff --git a/mcu/Core/Inc/config.h b/mcu/Core/Inc/config.h
+index 8a71003..be592d8 100644
+--- a/mcu/Core/Inc/config.h
++++ b/mcu/Core/Inc/config.h
+@@ -22,17 +22,17 @@
+ #define N_MELVECS 20
+ 
+ // Radio parameters -- used in Drivers/S2LP
+-#define ENABLE_RADIO 0
++#define ENABLE_RADIO 1
+ #define BASE_FREQ 868000000 // Carrier frequency, in Hz
+ #define DATARATE 50000 // Data rate in 2FSK, in bit/s
+ #define FREQDEV DATARATE/4 // Frequency deviation, in Hz
+ #define PA_LEVEL 0 // Tx output power, in dBm
+ 
+ // Enable performance measurements
+-#define PERF_COUNT 1
++#define PERF_COUNT 0
+ 
+ // Enable debug print through UART
+-#define DEBUGP 1
++#define DEBUGP 0
+ 
+ // Encapsulate printf to prevent wasting resources in string formatting if not needed
+ #if DEBUGP
+diff --git a/mcu/Core/Src/main.c b/mcu/Core/Src/main.c
+index 754104f..ff508e2 100644
+--- a/mcu/Core/Src/main.c
++++ b/mcu/Core/Src/main.c
+@@ -159,7 +159,10 @@ int main(void)
+ 			if (cur_melvec == N_MELVECS) {
+ 				cur_melvec = 0;
+ 				acquisition_stop();
+-				print_melvectors(mel_vectors, N_MELVECS);
++				make_packet();
++				HAL_GPIO_TogglePin(GPOUT_GPIO_Port, GPOUT_Pin); // for oscillo timing measurements
++				send_packet();
++				HAL_GPIO_TogglePin(GPOUT_GPIO_Port, GPOUT_Pin); // for oscillo timing measurements
+ #if CONTINUOUS_ACQ
+ 				acquisition_start();
+ #endif // CONTINUOUS_ACQ
+diff --git a/mcu/Core/Src/transfer.c b/mcu/Core/Src/transfer.c
+index 7b49722..0bbf2de 100644
+--- a/mcu/Core/Src/transfer.c
++++ b/mcu/Core/Src/transfer.c
+@@ -15,10 +15,10 @@ uint8_t packet[PACKET_LENGTH];
+ 
+ // Local variables
+ static uint32_t packet_serial = 0;
+-static const uint8_t AES_Key[16] = {0x00,0x00,0x00,0x00,
+-									0x00,0x00,0x00,0x00,
+-									0x00,0x00,0x00,0x00,
+-									0x00,0x00,0x00,0x00};
++static const uint8_t AES_Key[16] = {0x22,0x22,0x22,0x22,
++									0x22,0x22,0x22,0x22,
++									0x22,0x22,0x22,0x22,
++									0x22,0x22,0x22,0x22};
+ 
+ // External variables
+ extern q15_t mel_vectors[N_MELVECS][MELVEC_LENGTH];
+@@ -50,8 +50,14 @@ void make_packet(void)
+ {
+ 	//// 1- Header ////
+ 	// Initially, the whole packet header is set to 0s
+-	memset(packet, 0, HEADER_LENGTH);
+-	// TODO replace the memset 0 by filling in each header field with the right value
++	packet[0] = 0;
++	packet[1] = SENSOR_ID;
++	packet[2] = PAYLOAD_LENGTH >> 8;
++	packet[3] = PAYLOAD_LENGTH & 0xFF;
++	packet[4] = (packet_serial >> 24) & 0xFF;
++	packet[5] = (packet_serial >> 16) & 0xFF;
++	packet[6] = (packet_serial >> 8) & 0xFF;
++	packet[7] = packet_serial & 0xFF;
+ 
+ 	//// 2- Payload ////
+ 	// BE encoding of each mel coef
+@@ -74,12 +80,18 @@ void make_packet(void)
+ 	uint8_t *state = (uint8_t*) statew;
+     size_t i;
+ 
+-    // TODO : Complete the CBC-MAC_AES algorithm
+-    // using the AES implementation provided in Drivers/AES/aes_ref.h
+-    UNUSED(msg_in);
+-    UNUSED(msg_len);
+-    UNUSED(i);
+-    UNUSED(AES_Key);
++    for (i=0; i < msg_len/16; i++) {
++        for (int j=0; j<16; j++) {
++            state[j] ^= msg_in[16*i+j];
++        }
++        AES128_encrypt(state, AES_Key);
++    }
++    if (16*i != msg_len) {
++        for (int j=0; j<msg_len-16*i; j++) {
++            state[j] ^= msg_in[16*i+j];
++        }
++        AES128_encrypt(state, AES_Key);
++    }
+ 
+     // Copy the result of CBC-MAC-AES to the tag.
+     for (int j=0; j<16; j++) {
+-- 
+2.34.1
+
