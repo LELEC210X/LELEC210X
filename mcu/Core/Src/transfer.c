@@ -15,10 +15,10 @@ uint8_t packet[PACKET_LENGTH];
 
 // Local variables
 static uint32_t packet_serial = 0;
-static const uint8_t AES_Key[16] = {0x00,0x00,0x00,0x00,
-									0x00,0x00,0x00,0x00,
-									0x00,0x00,0x00,0x00,
-									0x00,0x00,0x00,0x00};
+static const uint8_t AES_Key[16] = {0x22,0x22,0x22,0x22,
+									0x22,0x22,0x22,0x22,
+									0x22,0x22,0x22,0x22,
+									0x22,0x22,0x22,0x22};
 
 // External variables
 extern q15_t mel_vectors[N_MELVECS][MELVEC_LENGTH];
@@ -50,8 +50,14 @@ void make_packet(void)
 {
 	//// 1- Header ////
 	// Initially, the whole packet header is set to 0s
-	memset(packet, 0, HEADER_LENGTH);
-	// TODO replace the memset 0 by filling in each header field with the right value
+	packet[0] = 0;
+	packet[1] = SENSOR_ID;
+	packet[2] = PAYLOAD_LENGTH >> 8;
+	packet[3] = PAYLOAD_LENGTH & 0xFF;
+	packet[4] = (packet_serial >> 24) & 0xFF;
+	packet[5] = (packet_serial >> 16) & 0xFF;
+	packet[6] = (packet_serial >> 8) & 0xFF;
+	packet[7] = packet_serial & 0xFF;
 
 	//// 2- Payload ////
 	// BE encoding of each mel coef
@@ -74,12 +80,18 @@ void make_packet(void)
 	uint8_t *state = (uint8_t*) statew;
     size_t i;
 
-    // TODO : Complete the CBC-MAC_AES algorithm
-    // using the AES implementation provided in Drivers/AES/aes_ref.h
-    UNUSED(msg_in);
-    UNUSED(msg_len);
-    UNUSED(i);
-    UNUSED(AES_Key);
+    for (i=0; i < msg_len/16; i++) {
+        for (int j=0; j<16; j++) {
+            state[j] ^= msg_in[16*i+j];
+        }
+        AES128_encrypt(state, AES_Key);
+    }
+    if (16*i != msg_len) {
+        for (int j=0; j<msg_len-16*i; j++) {
+            state[j] ^= msg_in[16*i+j];
+        }
+        AES128_encrypt(state, AES_Key);
+    }
 
     // Copy the result of CBC-MAC-AES to the tag.
     for (int j=0; j<16; j++) {
