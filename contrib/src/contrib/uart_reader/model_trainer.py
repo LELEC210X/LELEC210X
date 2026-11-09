@@ -38,7 +38,6 @@ class AbstractModelWrapper(ABC):
         Predict the probabilities of the classes.
         The input X is a 2D array of shape (n_samples, n_features).
         """
-        pass
 
     @abstractmethod
     def predict_hist(self, X: list[np.ndarray[np.ndarray]]) -> np.ndarray:
@@ -46,7 +45,6 @@ class AbstractModelWrapper(ABC):
         Predict the probabilities of the classes for the whole history.
         The input X is a list of 2D arrays of shape (n_samples, n_features).
         """
-        pass
 
 
 ####################################################################################################
