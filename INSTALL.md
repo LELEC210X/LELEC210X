@@ -28,12 +28,9 @@ on your host system, i.e., your every-day OS. Moreover,
 **the Git associated with the project should be cloned on your host system.**
 Python and STM32CubeIDE/MX are supported on every common OS.
 
-
-
 ## Installation steps
 
 The following steps depend based on the OS of your host system. Please always refer to the corresponding section with respect to your setup. Skip parts that are not related to your system. When **Host** is in the section title, it concerns every OS.
-
 
 ### Ubuntu - APT update
 
@@ -127,7 +124,6 @@ Please download it from the [download page](https://ffmpeg.org/download.html).
 sudo apt-get install cmake
 ```
 
-
 ### Host - Installation of STM32CubeIDE and STM32CubeMX
 
 In order to program and configure the MCU, we will use the _STM32CubeIDE_ and _STM32CubeMX_ softwares from ST.
@@ -147,7 +143,6 @@ If Ubuntu is your host system and thus _STM32CubeIDE_ is installed on it, you mi
 ```bash
 sudo apt-get install libncurses5
 ```
-
 
 ### Install Python dependencies
 
@@ -187,18 +182,16 @@ check out their documentation.
 > We already considered that in the hands-on sessions,
 > and the commands we provide should work as expected.
 
-
-
-
 ### Host - Install GNU Radio and compile custom packages
 
-[GNU Radio](https://www.gnuradio.org/about/) is a free & open-source software development toolkit that provides signal processing blocks to implement software radios. In this project, it will be used as both a simulation engine and an experimental test bed. 
+[GNU Radio](https://www.gnuradio.org/about/) is a free & open-source software development toolkit that provides signal processing blocks to implement software radios. In this project, it will be used as both a simulation engine and an experimental test bed.
 
-GNU Radio can be installed on all platforms and will not rely on the uv tool for package management. The complete install information can be found on the [GNU Radio wiki](https://wiki.gnuradio.org/index.php/InstallingGR), and a summary is available below for Linux and Windows (install has not been tested on macOS but is functional hopefully). 
+GNU Radio can be installed on all platforms and will not rely on the uv tool for package management. The complete install information can be found on the [GNU Radio wiki](https://wiki.gnuradio.org/index.php/InstallingGR), and a summary is available below for Linux and Windows (install has not been tested on macOS but is functional hopefully).
 
 #### Linux
 
 ##### Installation of GNU Radio
+
 On Ubuntu:
 
 ```bash
@@ -221,13 +214,11 @@ cmake ..
 sudo make install
 ```
 
-The custom package of the project should now be installed. If you open the GNU Radio software and applications, no missing block should appear.  If the installation or execution raise an error regarding missing Python packages, install them as you would traditionally. 
-
+The custom package of the project should now be installed. If you open the GNU Radio software and applications, no missing block should appear. If the installation or execution raise an error regarding missing Python packages, install them as you would traditionally.
 
 ##### Recompilation
 
-Whenever you modify only the Python code of a GNU Radio block, you only have to run the ```sudo make install``` command. If you also modify ```.yaml``` files or other ones from the package, you should run both commands.
-
+Whenever you modify only the Python code of a GNU Radio block, you only have to run the `sudo make install` command. If you also modify `.yaml` files or other ones from the package, you should run both commands.
 
 #### Windows
 
@@ -235,10 +226,9 @@ Whenever you modify only the Python code of a GNU Radio block, you only have to 
 
 Installation of GNU Radio on Windows is a bit more tricky. To ease the process, we rely on [radioconda](https://github.com/radioconda/radioconda-installer). Following this link, you can find the installer required for you Windows setup. Download and install it.
 
-
 ##### Compilation of custom packages
 
-Next, we need some additional installation steps to be able to install custom packages.  You should install Visual Studio available [here](https://visualstudio.microsoft.com/fr/downloads/). You can install the latest version. However, when asked for specific installation details, you do not have to install all components. Here is the list of requires features. 
+Next, we need some additional installation steps to be able to install custom packages. You should install Visual Studio available [here](https://visualstudio.microsoft.com/fr/downloads/). You can install the latest version. However, when asked for specific installation details, you do not have to install all components. Here is the list of requires features.
 
 First under "Desktop development with C++", the following components should be selected :
 
@@ -248,9 +238,10 @@ First under "Desktop development with C++", the following components should be s
 - Windows 11 SDK
 
 Second, under "Individual components", you shoud select:
+
 - MSVC v143 - VS 3033 C++ X64/x86 build tools
 
-With Visual Studio installed, you can now open a radioconda Prompt (search for it in your Windows search bar). To execute the initialization steps (which you will not have to repeat each time), you should locate and execute the ```vcvars64.bat``` file of Visual Studio which set up environment variables. It is generally located in ```""C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat""```. Adapt the path to your directory architecture and copy-paste it into the radioconda Prompt to execute the file.
+With Visual Studio installed, you can now open a radioconda Prompt (search for it in your Windows search bar). To execute the initialization steps (which you will not have to repeat each time), you should locate and execute the `vcvars64.bat` file of Visual Studio which set up environment variables. It is generally located in `""C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat""`. Adapt the path to your directory architecture and copy-paste it into the radioconda Prompt to execute the file.
 
 Next, execute the following commands to setup the required dependencies:
 
@@ -274,19 +265,11 @@ cmake --build .
 cmake --build . --target install
 ```
 
-The custom package of the project should now be installed. If you open the GNU Radio software and applications, no missing block should appear.  If the installation or execution raise an error regarding missing Python packages, install them as you would traditionally. 
-
+The custom package of the project should now be installed. If you open the GNU Radio software and applications, no missing block should appear. If the installation or execution raise an error regarding missing Python packages, install them as you would traditionally.
 
 ##### Recompilation
 
-Whenever you modify only the Python code of a GNU Radio block, you only have to run the ```cmake --build . --target install``` command. If you also modify ```.yaml``` files or other ones from the package, you should run all three ```cmake``` commands.
-
-
-
-
-
-
-
+Whenever you modify only the Python code of a GNU Radio block, you only have to run the `cmake --build . --target install` command. If you also modify `.yaml` files or other ones from the package, you should run all three `cmake` commands.
 
 ## Tips for a Better Environment
 
