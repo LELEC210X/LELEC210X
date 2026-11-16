@@ -1,8 +1,8 @@
 [dependency-groups]
 dev = [
-  {include-group = "local-packages"},
-  {include-group = "youtube-dl"},
-  {include-group = "tests"},
+  { include-group = "local-packages" },
+  { include-group = "youtube-dl" },
+  { include-group = "tests" },
   "pre-commit>=3.5.0",
 ]
 local-packages = [
@@ -17,7 +17,7 @@ youtube-dl = ["youtube-dl @ git+https://github.com/ytdl-org/youtube-dl.git"]
 
 [project]
 authors = [
-  {name = "LELEC210X teaching assistants"},
+  { name = "LELEC210X teaching assistants" },
 ]
 description = "The best project for the best students"
 name = "LELEC210X"
@@ -45,14 +45,14 @@ extend-ignore = [
   "E501",
 ]
 extend-select = ["B", "C90", "D", "I", "N", "RUF", "UP", "T"]
-isort = {known-first-party = ["auth", "classification", "common", "contrib", "leaderboard"]}
+isort = { known-first-party = ["auth", "classification", "common", "contrib", "leaderboard"] }
 
 [tool.uv.sources]
-auth = {workspace = true}
-classification = {workspace = true}
-common = {workspace = true}
-contrib = {workspace = true}
-leaderboard = {workspace = true}
+auth = { workspace = true }
+classification = { workspace = true }
+common = { workspace = true }
+contrib = { workspace = true }
+leaderboard = { workspace = true }
 
 [tool.uv.workspace]
 members = ["auth", "classification", "common", "contrib", "leaderboard"]

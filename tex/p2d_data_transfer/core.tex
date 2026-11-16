@@ -77,12 +77,12 @@ Both \texttt{block} and \texttt{key} are expected to point to 16-byte buffers. Y
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{Header and tag}
 \begin{itemize}
-	\item What is the use of each field in the header ? 
+	\item What is the use of each field in the header ?
 	\item You have had a quick introduction to the authentication basic knowledge in Lecture L2b. Based on that and on the description of the message authentication code, what is your understanding of the purpose of the authentication tag ? What kind of attacks does it prevent ? More importantly, what \textit{doesn't} it prevent ? Is the header readable in plain text or is it encrypted ? And the payload ?
 \end{itemize}
 \end{bclogo}
 
-Once you have correctly implemented the function \texttt{make\_packet()}, open the file \texttt{main.c} and replace the call to \texttt{print\_melvectors()} by two function calls : 
+Once you have correctly implemented the function \texttt{make\_packet()}, open the file \texttt{main.c} and replace the call to \texttt{print\_melvectors()} by two function calls :
 \begin{itemize}
 	\item \texttt{make\_packet()}, you just implemented it;
 	\item then \texttt{send\_packet()} that either prints the formatted packet via UART as a prefixed hexadecimal string, or transmit it via the radio, or both depending on the macros in \texttt{config.h}. Make sure \texttt{DEBUGP} is enabled, \texttt{ENABLE\_RADIO} may stay disabled for now.
