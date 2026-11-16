@@ -122,7 +122,7 @@ Rescaling fixed-points is essential when performing operations such as additions
 \end{bclogo}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{Data representation tradeoff}
-What are the pros and cons of using fixed-points rather than floating-points ? Why did we choose to use fixed-points in this project ? 
+What are the pros and cons of using fixed-points rather than floating-points ? Why did we choose to use fixed-points in this project ?
 \end{bclogo}
 
 \section{Processing the samples to a mel-vector}
@@ -251,7 +251,7 @@ Adapt the code in \texttt{acquisition.c} by following these steps :
 // Double buffer for raw samples
 static volatile uint16_t samples_double_buf[2*SAMPLES_PER_MELVEC];
 // These are simply pointers to the first and middle element of double buf
-static volatile uint16_t *samples_buf[2] = {&samples_double_buf[0], 
+static volatile uint16_t *samples_buf[2] = {&samples_double_buf[0],
     &samples_double_buf[SAMPLES_PER_MELVEC]};
 \end{lstlisting}
     \item Update the function call that starts the DMA accordingly in \texttt{acquisition\_start()};
