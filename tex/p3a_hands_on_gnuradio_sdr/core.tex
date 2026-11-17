@@ -47,7 +47,7 @@ In this project, you will integrate signal processing algorithms inside GNU Radi
     \item a \textbf{Python file} (\texttt{*.py}), which contains the \emph{implementation} of the block, i.e. the signal processing itself.
 \end{itemize}
 
-In the \texttt{gr-LELEC210X} module, have a look at the block called \texttt{tutorial}. Start with its YAML file. It contains the following main elements:
+In the \texttt{telecom} folder that encapsulates the \texttt{gr-LELEC210X} GNU Radio module, have a look at the block called \texttt{tutorial}. Start with its YAML file located in \texttt{telecom/grc}. It contains the following main elements:
 \begin{itemize}
     \item the \textbf{definition} of the block: its \texttt{id} (unique name), its \texttt{label} (name displayed in GRC),  and the \texttt{templates}, which tell GRC how to instantiate the block (the Python class and the arguments to give it) and which \emph{callbacks} to call;
     \item the \textbf{parameters}: each of them has an \texttt{id}, a \texttt{label}, a \texttt{dtype} (type) and a default value. They are the fields displayed when you double-click on the block, and they can be given a value or a variable (e.g. the output of a slider);
