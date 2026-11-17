@@ -47,11 +47,11 @@ In this project, you will integrate signal processing algorithms inside GNU Radi
     \item a \textbf{Python file} (\texttt{*.py}), which contains the \emph{implementation} of the block, i.e. the signal processing itself.
 \end{itemize}
 
-In the \texttt{gr-210X} module, have a look at the block called \texttt{test\_block}. Start with its YAML file. It contains the following main elements:
+In the \texttt{gr-LELEC210X} module, have a look at the block called \texttt{tutorial}. Start with its YAML file. It contains the following main elements:
 \begin{itemize}
-    \item the \textbf{definition} of the block: its \texttt{id} (unique name), its \texttt{label} (name displayed in GRC), its \texttt{category} (the place where it appears in the block list) and the \texttt{templates}, which tell GRC how to instantiate the block (the Python class and the arguments to give it) and which \emph{callbacks} to call;
+    \item the \textbf{definition} of the block: its \texttt{id} (unique name), its \texttt{label} (name displayed in GRC),  and the \texttt{templates}, which tell GRC how to instantiate the block (the Python class and the arguments to give it) and which \emph{callbacks} to call;
     \item the \textbf{parameters}: each of them has an \texttt{id}, a \texttt{label}, a \texttt{dtype} (type) and a default value. They are the fields displayed when you double-click on the block, and they can be given a value or a variable (e.g. the output of a slider);
-    \item the \textbf{callbacks}: they are listed in the \texttt{templates} section (e.g. \texttt{set\_offset(\$offset)}). Whenever the value of a parameter is changed while the flowgraph is running (e.g. with a slider), the associated method of the Python class is called, which allows modifying the behavior of the block without restarting the flowgraph;
+    \item the \textbf{callbacks}: they are listed in the \texttt{templates} section (e.g. \texttt{set\_offset(\$\{offset\})}). Whenever the value of a parameter is changed while the flowgraph is running (e.g. with a slider), the associated method of the Python class is called, which allows modifying the behavior of the block without restarting the flowgraph;
     \item the \textbf{inputs and outputs}: each port has a \texttt{domain} (\texttt{stream} for continuous samples or \texttt{message}), a \texttt{dtype} (e.g. \texttt{complex}, \texttt{float}) and optionally a vector length.
 \end{itemize}
 
@@ -63,9 +63,9 @@ The behavior and signal processing of the GNU Radio block is described in its Py
     \item the \textbf{callback functions} (e.g. \texttt{set\_offset}), which modify the internal variables when a parameter is changed from the flowgraph.
 \end{itemize}
 
-Go over the Python file of the \texttt{test\_block} and identify the different parts described above.
+Go over the Python file of the \texttt{tutorial} and identify the different parts described above.
 
-You should have already compiled the \texttt{gr-210X} module and the \texttt{test\_block} should hence already be compiled. Refer to the \texttt{INSTALL.md} file if not already done. Now add the \texttt{test\_block} inside your flowgraph and connect it between the \texttt{Throttle} and \texttt{QT GUI Sink} blocks. Also add a \texttt{QT Slider} that will modify a variable which name you can select. This variable name should be specified in both the slider and the \texttt{test\_block}. Run the flowgraph and move the slider. If the signals mean changes, the callback function properly update the \texttt{offset} variable inside the \texttt{test\_block}.
+You should have already compiled the \texttt{gr-LELEC210X} module and the \texttt{tutorial} block should hence already be compiled. Refer to the \texttt{INSTALL.md} file if not already done. Now add the \texttt{tutorial} block inside your flowgraph and connect it between the \texttt{Throttle} and \texttt{QT GUI Sink} blocks. Also add a \texttt{QT Range} (you can copy the one already present) that will modify a variable which name you can select. This variable name should be specified in both the slider and the \texttt{tutorial}. Run the flowgraph and move the slider. If the signals mean changes, the callback function properly update the \texttt{offset} variable inside the \texttt{tutorial} block.
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Python and the scheduler}
 The scheduler calls the \texttt{general\_work} function many times per second, each time with a chunk of samples (a numpy array). To keep the processing fast, avoid Python loops over samples and prefer vectorised numpy operations.
@@ -73,9 +73,9 @@ The scheduler calls the \texttt{general\_work} function many times per second, e
 
 \subsection{Modification of the block}
 
-Initially, \texttt{test\_block} simply adds an offset to the signal, thanks to a variable and its related callback. You must now add an \textbf{amplification} to this block. The principle is the same as for the offset. For this, you have to:
+Initially, \texttt{tutorial} simply adds an offset to the signal, thanks to a variable and its related callback. You must now add an \textbf{amplification} to this block. The principle is the same as for the offset. For this, you have to:
 \begin{enumerate}
-    \item \textbf{In the YAML file}: add a new parameter (e.g. \texttt{amplitude}, with a \texttt{float} type and a default value of 1), add it to the arguments of the block in the \texttt{templates} section, and add the corresponding callback (e.g. \texttt{set\_amplitude(\$amplitude)}). Do not forget to respect the indentation of the YAML file.
+    \item \textbf{In the YAML file}: add a new parameter (e.g. \texttt{amplitude}, with a \texttt{float} type and a default value of 1), add it to the arguments of the block in the \texttt{templates} section, and add the corresponding callback (e.g. \texttt{set\_amplitude(\$\{amplitude\})}). Do not forget to respect the indentation of the YAML file.
     \item \textbf{In the Python file}: add the argument to the \texttt{\_\_init\_\_} function and store it in a member variable (e.g. \texttt{self.amplitude = amplitude}). Then add the callback function:
 \begin{lstlisting}[language=Python]
 def set_amplitude(self, amplitude):
@@ -92,7 +92,7 @@ After modifying the YAML file, you need to \textbf{reload the blocks} (or restar
 
 \subsection{Compilation of a custom module}
 
-Each time you modify a file of the \texttt{gr-210X} module, you must install it again so that GNU Radio uses the new version. The procedure depends on your operating system. The commands must be run from the \texttt{build} folder of the module (the one that was created during the installation, see INSTALL.md on the course's GitHub).
+Each time you modify a file of the \texttt{gr-LELEC210X} module, you must install it again so that GNU Radio uses the new version. The procedure depends on your operating system. The commands must be run from the \texttt{build} folder of the module (the one that was created during the installation, see INSTALL.md on the course's GitHub).
 
 \subsubsection*{Recompilation on Linux}
 
@@ -101,7 +101,7 @@ cmake ..
 sudo make install
 \end{lstlisting}
 
-Whenever you modify only the Python code of a GNU Radio block, you only have to run the \texttt{sudo make install} command. If you also modify the \texttt{.yaml} files or other ones from the package, you should run the three commands (\texttt{cmake}, \texttt{make} and \texttt{sudo make install}).
+Whenever you modify only the Python code of a GNU Radio block, you only have to run the \texttt{sudo make install} command. If you also modify the \texttt{.yaml} files or other ones from the package, you should run the two commands (\texttt{cmake} and \texttt{sudo make install}).
 
 \subsubsection*{Recompilation on Windows}
 
@@ -144,7 +144,7 @@ The SDR platform used in this project is made of two main parts: a custom RF shi
     \item The \textbf{DE10-Nano} board embeds a System-on-Chip made of an FPGA and a processor, the HPS (Hard Processor System). The \textbf{FPGA} recovers the I/Q samples coming from the RF chip and writes them to a memory space shared with the HPS. The \textbf{HPS} (running Linux) reads these data from the shared memory and sends them through a \textbf{TCP} connection over Ethernet to the computer. A second TCP connection is used to send configuration modifications (e.g. carrier frequency, gain, etc.) from the computer to the HPS. The HPS then forwards them to the RF chip through an \textbf{SPI} interface.
 \end{itemize}
 
-In GNU Radio, this whole chain is hidden behind a custom blocks of the \texttt{gr-210X} module. The \texttt{SDR210X TCP Source} receives signals from the SDR while the \texttt{SDR210X Config Sender} formats and forwards configuration changes.
+In GNU Radio, this whole chain is hidden behind a custom blocks of the \texttt{gr-LELEC210X} module. The \texttt{SDR210X TCP Source} receives signals from the SDR while the \texttt{SDR210X Config Sender} formats and forwards configuration changes.
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Summary of the signal path}
 Antenna $\rightarrow$ AT86RF215 (RF shield) $\rightarrow$ FPGA (DE10-Nano) $\rightarrow$ shared memory $\rightarrow$ HPS $\rightarrow$ TCP over Ethernet $\rightarrow$ computer (GNU Radio).\\
@@ -160,7 +160,7 @@ You should now be able to receive samples from your SDR platform. To do so:
     \item Connect the DE10-Nano to your computer with the Ethernet cable. Wait a few seconds until the board has booted before launching the flowgraph.
 \end{enumerate}
 
-Next, open the flowgraph called \texttt{test\_sdr}. Run it: you should see the received samples in the time and frequency displays. Then:
+Next, open the flowgraph called \texttt{Test\_SDR}. Run it: you should see the received samples in the time and frequency displays. Then:
 \begin{itemize}
     \item Modify the gain of the receiver and observe the impact on the noise floor in the spectrum;
     \item Check that the displayed signal changes consistently when you touch or move the antenna.

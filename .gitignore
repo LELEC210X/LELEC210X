@@ -38,6 +38,7 @@ tex/*/*.synctex(busy)
 tex/pdfs.zip
 _minted-*/
 tex/hands_on_wireless_simulation/modulate.py
+tex/*/out/
 
 # MCU
 

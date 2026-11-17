@@ -93,21 +93,24 @@ void eval_radio_start(void)
 
 	while(1) {
 		btn_press = 0;
-		DEBUG_PRINT("=== Press button B1 to send %d packets at %d dBm\r\n", n_packets, pa_lvl);
+		printf("=== Press button B1 to send %d packets at %d dBm\r\n", n_packets, pa_lvl);
 		while (!btn_press) {
 			
 			__WFI();
 			if (cmd_ready==1) {
 				process_command(rx_buf);
 				cmd_ready = 0;
-				DEBUG_PRINT("=== Press button B1 to send %d packets at %d dBm\r\n", n_packets, pa_lvl);
+				printf("=== Press button B1 to send %d packets at %d dBm\r\n", n_packets, pa_lvl);
 			} 
 		}
 
-		DEBUG_PRINT("=== Start sending === \r\n");
+		printf("=== Start sending === \r\n");
 		S2LP_SetPALeveldBm(pa_lvl);
 
+		btn_press = 0;
 		for (uint16_t i=0; i < n_packets; i++) {
+			if (btn_press)
+				break;
 			HAL_StatusTypeDef err = S2LP_Send(buf, PAYLOAD_LEN);
 			if (err) {
 				Error_Handler();
@@ -124,6 +127,6 @@ void eval_radio_start(void)
 		}
 	}
 
-	DEBUG_PRINT("=== Finished evaluation, reset the board to run again\r\n");
+	printf("=== Finished evaluation, reset the board to run again\r\n");
 	while (1);
 }

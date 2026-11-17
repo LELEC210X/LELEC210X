@@ -164,7 +164,9 @@ HAL_StatusTypeDef S2LP_Send(uint8_t *payload, uint16_t pay_len)
 		__WFI(); // wait until packet has been fully transmitted
 	}
 
-	DEBUG_PRINT("[S2LP] Packet transmitted!\r\n");
+	#if (RUN_CONFIG == MAIN_APP)
+		DEBUG_PRINT("[S2LP] Packet transmitted!\r\n");
+	#endif
 	return HAL_OK;
 }
 
