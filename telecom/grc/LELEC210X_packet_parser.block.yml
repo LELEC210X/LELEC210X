@@ -1,0 +1,51 @@
+id: LELEC210X_packet_parser
+label: LELEC210X Packet Parser
+category: "[LELEC210X]"
+
+templates:
+  imports: import LELEC210X
+  make: LELEC210X.packet_parser(${common_params})
+  callbacks:
+  
+#  Make one 'parameters' list entry for every parameter you want settable from the GUI.
+#     Keys include:
+#     * id (makes the value accessible as \$keyname, e.g. in the make entry)
+#     * label (label shown in the GUI)
+#     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
+parameters:
+  - id: common_params
+    label: Common parameters
+    dtype: raw
+    default: '[data_rate, fdev, samp_rate, oversampling, preamble_len, sync_word, payload_len, crc_len]'
+
+
+#  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
+#  Keys include:
+#      * label (an identifier for the GUI)
+#      * domain (optional - stream or message. Default is stream)
+#      * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
+#      * vlen (optional - data stream vector length. Default is 1)
+#      * optional (optional - set to 1 for optional inputs. Default is 0)
+inputs:
+  - label: Input
+    dtype: byte
+
+outputs:
+  - label: Output
+    dtype: byte
+    vlen: ${ common_params[6] }
+
+documentation: |-
+  Deframes the incoming bit stream and verifies the CRC. The (payload,
+  crc) pair is always emitted downstream, whether or not the CRC
+  passed - a "crc_ok" tag on the output carries the verdict - so that
+  a downstream stats block (e.g. LELEC210X_packet_stats) can tell "wrong"
+  packets apart from ones that were never detected at all. Every tag
+  found on the input (ID, cfo, sto, amp, snr, payload_id from
+  LELEC210X_packet_generator; est_cfo, est_sto, est_sig_pow from
+  LELEC210X_synchronization) is forwarded onto the output stream
+  unchanged, alongside "crc_ok".
+
+#  'file_format' specifies the version of the GRC yml format used in the file
+#  and should usually not be changed.
+file_format: 1

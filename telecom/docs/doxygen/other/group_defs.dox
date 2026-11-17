@@ -1,0 +1,6 @@
+/*!
+ * \defgroup block GNU Radio LELEC210X C++ Signal Processing Blocks
+ * \brief All C++ blocks that can be used from the LELEC210X GNU Radio
+ *        module are listed here or in the subcategories below.
+ *
+ */

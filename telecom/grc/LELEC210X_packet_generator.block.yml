@@ -1,0 +1,111 @@
+id: LELEC210X_packet_generator
+label: LELEC210X Packet Generator
+category: "[LELEC210X]"
+
+templates:
+  imports: import LELEC210X
+  make: LELEC210X.packet_generator(${common_params}, ${Npackets}, ${EsN0_min}, ${EsN0_max}, ${n_EsN0}, ${noise_std}, ${osr_tx}, ${add_sto}, ${cfo_min}, ${cfo_max}, ${zero_samples_fixed},${zero_samples_rand},${payload_random}, ${pkt_regen}, ${seed})
+
+parameters:
+- id: Npackets
+  label: Number of packets per EsN0
+  dtype: int
+
+- id: common_params
+  label: Common parameters
+  dtype: raw
+  default: '[data_rate, fdev, samp_rate, oversampling, preamble_len, sync_word, payload_len, crc_len]'
+
+- id: EsN0_min
+  label: Lower bound of EsN0 sweep (dB)
+  dtype: float
+
+- id: EsN0_max
+  label: Upper bound of EsN0 sweep (dB)
+  dtype: float
+
+- id: n_EsN0
+  label: Number of EsN0 to test
+  dtype: float
+
+- id: noise_std
+  label: RX noise standard deviation
+  dtype: float
+
+- id: osr_tx
+  label: Oversampling for STO
+  dtype: int
+
+- id: add_sto
+  label: Add STO impairment
+  dtype: int
+
+- id: cfo_min
+  label: Lower bound of cfo distribution
+  dtype: float
+
+- id: cfo_max
+  label: Upper bound of cfo distribution
+  dtype: float
+
+- id: zero_samples_fixed
+  label: Fixed number of 0 samples added
+  dtype: int
+  default: '64'
+
+- id: zero_samples_rand
+  label: Max RNG number of 0 samples added
+  dtype: int
+  default: '64'
+
+- id: payload_random
+  label: Randomize Payloads
+  dtype: int
+  default: 0
+
+- id: pkt_regen
+  label: Regenerate each paquet
+  dtype: int
+  default: 0
+
+- id: seed
+  label: Payload RNG seed
+  dtype: int
+  default: '1234'
+
+outputs:
+- label: out
+  domain: stream
+  dtype: complex
+
+documentation: |-
+  Source block that autonomously and periodically transmits Npackets
+  packets, each separated by a gap of
+  zero_samples_fixed + Uniform[0, zero_samples_rand] zero samples.
+
+  Each transmitted packet carries a fresh carrier frequency offset
+  (CFO) drawn uniformly from [cfo_min, cfo_max), and its amplitude is
+  swept over EsN0_min:EsN0_step:EsN0_max (dB), assuming a unit-power
+  signal and the given RX noise_std. To avoid re-running modulation /
+  CRC / CFO-rotation once per EsN0 step, the payload and its channel
+  impairment (CFO, STO) are only regenerated once every EsN0_step
+  sweep, and simply replayed at a new amplitude for the other steps.
+
+  Once Npackets packets have been sent, the block signals end of
+  stream, which stops the flowgraph.
+
+  The stream carries "ID", "cfo", "sto", "amp", "snr" and "payload_id"
+  tags on the first sample of every transmitted packet, giving
+  downstream blocks (and the final receiver stage) access to the
+  ground truth used to generate that packet.
+
+  Payload bytes are drawn from np.random.default_rng((seed,
+  payload_id)) - a fresh, independent generator per distinct payload
+  rather than one continuously-advancing generator - so a receiver
+  that knows the same seed (e.g. LELEC210X_packet_parser) can
+  reconstruct the exact ground-truth payload for a given payload_id
+  on its own. payload_id is its own counter, separate from the
+  transmission "ID": one payload can be replayed at several EsN0
+  values (and thus several "ID"s) without being redrawn.
+
+file_format: 1

@@ -1,0 +1,100 @@
+id: LELEC210X_rf215_cfg_stream_sender
+label: LELEC210X RF215 Config Stream Sender
+category: "[LELEC210X]"
+
+templates:
+  imports: import LELEC210X
+  make: LELEC210X.rf215_cfg_stream_sender(${cf}, ${chunk}, ${rx_ifshift}, ${rxbw}, ${rxdfe_cut}, ${rxdfe_sr}, ${agc_on}, ${agc_input}, ${agc_target},${agc_avgs}, ${rx_gain},${ip_address},${port},${r_rx_gain},${r_rssi})
+  callbacks:
+  - set_cf(${cf},verbose=False)
+  - set_ifshift(${rx_ifshift},verbose=False)
+  - set_rxbw(${rxbw},verbose=False)
+  - set_rxdfe_cut(${rxdfe_cut},verbose=False)
+  - set_sr(${rxdfe_sr},verbose=False)
+  - set_agc_on(${agc_on},verbose=False)
+  - set_agc_target(${agc_target},verbose=False)
+  - set_agc_input(${agc_input},verbose=False)
+  - set_agc_avgs(${agc_avgs},verbose=False)
+  - set_rx_gain(${rx_gain},verbose=False)
+  - read_rx_gain(${r_rx_gain},verbose=False)
+  - read_rssi(${r_rssi},verbose=False)
+
+#  Make one 'parameters' list entry for every parameter you want settable from the GUI.
+#     Keys include:
+#     * id (makes the value accessible as \$keyname, e.g. in the make entry)
+#     * label (label shown in the GUI)
+#     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
+parameters:
+  - id: cf
+    label: Center Frequency (Hz)
+    dtype: float
+    default: 868e6
+  - id: chunk
+    label: Chunk Size (bytes)
+    dtype: int
+    default: 1024
+  - id: rx_ifshift
+    label: IF freq. shift by 1.25
+    dtype: int
+    default: 1
+  - id: rxbw
+    label: Receiver bandwidth
+    dtype: float
+    default: 1000e3
+  - id: rxdfe_cut
+    label: RX filter relative cut-off freq.
+    dtype: int
+    default: 4
+  - id: rxdfe_sr
+    label: Sample rate configuration
+    dtype: float
+    default: 800e3
+  - id: agc_on
+    label: AGC Enabled (1=auto, 0=manual)
+    dtype: int
+    default: 0
+  - id: agc_input
+    label: AGC Input (0=filtered sig., 0=unfiltered sig.)
+    dtype: int
+    default: 0
+  - id: agc_target
+    label: AGC Target (-21 to -42 dBFS)
+    dtype: int
+    default: -30
+  - id: agc_avgs
+    label: AGC AVGS (8,16,32,64  RX samples)
+    dtype: int
+    default: 8
+  - id: rx_gain
+    label: RX gain (0-23, 3dB steps)
+    dtype: int
+    default: 17
+  - id: ip_address
+    label: IP for TCP con.
+    dtype: string
+    default: "localhost"
+  - id: port
+    label: Port for TCP con.
+    dtype: int
+    default: 5100
+  - id: r_rx_gain
+    label: Read RX Gain
+    dtype: int
+  - id: r_rssi
+    label: Read RSSI
+    dtype: int
+
+#  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
+#     Keys include:
+#     * label (an identifier for the GUI)
+#     * domain (optional - stream or message. Default is stream)
+#     * dtype (optional - e.g. message)
+#     * optional (optional - true if the connection is optional)
+
+inputs: []
+
+outputs: []
+
+#  'file_format' specifies the version of the GRC yml format used in the file
+#  and should usually not be changed.
+file_format: 1

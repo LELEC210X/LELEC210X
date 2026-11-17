@@ -1,0 +1,115 @@
+id: LELEC210X_packet_stats
+label: LELEC210X Packet Stats
+category: "[LELEC210X]"
+
+templates:
+  imports: import LELEC210X
+  make: LELEC210X.packet_stats(${common_params}, ${seed}, ${print_log},${reduced_print}, ${EsN0_min}, ${EsN0_max}, ${n_EsN0}, ${sim_noise_power},${enbw}, ${packets_per_esn0}, ${out_prefix},${save_full_trace}, ${payload_random}, ${sdr_expected_payload}, ${simulation})
+  callbacks:
+  - set_print_log(${print_log})
+  - set_reduced_print(${reduced_print})
+  - set_noise_power(${sim_noise_power})
+
+parameters:
+- id: common_params
+  label: Common parameters
+  dtype: raw
+  default: '[data_rate, fdev, samp_rate, oversampling, preamble_len, sync_word, payload_len, crc_len]'
+
+- id: seed
+  label: Payload RNG seed (must match packet_generator's)
+  dtype: int
+  default: '1234'
+
+- id: print_log
+  label: Print per-packet stats
+  dtype: int
+  default: '0'
+
+- id: reduced_print
+  label: Reduce print info
+  dtype: int
+  default: '0'
+
+- id: EsN0_min
+  label: Lower bound of EsN0 sweep (dB)
+  dtype: float
+
+- id: EsN0_max
+  label: Upper bound of EsN0 sweep (dB)
+  dtype: float
+
+- id: n_EsN0
+  label: Number of EsN0 to test
+  dtype: float
+
+- id: sim_noise_power
+  label: RX noise power (for Simulation)
+  dtype: float
+  default: '0'
+
+- id: enbw
+  label: Equiv. Noise BW (post filter)
+  dtype: float
+  default: '0'
+
+- id: packets_per_esn0
+  label: Expected packets per Es/N0 (0 disables missed-detection plot)
+  dtype: int
+  default: '0'
+
+- id: out_prefix
+  label: Output file name (no extension)
+  dtype: string
+  default: "packet_stats"
+
+- id: save_full_trace
+  label: Save full trace
+  dtype: int
+  default: 0
+
+- id: payload_random
+  label: Randomize Payloads
+  dtype: int
+  default: 0
+
+- id: sdr_expected_payload
+  label: Expected payload (for SDR charac.)
+  default: None
+
+- id: simulation
+  label: Is simulation
+  dtype: int
+  default: 0
+
+inputs:
+- label: in
+  domain: stream
+  dtype: byte
+  vlen: ${ common_params[6] }
+
+documentation: |-
+  Sink block that registers one record per packet coming out of
+  LELEC210X_packet_parser, using the tags it forwards on that stream:
+  "crc_ok" and, when synchronization ran, "est_cfo"/"est_sto"/
+  "est_sig_pow"; and, when a LELEC210X_packet_generator actually drove
+  the flowgraph (not the case for a real over-the-air experimental
+  setup), the ground truth "ID"/"cfo"/"sto"/"amp"/"snr"/"payload_id".
+
+  noise_power (settable live via set_noise_power, e.g. from a GRC
+  variable callback) is combined with the measured signal power to
+  produce a per-packet SNR estimate.
+
+  When ground-truth tags are present, this block also reconstructs
+  each payload from np.random.default_rng((seed, payload_id)) - seed
+  must match the packet_generator's own seed - to count actual bit
+  errors, even for packets whose CRC failed.
+
+  On flowgraph stop, all collected records are saved as
+  "<out_prefix>.csv" (one row per packet) and, if ground truth was
+  available, "<out_prefix>_summary.csv" (one row per Es/N0), plus SNR vs
+  BER, SNR vs CFO error, SNR vs STO error and (if packets_per_snr > 0)
+  SNR vs missed-detection plots are saved as
+  "<out_prefix>_snr_vs_*.png".
+
+file_format: 1

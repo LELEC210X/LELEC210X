@@ -1,0 +1,18 @@
+\section*{Introduction}
+
+\texttt{Project\_210X.grc} is the central GNU Radio flowgraph of the LELEC2102 project. It serves a dual purpose: it can operate as a \textbf{simulator},
+generating and receiving packets entirely in software with full knowledge of the
+applied channel impairments; or as a \textbf{live SDR testbed}, streaming real IQ
+samples from an AT86RF215 radio board.
+
+The \emph{receiver chain}, from the low-pass filter to the packet parser, is identical in both modes. Only the signal source changes.
+Switching between modes is achieved by enabling the blocks related to signal source of the target mode.
+
+This walkthrough presents:
+\begin{enumerate}
+  \item the overall architecture and signal flow (Section~\ref{sec:overview});
+  \item the modulation and packet parameters shared by both modes (Section~\ref{sec:params});
+  \item the simulation-specific parameters and how the $\sfrac{\epsilon}{N_0}$ sweep works (Section~\ref{sec:simulation});
+  \item the SDR-specific controls and the noise-power estimation procedure (Section~\ref{sec:sdr});
+  \item the output files produced at the end of a run (Section~\ref{sec:output}).
+\end{enumerate}

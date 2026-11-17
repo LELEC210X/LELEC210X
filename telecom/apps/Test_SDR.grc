@@ -1,0 +1,303 @@
+options:
+  parameters:
+    author: UCLouvain
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: Test_SDR
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: '1'
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: run
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: LELEC2102 -Test SDR
+    window_size: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [664, 40.0]
+    rotation: 180
+    state: enabled
+
+blocks:
+- name: IP_addr
+  id: variable
+  parameters:
+    comment: ''
+    value: '"192.168.1.2"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [304, 448.0]
+    rotation: 180
+    state: enabled
+- name: center_freq_hz
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    entry_signal: editingFinished
+    gui_hint: ''
+    label: Carrier Freq.
+    type: real
+    value: 880.009e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [704, 456.0]
+    rotation: 180
+    state: enabled
+- name: receiver_bw
+  id: variable_qtgui_chooser
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Receiver bandwidth
+    label0: ''
+    label1: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    labels: '["fBW=160kHz  fIF=250kHz","fBW=200kHz  fIF=250kHz","fBW=250kHz  fIF=250kHz","fBW=320kHz  fIF=500kHz","fBW=400kHz  fIF=500kHz","fBW=500kHz  fIF=500kHz","fBW=630kHz  fIF=1000kHz","fBW=800kHz  fIF=1000kHz","fBW=1000kHz
+      fIF=1000kHz","fBW=1250kHz fIF=2000kHz","fBW=1600kHz fIF=2000kHz","fBW=2000kHz
+      fIF=2000kHz"]'
+    num_opts: '0'
+    option0: '0'
+    option1: '1'
+    option2: '2'
+    option3: '3'
+    option4: '4'
+    options: '[160e3, 200e3,250e3,320e3,400e3,500e3,630e3,800e3,1000e3,1250e3,1600e3,2000e3]'
+    orient: Qt.QVBoxLayout
+    type: real
+    value: 800e3
+    widget: combo_box
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [704, 544.0]
+    rotation: 180
+    state: enabled
+- name: rx_gain
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: int
+    start: '0'
+    step: '1'
+    stop: '73'
+    value: '10'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [888, 592.0]
+    rotation: 180
+    state: enabled
+- name: rxdfe_cutoff_config
+  id: variable_qtgui_chooser
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: RXDFE config for the cutoff freq.
+    label0: ''
+    label1: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    labels: '["fCUT=0.25 *fS/2","fCUT=0.375*fS/2","fCUT=0.5  *fS/2","fCUT=0.75 *fS/2","fCUT=1.00
+      *fS/2"]'
+    num_opts: '0'
+    option0: '0'
+    option1: '1'
+    option2: '2'
+    option3: '3'
+    option4: '4'
+    options: '[0,1,2,3,4]'
+    orient: Qt.QVBoxLayout
+    type: int
+    value: '4'
+    widget: combo_box
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [888, 456.0]
+    rotation: 180
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: 400e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 240.0]
+    rotation: 0
+    state: enabled
+- name: LELEC210X_rf215_cfg_stream_sender_0
+  id: LELEC210X_rf215_cfg_stream_sender
+  parameters:
+    agc_avgs: '8'
+    agc_input: '0'
+    agc_on: '0'
+    agc_target: '-30'
+    alias: ''
+    cf: center_freq_hz
+    chunk: '2048'
+    comment: ''
+    ip_address: IP_addr
+    port: '2104'
+    r_rssi: '0'
+    r_rx_gain: '0'
+    rx_gain: int(rx_gain//3)
+    rx_ifshift: '0'
+    rxbw: receiver_bw
+    rxdfe_cut: rxdfe_cutoff_config
+    rxdfe_sr: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [416, 452.0]
+    rotation: 180
+    state: enabled
+- name: LELEC210X_tcp_source_0
+  id: LELEC210X_tcp_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    endianness: 'False'
+    host: 192.168.1.2
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    port: '2103'
+    scale: 2**15
+    swap_iq: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [464, 224.0]
+    rotation: 0
+    state: enabled
+- name: blocks_throttle2_0
+  id: blocks_throttle2
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    limit: auto
+    maximum: '2048'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: samp_rate
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [688, 248.0]
+    rotation: 0
+    state: enabled
+- name: note_0_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [72, 120.0]
+    rotation: 0
+    state: enabled
+- name: note_0_0_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [64, 712.0]
+    rotation: 0
+    state: enabled
+- name: note_0_0_1
+  id: note
+  parameters:
+    alias: ''
+    comment: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [64, 344.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_sink_x_0
+  id: qtgui_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    bw: samp_rate
+    comment: ''
+    fc: '0'
+    fftsize: '1024'
+    gui_hint: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: SDR signal
+    plotconst: 'True'
+    plotfreq: 'True'
+    plottime: 'True'
+    plotwaterfall: 'True'
+    rate: '30'
+    showports: 'False'
+    showrf: 'False'
+    type: complex
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [888, 224.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [LELEC210X_tcp_source_0, '0', blocks_throttle2_0, '0']
+- [blocks_throttle2_0, '0', qtgui_sink_x_0, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0

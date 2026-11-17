@@ -1,0 +1,1892 @@
+options:
+  parameters:
+    author: UCLouvain
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: Project_LELEC210X
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: '1'
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: run
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: LELEC2102 - Project simulator & SDR
+    window_size: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [48, 1216.0]
+    rotation: 180
+    state: enabled
+
+blocks:
+- name: CFO_precorrection
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1032, 1828.0]
+    rotation: 0
+    state: true
+- name: Enable_detection
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: ''
+    label: ''
+    'true': '1'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 712.0]
+    rotation: 180
+    state: disabled
+- name: Enable_detection
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [72, 120.0]
+    rotation: 180
+    state: enabled
+- name: EsN0_max
+  id: variable
+  parameters:
+    comment: ''
+    value: '20'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [432, 204.0]
+    rotation: 180
+    state: enabled
+- name: EsN0_max
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 624.0]
+    rotation: 180
+    state: disabled
+- name: EsN0_min
+  id: variable
+  parameters:
+    comment: ''
+    value: '5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [432, 116.0]
+    rotation: 180
+    state: enabled
+- name: EsN0_min
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 624.0]
+    rotation: 180
+    state: disabled
+- name: IP_addr
+  id: variable
+  parameters:
+    comment: ''
+    value: '"192.168.1.2"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [528, 620.0]
+    rotation: 180
+    state: disabled
+- name: Ideal_CFO
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [808, 120.0]
+    rotation: 180
+    state: enabled
+- name: Ideal_CFO
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 624.0]
+    rotation: 180
+    state: disabled
+- name: Ideal_Detector
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [896, 120.0]
+    rotation: 180
+    state: enabled
+- name: Ideal_Detector
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 624.0]
+    rotation: 180
+    state: disabled
+- name: Ideal_STO
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [712, 120.0]
+    rotation: 180
+    state: enabled
+- name: Ideal_STO
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 624.0]
+    rotation: 180
+    state: disabled
+- name: LPF_ENBW
+  id: variable
+  parameters:
+    comment: ''
+    value: samp_rate * np.sum(np.abs(taps)**2) / np.abs(np.sum(taps))**2
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [120, 1872.0]
+    rotation: 0
+    state: enabled
+- name: LPF_ENBW
+  id: variable
+  parameters:
+    comment: ''
+    value: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [144, 1872.0]
+    rotation: 0
+    state: disabled
+- name: N_Moose
+  id: variable
+  parameters:
+    comment: ''
+    value: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [912, 1828.0]
+    rotation: 0
+    state: true
+- name: Npackets
+  id: variable
+  parameters:
+    comment: ''
+    value: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [336, 204.0]
+    rotation: 180
+    state: enabled
+- name: Npackets
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 624.0]
+    rotation: 180
+    state: disabled
+- name: Preamble_filter_len
+  id: variable
+  parameters:
+    comment: ''
+    value: '64'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [704, 1828.0]
+    rotation: 0
+    state: true
+- name: Print_packet_info
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: ''
+    label: Print Packet Info
+    'true': '1'
+    type: int
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [552, 960.0]
+    rotation: 180
+    state: disabled
+- name: Print_packet_info
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [96, 112.0]
+    rotation: 0
+    state: enabled
+- name: Reduce_print
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: ''
+    label: Reduce_print
+    'true': '1'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [688, 960.0]
+    rotation: 180
+    state: disabled
+- name: Reduce_print
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [96, 124.0]
+    rotation: 180
+    state: enabled
+- name: Simulation
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1208, 772.0]
+    rotation: 0
+    state: disabled
+- name: Simulation
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1176, 252.0]
+    rotation: 0
+    state: enabled
+- name: Tag_delay
+  id: variable
+  parameters:
+    comment: ''
+    value: int(len(taps)//2)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [312, 1872.0]
+    rotation: 0
+    state: enabled
+- name: Tag_delay
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [336, 1872.0]
+    rotation: 0
+    state: disabled
+- name: center_freq_hz
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    entry_signal: editingFinished
+    gui_hint: ''
+    label: Carrier Freq.
+    type: real
+    value: 880.009e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [816, 732.0]
+    rotation: 180
+    state: disabled
+- name: common_params
+  id: variable
+  parameters:
+    comment: "Common parameters passed to the LELEC210X blocks:\n- data_rate \n- fdev\n\
+      - samp_rate\n- oversampling\n- preamble_len\n- sync_word\n- payload_len\n- crc_len"
+    value: '[data_rate, fdev, samp_rate, oversampling, preamble_len, sync_word, payload_len,
+      crc_len]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1232, 1220.0]
+    rotation: 0
+    state: true
+- name: crc_len
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [976, 1332.0]
+    rotation: 0
+    state: true
+- name: data_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: 50e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [544, 1220.0]
+    rotation: 0
+    state: true
+- name: detection_threshold
+  id: variable
+  parameters:
+    comment: ''
+    value: '0.5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 1828.0]
+    rotation: 0
+    state: true
+- name: detection_threshold_qt
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    entry_signal: editingFinished
+    gui_hint: ''
+    label: Detection threshold
+    type: real
+    value: '0.02'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [816, 628.0]
+    rotation: 180
+    state: disabled
+- name: expected_payload
+  id: variable
+  parameters:
+    comment: ''
+    value: range(payload_len)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [976, 624.0]
+    rotation: 0
+    state: disabled
+- name: expected_payload
+  id: variable
+  parameters:
+    comment: ''
+    value: None
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [96, 128.0]
+    rotation: 0
+    state: enabled
+- name: export_file_name
+  id: variable
+  parameters:
+    comment: ''
+    value: '"./export/gnu_output"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [544, 2040.0]
+    rotation: 0
+    state: enabled
+- name: fdev
+  id: variable
+  parameters:
+    comment: ''
+    value: data_rate/4
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [704, 1228.0]
+    rotation: 0
+    state: true
+- name: lpf_cutoff
+  id: variable
+  parameters:
+    comment: ''
+    value: 190e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [304, 1796.0]
+    rotation: 0
+    state: enabled
+- name: lpf_transition_width
+  id: variable
+  parameters:
+    comment: ''
+    value: 16e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [120, 1796.0]
+    rotation: 0
+    state: enabled
+- name: n_EsN0
+  id: variable
+  parameters:
+    comment: ''
+    value: '15'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [336, 120.0]
+    rotation: 180
+    state: enabled
+- name: n_EsN0
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 624.0]
+    rotation: 180
+    state: disabled
+- name: noiseQuery
+  id: variable_qtgui_push_button
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Noise estimation query
+    pressed: '1'
+    released: '0'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [392, 960.0]
+    rotation: 180
+    state: disabled
+- name: noiseQuery
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [96, 120.0]
+    rotation: 180
+    state: enabled
+- name: noise_std
+  id: variable
+  parameters:
+    comment: ''
+    value: '0.02'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [400, 396.0]
+    rotation: 180
+    state: enabled
+- name: noise_std
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 624.0]
+    rotation: 180
+    state: disabled
+- name: oversampling
+  id: variable
+  parameters:
+    comment: ''
+    value: int(samp_rate/data_rate)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [968, 1228.0]
+    rotation: 0
+    state: true
+- name: payload_len
+  id: variable
+  parameters:
+    comment: ''
+    value: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [840, 1332.0]
+    rotation: 0
+    state: true
+- name: payload_seed
+  id: variable
+  parameters:
+    comment: ''
+    value: '1234'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [552, 120.0]
+    rotation: 180
+    state: enabled
+- name: payload_seed
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 624.0]
+    rotation: 180
+    state: disabled
+- name: preamble_len
+  id: variable
+  parameters:
+    comment: ''
+    value: '4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [544, 1332.0]
+    rotation: 0
+    state: true
+- name: random_payload
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [552, 204.0]
+    rotation: 180
+    state: enabled
+- name: random_payload
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 828.0]
+    rotation: 180
+    state: disabled
+- name: receiver_bw
+  id: variable_qtgui_chooser
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Receiver bandwidth
+    label0: ''
+    label1: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    labels: '["fBW=160kHz  fIF=250kHz","fBW=200kHz  fIF=250kHz","fBW=250kHz  fIF=250kHz","fBW=320kHz  fIF=500kHz","fBW=400kHz  fIF=500kHz","fBW=500kHz  fIF=500kHz","fBW=630kHz  fIF=1000kHz","fBW=800kHz  fIF=1000kHz","fBW=1000kHz
+      fIF=1000kHz","fBW=1250kHz fIF=2000kHz","fBW=1600kHz fIF=2000kHz","fBW=2000kHz
+      fIF=2000kHz"]'
+    num_opts: '0'
+    option0: '0'
+    option1: '1'
+    option2: '2'
+    option3: '3'
+    option4: '4'
+    options: '[160e3, 200e3,250e3,320e3,400e3,500e3,630e3,800e3,1000e3,1250e3,1600e3,2000e3]'
+    orient: Qt.QVBoxLayout
+    type: real
+    value: 800e3
+    widget: combo_box
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [208, 944.0]
+    rotation: 180
+    state: disabled
+- name: rx_gain
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: int
+    start: '0'
+    step: '1'
+    stop: '73'
+    value: '10'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 624.0]
+    rotation: 180
+    state: disabled
+- name: rxdfe_cutoff_config
+  id: variable_qtgui_chooser
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: RXDFE config for the cutoff freq.
+    label0: ''
+    label1: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    labels: '["fCUT=0.25 *fS/2","fCUT=0.375*fS/2","fCUT=0.5  *fS/2","fCUT=0.75 *fS/2","fCUT=1.00
+      *fS/2"]'
+    num_opts: '0'
+    option0: '0'
+    option1: '1'
+    option2: '2'
+    option3: '3'
+    option4: '4'
+    options: '[0,1,2,3,4]'
+    orient: Qt.QVBoxLayout
+    type: int
+    value: '4'
+    widget: combo_box
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 944.0]
+    rotation: 180
+    state: disabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: 400e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [840, 1228.0]
+    rotation: 0
+    state: enabled
+- name: sync_word
+  id: variable
+  parameters:
+    comment: ''
+    value: '"3E2A54B7"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [704, 1332.0]
+    rotation: 0
+    state: true
+- name: taps
+  id: variable
+  parameters:
+    comment: ''
+    value: np.array(firdes.low_pass(1.0, samp_rate, lpf_cutoff, lpf_transition_width))
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [152, 1544.0]
+    rotation: 0
+    state: enabled
+- name: LELEC210X_demodulation_0
+  id: LELEC210X_demodulation
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    common_params: common_params
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1184, 1688.0]
+    rotation: 0
+    state: enabled
+- name: LELEC210X_packet_generator_0_0
+  id: LELEC210X_packet_generator
+  parameters:
+    EsN0_max: EsN0_max
+    EsN0_min: EsN0_min
+    Npackets: Npackets
+    add_sto: (1-Ideal_STO)
+    affinity: ''
+    alias: ''
+    cfo_max: 10e3
+    cfo_min: 8e3
+    comment: ''
+    common_params: common_params
+    maxoutbuf: '65536'
+    minoutbuf: '65536'
+    n_EsN0: n_EsN0
+    noise_std: noise_std
+    osr_tx: oversampling*8
+    payload_random: random_payload
+    pkt_regen: '1'
+    seed: payload_seed
+    zero_samples_fixed: '5000'
+    zero_samples_rand: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [56, 204.0]
+    rotation: 0
+    state: enabled
+- name: LELEC210X_packet_parser_0
+  id: LELEC210X_packet_parser
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    common_params: common_params
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [144, 2240.0]
+    rotation: 0
+    state: enabled
+- name: LELEC210X_packet_stats_0
+  id: LELEC210X_packet_stats
+  parameters:
+    EsN0_max: EsN0_max
+    EsN0_min: EsN0_min
+    affinity: ''
+    alias: ''
+    comment: ''
+    common_params: common_params
+    enbw: LPF_ENBW
+    n_EsN0: n_EsN0
+    out_prefix: export_file_name
+    packets_per_esn0: Npackets
+    payload_random: random_payload
+    print_log: Print_packet_info
+    reduced_print: Reduce_print
+    save_full_trace: '1'
+    sdr_expected_payload: expected_payload
+    seed: payload_seed
+    sim_noise_power: noise_std**2
+    simulation: Simulation
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [728, 2108.0]
+    rotation: 0
+    state: enabled
+- name: LELEC210X_preamble_detect_0
+  id: LELEC210X_preamble_detect
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    common_params: common_params
+    enable: Enable_detection
+    filter_len: Preamble_filter_len
+    ideal_detect: Ideal_Detector
+    maxoutbuf: '4096'
+    minoutbuf: '4096'
+    query: noiseQuery
+    sim_tag_delay: Tag_delay
+    simulation: Simulation
+    threshold: (detection_threshold if Simulation else detection_threshold_qt)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 1632.0]
+    rotation: 0
+    state: enabled
+- name: LELEC210X_rf215_cfg_stream_sender_0
+  id: LELEC210X_rf215_cfg_stream_sender
+  parameters:
+    agc_avgs: '8'
+    agc_input: '0'
+    agc_on: '0'
+    agc_target: '-30'
+    alias: ''
+    cf: center_freq_hz
+    chunk: '2048'
+    comment: ''
+    ip_address: IP_addr
+    port: '2104'
+    r_rssi: '0'
+    r_rx_gain: '0'
+    rx_gain: int(rx_gain//3)
+    rx_ifshift: '0'
+    rxbw: receiver_bw
+    rxdfe_cut: rxdfe_cutoff_config
+    rxdfe_sr: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 620.0]
+    rotation: 180
+    state: disabled
+- name: LELEC210X_synchronization_0
+  id: LELEC210X_synchronization
+  parameters:
+    N_Moose: N_Moose
+    affinity: ''
+    alias: ''
+    cfo_precorrection: CFO_precorrection
+    comment: ''
+    common_params: common_params
+    enable_Moose: (1-Ideal_CFO)
+    enable_STO_est: (1-Ideal_STO)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [816, 1656.0]
+    rotation: 0
+    state: enabled
+- name: LELEC210X_tcp_source_0
+  id: LELEC210X_tcp_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    endianness: 'False'
+    host: 192.168.1.2
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    port: '2103'
+    scale: 2**15
+    swap_iq: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [568, 824.0]
+    rotation: 0
+    state: disabled
+- name: analog_noise_source_x_0_1
+  id: analog_noise_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: noise_std
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_type: analog.GR_GAUSSIAN
+    seed: '0'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [552, 364.0]
+    rotation: 0
+    state: enabled
+- name: blocks_add_xx_0
+  id: blocks_add_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [880, 328.0]
+    rotation: 0
+    state: enabled
+- name: blocks_throttle2_0
+  id: blocks_throttle2
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    limit: auto
+    maximum: '2048'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: samp_rate
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [792, 848.0]
+    rotation: 0
+    state: disabled
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import numpy as np
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [88, 1344.0]
+    rotation: 0
+    state: enabled
+- name: low_pass_filter_0
+  id: low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: lpf_cutoff
+    decim: '1'
+    gain: '1'
+    interp: '1'
+    maxoutbuf: '65536'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    type: fir_filter_ccf
+    width: lpf_transition_width
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [152, 1648.0]
+    rotation: 0
+    state: enabled
+- name: note_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [40, 24.0]
+    rotation: 0
+    state: enabled
+- name: note_0_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [40, 536.0]
+    rotation: 0
+    state: enabled
+- name: note_0_0_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 1128.0]
+    rotation: 0
+    state: enabled
+- name: note_0_0_0_0
+  id: note
+  parameters:
+    alias: ''
+    comment: '++++++++++++++
+
+      +   MODULATION
+
+      +   & PACKET
+
+      +   PARAMETERS
+
+      ++++++++++++++'
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [360, 1224.0]
+    rotation: 0
+    state: enabled
+- name: note_0_1
+  id: note
+  parameters:
+    alias: ''
+    comment: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 1440.0]
+    rotation: 0
+    state: enabled
+- name: note_0_1_1
+  id: note
+  parameters:
+    alias: ''
+    comment: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 1952.0]
+    rotation: 0
+    state: enabled
+- name: note_0_2_0
+  id: note
+  parameters:
+    alias: ''
+    comment: '+
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +'
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1104, 32.0]
+    rotation: 0
+    state: enabled
+- name: note_0_2_0_0
+  id: note
+  parameters:
+    alias: ''
+    comment: '+
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +'
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [96, 1440.0]
+    rotation: 0
+    state: enabled
+- name: note_0_2_0_0_0
+  id: note
+  parameters:
+    alias: ''
+    comment: '+
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +'
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [464, 1440.0]
+    rotation: 0
+    state: enabled
+- name: note_0_2_0_0_0_1
+  id: note
+  parameters:
+    alias: ''
+    comment: '+
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +'
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1152, 1448.0]
+    rotation: 0
+    state: enabled
+- name: note_0_2_0_0_0_2
+  id: note
+  parameters:
+    alias: ''
+    comment: '+
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +'
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1448, 1440.0]
+    rotation: 0
+    state: enabled
+- name: note_0_2_0_0_1
+  id: note
+  parameters:
+    alias: ''
+    comment: '+
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +
+
+      +'
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [464, 1952.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_sink_x_0
+  id: qtgui_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    bw: samp_rate
+    comment: ''
+    fc: '0'
+    fftsize: '1024'
+    gui_hint: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: SDR signal
+    plotconst: 'True'
+    plotfreq: 'True'
+    plottime: 'True'
+    plotwaterfall: 'True'
+    rate: '30'
+    showports: 'False'
+    showrf: 'False'
+    type: complex
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1376, 904.0]
+    rotation: 0
+    state: disabled
+- name: virtual_sink_0
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: Rec_signal
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1152, 336.0]
+    rotation: 0
+    state: enabled
+- name: virtual_sink_0_0
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: Demod_bytes
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1480.0, 1808]
+    rotation: 270
+    state: enabled
+- name: virtual_sink_0_0_0
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: Payload_bytes
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [600.0, 2320]
+    rotation: 270
+    state: enabled
+- name: virtual_sink_0_1
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: Rec_signal
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1184, 856.0]
+    rotation: 0
+    state: disabled
+- name: virtual_sink_0_1_0
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: Filtered_signal
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [376.0, 1496]
+    rotation: 90
+    state: enabled
+- name: virtual_source_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: Rec_signal
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24.0, 1512]
+    rotation: 270
+    state: enabled
+- name: virtual_source_0_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: Demod_bytes
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24.0, 2024]
+    rotation: 270
+    state: enabled
+- name: virtual_source_0_1
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: Filtered_signal
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [832, 936.0]
+    rotation: 0
+    state: disabled
+- name: virtual_source_0_1_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: Payload_bytes
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [824, 1040.0]
+    rotation: 0
+    state: disabled
+- name: zeromq_pub_sink_0
+  id: zeromq_pub_sink
+  parameters:
+    address: tcp://127.0.0.1:10000
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: ''
+    drop_on_hwm: 'True'
+    hwm: '-1'
+    key: ''
+    pass_tags: 'False'
+    timeout: '100'
+    type: byte
+    vlen: payload_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1176, 1000.0]
+    rotation: 0
+    state: disabled
+
+connections:
+- [LELEC210X_demodulation_0, '0', virtual_sink_0_0, '0']
+- [LELEC210X_packet_generator_0_0, '0', blocks_add_xx_0, '0']
+- [LELEC210X_packet_parser_0, '0', LELEC210X_packet_stats_0, '0']
+- [LELEC210X_packet_parser_0, '0', virtual_sink_0_0_0, '0']
+- [LELEC210X_preamble_detect_0, '0', LELEC210X_synchronization_0, '0']
+- [LELEC210X_synchronization_0, '0', LELEC210X_demodulation_0, '0']
+- [LELEC210X_tcp_source_0, '0', blocks_throttle2_0, '0']
+- [analog_noise_source_x_0_1, '0', blocks_add_xx_0, '1']
+- [blocks_add_xx_0, '0', virtual_sink_0, '0']
+- [blocks_throttle2_0, '0', virtual_sink_0_1, '0']
+- [low_pass_filter_0, '0', LELEC210X_preamble_detect_0, '0']
+- [low_pass_filter_0, '0', virtual_sink_0_1_0, '0']
+- [virtual_source_0, '0', low_pass_filter_0, '0']
+- [virtual_source_0_0, '0', LELEC210X_packet_parser_0, '0']
+- [virtual_source_0_1, '0', qtgui_sink_x_0, '0']
+- [virtual_source_0_1_0, '0', zeromq_pub_sink_0, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0
