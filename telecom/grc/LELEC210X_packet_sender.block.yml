@@ -1,0 +1,53 @@
+id: LELEC210X_packet_sender
+label: LELEC210X Packet Sender
+category: "[LELEC210X]"
+
+templates:
+  imports: import LELEC210X
+  make: LELEC210X.packet_sender(${common_params}, ${burst_mode}, ${zero_samples})
+
+parameters:
+- id: burst_mode
+  label: Send only when triggered
+  dtype: int
+
+- id: common_params
+  label: Common parameters
+  dtype: raw
+  default: '[data_rate, fdev, samp_rate, oversampling, preamble_len, sync_word, payload_len, crc_len]'
+
+- id: zero_samples
+  label: Zero samples at packet end
+  dtype: int
+  default: '64'
+
+
+inputs:
+- domain: message
+  id: trig
+  optional: true
+
+outputs:
+- label: out
+  domain: stream
+  dtype: complex
+
+documentation: |-
+  Source block that streams complex zeros continuously, and emits one
+  fixed-length packet per trigger (mid-stream, in place of the zeros).
+
+  Parameters:
+    packet_len : fixed number of complex64 samples per packet.
+
+
+  Trigger it either by:
+    - calling <block_id>.trigger() from another widget's own
+      Callback field (e.g. a QT GUI Range or Variable), or from an
+      external script driving an automated sweep, or
+    - connecting a QT GUI Message Push Button's message output to
+      this block's "trig" message input port.
+
+  While a packet is in flight, further triggers are ignored until it
+  finishes.
+
+file_format: 1

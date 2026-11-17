@@ -11,6 +11,7 @@ local-packages = [
   "common",
   "contrib[all]",
   "leaderboard",
+  "telecom",
 ]
 tests = ["pytest>=7.4.3"]
 youtube-dl = ["youtube-dl @ git+https://github.com/ytdl-org/youtube-dl.git"]
@@ -53,6 +54,7 @@ classification = {workspace = true}
 common = {workspace = true}
 contrib = {workspace = true}
 leaderboard = {workspace = true}
+telecom = {workspace = true}
 
 [tool.uv.workspace]
-members = ["auth", "classification", "common", "contrib", "leaderboard"]
+members = ["auth", "classification", "common", "contrib", "leaderboard", "telecom"]

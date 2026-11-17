@@ -1,0 +1,64 @@
+id: LELEC210X_preamble_detect
+label: LELEC210X Preamble Detection
+category: "[LELEC210X]"
+
+templates:
+  imports: import LELEC210X
+  make: LELEC210X.preamble_detect(${common_params}, ${threshold}, ${enable}, ${filter_len},${simulation}, ${ideal_detect},${query},${sim_tag_delay})
+  callbacks:
+  - query_estimation(${query})
+  - set_enable(${enable})
+  - set_threshold(${threshold})
+
+#  Make one 'parameters' list entry for every parameter you want settable from the GUI.
+#     Keys include:
+#     * id (makes the value accessible as \$keyname, e.g. in the make entry)
+#     * label (label shown in the GUI)
+#     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
+parameters:
+  - id: common_params
+    label: Common parameters
+    dtype: raw
+    default: '[data_rate, fdev, samp_rate, oversampling, preamble_len, sync_word, payload_len, crc_len]'
+
+  - id: threshold
+    label: Detection Threshold
+    dtype: float
+  - id: enable
+    label: Enable detection
+    dtype: int
+  - id: filter_len
+    label: Window length for energy calc.
+    dtype: int
+  - id: simulation
+    label: Simulation behavior
+    dtype: int
+  - id: ideal_detect
+    label: Detection by looking for tag
+    dtype: int
+  - id: query
+    label: Noise est. query
+    dtype: int
+  - id: sim_tag_delay
+    label: (Sim) Tag delay (FIR compens.)
+    dtype: int
+
+#  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
+#  Keys include:
+#      * label (an identifier for the GUI)
+#      * domain (optional - stream or message. Default is stream)
+#      * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
+#      * vlen (optional - data stream vector length. Default is 1)
+#      * optional (optional - set to 1 for optional inputs. Default is 0)
+inputs:
+  - label: Input
+    dtype: complex
+
+outputs:
+  - domain: stream
+    label: Output
+    dtype: complex
+
+#  'file_format' specifies the version of the GRC yml format used in the file
+#  and should usually not be changed.
+file_format: 1

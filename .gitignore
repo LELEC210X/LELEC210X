@@ -38,6 +38,7 @@ tex/*/*.synctex(busy)
 tex/pdfs.zip
 _minted-*/
 tex/hands_on_wireless_simulation/modulate.py
+tex/*/out/
 
 # MCU
 
@@ -49,14 +50,19 @@ mcu/*.launch
 # Telecom
 
 
-telecom/python/telecom/TA*
-telecom/python/telecom/sim_outputs.csv
-telecom/**/build/
-telecom/**/gr-fsk/apps/*.py
-telecom/**/gr-fsk/apps/*.txt
-!telecom/**/gr-fsk/apps/CMakeLists.txt
+telecom/apps/export/*
+telecom/apps/*.py
+!telecom/apps/plot_cfo_histogram.py
+!telecom/apps/plot_summaries.py
+telecom/apps/*.txt
+!telecom/apps/CMakeLists.txt
 
-telecom\python\telecom\TA*.py
+telecom\python\TA*.py
+
+telecom/build/*
+
+telecom/**/*.csv
+telecom/**/*.png
 
 # FPGA
 

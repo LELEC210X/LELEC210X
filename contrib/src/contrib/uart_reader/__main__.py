@@ -1054,6 +1054,7 @@ class GUIMainWindow(QMainWindow):
         self.write_button = QPushButton("Write")
         self.write_button.setFixedWidth(100)
         self.write_button.clicked.connect(self.write_message_handler)
+        self.write_message.returnPressed.connect(self.write_message_handler)
         self.layout_write.addWidget(self.write_label)
         self.layout_write.addWidget(self.write_message)
         self.layout_write.addWidget(self.write_button)
@@ -1105,7 +1106,9 @@ class GUIMainWindow(QMainWindow):
     def write_message_handler(self):
         if self.db.get_item("Serial Settings", "allowwrite").value:
             message = self.write_message.text()
-            self.ser.write_message(message)
+            if message:
+                # Terminate with a newline so the MCU can parse line by line
+                self.ser.write_message(message + "\n")
             self.write_message.clear()
         else:
             self.logger.error("Writing messages is disabled in settings")
@@ -1293,7 +1296,7 @@ def database_init(db: dbu.ContentDatabase):
         "Serial Settings",
         "allowwrite",
         db.Boolean(
-            "Allow Write", False, "Allow sending messages through the serial port"
+            "Allow Write", True, "Allow sending messages through the serial port"
         ),
     )
     db.add_item(

@@ -1,0 +1,173 @@
+\section{Introduction to GNU Radio}
+
+\subsection{What is GNU Radio?}
+
+The GNU Radio official \href{https://wiki.gnuradio.org/index.php?title=What_Is_GNU_Radio}{website} presents it as: \emph{a free \& open-source software development toolkit that provides signal processing blocks to implement software radios}. It can be used with external RF hardware to create software-defined radios, or without hardware in a simulation-like environment.
+
+A GNU Radio application is described as a \emph{flowgraph}: a graph in which each node is a signal processing \emph{block} (a source, a filter, a mixer, a sink, etc.) and each edge is a connection carrying a stream of samples from the output port of one block to the input port of the next. The blocks are not called one after the other by the user: the GNU Radio scheduler runs them continuously, and every connection is implemented as a \emph{buffer}. A block writes the samples it produces into the buffer of its output, and the downstream block reads them from this buffer whenever enough samples are available. Each block thus only needs to know how to process the samples it receives, independently of the rest of the chain. The processing blocks are written in C++ or Python, while the flowgraph itself can be built graphically with \emph{GNU Radio Companion} (GRC), which generates the corresponding Python code.
+
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Data types and sample rate}
+Each port has a data type (e.g. \texttt{float} for real samples, \texttt{complex} for I/Q samples, \texttt{byte}, etc.), indicated by its colour in GRC. Only ports with the same type can be connected. A flowgraph does not carry any notion of time by itself: the sample rate is only meaningful through the blocks that interpret it (sources, sinks, throttle, filters, etc.).
+\end{bclogo}
+
+\subsection{Execution of a simple GNU Radio flowgraph}
+
+The goal of this first exercise is to build and run your first flowgraph. It follows the tutorial \href{https://wiki.gnuradio.org/index.php?title=Your_First_Flowgraph}{Your First Flowgraph} of the GNU Radio wiki, which you can consult for more details. You will generate a sine wave and display it in a graphical sink.
+
+\begin{enumerate}
+    \item Open \emph{GNU Radio Companion}. A default flowgraph is created, containing an \texttt{Options} block and a \texttt{Variable} block called \texttt{samp\_rate} (set to \SI{32}{\kilo\hertz}). The \texttt{Options} block defines the title of the flowgraph and the way it is generated (e.g. \texttt{QT GUI} for a flowgraph with a graphical interface). The \texttt{samp\_rate} variable can be used by any other block of the flowgraph.
+    \item Search for the \texttt{Signal Source} block (shortcut: press \texttt{Ctrl+F} and type the name of the block), then double-click on it, or drag and drop it from the block list on the right, into the workspace.
+    \item Add a \texttt{Throttle} block in the same way. 
+    \item Add a \texttt{QT GUI Sink} block (the \emph{GT GUI Sink} of the GNU Radio wiki, i.e. the Qt frequency/time display).
+    \item Connect the blocks in this order: \texttt{Signal Source} $\rightarrow$ \texttt{Throttle} $\rightarrow$ \texttt{QT GUI Sink}. To create a connection, click on the output port of a block and then on the input port of the next block.
+    \item Double-click on each block to configure it:
+    \begin{itemize}
+        \item In the \texttt{Signal Source}, set the \emph{Sample Rate} to \texttt{samp\_rate}, the \emph{Waveform} to \texttt{Cosine} and choose the \emph{Frequency} (e.g. \SI{1}{\kilo\hertz}) and the \emph{Amplitude} (e.g. 1). Use the \texttt{Complex} output type so that it matches the sink (or use \texttt{Float} for both blocks).
+        \item In the \texttt{Throttle}, set the \emph{Sample Rate} to \texttt{samp\_rate} and the same type as the source.
+        \item In the \texttt{QT GUI Sink}, set the \emph{Bandwidth} to \texttt{samp\_rate} and the same type as above.
+    \end{itemize}
+    \item Run the flowgraph by pressing the \emph{Execute} button (the ``play'' icon) in the toolbar, or using \texttt{F6}. GNU Radio Companion first generates the Python script (\texttt{F5}), then executes it. A window showing the time and frequency representations of your signal should appear. Stop it with the \emph{Kill} button (\texttt{F7}) or by closing the window.
+\end{enumerate}
+
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcattention]{Why a Throttle block?}
+In a flowgraph without any hardware, no block is tied to a real-time clock. Without the \texttt{Throttle} block, the signal source would produce samples as fast as the CPU allows, which would use 100\% of a core and make the display unusable. The \texttt{Throttle} block limits the flow of samples to the specified sample rate. It must \textbf{not} be used when a hardware block (e.g. the SDR source) already sets the sample rate.
+\end{bclogo}
+
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcquestion]{Experiments}
+\begin{itemize}
+    \item Change the frequency of the \texttt{Signal Source} while the flowgraph is stopped. Where do you see the peak in the spectrum? What happens when the frequency is larger than $\texttt{samp\_rate}/2$ (for a real signal)?
+\end{itemize}
+\end{bclogo}
+
+\subsection{Description of a GNU Radio block}
+
+In this project, you will integrate signal processing algorithms inside GNU Radio blocks to enable the reception of bits sent by the sensor node. To ease the process, we will rely on Python implementation of these blocks, even though it is slightly less efficient than C++ ones. A GNU Radio block coded in Python and usable in GNU Radio Companion is described by two files:
+\begin{itemize}
+    \item a \textbf{YAML file} (\texttt{*.block.yml}), which describes the block \emph{for GNU Radio Companion}: its name, its category, its parameters, its input/output ports and the way it is instantiated in the generated code;
+    \item a \textbf{Python file} (\texttt{*.py}), which contains the \emph{implementation} of the block, i.e. the signal processing itself.
+\end{itemize}
+
+In the \texttt{telecom} folder that encapsulates the \texttt{gr-LELEC210X} GNU Radio module, have a look at the block called \texttt{tutorial}. Start with its YAML file located in \texttt{telecom/grc}. It contains the following main elements:
+\begin{itemize}
+    \item the \textbf{definition} of the block: its \texttt{id} (unique name), its \texttt{label} (name displayed in GRC),  and the \texttt{templates}, which tell GRC how to instantiate the block (the Python class and the arguments to give it) and which \emph{callbacks} to call;
+    \item the \textbf{parameters}: each of them has an \texttt{id}, a \texttt{label}, a \texttt{dtype} (type) and a default value. They are the fields displayed when you double-click on the block, and they can be given a value or a variable (e.g. the output of a slider);
+    \item the \textbf{callbacks}: they are listed in the \texttt{templates} section (e.g. \texttt{set\_offset(\$\{offset\})}). Whenever the value of a parameter is changed while the flowgraph is running (e.g. with a slider), the associated method of the Python class is called, which allows modifying the behavior of the block without restarting the flowgraph;
+    \item the \textbf{inputs and outputs}: each port has a \texttt{domain} (\texttt{stream} for continuous samples or \texttt{message}), a \texttt{dtype} (e.g. \texttt{complex}, \texttt{float}) and optionally a vector length.
+\end{itemize}
+
+The behavior and signal processing of the GNU Radio block is described in its Python file. It uses a \textbf{class} that inherits from a GNU Radio block class (e.g. \texttt{gr.basic\_block} or \texttt{gr.sync\_block}). It mainly contains:
+\begin{itemize}
+    \item an \textbf{\texttt{\_\_init\_\_}} function, which receives the parameters defined in the YAML file. It declares the name and the input/output signatures of the block, and it is where the internal variables (e.g. the offset) can be defined. In this block, a lower-level GNU Radio block is also instantiated in the constructor and used to process the samples. A logger can also be created there to print messages in the terminal;
+    \item a \textbf{\texttt{forecast}} function, which tells the scheduler how many input samples are needed in order to produce a given number of output samples. The scheduler uses it to make sure that enough data are available in the input buffers before calling the block;
+    \item a \textbf{\texttt{general\_work}} function, which is the core of the block. It is called by the scheduler with the buffers \texttt{input\_items} and \texttt{output\_items}. It reads the input samples, processes them, writes the result in the output buffers, tells the scheduler how many input samples were consumed (\texttt{consume}), and returns the number of output samples produced;
+    \item the \textbf{callback functions} (e.g. \texttt{set\_offset}), which modify the internal variables when a parameter is changed from the flowgraph.
+\end{itemize}
+
+Go over the Python file of the \texttt{tutorial} and identify the different parts described above.
+
+You should have already compiled the \texttt{gr-LELEC210X} module and the \texttt{tutorial} block should hence already be compiled. Refer to the \texttt{INSTALL.md} file if not already done. Now add the \texttt{tutorial} block inside your flowgraph and connect it between the \texttt{Throttle} and \texttt{QT GUI Sink} blocks. Also add a \texttt{QT Range} (you can copy the one already present) that will modify a variable which name you can select. This variable name should be specified in both the slider and the \texttt{tutorial}. Run the flowgraph and move the slider. If the signals mean changes, the callback function properly update the \texttt{offset} variable inside the \texttt{tutorial} block.
+
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Python and the scheduler}
+The scheduler calls the \texttt{general\_work} function many times per second, each time with a chunk of samples (a numpy array). To keep the processing fast, avoid Python loops over samples and prefer vectorised numpy operations.
+\end{bclogo}
+
+\subsection{Modification of the block}
+
+Initially, \texttt{tutorial} simply adds an offset to the signal, thanks to a variable and its related callback. You must now add an \textbf{amplification} to this block. The principle is the same as for the offset. For this, you have to:
+\begin{enumerate}
+    \item \textbf{In the YAML file}: add a new parameter (e.g. \texttt{amplitude}, with a \texttt{float} type and a default value of 1), add it to the arguments of the block in the \texttt{templates} section, and add the corresponding callback (e.g. \texttt{set\_amplitude(\$\{amplitude\})}). Do not forget to respect the indentation of the YAML file.
+    \item \textbf{In the Python file}: add the argument to the \texttt{\_\_init\_\_} function and store it in a member variable (e.g. \texttt{self.amplitude = amplitude}). Then add the callback function:
+\begin{lstlisting}[language=Python]
+def set_amplitude(self, amplitude):
+    self.amplitude = amplitude
+\end{lstlisting}
+    Finally, modify the processing in the \texttt{general\_work} function so that the signal is multiplied by the amplitude, in addition to the offset. The order of the operations (amplifying before or after adding the offset) is for you to choose.
+    \item \textbf{Recompile and install} the module (see next subsection).
+    \item \textbf{In the flowgraph}: Add a \texttt{QT GUI Range} (slider) block, give it the id \texttt{amplitude} and use this variable as the new parameter of your block. Run the flowgraph and verify that you can modify the amplitude and the offset in real time.
+\end{enumerate}
+
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcattention]{Typical mistakes}
+After modifying the YAML file, you need to \textbf{reload the blocks} (or restart GNU Radio Companion) for the changes to be visible. An error in the YAML syntax (indentation, missing colon, etc.) leads to a block that is missing from the list or that cannot be used. Also check that the names of the parameters are identical in the YAML file and in the Python file.
+\end{bclogo}
+
+\subsection{Compilation of a custom module}
+
+Each time you modify a file of the \texttt{gr-LELEC210X} module, you must install it again so that GNU Radio uses the new version. The procedure depends on your operating system. The commands must be run from the \texttt{build} folder of the module (the one that was created during the installation, see INSTALL.md on the course's GitHub).
+
+\subsubsection*{Recompilation on Linux}
+
+\begin{lstlisting}[language=bash]
+cmake ..
+sudo make install
+\end{lstlisting}
+
+Whenever you modify only the Python code of a GNU Radio block, you only have to run the \texttt{sudo make install} command. If you also modify the \texttt{.yaml} files or other ones from the package, you should run the two commands (\texttt{cmake} and \texttt{sudo make install}).
+
+\subsubsection*{Recompilation on Windows}
+
+Open your \emph{Conda/Radioconda} prompt (the one in which GNU Radio is installed), go to the \texttt{build} folder of the module and run:
+
+\begin{lstlisting}[language=bash]
+cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="%CONDA_PREFIX%\Library" -DCMAKE_PREFIX_PATH="%CONDA_PREFIX%\Library" -DGR_PYTHON_DIR="%CONDA_PREFIX%\Lib\site-packages" ..
+cmake --build .
+cmake --build . --target install
+\end{lstlisting}
+
+
+Whenever you modify only the Python code of a GNU Radio block, you only have to run the \texttt{cmake --build . --target install} command. If you also modify the \texttt{.yaml} files or other ones from the package, you should run all three \texttt{cmake} commands.
+
+\subsection{GNU Radio tips}
+
+Some shortcuts and tricks will save you time when building flowgraphs in GNU Radio Companion:
+\begin{itemize}
+    \item \texttt{Ctrl+F}: search for a block in the block list;
+    \item \texttt{E}: \textbf{enable} the selected block(s);
+    \item \texttt{D}: \textbf{disable} the selected block(s). A disabled block is grayed out and ignored, together with its connections. There is a switchable parameter in the interface to hide disabled blocks rather than gray them out.;
+    \item \texttt{B}: \textbf{bypass} the selected block(s). The block is skipped and its input is directly connected to its output (only possible for blocks having the same input and output type);
+    \item \texttt{Ctrl+C}, \texttt{Ctrl+V}: copy and paste blocks; \texttt{Delete}: remove them;
+    \item \texttt{Ctrl+R} / \texttt{Ctrl+Shift+R}: rotate the selected block(s);
+    \item \texttt{F5}, \texttt{F6}, \texttt{F7}: generate, execute and kill the flowgraph, respectively.
+\end{itemize}
+You can also keep the \texttt{Ctrl} key pressed while clicking to \textbf{select several blocks} at the same time (or draw a selection rectangle with the mouse), and then enable, disable, bypass, move or copy them all together. Finally, the console at the bottom of the window displays errors and warnings: always read it first when your flowgraph does not behave as expected.
+
+\section{Introduction to the SDR platform}
+
+\subsection{What is an SDR?}
+
+A Software-Defined Radio (SDR) is a radio communication system in which most of the signal processing that is traditionally performed by dedicated analog hardware (filtering, mixing, modulation, demodulation, detection, etc.) is instead implemented in software on a programmable processor (computer, FPGA, etc.). The hardware is reduced to a generic RF front-end that translates the signal between the antenna and digital samples.
+
+\subsection{Description of the SDR platform of the project}
+
+The SDR platform used in this project is made of two main parts: a custom RF shield and a DE10-Nano board. Its architecture is as follows:
+\begin{itemize}
+    \item The \textbf{RF shield} is built around an \textbf{AT86RF215} transceiver chip. It receives the RF signal from the antenna and outputs digitized I/Q samples to the DE10-Nano.
+    \item The \textbf{DE10-Nano} board embeds a System-on-Chip made of an FPGA and a processor, the HPS (Hard Processor System). The \textbf{FPGA} recovers the I/Q samples coming from the RF chip and writes them to a memory space shared with the HPS. The \textbf{HPS} (running Linux) reads these data from the shared memory and sends them through a \textbf{TCP} connection over Ethernet to the computer. A second TCP connection is used to send configuration modifications (e.g. carrier frequency, gain, etc.) from the computer to the HPS. The HPS then forwards them to the RF chip through an \textbf{SPI} interface.
+\end{itemize}
+
+In GNU Radio, this whole chain is hidden behind a custom blocks of the \texttt{gr-LELEC210X} module. The \texttt{SDR210X TCP Source} receives signals from the SDR while the \texttt{SDR210X Config Sender} formats and forwards configuration changes.
+
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcinfo]{Summary of the signal path}
+Antenna $\rightarrow$ AT86RF215 (RF shield) $\rightarrow$ FPGA (DE10-Nano) $\rightarrow$ shared memory $\rightarrow$ HPS $\rightarrow$ TCP over Ethernet $\rightarrow$ computer (GNU Radio).\\
+Configuration: GNU Radio $\rightarrow$ TCP (second port) $\rightarrow$ HPS $\rightarrow$ SPI $\rightarrow$ AT86RF215.
+\end{bclogo}
+
+\subsection{Reception of samples from the SDR platform}
+
+You should now be able to receive samples from your SDR platform. To do so:
+\begin{enumerate}
+    \item Plug the RF shield onto the DE10-Nano and power the DE10-Nano.
+    \item Connect an antenna to the RF shield.
+    \item Connect the DE10-Nano to your computer with the Ethernet cable. Wait a few seconds until the board has booted before launching the flowgraph.
+\end{enumerate}
+
+Next, open the flowgraph called \texttt{Test\_SDR}. Run it: you should see the received samples in the time and frequency displays. Then:
+\begin{itemize}
+    \item Modify the gain of the receiver and observe the impact on the noise floor in the spectrum;
+    \item Check that the displayed signal changes consistently when you touch or move the antenna.
+\end{itemize}
+
+\begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcattention]{If nothing is received}
+Check that the board is powered and booted, that the Ethernet link is up. If it is, the IP address \texttt{192.168.1.2} should appear on an Ethernet interface when using \texttt{ipconfig} or \texttt{ifconfig}. 
+\end{bclogo}
+
+When everything works, call an assistant. They will send packets on the frequency that you configured, so that you can verify that you do receive them (they should appear as bursts above the noise floor in the time and frequency displays).

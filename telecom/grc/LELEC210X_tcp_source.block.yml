@@ -1,0 +1,50 @@
+id: LELEC210X_tcp_source
+label: LELEC210X TCP Source
+category: "[LELEC210X]"
+
+templates:
+  imports: import LELEC210X
+  make: LELEC210X.tcp_source(${host}, ${port},${scale}, ${swap_iq}, ${endianness})
+
+parameters:
+- id: host
+  label: Host
+  dtype: string
+  default: 192.168.1.2
+
+- id: port
+  label: Port
+  dtype: int
+  default: '2103'
+
+- id: scale
+  label: Scale Factor
+  dtype: float
+  default: 1
+
+- id: swap_iq
+  label: Swap I/Q
+  dtype: bool
+  default: 'False'
+  options: ['False', 'True']
+  option_labels: ['No', 'Yes']
+
+- id: endianness
+  label: Endianness
+  dtype: enum
+  default: 'False'
+  options: ['False', 'True']
+  option_labels: ['Little Endian', 'Big Endian']
+
+outputs:
+- label: out
+  domain: stream
+  dtype: complex
+
+documentation: |-
+  Reads interleaved int16 I/Q samples from a TCP connection and outputs
+  complex64 samples directly, using Boost.Asio (cross-platform) and VOLK
+  (SIMD-accelerated int16->float32 conversion). Replaces network.tcp_source
+  + interleaved_short_to_complex with a single fused block.
+
+file_format: 1
