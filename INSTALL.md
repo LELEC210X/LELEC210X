@@ -207,7 +207,7 @@ sudo apt install gnuradio
 
 ##### Compilation of custom packages
 
-Go in the project folder at the following path `.\telecom\gr-210X`, create a build directory and go into it:
+Go in the project folder at the following path `.\telecom`. This folder encapsulates the `gr-LELEC210X` GNU Radio package that we have developed for the course. Create a build directory and go into it:
 
 ```bash
 mkdir build
@@ -259,7 +259,7 @@ conda install gnuradio-build-deps
 conda activate %CONDA_DEFAULT_ENV%
 ```
 
-We can now create the build directory for the installation of our custom GNU Radio package. Within the radioconda prompt, go in the project folder at the following path `.\telecom\gr-210X`, create a build directory and go into it:
+We can now create the build directory for the installation of our custom GNU Radio package. Within the radioconda prompt, go in the project folder at the following path `.\telecom`. This folder encapsulates the `gr-LELEC210X` GNU Radio package that we have developed for the course. Create a build directory and go into it: 
 
 ```bash
 mkdir build
