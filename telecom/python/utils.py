@@ -5,6 +5,7 @@ from collections.abc import Callable
 from functools import wraps
 from time import time
 from typing import Any
+
 import numpy as np
 
 logging.basicConfig(level=logging.INFO)
@@ -37,7 +38,6 @@ def parse_common_params(params: Any):
         hdr_len    = preamble_len + sync word length
         packet_len = hdr_len + payload_len + crc_len
     """
-
     values = list(params)
     if len(values) != len(COMMON_PARAMS_KEYS):
         for i in range(len(values)):
@@ -67,12 +67,12 @@ def parse_common_params(params: Any):
     ##########################################################################################
 
     # sync_word_len: number of bytes in the sync word (derived from bit array length)
-    p["sync_word_len"]  = int(len(p["sync_word"]) //8)
+    p["sync_word_len"] = int(len(p["sync_word"]) // 8)
     # hdr_len: total header = preamble bytes + sync word bytes
     # (the demodulator must pass this many bytes before the payload starts)
-    p["hdr_len"]        = p["preamble_len"] + p["sync_word_len"]
+    p["hdr_len"] = p["preamble_len"] + p["sync_word_len"]
     # packet_len: full packet length in bytes (header + payload + CRC)
-    p["packet_len"]     = p["hdr_len"] + p["payload_len"] + p["crc_len"]
+    p["packet_len"] = p["hdr_len"] + p["payload_len"] + p["crc_len"]
     return p
 
 

@@ -19,8 +19,6 @@
 #
 
 
-from distutils.version import LooseVersion
-
 import numpy as np
 import pmt
 from gnuradio import gr
@@ -68,7 +66,7 @@ class onQuery_noise_estimation(gr.basic_block):
     def __init__(self, n_samples, n_est, query, osr):
         self.osr = osr
         self.n_samples = n_samples  # samples per estimation batch
-        self.n_est = n_est          # number of batches to average
+        self.n_est = n_est  # number of batches to average
         self.mean_noise_est = 0
         self.est_counter = 1
         self.noise_est = None

@@ -32,8 +32,18 @@ from scipy import special
 # is self-contained (theory curves and axes need them when re-plotting).
 
 
-def compute_summary(df, isSimulation, payload_len, drate, fsamp, packets_per_esn0=0,
-                    EsN0_min=np.nan, EsN0_max=np.nan, n_EsN0=0, esn0_bin_width=1.0):
+def compute_summary(
+    df,
+    isSimulation,
+    payload_len,
+    drate,
+    fsamp,
+    packets_per_esn0=0,
+    EsN0_min=np.nan,
+    EsN0_max=np.nan,
+    n_EsN0=0,
+    esn0_bin_width=1.0,
+):
     """
     Reduce the per-packet dataframe to one row per Es/N0 value.
 
@@ -68,40 +78,48 @@ def compute_summary(df, isSimulation, payload_len, drate, fsamp, packets_per_esn
 
         df = df[df["true_esn0"].notna()].copy()
         df["true_esn0"] = df["true_esn0"].astype(float).round(6)
-        key  = "true_esn0"
+        key = "true_esn0"
         esn0 = np.union1d(grid, df["true_esn0"].unique())
     else:
         EsN0_min = EsN0_max = np.nan
-        n_EsN0   = 0
+        n_EsN0 = 0
         df = df[df["est_esn0_db"].notna()].copy()
         df["est_esn0_db"] = df["est_esn0_db"].astype(float)
         df = df[np.isfinite(df["est_esn0_db"])]
         # Bin each packet into a cluster index based on its estimated Es/N0
         df["esn0_cluster"] = np.floor(df["est_esn0_db"] / esn0_bin_width).astype(int)
-        key     = "esn0_cluster"
+        key = "esn0_cluster"
         # Cluster representative: mean estimated Es/N0 of its packets
         centers = df.groupby(key)["est_esn0_db"].mean().round(6)
-        esn0    = centers.values
+        esn0 = centers.values
         df[key] = df[key].map(centers)
         EsN0_min = float(esn0.min()) if len(esn0) else np.nan
         EsN0_max = float(esn0.max()) if len(esn0) else np.nan
-        n_EsN0   = len(esn0)
+        n_EsN0 = len(esn0)
 
     grouped = df.groupby(key)
     s = pd.DataFrame(index=pd.Index(esn0, name="esn0"))
 
     # --- Packet counts per Es/N0 ---
     s["n_received"] = grouped.size().reindex(esn0).fillna(0).astype(int)
-    s["n_correct"]  = grouped["crc_ok"].apply(
-        lambda g: int(g.fillna(False).astype(bool).sum())
-    ).reindex(esn0).fillna(0).astype(int)
+    s["n_correct"] = (
+        grouped["crc_ok"]
+        .apply(lambda g: int(g.fillna(False).astype(bool).sum()))
+        .reindex(esn0)
+        .fillna(0)
+        .astype(int)
+    )
 
     # Denominator: what was sent per Es/N0. Without it, fall back on what was
     # received (no missed-detection accounting).
-    n_sent         = pd.Series(packets_per_esn0, index=esn0, dtype=float) if isSimulation else np.nan
-    s["n_sent"]    = n_sent.astype(int)                                    if isSimulation else np.nan
-    s["n_missed"]  = (n_sent - s["n_received"]).clip(lower=0).astype(int)  if isSimulation else np.nan
-    s["miss_rate"] = 1.0 - s["n_received"] / n_sent                        if isSimulation else np.nan
+    n_sent = (
+        pd.Series(packets_per_esn0, index=esn0, dtype=float) if isSimulation else np.nan
+    )
+    s["n_sent"] = n_sent.astype(int) if isSimulation else np.nan
+    s["n_missed"] = (
+        (n_sent - s["n_received"]).clip(lower=0).astype(int) if isSimulation else np.nan
+    )
+    s["miss_rate"] = 1.0 - s["n_received"] / n_sent if isSimulation else np.nan
 
     # --- Packet Error Rate (PER) ---
     s["per"] = 1.0 - s["n_correct"] / s["n_received"]
@@ -111,13 +129,13 @@ def compute_summary(df, isSimulation, payload_len, drate, fsamp, packets_per_esn
     # BER: bit errors of received packets + 50 % errors on missed packets
     n_bits_pkt = payload_len * 8
     if df["n_bits"].notna().any():
-        captured          = grouped["bit_errors"].sum().reindex(esn0).fillna(0)
-        s["bit_errors"]   = captured
-        s["ber"]          = (captured) / (s["n_received"] * n_bits_pkt)
+        captured = grouped["bit_errors"].sum().reindex(esn0).fillna(0)
+        s["bit_errors"] = captured
+        s["ber"] = (captured) / (s["n_received"] * n_bits_pkt)
         s.loc[s["n_received"] == 0, "ber"] = 0.5
     else:
         s["bit_errors"] = np.nan
-        s["ber"]        = np.nan
+        s["ber"] = np.nan
 
     # --- Estimation error metrics (CFO RMSE, STO RMSE, mean SNR estimate) ---
     def _mean(col, fn=lambda x: x):
@@ -125,22 +143,22 @@ def compute_summary(df, isSimulation, payload_len, drate, fsamp, packets_per_esn
             return pd.Series(np.nan, index=esn0)
         return grouped[col].apply(lambda g: fn(g.dropna()).mean())
 
-    s["cfo_rmse_norm"]    = np.sqrt(_mean("cfo_error")) / drate
-    s["sto_rmse_symbols"] = np.sqrt(_mean("sto_error"))  #* drate
-    s["est_esn0_mean"]    = _mean("est_esn0_db")
-    s["est_sig_pow"]      = _mean("est_sig_pow")
+    s["cfo_rmse_norm"] = np.sqrt(_mean("cfo_error")) / drate
+    s["sto_rmse_symbols"] = np.sqrt(_mean("sto_error"))  # * drate
+    s["est_esn0_mean"] = _mean("est_esn0_db")
+    s["est_sig_pow"] = _mean("est_sig_pow")
 
     # --- Metadata columns (self-contained for offline re-plotting) ---
-    s["payload_len"]      = payload_len
-    s["drate"]            = drate
-    s["fsamp"]            = fsamp
+    s["payload_len"] = payload_len
+    s["drate"] = drate
+    s["fsamp"] = fsamp
     s["packets_per_esn0"] = packets_per_esn0 if isSimulation else np.nan
-    s["is_simulation"]    = bool(isSimulation)
+    s["is_simulation"] = bool(isSimulation)
 
     s["esn0_bin_width"] = esn0_bin_width if not isSimulation else np.nan
-    s["EsN0_min"]       = EsN0_min       if     isSimulation else np.nan
-    s["EsN0_max"]       = EsN0_max       if     isSimulation else np.nan
-    s["n_EsN0"]         = int(n_EsN0)    if     isSimulation else np.nan
+    s["EsN0_min"] = EsN0_min if isSimulation else np.nan
+    s["EsN0_max"] = EsN0_max if isSimulation else np.nan
+    s["n_EsN0"] = int(n_EsN0) if isSimulation else np.nan
 
     return s.reset_index()
 
@@ -156,19 +174,29 @@ def _theory(esn0_db, payload_len):
     PER is derived from BER assuming independent bit errors:
       PER = 1 - (1 - BER)^(payload_len * 8)
     """
-    esn0   = 10 ** (esn0_db / 10)
+    esn0 = 10 ** (esn0_db / 10)
     n_bits = payload_len * 8
     ber = {
-        "AWGN Th. FSK":          0.5 * special.erfc(np.sqrt(esn0 / 2)),
+        "AWGN Th. FSK": 0.5 * special.erfc(np.sqrt(esn0 / 2)),
         "AWGN Th. FSK non-coh.": 0.5 * np.exp(-esn0 / 2),
-        "AWGN Th. BPSK":         0.5 * special.erfc(np.sqrt(esn0)),
+        "AWGN Th. BPSK": 0.5 * special.erfc(np.sqrt(esn0)),
     }
     per = {k: 1 - (1 - v) ** n_bits for k, v in ber.items()}
     return ber, per
 
 
-def plot_summary(summary, out_prefix=None, save_fig=False, logger=None, show=False,
-                 fig_array=None, ax_array=None, label=None, close=False, color=None):
+def plot_summary(
+    summary,
+    out_prefix=None,
+    save_fig=False,
+    logger=None,
+    show=False,
+    fig_array=None,
+    ax_array=None,
+    label=None,
+    close=False,
+    color=None,
+):
     """
     Plot the Es/N0 curves of a summary dataframe, only for the data it holds.
 
@@ -196,8 +224,10 @@ def plot_summary(summary, out_prefix=None, save_fig=False, logger=None, show=Fal
     Figure names: "esn0_vs_error_rate", "esn0_vs_estimators" (also the suffix
     of the saved PNGs). Panel names: "ber", "per", "cfo", "sto", "est_esn0",
     "miss_rate".
+
     """
     import matplotlib
+
     if not show:
         matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -209,9 +239,9 @@ def plot_summary(summary, out_prefix=None, save_fig=False, logger=None, show=Fal
             print(msg)
 
     # Extract metadata from the first row (self-contained in the CSV)
-    meta        = summary.iloc[0]
+    meta = summary.iloc[0]
     payload_len = int(meta["payload_len"])
-    is_sim      = bool(meta["is_simulation"]) if "is_simulation" in summary else True
+    is_sim = bool(meta["is_simulation"]) if "is_simulation" in summary else True
 
     if is_sim:
         esn0_min, esn0_max = float(meta["EsN0_min"]), float(meta["EsN0_max"])
@@ -222,13 +252,13 @@ def plot_summary(summary, out_prefix=None, save_fig=False, logger=None, show=Fal
         grid = np.linspace(esn0_min - 1, esn0_max + 1, 100)
 
     ber_th, per_th = _theory(grid, payload_len)
-    th_styles      = ["--", "-.", ":"]
+    th_styles = ["--", "-.", ":"]
 
-    x          = summary["esn0"]
+    x = summary["esn0"]
     meas_label = label if label is not None else "Measured"
 
     fig_array = {} if fig_array is None else fig_array
-    ax_array  = {} if ax_array  is None else ax_array
+    ax_array = {} if ax_array is None else ax_array
 
     def get_figure(fig_name, panels, width):
         """Return existing (fig, {panel: ax}, False) or a new one with the panels holding data."""
@@ -237,9 +267,11 @@ def plot_summary(summary, out_prefix=None, save_fig=False, logger=None, show=Fal
         names = [name for name, has_data in panels if has_data]
         if not names:
             return None, {}, False
-        fig, axes = plt.subplots(1, len(names), figsize=(width * len(names), 4), squeeze=False)
-        fig_array[fig_name]  = fig
-        ax_array[fig_name]   = dict(zip(names, axes[0]))
+        fig, axes = plt.subplots(
+            1, len(names), figsize=(width * len(names), 4), squeeze=False
+        )
+        fig_array[fig_name] = fig
+        ax_array[fig_name] = dict(zip(names, axes[0]))
         return fig, ax_array[fig_name], True
 
     def extend_xlim(ax, lo, hi):
@@ -257,12 +289,21 @@ def plot_summary(summary, out_prefix=None, save_fig=False, logger=None, show=Fal
             old_legend.remove()
         fig.tight_layout()
         if entries:
-            legend = fig.legend(list(entries.values()), list(entries.keys()),
-                                loc="lower center", bbox_to_anchor=(0.5, 0), frameon=False,
-                                ncol=min(len(entries), 4, max(1, int(fig.get_figwidth() // 2))))
+            legend = fig.legend(
+                list(entries.values()),
+                list(entries.keys()),
+                loc="lower center",
+                bbox_to_anchor=(0.5, 0),
+                frameon=False,
+                ncol=min(len(entries), 4, max(1, int(fig.get_figwidth() // 2))),
+            )
             # Reserve room for the legend at the bottom of the figure
             fig.canvas.draw()
-            height = legend.get_window_extent().transformed(fig.transFigure.inverted()).height
+            height = (
+                legend.get_window_extent()
+                .transformed(fig.transFigure.inverted())
+                .height
+            )
             fig.tight_layout(rect=(0, height, 1, 1))
         if save_fig:
             path = f"{out_prefix}_{fig_name}.png"
@@ -271,8 +312,20 @@ def plot_summary(summary, out_prefix=None, save_fig=False, logger=None, show=Fal
         if close and not show:
             plt.close(fig)
 
-    def curve(axes, name, y, new, xlabel_ylabel_title, yscale=None, ylim=None, xlim=True,
-              marker="o", theory=None, color=color, **plot_kw):
+    def curve(
+        axes,
+        name,
+        y,
+        new,
+        xlabel_ylabel_title,
+        yscale=None,
+        ylim=None,
+        xlim=True,
+        marker="o",
+        theory=None,
+        color=color,
+        **plot_kw,
+    ):
         """Add the measured curve y to panel `name` (if it exists), set up the panel if new."""
         ax = axes.get(name)
         if ax is None or not y.notna().any():
@@ -306,12 +359,31 @@ def plot_summary(summary, out_prefix=None, save_fig=False, logger=None, show=Fal
     fig_name = "esn0_vs_error_rate"
     fig, axes, new = get_figure(
         fig_name,
-        [("ber", summary["ber"].notna().any()), ("per", summary["per"].notna().any())], 4)
+        [("ber", summary["ber"].notna().any()), ("per", summary["per"].notna().any())],
+        4,
+    )
     if fig is not None:
-        curve(axes, "ber", summary["ber"], new, (esn0_label, "BER", "SNR vs BER"),
-              yscale="log", ylim=(1e-6, 1), xlim=False, theory=ber_th)
-        curve(axes, "per", summary["per"], new, (esn0_label, "PER", "SNR vs PER error"),
-              yscale="log", ylim=(1e-6, 1), theory=per_th)
+        curve(
+            axes,
+            "ber",
+            summary["ber"],
+            new,
+            (esn0_label, "BER", "SNR vs BER"),
+            yscale="log",
+            ylim=(1e-6, 1),
+            xlim=False,
+            theory=ber_th,
+        )
+        curve(
+            axes,
+            "per",
+            summary["per"],
+            new,
+            (esn0_label, "PER", "SNR vs PER error"),
+            yscale="log",
+            ylim=(1e-6, 1),
+            theory=per_th,
+        )
         finish(fig, fig_name, axes)
 
     # -------------------------------------------------------------------------
@@ -320,19 +392,49 @@ def plot_summary(summary, out_prefix=None, save_fig=False, logger=None, show=Fal
     fig_name = "esn0_vs_estimators"
     fig, axes, new = get_figure(
         fig_name,
-        [("cfo",       summary["cfo_rmse_norm"].notna().any()),
-         ("sto",       summary["sto_rmse_symbols"].notna().any()),
-         ("est_esn0",  summary["est_esn0_mean"].notna().any()),
-         ("miss_rate", summary["miss_rate"].notna().any())], 2.5)
+        [
+            ("cfo", summary["cfo_rmse_norm"].notna().any()),
+            ("sto", summary["sto_rmse_symbols"].notna().any()),
+            ("est_esn0", summary["est_esn0_mean"].notna().any()),
+            ("miss_rate", summary["miss_rate"].notna().any()),
+        ],
+        2.5,
+    )
     if fig is not None and (summary["is_simulation"][0] == 1):
-        curve(axes, "cfo", summary["cfo_rmse_norm"], new,
-              (esn0_label, "CFO RMSE / data rate", "CFO Estimation"), yscale="log")
-        curve(axes, "sto", summary["sto_rmse_symbols"], new,
-              (esn0_label, "STO RMSE (symbols)", "STO Estimation"), yscale="log")
-        curve(axes, "est_esn0", summary["est_esn0_mean"], new,
-              (esn0_label, "Estimated $E_{s}/N_{0}$", "Estimated SNR"), xlim=False, marker=".")
-        curve(axes, "miss_rate", summary["miss_rate"], new,
-              (esn0_label, "Missed detection rate", "Missed detection"), ylim=(-0.05, 1.05), xlim=False)
+        curve(
+            axes,
+            "cfo",
+            summary["cfo_rmse_norm"],
+            new,
+            (esn0_label, "CFO RMSE / data rate", "CFO Estimation"),
+            yscale="log",
+        )
+        curve(
+            axes,
+            "sto",
+            summary["sto_rmse_symbols"],
+            new,
+            (esn0_label, "STO RMSE (symbols)", "STO Estimation"),
+            yscale="log",
+        )
+        curve(
+            axes,
+            "est_esn0",
+            summary["est_esn0_mean"],
+            new,
+            (esn0_label, "Estimated $E_{s}/N_{0}$", "Estimated SNR"),
+            xlim=False,
+            marker=".",
+        )
+        curve(
+            axes,
+            "miss_rate",
+            summary["miss_rate"],
+            new,
+            (esn0_label, "Missed detection rate", "Missed detection"),
+            ylim=(-0.05, 1.05),
+            xlim=False,
+        )
         # Overlay the ideal "estimated = true" diagonal for the SNR estimator panel
         if new and is_sim and "est_esn0" in axes:
             axes["est_esn0"].plot(x, x, "--", color="black", label="Ideal")
@@ -344,8 +446,9 @@ def plot_summary(summary, out_prefix=None, save_fig=False, logger=None, show=Fal
     return fig_array, ax_array
 
 
-def plot_cfo_histogram(df, out_prefix=None, save_fig=False, logger=None, show=False,
-                       bins=20, close=False):
+def plot_cfo_histogram(
+    df, out_prefix=None, save_fig=False, logger=None, show=False, bins=20, close=False
+):
     """
     Plot a histogram of the estimated CFO (est_cfo column) from a per-packet dataframe.
 
@@ -362,8 +465,10 @@ def plot_cfo_histogram(df, out_prefix=None, save_fig=False, logger=None, show=Fa
     Returns
     -------
     fig : the matplotlib Figure, or None if no est_cfo data is present.
+
     """
     import matplotlib
+
     if not show:
         matplotlib.use("Agg")
     import matplotlib.pyplot as plt

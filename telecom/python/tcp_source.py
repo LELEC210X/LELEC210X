@@ -1,6 +1,7 @@
+import collections
 import socket
 import threading
-import collections
+
 import numpy as np
 from gnuradio import gr
 
@@ -33,14 +34,14 @@ class tcp_source(gr.sync_block):
     scale      : divide I and Q values by this factor (ADC full-scale normalization)
     swap_iq    : swap I and Q channels if the hardware wiring is inverted
     big_endian : use big-endian byte order for the int16 samples
+
     """
 
-    def __init__(self, host='192.168.1.2', port=2103, scale=1,swap_iq=False, big_endian=False):
+    def __init__(
+        self, host="192.168.1.2", port=2103, scale=1, swap_iq=False, big_endian=False
+    ):
         gr.sync_block.__init__(
-            self,
-            name='LELEC210X_tcp_source',
-            in_sig=None,
-            out_sig=[np.complex64]
+            self, name="LELEC210X_tcp_source", in_sig=None, out_sig=[np.complex64]
         )
         self._host = host
         self._port = port
@@ -48,7 +49,7 @@ class tcp_source(gr.sync_block):
         self._swap_iq = swap_iq
         # np dtype carries the byte order, so frombuffer() does the endianness
         # swap as part of the read itself, no separate pass over the data.
-        self._dtype = np.dtype(np.int16).newbyteorder('>' if big_endian else '<')
+        self._dtype = np.dtype(np.int16).newbyteorder(">" if big_endian else "<")
 
         self._sock = None
         self._thread = None
@@ -56,9 +57,9 @@ class tcp_source(gr.sync_block):
 
         # Condition variable protecting the deque; work() waits on it when empty
         self._cond = threading.Condition()
-        self._chunks = collections.deque()   # deque of raw byte chunks from the network
-        self._chunks_len = 0                 # total bytes currently buffered
-        self._max_buffered = 1 << 22         # 4 MiB soft cap to bound memory usage
+        self._chunks = collections.deque()  # deque of raw byte chunks from the network
+        self._chunks_len = 0  # total bytes currently buffered
+        self._max_buffered = 1 << 22  # 4 MiB soft cap to bound memory usage
 
     def start(self):
         self._sock = socket.create_connection((self._host, self._port))
@@ -117,13 +118,13 @@ class tcp_source(gr.sync_block):
         n = min(nbytes, self._chunks_len)
         n -= n % 4  # align to one complete I/Q pair (4 bytes)
         if n == 0:
-            return b''
+            return b""
         out = bytearray(n)
         filled = 0
         while filled < n:
             chunk = self._chunks[0]
             take = min(len(chunk), n - filled)
-            out[filled:filled + take] = chunk[:take]
+            out[filled : filled + take] = chunk[:take]
             filled += take
             if take == len(chunk):
                 self._chunks.popleft()
@@ -157,9 +158,13 @@ class tcp_source(gr.sync_block):
 
         # Unpack interleaved int16 pairs to float32, then reshape to (N, 2) columns [I, Q]
         shorts = np.frombuffer(raw, dtype=self._dtype).astype(np.float32).reshape(-1, 2)
-        i, q = (shorts[:, 1], shorts[:, 0]) if self._swap_iq else (shorts[:, 0], shorts[:, 1])
+        i, q = (
+            (shorts[:, 1], shorts[:, 0])
+            if self._swap_iq
+            else (shorts[:, 0], shorts[:, 1])
+        )
 
         n_out = i.shape[0]
         # Assemble complex64 and normalize to [-1, +1] using the provided scale factor
-        out[:n_out] = (i + 1j * q) /(self._scale)
+        out[:n_out] = (i + 1j * q) / (self._scale)
         return n_out

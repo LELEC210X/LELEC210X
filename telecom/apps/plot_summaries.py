@@ -23,7 +23,7 @@ Needs only numpy, scipy, pandas and matplotlib (no GNU Radio).
 # Keys   : legend labels shown in the figures
 # Values : paths relative to this script's directory (apps/)
 SUMMARIES = {
-    "Test":     "export/gnu_output.csv",
+    "Test": "export/gnu_output.csv",
 }
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -47,6 +47,7 @@ def _load_stats_plots():
         spec.loader.exec_module(module)
         return module
     from LELEC210X import stats_plots
+
     return stats_plots
 
 
@@ -64,9 +65,16 @@ def _resolve_entries():
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--out-prefix", help="prefix of the saved PNGs (default: <script dir>/summaries)")
-    parser.add_argument("--show", action="store_true", help="also open the figures interactively")
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument(
+        "--out-prefix",
+        help="prefix of the saved PNGs (default: <script dir>/summaries)",
+    )
+    parser.add_argument(
+        "--show", action="store_true", help="also open the figures interactively"
+    )
     args = parser.parse_args()
 
     prefix = args.out_prefix or os.path.join(_HERE, "summaries")
@@ -77,20 +85,28 @@ def main():
         {"summary": pd.read_csv(path), "label": label, "color": f"C{index}"}
         for index, (path, label) in enumerate(_resolve_entries())
     ]
-    results.sort(key=lambda result: not bool(result["summary"]["is_simulation"].iloc[0]))
+    results.sort(
+        key=lambda result: not bool(result["summary"]["is_simulation"].iloc[0])
+    )
 
     stats_module = _load_stats_plots()
 
     if args.show:
         # plot_summary(show=True) calls plt.show() each time: do not block before the last summary
         import matplotlib.pyplot as plt
+
         plt.ion()
 
     fig_array, ax_array = None, None
     for result in results:
         fig_array, ax_array = stats_module.plot_summary(
-            result["summary"], label=result["label"], color=result["color"], show=args.show,
-            fig_array=fig_array, ax_array=ax_array)
+            result["summary"],
+            label=result["label"],
+            color=result["color"],
+            show=args.show,
+            fig_array=fig_array,
+            ax_array=ax_array,
+        )
 
     import matplotlib.pyplot as plt
 

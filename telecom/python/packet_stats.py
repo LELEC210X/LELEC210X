@@ -24,8 +24,8 @@ import numpy as np
 import pmt
 from gnuradio import gr
 
-from .utils import logging, parse_common_params
 from . import stats_plots
+from .utils import logging, parse_common_params
 
 
 class packet_stats(gr.sync_block):
@@ -57,56 +57,71 @@ class packet_stats(gr.sync_block):
     extension.
     """
 
-    def __init__(self, common_params, seed, print_log, reduced_print,
-                 EsN0_min, EsN0_max, n_EsN0, sim_noise_power, enbw,
-                 packets_per_esn0, out_prefix, save_full_trace=0,
-                 payload_random=1, sdr_expected_payload=None, simulation=0):
+    def __init__(
+        self,
+        common_params,
+        seed,
+        print_log,
+        reduced_print,
+        EsN0_min,
+        EsN0_max,
+        n_EsN0,
+        sim_noise_power,
+        enbw,
+        packets_per_esn0,
+        out_prefix,
+        save_full_trace=0,
+        payload_random=1,
+        sdr_expected_payload=None,
+        simulation=0,
+    ):
         p = parse_common_params(common_params)
         gr.sync_block.__init__(
             self,
-            name='packet_stats',
+            name="packet_stats",
             in_sig=[(np.uint8, p["payload_len"])],
             out_sig=None,
         )
-        self.simulation      = simulation
-        self.pkt_rec_number  = 0
+        self.simulation = simulation
+        self.pkt_rec_number = 0
         self.correct_pkt_rec = 0
 
         # --- Common radio parameters ---
         self.payload_len = p["payload_len"]
-        self.hdr_len     = p["hdr_len"]
-        self.drate       = p["data_rate"]
-        self.fsamp       = p["samp_rate"]
-        self.osr         = p["oversampling"]
+        self.hdr_len = p["hdr_len"]
+        self.drate = p["data_rate"]
+        self.fsamp = p["samp_rate"]
+        self.osr = p["oversampling"]
 
         # --- Simulation sweep parameters ---
-        self.seed            = int(seed)
-        self.print_log       = print_log
-        self.reduced_print   = reduced_print
-        self.EsN0_min        = EsN0_min
-        self.EsN0_max        = EsN0_max
-        self.n_esn0          = n_EsN0
+        self.seed = int(seed)
+        self.print_log = print_log
+        self.reduced_print = reduced_print
+        self.EsN0_min = EsN0_min
+        self.EsN0_max = EsN0_max
+        self.n_esn0 = n_EsN0
         self.sim_noise_power = sim_noise_power
         # Equivalent noise bandwidth of the receiver filter [Hz], used to
         # convert the measured noise power (in-band) to a spectral density N0.
-        self.enbw            = enbw
+        self.enbw = enbw
 
         if sdr_expected_payload is not None:
-            self.sdr_expected_payload = np.mod(np.array(sdr_expected_payload), 255).astype(np.uint8)
+            self.sdr_expected_payload = np.mod(
+                np.array(sdr_expected_payload), 255
+            ).astype(np.uint8)
 
         # Expected number of transmissions per distinct SNR value (the
         # packet_generator's own "Npackets" parameter, which is a
         # per-SNR count): used as the denominator for missed-detection
         # rate. <= 0 disables that plot (e.g. no packet_generator).
         self.packets_per_esn0 = int(packets_per_esn0)
-        self.out_prefix       = out_prefix
-        self.save_full_trace  = bool(save_full_trace)
-        self.payload_random   = payload_random
+        self.out_prefix = out_prefix
+        self.save_full_trace = bool(save_full_trace)
+        self.payload_random = payload_random
 
-        self.records  = []
-        self.logger   = logging.getLogger("pktStats")
+        self.records = []
+        self.logger = logging.getLogger("pktStats")
         self.est_n0_ok = None
-
 
     def set_reduced_print(self, reduced_print):
         self.reduced_print = reduced_print
@@ -118,7 +133,6 @@ class packet_stats(gr.sync_block):
         self.logger.info("[STATS] Noise power has changed")
         self.sim_noise_power = sim_noise_power
 
-
     def work(self, input_items, output_items):
         """
         Process one batch of decoded payloads.
@@ -128,13 +142,13 @@ class packet_stats(gr.sync_block):
         ground-truth impairments from the generator).  One record is built
         per payload and appended to self.records for later export.
         """
-        in0   = input_items[0]
-        n     = len(in0)
+        in0 = input_items[0]
+        n = len(in0)
         n_read = self.nitems_read(0)
 
         for i in range(n):
             payload = np.asarray(in0[i], dtype=np.uint8)
-            tags    = self.get_tags_in_window(0, i, i + 1)
+            tags = self.get_tags_in_window(0, i, i + 1)
 
             # Collect all PMT tags into a plain dict for easy field lookup
             info = {}
@@ -156,7 +170,7 @@ class packet_stats(gr.sync_block):
                 if record["est_esn0_db"] is not None:
                     msg += f", SNR_est={record['est_esn0_db']:5.2f}dB"
                 else:
-                    msg += f", No SNR est. (probably no noise power estimation)"
+                    msg += ", No SNR est. (probably no noise power estimation)"
 
                 if not self.reduced_print:
                     msg += f", {self.correct_pkt_rec:3d} correct packets over {self.pkt_rec_number:3d}"
@@ -164,7 +178,6 @@ class packet_stats(gr.sync_block):
                 self.logger.info(msg)
 
         return n
-
 
     def _build_record(self, offset, payload, info):
         """
@@ -177,26 +190,21 @@ class packet_stats(gr.sync_block):
         to None when the packet_generator's tags are absent.
         """
         record = {
-            "offset":            offset,
-            "id":                info.get("ID"),
-            "pkt_rec_number":    self.pkt_rec_number,
-            "payload_id":        info.get("payload_id"),
-
-            "crc_ok":            info.get("crc_ok"),
-
-            "est_cfo":           info.get("est_cfo"),
-            "est_sto":           info.get("est_sto"),
-            "est_sig_pow":       info.get("est_sig_pow"),
-
-            "true_cfo":          info.get("cfo"),
-            "true_sto":          info.get("sto"),
-            "true_amp":          info.get("amp"),
-            "true_esn0":         info.get("esn0"),
-
+            "offset": offset,
+            "id": info.get("ID"),
+            "pkt_rec_number": self.pkt_rec_number,
+            "payload_id": info.get("payload_id"),
+            "crc_ok": info.get("crc_ok"),
+            "est_cfo": info.get("est_cfo"),
+            "est_sto": info.get("est_sto"),
+            "est_sig_pow": info.get("est_sig_pow"),
+            "true_cfo": info.get("cfo"),
+            "true_sto": info.get("sto"),
+            "true_amp": info.get("amp"),
+            "true_esn0": info.get("esn0"),
             "detection_latency": info.get("detection_latency"),
-            "payload_start":     info.get("payload_start"),
-
-            "est_noise_power":   info.get("est_noise_power"),
+            "payload_start": info.get("payload_start"),
+            "est_noise_power": info.get("est_noise_power"),
         }
 
         # --- Estimate Es/N0 from receiver measurements ---
@@ -212,13 +220,15 @@ class packet_stats(gr.sync_block):
                 # In simulation the noise power is known from the generator parameters.
                 # Subtract the in-band noise contribution from the signal power estimate,
                 # then normalize by the noise spectral density per sample.
-                p_sig = record["est_sig_pow"] - (self.sim_noise_power) * (self.enbw / self.fsamp)
-                n0    = self.sim_noise_power / self.fsamp
+                p_sig = record["est_sig_pow"] - (self.sim_noise_power) * (
+                    self.enbw / self.fsamp
+                )
+                n0 = self.sim_noise_power / self.fsamp
 
             elif record["est_noise_power"] is not None:
                 # In hardware mode the noise power is measured before the packet arrives.
                 p_sig = record["est_sig_pow"] - record["est_noise_power"]
-                n0    = record["est_noise_power"] / self.enbw
+                n0 = record["est_noise_power"] / self.enbw
 
             if (p_sig is not None) and (n0 is not None):
                 # Es/N0 = (signal energy per symbol) / (noise PSD)
@@ -226,15 +236,19 @@ class packet_stats(gr.sync_block):
                 record["est_esn0_db"] = 10 * np.log10(esn0_lin)
 
         if (self.est_n0_ok == 1) and (record["est_esn0_db"] is None):
-            self.logger.info("[STATS] est n0 issue : %d, %d, %d" % (
-                record["est_noise_power"] is None,
-                record["est_sig_pow"] is None,
-                record["est_esn0_db"] is None))
+            self.logger.info(
+                "[STATS] est n0 issue : %d, %d, %d"
+                % (
+                    record["est_noise_power"] is None,
+                    record["est_sig_pow"] is None,
+                    record["est_esn0_db"] is None,
+                )
+            )
 
         # --- CFO estimation error (MSE contribution) ---
         # Only meaningful when both the true and estimated CFO are available.
         if record["true_cfo"] is not None and record["est_cfo"] is not None:
-            record["cfo_error"] = (record["est_cfo"] - record["true_cfo"])**2
+            record["cfo_error"] = (record["est_cfo"] - record["true_cfo"]) ** 2
         else:
             record["cfo_error"] = None
 
@@ -242,37 +256,54 @@ class packet_stats(gr.sync_block):
         # The total timing error combines the preamble detection latency,
         # the synchronization block's STO estimate, and the frame start
         # found by the parser's sync-word correlation.
-        if (record["detection_latency"] is not None) and \
-           (record["est_sto"] is not None) and \
-           (record["payload_start"] is not None):
+        if (
+            (record["detection_latency"] is not None)
+            and (record["est_sto"] is not None)
+            and (record["payload_start"] is not None)
+        ):
             record["sto_error"] = (
-                ((self.hdr_len * 8 * self.osr)
-                 - record["detection_latency"]
-                 - record["est_sto"]
-                 - (record["payload_start"] * self.osr)) / self.osr
-            )**2
+                (
+                    (self.hdr_len * 8 * self.osr)
+                    - record["detection_latency"]
+                    - record["est_sto"]
+                    - (record["payload_start"] * self.osr)
+                )
+                / self.osr
+            ) ** 2
         else:
             record["sto_error"] = None
 
         # --- Bit error count vs. ground-truth payload ---
         record["bit_errors"] = None
-        record["n_bits"]     = None
+        record["n_bits"] = None
 
         if record["payload_id"] is not None:
             # Reconstruct the exact payload sent by regenerating the same RNG state
             if self.payload_random:
-                truth_rng     = np.random.default_rng((self.seed, int(record["payload_id"])))
-                truth_payload = truth_rng.integers(256, size=self.payload_len).astype(np.uint8)
+                truth_rng = np.random.default_rng(
+                    (self.seed, int(record["payload_id"]))
+                )
+                truth_payload = truth_rng.integers(256, size=self.payload_len).astype(
+                    np.uint8
+                )
             else:
-                truth_payload = (np.mod(np.arange(0, self.payload_len), 255)).astype(np.uint8)
+                truth_payload = (np.mod(np.arange(0, self.payload_len), 255)).astype(
+                    np.uint8
+                )
 
-            record["bit_errors"] = int(np.sum(np.unpackbits(payload) != np.unpackbits(truth_payload)))
-            record["n_bits"]     = self.payload_len * 8
+            record["bit_errors"] = int(
+                np.sum(np.unpackbits(payload) != np.unpackbits(truth_payload))
+            )
+            record["n_bits"] = self.payload_len * 8
 
         elif self.sdr_expected_payload is not None:
             # Hardware mode with a known fixed payload
-            record["bit_errors"] = int(np.sum(np.unpackbits(payload) != np.unpackbits(self.sdr_expected_payload)))
-            record["n_bits"]     = self.payload_len * 8
+            record["bit_errors"] = int(
+                np.sum(
+                    np.unpackbits(payload) != np.unpackbits(self.sdr_expected_payload)
+                )
+            )
+            record["n_bits"] = self.payload_len * 8
 
         if record["crc_ok"] == 1:
             self.correct_pkt_rec += 1
@@ -280,11 +311,9 @@ class packet_stats(gr.sync_block):
         self.pkt_rec_number += 1
         return record
 
-
     def stop(self):
         self._save_and_plot()
         return True
-
 
     def _save_and_plot(self):
         """Export statistics to CSV and generate performance plots."""
@@ -295,7 +324,9 @@ class packet_stats(gr.sync_block):
         try:
             import pandas as pd
         except ImportError:
-            self.logger.error("[STATS] pandas is not available: cannot save the dataframe or plots.")
+            self.logger.error(
+                "[STATS] pandas is not available: cannot save the dataframe or plots."
+            )
             return
 
         df = pd.DataFrame(self.records)
@@ -308,35 +339,48 @@ class packet_stats(gr.sync_block):
         if self.save_full_trace:
             csv_path = f"{self.out_prefix}_trace.csv"
             df.to_csv(csv_path, index=False)
-            #csv_path = f"{self.out_prefix}_trace_errors.csv"
-            #df[df['crc_ok'] == 0].to_csv(csv_path, index=False)
+            # csv_path = f"{self.out_prefix}_trace_errors.csv"
+            # df[df['crc_ok'] == 0].to_csv(csv_path, index=False)
             self.logger.info(f"[STATS] Saved {len(df)} packet records to {csv_path}")
 
         # --- Print summary ---
         n_received = len(df)
-        n_correct  = int(df["crc_ok"].sum())
-        summary    = f"[STATS] {n_received} packets received, {n_correct} correct"
+        n_correct = int(df["crc_ok"].sum())
+        summary = f"[STATS] {n_received} packets received, {n_correct} correct"
         if df["n_bits"].notna().any():
-            n_bits       = int(df["n_bits"].dropna().sum())
+            n_bits = int(df["n_bits"].dropna().sum())
             n_bit_errors = int(df["bit_errors"].dropna().sum())
             summary += f", overall BER={n_bit_errors / n_bits:.3e} ({n_bit_errors}/{n_bits} bits)"
         self.logger.info(summary)
 
         # --- CFO histogram ---
-        stats_plots.plot_cfo_histogram(df, self.out_prefix, save_fig=True, logger=self.logger, close=True)
+        stats_plots.plot_cfo_histogram(
+            df, self.out_prefix, save_fig=True, logger=self.logger, close=True
+        )
 
         if self.simulation and not df["true_esn0"].notna().any():
-            self.logger.info("[STATS] No ground-truth SNR tags found (no packet_generator?): skipping summary and SNR plots.")
+            self.logger.info(
+                "[STATS] No ground-truth SNR tags found (no packet_generator?): skipping summary and SNR plots."
+            )
             return
 
         # --- Per-Es/N0 performance summary and plots ---
         summary = stats_plots.compute_summary(
-            df, self.simulation, self.payload_len, self.drate, self.fsamp,
-            self.packets_per_esn0, self.EsN0_min, self.EsN0_max, self.n_esn0
+            df,
+            self.simulation,
+            self.payload_len,
+            self.drate,
+            self.fsamp,
+            self.packets_per_esn0,
+            self.EsN0_min,
+            self.EsN0_max,
+            self.n_esn0,
         )
 
         summary_path = f"{self.out_prefix}.csv"
         summary.to_csv(summary_path, index=False)
         self.logger.info(f"[STATS] Saved per-Es/N0 summary to {summary_path}")
 
-        stats_plots.plot_summary(summary, self.out_prefix, save_fig=True, logger=self.logger, close=True)
+        stats_plots.plot_summary(
+            summary, self.out_prefix, save_fig=True, logger=self.logger, close=True
+        )
