@@ -16,7 +16,7 @@ version = "0.1.0"
 
 [project.scripts]
 plot-cfo-histogram = "apps.plot_cfo_histogram:main"
-plot-summaries     = "apps.plot_summaries:main"
+plot-summaries = "apps.plot_summaries:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["apps"]

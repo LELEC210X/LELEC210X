@@ -20,12 +20,9 @@
 
 
 import numpy as np
-import pmt
 from gnuradio import gr
 
-from .utils import logging, parse_common_params
-
- 
+from .utils import logging
 
 
 class tutorial(gr.basic_block):
@@ -51,7 +48,6 @@ class tutorial(gr.basic_block):
 
         self.logger = logging.getLogger("tutorial")
 
-
     def forecast(self, noutput_items, ninputs):
         """
         Forecast is only called from a general block
@@ -62,22 +58,22 @@ class tutorial(gr.basic_block):
             ninput_items_required[i] = noutput_items
         return ninput_items_required
 
-
     def set_offset(self, offset):
         self.logger.info(f"[Tutorial] Offset variable changed to {offset:.2f}")
         self.offset = offset
 
     def stop(self):
-        self.logger.info(f"[Tutorial] End of flowgraph, stop function reached")
+        self.logger.info("[Tutorial] End of flowgraph, stop function reached")
         return True
-
 
     def general_work(self, input_items, output_items):
 
         # Never produce more than the output buffer can hold (nor consume more than we produce)
         nitems = min(len(input_items[0]), len(output_items[0]))
 
-        output_items[0][:nitems] = input_items[0][:nitems] + (self.offset + 1j*self.offset)
+        output_items[0][:nitems] = input_items[0][:nitems] + (
+            self.offset + 1j * self.offset
+        )
 
         self.consume_each(nitems)
 

@@ -17,9 +17,8 @@ from pathlib import Path
 
 import numpy as np
 
-
 # =============================================================================
-# Load the block sources from python/ 
+# Load the block sources from python/
 # =============================================================================
 
 SRC_DIR = Path(__file__).resolve().parents[1] / "python"
@@ -73,12 +72,15 @@ def test_demodulate(size):
 def test_cfo_estimation(size, cfo):
     rng = np.random.default_rng(1234)
     bits = rng.integers(2, size=size)  # Payload bits
-    x = packet_generator.modulate(np.concatenate((PREAMBLE, SYNC_WORD, bits)), B, R, FDEV)
+    x = packet_generator.modulate(
+        np.concatenate((PREAMBLE, SYNC_WORD, bits)), B, R, FDEV
+    )
 
     y = add_cfo(x, cfo)  # Ideal channel + CFO
     cfo_hat = synchronization.cfo_estimation(y, B, R, FDEV, N_MOOSE)
 
     np.testing.assert_allclose(cfo_hat, cfo, rtol=1e-3, atol=1.0)
+
 
 def main() -> int:
     cases = []

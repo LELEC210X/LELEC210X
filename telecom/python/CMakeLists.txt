@@ -39,7 +39,7 @@ GR_PYTHON_INSTALL(
     preamble_detect.py
     synchronization.py
     demodulation.py
-    packet_parser.py 
+    packet_parser.py
     packet_stats.py
     stats_plots.py
     tcp_source.py

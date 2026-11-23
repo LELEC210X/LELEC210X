@@ -17,7 +17,7 @@ The goal of this first exercise is to build and run your first flowgraph. It fol
 \begin{enumerate}
     \item Open \emph{GNU Radio Companion}. A default flowgraph is created, containing an \texttt{Options} block and a \texttt{Variable} block called \texttt{samp\_rate} (set to \SI{32}{\kilo\hertz}). The \texttt{Options} block defines the title of the flowgraph and the way it is generated (e.g. \texttt{QT GUI} for a flowgraph with a graphical interface). The \texttt{samp\_rate} variable can be used by any other block of the flowgraph.
     \item Search for the \texttt{Signal Source} block (shortcut: press \texttt{Ctrl+F} and type the name of the block), then double-click on it, or drag and drop it from the block list on the right, into the workspace.
-    \item Add a \texttt{Throttle} block in the same way. 
+    \item Add a \texttt{Throttle} block in the same way.
     \item Add a \texttt{QT GUI Sink} block (the \emph{GT GUI Sink} of the GNU Radio wiki, i.e. the Qt frequency/time display).
     \item Connect the blocks in this order: \texttt{Signal Source} $\rightarrow$ \texttt{Throttle} $\rightarrow$ \texttt{QT GUI Sink}. To create a connection, click on the output port of a block and then on the input port of the next block.
     \item Double-click on each block to configure it:
@@ -167,7 +167,7 @@ Next, open the flowgraph called \texttt{Test\_SDR}. Run it: you should see the r
 \end{itemize}
 
 \begin{bclogo}[couleur = gray!20, arrondi = 0.2, logo=\bcattention]{If nothing is received}
-Check that the board is powered and booted, that the Ethernet link is up. If it is, the IP address \texttt{192.168.1.2} should appear on an Ethernet interface when using \texttt{ipconfig} or \texttt{ifconfig}. 
+Check that the board is powered and booted, that the Ethernet link is up. If it is, the IP address \texttt{192.168.1.2} should appear on an Ethernet interface when using \texttt{ipconfig} or \texttt{ifconfig}.
 \end{bclogo}
 
 When everything works, call an assistant. They will send packets on the frequency that you configured, so that you can verify that you do receive them (they should appear as bursts above the noise floor in the time and frequency displays).

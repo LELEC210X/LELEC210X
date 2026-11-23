@@ -31,14 +31,14 @@ except ImportError:
     pass
 
 # import any pure python here
-from .tutorial import tutorial  # noqa: F401
-from .packet_generator import packet_generator  # noqa: F401
-from .packet_sender import packet_sender  # noqa: F401
-from .tcp_source import tcp_source  # noqa: F401
 from .demodulation import demodulation  # noqa: F401
 from .onQuery_noise_estimation import onQuery_noise_estimation  # noqa: F401
+from .packet_generator import packet_generator  # noqa: F401
 from .packet_parser import packet_parser  # noqa: F401
+from .packet_sender import packet_sender  # noqa: F401
 from .packet_stats import packet_stats  # noqa: F401
 from .preamble_detect import preamble_detect  # noqa: F401
-from .synchronization import synchronization  # noqa: F401
 from .rf215_cfg_stream_sender import rf215_cfg_stream_sender  # noqa: F401`nfrom .rf215_cfg_vector_sender import rf215_cfg_vector_sender  # noqa: F401
+from .synchronization import synchronization  # noqa: F401
+from .tcp_source import tcp_source  # noqa: F401
+from .tutorial import tutorial  # noqa: F401

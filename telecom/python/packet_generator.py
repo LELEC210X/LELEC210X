@@ -1,14 +1,15 @@
+import time
+
 import numpy as np
 import pmt
 from gnuradio import gr
-import time
 
 from .utils import logging, parse_common_params
-
 
 # ---------------------------------------------------------------------------
 # Bit-reflection helper (used by CRC routines that require reflected I/O)
 # ---------------------------------------------------------------------------
+
 
 def reflect_data(x, width):
     # See: https://stackoverflow.com/a/20918545
@@ -35,6 +36,7 @@ def reflect_data(x, width):
 # ---------------------------------------------------------------------------
 # CRC-8/SMBUS computation (bit-serial version, used by the legacy sender)
 # ---------------------------------------------------------------------------
+
 
 def crc_poly(data, n, poly, crc=0, ref_in=False, ref_out=False, xor_out=0):
     # See : https://gist.github.com/Lauszus/6c787a3bc26fea6e842dfb8296ebd630
@@ -70,6 +72,7 @@ def crc_poly(data, n, poly, crc=0, ref_in=False, ref_out=False, xor_out=0):
 # CP-FSK modulator
 # ---------------------------------------------------------------------------
 
+
 def modulate(bits, B, R, Fdev):
     """
     Continuous-Phase FSK modulator (vectorized cumulative-phase form).
@@ -90,9 +93,10 @@ def modulate(bits, B, R, Fdev):
     Returns
     -------
     x : complex64 baseband waveform, length = len(bits)*R
+
     """
     f = Fdev / B
-    h = 2*f  # Modulation index
+    h = 2 * f  # Modulation index
 
     bits = np.asarray(bits)
     signs = np.where(bits, 1.0, -1.0)  # +1 for bit=1, -1 for bit=0
@@ -110,10 +114,10 @@ def modulate(bits, B, R, Fdev):
     return np.exp(1j * total_phase).astype(np.complex64).reshape(-1)
 
 
-
 # ---------------------------------------------------------------------------
 # Packet builder: payload → CRC → modulated waveform
 # ---------------------------------------------------------------------------
+
 
 def packet_generate(payload_len, B, R, Fdev, rng, x_pr, x_sync):
     """
@@ -135,11 +139,12 @@ def packet_generate(payload_len, B, R, Fdev, rng, x_pr, x_sync):
     crc           : uint8 CRC byte
     payload_bytes : array of uint8 payload bytes
     packet        : complex64 baseband waveform for the full packet
+
     """
     # --- Generate payload ---
     if rng is None:
         payload_bytes = (np.mod(np.arange(0, payload_len), 255)).astype(np.uint8)
-        #payload_bytes =  ((X*np.ones(payload_len))).astype(np.uint8)
+        # payload_bytes =  ((X*np.ones(payload_len))).astype(np.uint8)
     else:
         payload_bytes = rng.integers(256, size=payload_len).astype(np.uint8)
 
@@ -155,7 +160,9 @@ def packet_generate(payload_len, B, R, Fdev, rng, x_pr, x_sync):
     )
 
     # --- Modulate payload + CRC bits ---
-    bits_send = np.unpackbits((np.append(payload_bytes, crc)).astype(np.uint8), bitorder='big')
+    bits_send = np.unpackbits(
+        (np.append(payload_bytes, crc)).astype(np.uint8), bitorder="big"
+    )
     modulated_payload = modulate(bits_send, B, R, Fdev)
 
     # --- Concatenate preamble + sync word + payload to form the full packet ---
@@ -164,10 +171,10 @@ def packet_generate(payload_len, B, R, Fdev, rng, x_pr, x_sync):
     return crc, payload_bytes, packet
 
 
-
 # ===========================================================================
 # GNU Radio block: packet_generator
 # ===========================================================================
+
 
 class packet_generator(gr.sync_block):
     """
@@ -200,49 +207,64 @@ class packet_generator(gr.sync_block):
     packet_stats block uses as ground truth for performance evaluation.
     """
 
-    def __init__(self, common_params, Npackets,
-                 EsN0_min, EsN0_max, n_EsN0, noise_std,
-                 osr_tx, add_sto,
-                 cfo_min, cfo_max,
-                 zero_samples_fixed, zero_samples_rand, payload_random, pkt_regen, seed):
+    def __init__(
+        self,
+        common_params,
+        Npackets,
+        EsN0_min,
+        EsN0_max,
+        n_EsN0,
+        noise_std,
+        osr_tx,
+        add_sto,
+        cfo_min,
+        cfo_max,
+        zero_samples_fixed,
+        zero_samples_rand,
+        payload_random,
+        pkt_regen,
+        seed,
+    ):
         gr.sync_block.__init__(
             self,
-            name='packet_generator',
+            name="packet_generator",
             in_sig=None,
             out_sig=[np.complex64],
         )
 
-        self.start_time     = time.time()
+        self.start_time = time.time()
         self.payload_random = payload_random
-        self.pkt_regen      = pkt_regen
+        self.pkt_regen = pkt_regen
 
         # --- Parse common radio parameters ---
         p = parse_common_params(common_params)
         self.payload_len = p["payload_len"]
-        self.drate      = p["data_rate"]
-        self.osr_rx     = p["oversampling"]
-        self.osr_tx     = osr_tx
-        self.osr_t_r    = int(self.osr_tx / self.osr_rx)
-        self.fdev       = p["fdev"]
-        self.fsamp      = p["samp_rate"]
+        self.drate = p["data_rate"]
+        self.osr_rx = p["oversampling"]
+        self.osr_tx = osr_tx
+        self.osr_t_r = int(self.osr_tx / self.osr_rx)
+        self.fdev = p["fdev"]
+        self.fsamp = p["samp_rate"]
 
-        self.hdr_len      = p["hdr_len"]
-        self.sync_word    = p["sync_word"]
+        self.hdr_len = p["hdr_len"]
+        self.sync_word = p["sync_word"]
         self.preamble_len = p["preamble_len"]
         # Preamble: alternating 10101010… bit pattern (0xAA repeated)
-        self.preamble     = np.array([int(bit) for bit in f"{0xAA:0>8b}"] * self.preamble_len)
+        self.preamble = np.array(
+            [int(bit) for bit in f"{0xAA:0>8b}"] * self.preamble_len
+        )
 
         # --- CFO impairment range ---
         self.cfo_min = cfo_min
         self.cfo_max = cfo_max
-        self._cfo    = 0
+        self._cfo = 0
 
         # --- STO (Symbol Timing Offset) impairment ---
         # If add_sto is set, a fractional timing offset (in samples) is drawn
         # for each new payload and applied by down-sampling from osr_tx to osr_rx.
         self.add_sto = add_sto
-        self.sto         = 0
-        self.sto_idx     = 0
+        self.sto = 0
+        self.sto_idx = 0
         if (self.add_sto == 1) and (self.osr_tx >= self.osr_rx):
             self.used_osr = self.osr_tx
         else:
@@ -252,25 +274,27 @@ class packet_generator(gr.sync_block):
 
         # --- EsN0 sweep: pre-compute amplitude for each SNR step ---
         # EsN0_lin = (amp^2 / noise_std^2)*OSR_RX  =>  amp = noise_std * (10^(EsN0_dB/20))/np.sqrt(OSR_RX)
-        self.EsN0_min  = EsN0_min
-        self.EsN0_max  = EsN0_max
-        self.n_esn0    = n_EsN0
+        self.EsN0_min = EsN0_min
+        self.EsN0_max = EsN0_max
+        self.n_esn0 = n_EsN0
         self.noise_std = noise_std
 
-        self.esn0_values = np.linspace(self.EsN0_min, self.EsN0_max, self.n_esn0, endpoint=True)
+        self.esn0_values = np.linspace(
+            self.EsN0_min, self.EsN0_max, self.n_esn0, endpoint=True
+        )
         if len(self.esn0_values) == 0:
             self.esn0_values = np.array([self.EsN0_min])
 
         # Total transmissions = Npackets per EsN0 step × number of EsN0 steps
-        self.Npackets    = int(Npackets) * self.n_esn0
+        self.Npackets = int(Npackets) * self.n_esn0
 
         self._esn0_idx = 0
-        self._esn0     = self.esn0_values[0]
+        self._esn0 = self.esn0_values[0]
         self._impaired_packet = None
 
         # --- Gap (silence) parameters ---
         self.zero_samples_fixed = int(zero_samples_fixed)
-        self.zero_samples_rand  = int(zero_samples_rand)
+        self.zero_samples_rand = int(zero_samples_rand)
 
         # --- Reproducible payload generation ---
         # Each distinct payload is generated from rng((seed, content_id)), making
@@ -280,15 +304,15 @@ class packet_generator(gr.sync_block):
         self._content_id = 0
         self._payload_id = 0
 
-        self.rng              = np.random.default_rng(1234)  # STO draws only
+        self.rng = np.random.default_rng(1234)  # STO draws only
         self.zero_samples_rng = np.random.default_rng(5678)
 
         # --- Pre-modulate preamble and sync word (invariant across packets) ---
         # Preamble & sync-word waveforms only depend on (drate, used_osr, fdev),
         # which never change over the block's lifetime: modulate them once instead
         # of redoing it on every single packet.
-        self.x_pr   = modulate(self.preamble,   self.drate, self.used_osr, self.fdev)
-        self.x_sync = modulate(self.sync_word,  self.drate, self.used_osr, self.fdev)
+        self.x_pr = modulate(self.preamble, self.drate, self.used_osr, self.fdev)
+        self.x_sync = modulate(self.sync_word, self.drate, self.used_osr, self.fdev)
 
         self.logger = logging.getLogger("pktGenerator")
 
@@ -300,18 +324,22 @@ class packet_generator(gr.sync_block):
                 payload_rng = None
 
             self.crc, self.payload_bytes, self.packet = packet_generate(
-                self.payload_len, self.drate, self.used_osr, self.fdev, payload_rng,
-                self.x_pr, self.x_sync,
+                self.payload_len,
+                self.drate,
+                self.used_osr,
+                self.fdev,
+                payload_rng,
+                self.x_pr,
+                self.x_sync,
             )
 
         # --- Internal streaming state machine ---
         # work() is the sole reader/writer of this state (no other
         # thread touches it), so no locking is needed around it.
-        self._n_sent         = 0
-        self._in_gap         = True   # start with a silence gap before the first packet
-        self._pos            = 0
-        self._current_chunk  = self._draw_gap_chunk()
-
+        self._n_sent = 0
+        self._in_gap = True  # start with a silence gap before the first packet
+        self._pos = 0
+        self._current_chunk = self._draw_gap_chunk()
 
     def _draw_packet_chunk(self):
         """
@@ -331,10 +359,15 @@ class packet_generator(gr.sync_block):
             if (self.pkt_regen) and (self.payload_random):
                 payload_rng = np.random.default_rng((self.seed, self._content_id))
                 self.crc, self.payload_bytes, self.packet = packet_generate(
-                    self.payload_len, self.drate, self.used_osr, self.fdev, payload_rng,
-                    self.x_pr, self.x_sync,
+                    self.payload_len,
+                    self.drate,
+                    self.used_osr,
+                    self.fdev,
+                    payload_rng,
+                    self.x_pr,
+                    self.x_sync,
                 )
-                self._payload_id  = self._content_id
+                self._payload_id = self._content_id
                 self._content_id += 1
 
             drawn_packet = self.packet
@@ -342,38 +375,44 @@ class packet_generator(gr.sync_block):
             # Apply a random fractional STO by selecting a sub-sampled version
             # of the TX waveform (simulates a timing offset at the receiver)
             if self.add_sto:
-                sto          = self.rng.random()  # Draw a fractional STO, 1 being a symbol
-                self.sto     = sto / (self.drate * self.osr_rx)
+                sto = self.rng.random()  # Draw a fractional STO, 1 being a symbol
+                self.sto = sto / (self.drate * self.osr_rx)
                 self.sto_idx = np.round(sto * self.used_osr / self.osr_rx).astype(int)
-                drawn_packet = drawn_packet[self.sto_idx::int(self.used_osr / self.osr_rx)]
+                drawn_packet = drawn_packet[
+                    self.sto_idx :: int(self.used_osr / self.osr_rx)
+                ]
 
             # Apply a random CFO by multiplying with a complex exponential
-            self._cfo  = np.random.uniform(self.cfo_min, self.cfo_max)
-            n          = np.arange(len(drawn_packet))
-            rotation   = np.exp(1j * 2 * np.pi * self._cfo * n / self.fsamp).astype(np.complex64)
+            self._cfo = np.random.uniform(self.cfo_min, self.cfo_max)
+            n = np.arange(len(drawn_packet))
+            rotation = np.exp(1j * 2 * np.pi * self._cfo * n / self.fsamp).astype(
+                np.complex64
+            )
             self._impaired_packet = (drawn_packet).astype(np.complex64) * rotation
 
         # --- Scale to the target EsN0 for this sweep step ---
         self._esn0 = self.esn0_values[self._esn0_idx]
-        self._amp  = np.sqrt((self.noise_std**2) * (10 ** (self._esn0 / 10)) / self.osr_rx)
+        self._amp = np.sqrt(
+            (self.noise_std**2) * (10 ** (self._esn0 / 10)) / self.osr_rx
+        )
 
         # Advance the EsN0 index (wraps back to 0 after the last step)
         self._esn0_idx = (self._esn0_idx + 1) % self.n_esn0
 
-        sent_packet = (self._amp * self._impaired_packet)
+        sent_packet = self._amp * self._impaired_packet
 
         return sent_packet.astype(np.complex64)
-
 
     def _draw_gap_chunk(self, given_size=None):
         """Return a zero-filled silence gap of fixed + random length."""
         if given_size is None:
-            gap_len = self.zero_samples_fixed + np.random.randint(0, self.zero_samples_rand + 1)
+            gap_len = self.zero_samples_fixed + np.random.randint(
+                0, self.zero_samples_rand + 1
+            )
         else:
             gap_len = given_size
 
         return np.zeros(gap_len, dtype=np.complex64)
-
 
     def work(self, input_items, output_items):
         """
@@ -386,7 +425,7 @@ class packet_generator(gr.sync_block):
         Tags marking the start of each packet are attached at the first
         sample of the packet (pos==0 in packet mode).
         """
-        n   = len(output_items[0])
+        n = len(output_items[0])
         idx = 0
 
         n_written = self.nitems_written(0)
@@ -394,47 +433,49 @@ class packet_generator(gr.sync_block):
         while idx < n:
             n_sent = self._n_sent
             in_gap = self._in_gap
-            pos    = self._pos
-            chunk  = self._current_chunk
+            pos = self._pos
+            chunk = self._current_chunk
 
             # --- Stop condition: all packets have been sent ---
             if (n_sent >= self.Npackets) and (not in_gap):
-                end_time   = time.time()
+                end_time = time.time()
                 total_time = end_time - self.start_time
-                self.logger.info(f"Packet Generator : total exec time : {total_time:.4f} s, sent {n_sent} packets")
+                self.logger.info(
+                    f"Packet Generator : total exec time : {total_time:.4f} s, sent {n_sent} packets"
+                )
                 return -1  # WORK_DONE
 
             # Copy as many samples as the output buffer and chunk both allow
             take = min(len(chunk) - pos, n - idx)
-            output_items[0][idx:idx + take] = chunk[pos:pos + take]
+            output_items[0][idx : idx + take] = chunk[pos : pos + take]
 
             # --- Attach ground-truth tags at the first sample of each packet ---
-            if ((not in_gap) and (pos == 0)):
+            if (not in_gap) and (pos == 0):
                 abs_offset = n_written + idx
 
-                key_id         = pmt.intern("ID")
+                key_id = pmt.intern("ID")
                 key_payload_id = pmt.intern("payload_id")
-                key_cfo        = pmt.intern("cfo")
-                key_sto_frac   = pmt.intern("sto")
-                key_offset     = pmt.intern("offset")
-                key_amp        = pmt.intern("amp")
-                key_esn0       = pmt.intern("esn0")
+                key_cfo = pmt.intern("cfo")
+                key_sto_frac = pmt.intern("sto")
+                key_offset = pmt.intern("offset")
+                key_amp = pmt.intern("amp")
+                key_esn0 = pmt.intern("esn0")
 
-                val_id         = pmt.from_long(n_sent)
+                val_id = pmt.from_long(n_sent)
                 val_payload_id = pmt.from_long(self._payload_id)
-                val_cfo        = pmt.from_double(self._cfo)
-                val_sto_frac   = pmt.from_double(self.sto)
-                val_offset     = pmt.from_double(abs_offset)
-                val_amp        = pmt.from_double(self._amp)
-                val_esn0       = pmt.from_double(self._esn0)
+                val_cfo = pmt.from_double(self._cfo)
+                val_sto_frac = pmt.from_double(self.sto)
+                val_offset = pmt.from_double(abs_offset)
+                val_amp = pmt.from_double(self._amp)
+                val_esn0 = pmt.from_double(self._esn0)
 
-                self.add_item_tag(0, abs_offset, key_id,         val_id)
+                self.add_item_tag(0, abs_offset, key_id, val_id)
                 self.add_item_tag(0, abs_offset, key_payload_id, val_payload_id)
-                self.add_item_tag(0, abs_offset, key_cfo,        val_cfo)
-                self.add_item_tag(0, abs_offset, key_sto_frac,   val_sto_frac)
-                self.add_item_tag(0, abs_offset, key_offset,     val_offset)
-                self.add_item_tag(0, abs_offset, key_amp,        val_amp)
-                self.add_item_tag(0, abs_offset, key_esn0,       val_esn0)
+                self.add_item_tag(0, abs_offset, key_cfo, val_cfo)
+                self.add_item_tag(0, abs_offset, key_sto_frac, val_sto_frac)
+                self.add_item_tag(0, abs_offset, key_offset, val_offset)
+                self.add_item_tag(0, abs_offset, key_amp, val_amp)
+                self.add_item_tag(0, abs_offset, key_esn0, val_esn0)
 
             idx += take
             pos += take
@@ -443,20 +484,22 @@ class packet_generator(gr.sync_block):
             if pos >= len(chunk):
                 if in_gap:
                     # Gap finished → load the next packet
-                    self._in_gap        = False
-                    self._pos           = 0
+                    self._in_gap = False
+                    self._pos = 0
                     self._current_chunk = self._draw_packet_chunk()
                 else:
                     # Packet finished → load the next gap
                     self._n_sent += 1
-                    self._pos     = 0
-                    self._in_gap  = True
-                    if (self._n_sent < self.Npackets):
+                    self._pos = 0
+                    self._in_gap = True
+                    if self._n_sent < self.Npackets:
                         self._current_chunk = self._draw_gap_chunk()
                     else:
                         # Last packet done: produce one more silent chunk so the
                         # scheduler keeps calling work() until WORK_DONE is returned
-                        self._current_chunk = np.zeros(len(self._current_chunk), dtype=np.complex64)
+                        self._current_chunk = np.zeros(
+                            len(self._current_chunk), dtype=np.complex64
+                        )
             else:
                 self._pos = pos
 

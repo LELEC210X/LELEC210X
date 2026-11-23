@@ -18,12 +18,10 @@
 # Boston, MA 02110-1301, USA.
 #
 
-from distutils.version import LooseVersion
 
 import numpy as np
 import pmt
 from gnuradio import gr
-
 
 from .utils import logging, parse_common_params
 
@@ -48,12 +46,12 @@ def demodulate(y, B, R, Fdev):
     Returns
     -------
     bits_hat : int array of length nb_syms, values in {0, 1}
-    """
 
+    """
     # Normalized frequency deviation: Fdev expressed in units of the symbol rate
     f = Fdev / B
 
-    nb_syms = int(len(y)/R)
+    nb_syms = int(len(y) / R)
 
     bits_hat = np.zeros(nb_syms)
 
@@ -118,12 +116,10 @@ class demodulation(gr.basic_block):
         #######################################################
         tags = self.get_tags_in_window(0, 0, buf_len)
         if tags is not None:
-
             for tag in tags:
+                abs_offset = tag.offset // self.osr
 
-                abs_offset = tag.offset//self.osr
-
-                self.add_item_tag(0, abs_offset, tag.key    , tag.value )
+                self.add_item_tag(0, abs_offset, tag.key, tag.value)
                 key_str = pmt.to_python(tag.key)
                 val_str = pmt.to_python(tag.value)
         #######################################################
@@ -132,7 +128,6 @@ class demodulation(gr.basic_block):
         s = demodulate(y, self.drate, self.osr, self.fdev)
 
         output_items[0][: len(s)] = s
-
 
         self.consume_each(buf_len)
 

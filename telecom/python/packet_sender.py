@@ -1,18 +1,20 @@
-import numpy as np
 import threading
+
+import numpy as np
 import pmt
 from gnuradio import gr
 
 from .utils import logging, parse_common_params
 
 # Fixed preamble (alternating 1-0 pattern) and sync word for the sender block.
-preamble  = np.array([int(bit) for bit in f"{0xAAAAAAAA:0>32b}"])
+preamble = np.array([int(bit) for bit in f"{0xAAAAAAAA:0>32b}"])
 sync_word = np.array([int(bit) for bit in f"{0x3E2A54B7:0>32b}"])
 
 
 # ---------------------------------------------------------------------------
 # Bit-reflection helper (for CRC standards requiring reflected I/O)
 # ---------------------------------------------------------------------------
+
 
 def reflect_data(x, width):
     # See: https://stackoverflow.com/a/20918545
@@ -39,6 +41,7 @@ def reflect_data(x, width):
 # ---------------------------------------------------------------------------
 # CRC-8/SMBUS (bit-serial version)
 # ---------------------------------------------------------------------------
+
 
 def crc_poly(data, n, poly, crc=0, ref_in=False, ref_out=False, xor_out=0):
     # See : https://gist.github.com/Lauszus/6c787a3bc26fea6e842dfb8296ebd630
@@ -74,6 +77,7 @@ def crc_poly(data, n, poly, crc=0, ref_in=False, ref_out=False, xor_out=0):
 # CP-FSK modulator (symbol-by-symbol version, used by packet_sender)
 # ---------------------------------------------------------------------------
 
+
 def modulate(bits, B, R, Fdev):
     """
     Continuous-Phase FSK modulator (symbol-by-symbol loop form).
@@ -83,18 +87,20 @@ def modulate(bits, B, R, Fdev):
     across symbol boundaries to enforce the continuous-phase property.
     """
     f = Fdev / B
-    h = 2*f  # Modulation index
+    h = 2 * f  # Modulation index
 
     x = np.zeros(len(bits) * R, dtype=np.complex64)
     ph = 2 * np.pi * np.arange(R) / R * f  # Linear phase of unmodulated symbol
 
-    phase_shifts = np.zeros(len(bits)+1)
+    phase_shifts = np.zeros(len(bits) + 1)
     phase_shifts[0] = 0  # Initial phase
     for i, b in enumerate(bits):
         # Apply the starting phase and modulate with the linear intra-symbol ramp
-        x[i*R:(i+1)*R] = np.exp(1j * phase_shifts[i]) * np.exp(1j * (1 if b else -1) * ph)
+        x[i * R : (i + 1) * R] = np.exp(1j * phase_shifts[i]) * np.exp(
+            1j * (1 if b else -1) * ph
+        )
         # Advance the phase for the next symbol (maintains continuity)
-        phase_shifts[i+1] = phase_shifts[i] + h * np.pi * (1 if b else -1)
+        phase_shifts[i + 1] = phase_shifts[i] + h * np.pi * (1 if b else -1)
 
     return x
 
@@ -105,9 +111,9 @@ def packet_modulate(bits, B, R, Fdev):
 
     Returns the concatenated complex baseband waveform.
     """
-    x_pr   = modulate(preamble,  B, R, Fdev)  # Modulated signal containing preamble
+    x_pr = modulate(preamble, B, R, Fdev)  # Modulated signal containing preamble
     x_sync = modulate(sync_word, B, R, Fdev)  # Modulated signal containing sync_word
-    x_pay  = modulate(bits,      B, R, Fdev)  # Modulated signal with payload
+    x_pay = modulate(bits, B, R, Fdev)  # Modulated signal with payload
 
     x = np.concatenate((x_pr, x_sync, x_pay))
 
@@ -117,6 +123,7 @@ def packet_modulate(bits, B, R, Fdev):
 # ===========================================================================
 # GNU Radio block: packet_sender
 # ===========================================================================
+
 
 class packet_sender(gr.sync_block):
     """
@@ -145,20 +152,21 @@ class packet_sender(gr.sync_block):
 
     Parameters
     ----------
+
     """
 
     def __init__(self, common_params, burst_mode, zero_samples):
         gr.sync_block.__init__(
             self,
-            name='zero_packet_source',
+            name="zero_packet_source",
             in_sig=None,
             out_sig=[np.complex64],
         )
         p = parse_common_params(common_params)
         self.payload_len = p["payload_len"]
-        self.drate  = p["data_rate"]
-        self.osr    = p["oversampling"]
-        self.fdev   = p["fdev"]
+        self.drate = p["data_rate"]
+        self.osr = p["oversampling"]
+        self.fdev = p["fdev"]
 
         # Number of zero samples appended after each packet (inter-packet guard)
         self.zero_samples = zero_samples
@@ -166,13 +174,15 @@ class packet_sender(gr.sync_block):
         self.burst_mode = burst_mode
 
         # --- Thread-safe trigger state ---
-        self._lock    = threading.Lock()
-        self._pending = False   # a trigger has been received but not yet acted on
-        self._sending = False   # a packet is currently being streamed
-        self._pos     = 0       # current position within self.packet
+        self._lock = threading.Lock()
+        self._pending = False  # a trigger has been received but not yet acted on
+        self._sending = False  # a packet is currently being streamed
+        self._pos = 0  # current position within self.packet
 
         # --- Build the fixed payload (counter pattern 0,1,...,254,0,1,...) ---
-        self.payload_bytes = (np.mod(np.arange(0, self.payload_len), 255)).astype(np.uint8)
+        self.payload_bytes = (np.mod(np.arange(0, self.payload_len), 255)).astype(
+            np.uint8
+        )
 
         # Compute CRC-8/SMBUS over the payload
         self.crc = crc_poly(
@@ -186,26 +196,31 @@ class packet_sender(gr.sync_block):
         )
 
         # --- Modulate the full packet (payload + CRC) ---
-        bytes_send  = np.unpackbits((np.append(self.payload_bytes, self.crc)).astype(np.uint8), bitorder='big')
-        self.packet = np.concatenate((packet_modulate(bytes_send, self.drate, self.osr, self.fdev),
-                                      np.zeros(self.zero_samples)))
+        bytes_send = np.unpackbits(
+            (np.append(self.payload_bytes, self.crc)).astype(np.uint8), bitorder="big"
+        )
+        self.packet = np.concatenate(
+            (
+                packet_modulate(bytes_send, self.drate, self.osr, self.fdev),
+                np.zeros(self.zero_samples),
+            )
+        )
         self.packet_len = len(self.packet)
 
         self.logger = logging.getLogger("pktSender")
 
         # Wakes a work() call that's blocked waiting for a trigger
         # in burst_mode; also lets stop() interrupt that wait promptly.
-        self._trig_event     = threading.Event()
+        self._trig_event = threading.Event()
         self._stop_requested = False
 
         # Message-port trigger, for a QT GUI Message Push Button
-        self.message_port_register_in(pmt.intern('trig'))
-        self.set_msg_handler(pmt.intern('trig'), self._on_trig_msg)
-
+        self.message_port_register_in(pmt.intern("trig"))
+        self.set_msg_handler(pmt.intern("trig"), self._on_trig_msg)
 
     def _on_trig_msg(self, msg):
         # Any message on this port fires a trigger, regardless of payload
-        self.logger.info(f"Trigger Received")
+        self.logger.info("Trigger Received")
         self.trigger()
 
     def trigger(self):
@@ -220,7 +235,6 @@ class packet_sender(gr.sync_block):
         self._trig_event.set()
         return True
 
-
     def work(self, input_items, output_items):
         """
         Fill the output buffer with zeros, interrupted by a packet burst
@@ -233,27 +247,27 @@ class packet_sender(gr.sync_block):
           3. Idle             → fill with zeros (or block in burst mode)
         """
         out = output_items[0]
-        n   = len(out)
+        n = len(out)
         idx = 0
 
         while idx < n:
             with self._lock:
                 sending = self._sending
                 pending = self._pending
-                pos     = self._pos
+                pos = self._pos
 
             # --- State 1: trigger received, arm the sender ---
             if not sending and pending:
                 with self._lock:
                     self._sending = True
                     self._pending = False
-                    self._pos     = 0
+                    self._pos = 0
                 continue
 
             # --- State 2: stream packet samples ---
             if sending:
                 take = min(len(self.packet) - pos, n - idx)
-                out[idx:idx + take] = self.packet[pos:pos + take]
+                out[idx : idx + take] = self.packet[pos : pos + take]
                 idx += take
                 pos += take
                 with self._lock:
@@ -261,7 +275,7 @@ class packet_sender(gr.sync_block):
                     if pos >= self.packet_len:
                         # Packet fully transmitted
                         self._sending = False
-                        self._pos     = 0
+                        self._pos = 0
                 continue
 
             # --- State 3: idle — no packet in flight, no pending trigger ---

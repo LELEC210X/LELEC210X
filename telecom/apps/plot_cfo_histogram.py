@@ -31,16 +31,28 @@ def _load_stats_plots():
         spec.loader.exec_module(module)
         return module
     from LELEC210X import stats_plots
+
     return stats_plots
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--trace_csv", default=os.path.join(_HERE, "export/gnu_output_trace.csv"),
-                        help="per-packet trace CSV written by packet_stats (default: export/gnu_output_trace.csv)")
-    parser.add_argument("--bins", type=int, default=20, help="number of histogram bins (default: 20)")
-    parser.add_argument("--out", help="path of the saved PNG. Not saved if not specified")
-    parser.add_argument("--show", action="store_true", help="also open the figure interactively")
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument(
+        "--trace_csv",
+        default=os.path.join(_HERE, "export/gnu_output_trace.csv"),
+        help="per-packet trace CSV written by packet_stats (default: export/gnu_output_trace.csv)",
+    )
+    parser.add_argument(
+        "--bins", type=int, default=20, help="number of histogram bins (default: 20)"
+    )
+    parser.add_argument(
+        "--out", help="path of the saved PNG. Not saved if not specified"
+    )
+    parser.add_argument(
+        "--show", action="store_true", help="also open the figure interactively"
+    )
     args = parser.parse_args()
 
     if not os.path.isfile(args.trace_csv):
@@ -55,11 +67,19 @@ def main():
     out_prefix = None
     if args.out:
         suffix = "_cfo_histogram.png"
-        out_prefix = args.out[:-len(suffix)] if args.out.endswith(suffix) else os.path.splitext(args.out)[0]
-
+        out_prefix = (
+            args.out[: -len(suffix)]
+            if args.out.endswith(suffix)
+            else os.path.splitext(args.out)[0]
+        )
 
     _load_stats_plots().plot_cfo_histogram(
-        trace, out_prefix=out_prefix, save_fig=args.out is not None, show=args.show, bins=args.bins)
+        trace,
+        out_prefix=out_prefix,
+        save_fig=args.out is not None,
+        show=args.show,
+        bins=args.bins,
+    )
 
 
 if __name__ == "__main__":

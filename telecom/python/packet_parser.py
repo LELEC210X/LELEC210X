@@ -18,7 +18,6 @@
 # Boston, MA 02110-1301, USA.
 #
 
-from distutils.version import LooseVersion
 
 import numpy as np
 import pmt
@@ -195,17 +194,19 @@ class packet_parser(gr.basic_block):
         for i in range(ninputs):
             # One extra byte guard (+1) in case the sync word correlation shifts
             # the packet start by a few bits within the header.
-            ninput_items_required[i] = (self.packet_len + 1)*8
+            ninput_items_required[i] = (self.packet_len + 1) * 8
 
         return ninput_items_required
 
     def stop(self):
-        self.logger.info(f"[PARSER] {self.nb_packet} packets received with {self.nb_error} error(s)"        )
+        self.logger.info(
+            f"[PARSER] {self.nb_packet} packets received with {self.nb_error} error(s)"
+        )
         return True
 
     def general_work(self, input_items, output_items):
         # Process at most one packet per call
-        input_samples = input_items[0][: (self.packet_len + 1)*8]
+        input_samples = input_items[0][: (self.packet_len + 1) * 8]
 
         # --- Bit stream → byte stream ---
         input_bytes = symbols_to_bytes(input_samples)
@@ -232,8 +233,10 @@ class packet_parser(gr.basic_block):
         crc = pkt_bytes[self.payload_len : self.payload_len + self.crc_len]
 
         if len(payload) != self.payload_len:
-            self.logger.info(            f"[PARSER] Array length error : {len(input_bytes)} -- {len(pkt_bytes)} -- {len(payload)} -- {len(output_items[0][0])} ---Bits : {i} => { i + (self.payload_len + self.crc_len) * 8}"        )
-        
+            self.logger.info(
+                f"[PARSER] Array length error : {len(input_bytes)} -- {len(pkt_bytes)} -- {len(payload)} -- {len(output_items[0][0])} ---Bits : {i} => {i + (self.payload_len + self.crc_len) * 8}"
+            )
+
         output_items[0][0] = payload
 
         # --- CRC-8/SMBUS verification ---
@@ -266,7 +269,9 @@ class packet_parser(gr.basic_block):
         for tag in in_tags:
             self.add_item_tag(0, out_offset, tag.key, tag.value)
 
-        self.add_item_tag(0, out_offset, pmt.intern("crc_ok")       , pmt.from_long(is_correct))
+        self.add_item_tag(
+            0, out_offset, pmt.intern("crc_ok"), pmt.from_long(is_correct)
+        )
         # payload_start records the bit offset used for extraction, enabling STO RMSE analysis
         self.add_item_tag(0, out_offset, pmt.intern("payload_start"), pmt.from_long(i))
         #######################################################
@@ -274,7 +279,7 @@ class packet_parser(gr.basic_block):
         if not is_correct:
             self.nb_error += 1
 
-        self.consume_each((self.packet_len + 1)*8)
+        self.consume_each((self.packet_len + 1) * 8)
 
         # Always emit the (attempted) payload downstream, whether or not
         # the CRC passed - a stats block needs to see every packet that
