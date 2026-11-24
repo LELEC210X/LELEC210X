@@ -259,6 +259,14 @@ conda install gnuradio-build-deps
 conda activate %CONDA_DEFAULT_ENV%
 ```
 
+*If you encounter an issue at this step*, it might be due to an Anaconda installation that interfere with the GNU Radio dependency installations. To solve this, a fix is to install the dependencies in a new environment that we will call ```gnuradio```. In the same radioconda Prompt where you executed the ```vcvars64.bat``` file, run the command below to create the environment and make the installation. Beware that you will need to activate the environment each time you launch the radioconda Prompt.
+
+```bash
+conda create --name gnuradio
+conda install -n gnuradio gnuradio-build-deps
+conda activate gnuradio
+```
+
 We can now create the build directory for the installation of our custom GNU Radio package. Within the radioconda prompt, go in the project folder at the following path `.\telecom`. This folder encapsulates the `gr-LELEC210X` GNU Radio package that we have developed for the course. Create a build directory and go into it: 
 
 ```bash
